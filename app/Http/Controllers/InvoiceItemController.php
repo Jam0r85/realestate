@@ -33,7 +33,6 @@ class InvoiceItemController extends Controller
     	$item->save();
 
     	flash('The invoice item was updated')->success();
-
-    	return redirect()->route('invoices.show', $item->invoice->id);
+        return back();
     }
 }
