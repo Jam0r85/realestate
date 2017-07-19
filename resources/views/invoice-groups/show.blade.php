@@ -27,7 +27,7 @@
 
 				{{-- Statistics --}}
 				<article class="box">
-					<div class="has-text-centered">
+					<div class="has-text-centered content">
 						<p class="heading">
 							Invoices Created
 						</p>
@@ -35,12 +35,20 @@
 							{{ count($invoice_group->invoices) }}
 						</p>
 					</div>
-					<div class="has-text-centered">
+					<div class="has-text-centered content">
 						<p class="heading">
 							Invoices Total
 						</p>
 						<p class="title">
 							{{ currency($invoice_group->invoices_total) }}
+						</p>
+					</div>
+					<div class="has-text-centered content">
+						<p class="heading">
+							Financial Year
+						</p>
+						<p class="title">
+							
 						</p>
 					</div>
 				</article>
