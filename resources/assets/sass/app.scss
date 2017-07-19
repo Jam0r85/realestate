@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+/**
+ * Import the base Bulma variables.
+ */
+
+@import "node_modules/bulma/sass/utilities/initial-variables";
+
+/**
+ * Fonts
+ */
+
+$family-sans-serif: "Ubuntu", "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+/**
+ * Colors
+ */
+
+$warning: $orange;
+
+/**
+ * Import Bulma
+ */
+
+@import "node_modules/bulma/bulma";
+
+/**
+ * Body Changes
+ */
+
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+/**
+ * Button Styling
+ */
+
+.button {
+	text-transform: uppercase;
+	font-weight: $weight-bold;
+	border-width: 2px;
+	padding: 7px 20px;
+}
+
+/**
+ * Inputs
+ */
+
+.field:not(:last-child) {
+	margin-bottom: 1.3rem;
+}
+
+.input {
+	color: $grey;
+	border-radius: 0;
+	height: 42px;
+	padding: 0 15px;
+}
+
+/**
+ * Checkbox & Radio Adjustments
+ */
+
+.checkbox, .radio {
+	vertical-align: top;
+}
+
+input[type=checkbox], input[type=radio] {
+	margin-right: 5px;
+}
+
+/**
+ * Navbars
+ */
+
+.navbar-header {
+	color: $grey-light;
+	display: block;
+	line-height: 1.5;
+	padding: 0.5rem 1rem;
+	position: relative;
+	font-weight: $weight-bold;
+	font-size: $size-small;
+	text-transform: uppercase;
+}
+
+.is-fullwidth {
+	margin-bottom: 0.5rem;
+}
+
+.is-fullwidth:last-child {
+	margin-bottom: 0;
+}
+
+.breadcrumb {
+	background-color: $white-ter;
+	margin-bottom: 0 !important;
+}
+
+.has-divider {
+	padding-bottom: 4rem;
+	margin-bottom: 2rem;
+	border-bottom: 1px solid $grey-lighter;
+}
+
+.has-line {
+	border-bottom: 1px solid $grey-lighter;
+	padding-bottom: 1rem;
+}
+
+.is-error {
+	color: $danger;
+}
+
+.is-errors-title {
+	padding-bottom: 1rem;
+}
+
+.is-flash-message {
+	position: fixed;
+	bottom: 4rem;
+	right: 2rem;
+	z-index: 99999999;
+}
+
+dt {
+	color: $grey-dark;
+}
+
+dd {
+	margin-bottom: 0.7rem;
+	color: $grey;
+}

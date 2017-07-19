@@ -1,0 +1,80 @@
+@extends('layouts.app')
+
+@section('breadcrumbs')
+	<li><a href="{{ route('invoices.index') }}">Invoices</a></li>
+	<li class="is-active"><a>Create Invoice</a></li>
+@endsection
+
+@section('content')
+
+	@component('partials.sections.hero.container')
+		@slot('title')
+			Create Invoice
+		@endslot
+	@endcomponent
+
+	<form role="form" method="POST" action="{{ route('invoices.store') }}">
+		{{ csrf_field() }}
+
+		@component('partials.sections.section')
+			@slot('title')
+				Invoice Details
+			@endslot
+			@slot('saveButton')
+				Create Invoice
+			@endslot
+
+			@include('partials.errors-block')
+
+			<div class="field">
+				<label class="label" for="invoice_group_id">Invoice Group</label>
+				<p class="control is-expanded">
+					<span class="select is-fullwidth">
+						<select name="invoice_group_id">
+							@foreach (invoiceGroups() as $invoice_group)
+								<option value="{{ $invoice_group->id }}">{{ $invoice_group->name }}</option>
+							@endforeach
+						</select>
+					</span>
+				</p>
+			</div>
+
+			<div class="field">
+				<label class="label" for="property_id">Property</label>
+				<p class="control is-expanded">
+					<span class="select is-fullwidth">
+						<select name="property_id">
+							<option value="">Please select..</option>
+							@foreach (properties() as $property)
+								<option value="{{ $property->id }}">{{ $property->name }}</option>
+							@endforeach
+						</select>
+					</span>
+				</p>
+			</div>
+
+			<div class="field">
+				<label class="label" for="number">Number</label>
+				<p class="control">
+					<input type="number" name="number" class="input" />
+				</p>
+				<p class="help">
+					You can override the next invoice number of the above group by entering a number manually.
+				</p>
+			</div>
+
+			<div class="field">
+				<label class="label" for="terms">Terms</label>
+				<p class="control">
+					<textarea name="terms" class="textarea"></textarea>
+				</p>
+			</div>
+
+			<button type="submit" class="button is-primary is-outlined">
+				Create Invoice
+			</button>
+
+		@endcomponent
+	</form>
+
+@endsection
