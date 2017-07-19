@@ -77,7 +77,7 @@
 			<div class="column is-9">
 
 				<div class="tile is-child">
-					@include('invoices.partials.table', ['invoices' => $invoice_group->invoices, 'property' => true])
+					@include('invoices.partials.table', ['invoices' => $invoice_group->invoices()->limit(30)->get(), 'property' => true])
 				</div>
 
 			</div>
