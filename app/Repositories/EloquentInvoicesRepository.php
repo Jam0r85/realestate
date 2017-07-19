@@ -9,6 +9,13 @@ use Carbon\Carbon;
 
 class EloquentInvoicesRepository extends EloquentBaseRepository
 {
+	public $payments;
+
+	public function __construct(EloquentPaymentsRepository $payments)
+	{
+		$this->payments = $payments;
+	}
+
 	/**
 	 * Get the class name.
 	 * 
@@ -90,6 +97,28 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		$this->successMessage('The invoice item was created.');
 
 		// Return the invoice
+		return $invoice;
+	}
+
+	/**
+	 * Create a new payment for the invoice.
+	 * 
+	 * @param  array  $data
+	 * @param  invoice $id
+	 * @return mixed
+	 */
+	public function createPayment(array $data, $id)
+	{
+		// Find the invoice.
+		$invoice = $this->find($id);
+
+		// Create the payment
+		$payment = $this->payments->createPayment($data, $invoice);
+
+		// Flash a success message.
+		$this->successMessage('The payment was created');
+
+		// Return the invoice.
 		return $invoice;
 	}
 }

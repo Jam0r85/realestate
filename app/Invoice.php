@@ -14,7 +14,7 @@ class Invoice extends BaseModel
      * 
      * @var array
      */
-    protected $appends = ['total','total_net','total_tax'];
+    protected $appends = ['total','total_net','total_tax','total_payments','total_balance'];
     
     /**
      * The attributes that should be mutated to dates.
@@ -134,5 +134,25 @@ class Invoice extends BaseModel
     public function getTotalTaxAttribute()
     {
         return $this->items->sum('total_tax');
+    }
+
+    /**
+     * Get the invoice's total payments amount.
+     * 
+     * @return integer
+     */
+    public function getTotalPaymentsAttribute()
+    {
+        return $this->payments->sum('amount');
+    }
+
+    /**
+     * Get the invoice's total balance remaining amount.
+     * 
+     * @return integer
+     */
+    public function getTotalBalanceAttribute()
+    {
+        return $this->total - $this->total_payments;
     }
 }

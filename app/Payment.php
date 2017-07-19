@@ -22,6 +22,14 @@ class Payment extends Model
     }
 
     /**
+     * A payment has a payment method.
+     */
+    public function method()
+    {
+        return $this->belongsTo('App\PaymentMethod', 'payment_method_id');
+    }
+
+    /**
      * A payment has a parent.
      */
     public function parent()

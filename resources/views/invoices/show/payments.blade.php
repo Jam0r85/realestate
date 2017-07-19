@@ -26,4 +26,36 @@
 
 	@endcomponent
 
+	<hr />
+
+	@if ($invoice->paid_at || $invoice->total <= 0)
+
+		<div class="notification is-primary">
+			This invoice has been paid or has a balance of {{ currency(0) }}. You cannot record new payments for it.
+		</div>
+
+	@else
+
+		@component('partials.sections.section-no-container')
+			@slot('title')
+				Record Payment
+			@endslot
+
+			@include('partials.errors-block')
+
+			<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
+				{{ csrf_field() }}
+
+				@include('invoices.partials.payment-form')
+
+				<button type="submit" class="button is-primary is-outlined">
+					Record Payment
+				</button>
+
+			</form>
+
+		@endcomponent
+
+	@endif
+
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInvoiceItemRequest;
+use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Repositories\EloquentInvoicesRepository;
 use Illuminate\Http\Request;
@@ -133,15 +134,16 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Show the form to edit an invoice item.
+     * Store a new payment for the invoice.
      * 
-     * @param   \App\InvoiceItem $item
-     * @return  \Illuminate\Http\Responce
+     * @param  \App\Http\Requests\StoreInvoicePaymentRequest    $request
+     * @param  \App\Invoice                                     $id
+     * @return\Illuminate\Http\Responce
      */
-    public function editItem($item)
+    public function createPayment(StoreInvoicePaymentRequest $request, $id)
     {
-        $item = $this->invoices->findInvoiceItem($item);
-        return view('invoices.show.edit-item', compact('item'));
+        $this->invoices->createPayment($request->input(), $id);
+        return back();
     }
 
     /**

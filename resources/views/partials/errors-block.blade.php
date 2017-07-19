@@ -1,5 +1,5 @@
 @if ($errors->any())
-	@component('partials.notifications.warning')
+	@component('partials.notifications.primary')
 		@if (count($errors->all()) > 1)
 			<p class="is-errors-title">
 				<span class="icon">

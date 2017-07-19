@@ -69,6 +69,26 @@
 						</p>
 					</div>
 				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Payments
+						</p>
+						<p class="title">
+							{{ currency($invoice->total_payments) }}
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Balance
+						</p>
+						<p class="title">
+							{{ currency($invoice->total_balance) }}
+						</p>
+					</div>
+				</div>
 			</nav>
 
 		</div>
@@ -84,10 +104,10 @@
 					</p>
 					<ul class="menu-list">
 						<li>
-							<a href="{{ route('invoices.show', $invoice->id) }}">
+							<a href="{{ route('invoices.show', $invoice->id) }}" class="{{ set_active(route('invoices.show', $invoice->id)) }}">
 								Items
 							</a>
-							<a href="{{ route('invoices.show', [$invoice->id, 'payments']) }}">
+							<a href="{{ route('invoices.show', [$invoice->id, 'payments']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'payments'])) }}">
 								Payments
 							</a>
 						</li>

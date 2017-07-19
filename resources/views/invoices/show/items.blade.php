@@ -30,24 +30,34 @@
 
 	<hr />
 
-	@component('partials.sections.section-no-container')
-		@slot('title')
-			New Item
-		@endslot
+	@if ($invoice->paid_at)
 
-		@include('partials.errors-block')
+		<div class="notification is-primary">
+			This invoice has been paid. You cannot create new items for it.
+		</div>
 
-		<form role="form" method="POST" action="{{ route('invoices.create-item', $invoice->id) }}">
-			{{ csrf_field() }}
+	@else
 
-			@include('invoices.partials.item-form')
+		@component('partials.sections.section-no-container')
+			@slot('title')
+				New Item
+			@endslot
 
-			<button type="submit" class="button is-primary is-outlined">
-				Store Item
-			</button>
+			@include('partials.errors-block')
 
-		</form>
+			<form role="form" method="POST" action="{{ route('invoices.create-item', $invoice->id) }}">
+				{{ csrf_field() }}
 
-	@endcomponent
+				@include('invoices.partials.item-form')
+
+				<button type="submit" class="button is-primary is-outlined">
+					Store Item
+				</button>
+
+			</form>
+
+		@endcomponent
+
+	@endif
 
 @endsection

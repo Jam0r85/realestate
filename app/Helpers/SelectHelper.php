@@ -98,3 +98,12 @@ if (!function_exists('tax_rates')) {
 		});
 	}
 }
+
+if (!function_exists('payment_methods')) {
+	function payment_methods()
+	{
+		return cache()->tags('payment_methods')->remember('payment_methods', 60, function () {
+			return \App\PaymentMethod::orderBy('name')->get();
+		});
+	}
+}
