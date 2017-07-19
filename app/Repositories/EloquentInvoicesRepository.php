@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Invoice;
 use App\InvoiceGroup;
 use App\InvoiceItem;
+use App\Property;
 use Carbon\Carbon;
 
 class EloquentInvoicesRepository extends EloquentBaseRepository
@@ -69,7 +70,15 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		}
 
 		// Create the invoice
-		$invoice = $this->create($data);		
+		$invoice = $this->create($data);
+
+		// Add property owners if no users are present.
+		if (!isset($data['user_id'])) {
+			$owners = Property::findOrFail($data['property_id'])->owners;
+			$invoice->users()->attach($owners);
+		} else {
+			$invoice->users()->attach($data['user_id']);
+		}
 
 		// Return the invoice
 		return $invoice;
