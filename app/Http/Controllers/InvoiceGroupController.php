@@ -89,16 +89,4 @@ class InvoiceGroupController extends Controller
         $this->invoice_groups->update($request->input(), $id);
         return back();
     }
-
-    /**
-     * Archive the specified resource in storage.
-     *
-     * @param  \App\InvoiceGroup  $invoiceGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function archive($id)
-    {
-        $this->invoice_groups->archive($id);
-        return back();
-    }
 }

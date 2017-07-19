@@ -60,7 +60,6 @@ Route::prefix('invoice-groups')->group(function () {
 	Route::get('{id}/edit', 'InvoiceGroupController@edit')->name('invoice-groups.edit');
 	Route::put('{id}', 'InvoiceGroupController@update')->name('invoice-groups.update');
 	Route::get('{id}', 'InvoiceGroupController@show')->name('invoice-groups.show');
-	Route::post('{id}/archive', 'InvoiceGroupController@archive')->name('invoice-groups.archive');
 });
 
 Route::prefix('properties')->group(function () {

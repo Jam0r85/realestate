@@ -80,25 +80,15 @@
 			<div class="column is-3">
 				<aside class="menu">
 					<p class="menu-label">
-						Invoice Items
+						Invoice
 					</p>
 					<ul class="menu-list">
 						<li>
-							<a href="{{ route('invoices.show', $invoice->id) }}" class="">
-								Items List
+							<a href="{{ route('invoices.show', $invoice->id) }}">
+								Items
 							</a>
-							<a href="{{ route('invoices.show', [$invoice->id, 'add-item']) }}" class="">
-								Add Item
-							</a>
-						</li>
-					</ul>
-					<p class="menu-label">
-						Settings
-					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('invoices.show', $invoice->id) }}" class="">
-								Archive
+							<a href="{{ route('invoices.show', [$invoice->id, 'payments']) }}">
+								Payments
 							</a>
 						</li>
 					</ul>

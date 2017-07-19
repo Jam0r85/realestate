@@ -12,12 +12,12 @@
 
 	{{-- Title --}}
 	@if (isset($title))
-		<h2 class="title is-3">{{ $title }}</h2>
+		<h2 class="title">{{ $title }}</h2>
 	@endif
 
 	{{-- Sub Title --}}
 	@if (isset($subTitle))
-		<h2 class="subtitle is-4">{{ $subTitle }}</h2>
+		<h3 class="subtitle">{{ $subTitle }}</h3>
 	@endif
 
 	{{-- Content --}}

@@ -19,59 +19,31 @@
 		<div class="columns">
 			<div class="column is-3">
 
-				@if (!$invoice_group->trashed())
+				{{-- Status Box --}}
+				<article class="notification is-success has-text-centered">
+					<p class="title">Active</p>
+					<p class="subtitle">Next Number: <b>{{ $invoice_group->next_number }}</b></p>
+				</article>
 
-					{{-- Status Box --}}
-					<article class="notification is-success">
-						<p class="title">Active</p>
-						<p class="subtitle">Next Number: <b>{{ $invoice_group->next_number }}</b></p>
-					</article>
-
-					{{-- Statistics --}}
-					<article class="box">
-						<div class="has-text-centered">
-							<p class="heading">
-								Invoices Created
-							</p>
-							<p class="title">
-								{{ count($invoice_group->invoices) }}
-							</p>
-						</div>
-						<div class="has-text-centered">
-							<p class="heading">
-								Invoices Total
-							</p>
-							<p class="title">
-								{{ currency($invoice_group->invoices_total) }}
-							</p>
-						</div>
-					</article>
-
-					{{-- Update Status --}}
-					<article class="notification is-light">
-						<div class="content">
-							<p>
-								You can archive this invoice group and prevent it from being used in the future.
-							</p>
-						</div>
-
-						<form role="form" method="POST" action="{{ route('invoice-groups.archive', $invoice_group->id) }}">
-							{{ csrf_field() }}
-
-							<button type="submit" class="button">
-								Archive Invoice Group
-							</button>
-						</form>
-
-					</article>
-
-				@else
-
-					<article class="notification is-dark">
-						<p class="title">Archived</p>
-					</article>
-
-				@endif
+				{{-- Statistics --}}
+				<article class="box">
+					<div class="has-text-centered">
+						<p class="heading">
+							Invoices Created
+						</p>
+						<p class="title">
+							{{ count($invoice_group->invoices) }}
+						</p>
+					</div>
+					<div class="has-text-centered">
+						<p class="heading">
+							Invoices Total
+						</p>
+						<p class="title">
+							{{ currency($invoice_group->invoices_total) }}
+						</p>
+					</div>
+				</article>
 
 			</div>
 			<div class="column is-9">

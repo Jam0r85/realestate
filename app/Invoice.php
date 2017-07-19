@@ -99,6 +99,14 @@ class Invoice extends BaseModel
     }
 
     /**
+     * An invoice can have many payments.
+     */
+    public function payments()
+    {
+        return $this->morphMany('App\Payment', 'parent');
+    }
+
+    /**
      * Get the invoice's total cost.
      * 
      * @return integer
