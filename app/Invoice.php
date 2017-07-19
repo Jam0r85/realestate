@@ -28,7 +28,7 @@ class Invoice extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['property','users'];
+    protected $with = ['property','users','items'];
 
     /**
      * The attributes that are mass assignable.

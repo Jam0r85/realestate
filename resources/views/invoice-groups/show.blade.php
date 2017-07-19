@@ -16,18 +16,19 @@
 
 	@component('partials.sections.section')
 
-		<div class="tile is-ancestor">
-			<div class="tile is-vertical is-parent is-3">
+		<div class="columns">
+			<div class="column is-3">
+
 				@if (!$invoice_group->trashed())
 
 					{{-- Status Box --}}
-					<article class="tile is-child notification is-success">
+					<article class="notification is-success">
 						<p class="title">Active</p>
 						<p class="subtitle">Next Number: <b>{{ $invoice_group->next_number }}</b></p>
 					</article>
 
 					{{-- Statistics --}}
-					<article class="tile is-child box">
+					<article class="box">
 						<div class="has-text-centered">
 							<p class="heading">
 								Invoices Created
@@ -47,7 +48,7 @@
 					</article>
 
 					{{-- Update Status --}}
-					<article class="tile is-child notification is-light">
+					<article class="notification is-light">
 						<div class="content">
 							<p>
 								You can archive this invoice group and prevent it from being used in the future.
@@ -63,19 +64,24 @@
 						</form>
 
 					</article>
+
 				@else
-					<article class="tile is-child notification is-dark">
+
+					<article class="notification is-dark">
 						<p class="title">Archived</p>
 					</article>
+
 				@endif
+
 			</div>
-			<div class="tile is-vertical is-parent is-9">
+			<div class="column is-9">
+
 				<div class="tile is-child">
 					@include('invoices.partials.table', ['invoices' => $invoice_group->invoices, 'property' => true])
 				</div>
+
 			</div>
 		</div>
-
 
 	@endcomponent
 

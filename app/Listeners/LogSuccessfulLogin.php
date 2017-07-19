@@ -29,9 +29,6 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $event->user->last_login_at = Carbon::now();
-        $event->user->save();
-
         UserLogin::create([
             'user_id' => $event->user->id,
             'ip' => Request::ip()
