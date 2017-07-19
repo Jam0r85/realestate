@@ -41,13 +41,14 @@
 			@slot('subTitle')
 				Create a new invoice group for the company.
 			@endslot
-			@slot('saveButton')
-				Save Invoice Group
-			@endslot
 
 			@include('partials.errors-block')
 
 			@include('invoice-groups.partials.form')
+
+			<button type="submit" class="button is-primary is-outlined">
+				Create Group
+			</button>
 
 		@endcomponent
 

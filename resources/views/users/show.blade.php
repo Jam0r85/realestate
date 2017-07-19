@@ -245,14 +245,12 @@
 							</p>
 							@if (userGroupsCount())
 								@foreach (userGroups() as $group)
-									<div class="field">
-										<p class="control">
-											<label class="checkbox">
-												<input @if ($user->inGroup($group->id)) checked @endif type="checkbox" name="group_id[]" value="{{ $group->id }}" />
-												{{ $group->name }}
-											</label>
-										</p>
-									</div>
+									<p class="control">
+										<label class="checkbox">
+											<input @if ($user->inGroup($group->id)) checked @endif type="checkbox" name="group_id[]" value="{{ $group->id }}" />
+											{{ $group->name }}
+										</label>
+									</p>
 								@endforeach
 							@else
 								<p><span class="is-error">No registered user groups.</span></p>
@@ -271,14 +269,12 @@
 							</p>
 							@if (userGroupsCount())
 								@foreach (branchRoles() as $role)
-									<div class="field">
-										<p class="control">
-											<label class="checkbox">
-												<input @if ($user->hasRole($role->id)) checked @endif type="checkbox" name="role_id[]" value="{{ $role->id }}" />
-												{{ $role->name }} <small>({{ $role->branch->name }})</small>
-											</label>
-										</p>
-									</div>
+									<p class="control">
+										<label class="checkbox">
+											<input @if ($user->hasRole($role->id)) checked @endif type="checkbox" name="role_id[]" value="{{ $role->id }}" />
+											{{ $role->name }} <small>({{ $role->branch->name }})</small>
+										</label>
+									</p>
 								@endforeach
 							@else
 								<p><span class="is-error">No registered user groups.</span></p>

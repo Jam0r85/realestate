@@ -13,6 +13,15 @@
 		@endslot
 		@slot('subTitle')
 			{{ $invoice->property->name }}
+			@if (count($invoice->users))
+				@foreach ($invoice->users as $user)
+					<a href="{{ route('users.show', $user->id) }}">
+						<span class="tag">
+							{{ $user->name }}
+						</span>
+					</a>
+				@endforeach
+			@endif
 		@endslot
 	@endcomponent
 

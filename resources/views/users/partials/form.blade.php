@@ -1,12 +1,3 @@
-@if (isset($user))
-    <div class="field">
-        <label class="label" for="name">Name</label>
-        <p class="control">
-            <input type="text" name="name" class="input" value="{{ isset($user) ? $user->name : null }}" />
-        </p>
-    </div>
-@endif
-
 <div class="field">
     <label class="label" for="title">Title</label>
     <p class="control">

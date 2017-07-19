@@ -2,8 +2,12 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class TaxRate extends BaseModel
 {
+    use SoftDeletes;
+    
     /**
      * Indicates if the model should be timestamped.
      * 

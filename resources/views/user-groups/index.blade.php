@@ -15,19 +15,14 @@
 		@component('partials.table')
 			@slot('head')
 				<th>Name</th>
-				<th>Options</th>
+				<th>Actions</th>
 			@endslot
 			@foreach ($groups as $user_group)
 				<tr>
 					<td><a href="{{ route('user-groups.show', $user_group->id) }}">{{ $user_group->name }}</a></td>
-					<td>
-						<a href="{{ route('user-groups.edit', $user_group->id) }}" class="button is-small is-warning">
-							<span class="icon is-small">
-								<i class="fa fa-edit"></i>
-							</span>
-							<span>
-								Edit
-							</span>
+					<td class="has-text-right">
+						<a href="{{ route('user-groups.edit', $user_group->id) }}">
+							Edit Group
 						</a>
 					</td>
 				</tr>
@@ -44,13 +39,14 @@
 			@slot('title')
 				Create User Group
 			@endslot
-			@slot('saveButton')
-				Create User Group
-			@endslot
 
-				@include('partials.errors-block')
+			@include('partials.errors-block')
 
-				@include('user-groups.partials.form')
+			@include('user-groups.partials.form')
+
+			<button type="submit" class="button is-primary is-outlined">
+				Create Group
+			</button>
 
 		@endcomponent
 

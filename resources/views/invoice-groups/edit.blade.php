@@ -20,13 +20,14 @@
 		{{ method_field('PUT') }}
 
 		@component('partials.sections.section')
-			@slot('saveButton')
-				Save Changes
-			@endslot
 
 			@include('partials.errors-block')
 
 			@include('invoice-groups.partials.form')
+
+			<button type="submit" class="button is-primary is-outlined">
+				Update
+			</button>
 
 		@endcomponent
 
