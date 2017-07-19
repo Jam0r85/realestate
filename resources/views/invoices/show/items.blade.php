@@ -17,7 +17,7 @@
 			@endslot
 			@foreach ($invoice->items as $item)
 				<tr>
-					<td><a href="#" class="modal-button" data-target="{{ route('invoices.edit-item', $item->id) }}">{{ $item->name }}</a></td>
+					<td><a href="#" @if (!$invoice->paid_at) class="modal-button" data-target="{{ route('invoices.edit-item', $item->id) }} @endif">{{ $item->name }}</a></td>
 					<td>{{ currency($item->amount) }}</td>
 					<td>{{ $item->quantity }}</td>
 					<td>{{ $item->taxRate ? $item->taxRate->name_formatted : null }}</td>
@@ -30,10 +30,10 @@
 
 	<hr />
 
-	@if ($invoice->paid_at)
+	@if ($invoice->paid_at || $invoice->deleted_at)
 
 		<div class="notification is-primary">
-			This invoice has been paid. You cannot create new items for it.
+			This invoice has been paid or archived. You cannot create new items for it.
 		</div>
 
 	@else

@@ -10,6 +10,11 @@
 	@component('partials.sections.hero.container')
 		@slot('title')
 			Invoice #{{ $invoice->number }}
+			@if ($invoice->deleted_at)
+				<span class="tag is-dark">
+					Archived
+				</span>
+			@endif
 		@endslot
 		@slot('subTitle')
 			{{ $invoice->property->name }}
@@ -109,6 +114,11 @@
 							</a>
 							<a href="{{ route('invoices.show', [$invoice->id, 'payments']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'payments'])) }}">
 								Payments
+							</a>
+						</li>
+						<li>
+							<a href="{{ route('invoices.show', [$invoice->id, 'settings']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'settings'])) }}">
+								Settings
 							</a>
 						</li>
 					</ul>

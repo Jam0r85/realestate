@@ -4,7 +4,7 @@
 
 	@component('partials.sections.section-no-container')
 		@slot('title')
-			Payment Record
+			Payment History
 		@endslot
 
 		@component('partials.table')

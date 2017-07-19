@@ -18,157 +18,161 @@
 <body>
     <div id="app">
 
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-
-                <div class="navbar-burger burger" data-target="navMenuExample">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-
-            <div id="navMenuExample" class="navbar-menu">
-                <div class="navbar-start">
+        <div class="container">
+            <nav class="navbar">
+                <div class="navbar-brand">
                     <a class="navbar-item" href="{{ url('/') }}">
-                        Home
+                        {{ config('app.name', 'Laravel') }}
                     </a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-active" href="#">
-                            Planner
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('calendars.index') }}">
-                                Calendars
-                            </a>
-                            <a class="navbar-item" href="{{ route('calendars.create') }}">
-                                Create New Calendar
-                            </a>
-                            <hr class="navbar-divider" />
-                            <a class="navbar-item" href="{{ route('events.index') }}">
-                                Events
-                            </a>
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-active" href="{{ route('users.index') }}">
-                            Users
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('users.create') }}">
-                                Create User
-                            </a>
-                            <hr class="navbar-divider" />
-                            <a class="navbar-item" href="{{ route('users.archived') }}">
-                                Archived Users
-                            </a>
-                            <hr class="navbar-divider" />
-                            <div class="navbar-header">
-                                Groups
-                            </div>
-                            @foreach (userGroups() as $user_group_menu)
-                                <a class="navbar-item" href="{{ route('user-groups.show', $user_group_menu->slug) }}">
-                                    {{ $user_group_menu->name }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-active" href="{{ route('properties.index') }}">
-                            Properties
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('properties.create') }}">
-                                Create Property
-                            </a>
-                            <hr class="navbar-divider" />
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-active" href="#">
-                            Tenancies
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="#">
-                                Sub Item
-                            </a>
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-active" href="{{ route('invoices.index') }}">
-                            Invoices
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('invoices.create') }}">
-                                Create Invoice
-                            </a>
-                            <hr class="navbar-divider" />
-                            <a class="navbar-item" href="{{ route('invoices.unpaid') }}">
-                                Unpaid Invoices
-                            </a>
-                            <a class="navbar-item" href="{{ route('invoices.overdue') }}">
-                                Overdue Invoices
-                            </a>
-                            <hr class="navbar-divider" />
-                            <div class="navbar-header">
-                                Groups
-                            </div>
-                            @foreach (invoiceGroups() as $invoice_group_menu)
-                                <a class="navbar-item" href="{{ route('invoice-groups.show', $invoice_group_menu->id) }}">
-                                    {{ $invoice_group_menu->name }}
-                                </a>
-                            @endforeach
-                        </div>
+
+                    <div class="navbar-burger burger" data-target="navMenuExample">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
                 </div>
-                <div class="navbar-end">
 
-                    @if (Auth::check())
-
+                <div id="navMenuExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="{{ url('/') }}">
+                            Home
+                        </a>
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('users.show', Auth::id()) }}">
-                                {{ Auth::user()->name }}
+                            <a class="navbar-link is-active" href="#">
+                                Planner
                             </a>
                             <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('settings.index') }}">
-                                    Settings
+                                <a class="navbar-item" href="{{ route('calendars.index') }}">
+                                    Calendars
                                 </a>
-                                <a class="navbar-item" href="{{ route('emails.index') }}">
-                                    Sent E-Mails
+                                <a class="navbar-item" href="{{ route('calendars.create') }}">
+                                    Create New Calendar
                                 </a>
-                                <a class="navbar-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
+                                <hr class="navbar-divider" />
+                                <a class="navbar-item" href="{{ route('events.index') }}">
+                                    Events
                                 </a>
-                                <form role="form" method="POST" action="{{ route('logout') }}" id="logout-form">
-                                    {{ csrf_field() }}
-                                </form>
                             </div>
                         </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link is-active" href="{{ route('users.index') }}">
+                                Users
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="{{ route('users.create') }}">
+                                    Create User
+                                </a>
+                                <hr class="navbar-divider" />
+                                <a class="navbar-item" href="{{ route('users.archived') }}">
+                                    Archived Users
+                                </a>
+                                <hr class="navbar-divider" />
+                                <div class="navbar-header">
+                                    Groups
+                                </div>
+                                @foreach (userGroups() as $user_group_menu)
+                                    <a class="navbar-item" href="{{ route('user-groups.show', $user_group_menu->slug) }}">
+                                        {{ $user_group_menu->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link is-active" href="{{ route('properties.index') }}">
+                                Properties
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="{{ route('properties.create') }}">
+                                    Create Property
+                                </a>
+                                <hr class="navbar-divider" />
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link is-active" href="#">
+                                Tenancies
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="#">
+                                    Sub Item
+                                </a>
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link is-active" href="{{ route('invoices.index') }}">
+                                Invoices
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="{{ route('invoices.create') }}">
+                                    Create Invoice
+                                </a>
+                                <hr class="navbar-divider" />
+                                <a class="navbar-item" href="{{ route('invoices.unpaid') }}">
+                                    Unpaid Invoices
+                                </a>
+                                <a class="navbar-item" href="{{ route('invoices.overdue') }}">
+                                    Overdue Invoices
+                                </a>
+                                <hr class="navbar-divider" />
+                                <div class="navbar-header">
+                                    Groups
+                                </div>
+                                @foreach (invoiceGroups() as $invoice_group_menu)
+                                    <a class="navbar-item" href="{{ route('invoice-groups.show', $invoice_group_menu->id) }}">
+                                        {{ $invoice_group_menu->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-end">
 
-                    @else
+                        @if (Auth::check())
 
-                        <a href="{{ route('login') }}" class="navbar-item">
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}" class="navbar-item">
-                            Register
-                        </a>
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link is-active" href="{{ route('users.show', Auth::id()) }}">
+                                    {{ Auth::user()->name }}
+                                </a>
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item" href="{{ route('settings.index') }}">
+                                        Settings
+                                    </a>
+                                    <a class="navbar-item" href="{{ route('emails.index') }}">
+                                        Sent E-Mails
+                                    </a>
+                                    <a class="navbar-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form role="form" method="POST" action="{{ route('logout') }}" id="logout-form">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
+                            </div>
 
-                    @endif
+                        @else
 
+                            <a href="{{ route('login') }}" class="navbar-item">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" class="navbar-item">
+                                Register
+                            </a>
+
+                        @endif
+
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
 
-        <nav class="breadcrumb">
-            <ul>
-                <li><a href="{{ url('/') }}">Home</a></li>
-                @yield('breadcrumbs')
-            </ul>
-        </nav>
+        <div class="container">
+            <nav class="breadcrumb">
+                <ul>
+                    <li><a href="{{ url('/') }}">Home</a></li>
+                    @yield('breadcrumbs')
+                </ul>
+            </nav>
+        </div>
 
         @include('flash::message')
 

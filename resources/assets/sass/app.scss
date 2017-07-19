@@ -74,6 +74,10 @@ input[type=checkbox], input[type=radio] {
  * Navbars
  */
 
+.navbar {
+	border-bottom: 1px solid $grey-lighter;
+}
+
 .navbar-header {
 	color: $grey-light;
 	display: block;
@@ -94,7 +98,6 @@ input[type=checkbox], input[type=radio] {
 }
 
 .breadcrumb {
-	background-color: $white-ter;
 	margin-bottom: 0 !important;
 }
 
