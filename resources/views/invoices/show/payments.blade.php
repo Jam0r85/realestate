@@ -19,7 +19,15 @@
 					<td>{{ currency($payment->amount) }}</td>
 					<td>{{ $payment->method->name }}</td>
 					<td>{{ date_formatted($payment->created_at) }}</td>
-					<td></td>
+					<td>
+						@foreach ($payment->users as $user)
+							<a href="{{ route('users.show', $user->id) }}">
+								<span class="tag is-primary">
+									{{ $user->name }}
+								</span>
+							</a>
+						@endforeach
+					</td>
 				</tr>
 			@endforeach
 		@endcomponent

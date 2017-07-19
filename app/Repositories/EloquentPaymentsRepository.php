@@ -32,10 +32,18 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		// Create a random key.
 		$data['key'] = str_random(30);
 
+		// Create the payment
+		$payment = $parent->payments()->create($data);
+
+		// Attach users
+		if (isset($data['user_id'])) {
+			$payment->users()->attach($data['user_id']);
+		}
+
 		// Flash a success message.
 		$this->successMessage('The payment was created');
 
 		// Return the Payment.
-		return $parent->payments()->create($data);
+		return $payment;
 	}
 }

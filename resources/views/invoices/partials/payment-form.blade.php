@@ -24,3 +24,15 @@
 		<textarea name="note" class="textarea">{{ old('note') }}</textarea>
 	</p>
 </div>
+
+@if (count($invoice->users))
+	<div class="field">
+		<label class="label">From Users</label>
+		@foreach ($invoice->users as $user)
+			<label class="checkbox">
+				<input type="checkbox" name="user_id[]" value="{{ $user->id }}" checked />
+				{{ $user->name }}
+			</label>
+		@endforeach
+	</div>
+@endif

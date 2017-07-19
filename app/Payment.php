@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     /**
+     * The relations that should be eager leader.
+     * 
+     * @var array
+     */
+    protected $with = ['users','method'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
