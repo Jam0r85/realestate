@@ -22,9 +22,11 @@
 			@if (isset($users))
 				<td>
 					@foreach ($invoice->users as $user)
-						<span class="tag is-primary">
-							{{ $user->name }}
-						</span>
+						<a href="{{ route('users.show', $user->id) }}">
+							<span class="tag is-primary">
+								{{ $user->name }}
+							</span>
+						</a>
 					@endforeach
 				</td>
 			@endif

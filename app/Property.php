@@ -20,7 +20,7 @@ class Property extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['branch','owners'];
+    protected $with = ['branch','owners','owner'];
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +55,7 @@ class Property extends BaseModel
 	 */
 	public function owner()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\User', 'user_id');
 	}
 
 	/**

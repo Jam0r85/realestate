@@ -11,7 +11,7 @@ class BaseModel extends Model
 	 * 
 	 * @var integer
 	 */
-	protected $perPage = 45;
+	protected $perPage = 20;
 
 	/**
 	 * Model can have many settings.
