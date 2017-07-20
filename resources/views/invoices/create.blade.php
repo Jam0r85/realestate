@@ -85,12 +85,11 @@
 				delay: 250,
 				data: function(params) {
 					return {
-						q: params.term,
-						term: params.term
+						search_term: params.term
 					}
 				},
 				processResults: function (data, params) {
-					params.page == params.page || 1,
+					params.page == params.page || 1;
 
 					return {
 						results: data.items
