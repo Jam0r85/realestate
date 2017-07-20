@@ -23,7 +23,6 @@ class SettingController extends BaseController
     public function __construct(EloquentSettingsRepository $settings)
     {
         $this->middleware('auth');
-
         $this->settings = $settings;
     }
 

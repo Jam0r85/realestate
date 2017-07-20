@@ -6,36 +6,35 @@
 		{{ csrf_field() }}
 
 		@component('partials.sections.section-no-container')
-			@slot('title')
-				General Settings
-			@endslot
-			@slot('saveButton')
-				Save Changes
-			@endslot
 
-			@component('partials.forms.field')
-				@slot('label')
-					Company Name
-				@endslot
-				@slot('name')
-					company_name
-				@endslot
-				@slot('value')
-					{{ getSetting('company_name') }}
-				@endslot
+			@component('partials.title')
+				Settings
 			@endcomponent
 
-			@component('partials.forms.field-select')
-				@slot('label')
-					Default Country
-				@endslot
+			@component('partials.subtitle')
+				Company Settings
+			@endcomponent
 
-				<span class="select">
-					<select name="default_country">
+			<div class="field">
+				<label class="label" for="company_name">
+					Company Name
+				</label>
+				<p class="control">
+					<input type="text" name="company_name" class="input" value="{{ get_setting('company_name') }}" />
+				</p>
+			</div>
 
-					</select>
-				</span>
+			<div class="field">
+				<label class="label" for="invoice_default_terms">
+					Default Invoice Terms
+				</label>
+				<p class="control">
+					<textarea name="invoice_default_terms" class="textarea">{{ get_setting('invoice_default_terms') }}</textarea>
+				</p>
+			</div>
 
+			@component('partials.forms.buttons.primary')
+				Update
 			@endcomponent
 
 		@endcomponent

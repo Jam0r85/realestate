@@ -28,7 +28,8 @@ class Setting extends BaseModel
     public function keys()
     {
     	return [
-    		'company_name'
+    		'company_name',
+            'invoice_default_terms'
     	];
     }
 

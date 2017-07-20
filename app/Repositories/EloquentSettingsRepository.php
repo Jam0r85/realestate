@@ -28,12 +28,14 @@ class EloquentSettingsRepository extends EloquentBaseRepository
 		foreach ($data as $key => $value) {
 			if (in_array($key, $this->getInstance(false)->keys())) {
 				if (empty($value)) { $value = null; }
-				Setting::where('key', $key)->update(['value' => $value]);
+				Setting::updateOrCreate([
+					'key' => $key
+				], ['value' => $value]);
 			}
 		}
 
 		Cache::forget('site.settings');
 
-		$this->customFlashMessage('The settings were updated.');
+		$this->successMessage('The settings were updated.');
 	}
 }
