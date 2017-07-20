@@ -124,6 +124,15 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Create the payment
 		$payment = $this->payments->createPayment($data, $invoice);
 
+		$invoice->fresh();
+
+        // Mark the invoice as paid when the balance is empty.
+        if (empty($invoice->total_balance)) {
+            $this->update([
+            	'paid_at' => Carbon::now()
+            ], $invoice);
+        }
+
 		// Flash a success message.
 		$this->successMessage('The payment was created');
 
