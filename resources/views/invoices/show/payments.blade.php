@@ -2,10 +2,15 @@
 
 @section('sub-content')
 
+	@component('partials.title')
+		Payments
+	@endcomponent
+
 	@component('partials.sections.section-no-container')
-		@slot('title')
+
+		@component('partials.subtitle')
 			Payment History
-		@endslot
+		@endcomponent
 
 		@component('partials.table')
 			@slot('head')
@@ -34,20 +39,19 @@
 
 	@endcomponent
 
-	<hr />
+	@component('partials.sections.section-no-container')
 
-	@if ($invoice->paid_at || $invoice->total <= 0)
+		@component('partials.subtitle')
+			Record Payment
+		@endcomponent
 
-		<div class="notification is-primary">
-			This invoice has been paid or has a balance of {{ currency(0) }}. You cannot record new payments for it.
-		</div>
+		@if ($invoice->paid_at || $invoice->total <= 0)
 
-	@else
+			@component('partials.notifications.primary')
+				This invoice has been paid or has a balance of {{ currency(0) }}. You cannot record new payments for it.
+			@endcomponent
 
-		@component('partials.sections.section-no-container')
-			@slot('title')
-				Record Payment
-			@endslot
+		@else
 
 			@include('partials.errors-block')
 
@@ -56,14 +60,14 @@
 
 				@include('invoices.partials.payment-form')
 
-				<button type="submit" class="button is-primary is-outlined">
+				@component('partials.forms.buttons.primary')
 					Record Payment
-				</button>
+				@endcomponent
 
 			</form>
 
-		@endcomponent
+		@endif
 
-	@endif
+	@endcomponent
 
 @endsection

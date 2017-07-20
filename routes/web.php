@@ -52,6 +52,7 @@ Route::prefix('invoices')->group(function () {
 	Route::get('{item_id}/edit-item', 'InvoiceItemController@edit')->name('invoices.edit-item');
 	Route::put('{item_id}/update-item', 'InvoiceItemController@update')->name('invoices.update-item');
 	Route::post('{id}/create-payment', 'InvoiceController@createPayment')->name('invoices.create-payment');
+	Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 	Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
 	Route::post('{id}/archive', 'InvoiceController@archive')->name('invoices.archive');
 });

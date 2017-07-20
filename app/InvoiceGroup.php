@@ -53,6 +53,6 @@ class InvoiceGroup extends BaseModel
      */
     public function getInvoicesTotalAttribute()
     {
-        return $this->invoices->sum('total');
+        return $this->invoices()->whereNotNull('paid_at')->get()->sum('total');
     }
 }

@@ -2,10 +2,15 @@
 
 @section('sub-content')
 
+	@component('partials.title')
+		Invoice Items
+	@endcomponent
+
 	@component('partials.sections.section-no-container')
-		@slot('title')
-			Invoice Items
-		@endslot
+
+		@component('partials.subtitle')
+			Current Items
+		@endcomponent
 
 		@component('partials.table')
 			@slot('head')
@@ -28,20 +33,19 @@
 
 	@endcomponent
 
-	<hr />
+	@component('partials.sections.section-no-container')
 
-	@if ($invoice->paid_at || $invoice->deleted_at)
+		@component('partials.subtitle')
+			New Item
+		@endcomponent
 
-		<div class="notification is-primary">
-			This invoice has been paid or archived. You cannot create new items for it.
-		</div>
+		@if ($invoice->paid_at || $invoice->deleted_at)
 
-	@else
+			@component('partials.notifications.primary')
+				This invoice has been paid or archived. You cannot create new items for it.
+			@endcomponent
 
-		@component('partials.sections.section-no-container')
-			@slot('title')
-				New Item
-			@endslot
+		@else
 
 			@include('partials.errors-block')
 
@@ -50,14 +54,14 @@
 
 				@include('invoices.partials.item-form')
 
-				<button type="submit" class="button is-primary is-outlined">
+				@component('partials.forms.buttons.primary')
 					Store Item
-				</button>
+				@endcomponent
 
 			</form>
 
-		@endcomponent
+		@endif
 
-	@endif
+	@endcomponent
 
 @endsection

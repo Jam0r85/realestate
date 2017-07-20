@@ -115,10 +115,18 @@
 							<a href="{{ route('invoices.show', [$invoice->id, 'payments']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'payments'])) }}">
 								Payments
 							</a>
-						</li>
-						<li>
 							<a href="{{ route('invoices.show', [$invoice->id, 'settings']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'settings'])) }}">
 								Settings
+							</a>
+						</li>
+					</ul>
+					<p class="menu-label">
+						Actions
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('invoices.show', [$invoice->id, 'delete']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'delete'])) }}">
+								Delete
 							</a>
 						</li>
 					</ul>

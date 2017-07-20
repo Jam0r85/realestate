@@ -9,6 +9,7 @@
 		@if (isset($users))
 			<th>Users</th>
 		@endif
+		<th>Status</th>
 		<th>Invoice</th>
 	@endslot
 	@foreach ($invoices as $invoice)
@@ -30,6 +31,11 @@
 					@endforeach
 				</td>
 			@endif
+			<td>
+				@if ($invoice->paid_at || count($invoice->items) > 0 && $invoice->total_balance <= 0)
+					Paid
+				@endif
+			</td>
 			<td>
 				<a href="#">
 					Download

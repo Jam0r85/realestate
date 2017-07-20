@@ -85,6 +85,18 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	}
 
 	/**
+	 * Update an invoice.
+	 * 
+	 * @param  array  $data
+	 * @param  invoice $id
+	 * @return mixed
+	 */
+	public function updateInvoice(array $data, $id)
+	{
+		return $this->update($data, $id);
+	}
+
+	/**
 	 * Create a new invoice item for an invoice.
 	 * 
 	 * @param  array  $data
