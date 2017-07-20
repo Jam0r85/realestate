@@ -16,7 +16,7 @@
 							search_term
 						@endslot
 						@slot('value')
-							{{ isset($search_term) ? $search_term : null }}
+							{{ old('search_term') }}
 						@endslot
 						@slot('placeholder')
 							Search Properties

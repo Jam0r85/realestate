@@ -39,6 +39,20 @@ class PropertyController extends Controller
     }
 
     /**
+     * Search through the properties and display the results.
+     * 
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $properties = $this->properties->search($request->search_term);
+        $title = 'Search Results';
+
+        return view('properties.index', compact('properties','title'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
