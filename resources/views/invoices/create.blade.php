@@ -17,12 +17,6 @@
 		{{ csrf_field() }}
 
 		@component('partials.sections.section')
-			@slot('title')
-				Invoice Details
-			@endslot
-			@slot('saveButton')
-				Create Invoice
-			@endslot
 
 			@include('partials.errors-block')
 
@@ -68,9 +62,9 @@
 				</p>
 			</div>
 
-			<button type="submit" class="button is-primary is-outlined">
+			@component('partials.forms.buttons.primary')
 				Create Invoice
-			</button>
+			@endcomponent
 
 		@endcomponent
 	</form>

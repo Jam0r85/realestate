@@ -13,23 +13,17 @@
 		@endslot
 	@endcomponent
 
-	<form role="form" method="POST" action="{{ route('properties.store') }}">
-		{{ csrf_field() }}
+	@component('partials.sections.section')
 
-		@component('partials.sections.section')
-			@slot('title')
-				Property Details
-			@endslot
-			@slot('saveButton')
-				Create Property
-			@endslot
+		@include('partials.errors-block')
 
-			@include('partials.errors-block')
+		<form role="form" method="POST" action="{{ route('properties.store') }}">
+			{{ csrf_field() }}
 
 			<div class="field">
 				<label class="label" for="branch_id">Branch</label>
-				<p class="control">
-					<span class="select">
+				<p class="control is-expanded">
+					<span class="select is-fullwidth">
 						<select name="branch_id">
 							@foreach (branches() as $branch)
 								<option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -40,8 +34,13 @@
 			</div>
 
 			@include('properties.partials.form')
-		@endcomponent
 
-	</form>
+			@component('partials.forms.buttons.primary')
+				Create Property
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection

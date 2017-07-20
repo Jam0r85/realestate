@@ -13,23 +13,21 @@
 		@endslot
 	@endcomponent
 
-	<form action="{{ route('users.store') }}" method="POST">
-		{{ csrf_field() }}
+	@component('partials.sections.section')
 
-		@component('partials.sections.section')
-			@slot('title')
-				User Details
-			@endslot
+		@include('partials.errors-block')
 
-			@include('partials.errors-block')
+		<form action="{{ route('users.store') }}" method="POST">
+			{{ csrf_field() }}
 
 			@include('users.partials.form')
 
-			<button type="submit" class="button is-primary is-outlined">
+			@component('partials.forms.buttons.primary')
 				Create User
-			</button>			
-		@endcomponent
+			@endcomponent
 
-	</form>
+		</form>
+
+	@endcomponent
 
 @endsection
