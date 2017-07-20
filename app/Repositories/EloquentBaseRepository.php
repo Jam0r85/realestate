@@ -198,14 +198,14 @@ class EloquentBaseRepository
             return null;
         }
         
-        if (is_numeric($model)) {
-            $instance = $this->getInstance();
-            $instance = $this->hasSoftDeletes($instance);
-
-            return $instance->findOrFail($model);
+        if (!is_numeric($model)) {
+            return $model;
         }
 
-        return $model;
+        $instance = $this->getInstance();
+        $instance = $this->hasSoftDeletes($instance);
+
+        return $instance->findOrFail($model);
     }
 
     /**

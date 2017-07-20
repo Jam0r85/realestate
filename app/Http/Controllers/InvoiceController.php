@@ -163,6 +163,8 @@ class InvoiceController extends Controller
     public function archive($id)
     {
         $this->invoices->archive($id);
+        $this->invoices->resetGroupNextNumber($id);
+
         return back();
     }
 }

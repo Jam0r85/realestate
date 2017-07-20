@@ -151,4 +151,25 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Return the invoice.
 		return $invoice;
 	}
+
+	/**
+	 * Reset the next number for the invoice group if we need to.
+	 * 
+	 * @param  Invoice $id
+	 * @return mixed
+	 */
+	public function resetGroupNextNumber($id)
+	{
+		// Get the invoice
+		$invoice = $this->find($id);
+
+		// Get the invoice group.
+		$group = InvoiceGroup::findOrFail($invoice->invoice_group_id);
+
+		if ($invoice->number + 1 == $group->next_number) {
+			$group->decrement('next_number');
+		}
+
+		return $invoice;
+	}
 }
