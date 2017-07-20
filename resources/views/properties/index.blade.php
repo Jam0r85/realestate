@@ -4,36 +4,6 @@
 	<li class="is-active"><a>{{ $title }}</a></li>
 @endsection
 
-@section('search_field')
-	<form role="form" method="POST" action="{{ route('properties.search') }}">
-		{{ csrf_field() }}
-
-		<span class="nav-item">
-			<div class="field has-addons">
-				<p class="control">
-					@component('partials.forms.input')
-						@slot('name')
-							search_term
-						@endslot
-						@slot('value')
-							{{ old('search_term') }}
-						@endslot
-						@slot('placeholder')
-							Search Properties
-						@endslot
-					@endcomponent
-				</p>	
-				<p class="control">
-					<button type="submit" class="button is-info">
-						Search
-					</button>
-				</p>
-			</div>
-		</span>
-
-	</form>
-@endsection
-
 @section('content')
 
 	@component('partials.sections.hero.container')
@@ -44,8 +14,26 @@
 
 	@component('partials.sections.section')
 
-		@include('properties.partials.table')
+		<div class="content">
 
+			<form role="form" method="POST" action="{{ route('properties.search') }}">
+				{{ csrf_field() }}
+
+				<div class="field is-grouped">
+					<p class="control is-expanded">
+						<input type="text" name="search_term" class="input" />
+					</p>
+					<p class="control">
+						@component('partials.forms.buttons.primary')
+							Search
+						@endcomponent
+					</p>
+				</div>
+			</form>
+
+		</div>
+
+		@include('properties.partials.table')
 	@endcomponent
 
 @endsection

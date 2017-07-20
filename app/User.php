@@ -11,7 +11,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
-    // use Searchable;
+    use Searchable;
     
     /**
      * Set the page limit for pagination.

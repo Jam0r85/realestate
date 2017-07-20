@@ -43,6 +43,7 @@
 				<label class="label" for="property_id">Property</label>
 				<p class="control is-expanded">
 					<select name="property_id" class="select2">
+						<option value="" disabled selected></option>
 						@foreach (properties() as $property)
 							<option value="{{ $property->id }}">{{ $property->name }}</option>
 						@endforeach
