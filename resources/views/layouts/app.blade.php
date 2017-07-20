@@ -36,9 +36,6 @@
 
                     @auth()
                         <div class="navbar-start">
-                            <a class="navbar-item" href="{{ url('/') }}">
-                                Home
-                            </a>
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="navbar-link is-active" href="#">
                                     Planner

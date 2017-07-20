@@ -227,6 +227,7 @@ class EloquentBaseRepository
      */
     public function search($search_term)
     {
+        request()->session()->flash('search_term', $search_term);        
         return $this->getInstance()->search($search_term)->get();
     }
 

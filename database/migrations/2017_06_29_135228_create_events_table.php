@@ -19,10 +19,10 @@ class CreateEventsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('title')->nullable();
             $table->text('body')->nullable();
-            $table->string('className')->nullable();
+            $table->string('class_name')->nullable();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
-            $table->boolean('allDay')->default(false);
+            $table->boolean('all_day')->default(false);
             $table->text('url')->nullable();
             $table->timestamps();
             $table->softDeletes();

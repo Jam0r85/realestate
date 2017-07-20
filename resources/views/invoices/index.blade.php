@@ -21,7 +21,7 @@
 
 				<div class="field is-grouped">
 					<p class="control is-expanded">
-						<input type="text" name="search_term" class="input" />
+						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
 					</p>
 					<p class="control">
 						@component('partials.forms.buttons.primary')

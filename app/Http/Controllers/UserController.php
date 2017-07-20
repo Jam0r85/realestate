@@ -40,6 +40,7 @@ class UserController extends BaseController
     {
         $users = $this->users->getAllPaged();
         $title = 'Users List';
+        
         return view('users.index', compact('users','title'));
     }
 
@@ -52,6 +53,7 @@ class UserController extends BaseController
     {
         $users = $this->users->getArchivedPaged();
         $title = 'Archived Users';
+
         return view('users.index', compact('users','title'));
     }
 
@@ -64,8 +66,9 @@ class UserController extends BaseController
     public function search(Request $request)
     {
         $users = $this->users->search($request->search_term);
-        $search_term = $request->search_term;
-        return view('users.index', compact('users','search_term'));
+        $title = 'Search Results';
+
+        return view('users.index', compact('users','title'));
     }
 
     /**
