@@ -12,6 +12,13 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     // use Searchable;
+    
+    /**
+     * Set the page limit for pagination.
+     * 
+     * @var integer
+     */
+    protected $perPage = 20;
 
     /**
      * The attrbites that should be included in the collection.
