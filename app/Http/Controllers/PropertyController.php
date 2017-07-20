@@ -127,17 +127,12 @@ class PropertyController extends Controller
      */
     public function select2(Request $request)
     {
-        $list = $this->properties->getAll()->pluck('name','id');
-        // if (!$request->search_term) {
-        //     $list = $this->properties->getAll()->pluck('name','id');
-        // } else {
-        //     $list = $this->properties->search('227')->pluck('name','id');
-        // }
+        $list = $this->properties->getAll();
 
-        foreach ($list as $key => $value) {
+        foreach ($list as $item) {
             $properties[] = [
-                'id' => $key,
-                'text' => $value
+                'id' => $item->id,
+                'text' => $item->name
             ];
         }
 
