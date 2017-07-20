@@ -42,14 +42,12 @@
 			<div class="field">
 				<label class="label" for="property_id">Property</label>
 				<p class="control is-expanded">
-					<span class="select is-fullwidth">
-						<select name="property_id">
-							<option value="">Please select..</option>
-							@foreach (properties() as $property)
-								<option value="{{ $property->id }}">{{ $property->name }}</option>
-							@endforeach
-						</select>
-					</span>
+					<select name="property_id" class="select2">
+						<option value="">Please select..</option>
+						@foreach (properties() as $property)
+							<option value="{{ $property->id }}">{{ $property->name }}</option>
+						@endforeach
+					</select>
 				</p>
 			</div>
 

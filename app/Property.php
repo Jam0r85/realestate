@@ -81,7 +81,14 @@ class Property extends BaseModel
 	 */
 	public function getNameAttribute()
 	{
-		return $this->short_name;
+		$name = $this->short_name;
+		$name .= $this->address2 ? ', ' . $this->address2 : null;
+		$name .= $this->address3 ? ', ' . $this->address3 : null;
+		$name .= $this->town ? ', ' . $this->town : null;
+		$name .= $this->county ? ', ' . $this->county : null;
+		$name .= $this->postcode ? ', ' . $this->postcode : null;
+
+		return $name;
 	}
 	
 	/**
