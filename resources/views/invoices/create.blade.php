@@ -42,9 +42,7 @@
 			<div class="field">
 				<label class="label" for="property_id">Property</label>
 				<p class="control is-expanded">
-					<select name="property_id" class="select2" id="property_dropdown">
-						<option value="">Please select..</option>
-					</select>
+					<select name="property_id" class="properties-list"></select>
 				</p>
 			</div>
 
@@ -76,27 +74,25 @@
 
 @push('footer_scripts')
 	<script>
-		$('#property_dropdown').select2({
+		$('.properties-list').select2({
 			placeholder: 'Search properties..',
+			minimumInputLength: '6',
 			ajax: {
 				dataType: 'json',
 				url: '{{ route('properties.select2') }}',
 				method: 'POST',
 				delay: 250,
-				data: function(params) {
+				data: function (params) {
 					return {
 						search_term: params.term
 					}
 				},
-				processResults: function (data, params) {
-					params.page == params.page || 1;
-
+				processResults: function (data) {
 					return {
-						results: data.items
+						results: data
 					}
 				}
 			}
-		})
-
+		});
 	</script>
 @endpush
