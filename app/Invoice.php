@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Invoice extends BaseModel
 {
     use SoftDeletes;
+    use Searchable;
 
     /**
      * The attrbites that should be included in the collection.

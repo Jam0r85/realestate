@@ -65,12 +65,11 @@ Route::prefix('invoice-groups')->group(function () {
 });
 
 Route::prefix('properties')->group(function () {
-	Route::get('select2', 'PropertyController@select2')->name('properties.select2');
 	Route::get('/', 'PropertyController@index')->name('properties.index');
 	Route::get('create', 'PropertyController@create')->name('properties.create');
 	Route::post('/', 'PropertyController@store')->name('properties.store');
 	Route::post('search', 'PropertyController@search')->name('properties.search');
-	Route::get('{id}', 'PropertyController@show')->name('properties.show');
+	Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
 });
 
 Route::prefix('users')->group(function () {

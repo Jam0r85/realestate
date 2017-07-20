@@ -37,6 +37,7 @@ class InvoiceController extends Controller
     {
         $invoices = $this->invoices->getAllPaged();
         $title = 'Invoices List';
+
         return view('invoices.index', compact('invoices','title'));
     }
 
@@ -49,6 +50,7 @@ class InvoiceController extends Controller
     {
         $invoices = $this->invoices->getUnpaidPaged();
         $title = 'Unpaid Invoices';
+
         return view('invoices.index', compact('invoices','title'));
     }
 
@@ -61,6 +63,21 @@ class InvoiceController extends Controller
     {
         $invoices = $this->invoices->getOverduePaged();
         $title = 'Overdue Invoices';
+
+        return view('invoices.index', compact('invoices','title'));
+    }
+
+    /**
+     * Search through the invoices and display the results.
+     * 
+     * @param  \Illuminate\Http|Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $invoices = $this->invoices->search($request->search_term);
+        $title = 'Search Results';
+
         return view('invoices.index', compact('invoices','title'));
     }
 

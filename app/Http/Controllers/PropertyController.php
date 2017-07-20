@@ -119,23 +119,4 @@ class PropertyController extends Controller
     {
         //
     }
-
-    /**
-     * Get the properties in a select2 format for a select drop down.
-     * 
-     * @return [type] [description]
-     */
-    public function select2(Request $request)
-    {
-        $list = $this->properties->getAll();
-
-        foreach ($list as $item) {
-            $properties[] = [
-                'id' => $item->id,
-                'text' => $item->name
-            ];
-        }
-
-        return json_encode($properties);
-    }
 }
