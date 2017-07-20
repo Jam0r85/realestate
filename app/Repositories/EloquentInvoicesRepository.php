@@ -60,17 +60,18 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 
 		// Set the access key
 		$data['key'] = str_random(15);
+		$data['terms'] = get_setting('invoice_default_terms');
 
 		// Set the next number
 		if (!isset($data['number'])) {
 			$data['number'] = $group->next_number;
-
-			// Increment the next number for the group
-			$group->increment('next_number');
 		}
 
 		// Create the invoice
 		$invoice = $this->create($data);
+
+		// Increment the group number
+		$group->increment('next_number');
 
 		// Add property owners if no users are present.
 		if (!isset($data['user_id'])) {
