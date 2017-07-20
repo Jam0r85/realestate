@@ -107,6 +107,27 @@ class Invoice extends BaseModel
     }
 
     /**
+     * Set the invoice's recipient.
+     * 
+     * @param string $value
+     */
+    public function setRecipientAttribute($value)
+    {
+        $this->attributes['recipient'] = $value ? encrypt($value) : null;
+    }
+
+    /**
+     * Get the invoice's recipient.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    public function getRecipientAttribute($value)
+    {
+        return $value ? decrypt($value) : $value;
+    }
+
+    /**
      * Get the invoice's total cost.
      * 
      * @return integer
