@@ -21,5 +21,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	.styles([
 		'node_modules/fullcalendar/dist/fullcalendar.min.css',
 		'node_modules/select2/dist/css/select2.min.css'
-	], 'public/css/all.css')
-	.version();
+	], 'public/css/all.css');

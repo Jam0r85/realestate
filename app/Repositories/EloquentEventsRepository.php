@@ -24,7 +24,7 @@ class EloquentEventsRepository extends EloquentBaseRepository
 	 */
 	public function feed($calendar_id = null)
 	{
-		$collection = $this->getInstance()->select('id','calendar_id','title','start','end','allDay');
+		$collection = $this->getInstance()->select('id','calendar_id','title','start','end','all_day');
 
 		if ($calendar_id) {
 			$collection->where('calendar_id', $calendar_id);
@@ -41,7 +41,7 @@ class EloquentEventsRepository extends EloquentBaseRepository
 	 */
 	public function feedTrashed($calendar_id = null)
 	{
-		$collection = $this->getInstance()->select('id','calendar_id','title','start','end','allDay');
+		$collection = $this->getInstance()->select('id','calendar_id','title','start','end','all_day');
 
 		if ($calendar_id) {
 			$collection->where('calendar_id', $calendar_id);
