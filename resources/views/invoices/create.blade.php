@@ -42,11 +42,8 @@
 			<div class="field">
 				<label class="label" for="property_id">Property</label>
 				<p class="control is-expanded">
-					<select name="property_id" class="select2">
+					<select name="property_id" class="select2" id="property_dropdown">
 						<option value="">Please select..</option>
-						@foreach (properties() as $property)
-							<option value="{{ $property->id }}">{{ $property->name }}</option>
-						@endforeach
 					</select>
 				</p>
 			</div>
@@ -76,3 +73,31 @@
 	</form>
 
 @endsection
+
+@push('footer_scripts')
+	<script>
+		$('#property_dropdown').select2({
+			placeholder: 'Search properties..',
+			ajax: {
+				dataType: 'json',
+				url: '{{ route('properties.select2') }}',
+				method: 'POST',
+				delay: 250,
+				data: function(params) {
+					return {
+						q: params.term,
+						term: params.term
+					}
+				},
+				processResults: function (data, params) {
+					params.page == params.page || 1,
+
+					return {
+						results: data.items
+					}
+				}
+			}
+		})
+
+	</script>
+@endpush

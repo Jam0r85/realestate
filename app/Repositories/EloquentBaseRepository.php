@@ -156,9 +156,15 @@ class EloquentBaseRepository
      *
      * @return mixed
      */
-    public function getAll()
+    public function getAll($columns = null)
     {
-        return $this->getInstance()->all();
+        $instance = $this->getInstance();
+
+        if ($columns) {
+            $instance = $instance->select($columns);
+        }
+
+        return $instance->get();
     }
 
     /**

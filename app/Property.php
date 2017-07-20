@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Property extends BaseModel
 {
 	use SoftDeletes;
+	use Searchable;
 
 	/**
 	 * The attrbites that should be included in the collection.
@@ -20,7 +22,7 @@ class Property extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['branch','owners','owner'];
+    protected $with = ['branch','owners'];
 
     /**
      * The attributes that are mass assignable.

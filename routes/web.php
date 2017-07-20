@@ -65,6 +65,7 @@ Route::prefix('invoice-groups')->group(function () {
 });
 
 Route::prefix('properties')->group(function () {
+	Route::post('select2', 'PropertyController@select2')->name('properties.select2');
 	Route::get('/', 'PropertyController@index')->name('properties.index');
 	Route::get('create', 'PropertyController@create')->name('properties.create');
 	Route::post('/', 'PropertyController@store')->name('properties.store');

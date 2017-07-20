@@ -105,4 +105,23 @@ class PropertyController extends Controller
     {
         //
     }
+
+    /**
+     * Get the properties in a select2 format for a select drop down.
+     * 
+     * @return [type] [description]
+     */
+    public function select2(Request $request)
+    {
+        $list = $this->properties->search($request->q)->get()->pluck('name','id');
+
+        foreach ($list as $key => $value) {
+            $properties[] = [
+                'id' => $key,
+                'value' => $value
+            ];
+        }
+
+        return ['items' => $properties];
+    }
 }

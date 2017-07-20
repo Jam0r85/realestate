@@ -2,8 +2,6 @@
 	@slot('head')
 		<th>Name</th>
 		<th>Owners</th>
-		<th>Recorded</th>
-		<th>Recorded By</th>
 	@endslot
 	@foreach ($properties as $property)
 		<tr>
@@ -17,8 +15,6 @@
 					</a>
 				@endforeach
 			</td>
-			<td>{{ $property->branch->name }}</td>
-			<td>{{ $property->owner->name }}</td>
 		</tr>
 	@endforeach
 @endcomponent
