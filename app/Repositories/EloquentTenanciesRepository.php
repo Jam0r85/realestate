@@ -40,7 +40,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function getWithRentBalance()
 	{
-		return $this->getInstance()->withRentBalance();
+		return $this->getInstance()->withRentBalance()->get();
 	}
 
 	/**

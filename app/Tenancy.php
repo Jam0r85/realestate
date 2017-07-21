@@ -52,7 +52,9 @@ class Tenancy extends BaseModel
      */
     public function scopeWithRentBalance($query)
     {
-        return $query->where('rent_balance', '>', 0);
+        return $query->whereHas('rent_payments', function ($query) {
+            $query->havingRaw('SUM(amount) > 0');
+        });
     }
 
 	/**
