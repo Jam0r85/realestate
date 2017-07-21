@@ -179,4 +179,36 @@ class Tenancy extends BaseModel
     {
         return ($this->rent_amount * $this->service->charge);
     }
+
+    /**
+     * Check whether the tenancy is managed or not.
+     * 
+     * @return boolean
+     */
+    public function isManaged()
+    {
+        if ($this->service->charge == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether this tenancy allows new statements.
+     * 
+     * @return boolean
+     */
+    public function canCreateStatement()
+    {
+        if ($this->rent_balance < $this->rent_amount) {
+            return false;
+        }
+
+        if (!$this->isManaged()) {
+            return false;
+        }
+
+        return true;
+    }
 }

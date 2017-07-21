@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Repositories\EloquentInvoicesRepository;
 use App\Repositories\EloquentPaymentsRepository;
+use App\Repositories\EloquentStatementsRepository;
 use App\Tenancy;
 
 class EloquentTenanciesRepository extends EloquentBaseRepository
@@ -20,7 +21,9 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
     /**
      * Create a new repository instance.
      * 
-     * @param   EloquentPaymentsRepository $payments
+     * @param   EloquentPaymentsRepository   $payments
+     * @param   EloquentStatementsRepository $statements
+     * @param   EloquentInvoicesRepository   $invoices
      * @return  void
      */
 	public function __construct(EloquentPaymentsRepository $payments, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices)
@@ -69,7 +72,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		$this->successMessage('The payment was recorded');
 
 		// Create a statement if the balance held is enough
-		if ($tenancy->rent_balance >= $tenancy->rent_amount) {
+		if ($tenancy->canCreateStatement()) {
 			$this->statements->createStatement(array_only($data, ['amount']), $tenancy);
 		}
 

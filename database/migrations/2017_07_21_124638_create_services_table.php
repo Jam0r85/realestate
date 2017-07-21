@@ -20,7 +20,7 @@ class CreateServicesTable extends Migration
             $table->decimal('charge', 12, 2);
             $table->decimal('letting_fee', 12, 2)->default(0);
             $table->decimal('re_letting_fee', 12, 2)->default(0);
-            $table->integer('tax_rate_id')->nullable();
+            $table->integer('tax_rate_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

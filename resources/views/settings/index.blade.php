@@ -25,6 +25,21 @@
 			</div>
 
 			<div class="field">
+				<label class="label" for="invoice_default_group">
+					Default Invoice Group
+				</label>
+				<p class="control is-expanded">
+					<span class="select is-fullwidth">
+						<select name="invoice_default_group">
+							@foreach (InvoiceGroups() as $group)
+								<option value="{{ $group->id }}">{{ $group->name }}</option>
+							@endforeach
+						</select>
+					</span>
+				</p>
+			</div>
+
+			<div class="field">
 				<label class="label" for="invoice_default_terms">
 					Default Invoice Terms
 				</label>

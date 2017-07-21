@@ -9,6 +9,22 @@ use Carbon\Carbon;
 class EloquentStatementsRepository extends EloquentBaseRepository
 {
 	/**
+	 * @var  App\Repositories\EloquentInvoicesRepository
+	 */
+	public $invoices;
+
+    /**
+     * Create a new repository instance.
+     * 
+     * @param   EloquentPaymentsRepository $payments
+     * @return  void
+     */
+	public function __construct(EloquentInvoicesRepository $invoices)
+	{
+		$this->invoices = $invoices;
+	}
+
+	/**
 	 * Get the class name.
 	 * 
 	 * @return string
@@ -51,7 +67,24 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
 		$statement = $this->create($data);
 
+		// Attach the property owners to the statement.
 		$statement->users()->attach($tenancy->property->owners);
+
+		// Create the service charge invoice should we need to.
+		if ($tenancy->service_charge_amount) {
+
+			$invoice = $this->invoices->createInvoice([
+				'property_id' => $tenancy->property_id
+			]);
+
+			$item = $this->invoices->createInvoiceItem([
+				'name' => $tenancy->service->name,
+				'description' => $tenancy->service->description,
+				'quantity' => 1,
+				'amount' => $tenancy->service_charge_amount,
+				'tax_rate_id' => $tenancy->service->tax_rate_id
+			], $invoice);
+		}
 
 		return $statement;
 	}

@@ -8,7 +8,7 @@
 			Settings
 		@endcomponent
 
-		@if ($invoice->paid_at || $invoice->total_balance <= 0 || $invoice->trashed())
+		@if ($invoice->paid_at || $invoice->trashed())
 
 			@component('partials.notifications.primary')
 				You cannot update the settings for this invoice as it's been paid or archived.

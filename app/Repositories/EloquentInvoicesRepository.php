@@ -64,10 +64,15 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function createInvoice(array $data)
 	{
-		// Get the invoice group
+		// Set the default group should none be supplied.
+		if (!isset($data['invoice_group_id'])) {
+			$data['invoice_group_id'] = get_setting('invoice_default_group');
+		}
+
+		// Find the group.
 		$group = InvoiceGroup::findOrFail($data['invoice_group_id']);
 
-		// Set the access key
+		// Build the data array.
 		$data['key'] = str_random(15);
 		$data['terms'] = get_setting('invoice_default_terms');
 

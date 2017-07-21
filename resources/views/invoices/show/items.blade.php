@@ -20,13 +20,18 @@
 				<th>Tax</th>
 				<th>Total</th>
 			@endslot
-			@foreach ($invoice->items as $item)
+			@foreach ($invoice->items as $invoice_item)
 				<tr>
-					<td><a href="#" @if (!$invoice->paid_at) class="modal-button" data-target="{{ route('invoices.edit-item', $item->id) }} @endif">{{ $item->name }}</a></td>
-					<td>{{ currency($item->amount) }}</td>
-					<td>{{ $item->quantity }}</td>
-					<td>{{ $item->taxRate ? $item->taxRate->name_formatted : null }}</td>
-					<td>{{ currency($item->total) }}</td>
+					<td>
+						<a href="#" @if (!$invoice->paid_at) class="modal-button" data-target="{{ route('invoices.edit-item', $invoice_item->id) }} @endif">
+							<b>{{ $invoice_item->name }}</b>
+						</a>
+						<br />{{ $invoice_item->description }}
+					</td>
+					<td>{{ currency($invoice_item->amount) }}</td>
+					<td>{{ $invoice_item->quantity }}</td>
+					<td>{{ $invoice_item->taxRate ? $invoice_item->taxRate->name_formatted : null }}</td>
+					<td>{{ currency($invoice_item->total) }}</td>
 				</tr>
 			@endforeach
 		@endcomponent

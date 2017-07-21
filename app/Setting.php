@@ -29,7 +29,8 @@ class Setting extends BaseModel
     {
     	return [
     		'company_name',
-            'invoice_default_terms'
+            'invoice_default_terms',
+            'invoice_default_group'
     	];
     }
 
