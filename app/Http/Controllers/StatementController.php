@@ -31,7 +31,7 @@ class StatementController extends Controller
      */
     public function index()
     {
-        $statements = $this->statements->getAllPaged('tenancy','tenancy.property','users');
+        $statements = $this->statements->getSentPaged();
         $title = 'Statements List';
 
         return view('statements.index', compact('statements','title'));
