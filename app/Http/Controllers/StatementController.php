@@ -51,6 +51,19 @@ class StatementController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $statements = $this->statements->search($request->search_term);
+        $title = 'Search Results';
+
+        return view('statements.index', compact('statements','title'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -77,9 +90,10 @@ class StatementController extends Controller
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function show(Statement $statement)
+    public function show($id, $section = 'dashboard')
     {
-        //
+        $statement = $this->statements->find($id);
+        return view('statements.show.' . $section, compact('statement'));
     }
 
     /**

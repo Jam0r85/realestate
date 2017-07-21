@@ -41,7 +41,7 @@ class Statement extends Model
 	 */
 	public function property()
 	{
-		return $this->belongsToThrough('App\Property', 'App\Tenancy');
+		return $this->tenancy->property;
 	}
 
 	/**
@@ -50,5 +50,25 @@ class Statement extends Model
     public function users()
     {
     	return $this->belongsToMany('App\User');
+    }
+
+    /**
+     * Get the statement name.
+     * 
+     * @return [type] [description]
+     */
+    public function getNameAttribute()
+    {
+    	return date_formatted($this->period_start) . ' - ' . date_formatted($this->period_end);
+    }
+
+    /**
+     * Get the statement's property.
+     * 
+     * @return \App\Property
+     */
+    public function getPropertyAttribute()
+    {
+    	return $this->property();
     }
 }
