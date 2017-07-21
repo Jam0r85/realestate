@@ -12,6 +12,9 @@
 			{{ $tenancy->name }}
 			<span class="tag is-light">
 				{{ $tenancy->service->name }} {{ $tenancy->service->charge_formatted }}
+				@if (count($tenancy->service_discounts))
+					({{ $tenancy->service_charge_formatted }} with discounts applied)
+				@endif
 			</span>
 		@endslot
 		@slot('subTitle')

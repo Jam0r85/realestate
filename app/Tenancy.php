@@ -17,7 +17,14 @@ class Tenancy extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','rent_amount','rent_balance','next_statement_start_date','service_charge_amount'];
+	protected $appends = [
+        'name',
+        'rent_amount',
+        'rent_balance',
+        'next_statement_start_date',
+        'service_charge_amount',
+        'service_charge_formatted'
+    ];
 
     /**
      * The relations that should be eager leader.
@@ -204,6 +211,20 @@ class Tenancy extends BaseModel
     protected function calculateServiceCharge()
     {
         return $this->service->charge - $this->service_discounts->sum('amount');
+    }
+
+    /**
+     * Get the tenancy's service charge formatted.
+     * 
+     * @return string
+     */
+    public function getServiceChargeFormattedAttribute()
+    {
+        if ($this->calculateServiceCharge() < 1) {
+            return ($this->calculateServiceCharge() * 100) . '%';
+        } else {
+            return currency($this->calculateServiceCharge());
+        }
     }
 
     /**
