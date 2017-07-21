@@ -24,7 +24,7 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['tenants'];
+    protected $with = ['tenants','rents','property','statements'];
 
        /**
      * The attributes that are mass assignable.
@@ -77,6 +77,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can have many rental statements.
+     */
+    public function statements()
+    {
+        return $this->hasMany('App\Statement');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string
@@ -103,6 +111,9 @@ class Tenancy extends BaseModel
      */
     public function getRentBalanceAttribute()
     {
-    	return $this->rent_payments ? $this->rent_payments->sum('amount') : 0;
+    	$payments = $this->rent_payments ? $this->rent_payments->sum('amount') : 0;
+        $statement_payments = $this->statements ? $this->statements->sum('amount') : 0;
+
+        return $payments - $statement_payments;
     }
 }
