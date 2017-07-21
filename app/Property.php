@@ -22,7 +22,7 @@ class Property extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['branch','owners'];
+    protected $with = [];
 
     /**
      * The attributes that are mass assignable.

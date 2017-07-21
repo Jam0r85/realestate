@@ -40,8 +40,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function getWithRentBalance()
 	{
-		$collection = $this->getInstance()->withRentBalance()->get();
-		return $collection->where('rent_balance', '>', 0);
+		return $this->getInstance()->withRentBalance()->get();
 	}
 
 	/**

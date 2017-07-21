@@ -24,7 +24,7 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['tenants','rents','property','statements'];
+    protected $with = [];
 
        /**
      * The attributes that are mass assignable.

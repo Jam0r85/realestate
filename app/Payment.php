@@ -11,7 +11,7 @@ class Payment extends Model
      * 
      * @var array
      */
-    protected $with = ['users','method'];
+    protected $with = [];
 
     /**
      * The attributes that are mass assignable.
