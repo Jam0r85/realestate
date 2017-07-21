@@ -16,14 +16,24 @@
 			@slot('head')
 				<th>Amount</th>
 				<th>Period</th>
-				<th></th>
+				<th>Status</th>
 				<th>User(s)</th>
 			@endslot
 			@foreach ($tenancy->statements as $statement)
 				<tr>
 					<td>{{ currency($statement->amount) }}</td>
 					<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
-					<td></td>
+					<td>
+						@if ($statement->sent_at)
+							Sent
+						@else
+							@if ($statement->paid_at)
+								Paid
+							@else
+								Unpaid
+							@endif
+						@endif
+					</td>
 					<td>
 						@foreach ($statement->users as $user)
 							<a href="{{ route('users.show', $user->id) }}">
