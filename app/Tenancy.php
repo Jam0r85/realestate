@@ -60,9 +60,12 @@ class Tenancy extends BaseModel
     	return $this->hasMany('App\TenancyRent')->latest('starts_at');
     }
 
+    /**
+     * A tenancy can have a current rent amount.
+     */
     public function current_rent()
     {
-        return $this->hasMany('App\TenancyRent')->where('starts_at', '<=', Carbon::now())->latest('starts_at')->first();
+        return $this->hasOne('App\TenancyRent')->where('starts_at', '<=', Carbon::now())->latest('starts_at');
     }
 
     /**
@@ -90,6 +93,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can have a last rental statement.
+     */
+    public function last_statement()
+    {
+        return $this->hasOne('App\Statement')->latest('period_start');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string
@@ -106,7 +117,7 @@ class Tenancy extends BaseModel
      */
     public function getRentAmountAttribute()
     {
-    	return $this->current_rent()->amount;
+    	return $this->current_rent->amount;
     }
 
     /**

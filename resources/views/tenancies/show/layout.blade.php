@@ -30,6 +30,36 @@
 						</p>
 					</div>
 				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Rent
+						</p>
+						<p class="title">
+							{{ currency($tenancy->rent_amount) }}
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Rent Held
+						</p>
+						<p class="title">
+							{{ currency($tenancy->rent_balance) }}
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Last Statement
+						</p>
+						<p class="title">
+							{{ date_formatted($tenancy->last_statement->period_end) }}
+						</p>
+					</div>
+				</div>
 			</nav>
 
 		</div>
