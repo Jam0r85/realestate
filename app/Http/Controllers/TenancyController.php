@@ -38,6 +38,20 @@ class TenancyController extends Controller
     }
 
     /**
+     * Search through the resource and display the results.
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function search(Request $request)
+    {
+        $tenancies = $this->tenancies->search($request->search_term);
+        $title = 'Search Results';
+
+        return view('tenancies.index', compact('tenancies','title'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
