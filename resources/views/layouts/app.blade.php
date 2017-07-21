@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="navbar-item has-dropdown is-hoverable">
-                                <a class="navbar-link is-active" href="#">
+                                <a class="navbar-link is-active" href="{{ route('tenancies.index') }}">
                                     Tenancies
                                 </a>
                                 <div class="navbar-dropdown">

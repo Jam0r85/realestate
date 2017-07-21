@@ -81,7 +81,6 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 			$invoice->users()->attach($data['user_id']);
 		}
 
-		// Return the invoice
 		return $invoice;
 	}
 
@@ -118,7 +117,6 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Flash a success message
 		$this->successMessage('The invoice item was created.');
 
-		// Return the invoice
 		return $invoice;
 	}
 
@@ -149,7 +147,6 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Flash a success message.
 		$this->successMessage('The payment was created');
 
-		// Return the invoice.
 		return $invoice;
 	}
 
