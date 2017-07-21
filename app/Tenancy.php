@@ -128,6 +128,22 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can belong to many discounts.
+     */
+    public function discounts()
+    {
+        return $this->belongsToMany('App\Discount')->withPivot('for');
+    }
+
+    /**
+     * A tenancy can have many service discounts applied to it.
+     */
+    public function service_discounts()
+    {
+        return $this->belongsToMany('App\Discount')->wherePivot('for', 'service');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string
@@ -177,7 +193,17 @@ class Tenancy extends BaseModel
      */
     public function getServiceChargeAmountAttribute()
     {
-        return ($this->rent_amount * $this->service->charge);
+        return ($this->rent_amount * $this->calculateServiceCharge());
+    }
+
+    /**
+     * Calculate tge service charge for this tenancy.
+     * 
+     * @return integer
+     */
+    protected function calculateServiceCharge()
+    {
+        return $this->service->charge - $this->service_discounts->sum('amount');
     }
 
     /**

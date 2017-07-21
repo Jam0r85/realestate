@@ -91,6 +91,9 @@
 							<a href="{{ route('tenancies.show', $tenancy->id) }}" class="{{ set_active(route('tenancies.show', $tenancy->id)) }}">
 								Dashboard
 							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'discounts']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'discounts'])) }}">
+								Discounts
+							</a>				
 						</li>
 					</ul>
 					<p class="menu-label">

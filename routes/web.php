@@ -79,6 +79,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 	Route::post('{id}/create-rent-payment', 'TenancyController@createRentPayment')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
+	Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 });
 
 Route::prefix('statements')->group(function () {

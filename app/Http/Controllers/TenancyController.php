@@ -154,6 +154,19 @@ class TenancyController extends Controller
     }
 
     /**
+     * Update the discounts for a tenancy.
+     * 
+     * @param  Request       $request
+     * @param  \App\Tenancy  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDiscounts(Request $request, $id)
+    {
+        $this->tenancies->updateDiscounts($request->discount_id, $id);
+        return back();
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Tenancy  $tenancy

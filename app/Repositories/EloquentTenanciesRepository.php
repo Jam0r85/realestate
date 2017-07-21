@@ -78,4 +78,26 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 
 		return $tenancy;
 	}
+
+	/**
+	 * Update the discounts in storage for a tenancy.
+	 * 
+	 * @param  array  $discounts [description]
+	 * @param  [type] $id        [description]
+	 * @return [type]            [description]
+	 */
+	public function updateDiscounts($discounts = [], $id)
+	{
+		$tenancy = $this->find($id);
+
+		if (!count($discounts)) {
+			$tenancy->discounts()->detach();
+		} else {
+			$tenancy->discounts()->attach($discounts, ['for' => 'service']);
+		}
+
+		$this->successMessage('The discounts were updated');
+
+		return $tenancy;
+	}
 }
