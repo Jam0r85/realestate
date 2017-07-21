@@ -85,6 +85,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can have a last rent payment.
+     */
+    public function last_rent_payment()
+    {
+        return $this->morphOne('App\Payment', 'parent')->latest();
+    }
+
+    /**
      * A tenancy can have many rental statements.
      */
     public function statements()

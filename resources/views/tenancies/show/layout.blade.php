@@ -53,6 +53,16 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">
+							Last Payment
+						</p>
+						<p class="title">
+							{{ date_formatted($tenancy->last_rent_payment->created_at) }}
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
 							Last Statement
 						</p>
 						<p class="title">
