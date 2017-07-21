@@ -44,6 +44,17 @@ class Tenancy extends BaseModel
      */
     protected $dates = ['vacated_on'];
 
+    /**
+     * Scope a query to only include tenancies with a rent balance.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeWithRentBalance($query)
+    {
+        return $query->where('rent_balance', '>', 0);
+    }
+
 	/**
 	 * A tenancy belongs to a single property.
 	 */

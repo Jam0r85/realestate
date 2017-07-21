@@ -92,8 +92,8 @@
                                     Tenancies
                                 </a>
                                 <div class="navbar-dropdown">
-                                    <a class="navbar-item" href="#">
-                                        Sub Item
+                                    <a class="navbar-item" href="{{ route('tenancies.with-rent-balance') }}">
+                                        With Rent Balance
                                     </a>
                                 </div>
                             </div>
