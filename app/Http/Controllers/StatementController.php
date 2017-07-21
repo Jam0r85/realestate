@@ -32,7 +32,20 @@ class StatementController extends Controller
     public function index()
     {
         $statements = $this->statements->getSentPaged();
-        $title = 'Statements List';
+        $title = 'Sent Statements List';
+
+        return view('statements.index', compact('statements','title'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unsent()
+    {
+        $statements = $this->statements->getUnsentPaged();
+        $title = 'Unsent Statements List';
 
         return view('statements.index', compact('statements','title'));
     }
