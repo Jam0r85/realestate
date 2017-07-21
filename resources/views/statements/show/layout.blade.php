@@ -30,16 +30,6 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">
-							Started
-						</p>
-						<p class="title">
-							
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
 							Amount
 						</p>
 						<p class="title">
@@ -53,7 +43,7 @@
 							Invoices Total
 						</p>
 						<p class="title">
-							
+							{{ currency($statement->invoice_total_amount) }}
 						</p>
 					</div>
 				</div>

@@ -91,6 +91,16 @@ class Statement extends Model
     }
 
     /**
+     * Get the statement's invoice total.
+     * 
+     * @return integer
+     */
+    public function getInvoiceTotalAmountAttribute()
+    {
+        return $this->invoice->total;
+    }
+
+    /**
      * Check whether a statement has an invoice.
      * 
      * @return boolean
