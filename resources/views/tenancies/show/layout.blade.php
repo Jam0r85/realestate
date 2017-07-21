@@ -48,9 +48,6 @@
 							<a href="{{ route('tenancies.show', $tenancy->id) }}" class="{{ set_active(route('tenancies.show', $tenancy->id)) }}">
 								Dashboard
 							</a>
-							<a href="{{ route('tenancies.show', [$tenancy->id, 'payments']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'payments'])) }}">
-								Payments History
-							</a>
 						</li>
 					</ul>
 					<p class="menu-label">
@@ -59,7 +56,17 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'statements'])) }}">
-								Statements History
+								Statements
+							</a>
+						</li>
+					</ul>
+					<p class="menu-label">
+						Rent Payments
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'payments']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'payments'])) }}">
+								Rent Payments
 							</a>
 						</li>
 					</ul>

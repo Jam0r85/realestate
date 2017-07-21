@@ -10,8 +10,17 @@ use Carbon\Carbon;
 
 class EloquentInvoicesRepository extends EloquentBaseRepository
 {
+	/**
+	 * @var  App\Repositories\EloquentPaymentsRepository
+	 */
 	public $payments;
 
+    /**
+     * Create a new repository instance.
+     * 
+     * @param   EloquentPaymentsRepository $payments
+     * @return  void
+     */
 	public function __construct(EloquentPaymentsRepository $payments)
 	{
 		$this->payments = $payments;
@@ -135,6 +144,7 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Create the payment
 		$payment = $this->payments->createPayment($data, $invoice);
 
+		// Grab a fresh copy of the invoice
 		$invoice->fresh();
 
         // Mark the invoice as paid when the balance is empty.

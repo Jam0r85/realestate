@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Repositories\EloquentTenanciesRepository;
 use Illuminate\Http\Request;
 
@@ -105,6 +106,19 @@ class TenancyController extends Controller
     public function update(Request $request, Tenancy $tenancy)
     {
         //
+    }
+
+    /**
+     * Store a new tenancy rent payment in storage.
+     * 
+     * @param  StoreTenancyRentPaymentRequest $request
+     * @param  \App\Tenancy                   $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
+    {
+        $this->tenancies->createRentPayment($request->input(), $id);
+        return back();
     }
 
     /**

@@ -21,11 +21,12 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 	 * 
 	 * @param  array  $data
 	 * @param  parent $parent
+	 * @param  string $payment_method
 	 * @return mixed
 	 */
-	public function createPayment(array $data, $parent)
+	public function createPayment(array $data, $parent, $payment_method = 'payments')
 	{
-		if (!method_exists($parent, 'payments')) {
+		if (!method_exists($parent, $payment_method)) {
 			return;
 		}
 
@@ -33,7 +34,7 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		$data['key'] = str_random(30);
 
 		// Create the payment
-		$payment = $parent->payments()->create($data);
+		$payment = $parent->$payment_method()->create($data);
 
 		// Attach users
 		if (isset($data['user_id'])) {

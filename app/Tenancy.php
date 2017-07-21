@@ -86,7 +86,7 @@ class Tenancy extends BaseModel
      */
     public function statements()
     {
-        return $this->hasMany('App\Statement');
+        return $this->hasMany('App\Statement')->latest('period_start');
     }
 
     /**

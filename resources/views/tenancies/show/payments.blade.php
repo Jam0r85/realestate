@@ -23,7 +23,7 @@
 				<tr>
 					<td>{{ currency($payment->amount) }}</td>
 					<td>{{ $payment->method->name }}</td>
-					<td>{{ date_formatted($payment->created_at) }}</td>
+					<td>{{ datetime_formatted($payment->created_at) }}</td>
 					<td>
 						@foreach ($payment->users as $user)
 							<a href="{{ route('users.show', $user->id) }}">
