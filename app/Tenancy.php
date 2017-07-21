@@ -73,7 +73,7 @@ class Tenancy extends BaseModel
      */
     public function rent_payments()
     {
-    	return $this->morphTo('App\Payment',' parent');
+    	return $this->morphMany('App\Payment', 'parent');
     }
 
     /**
