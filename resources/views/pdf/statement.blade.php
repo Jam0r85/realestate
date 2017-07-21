@@ -77,9 +77,9 @@
 							<td>
 								<b>{{ $item->name }}</b>
 								{!! $item->description ? '<br />' . $item->description : '' !!}
-								@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->managementFeeDiscounts())
+								@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
 									<br />
-									@foreach ($statement->tenancy->managementFeeDiscounts() as $discount)
+									@foreach ($statement->tenancy->service_discounts as $discount)
 										<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
 									@endforeach
 								@endif
