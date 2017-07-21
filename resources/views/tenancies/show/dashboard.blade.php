@@ -30,6 +30,31 @@
 				</div>
 
 			</div>
+			<div class="column is-6">
+
+				<div class="card">
+					<header class="card-header">
+						<p class="card-header-title">
+							Create Rental Statement
+						</p>
+					</header>
+					<div class="card-content">
+
+						<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
+							{{ csrf_field() }}
+
+							@include('tenancies.partials.statement-form')
+
+							@component('partials.forms.buttons.primary')
+								Create Statement
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
 		</div>
 
 	@endcomponent

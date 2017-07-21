@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Repositories\EloquentInvoicesRepository;
 use App\Repositories\EloquentPaymentsRepository;
 use App\Tenancy;
 
@@ -9,8 +10,12 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 {
 	/**
 	 * @var  App\Repositories\EloquentPaymentsRepository
+	 * @var  App\Repositories\EloquentStatementsRepository
+	 * @var  App\Repositories\EloquentInvoicesRepository
 	 */
 	public $payments;
+	public $statements;
+	public $invoices;
 
     /**
      * Create a new repository instance.
@@ -18,9 +23,11 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
      * @param   EloquentPaymentsRepository $payments
      * @return  void
      */
-	public function __construct(EloquentPaymentsRepository $payments)
+	public function __construct(EloquentPaymentsRepository $payments, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices)
 	{
 		$this->payments = $payments;
+		$this->statements = $statements;
+		$this->invoices = $invoices;
 	}
 
 	/**
@@ -40,7 +47,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function getWithRentBalance()
 	{
-		return $this->getInstance()->withRentBalance()->get();
+		return $this->getInstance()->withRentBalance()->get()->where('rent_balance', '>', 0);
 	}
 
 	/**
@@ -60,6 +67,11 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 
 		// Flash a success message.
 		$this->successMessage('The payment was recorded');
+
+		// Create a statement if the balance held is enough
+		if ($tenancy->rent_balance >= $tenancy->rent_amount) {
+			$this->statements->createStatement(array_only($data, ['amount']), $tenancy);
+		}
 
 		return $tenancy;
 	}

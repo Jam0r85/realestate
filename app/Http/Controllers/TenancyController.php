@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
+use App\Repositories\EloquentStatementsRepository;
 use App\Repositories\EloquentTenanciesRepository;
 use Illuminate\Http\Request;
 
@@ -10,8 +12,10 @@ class TenancyController extends Controller
 {
     /**
      * @var  App\Repositories\EloquentTenanciesRepository
+     * @var  App\Repositories\EloquentStatementsRepository
      */
     protected $tenancies;
+    protected $statements;
 
     /**
      * Create a new controller instance.
@@ -19,10 +23,12 @@ class TenancyController extends Controller
      * @param   EloquentTenanciesRepository $properties
      * @return  void
      */
-    public function __construct(EloquentTenanciesRepository $tenancies)
+    public function __construct(EloquentTenanciesRepository $tenancies, EloquentStatementsRepository $statements)
     {
         $this->middleware('auth');
+
         $this->tenancies = $tenancies;
+        $this->statements = $statements;
     }
 
     /**
@@ -131,6 +137,19 @@ class TenancyController extends Controller
     public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
     {
         $this->tenancies->createRentPayment($request->input(), $id);
+        return back();
+    }
+
+    /**
+     * Store a new tenancy rent payment in storage.
+     * 
+     * @param  StoreTenancyRentPaymentRequest $request
+     * @param  \App\Tenancy                   $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createRentalStatement(StoreStatementRequest $request, $id)
+    {
+        $this->statements->createStatement($request->input(), $id);
         return back();
     }
 

@@ -192,7 +192,7 @@ class EloquentBaseRepository
      *
      * @return mixed
      */
-    public function find($model = null)
+    public function find($model = null, $with = [])
     {
         if (is_null($model)) {
             return null;
@@ -204,6 +204,10 @@ class EloquentBaseRepository
 
         $instance = $this->getInstance();
         $instance = $this->hasSoftDeletes($instance);
+
+        if (count($with)) {
+            $instance = $instance->with($with);
+        }
 
         return $instance->findOrFail($model);
     }

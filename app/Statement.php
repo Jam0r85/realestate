@@ -13,6 +13,21 @@ class Statement extends Model
      */
     protected $dates = ['period_start','period_end','paid_at','sent_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+	protected $fillable = [
+		'tenancy_id',
+		'key',
+		'period_start',
+		'period_end',
+		'amount',
+		'paid_at',
+		'sent_at'
+	];
+
 	/**
 	 * A statement can belong to a tenancy.
 	 */

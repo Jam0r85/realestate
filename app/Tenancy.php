@@ -17,7 +17,7 @@ class Tenancy extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','rent_amount','rent_balance'];
+	protected $appends = ['name','rent_amount','rent_balance','next_statement_start_date'];
 
     /**
      * The relations that should be eager leader.
@@ -26,7 +26,7 @@ class Tenancy extends BaseModel
      */
     protected $with = [];
 
-       /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -150,5 +150,15 @@ class Tenancy extends BaseModel
         $statement_payments = $this->statements ? $this->statements->sum('amount') : 0;
 
         return $payments - $statement_payments;
+    }
+
+    /**
+     * Get the tenancy's next statement start date.
+     * 
+     * @return Carbon\Carbon
+     */
+    public function getNextStatementStartDateAttribute()
+    {
+        return $this->last_statement ? $this->last_statement->period_end->addDay() : Carbon::now();
     }
 }
