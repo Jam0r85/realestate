@@ -120,6 +120,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can belong to a service.
+     */
+    public function service()
+    {
+        return $this->belongsTo('App\Service');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string

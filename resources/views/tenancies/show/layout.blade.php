@@ -10,6 +10,9 @@
 	@component('partials.sections.hero.container')
 		@slot('title')
 			{{ $tenancy->name }}
+			<span class="tag is-dark">
+				{{ $tenancy->service->name }}
+			</span>
 		@endslot
 		@slot('subTitle')
 			{{ $tenancy->property->name }}
