@@ -22,7 +22,7 @@
 			@foreach ($tenancy->statements as $statement)
 				<tr>
 					<td>{{ currency($statement->amount) }}</td>
-					<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_from) }} - {{ date_formatted($statement->period_to) }}</a></td>
+					<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 					<td></td>
 					<td>
 						@foreach ($statement->users as $user)

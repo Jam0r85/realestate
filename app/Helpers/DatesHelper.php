@@ -2,7 +2,7 @@
 
 function date_formatted($date)
 {
-	if (!$date) {
+	if (empty($date)) {
 		return null;
 	}
 

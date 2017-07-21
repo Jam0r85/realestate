@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Statement extends Model
 {
+    /**
+     * The attributes that should be mutated to dates.
+     * 
+     * @var array
+     */
+    protected $dates = ['period_start','period_end','paid_at','sent_at'];
+
 	/**
 	 * A statement can belong to a tenancy.
 	 */
