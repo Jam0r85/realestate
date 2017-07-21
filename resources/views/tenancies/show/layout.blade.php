@@ -49,7 +49,17 @@
 								Dashboard
 							</a>
 							<a href="{{ route('tenancies.show', [$tenancy->id, 'payments']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'payments'])) }}">
-								Payments
+								Payments History
+							</a>
+						</li>
+					</ul>
+					<p class="menu-label">
+						Statements
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'statements'])) }}">
+								Statements History
 							</a>
 						</li>
 					</ul>

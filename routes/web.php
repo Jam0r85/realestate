@@ -78,6 +78,10 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 });
 
+Route::prefix('statements')->group(function () {
+	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
+});
+
 Route::prefix('users')->group(function () {
 	Route::get('/', 'UserController@index')->name('users.index');
 	Route::get('archived', 'UserController@archived')->name('users.archived');
