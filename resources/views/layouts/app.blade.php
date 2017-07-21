@@ -95,6 +95,20 @@
                                     <a class="navbar-item" href="{{ route('tenancies.with-rent-balance') }}">
                                         With Rent Balance
                                     </a>
+                                    <hr class="navbar-divider" />
+                                    <div class="navbar-header">
+                                        Statements
+                                    </div>
+                                    <a class="navbar-item" href="{{ route('statements.index') }}">
+                                        Sent Statements
+                                    </a>
+                                    <a class="navbar-item" href="{{ route('statements.unsent') }}">
+                                        Unsent Statements
+                                    </a>
+                                    <hr class="navbar-divider" />
+                                    <div class="navbar-header">
+                                        Services
+                                    </div>
                                 </div>
                             </div>
                             <div class="navbar-item has-dropdown is-hoverable">

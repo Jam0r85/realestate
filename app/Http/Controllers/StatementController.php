@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Statement;
+use App\Repositories\EloquentStatementsRepository;
 use Illuminate\Http\Request;
 
 class StatementController extends Controller
 {
+    /**
+     * @var  App\Repositories\EloquentStatementsRepository
+     */
+    protected $statements;
+
+    /**
+     * Create a new controller instance.
+     * 
+     * @param   EloquentStatementsRepository $statements
+     * @return  void
+     */
+    public function __construct(EloquentStatementsRepository $statements)
+    {
+        $this->middleware('auth');
+        $this->statements = $statements;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +31,10 @@ class StatementController extends Controller
      */
     public function index()
     {
-        //
+        $statements = $this->statements->getAllPaged('tenancy','tenancy.property','users');
+        $title = 'Statements List';
+
+        return view('statements.index', compact('statements','title'));
     }
 
     /**
