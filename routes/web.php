@@ -75,6 +75,7 @@ Route::prefix('properties')->group(function () {
 Route::prefix('tenancies')->group(function () {
 	Route::get('/', 'TenancyController@index')->name('tenancies.index');
 	Route::post('search', 'TenancyController@search')->name('tenancies.search');
+	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 });
 
 Route::prefix('users')->group(function () {

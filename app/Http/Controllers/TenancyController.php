@@ -64,9 +64,10 @@ class TenancyController extends Controller
      * @param  \App\Tenancy  $tenancy
      * @return \Illuminate\Http\Response
      */
-    public function show(Tenancy $tenancy)
+    public function show($id, $section = 'dashboard')
     {
-        //
+        $tenancy = $this->tenancies->find($id);
+        return view('tenancies.show.' . $section, compact('tenancy'));
     }
 
     /**
