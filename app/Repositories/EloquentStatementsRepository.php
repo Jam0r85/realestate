@@ -104,6 +104,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 				'amount' => $tenancy->service_charge_amount,
 				'tax_rate_id' => $tenancy->service->tax_rate_id
 			], $invoice);
+
+			$statement->invoices()->attach($invoice);
 		}
 
 		return $statement;

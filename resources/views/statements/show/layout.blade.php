@@ -37,6 +37,46 @@
 						</p>
 					</div>
 				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Amount
+						</p>
+						<p class="title">
+							{{ currency($statement->amount) }}
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Invoices Total
+						</p>
+						<p class="title">
+							
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Expenses Total
+						</p>
+						<p class="title">
+							
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Landlord Balance
+						</p>
+						<p class="title">
+							
+						</p>
+					</div>
+				</div>
 			</nav>
 
 		</div>

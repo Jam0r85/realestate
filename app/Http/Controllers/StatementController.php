@@ -90,7 +90,7 @@ class StatementController extends Controller
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'dashboard')
+    public function show($id, $section = 'items')
     {
         $statement = $this->statements->find($id);
         return view('statements.show.' . $section, compact('statement'));

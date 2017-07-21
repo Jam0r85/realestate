@@ -53,6 +53,14 @@ class Statement extends Model
     }
 
     /**
+     * A statement can belong to many invoices.
+     */
+    public function invoices()
+    {
+        return $this->belongsToMany('App\Invoice');
+    }
+
+    /**
      * Get the statement name.
      * 
      * @return [type] [description]
@@ -70,5 +78,25 @@ class Statement extends Model
     public function getPropertyAttribute()
     {
     	return $this->property();
+    }
+
+    /**
+     * Get the statement's invoice.
+     * 
+     * @return \App\Invoice
+     */
+    public function getInvoiceAttribute()
+    {
+        return $this->invoices()->first();
+    }
+
+    /**
+     * Check whether a statement has an invoice.
+     * 
+     * @return boolean
+     */
+    public function hasInvoice()
+    {
+        return (boolean) $this->invoices()->first();
     }
 }

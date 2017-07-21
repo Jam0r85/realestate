@@ -12,29 +12,7 @@
 			Current Items
 		@endcomponent
 
-		@component('partials.table')
-			@slot('head')
-				<th>Name</th>
-				<th>Amount</th>
-				<th>Quantity</th>
-				<th>Tax</th>
-				<th>Total</th>
-			@endslot
-			@foreach ($invoice->items as $invoice_item)
-				<tr>
-					<td>
-						<a href="#" @if (!$invoice->paid_at) class="modal-button" data-target="{{ route('invoices.edit-item', $invoice_item->id) }} @endif">
-							<b>{{ $invoice_item->name }}</b>
-						</a>
-						<br />{{ $invoice_item->description }}
-					</td>
-					<td>{{ currency($invoice_item->amount) }}</td>
-					<td>{{ $invoice_item->quantity }}</td>
-					<td>{{ $invoice_item->taxRate ? $invoice_item->taxRate->name_formatted : null }}</td>
-					<td>{{ currency($invoice_item->total) }}</td>
-				</tr>
-			@endforeach
-		@endcomponent
+		@include('invoices.partials.item-table', ['items' => $invoice->items])
 
 	@endcomponent
 
