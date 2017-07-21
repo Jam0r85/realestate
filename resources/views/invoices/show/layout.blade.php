@@ -120,6 +120,18 @@
 							</a>
 						</li>
 					</ul>
+					@if ($invoice->hasStatement())
+						<p class="menu-label">
+							Statement
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="{{ route('statements.show', $invoice->statement->id) }}">
+									Statement #{{ $invoice->statement->id }}
+								</a>
+							</li>
+						</ul>
+					@endif
 					<p class="menu-label">
 						Actions
 					</p>

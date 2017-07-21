@@ -128,6 +128,10 @@ Route::prefix('roles')->group(function () {
 	Route::put('{id}', 'RoleController@update')->name('roles.update');
 });
 
+Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloads.invoice');
+Route::get('download/statement/{id}', 'DownloadController@statement')->name('downloads.statement');
+Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloads.payment');
+
 Route::get('emails', 'EmailController@index')->name('emails.index');
 Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
 

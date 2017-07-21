@@ -101,6 +101,16 @@ class Statement extends Model
     }
 
     /**
+     * Get the recipient of the rental statement.
+     * 
+     * @return string
+     */
+    public function getRecipientAttribute()
+    {
+        return 'Hello';
+    }
+
+    /**
      * Check whether a statement has an invoice.
      * 
      * @return boolean

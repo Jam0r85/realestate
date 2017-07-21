@@ -109,6 +109,14 @@ class Invoice extends BaseModel
     }
 
     /**
+     * An invoice can belong to a statement.
+     */
+    public function statements()
+    {
+        return $this->belongsToMany('App\Statement');
+    }
+
+    /**
      * Set the invoice's recipient.
      * 
      * @param string $value
@@ -177,5 +185,25 @@ class Invoice extends BaseModel
     public function getTotalBalanceAttribute()
     {
         return $this->total - $this->total_payments;
+    }
+
+    /**
+     * Get the invoice's statement.
+     * 
+     * @return \App\Invoice
+     */
+    public function getStatementAttribute()
+    {
+        return $this->statements()->first();
+    }
+
+    /**
+     * Check wherther this invoice belongs to a statement.
+     * 
+     * @return boolean
+     */
+    public function hasStatement()
+    {
+        return (boolean) $this->statements()->first();
     }
 }

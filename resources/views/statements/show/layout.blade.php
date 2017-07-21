@@ -2,6 +2,8 @@
 
 @section('breadcrumbs')
 	<li><a href="{{ route('statements.index') }}">Statements</a></li>
+	<li><a href="{{ route('properties.show', $statement->property->id) }}">{{ $statement->property->short_name }}</a></li>
+	<li><a href="{{ route('tenancies.show', $statement->tenancy_id) }}">{{ $statement->tenancy->name }}</a></li>
 	<li class="is-active"><a>{{ $statement->name }}</a></li>
 @endsection
 
@@ -84,7 +86,23 @@
 						<li>
 							<a href="{{ route('statements.show', $statement->id) }}" class="{{ set_active(route('statements.show', $statement->id)) }}">
 								Dashboard
+							</a>
+							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
+								Download
 							</a>			
+						</li>
+					</ul>
+					<p class="menu-label">
+						Invoice
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+								Invoice #{{ $statement->invoice->number }}
+							</a>
+							<a href="{{ route('downloads.invoice', $statement->invoice->id) }}" target="_blank">
+								Download
+							</a>	
 						</li>
 					</ul>
 				</aside>

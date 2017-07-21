@@ -1,0 +1,140 @@
+@include('pdf._header')
+
+	<section class="section has-header">
+		<div class="container">
+			<div class="heading has-text-right">
+
+				@if (get_setting('company_logo'))	
+					<img src="{{ Storage::url(get_setting('company_logo')) }}" class="header-image" />
+				@else
+					<h1>{{ get_setting('company_name') }}</h1>
+				@endif 
+
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="recipient">
+				<p>{{ implode(' & ', $statement->users->pluck('name')->toArray()) }}</p>
+				<p>{!! $statement->recipient !!}</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<h1 class="title">
+				Rental Statement
+			</h1>
+			<h2 class="subtitle">
+				{{ date_formatted($statement->created_at) }}
+			</h2>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+
+			<ul class="list-unstyled">
+				<li><strong>Rental Period:</strong> {{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</li>
+				<li><strong>Property:</strong> {{ $statement->property->name }}</li>
+				<li><strong>{{ str_plural('Tenant', count($statement->tenancy->users)) }}:</strong> {{ $statement->tenancy->name }}</li>
+			</ul>
+
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+
+			<table class="table is-striped is-bordered">
+				<thead>
+					<tr>
+						<th>Rent Received</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ currency($statement->amount) }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="table is-striped is-bordered">
+				<thead>
+					<tr>
+						<th>Deductions</th>
+						<th class="">Net</th>
+						<th class="">Vat</th>
+						<th class="">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($statement->invoice->items as $item)
+						<tr>
+							<td>
+								<b>{{ $item->name }}</b>
+								{!! $item->description ? '<br />' . $item->description : '' !!}
+								@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->managementFeeDiscounts())
+									<br />
+									@foreach ($statement->tenancy->managementFeeDiscounts() as $discount)
+										<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
+									@endforeach
+								@endif
+							</td>
+							<td class="">{{ currency($item->total_net) }}</td>
+							<td class="">{{ currency($item->total_tax) }}</td>
+							<td class="">{{ currency($item->total) }}</td>
+						</tr>
+					@endforeach
+					@if ($statement->expenses)
+						@foreach ($statement->expenses as $expense)
+							<tr>
+								<td>
+									{{ $expense->name }}
+									<br />
+									{{ implode(', ', $expense->users->pluck('name')->toArray()) }}
+								</td>
+								<td class="">{{ currency($expense->pivot->amount) }}</td>
+								<td></td>
+								<td class="">{{ currency($expense->pivot->amount) }}</td>
+							</tr>
+						@endforeach
+					@endif
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>Sub Totals</th>
+						<th class="">{{ currency($statement->net) }}</th>
+						<th class="">{{ currency($statement->tax) }}</th>
+						<th class="">{{ currency($statement->total) }}</th>
+					</tr>
+				</tfoot>
+			</table>
+
+			<div class="has-text-right">
+				<p><b>{{ currency($statement->landlordBalance) }}</b> balance to landlord</p>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			@if ($statement->bankAccount)
+				<p>Payment by Bank Transfer</p>
+			@else
+				<p>Cheque or Cash</p>
+			@endif
+		</div>
+	</section>
+
+	{{-- Attach the Invoice --}}
+	@if ($statement->invoice)
+		<div class="page-break"></div>
+		@include('pdf.invoice', ['invoice' => $statement->invoice])
+	@endif
+
+@include('pdf._footer')
