@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Invoice;
+use App\Property;
+use App\Tenancy;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Relation::morphMap([
+            Tenancy::class,
+            Property::class,
+            Invoice::class
+        ]);
     }
 
     /**
