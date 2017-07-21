@@ -4,6 +4,7 @@
 		<th>Property</th>
 		<th>Rent</th>
 		<th>Balance</th>
+		<th>Service</th>
 	@endslot
 	@foreach ($tenancies as $tenancy)
 		<tr>
@@ -11,6 +12,7 @@
 			<td>{{ $tenancy->property->short_name }}</td>
 			<td>{{ currency($tenancy->rent_amount) }}</td>
 			<td>{{ currency($tenancy->rent_balance) }}</td>
+			<td>{{ $tenancy->service->name }}</td>
 		</tr>
 	@endforeach
 @endcomponent

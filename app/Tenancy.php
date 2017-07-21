@@ -17,7 +17,7 @@ class Tenancy extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','rent_amount','rent_balance','next_statement_start_date'];
+	protected $appends = ['name','rent_amount','rent_balance','next_statement_start_date','service_charge_amount'];
 
     /**
      * The relations that should be eager leader.
@@ -168,5 +168,15 @@ class Tenancy extends BaseModel
     public function getNextStatementStartDateAttribute()
     {
         return $this->last_statement ? $this->last_statement->period_end->addDay() : Carbon::now();
+    }
+
+    /**
+     * Get the tenancy's service charge.
+     * 
+     * @return integer
+     */
+    public function getServiceChargeAmountAttribute()
+    {
+        return ($this->rent_amount * $this->service->charge);
     }
 }

@@ -17,7 +17,7 @@ class CreateServicesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('service_charge', 12, 2);
+            $table->decimal('charge', 12, 2);
             $table->decimal('letting_fee', 12, 2)->default(0);
             $table->decimal('re_letting_fee', 12, 2)->default(0);
             $table->integer('tax_rate_id')->nullable();

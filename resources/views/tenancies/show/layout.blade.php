@@ -10,8 +10,8 @@
 	@component('partials.sections.hero.container')
 		@slot('title')
 			{{ $tenancy->name }}
-			<span class="tag is-dark">
-				{{ $tenancy->service->name }}
+			<span class="tag is-light">
+				{{ $tenancy->service->name }} {{ $tenancy->service->charge_formatted }}
 			</span>
 		@endslot
 		@slot('subTitle')

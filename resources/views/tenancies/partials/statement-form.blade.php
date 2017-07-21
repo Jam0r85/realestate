@@ -18,3 +18,11 @@
 		<input type="date" name="period_end" class="input" value="{{ old('period_end') }}" />
 	</p>
 </div>
+
+<div class="field">
+	<label class="label">Service Charge</label>
+	<label class="checkbox">
+		<input type="checkbox" name="service_charge" value="true" />
+		Do not create service charge invoice?
+	</label>
+</div>
