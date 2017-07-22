@@ -61,6 +61,14 @@ class Statement extends Model
     }
 
     /**
+     * A statement can have many payments out to landlords, contractors, etc.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\StatementPayment');
+    }
+
+    /**
      * Get the statement name.
      * 
      * @return [type] [description]

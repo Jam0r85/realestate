@@ -6,11 +6,11 @@
 			<th>Property</th>
 		@endif
 		<th>Total</th>
+		<th>Status</th>
+		<th>Invoice</th>
 		@if (isset($users))
 			<th>Users</th>
 		@endif
-		<th>Status</th>
-		<th>Invoice</th>
 	@endslot
 	@foreach ($invoices as $invoice)
 		<tr>
@@ -20,6 +20,16 @@
 				<td>{{ $invoice->property->short_name }}</td>
 			@endif
 			<td>{{ currency($invoice->total) }}</td>
+			<td>
+				@if ($invoice->paid_at || count($invoice->items) > 0 && $invoice->total_balance <= 0)
+					Paid
+				@endif
+			</td>
+			<td>
+				<a href="{{ route('downloads.invoice', $invoice->id) }}" target="_blank">
+					Download
+				</a>
+			</td>
 			@if (isset($users))
 				<td>
 					@foreach ($invoice->users as $user)
@@ -31,16 +41,6 @@
 					@endforeach
 				</td>
 			@endif
-			<td>
-				@if ($invoice->paid_at || count($invoice->items) > 0 && $invoice->total_balance <= 0)
-					Paid
-				@endif
-			</td>
-			<td>
-				<a href="#">
-					Download
-				</a>
-			</td>
 		</tr>
 	@endforeach
 @endcomponent

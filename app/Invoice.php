@@ -117,6 +117,14 @@ class Invoice extends BaseModel
     }
 
     /**
+     * An invoice can have many statement payments.
+     */
+    public function statement_payments()
+    {
+        return $this->morphMany('App\StatementPayment', 'parent');
+    }
+
+    /**
      * Set the invoice's recipient.
      * 
      * @param string $value

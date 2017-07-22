@@ -133,6 +133,18 @@ class StatementController extends Controller
         return back();
     }
 
+   /**
+    * Create the statement payments.
+    * 
+    * @param  [type]           $id      [description]
+    * @return [type]                    [description]
+    */
+    public function createPayments($id)
+    {
+        $this->statements->createPayments($id);
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

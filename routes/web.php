@@ -91,6 +91,7 @@ Route::prefix('statements')->group(function () {
 	Route::post('search', 'StatementController@search')->name('statements.search');
 	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
+	Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 });
 
 Route::prefix('users')->group(function () {

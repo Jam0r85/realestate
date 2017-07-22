@@ -99,6 +99,16 @@
 						</li>
 					</ul>
 					<p class="menu-label">
+						Payments
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('statements.show', [$statement->id, 'payments']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'payments'])) }}">
+								Payments List
+							</a>
+						</li>
+					</ul>
+					<p class="menu-label">
 						Invoice
 					</p>
 					@if ($statement->hasInvoice())
