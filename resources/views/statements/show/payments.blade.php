@@ -39,7 +39,7 @@
 			{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
 		@endcomponent
 
-		@if ($statement->paid_at)
+		@if ($statement->paid_at || $statement->sent_at)
 
 			@component('partials.notifications.primary')
 				This statement has been paid in full. You cannot re-generate the payments.

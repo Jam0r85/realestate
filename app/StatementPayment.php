@@ -66,14 +66,17 @@ class StatementPayment extends BaseModel
      */
     public function getNameFormattedAttribute()
     {
+        // Set the invoice name.
         if ($this->parent_type == 'invoices') {
-            return 'Invoice Payment';
+            return 'Invoice ' . $this->parent->number . ' Payment';
         }
 
+        // Set the expense name.
         if ($this->parent_type == 'expenses') {
             return 'Expense Payment';
         }
 
+        // Return the generic name of Landlord when no parent is supplied.
         return 'Landlord Payment';
     }
 
@@ -84,10 +87,12 @@ class StatementPayment extends BaseModel
      */
     public function getMethodFormattedAttribute()
     {
+        // We have a bank account, return the basic details.
         if ($this->bank_account) {
             return 'Bank';
         }
 
+        // No bank account provided, just return Cash or Cheque.
         return 'Cash or Cheque';
     }
 }

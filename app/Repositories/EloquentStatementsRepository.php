@@ -179,4 +179,60 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         return $statement;
     }
+
+    /**
+     * Toggle a statement as being paid or unpaid.
+     * 
+     * @param  \App\Statement $id
+     * @return \App\Statement
+     */
+    public function togglePaid($id)
+    {
+        // Find the statement.
+        $statement = $this->find($id);
+
+        // Mark the statement as either being paid or not.
+        if ($statement->paid_at) {
+            $data['paid_at'] = NULL;
+            $message = 'Unpaid';
+        } else {
+            $data['paid_at'] = Carbon::now();
+            $message = 'Paid';
+        }
+
+        // Update the statement.
+        $this->update($data, $id);
+
+        $this->successMessage('Statement was marked as ' . $message);
+
+        return $statement;
+    }
+
+    /**
+     * Toggle a statement as being paid or unpaid.
+     * 
+     * @param  \App\Statement $id
+     * @return \App\Statement
+     */
+    public function toggleSent($id)
+    {
+        // Find the statement.
+        $statement = $this->find($id);
+
+        // Mark the statement as either being sent or not.
+        if ($statement->sent_at) {
+            $data['sent_at'] = NULL;
+            $message = 'Unsent';
+        } else {
+            $data['sent_at'] = Carbon::now();
+            $message = 'Sent';
+        }
+
+        // Update the statement.
+        $this->update($data, $id);
+
+        $this->successMessage('Statement was marked as ' . $message);
+
+        return $statement;
+    }
 }

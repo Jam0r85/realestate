@@ -95,9 +95,15 @@
 									Create Expense Item
 								</a>
 							@endif
+							<a href="{{ route('statements.show', [$statement->id, 'send']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'send'])) }}">
+								Send to Owner
+							</a>
 							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
 								Download
-							</a>			
+							</a>
+							<a href="{{ route('statements.show', [$statement->id, 'settings']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'settings'])) }}">
+								Settings
+							</a>		
 						</li>
 					</ul>
 					<p class="menu-label">

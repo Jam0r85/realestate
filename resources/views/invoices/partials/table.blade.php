@@ -23,6 +23,10 @@
 			<td>
 				@if ($invoice->paid_at || count($invoice->items) > 0 && $invoice->total_balance <= 0)
 					Paid
+				@elseif (!count($invoice->items))
+					No Items
+				@else
+					Unpaid
 				@endif
 			</td>
 			<td>

@@ -137,4 +137,14 @@ class Statement extends Model
     {
         return (boolean) $this->invoices()->first();
     }
+
+    /**
+     * Check whether a statement has unsent payments.
+     * 
+     * @return boolean
+     */
+    public function hasUnsentPayments()
+    {
+        return (boolean) $this->payments()->whereNull('sent_at')->get();
+    }
 }

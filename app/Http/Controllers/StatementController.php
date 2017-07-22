@@ -120,6 +120,30 @@ class StatementController extends Controller
         //
     }
 
+    /**
+     * Toggle a statement as being paid or unpaid.
+     * 
+     * @param  \App\Repositories\EloquentStatementsRepository $id
+     * @return Illuminate\Http\Response
+     */
+    public function togglePaid($id)
+    {
+        $this->statements->togglePaid($id);
+        return back();
+    }
+
+    /**
+     * Toggle a statement as being sent or unsent.
+     * 
+     * @param  \App\Repositories\EloquentStatementsRepository $id
+     * @return Illuminate\Http\Response
+     */
+    public function toggleSent($id)
+    {
+        $this->statements->toggleSent($id);
+        return back();
+    }
+
    /**
     * Store a new invoice item for this rental statement.
     * 
