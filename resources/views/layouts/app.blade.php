@@ -107,7 +107,7 @@
                                         Sent Statements
                                     </a>
                                     <a class="navbar-item" href="{{ route('statements.unsent') }}">
-                                        Unsent Statements
+                                        Unsent or Unpaid Statements
                                     </a>
                                     <hr class="navbar-divider" />
                                     <div class="navbar-header">

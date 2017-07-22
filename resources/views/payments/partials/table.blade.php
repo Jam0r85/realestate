@@ -1,6 +1,8 @@
 @component('partials.table')
 	@slot('head')
-		<th>Tenancy</th>
+		@if (isset($show_tenancy))
+			<th>Tenancy</th>
+		@endif
 		<th>Amount</th>
 		<th>Method</th>
 		<th>When</th>
@@ -9,16 +11,20 @@
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
-			<td>{{ $payment->parent->name }}</td>
+			@if (isset($show_tenancy))
+				<td>{{ $payment->parent->name }}</td>
+			@endif
 			<td>{{ currency($payment->amount) }}</td>
 			<td>{{ $payment->method->name }}</td>
 			<td>{{ date_formatted($payment->created_at) }}</td>
-			<td>View</td>
+			<td><a href="{{ route('downloads.payment', $payment->id) }}" target="_blank">View</a></td>
 			<td>
 				@foreach ($payment->users as $user)
-					<span class="tag is-primary">
-						{{ $user->name }}
-					</span>
+					<a href="{{ route('users.show', $user->id) }}">
+						<span class="tag is-primary">
+							{{ $user->name }}
+						</span>
+					</a>
 				@endforeach
 			</td>
 		</tr>

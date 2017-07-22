@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class Payment extends Model
+class Payment extends BaseModel
 {
     use Searchable;
     
@@ -56,5 +55,15 @@ class Payment extends Model
     public function parent()
     {
     	return $this->morphTo();
+    }
+
+    /**
+     * Is this payment a rent payment?
+     * 
+     * @return boolean
+     */
+    public function isRent()
+    {
+        return $this->parent_type === 'tenancies';
     }
 }
