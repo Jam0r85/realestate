@@ -33,7 +33,7 @@
 
 		</div>
 
-		@include('statements.partials.table')
+		@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
 	@endcomponent
 
 @endsection

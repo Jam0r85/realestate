@@ -1,16 +1,27 @@
 @component('partials.table')
 	@slot('head')
-		<th>Tenancy</th>
-		<th>Property</th>
+		@if (isset($show_tenancy))
+			<th>Tenancy</th>
+		@endif
+		@if (isset($show_property))
+			<th>Property</th>
+		@endif
 		<th>Amount</th>
 		<th>Period</th>
 		<th>Status</th>
+		@if (isset($show_download))
+			<th>Statement</th>
+		@endif
 		<th>User(s)</th>
 	@endslot
 	@foreach ($statements as $statement)
 		<tr>
-			<td>{{ $statement->tenancy->name }}</td>
-			<td>{{ $statement->tenancy->property->short_name }}</td>
+			@if (isset($show_tenancy))
+				<td>{{ $statement->tenancy->name }}</td>
+			@endif
+			@if (isset($show_property))
+				<td>{{ $statement->tenancy->property->short_name }}</td>
+			@endif
 			<td>{{ currency($statement->amount) }}</td>
 			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 			<td>
@@ -24,6 +35,9 @@
 					@endif
 				@endif
 			</td>
+			@if (isset($show_download))
+				<td><a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">Download</a></td>
+			@endif
 			<td>
 				@foreach ($statement->users as $user)
 					<a href="{{ route('users.show', $user->id) }}">
