@@ -6,6 +6,7 @@ use App\Repositories\EloquentInvoicesRepository;
 use App\Repositories\EloquentPaymentsRepository;
 use App\Repositories\EloquentStatementsRepository;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -32,22 +33,32 @@ class DownloadController extends Controller
     protected $pdf;
 
     /**
+     * @var Dompdf\Options
+     */
+    protected $options;
+
+    /**
      * Create a new controller instance.
-     * 
+     *
+     * @param   Dompdf\Options                $options
      * @param   EloquentStatementsRepository  $statements
      * @param   EloquentInvoicesRepository    $invoices
      * @param   EloquentPaymentsRepository    $payments
-     * @param   Dompdf\Dompdf                 $pdf
      * @return  void
      */
-    public function __construct(Dompdf $pdf, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices, EloquentPaymentsRepository $payments)
+    public function __construct(Options $options, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices, EloquentPaymentsRepository $payments)
     {
         $this->middleware('auth');
 
+        $this->options = $options;
         $this->statements = $statements;
         $this->invoices = $invoices;
         $this->payments = $payments;
-        $this->pdf = $pdf;
+
+        $this->options->setIsRemoteEnabled(true);
+        $this->options->set('isHtml5ParserEnabled', true);
+
+        $this->pdf = new Dompdf($this->options);
     }
 
     /**
@@ -63,6 +74,16 @@ class DownloadController extends Controller
     }
 
     /**
+     * Render the PDF.
+     * 
+     * @return Dompdf\Dompdf
+     */
+    public function render()
+    {
+        $this->pdf->render();
+    }
+
+    /**
      * Stream the PDF.
      * 
      * @param  string $filename
@@ -70,7 +91,7 @@ class DownloadController extends Controller
      */
     public function stream($filename = 'document.pdf')
     {
-        $this->pdf->render();
+        $this->render();
         
         return new Response($this->pdf->output(), 200, array(
             'Content-Type' => 'application/pdf',
