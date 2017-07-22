@@ -32,28 +32,6 @@ class BankAccount extends BaseModel
     }
 
     /**
-     * Set the bank account's bank name.
-     * 
-     * @param   string
-     * @return  void
-     */
-    public function setBankNameAttribute($value)
-    {
-    	$this->attributes['bank_name'] = encrypt($value);
-    }
-
-       /**
-     * Set the bank account's name.
-     * 
-     * @param   string
-     * @return  void
-     */
-    public function setAccountNameAttribute($value)
-    {
-    	$this->attributes['account_name'] = encrypt($value);
-    }
-
-       /**
      * Set the bank account's account number.
      * 
      * @param   string
@@ -64,7 +42,7 @@ class BankAccount extends BaseModel
     	$this->attributes['account_number'] = encrypt($value);
     }
 
-       /**
+    /**
      * Set the bank account's sort code.
      * 
      * @param   string
@@ -73,28 +51,6 @@ class BankAccount extends BaseModel
     public function setSortCodeAttribute($value)
     {
     	$this->attributes['sort_code'] = encrypt($value);
-    }
-
-    /**
-     * Get the bank account's bank name.
-     * 
-     * @param  string $value
-     * @return string
-     */
-    public function getBankNameAttribute($value)
-    {
-    	return decrypt($value);
-    }
-
-       /**
-     * Get the bank account's account name.
-     * 
-     * @param  string $value
-     * @return string
-     */
-    public function getAccountNameAttribute($value)
-    {
-    	return decrypt($value);
     }
 
     /**
