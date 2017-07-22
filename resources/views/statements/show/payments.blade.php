@@ -18,7 +18,6 @@
 				<th>Method</th>
 				<th>Amount</th>
 				<th>Status</th>
-				<th>Users</th>
 			@endslot
 			@foreach ($statement->payments as $payment)
 				<tr>

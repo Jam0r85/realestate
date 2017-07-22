@@ -23,7 +23,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function getSentPaged()
 	{
-		return $this->getInstance()->whereNotNull('sent_at')->paginate();
+		return $this->getInstance()->whereNotNull('sent_at')->where('parent_type', '!=', 'invoices')->paginate();
 	}
 
 	/**

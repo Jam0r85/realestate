@@ -6,7 +6,6 @@
 		<th>Method</th>
 		<th>Amount</th>
 		<th>Sent</th>
-		<th>Users</th>
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
@@ -16,7 +15,6 @@
 			<td>{{ $payment->method_formatted }}</td>
 			<td>{{ currency($payment->amount) }}</td>
 			<td>{{ date_formatted($payment->sent_at) }}</td>
-			<td></td>
 		</tr>
 	@endforeach
 @endcomponent

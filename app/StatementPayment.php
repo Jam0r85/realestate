@@ -36,11 +36,11 @@ class StatementPayment extends BaseModel
     }
 
     /**
-     * A statement payment can have a payment method.
+     * A statement payment can have a bank account to send the payment to.
      */
-    public function method()
+    public function bank_account()
     {
-        return $this->belongsTo('App\PaymentMethod');
+        return $this->belongsTo('App\BankAccount');
     }
 
     /**
@@ -67,10 +67,14 @@ class StatementPayment extends BaseModel
     public function getNameFormattedAttribute()
     {
         if ($this->parent_type == 'invoices') {
-            return 'Invoices';
+            return 'Invoice Payment';
         }
 
-        return 'Landlord';
+        if ($this->parent_type == 'expenses') {
+            return 'Expense Payment';
+        }
+
+        return 'Landlord Payment';
     }
 
     /**
@@ -80,7 +84,7 @@ class StatementPayment extends BaseModel
      */
     public function getMethodFormattedAttribute()
     {
-        if ($this->method) {
+        if ($this->bank_account) {
             return 'Bank';
         }
 
