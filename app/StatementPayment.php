@@ -73,7 +73,7 @@ class StatementPayment extends BaseModel
 
         // Set the expense name.
         if ($this->parent_type == 'expenses') {
-            return 'Expense Payment';
+            return 'Expense Payment (name goes here)';
         }
 
         // Return the generic name of Landlord when no parent is supplied.

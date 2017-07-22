@@ -6,6 +6,7 @@ use App\Repositories\EloquentInvoicesRepository;
 use App\Repositories\EloquentPaymentsRepository;
 use App\Repositories\EloquentStatementsRepository;
 use App\Tenancy;
+use Carbon\Carbon;
 
 class EloquentTenanciesRepository extends EloquentBaseRepository
 {
@@ -41,6 +42,18 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	public function getClassPath()
 	{
 		return 'App\Tenancy';
+	}
+
+	/**
+	 * Get all of the tenancies that are overdue with their rental statements.
+	 * 
+	 * @return \App\Tenancy
+	 */
+	public function getOverdue()
+	{
+		return $this->getInstance()->whereHas('statements', function ($query) {
+			return $query->where('period_end', '<', Carbon::now());
+		})->get();
 	}
 
 	/**

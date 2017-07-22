@@ -49,6 +49,19 @@ class TenancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function overdue()
+    {
+        $tenancies = $this->tenancies->getOverdue();
+        $title = 'Overdue Tenancies';
+
+        return view('tenancies.index', compact('tenancies','title'));
+    }
+
+    /**
+     * Display a listing of tenancies with a rent balance.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function withRentBalance()
     {
         $tenancies = $this->tenancies->getWithRentBalance();
