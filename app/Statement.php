@@ -97,7 +97,7 @@ class Statement extends Model
      */
     public function getInvoiceTotalAmountAttribute()
     {
-        return $this->invoice->total;
+        return $this->invoice ? $this->invoice->total : 0;
     }
 
     /**
@@ -107,7 +107,7 @@ class Statement extends Model
      */
     public function getRecipientAttribute()
     {
-        return 'Hello';
+        return $this->users()->first()->home_formatted;
     }
 
     /**

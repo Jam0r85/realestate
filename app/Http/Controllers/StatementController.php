@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Repositories\EloquentStatementsRepository;
 use Illuminate\Http\Request;
 
@@ -117,6 +118,19 @@ class StatementController extends Controller
     public function update(Request $request, Statement $statement)
     {
         //
+    }
+
+   /**
+    * Store a new invoice item for this rental statement.
+    * 
+    * @param  StoreInvoiceItem $request [description]
+    * @param  [type]           $id      [description]
+    * @return [type]                    [description]
+    */
+    public function createInvoiceItem(StoreInvoiceItemRequest $request, $id)
+    {
+        $this->statements->createInvoiceItem($request->input(), $id);
+        return back();
     }
 
     /**

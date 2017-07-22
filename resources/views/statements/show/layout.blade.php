@@ -85,7 +85,13 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('statements.show', $statement->id) }}" class="{{ set_active(route('statements.show', $statement->id)) }}">
-								Dashboard
+								Items
+							</a>
+							<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
+								Create Invoice Item
+							</a>
+							<a href="#">
+								Create Expense Item
 							</a>
 							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
 								Download
@@ -95,16 +101,18 @@
 					<p class="menu-label">
 						Invoice
 					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('invoices.show', $statement->invoice->id) }}">
-								Invoice #{{ $statement->invoice->number }}
-							</a>
-							<a href="{{ route('downloads.invoice', $statement->invoice->id) }}" target="_blank">
-								Download
-							</a>	
-						</li>
-					</ul>
+					@if ($statement->hasInvoice())
+						<ul class="menu-list">
+							<li>
+								<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+									Invoice #{{ $statement->invoice->number }}
+								</a>
+								<a href="{{ route('downloads.invoice', $statement->invoice->id) }}" target="_blank">
+									Download
+								</a>	
+							</li>
+						</ul>
+					@endif
 				</aside>
 			</div>
 			<div class="column is-9">

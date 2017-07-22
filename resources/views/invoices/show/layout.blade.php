@@ -118,6 +118,9 @@
 							<a href="{{ route('invoices.show', [$invoice->id, 'settings']) }}" class="{{ set_active(route('invoices.show', [$invoice->id, 'settings'])) }}">
 								Settings
 							</a>
+							<a href="{{ route('downloads.invoice', $invoice->id) }}" target="_blank">
+								Download
+							</a>
 						</li>
 					</ul>
 					@if ($invoice->hasStatement())
@@ -128,6 +131,9 @@
 							<li>
 								<a href="{{ route('statements.show', $invoice->statement->id) }}">
 									Statement #{{ $invoice->statement->id }}
+								</a>
+								<a href="{{ route('downloads.statement', $invoice->statement->id) }}" target="_blank">
+									Download
 								</a>
 							</li>
 						</ul>

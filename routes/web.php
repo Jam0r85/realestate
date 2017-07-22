@@ -87,6 +87,7 @@ Route::prefix('statements')->group(function () {
 	Route::get('unsent', 'StatementController@unsent')->name('statements.unsent');
 	Route::post('search', 'StatementController@search')->name('statements.search');
 	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
+	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 });
 
 Route::prefix('users')->group(function () {

@@ -44,9 +44,6 @@
                                     <a class="navbar-item" href="{{ route('calendars.index') }}">
                                         Calendars
                                     </a>
-                                    <a class="navbar-item" href="{{ route('calendars.create') }}">
-                                        Create New Calendar
-                                    </a>
                                     <hr class="navbar-divider" />
                                     <a class="navbar-item" href="{{ route('events.index') }}">
                                         Events

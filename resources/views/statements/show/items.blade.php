@@ -12,7 +12,17 @@
 			Invoice Items
 		@endcomponent
 
-		@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
+		@if (!$statement->hasInvoice())
+
+			@component('partials.notifications.primary')
+				Statement has no invoice items.
+			@endcomponent
+
+		@else
+
+			@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
+
+		@endif
 
 	@endcomponent
 

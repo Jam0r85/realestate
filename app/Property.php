@@ -108,4 +108,14 @@ class Property extends BaseModel
     	// Otherwise we return the house number and the first line of the address.
     	return $this->house_number . ' ' . $this->address1;
     }
+
+    /**
+     * Get the property's name formatted (eg. for letters)
+     * 
+     * @return string
+     */
+    public function getNameFormattedAttribute()
+    {
+    	return str_replace(', ', '<br />', $this->name);
+    }
 }

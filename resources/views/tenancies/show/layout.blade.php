@@ -2,6 +2,7 @@
 
 @section('breadcrumbs')
 	<li><a href="{{ route('tenancies.index') }}">Tenancies</a></li>
+	<li><a href="{{ route('properties.show', $tenancy->property->id) }}">{{ $tenancy->property->short_name }}</a></li>
 	<li class="is-active"><a>{{ $tenancy->name }}</a></li>
 @endsection
 

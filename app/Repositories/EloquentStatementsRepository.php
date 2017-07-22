@@ -88,7 +88,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 		$statement = $this->create($data);
 
 		// Attach the property owners to the statement.
-		$statement->users()->attach($tenancy->property->owners);
+		$statement->users()->sync($tenancy->property->owners);
 
 		// Create the service charge invoice should we need to.
 		if ($tenancy->service_charge_amount) {
@@ -96,6 +96,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 			$invoice = $this->invoices->createInvoice([
 				'property_id' => $tenancy->property_id
 			]);
+
+			$invoice->users()->sync($tenancy->property->owners);
 
 			$item = $this->invoices->createInvoiceItem([
 				'name' => $tenancy->service->name,
@@ -109,5 +111,41 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 		}
 
 		return $statement;
+	}
+
+	/**
+	 * Store a new invoice item for a rental statement.
+	 * 
+	 * @param  array           $data
+	 * @param  \App\Statement. $id
+	 * @return mixed
+	 */
+	public function createInvoiceItem(array $data, $id)
+	{
+		$statement = $this->find($id);
+
+		// Statement doesn't have a current invoice attached to it.
+		if (!$statement->hasInvoice()) {
+
+			// Create an invoice.
+			$invoice = $this->invoices->createInvoice([
+				'property_id' => $statement->property->id
+			]);
+
+			// Attach the invoice to the rental statement.
+			$statement->invoices()->attach($invoice);
+
+			// Sync the users from the statement to the invoice.
+			$invoice->users()->sync($statement->users);
+		} else {
+			$invoice = $statement->invoice;
+		}
+
+		// Create the invoice item.
+		$item = $this->invoices->createInvoiceItem($data, $invoice);
+
+		$this->successMessage('The invoice item was created');
+
+		return $item;
 	}
 }
