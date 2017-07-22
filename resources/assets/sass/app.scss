@@ -29,6 +29,16 @@ body {
 }
 
 /**
+ * Font
+ */
+
+.is-subtitle {
+	background-color: $white-ter;
+	border-left: 4px solid $primary;
+	padding: 1.5rem;
+}
+
+/**
  * Button Styling
  */
 
@@ -53,6 +63,10 @@ body {
 	border-radius: 0;
 	height: 42px;
 	padding: 0 15px;
+}
+
+.textarea {
+	border-radius: 0;
 }
 
 /**

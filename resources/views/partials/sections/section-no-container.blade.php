@@ -21,5 +21,7 @@
 	@endif
 
 	{{-- Content --}}
-	{{ $slot }}
+	<div class="content">
+		{{ $slot }}
+	</div>
 </div>

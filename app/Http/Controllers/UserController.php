@@ -100,10 +100,10 @@ class UserController extends BaseController
      * @param  string     $section
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = null)
+    public function show($id, $section = 'account')
     {
         $user = $this->users->find($id);
-        return view('users.show', compact('user'));
+        return view('users.show.' . $section, compact('user'));
     }
 
     /**

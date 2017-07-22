@@ -1,1 +1,1 @@
-<h3 class="title is-4">{{ $slot }}</h3>
+<h3 class="title is-4 is-subtitle">{{ $slot }}</h3>
