@@ -147,7 +147,7 @@ class User extends Authenticatable
      */
     public function getHomeFormattedAttribute()
     {
-        return $this->home->name_formatted;
+        return $this->home ? $this->home->name_formatted : null;
     }
 
     /**
