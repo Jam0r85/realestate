@@ -42,6 +42,12 @@
 			Mark as {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
 		@endcomponent
 
+		@if ($statement->paid_at)
+			@component('partials.notifications.primary')
+				The statement was paid on {{ date_formatted($statement->paid_at) }}
+			@endcomponent
+		@endif
+
 		<form role="form" method="POST" action="{{ route('statements.toggle-paid', $statement->id) }}">
 			{{ csrf_field() }}
 
