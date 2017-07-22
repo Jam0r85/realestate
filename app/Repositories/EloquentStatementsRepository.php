@@ -168,29 +168,13 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function createPayments($id)
     {
+        // Find the statement.
         $statement = $this->find($id);
 
-        // Delete all current un-sent generated payments.
-        $statement->payments()->delete();
+        // Generate the payments
+        $this->statement_payments->createPayments($statement);
 
-        // Create the invoice payment (which is to us, the business)
-        if ($statement->hasInvoice()) {
-            $statement->invoice->statement_payments()->save(
-                StatementPayment::create([
-                    'statement_id' => $statement->id,
-                    'amount' => $statement->invoice->total,
-                    'bank_account_id' => get_setting('company_bank_account_id')
-                ])
-            );
-        }
-
-        // Create the landlord payment
-        StatementPayment::create([
-            'statement_id' => $statement->id,
-            'amount' => $statement->landlord_balance_amount,
-            'bank_account_id' => $statement->property->bank_account_id
-        ]);
-
+        // Flash a success message.
         $this->successMessage('Statement payments were created');
 
         return $statement;
