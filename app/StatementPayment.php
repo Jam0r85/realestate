@@ -68,7 +68,7 @@ class StatementPayment extends BaseModel
     {
         // Set the invoice name.
         if ($this->parent_type == 'invoices') {
-            return 'Invoice ' . $this->parent->number . ' Payment';
+            return 'Invoice Payment (' . $this->parent->number . ')';
         }
 
         // Set the expense name.

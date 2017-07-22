@@ -42,24 +42,14 @@
 			Mark as {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
 		@endcomponent
 
-		@if ($statement->hasUnsentPayments())
+		<form role="form" method="POST" action="{{ route('statements.toggle-paid', $statement->id) }}">
+			{{ csrf_field() }}
 
-			@component('partials.notifications.primary')
-				This statement has unsent payments and cannot be marked as being paid.
+			@component('partials.forms.buttons.primary')
+				Mark {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
 			@endcomponent
 
-		@else
-
-			<form role="form" method="POST" action="{{ route('statements.toggle-paid', $statement->id) }}">
-				{{ csrf_field() }}
-
-				@component('partials.forms.buttons.primary')
-					Mark {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
-				@endcomponent
-
-			</form>
-
-		@endif
+		</form>
 
 		<hr />
 

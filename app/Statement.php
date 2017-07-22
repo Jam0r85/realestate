@@ -141,10 +141,10 @@ class Statement extends Model
     /**
      * Check whether a statement has unsent payments.
      * 
-     * @return boolean
+     * @return integer
      */
     public function hasUnsentPayments()
     {
-        return (boolean) $this->payments()->whereNull('sent_at')->get();
+        return $this->payments()->whereNull('sent_at')->count();
     }
 }
