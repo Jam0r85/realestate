@@ -55,10 +55,20 @@ class DownloadController extends Controller
         $this->invoices = $invoices;
         $this->payments = $payments;
 
-        $this->options->setIsRemoteEnabled(true);
+        $this->options->set('isRemoteEnabled', true);
         $this->options->set('isHtml5ParserEnabled', true);
 
         $this->pdf = new Dompdf($this->options);
+
+        $contxt = stream_context_create([ 
+            'ssl' => [ 
+                'verify_peer' => FALSE, 
+                'verify_peer_name' => FALSE,
+                'allow_self_signed'=> TRUE
+            ] 
+        ]);
+
+        $this->pdf->setHttpContext($contxt);
     }
 
     /**
