@@ -29,6 +29,13 @@
 			@endcomponent
 
 		@else
+	
+			{{-- Show a warning when the invoice is attached to a statement --}}
+			@if ($invoice->hasStatement())
+				@component('partials.notifications.primary')
+					This invoice is attached to a rental statement. Each invoice new invoice item will be listed on the statement also.
+				@endcomponent
+			@endif
 
 			@include('partials.errors-block')
 

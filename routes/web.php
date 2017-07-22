@@ -78,6 +78,7 @@ Route::post('search', 'PaymentController@search')->name('payments.search');
 Route::prefix('tenancies')->group(function () {
 	Route::get('/', 'TenancyController@index')->name('tenancies.index');
 	Route::get('with-rent-balance', 'TenancyController@withRentBalance')->name('tenancies.with-rent-balance');
+	Route::get('overdue', 'TenancyController@overdue')->name('tenancies.overdue');
 	Route::post('search', 'TenancyController@search')->name('tenancies.search');
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 	Route::post('{id}/create-rent-payment', 'TenancyController@createRentPayment')->name('tenancies.create-rent-payment');
@@ -93,6 +94,10 @@ Route::prefix('statements')->group(function () {
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 	Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 });
+
+Route::get('statement-payments', 'StatementPaymentController@index')->name('statement-payments.index');
+Route::get('statement-payments/unsent', 'StatementPaymentController@unsent')->name('statement-payments.unsent');
+Route::post('statement-payments/search', 'StatementPaymentController@search')->name('statement-payments.search');
 
 Route::prefix('users')->group(function () {
 	Route::get('/', 'UserController@index')->name('users.index');

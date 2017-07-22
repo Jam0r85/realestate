@@ -17,14 +17,21 @@
 				<th>Name</th>
 				<th>Method</th>
 				<th>Amount</th>
-				<th>Sent</th>
+				<th>Status</th>
+				<th>Users</th>
 			@endslot
 			@foreach ($statement->payments as $payment)
 				<tr>
 					<td>{{ $payment->name_formatted }}</td>
 					<td>{{ $payment->method_formatted }}</td>
 					<td>{{ currency($payment->amount) }}</td>
-					<td>{{ datetime_formatted($payment->sent_at) }}</td>
+					<td>
+						@if ($payment->sent_at)
+							Sent {{ datetime_formatted($payment->sent_at) }}
+						@else
+							Unsent
+						@endif
+					</td>
 				</tr>
 			@endforeach
 		@endcomponent

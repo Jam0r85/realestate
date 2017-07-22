@@ -87,12 +87,14 @@
 							<a href="{{ route('statements.show', $statement->id) }}" class="{{ set_active(route('statements.show', $statement->id)) }}">
 								Items
 							</a>
-							<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
-								Create Invoice Item
-							</a>
-							<a href="#">
-								Create Expense Item
-							</a>
+							@if (!$statement->paid_at)
+								<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
+									Create Invoice Item
+								</a>
+								<a href="#">
+									Create Expense Item
+								</a>
+							@endif
 							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
 								Download
 							</a>			

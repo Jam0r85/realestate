@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Statement;
-use App\StatementPayment;
 use App\Tenancy;
 use Carbon\Carbon;
 
@@ -15,14 +14,20 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     public $invoices;
 
     /**
+     * @var  App\Repositories\EloquentStatementPaymentsRepository
+     */
+    public $statement_payments;
+
+    /**
      * Create a new repository instance.
      *
      * @param   EloquentPaymentsRepository $payments
      * @return  void
      */
-    public function __construct(EloquentInvoicesRepository $invoices)
+    public function __construct(EloquentInvoicesRepository $invoices, EloquentStatementPaymentsRepository $statement_payments)
     {
         $this->invoices = $invoices;
+        $this->statement_payments = $statement_payments;
     }
 
     /**
@@ -165,7 +170,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     {
         $statement = $this->find($id);
 
-        // Delete all current generated payments.
+        // Delete all current un-sent generated payments.
         $statement->payments()->delete();
 
         // Create the invoice payment (which is to us, the business)

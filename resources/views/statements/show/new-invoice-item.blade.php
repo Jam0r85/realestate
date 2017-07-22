@@ -4,8 +4,8 @@
 
 	@component('partials.sections.section-no-container')
 
-		@component('partials.subtitle')
-			New Invoice Item
+		@component('partials.title')
+			Create Invoice Item
 		@endcomponent
 
 		<form role="form" method="POST" action="{{ route('statements.create-invoice-item', $statement->id) }}">

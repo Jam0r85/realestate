@@ -2,8 +2,12 @@
 
 namespace App;
 
+use Laravel\Scout\Searchable;
+
 class StatementPayment extends BaseModel
 {
+    use Searchable;
+    
     /**
      * The attributes that should be mutated to dates.
      * 
@@ -45,6 +49,14 @@ class StatementPayment extends BaseModel
     public function parent()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * A statement payment can have many users.
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
     }
 
     /**
