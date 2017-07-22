@@ -17,6 +17,16 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 	}
 
 	/**
+	 * Get all of the rent payments.
+	 * 
+	 * @return mixed
+	 */
+	public function getRentPaymentsPaged()
+	{
+		return $this->getInstance()->RentPayments()->get();
+	}
+
+	/**
 	 * Create a new payment.
 	 * 
 	 * @param  array  $data

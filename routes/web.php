@@ -72,6 +72,9 @@ Route::prefix('properties')->group(function () {
 	Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
 });
 
+Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');
+Route::post('search', 'PaymentController@search')->name('payments.search');
+
 Route::prefix('tenancies')->group(function () {
 	Route::get('/', 'TenancyController@index')->name('tenancies.index');
 	Route::get('with-rent-balance', 'TenancyController@withRentBalance')->name('tenancies.with-rent-balance');

@@ -94,6 +94,13 @@
                                     </a>
                                     <hr class="navbar-divider" />
                                     <div class="navbar-header">
+                                        Payments
+                                    </div>
+                                    <a class="navbar-item" href="{{ route('payments.rent') }}">
+                                        Rent Payments
+                                    </a>
+                                    <hr class="navbar-divider" />
+                                    <div class="navbar-header">
                                         Statements
                                     </div>
                                     <a class="navbar-item" href="{{ route('statements.index') }}">

@@ -881,12 +881,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3848ebc537f6e99b5accb0bb1ad5994fbf99b80d"
+                "reference": "9905529539ca0b24a7492b049086f9030d39774a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3848ebc537f6e99b5accb0bb1ad5994fbf99b80d",
-                "reference": "3848ebc537f6e99b5accb0bb1ad5994fbf99b80d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/9905529539ca0b24a7492b049086f9030d39774a",
+                "reference": "9905529539ca0b24a7492b049086f9030d39774a",
                 "shasum": ""
             },
             "require": {
@@ -1004,7 +1004,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-07-21T20:49:26+00:00"
+            "time": "2017-07-21T22:39:42+00:00"
         },
         {
             "name": "laravel/scout",

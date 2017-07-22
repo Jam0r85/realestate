@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Payment extends Model
 {
+    use Searchable;
+    
     /**
      * The relations that should be eager leader.
      * 
@@ -19,6 +22,17 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = ['key','amount','payment_method_id','note'];
+
+    /**
+     * Scope a query to only include rent payments.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeRentPayments($query)
+    {
+        return $query->where('parent_type', 'tenancies');
+    }
 
 	/**
 	 * A payment can belong to many users.
