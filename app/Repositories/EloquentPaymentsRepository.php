@@ -23,7 +23,7 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function getRentPaymentsPaged()
 	{
-		return $this->getInstance()->RentPayments()->get();
+		return $this->getInstance()->RentPayments()->latest()->paginate();
 	}
 
 	/**

@@ -24,3 +24,5 @@
 		</tr>
 	@endforeach
 @endcomponent
+
+@include('partials.pagination', ['collection' => $payments])
