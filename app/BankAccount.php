@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Crypt;
 
 class BankAccount extends BaseModel
 {
@@ -39,7 +40,7 @@ class BankAccount extends BaseModel
      */
     public function setAcountNumberAttribute($value)
     {
-    	$this->attributes['account_number'] = encrypt($value);
+    	$this->attributes['account_number'] = Crypt::encryptString($value);
     }
 
     /**
@@ -50,7 +51,7 @@ class BankAccount extends BaseModel
      */
     public function setSortCodeAttribute($value)
     {
-    	$this->attributes['sort_code'] = encrypt($value);
+    	$this->attributes['sort_code'] = Crypt::encryptString($value);
     }
 
     /**
@@ -61,7 +62,7 @@ class BankAccount extends BaseModel
      */
     public function getAccountNumberAttribute($value)
     {
-    	return decrypt($value);
+    	return Crypt::decryptString($value);
     }
 
     /**
@@ -72,6 +73,6 @@ class BankAccount extends BaseModel
      */
     public function getSortCodeAttribute($value)
     {
-    	return decrypt($value);
+    	return Crypt::decryptString($value);
     }
 }
