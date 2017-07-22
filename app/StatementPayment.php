@@ -57,6 +57,8 @@ class StatementPayment extends BaseModel
         if ($this->parent_type == 'invoices') {
             return 'Invoices';
         }
+
+        return 'Landlord';
     }
 
     /**

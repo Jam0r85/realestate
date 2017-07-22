@@ -109,6 +109,16 @@ class Statement extends Model
     }
 
     /**
+     * Get the statement's balance amount to the landlord.
+     * 
+     * @return integer
+     */
+    public function getLandlordBalanceAmountAttribute()
+    {
+        return $this->amount - $this->invoice_total_amount;
+    }
+
+    /**
      * Get the recipient of the rental statement.
      * 
      * @return string

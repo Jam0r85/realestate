@@ -65,7 +65,7 @@
 							Landlord Balance
 						</p>
 						<p class="title">
-							
+							{{ currency($statement->landlord_balance_amount) }}
 						</p>
 					</div>
 				</div>

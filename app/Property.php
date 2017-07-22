@@ -15,7 +15,7 @@ class Property extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','short_name'];
+	protected $appends = ['name','short_name','bank_account','bank_account_id'];
 
     /**
      * The relations that should be eager leader.
@@ -77,6 +77,14 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many bank accounts.
+	 */
+	public function bank_accounts()
+	{
+		return $this->belongsToMany('App\BankAccount');
+	}
+
+	/**
 	 * Get the property's name.
 	 * 
 	 * @return string
@@ -117,5 +125,25 @@ class Property extends BaseModel
     public function getNameFormattedAttribute()
     {
     	return str_replace(', ', '<br />', $this->name);
+    }
+
+    /**
+     * Get the property's bank account.
+     * 
+     * @return \App\BankAccount
+     */
+    public function getBankAccountAttribute()
+    {
+    	return $this->bank_accounts()->first();
+    }
+
+    /**
+     * Get the property's bank account ID.
+     * 
+     * @return integer
+     */
+    public function getBankAccountIdAttribute()
+    {
+    	return $this->bank_account ? $this->bank_account->id : null;
     }
 }

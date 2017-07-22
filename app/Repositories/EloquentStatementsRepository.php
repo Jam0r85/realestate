@@ -165,6 +165,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     {
         $statement = $this->find($id);
 
+        // Delete all current generated payments.
+        $statement->payments()->delete();
+
         // Create the invoice payment (which is to us, the business)
         if ($statement->hasInvoice()) {
             $statement->invoice->statement_payments()->save(
@@ -175,6 +178,13 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                 ])
             );
         }
+
+        // Create the landlord payment
+        StatementPayment::create([
+            'statement_id' => $statement->id,
+            'amount' => $statement->landlord_balance_amount,
+            'bank_account_id' => $statement->property->bank_account_id
+        ]);
 
         $this->successMessage('Statement payments were created');
 

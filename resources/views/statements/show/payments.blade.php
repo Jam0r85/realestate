@@ -30,17 +30,27 @@
 		@endcomponent
 
 		@component('partials.subtitle')
-			Generate Payments
+			{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
 		@endcomponent
 
-		<form role="form" method="POST" action="{{ route('statements.create-payments', $statement->id) }}">
-			{{ csrf_field() }}
+		@if ($statement->paid_at)
 
-			@component('partials.forms.buttons.primary')
-				Generate
+			@component('partials.notifications.primary')
+				This statement has been paid in full. You cannot re-generate the payments.
 			@endcomponent
 
-		</form>
+		@else
+
+			<form role="form" method="POST" action="{{ route('statements.create-payments', $statement->id) }}">
+				{{ csrf_field() }}
+
+				@component('partials.forms.buttons.primary')
+					{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
+				@endcomponent
+
+			</form>
+
+		@endif
 
 	@endcomponent
 
