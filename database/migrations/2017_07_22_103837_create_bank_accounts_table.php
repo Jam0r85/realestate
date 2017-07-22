@@ -18,7 +18,7 @@ class CreateBankAccountsTable extends Migration
             $table->text('bank_name');
             $table->text('account_name');
             $table->text('account_number');
-            $table->text('sortcode');
+            $table->text('sort_code');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -57,9 +57,15 @@
                                 <a class="navbar-item" href="{{ route('users.create') }}">
                                     Create User
                                 </a>
-                                <hr class="navbar-divider" />
                                 <a class="navbar-item" href="{{ route('users.archived') }}">
                                     Archived Users
+                                </a>
+                                <hr class="navbar-divider" />
+                                <div class="navbar-header">
+                                    Other
+                                </div>
+                                <a class="navbar-item" href="{{ route('bank-accounts.index') }}">
+                                    Bank Accounts
                                 </a>
                                 <hr class="navbar-divider" />
                                 <div class="navbar-header">

@@ -121,6 +121,12 @@ Route::prefix('users')->group(function () {
 	Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
 });
 
+Route::prefix('bank-accounts')->group(function () {
+	Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
+	Route::post('search', 'BankAccountController@search')->name('bank-accounts.search');
+	Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show');
+});
+
 Route::prefix('user-groups')->group(function () {
 	Route::get('/', 'UserGroupController@index')->name('user-groups.index');
 	Route::post('/', 'UserGroupController@store')->name('user-groups.store');

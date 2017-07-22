@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\BankAccount;
+use App\Repositories\EloquentBankAccountsRepository;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
 {
+    /**
+     * @var  App\Repositories\EloquentBankAccountsRepository
+     */
+    protected $accounts;
+
+    /**
+     * Create a new controller instance.
+     * 
+     * @param   EloquentBranchesRepository $users
+     * @return  void
+     */
+    public function __construct(EloquentBankAccountsRepository $accounts)
+    {
+        $this->middleware('auth');
+        $this->accounts = $accounts;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +31,10 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = $this->accounts->getAllPaged();
+        $title = 'Bank Accounts List';
+
+        return view('bank-accounts.index', compact('accounts','title'));
     }
 
     /**
