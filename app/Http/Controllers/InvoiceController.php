@@ -35,7 +35,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = $this->invoices->getAllPaged();
+        $invoices = $this->invoices->getPaidPaged();
         $title = 'Invoices List';
 
         return view('invoices.index', compact('invoices','title'));

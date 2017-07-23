@@ -37,6 +37,16 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	}
 
 	/**
+	 * Get a list of paid invoices.
+	 * 
+	 * @return
+	 */
+	public function getPaidPaged()
+	{
+		return $this->getInstance()->whereNotNull('paid_at')->latest('number')->paginate();
+	}	
+
+	/**
 	 * Get a list of unpaid invoices.
 	 * 
 	 * @return

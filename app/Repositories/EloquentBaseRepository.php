@@ -236,12 +236,10 @@ class EloquentBaseRepository
     }
 
     /**
-     * Create a new record in the repository.
-     *
      * @param  array  $data
      * @return mixed
      */
-    public function create(array $data)
+    public function create($data = [])
     {
         // Create a new instance
         $model = $this->getInstance();
@@ -266,15 +264,13 @@ class EloquentBaseRepository
     }
 
     /**
-     * Update the repository.
-     *
-     * @param  array  $data  [description]
-     * @param  [type] $model [description]
-     * @return [type]        [description]
+     * @param   array   $data
+     * @param   $model
+     * @return  mixed
      */
-    public function update(array $data, $model)
+    public function update($data = [], $id)
     {
-        $model = $this->find($model);
+        $model = $this->find($id);
 
         $model->fill($data);
         $model->save();
