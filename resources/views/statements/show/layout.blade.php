@@ -99,30 +99,48 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('statements.show', $statement->id) }}" class="{{ set_active(route('statements.show', $statement->id)) }}">
+								<span class="icon is-small">
+									<i class="fa fa-list"></i>
+								</span>
 								Items
 							</a>
 							@if (!$statement->paid_at)
 								<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
+									<span class="icon is-small">
+										<i class="fa fa-plus"></i>
+									</span>
 									Create Invoice Item
 								</a>
 								<a href="{{ route('statements.show', [$statement->id, 'new-expense-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-expense-item'])) }}">
+									<span class="icon is-small">
+										<i class="fa fa-plus"></i>
+									</span>
 									Create Expense Item
 								</a>
 							@endif
 							<a href="{{ route('statements.show', [$statement->id, 'settings']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'settings'])) }}">
+									<span class="icon is-small">
+										<i class="fa fa-cogs"></i>
+									</span>
 								Settings
 							</a>		
 						</li>
 					</ul>
 					<p class="menu-label">
-						Actions
+						Statement Actions
 					</p>
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('statements.show', [$statement->id, 'send']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'send'])) }}">
-								Send Statement
+								<span class="icon is-small">
+									<i class="fa fa-envelope"></i>
+								</span>
+								{{ $statement->sent_at ? 'Re-Send' : 'Send' }}
 							</a>
 							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
+								<span class="icon is-small">
+									<i class="fa fa-download"></i>
+								</span>
 								Download
 							</a>
 						</li>
