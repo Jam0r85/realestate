@@ -17,7 +17,7 @@ class StatementPayment extends BaseModel
     {
         return [
             'date' => $this->created_at,
-            'property' => $this->property->name,
+            'property' => $this->statement->property->name,
             'amount' => $this->amount,
             'method' => $this->method_formatted,
             'name' => $this->name_formatted,
