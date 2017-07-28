@@ -242,9 +242,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                 $this->statement_payments->createPayments($statement);
             }
 
-            // Update the invoice as being sent and paid.
+            // Update the invoice as being paid.
             if ($statement->invoice) {
-                $statement->invoice->update(['paid_at' => Carbon::now(), 'sent_at' => Carbon::now()]);
+                $statement->invoice->update(['paid_at' => Carbon::now()]);
             }
 
             // Mark the statement payments as being sent.
@@ -277,6 +277,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         } else {
             $data['sent_at'] = Carbon::now();
             $message = 'Sent';
+
+            // Update the invoice as being paid.
+            if ($statement->invoice) {
+                $statement->invoice->update(['sent_at' => Carbon::now()]);
+            }
         }
 
         // Update the statement.
