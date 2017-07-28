@@ -228,6 +228,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         } else {
             $data['paid_at'] = Carbon::now();
             $message = 'Paid';
+
+            // Mark the statement payments as being sent.
+            $statement->payments()->whereNull('sent_at')->update(['sent_at' => Carbon::now()]);
         }
 
         // Update the statement.
