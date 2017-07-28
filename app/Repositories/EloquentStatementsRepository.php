@@ -285,6 +285,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             // Send the email.
             Mail::to($statement->users)
                 ->queue(new StatementToLandlord($statement));
+
+            $statement->update(['sent_at' => Carbon::now()]);
         }
 
         $this->successMessage('Statements were sent');
