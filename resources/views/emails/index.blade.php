@@ -25,13 +25,8 @@
 					<td>{{ $email->to }}</td>
 					<td></td>
 					<td>
-						<a href="{{ route('emails.preview', $email->id) }}" target="_blank" class="button is-small is-info">
-							<span class="icon is-small">
-								<i class="fa fa-eye"></i>
-							</span>
-							<span>
-								View E-Mail
-							</span>
+						<a href="{{ route('emails.preview', $email->id) }}" target="_blank" class="button is-small is-primary">
+							View E-Mail
 						</a>
 					</td>				
 				</tr>
