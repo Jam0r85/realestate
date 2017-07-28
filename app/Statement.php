@@ -20,9 +20,10 @@ class Statement extends BaseModel
             'id' => $this->id,
             'date' => $this->created_at,
             'property' => $this->property->name,
-            'tenancy' => $this->tenancy_name,
+            'tenancy' => $this->tenancy->name,
             'amount' => $this->amount,
             'landlord_balance' => $this->landlord_balance_amount,
+            'expenses' => $this->expenses->pluck('name')->toArray()
         ];
     }
     
