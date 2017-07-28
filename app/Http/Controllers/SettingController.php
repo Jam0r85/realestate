@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Permission;
 use App\Repositories\EloquentSettingsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends BaseController
 {
@@ -79,7 +80,7 @@ class SettingController extends BaseController
      */
     public function updateLogo(Request $request)
     {
-        $path = $request->file('company_logo')->store('logos');
+        $path = Storage::putFile('logos', $request->file('company_logo'));
         $this->settings->save(['key' => 'company_logo', 'value' => $path]);
         return back();
     }
