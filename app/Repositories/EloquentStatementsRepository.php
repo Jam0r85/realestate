@@ -302,7 +302,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             if ($send_email) {
                 Mail::to($statement->users)->send(new StatementToLandlord($statement));
             } else {
-                $this->flash('Statement email not sent');
+                flash('Statement email not sent')->info();
             }
 
             // Update the statement sent date.
