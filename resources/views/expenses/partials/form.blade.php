@@ -6,13 +6,6 @@
 </div>
 
 <div class="field">
-	<label class="label" for="description">Description</label>
-	<p class="control">
-		<textarea name="description" class="textarea">{{ isset($expense) ? $expense->name : old('name') }}</textarea>
-	</p>
-</div>
-
-<div class="field">
 	<label class="label" for="cost">Cost</label>
 	<p class="control">
 		<input type="number" step="any" class="input" name="cost" value="{{ isset($expense) ? $expense->cost : old('cost') }}" />

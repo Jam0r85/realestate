@@ -21,7 +21,6 @@ class Expense extends Model
 	protected $fillable = [
 		'property_id',
 		'name',
-		'description',
 		'cost',
 		'paid_at'
 	];
