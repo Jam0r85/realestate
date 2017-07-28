@@ -16,6 +16,10 @@ class Discount extends Model
      */
     public function getAmountFormattedAttribute()
     {
-    	return $this->amount;
+        if ($this->amount < 1) {
+            return $this->amount * 100 . '%';
+        } else {
+            return currency($this->amount);
+        }
     }
 }
