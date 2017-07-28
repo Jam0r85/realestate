@@ -7,6 +7,23 @@ use Laravel\Scout\Searchable;
 class StatementPayment extends BaseModel
 {
     use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'date' => $this->created_at,
+            'property' => $this->property->name,
+            'amount' => $this->amount,
+            'method' => $this->method_formatted,
+            'name' => $this->name_formatted,
+            'sent' => $this->sent_at
+        ];
+    }
     
     /**
      * The attributes that should be mutated to dates.

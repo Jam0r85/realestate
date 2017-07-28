@@ -22,7 +22,7 @@
 			<td>
 				{{ $statement->tenancy->name }}
 				<br />
-				<span class="tag is-primary">
+				<span class="tag is-light">
 					{{ $statement->tenancy->property->short_name }}
 				</span>
 			</td>
