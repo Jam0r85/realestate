@@ -69,6 +69,20 @@
 						</p>
 					</div>
 				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Send By
+						</p>
+						<p class="title">
+							@if ($statement->sendByPost())
+								By Post
+							@else
+								By E-Mail
+							@endif
+						</p>
+					</div>
+				</div>
 			</nav>
 
 		</div>
