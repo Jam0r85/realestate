@@ -35,6 +35,13 @@
 				</div>
 
 				<div class="field">
+					<label class="label" for="number">Number</label>
+					<p class="control">
+						<input type="number" class="input" name="number" value="{{ $invoice->number }}" />
+					</p>
+				</div>
+
+				<div class="field">
 					<label class="label" for="user_id">Users</label>
 					<p class="control ix-expanded">
 						<select name="user_id[]" class="select2" multiple>
