@@ -272,9 +272,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param  [type] $ids [description]
      * @return [type]      [description]
      */
-    public function send(array $ids)
+    public function send($ids)
     {
-        if (!is_array($ids)) { str_split($ids); }
+        if (!is_array($ids)) { $ids = explode(',', $ids); }
 
         // Loop through the provided statement IDs
         foreach ($ids as $id) {
