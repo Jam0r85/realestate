@@ -33,19 +33,17 @@
 
 		</div>
 
-		<div class="content">
+		<form role="form" method="POST" action="{{ route('statements.send') }}">
+			{{ csrf_field() }}
+			@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
 
-			<form role="form" method="POST" action="{{ route('statements.send') }}">
-				{{ csrf_field() }}
-				@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
-
+			<div class="content">
 				@component('partials.forms.buttons.primary')
 					Send Selected Statements
 				@endcomponent
+			</div>
 
-			</form>
-
-		</div>
+		</form>
 	@endcomponent
 
 @endsection
