@@ -290,17 +290,17 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $statement = $this->find($id);
 
             // Make sure there is at least one statement user with an email.
-            $send_email = false;
-
+            $emails = [];
+            
             foreach ($statement->users as $user) {
                 if ($user->email) {
-                    $send_email = true;
+                    $emails[] = $user->email;
                 }
             }
 
             // Send the email.
-            if ($send_email) {
-                Mail::to($statement->users)->send(new StatementToLandlord($statement));
+            if (count($emails)) {
+                Mail::to($emails)->send(new StatementToLandlord($statement));
             } else {
                 flash('Statement email not sent')->info();
             }
