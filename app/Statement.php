@@ -134,7 +134,7 @@ class Statement extends Model
      */
     public function getLandlordBalanceAmountAttribute()
     {
-        return $this->amount - ($this->invoice_total_amount - $this->expense_total_amount);
+        return $this->amount - ($this->invoice_total_amount + $this->expense_total_amount);
     }
 
     /**
