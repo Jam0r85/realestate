@@ -226,6 +226,6 @@ class Statement extends BaseModel
      */
     public function sendByPost()
     {
-        return true;
+        return false;
     }
 }

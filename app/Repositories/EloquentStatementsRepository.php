@@ -282,7 +282,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Send the email.
             Mail::to($statement->users)
-                ->later(Carbon::now()->addMinutes(15), new StatementToLandlord($statement));
+                ->send(new StatementToLandlord($statement));
         }
 
         $this->successMessage('Statements were sent');

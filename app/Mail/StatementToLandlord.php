@@ -39,8 +39,12 @@ class StatementToLandlord extends Mailable
             $this->subject('Your rental statement is on the way');
             $this->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
         } else {
+            // Grab the statement..
+            // MUST BE A NICER WAY TO DO THIS!
+            $statement = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id);
+
             $this->subject('Your rental statement is attached');
-            $this->attachData(DownloadController::statement($this->statement->id), $this->statement->tenancy->property->short_name . ' Statement.pdf');
+            $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
             $this->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
             
             // Check whether the statement has any expense payments
@@ -50,7 +54,7 @@ class StatementToLandlord extends Mailable
                     // Check whether the expense has an invoice
                     if ($expense->invoice) {
                         // Attach the invoice to the email
-                        $this->attachData(Storage::get($expense->invoice->path), $expense->name . '.' . $expense->invoice->extension);
+                        $this->attachData(get_file($expense->invoice->path), $expense->name . '.' . $expense->invoice->extension);
                     }
                 }
             }

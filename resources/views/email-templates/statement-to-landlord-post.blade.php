@@ -6,5 +6,5 @@ This is just a quick email to let you know that the latest rental statement for 
 <b>{{ $statement->tenancy->property->name }}</b>
 
 Thanks,<br>
-{{ setting('company_name', config('app.name')) }}
+{{ get_setting('company_name', config('app.name')) }}
 @endcomponent
