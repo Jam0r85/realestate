@@ -80,7 +80,7 @@ class SettingController extends BaseController
     public function updateLogo(Request $request)
     {
         $path = $request->file('company_logo')->store('logos');
-        $this->settings->save(['company_logo' => $path]);
+        $this->settings->save(['key' => 'company_logo', 'value' => $path]);
         return back();
     }
 }

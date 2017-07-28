@@ -7,7 +7,7 @@
 			<div class="heading has-text-right">
 
 				@if (get_setting('company_logo'))	
-					<img src="{{ Storage::url(get_setting('company_logo')) }}" class="header-image" />
+					<img src="{{ get_file(get_setting('company_logo')) }}" class="header-image" />
 				@else
 					<h1>{{ get_setting('company_name') }}</h1>
 				@endif 

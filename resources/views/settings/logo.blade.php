@@ -17,7 +17,7 @@
 
 			@if (get_setting('company_logo'))
 
-				<img src="{{ Storage::url(get_setting('company_logo')) }}" />
+				<img src="{{ get_file(get_setting('company_logo')) }}" />
 
 			@else
 
