@@ -39,7 +39,9 @@ class StatementPayment extends BaseModel
 		'statement_id',
 		'amount',
 		'bank_account_id',
-		'sent_at'
+		'sent_at',
+        'parent_type',
+        'parent_id'
 	];
 
 	/**

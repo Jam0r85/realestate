@@ -63,7 +63,16 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function createExpensePayment($statement)
 	{
+		foreach ($statement->expenses as $expense) {
+			$payment = StatementPayment::create([
+				'statement_id' => $statement->id,
+				'amount' => $expense->pivot->amount,
+				'parent_type' => 'expenses',
+				'parent_id' => $expense->id
+			]);
 
+			$payment->users()->attach($expense->contractors);
+		}
 	}
 
 	/**
