@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Expense;
 use App\Invoice;
 use App\Property;
 use App\Tenancy;
@@ -23,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             Tenancy::class,
             Property::class,
-            Invoice::class
+            Invoice::class,
+            Expense::class
         ]);
     }
 
