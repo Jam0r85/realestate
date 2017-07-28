@@ -25,12 +25,14 @@ class EloquentSettingsRepository extends EloquentBaseRepository
 	 */
 	public function save(array $data)
 	{
-		foreach ($data as $key => $value) {
-			if (in_array($key, $this->getInstance(false)->keys())) {
-				if (empty($value)) { $value = null; }
-				Setting::updateOrCreate([
-					'key' => $key
-				], ['value' => $value]);
+		foreach ($data as $item) {
+
+			$exists = Setting::where('key', $item['key'])->first();
+
+			if ($exists) {
+				Setting::where('key', $item['key'])->update(['value' => $item['value']]);
+			} else {
+				Setting::create(['key' => $item['key'], 'value' => $item['value']]);
 			}
 		}
 

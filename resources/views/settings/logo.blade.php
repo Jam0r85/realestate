@@ -2,30 +2,41 @@
 
 @section('sub-content')
 
-	<form role="form" method="POST" action="{{ route('settings.update-logo') }}" enctype="multipart/form-data">
-		{{ csrf_field() }}
+	@component('partials.sections.section-no-container')
 
-		@component('partials.sections.section-no-container')
+		@component('partials.title')
+			Settings
+		@endcomponent
 
-			@component('partials.title')
-				Settings
-			@endcomponent
+		@component('partials.subtitle')
+			Company Logo
+		@endcomponent
 
-			@component('partials.subtitle')
-				Company Logo
-			@endcomponent
+		@if (get_setting('company_logo'))
 
-			@if (get_setting('company_logo'))
+			<img src="{{ get_file(get_setting('company_logo')) }}" />
 
-				<img src="{{ get_file(get_setting('company_logo')) }}" />
+			<form role="form" method="POST" action="{{ route('settings.remove-logo') }}">
+				{{ csrf_field() }}
 
-			@else
-
-				@component('partials.notifications.primary')
-					No logo has been uploaded.
+				@component('partials.forms.buttons.primary')
+					Remove Logo
 				@endcomponent
 
-			@endif
+			</form>
+
+			<hr />
+
+		@else
+
+			@component('partials.notifications.primary')
+				No logo has been uploaded.
+			@endcomponent
+
+		@endif
+
+		<form role="form" method="POST" action="{{ route('settings.update-logo') }}" enctype="multipart/form-data">
+			{{ csrf_field() }}
 
 			<div class="field">
 				<label class="label" for="company_logo">
@@ -40,8 +51,8 @@
 				Update
 			@endcomponent
 
-		@endcomponent
+		</form>
 
-	</form>
+	@endcomponent
 
 @endsection
