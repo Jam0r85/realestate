@@ -70,6 +70,7 @@ Route::prefix('properties')->group(function () {
 	Route::post('/', 'PropertyController@store')->name('properties.store');
 	Route::post('search', 'PropertyController@search')->name('properties.search');
 	Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
+	Route::put('{id}/update-bank-account', 'PropertyController@updateBankAccount')->name('properties.update-bank-account');
 });
 
 Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');
@@ -127,6 +128,8 @@ Route::prefix('users')->group(function () {
 Route::prefix('bank-accounts')->group(function () {
 	Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
 	Route::post('search', 'BankAccountController@search')->name('bank-accounts.search');
+	Route::get('create', 'BankAccountController@create')->name('bank-accounts.create');
+	Route::post('/', 'BankAccountController@store')->name('bank-accounts.store');
 	Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show');
 });
 

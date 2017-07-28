@@ -17,6 +17,7 @@ class CreatePropertiesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('branch_id')->unsigned();
+            $table->integer('bank_account_id')->unsigned();
             $table->string('house_name')->nullable();
             $table->string('house_number')->nullable();
             $table->string('address1')->nullable();

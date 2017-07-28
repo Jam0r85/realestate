@@ -80,10 +80,10 @@ class PropertyController extends Controller
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $section = 'dashboard')
     {
         $property = $this->properties->find($id);
-        return view('properties.show', compact('property'));
+        return view('properties.show.' . $section, compact('property'));
     }
 
     /**
@@ -107,6 +107,19 @@ class PropertyController extends Controller
     public function update(Request $request, Property $property)
     {
         //
+    }
+
+    /**
+     * Update the the properties bank account in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Property  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBankAccount(Request $request, $id)
+    {
+        $this->properties->updateBankAccount($request->bank_account_id, $id);
+        return back();
     }
 
     /**

@@ -25,11 +25,11 @@ class BankAccount extends BaseModel
     }
 
     /**
-     * A bank account can belong to many properties.
+     * A bank account can have many properties.
      */
     public function properties()
     {
-        return $this->belongsToMany('App\Property');
+        return $this->hasMany('App\Property');
     }
 
     /**
@@ -38,7 +38,7 @@ class BankAccount extends BaseModel
      * @param   string
      * @return  void
      */
-    public function setAcountNumberAttribute($value)
+    public function setAccountNumberAttribute($value)
     {
     	$this->attributes['account_number'] = Crypt::encryptString($value);
     }
@@ -74,5 +74,15 @@ class BankAccount extends BaseModel
     public function getSortCodeAttribute($value)
     {
     	return Crypt::decryptString($value);
+    }
+
+    /**
+     * Get the bank account's name.
+     * 
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number . ' - ' . $this->sort_code;
     }
 }

@@ -120,7 +120,7 @@
 
 	<section class="section">
 		<div class="container">
-			@if ($statement->bankAccount)
+			@if ($statement->property->bank_account)
 				<p>Payment by Bank Transfer</p>
 			@else
 				<p>Cheque or Cash</p>

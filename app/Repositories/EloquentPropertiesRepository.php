@@ -28,4 +28,23 @@ class EloquentPropertiesRepository extends EloquentBaseRepository
 
 		return $property;
 	}
+
+	/**
+	 * Update the bank account for the property.
+	 * 
+	 * @param  integer $account_id
+	 * @param  App\Property $id
+	 * @return mixed
+	 */
+	public function updateBankAccount($account_id, $id)
+	{
+		$property = $this->find($id);
+
+		$property->update(['bank_account_id' => $account_id]);
+
+		$this->successMessage('The bank account was updated');
+
+		return $property;
+
+	}
 }

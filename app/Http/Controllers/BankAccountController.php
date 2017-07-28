@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBankAccountRequest;
 use App\Repositories\EloquentBankAccountsRepository;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('bank-accounts.create');
     }
 
     /**
@@ -53,9 +54,10 @@ class BankAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBankAccountRequest $request)
     {
-        //
+        $this->accounts->createBankAccount($request->input());
+        return back();
     }
 
     /**

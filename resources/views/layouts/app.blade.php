@@ -62,10 +62,13 @@
                                 </a>
                                 <hr class="navbar-divider" />
                                 <div class="navbar-header">
-                                    Other
+                                    Bank Accounts
                                 </div>
                                 <a class="navbar-item" href="{{ route('bank-accounts.index') }}">
-                                    Bank Accounts
+                                    Bank Account List
+                                </a>
+                                <a class="navbar-item" href="{{ route('bank-accounts.create') }}">
+                                    New Bank Account
                                 </a>
                                 <hr class="navbar-divider" />
                                 <div class="navbar-header">
