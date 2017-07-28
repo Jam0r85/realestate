@@ -282,7 +282,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Send the email.
             Mail::to($statement->users)
-                ->send(new StatementToLandlord($statement));
+                ->queue(new StatementToLandlord($statement));
         }
 
         $this->successMessage('Statements were sent');
