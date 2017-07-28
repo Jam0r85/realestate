@@ -24,8 +24,8 @@
 		    	padding: 0;
 		    	margin: 0 3rem;
 		    }
-	    	.section.has-header {
-	    		padding-top: 1rem;
+	    	.has-header {
+	    		margin-top: 2rem;
 	    	}
 	    	.header-image {
 	    		max-height: 150px;
