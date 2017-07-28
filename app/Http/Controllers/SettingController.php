@@ -37,6 +37,16 @@ class SettingController extends BaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logo()
+    {
+        return view('settings.logo');
+    }
+
+    /**
      * Display a listing of permissions.
      * 
      * @return \Illuminate\Http\Response
@@ -58,6 +68,19 @@ class SettingController extends BaseController
     {
         $data = $request->except('_token');
         $this->settings->save($data);
+        return back();
+    }
+
+    /**
+     * Upload and update the company logo.
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function updateLogo(Request $request)
+    {
+        $path = $request->file('company_logo')->store('logos');
+        $this->settings->save(['company_logo' => $path]);
         return back();
     }
 }

@@ -30,7 +30,9 @@ class Setting extends BaseModel
     	return [
     		'company_name',
             'invoice_default_terms',
-            'invoice_default_group'
+            'invoice_default_group',
+            'company_bank_account_id',
+            'company_logo'
     	];
     }
 

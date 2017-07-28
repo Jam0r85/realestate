@@ -11,14 +11,16 @@
 					<p class="menu-label">
 						General
 					</p>
-					@component('partials.menus.menu')
-						@component('partials.menus.menu-item')
-							@slot('path')
-								{{ route('settings.index') }}
-							@endslot
-							Company Settings
-						@endcomponent
-					@endcomponent
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('settings.index') }}">
+								Company Settings
+							</a>
+							<a href="{{ route('settings.logo') }}">
+								Company Logo
+							</a>
+						</li>
+					</ul>
 					<p class="menu-label">
 						Administration
 					</p>

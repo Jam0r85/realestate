@@ -161,6 +161,8 @@ Route::get('emails', 'EmailController@index')->name('emails.index');
 Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
 
 Route::get('settings', 'SettingController@index')->name('settings.index');
+Route::get('settings/logo', 'SettingController@logo')->name('settings.logo');
+Route::post('settings/logo', 'SettingController@updateLogo')->name('settings.update-logo');
 Route::get('settings/branches', 'BranchController@index')->name('settings.branches');
 Route::get('settings/branches/roles', 'RoleController@index')->name('settings.roles');
 Route::get('settings/user-groups', 'UserGroupController@index')->name('settings.user-groups');
