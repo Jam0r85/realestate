@@ -18,7 +18,7 @@ class Statement extends BaseModel
     {
         return [
             'date' => $this->created_at,
-            'property' => $this->property->name,
+            'property' => $this->tenancy->property->name,
             'tenancy' => $this->tenancy->name,
             'amount' => $this->amount,
             'landlord_balance' => '"' . $this->landlord_balance_amount . '"',
