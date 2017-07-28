@@ -9,14 +9,19 @@
 		@endcomponent
 
 		@if ($statement->sent_at)
-
 			@component('partials.notifications.primary')
 				Statement was sent {{ date_formatted($statement->sent_at) }}
 			@endcomponent
-
-		@else
-
 		@endif
+
+		<form role="form" method="POST" action="{{ route('statements.send', $statement->id) }}">
+			{{ csrf_field() }}
+
+			@component('partials.forms.buttons.primary')
+				Send Statement
+			@endcomponent
+
+		</form>
 
 	@endcomponent
 

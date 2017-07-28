@@ -151,9 +151,15 @@ class StatementController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function send(Request $request)
+    public function send(Request $request, $id = null)
     {
-        $this->statements->send($request->statement_id);
+        if ($id) {
+            $statement_id = $id;
+        } else {
+            $statement_id = $request->statement_id;
+        }
+
+        $this->statements->send($statement_id);
         return back();
     }
 
