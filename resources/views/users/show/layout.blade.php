@@ -23,16 +23,6 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">
-							Name
-						</p>
-						<p class="title">
-							{{ $user->name }}
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
 							E-Mail
 						</p>
 						<p class="title">
@@ -67,6 +57,9 @@
 						<li>
 							<a href="{{ route('users.show', $user->id) }}" class="{{ set_active(route('users.show', $user->id)) }}">
 								Account
+							</a>
+							<a href="{{ route('users.show', [$user->id, 'home-address']) }}" class="{{ set_active(route('users.show', [$user->id, 'home-address'])) }}">
+								Home Address
 							</a>
 							<a href="{{ route('users.show', [$user->id, 'email-notifications']) }}" class="{{ set_active(route('users.show', [$user->id, 'email-notifications'])) }}">
 								E-Mail Notifications

@@ -34,8 +34,9 @@ class StatementController extends Controller
     {
         $statements = $this->statements->getSentPaged();
         $title = 'Sent Statements List';
+        $send_statement = false;
 
-        return view('statements.index', compact('statements','title'));
+        return view('statements.index', compact('statements','title','send_statement'));
     }
 
     /**
@@ -47,8 +48,9 @@ class StatementController extends Controller
     {
         $statements = $this->statements->getUnsentPaged();
         $title = 'Unsent Statements List';
+        $send_statement = true;
 
-        return view('statements.index', compact('statements','title'));
+        return view('statements.index', compact('statements','title','send_statement'));
     }
 
     /**
@@ -141,6 +143,18 @@ class StatementController extends Controller
     public function toggleSent($id)
     {
         $this->statements->toggleSent($id);
+        return back();
+    }
+
+    /**
+     * Send the provided statements.
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function send(Request $request)
+    {
+        $this->statements->send($request->statement_id);
         return back();
     }
 

@@ -33,18 +33,18 @@
             <input type="email" name="email" class="input" value="{{ old('email') }}" />
         </p>
     </div>
-
-    <div class="field">
-        <label class="label" for="phone_number">Mobile Phone</label>
-        <p class="control">
-            <input type="text" name="phone_number" class="input" value="{{ isset($user) ? $user->phone_number : old('phone_number') }}" />
-        </p>
-    </div>
-
-    <div class="field">
-        <label class="label" for="phone_number_other">Other Phone Number</label>
-        <p class="control">
-            <input type="text" name="phone_number_other" class="input" value="{{ isset($user) ? $user->phone_number_other : old('phone_number_other') }}" />
-        </p>
-    </div>
 @endif
+
+<div class="field">
+    <label class="label" for="phone_number">Mobile Phone</label>
+    <p class="control">
+        <input type="text" name="phone_number" class="input" value="{{ isset($user) ? $user->phone_number : old('phone_number') }}" />
+    </p>
+</div>
+
+<div class="field">
+    <label class="label" for="phone_number_other">Other Phone Number</label>
+    <p class="control">
+        <input type="text" name="phone_number_other" class="input" value="{{ isset($user) ? $user->phone_number_other : old('phone_number_other') }}" />
+    </p>
+</div>

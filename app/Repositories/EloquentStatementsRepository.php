@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Mail\StatementToLandlord;
 use App\Statement;
 use App\Tenancy;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class EloquentStatementsRepository extends EloquentBaseRepository
 {
@@ -234,5 +236,23 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         $this->successMessage('Statement was marked as ' . $message);
 
         return $statement;
+    }
+
+    /**
+     * Send the statements.
+     * 
+     * @param  [type] $ids [description]
+     * @return [type]      [description]
+     */
+    public function send($ids)
+    {
+        foreach ($ids as $id) {
+            $statement = $this->find($id);
+            Mail::to($statement->users)
+                ->later(Carbon::now()->addMinutes(15), new StatementToLandlord($statement));
+        }
+
+        $this->successMessage('Statements were sent');
+        return true;
     }
 }

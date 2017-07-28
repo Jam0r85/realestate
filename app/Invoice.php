@@ -16,7 +16,7 @@ class Invoice extends BaseModel
      * 
      * @var array
      */
-    protected $appends = ['total','total_net','total_tax','total_payments','total_balance'];
+    protected $appends = ['total','total_net','total_tax','total_payments','total_balance','recipient_full'];
     
     /**
      * The attributes that should be mutated to dates.
@@ -203,6 +203,16 @@ class Invoice extends BaseModel
     public function getStatementAttribute()
     {
         return $this->statements()->first();
+    }
+
+    /**
+     * Get the invoice's full recipient including the users and the address.
+     * 
+     * @return string
+     */
+    public function getRecipientFullAttribute()
+    {
+        return $this->recipient;
     }
 
     /**

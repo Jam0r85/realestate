@@ -35,6 +35,17 @@
 				</div>
 
 				<div class="field">
+					<label class="label" for="user_id">Users</label>
+					<p class="control ix-expanded">
+						<select name="user_id[]" class="select2" multiple>
+							@foreach (users() as $user)
+								<option @if ($invoice->users->contains($user->id)) selected @endif value="{{ $user->id }}">{{ $user->name }}</option>
+							@endforeach
+						</select>
+					</p>
+				</div>
+
+				<div class="field">
 					<label class="label" for="recipient">Recipient</label>
 					<p class="control">
 						<textarea name="recipient" class="textarea">{{ $invoice->recipient }}</textarea>

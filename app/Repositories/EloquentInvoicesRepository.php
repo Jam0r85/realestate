@@ -53,7 +53,7 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function getUnpaidPaged()
 	{
-		return $this->getInstance()->whereNull('paid_at')->latest('paid_at')->paginate();
+		return $this->getInstance()->whereNull('paid_at')->oldest()->paginate();
 	}
 
 	/**
@@ -117,7 +117,11 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function updateInvoice(array $data, $id)
 	{
-		return $this->update($data, $id);
+		$invoice = $this->update($data, $id);
+
+		$invoice->users()->sync($data['user_id']);
+
+		return $invoice;
 	}
 
 	/**
