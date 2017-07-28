@@ -16,15 +16,9 @@ class Statement extends BaseModel
      */
     public function toSearchableArray()
     {
-        return [
-            'date' => $this->created_at,
-            'property' => $this->tenancy->property->name,
-            'tenancy' => $this->tenancy->name,
-            'amount' => $this->amount,
-            'landlord_balance' => '"' . $this->landlord_balance_amount . '"',
-            'landlords' => [], // Need to do this..
-            'expenses' => $this->expenses->pluck('name')->toArray(),
-        ];
+        $array = $this->toArray();
+
+        return $array;
     }
     
     /**

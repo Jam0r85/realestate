@@ -17,10 +17,9 @@ class Property extends BaseModel
      */
     public function toSearchableArray()
     {
-        return [
-            'date' => $this->created_at,
-            'name' => $this->name
-        ];
+    	$array = $this->toArray();
+
+    	return $array;
     }
 
 	/**

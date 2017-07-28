@@ -7,6 +7,18 @@ use Laravel\Scout\Searchable;
 class Payment extends BaseModel
 {
     use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
     
     /**
      * The relations that should be eager leader.
