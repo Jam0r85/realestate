@@ -24,6 +24,14 @@ class EloquentExpensesRepository extends EloquentBaseRepository
 	 */
 	public function createExpense(array $data)
 	{
-		return $this->create($data);
+		// Create the expense.
+		$expense = $this->create($data);
+
+		// Do we have any contractors to attach?
+		if ($data['contractors']) {
+			$expense->contractors()->attach($data['contractors']);
+		}
+
+		return $expense;
 	}
 }
