@@ -10,6 +10,19 @@ class Property extends BaseModel
 	use SoftDeletes;
 	use Searchable;
 
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'date' => $this->created_at,
+            'name' => $this->name
+        ];
+    }
+
 	/**
 	 * The attrbites that should be included in the collection.
 	 * 
