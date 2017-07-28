@@ -1,8 +1,6 @@
 @component('partials.table')
 	@slot('head')
-		@if ($send_statement)
-			<th>Send</th>
-		@endif
+		<th>Send</th>
 		@if (isset($show_tenancy))
 			<th>Tenancy</th>
 		@endif
@@ -19,13 +17,11 @@
 	@endslot
 	@foreach ($statements as $statement)
 		<tr>
-			@if ($send_statement)
-				<td>
-					<label class="checkbox">
-						<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
-					</label>
-				</td>
-			@endif
+			<td>
+				<label class="checkbox">
+					<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
+				</label>
+			</td>
 			@if (isset($show_tenancy))
 				<td>{{ $statement->tenancy->name }}</td>
 			@endif

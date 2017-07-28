@@ -35,9 +35,8 @@ class StatementController extends Controller
     {
         $statements = $this->statements->getSentPaged();
         $title = 'Sent Statements List';
-        $send_statement = false;
 
-        return view('statements.index', compact('statements','title','send_statement'));
+        return view('statements.index', compact('statements','title'));
     }
 
     /**
@@ -49,9 +48,8 @@ class StatementController extends Controller
     {
         $statements = $this->statements->getUnsentPaged();
         $title = 'Unsent Statements List';
-        $send_statement = true;
 
-        return view('statements.index', compact('statements','title','send_statement'));
+        return view('statements.index', compact('statements','title'));
     }
 
     /**
