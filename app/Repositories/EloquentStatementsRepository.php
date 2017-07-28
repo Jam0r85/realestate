@@ -184,7 +184,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
     /**
      * Toggle a statement as being paid or unpaid.
-     * 
+     *
      * @param  \App\Statement $id
      * @return \App\Statement
      */
@@ -195,7 +195,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Mark the statement as either being paid or not.
         if ($statement->paid_at) {
-            $data['paid_at'] = NULL;
+            $data['paid_at'] = null;
             $message = 'Unpaid';
         } else {
             $data['paid_at'] = Carbon::now();
@@ -212,7 +212,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
     /**
      * Toggle a statement as being paid or unpaid.
-     * 
+     *
      * @param  \App\Statement $id
      * @return \App\Statement
      */
@@ -223,7 +223,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Mark the statement as either being sent or not.
         if ($statement->sent_at) {
-            $data['sent_at'] = NULL;
+            $data['sent_at'] = null;
             $message = 'Unsent';
         } else {
             $data['sent_at'] = Carbon::now();
@@ -240,14 +240,19 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
     /**
      * Send the statements.
-     * 
+     *
      * @param  [type] $ids [description]
      * @return [type]      [description]
      */
-    public function send($ids)
+    public function send(array $ids)
     {
+        // Loop through the provided statement IDs
         foreach ($ids as $id) {
+            
+            // Find the statement
             $statement = $this->find($id);
+
+            // Send the email.
             Mail::to($statement->users)
                 ->later(Carbon::now()->addMinutes(15), new StatementToLandlord($statement));
         }

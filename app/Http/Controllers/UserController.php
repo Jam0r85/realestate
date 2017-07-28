@@ -201,6 +201,19 @@ class UserController extends BaseController
     }
 
     /**
+     * Update the user's home address in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateHomeAddress(Request $request, $id)
+    {
+        $user = $this->users->updateHomeAddress($request->property_id, $id);
+        return back();
+    }
+
+    /**
      * Send the user an email message.
      * 
      * @param  \Illuminate\Http\Request $request

@@ -101,7 +101,7 @@ class Statement extends Model
     /**
      * Get the statement's invoice total.
      * 
-     * @return integer
+     * @return int
      */
     public function getInvoiceTotalAmountAttribute()
     {
@@ -111,7 +111,7 @@ class Statement extends Model
     /**
      * Get the statement's balance amount to the landlord.
      * 
-     * @return integer
+     * @return int
      */
     public function getLandlordBalanceAmountAttribute()
     {
@@ -131,7 +131,7 @@ class Statement extends Model
     /**
      * Check whether a statement has an invoice.
      * 
-     * @return boolean
+     * @return bool
      */
     public function hasInvoice()
     {
@@ -141,10 +141,20 @@ class Statement extends Model
     /**
      * Check whether a statement has unsent payments.
      * 
-     * @return integer
+     * @return int
      */
     public function hasUnsentPayments()
     {
         return $this->payments()->whereNull('sent_at')->count();
+    }
+
+    /**
+     * Are we posting this rental statement instead of sending it by email?
+     * 
+     * @return bool
+     */
+    public function sendByPost()
+    {
+        return true;
     }
 }

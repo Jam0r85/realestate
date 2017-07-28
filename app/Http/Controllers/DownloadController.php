@@ -110,17 +110,27 @@ class DownloadController extends Controller
     }
 
     /**
+     * Return the PDF as a raw file.
+     * 
+     * @return mixed
+     */
+    public function raw()
+    {
+        //
+    }
+
+    /**
      * Download a rental statement.
      * 
      * @param  \App\Statement $id
      * @return \Illuminate\Http\Response
      */
-    public function statement($id)
+    public function statement($id, $return = 'stream')
     {
         $statement = $this->statements->find($id);
 		$pdf_name = 'Statement ' . $statement->id;
         $this->pdf->loadHtml($this->getView('pdf.statement', ['statement' => $statement]));
-        return $this->stream();
+        return $this->$return();
     }
 
     /**

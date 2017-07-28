@@ -116,6 +116,7 @@ Route::prefix('users')->group(function () {
 	Route::put('{id}/update-phones', 'UserController@updatePhone')->name('users.update-phone');
 	Route::put('{id}/update-groups', 'UserController@updateGroups')->name('users.update-groups');
 	Route::put('{id}/update-roles', 'UserController@updateRoles')->name('users.update-roles');
+	Route::put('{id}/update-home-address', 'UserController@updateHomeAddress')->name('users.update-home-address');
 	Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
 	Route::put('{id}', 'UserController@update')->name('users.update');
 	Route::post('{id}/archive', 'UserController@archive')->name('users.archive');

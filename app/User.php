@@ -41,6 +41,7 @@ class User extends Authenticatable
         'phone_number',
         'phone_number_other',
         'password',
+        'property_id'
     ];
 
     /**

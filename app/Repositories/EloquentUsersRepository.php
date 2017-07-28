@@ -140,4 +140,21 @@ class EloquentUsersRepository extends EloquentBaseRepository
 
 		return $user;
 	}
+
+	/**
+	 * Update the user's home address.
+	 * 
+	 * @param  	array 	$groups
+	 * @param  	mixed 	$model
+	 * @return 	mixed
+	 */
+	public function updateHomeAddress($property_id, $model)
+	{
+		$user = $this->find($model);
+		$user->update(['property_id' => $property_id]);
+
+		$this->successMessage('The user\'s home address was updated');
+
+		return $user;
+	}
 }
