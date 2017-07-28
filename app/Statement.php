@@ -3,9 +3,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
-class Statement extends Model
+class Statement extends BaseModel
 {
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'property' => $this->property->name,
+            'tenancy' => $this->tenancy_name,
+            'amount' => $this->amount,
+            'landlord_balance' => $this->landlord_balance_amount,
+        ];
+    }
+    
     /**
      * The attributes that should be mutated to dates.
      * 
