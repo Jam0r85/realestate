@@ -45,7 +45,7 @@
 			Record Payment
 		@endcomponent
 
-		@if ($invoice->paid_at || $invoice->total <= 0)
+		@if (!$invoice->canTakePayments())
 
 			@component('partials.notifications.primary')
 				This invoice has been paid or has a balance of {{ currency(0) }}. You cannot record new payments for it.

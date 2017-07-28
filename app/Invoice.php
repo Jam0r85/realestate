@@ -182,7 +182,7 @@ class Invoice extends BaseModel
      */
     public function getTotalPaymentsAttribute()
     {
-        return $this->payments->sum('amount');
+        return $this->payments->sum('amount') + $this->statement_payments->sum('amount');
     }
 
     /**
@@ -223,5 +223,19 @@ class Invoice extends BaseModel
     public function hasStatement()
     {
         return (boolean) $this->statements()->first();
+    }
+
+    /**
+     * Check whether the invoice can accept new payments or not.
+     * 
+     * @return bool
+     */
+    public function canTakePayments()
+    {
+        if ($this->total_balance > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
