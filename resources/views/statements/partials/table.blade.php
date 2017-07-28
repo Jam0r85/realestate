@@ -22,9 +22,11 @@
 			<td>
 				{{ $statement->tenancy->name }}
 				<br />
-				<span class="tag is-light">
-					{{ $statement->tenancy->property->short_name }}
-				</span>
+				<a href="{{ route('properties.show', $statement->property->id) }}">
+					<span class="tag is-light">
+						{{ $statement->property->short_name }}
+					</span>
+				</a>
 			</td>
 			<td>{{ currency($statement->amount) }}</td>
 			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
