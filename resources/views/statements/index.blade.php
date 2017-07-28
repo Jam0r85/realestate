@@ -38,7 +38,7 @@
 			@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
 
 			@component('partials.forms.buttons.primary')
-				Send Statements
+				Send Selected Statements
 			@endcomponent
 
 		</form>

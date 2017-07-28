@@ -1,12 +1,8 @@
 @component('partials.table')
 	@slot('head')
-		<th>Send</th>
-		@if (isset($show_tenancy))
-			<th>Tenancy</th>
-		@endif
-		@if (isset($show_property))
-			<th>Property</th>
-		@endif
+		<th></th>
+		<th>Date</th>
+		<th>Tenancy &amp; Property</th>
 		<th>Amount</th>
 		<th>Period</th>
 		<th>Status</th>
@@ -22,12 +18,14 @@
 					<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
 				</label>
 			</td>
-			@if (isset($show_tenancy))
-				<td>{{ $statement->tenancy->name }}</td>
-			@endif
-			@if (isset($show_property))
-				<td>{{ $statement->tenancy->property->short_name }}</td>
-			@endif
+			<td>{{ date_formatted($statement->created_at) }}</td>
+			<td>
+				{{ $statement->tenancy->name }}
+				<br />
+				<span class="tag is-primary">
+					{{ $statement->tenancy->property->short_name }}
+				</span>
+			</td>
 			<td>{{ currency($statement->amount) }}</td>
 			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 			<td>
