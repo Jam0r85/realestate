@@ -57,6 +57,8 @@ class StatementPaymentController extends Controller
     public function search(Request $request)
     {
         $payments = $this->statement_payments->search($request->search_term);
-        return view('statement-payments.index', compact('payments'));
+        $title = 'Search Results';
+
+        return view('statement-payments.index', compact('payments','title'));
     }
 }
