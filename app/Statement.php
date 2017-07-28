@@ -226,6 +226,6 @@ class Statement extends BaseModel
      */
     public function sendByPost()
     {
-        return false;
+        return $this->property->hasSetting('post_rental_statement');
     }
 }

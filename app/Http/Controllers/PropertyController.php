@@ -110,7 +110,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * Update the the properties bank account in storage.
+     * Update the properties bank account in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Property  $id
@@ -119,6 +119,19 @@ class PropertyController extends Controller
     public function updateBankAccount(Request $request, $id)
     {
         $this->properties->updateBankAccount($request->bank_account_id, $id);
+        return back();
+    }
+
+    /**
+     * Update the properties statement sending method.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Property  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatementSending(Request $request, $id)
+    {
+        $this->properties->updateStatementSendingMethod($request->sending_method, $id);
         return back();
     }
 

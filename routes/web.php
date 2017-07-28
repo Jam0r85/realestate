@@ -71,6 +71,7 @@ Route::prefix('properties')->group(function () {
 	Route::post('search', 'PropertyController@search')->name('properties.search');
 	Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
 	Route::put('{id}/update-bank-account', 'PropertyController@updateBankAccount')->name('properties.update-bank-account');
+	Route::put('{id}/update-statement-sending', 'PropertyController@updateStatementSending')->name('properties.update-statement-sending');
 });
 
 Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');

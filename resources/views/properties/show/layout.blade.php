@@ -55,8 +55,8 @@
 							<a href="{{ route('properties.show', $property->id) }}" class="{{ set_active(route('properties.show', $property->id)) }}">
 								Dashboard
 							</a>
-							<a href="{{ route('properties.show', [$property->id, 'bank-account']) }}" class="{{ set_active(route('properties.show', [$property->id, 'bank-account'])) }}">
-								Default Bank Account
+							<a href="{{ route('properties.show', [$property->id, 'statement-settings']) }}" class="{{ set_active(route('properties.show', [$property->id, 'statement-settings'])) }}">
+								Statement Settings
 							</a>
 						</li>
 					</ul>
