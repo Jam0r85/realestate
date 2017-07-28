@@ -21,6 +21,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     public $statement_payments;
 
     /**
+     * @var  App\Repositories\EloquentExpensesRepository
+     */
+    public $expenses;
+
+    /**
      * Create a new repository instance.
      *
      * @param   EloquentPaymentsRepository $payments
@@ -70,13 +75,17 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param  [type] $tenancy [description]
      * @return [type]          [description]
      */
-    public function createStatement(array $data, $tenancy)
+    public function createStatement(array $data, $id)
     {
         // Find the tenancy.
-        $tenancy = Tenancy::findOrFail($tenancy);
+        if (isset($data['tenancy_id'])) {
+            $tenancy = Tenancy::findOrFail($data['tenancy_id']);
+        } else {
+            $tenancy = Tenancy::findOrFail($id);
+            $data['tenancy_id'] = $tenancy->id;
+        }
 
         // Build the data array.
-        $data['tenancy_id'] = $tenancy->id;
         $data['key'] = str_random(30);
 
         // Set the statement amount.
@@ -286,7 +295,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function send($ids)
     {
-        if (!is_array($ids)) { $ids = explode(',', $ids); }
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
 
         // Loop through the provided statement IDs
         foreach ($ids as $id) {
