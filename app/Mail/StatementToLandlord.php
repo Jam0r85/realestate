@@ -36,14 +36,15 @@ class StatementToLandlord extends Mailable
     {
         // Check which markdown we want to use.
         if ($this->statement->sendByPost()) {
-            $this->subject('Your rental statement is on the way');
+            $this->subject('Rental Statement: ' . $this->statement->property->short_name);
             $this->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
         } else {
+
             // Grab the statement..
             // MUST BE A NICER WAY TO DO THIS!
             $statement = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id);
 
-            $this->subject('Your rental statement is attached');
+            $this->subject('Rental Statement: ' . $this->statement->property->short_name);
             $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
             $this->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
             
