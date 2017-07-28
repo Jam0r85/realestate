@@ -18,6 +18,7 @@ class Statement extends BaseModel
     {
         return [
             'id' => $this->id,
+            'date' => $this->created_at,
             'property' => $this->property->name,
             'tenancy' => $this->tenancy_name,
             'amount' => $this->amount,
