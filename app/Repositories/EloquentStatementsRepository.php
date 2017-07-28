@@ -289,10 +289,23 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             // Find the statement
             $statement = $this->find($id);
 
-            // Send the email.
-            Mail::to($statement->users)
-                ->send(new StatementToLandlord($statement));
+            // Make sure there is at least one statement user with an email.
+            $send_email = false;
 
+            foreach ($statement->users as $user) {
+                if ($user->email) {
+                    $send_email = true;
+                }
+            }
+
+            // Send the email.
+            if ($send_email) {
+                Mail::to($statement->users)->send(new StatementToLandlord($statement));
+            } else {
+                $this->flash('Statement email not sent');
+            }
+
+            // Update the statement sent date.
             $statement->update(['sent_at' => Carbon::now()]);
         }
 
