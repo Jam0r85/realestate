@@ -37,11 +37,11 @@
 			{{ csrf_field() }}
 			@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
 
-			<div class="content">
-				@component('partials.forms.buttons.primary')
-					Send Selected Statements
-				@endcomponent
-			</div>
+			<hr />
+			
+			@component('partials.forms.buttons.primary')
+				Send Selected Statements
+			@endcomponent
 
 		</form>
 	@endcomponent

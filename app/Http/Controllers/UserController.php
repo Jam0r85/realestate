@@ -90,7 +90,7 @@ class UserController extends BaseController
     public function store(StoreUserRequest $request)
     {
         $user = $this->users->createUser($request->input());        
-        return view('users.show', compact('user'));
+        return redirect()->route('users.show', $user->id);
     }
 
     /**

@@ -17,7 +17,6 @@ class Statement extends BaseModel
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
             'date' => $this->created_at,
             'property' => $this->property->name,
             'tenancy' => $this->tenancy->name,
