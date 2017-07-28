@@ -69,6 +69,15 @@ class Statement extends Model
     }
 
     /**
+     * A statement can have many expenses.
+     */
+    public function expenses()
+    {
+        return $this->belongsToMany('App\Expense')
+            ->withPivot('amount');
+    }
+
+    /**
      * Get the statement name.
      * 
      * @return [type] [description]
@@ -109,13 +118,23 @@ class Statement extends Model
     }
 
     /**
+     * Get the statement's expense total
+     * 
+     * @return int
+     */
+    public function getExpenseTotalAmountAttribute()
+    {
+        return $this->expenses->sum('pivot.amount');
+    }
+
+    /**
      * Get the statement's balance amount to the landlord.
      * 
      * @return int
      */
     public function getLandlordBalanceAmountAttribute()
     {
-        return $this->amount - $this->invoice_total_amount;
+        return $this->amount - ($this->invoice_total_amount - $this->expense_total_amount);
     }
 
     /**

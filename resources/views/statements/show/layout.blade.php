@@ -55,7 +55,7 @@
 							Expenses Total
 						</p>
 						<p class="title">
-							
+							{{ currency($statement->expense_total_amount) }}
 						</p>
 					</div>
 				</div>

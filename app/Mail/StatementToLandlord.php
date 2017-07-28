@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class StatementToLandlord extends Mailable
 {
@@ -33,15 +34,17 @@ class StatementToLandlord extends Mailable
      */
     public function build()
     {
+        // Build the email.
         $email = new MailMessage();
 
+        // Check which markdown we want to use.
         if ($this->statement->sendByPost()) {
             $email->subject('Your rental statement is on the way');
-            $email->markdown('email-templates.send-rental-statement-not-attached', ['statement' => $this->statement]);
+            $email->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
         } else {
             $email->subject('Your rental statement is attached');
             $email->attachData(DownloadController::statement($this->statement->id), $this->statement->tenancy->property->short_name . ' Statement.pdf');
-            $email->markdown('email-templates.send-rental-statement', ['statement' => $this->statement]);
+            $email->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
             
             // Check whether the statement has any expense payments
             if (count($this->statement->expenses)) {
