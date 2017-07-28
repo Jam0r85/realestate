@@ -24,6 +24,22 @@
 
 		@endif
 
+		@component('partials.subtitle')
+			Expense Items
+		@endcomponent
+
+		@if (!count($statement->expenses))
+
+			@component('partials.notifications.primary')
+				Statement has no expense items.
+			@endcomponent
+
+		@else
+
+			@include('expenses.partials.table', ['expenses' => $statement->expenses, 'amount' => true])
+
+		@endif
+
 	@endcomponent
 
 @endsection

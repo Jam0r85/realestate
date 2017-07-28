@@ -58,4 +58,23 @@ class Expense extends Model
     	return $this->belongsToMany('App\Statement')
     		->withPivot('amount');
     }
+
+    /**
+     * Get the expenses' statement name.
+     * 
+     * @return string
+     */
+    public function getStatementNameAttribute()
+    {
+        $name = '<b>' . $this->name . '</b>';
+
+        if (count($this->contractors)) {
+            $name .= '<br />';
+            foreach ($this->contractors as $user) {
+                $name .= $user->name;
+            }
+        }
+
+        return $name;
+    }
 }

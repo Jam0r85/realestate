@@ -34,17 +34,14 @@ class StatementToLandlord extends Mailable
      */
     public function build()
     {
-        // Build the email.
-        $email = new MailMessage();
-
         // Check which markdown we want to use.
         if ($this->statement->sendByPost()) {
-            $email->subject('Your rental statement is on the way');
-            $email->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
+            $this->subject('Your rental statement is on the way');
+            $this->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
         } else {
-            $email->subject('Your rental statement is attached');
-            $email->attachData(DownloadController::statement($this->statement->id), $this->statement->tenancy->property->short_name . ' Statement.pdf');
-            $email->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
+            $this->subject('Your rental statement is attached');
+            $this->attachData(DownloadController::statement($this->statement->id), $this->statement->tenancy->property->short_name . ' Statement.pdf');
+            $this->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
             
             // Check whether the statement has any expense payments
             if (count($this->statement->expenses)) {
@@ -53,12 +50,12 @@ class StatementToLandlord extends Mailable
                     // Check whether the expense has an invoice
                     if ($expense->invoice) {
                         // Attach the invoice to the email
-                        $email->attachData(Storage::get($expense->invoice->path), $expense->name . '.' . $expense->invoice->extension);
+                        $this->attachData(Storage::get($expense->invoice->path), $expense->name . '.' . $expense->invoice->extension);
                     }
                 }
             }
         }
 
-        return $email;
+        return $this;
     }
 }

@@ -26,9 +26,10 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param   EloquentPaymentsRepository $payments
      * @return  void
      */
-    public function __construct(EloquentInvoicesRepository $invoices, EloquentStatementPaymentsRepository $statement_payments)
+    public function __construct(EloquentInvoicesRepository $invoices, EloquentExpensesRepository $expenses, EloquentStatementPaymentsRepository $statement_payments)
     {
         $this->invoices = $invoices;
+        $this->expenses = $expenses;
         $this->statement_payments = $statement_payments;
     }
 
@@ -160,6 +161,33 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         $this->successMessage('The invoice item was created');
 
         return $item;
+    }
+
+    /**
+     * Store a new expense item for a rental statement.
+     *
+     * @param  array           $data
+     * @param  \App\Statement. $id
+     * @return mixed
+     */
+    public function createExpenseItem(array $data, $id)
+    {
+        // Find the statement.
+        $statement = $this->find($id);
+
+        // Insert the property_id into the data array.
+        $data['property_id'] = $statement->property->id;
+
+        // Create the expense.
+        $expense = $this->expenses->createExpense($data);
+
+        // Attach the expense to the statement.
+        $statement->expenses()->attach($expense, ['amount' => $data['cost']]);
+
+        // Flash a success message.
+        $this->successMessage('The expense item was created');
+
+        return $expense;
     }
 
     /**

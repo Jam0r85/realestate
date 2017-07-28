@@ -5,18 +5,18 @@
 	@component('partials.sections.section-no-container')
 
 		@component('partials.title')
-			Create Invoice Item
+			Create Expense Item
 		@endcomponent
 
-		<form role="form" method="POST" action="{{ route('statements.create-invoice-item', $statement->id) }}">
+		<form role="form" method="POST" action="{{ route('statements.create-expense-item', $statement->id) }}">
 			{{ csrf_field() }}
 
 			@include('partials.errors-block')
 
-			@include('invoices.partials.item-form')
+			@include('expenses.partials.form')
 
 			@component('partials.forms.buttons.primary')
-				Create Invoice Item
+				Create Expense Item
 			@endcomponent
 		</form>
 

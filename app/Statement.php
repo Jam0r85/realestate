@@ -138,6 +138,36 @@ class Statement extends Model
     }
 
     /**
+     * Get the statement's net amount.
+     * 
+     * @return int
+     */
+    public function getNetAmountAttribute()
+    {
+        return $this->expense_total_amount + $this->invoices->sum('total_net');
+    }
+
+    /**
+     * Get the statement's net amount.
+     * 
+     * @return int
+     */
+    public function getTaxAmountAttribute()
+    {
+        return $this->invoices->sum('total_tax');
+    }
+
+    /**
+     * Get the statement's net amount.
+     * 
+     * @return int
+     */
+    public function getTotalAmountAttribute()
+    {
+        return $this->net_amount + $this->tax_amount;
+    }
+
+    /**
      * Get the recipient of the rental statement.
      * 
      * @return string

@@ -72,6 +72,7 @@
 					</tr>
 				</thead>
 				<tbody>
+
 					@foreach ($statement->invoice->items as $item)
 						<tr>
 							<td>
@@ -89,33 +90,29 @@
 							<td class="">{{ currency($item->total) }}</td>
 						</tr>
 					@endforeach
-					@if ($statement->expenses)
-						@foreach ($statement->expenses as $expense)
-							<tr>
-								<td>
-									{{ $expense->name }}
-									<br />
-									{{ implode(', ', $expense->users->pluck('name')->toArray()) }}
-								</td>
-								<td class="">{{ currency($expense->pivot->amount) }}</td>
-								<td></td>
-								<td class="">{{ currency($expense->pivot->amount) }}</td>
-							</tr>
-						@endforeach
-					@endif
+
+					@foreach ($statement->expenses as $expense)
+						<tr>
+							<td>{!! $expense->statement_name !!}</td>
+							<td class="">{{ currency($expense->pivot->amount) }}</td>
+							<td></td>
+							<td class="">{{ currency($expense->pivot->amount) }}</td>
+						</tr>
+					@endforeach
+
 				</tbody>
 				<tfoot>
 					<tr>
 						<th>Sub Totals</th>
-						<th class="">{{ currency($statement->net) }}</th>
-						<th class="">{{ currency($statement->tax) }}</th>
-						<th class="">{{ currency($statement->total) }}</th>
+						<th class="">{{ currency($statement->net_amount) }}</th>
+						<th class="">{{ currency($statement->tax_amount) }}</th>
+						<th class="">{{ currency($statement->total_amount) }}</th>
 					</tr>
 				</tfoot>
 			</table>
 
 			<div class="has-text-right">
-				<p><b>{{ currency($statement->landlordBalance) }}</b> balance to landlord</p>
+				<p><b>{{ currency($statement->landlord_balance_amount) }}</b> balance to landlord</p>
 			</div>
 
 		</div>
