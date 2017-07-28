@@ -20,7 +20,7 @@
 			@endslot
 			@foreach ($emails as $email)
 				<tr>
-					<td>{{ date_formatted($email->created_at) }}</td>
+					<td>{{ datetime_formatted($email->created_at) }}</td>
 					<td>{{ $email->subject }}</td>
 					<td>{{ $email->to }}</td>
 					<td></td>
