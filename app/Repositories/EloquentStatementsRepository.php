@@ -233,6 +233,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                 $this->statement_payments->createPayments($statement);
             }
 
+            // Update the invoice as being sent and paid.
+            if ($statement->invoice) {
+                $statement->invoice->update(['paid_at' => Carbon::now(), 'sent_at' => Carbon::now()]);
+            }
+
             // Mark the statement payments as being sent.
             $statement->payments()->whereNull('sent_at')->update(['sent_at' => Carbon::now()]);
         }
