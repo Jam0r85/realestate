@@ -47,4 +47,16 @@ class StatementPaymentController extends Controller
     	$payments = $this->statement_payments->getUnsentPaged();
     	return view('statement-payments.unsent', compact('payments'));
     }
+
+    /**
+     * Search through the resource and display the results.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $payments = $this->statement_payments->search($request->search_term);
+        return view('statement-payments.index', compact('payments'));
+    }
 }
