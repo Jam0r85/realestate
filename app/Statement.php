@@ -22,8 +22,9 @@ class Statement extends BaseModel
             'property' => $this->property->name,
             'tenancy' => $this->tenancy->name,
             'amount' => $this->amount,
-            'landlord_balance' => $this->landlord_balance_amount,
-            'expenses' => $this->expenses->pluck('name')->toArray()
+            'landlord_balance' => '"' . $this->landlord_balance_amount . '"',
+            'landlords' => [], // Need to do this..
+            'expenses' => $this->expenses->pluck('name')->toArray(),
         ];
     }
     
