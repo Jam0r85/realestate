@@ -102,6 +102,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Set the statement start period.
         if (!isset($data['period_start'])) {
             $data['period_start'] = $tenancy->next_statement_start_date;
+        } else {
+            $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
         }
 
         // Set the statement end period.
