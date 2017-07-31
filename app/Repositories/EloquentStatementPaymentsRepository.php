@@ -31,9 +31,12 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 * 
 	 * @return \App\Repositories\EloquentStatementPaymentsRepository
 	 */
-	public function getUnsentPaged()
+	public function getUnsentGrouped()
 	{
-		return $this->getInstance()->whereNull('sent_at')->latest()->paginate();
+		$payments = $this->getInstance()->whereNull('sent_at')->get();
+        $groups = $payments->groupBy('parent_type');
+
+        return $groups;
 	}
 
 	/**
