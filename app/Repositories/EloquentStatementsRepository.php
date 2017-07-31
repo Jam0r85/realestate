@@ -142,6 +142,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Create an invoice.
             $invoice = $this->invoices->createInvoice([
+                'created_at' => $statement->created_at,
                 'property_id' => $tenancy->property_id
             ]);
 
