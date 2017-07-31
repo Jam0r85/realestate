@@ -97,6 +97,10 @@
                                 Tenancies
                             </a>
                             <div class="navbar-dropdown">
+                                <a class="navbar-item" href="{{ route('tenancies.create') }}">
+                                    New Tenancy
+                                </a>
+                                <hr class="navbar-divider" />
                                 <a class="navbar-item" href="{{ route('tenancies.overdue') }}">
                                     Overdue
                                 </a>

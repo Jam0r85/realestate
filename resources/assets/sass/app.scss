@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 
 /**
  * Import the base Bulma variables.
@@ -31,6 +31,8 @@ body {
 /**
  * Font
  */
+
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto Slab", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
 .is-subtitle {
 	background-color: $white-ter;
