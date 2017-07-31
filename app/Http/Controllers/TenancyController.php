@@ -91,7 +91,7 @@ class TenancyController extends Controller
      */
     public function create()
     {
-        //
+        return view('tenancies.create');
     }
 
     /**

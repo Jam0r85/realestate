@@ -55,8 +55,9 @@
                             </a>
                             <div class="navbar-dropdown">
                                 <a class="navbar-item" href="{{ route('users.create') }}">
-                                    Create User
+                                    New User
                                 </a>
+                                <hr class="navbar-divider" />
                                 <a class="navbar-item" href="{{ route('users.archived') }}">
                                     Archived Users
                                 </a>
@@ -87,9 +88,8 @@
                             </a>
                             <div class="navbar-dropdown">
                                 <a class="navbar-item" href="{{ route('properties.create') }}">
-                                    Create Property
+                                    New Property
                                 </a>
-                                <hr class="navbar-divider" />
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
@@ -142,7 +142,7 @@
                             </a>
                             <div class="navbar-dropdown">
                                 <a class="navbar-item" href="{{ route('invoices.create') }}">
-                                    Create Invoice
+                                    New Invoice
                                 </a>
                                 <hr class="navbar-divider" />
                                 <a class="navbar-item" href="{{ route('invoices.unpaid') }}">
