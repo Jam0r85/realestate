@@ -129,7 +129,7 @@ class DownloadController extends Controller
     {
         $statement = $this->statements->find($id);
 		$pdf_name = 'Statement ' . $statement->id;
-        $this->pdf->loadHtml($this->getView('pdf.statement', ['statement' => $statement]));
+        $this->pdf->loadHtml($this->getView('pdf.statement', ['statement' => $statement, 'title' => $statement->property->short_name]));
         return $this->$return();
     }
 
@@ -143,7 +143,7 @@ class DownloadController extends Controller
     {
         $invoice = $this->invoices->find($id);
         $pdf_name = 'Invoice ' . $invoice->number;
-        $this->pdf->loadHtml($this->getView('pdf.invoice', ['invoice' => $invoice]));
+        $this->pdf->loadHtml($this->getView('pdf.invoice', ['invoice' => $invoice, 'title' => 'Invoice ' . $invoice->number]));
         return $this->stream();
     }
 
@@ -157,7 +157,7 @@ class DownloadController extends Controller
     {
         $payment = $this->payments->find($id);
         $pdf_name = 'Payment ' . $payment->id;
-        $this->pdf->loadHtml($this->getView('pdf.payment', ['payment' => $payment]));
+        $this->pdf->loadHtml($this->getView('pdf.payment', ['payment' => $payment, 'title' => 'Payment ' . $payment->id]));
         return $this->stream();
     }
 }
