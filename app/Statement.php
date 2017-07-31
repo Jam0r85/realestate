@@ -36,6 +36,7 @@ class Statement extends BaseModel
      * @var array
      */
 	protected $fillable = [
+        'created_at',
 		'tenancy_id',
 		'key',
 		'period_start',

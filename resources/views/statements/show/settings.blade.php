@@ -15,6 +15,13 @@
 			{{ method_field('PUT') }}
 
 			<div class="field">
+				<label class="label" for="created_at">Created</label>
+				<p class="control">
+					<input type="date" name="created_at" class="input" value="{{ $statement->created_at->format('Y-m-d') }}" />
+				</p>
+			</div>
+
+			<div class="field">
 				<label class="label" for="period_start">Date From</label>
 				<p class="control">
 					<input type="date" name="period_start" class="input" value="{{ $statement->period_start->format('Y-m-d') }}" />
