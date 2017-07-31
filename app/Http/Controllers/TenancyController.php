@@ -51,7 +51,7 @@ class TenancyController extends Controller
      */
     public function overdue()
     {
-        $tenancies = $this->tenancies->getOverdue();
+        $tenancies = $this->tenancies->getOverdueList();
         $title = 'Overdue Tenancies';
 
         return view('tenancies.index', compact('tenancies','title'));

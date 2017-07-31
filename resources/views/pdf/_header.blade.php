@@ -25,7 +25,7 @@
 		    	margin: 0 3rem;
 		    }
 	    	.has-header {
-	    		margin-top: 1rem;
+	    		margin-top: 0.5rem;
 	    	}
 	    	.header-image {
 	    		max-height: 150px;

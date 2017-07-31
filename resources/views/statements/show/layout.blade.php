@@ -102,7 +102,7 @@
 								<span class="icon is-small">
 									<i class="fa fa-list"></i>
 								</span>
-								Items
+								Statement Items
 							</a>
 							@if (!$statement->paid_at)
 								<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
@@ -135,13 +135,13 @@
 								<span class="icon is-small">
 									<i class="fa fa-envelope"></i>
 								</span>
-								{{ $statement->sent_at ? 'Re-Send' : 'Send' }}
+								{{ $statement->sent_at ? 'Re-Send' : 'Send' }} Statement
 							</a>
 							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
 								<span class="icon is-small">
 									<i class="fa fa-download"></i>
 								</span>
-								Download
+								Download Statement
 							</a>
 						</li>
 					</ul>
@@ -151,6 +151,9 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('statements.show', [$statement->id, 'payments']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'payments'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-gbp"></i>
+								</span>
 								Payments List
 							</a>
 						</li>

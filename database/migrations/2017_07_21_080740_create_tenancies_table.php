@@ -17,6 +17,7 @@ class CreateTenanciesTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned();
             $table->integer('service_id')->unsigned();
+            $table->boolean('is_overdue')->default(false);
             $table->date('vacated_on')->nullable();
             $table->timestamps();
             $table->softDeletes();

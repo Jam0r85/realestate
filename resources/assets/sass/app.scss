@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://www.fontify.me/wf/80793f033445fe42e7885f60844afb88');
 
-$family-sans-serif: "Ubuntu", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-sans-serif: font133292, "Ubuntu", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
 /**
  * Import the base Bulma variables.
@@ -44,10 +45,11 @@ body {
 
 .button {
 	height: 100%;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
 	font-weight: $weight-bold;
 	border-width: 2px;
-	padding: 7px 20px;
+	padding: 3rem;
 }
 
 /**

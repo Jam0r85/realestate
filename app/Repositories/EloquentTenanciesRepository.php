@@ -49,11 +49,9 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 * 
 	 * @return \App\Tenancy
 	 */
-	public function getOverdue()
+	public function getOverdueList()
 	{
-		return $this->getInstance()->whereHas('statements', function ($query) {
-			return $query->where('period_end', '<', Carbon::now());
-		})->get();
+		return $this->getInstance()->whereIsOverdue(1)->get();
 	}
 
 	/**
