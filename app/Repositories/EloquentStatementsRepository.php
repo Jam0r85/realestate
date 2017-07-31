@@ -415,6 +415,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $this->invoices->archiveInvoice($statement->invoice->id);
         }
 
+        $statement->tenancy->setOverdueStatus();
+
         return $statement;
     }
 }

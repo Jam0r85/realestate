@@ -47,17 +47,7 @@ class TenancyBackgroundChecks extends Command
     public function handle()
     {
         foreach ($this->tenancies->getAll() as $tenancy) {
-            if ($tenancy->isManaged()) {
-
-                // Check whether tenancy is overdue
-                if ($tenancy->next_statement_start_date <= Carbon::now()) {
-                    $tenancy->fill(['is_overdue' => true]);
-                } else {
-                    $tenancy->fill(['is_overdue' => false]);
-                }
-
-                $tenancy->save();
-            }
+            $tenancy->setOverdueStatus();
         }
 
         $this->info('Tenancies processed');

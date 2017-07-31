@@ -63,8 +63,8 @@ class StatementBackgroundChecks extends Command
                     $statement->update(['paid_at' => Carbon::now()]);
                 }
             }
-
-            $this->info('Statement background checks processed');
         }
+
+         $this->info('Statement background checks processed');
     }
 }
