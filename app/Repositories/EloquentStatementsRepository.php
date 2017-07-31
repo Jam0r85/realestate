@@ -315,7 +315,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             }
 
             // Mark the statement payments as being sent.
-            $statement->payments()->whereNull('sent_at')->update(['sent_at' => Carbon::now()]);
+            $statement->payments()->whereNull('sent_at')->update(['sent_at' => $statement->created_at]);
         }
 
         // Update the statement.
