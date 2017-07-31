@@ -14,25 +14,6 @@
 
 	@component('partials.sections.section')
 
-		<div class="content">
-
-			<form role="form" method="POST" action="{{ route('tenancies.search') }}">
-				{{ csrf_field() }}
-
-				<div class="field is-grouped">
-					<p class="control is-expanded">
-						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
-					</p>
-					<p class="control">
-						@component('partials.forms.buttons.primary')
-							Search
-						@endcomponent
-					</p>
-				</div>
-			</form>
-
-		</div>
-
 		@component('partials.table')
 			@slot('head')
 				<th>Name</th>

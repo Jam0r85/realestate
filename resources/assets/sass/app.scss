@@ -45,11 +45,12 @@ body {
 
 .button {
 	height: 100%;
+	min-height: 2rem;
 	font-family: Roboto, Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
 	font-weight: $weight-bold;
 	border-width: 2px;
-	padding: 3rem;
+	padding: .5rem 1.5rem !important;
 }
 
 /**
