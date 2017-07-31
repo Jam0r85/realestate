@@ -1,3 +1,3 @@
 <button type="submit" class="button is-outlined">
-	Archive
+	{{ $slot }}
 </button>

@@ -35,6 +35,10 @@
 			@endforeach
 		@endcomponent
 
+	@endcomponent
+
+	@component('partials.sections.section-no-container')
+
 		@component('partials.subtitle')
 			{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
 		@endcomponent

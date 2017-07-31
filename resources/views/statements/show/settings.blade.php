@@ -8,10 +8,6 @@
 			Settings
 		@endcomponent
 
-		@component('partials.subtitle')
-			Update Statement Details
-		@endcomponent
-
 		<form role="form" method="POST" action="{{ route('statements.update', $statement->id) }}">
 			{{ csrf_field() }}
 			{{ method_field('PUT') }}
@@ -35,44 +31,66 @@
 			@endcomponent
 
 		</form>
+	@endcomponent
 
-		<hr />
+	@component('partials.sections.section-no-container')
 
 		@component('partials.subtitle')
-			Mark as {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
+			Mark {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
 		@endcomponent
 
-		@if ($statement->paid_at)
-			@component('partials.notifications.primary')
-				The statement was paid on {{ date_formatted($statement->paid_at) }}
-			@endcomponent
-		@endif
+		<div class="content">
+
+			<p>
+				You can mark this statement as being paid or unpaid.
+			</p>
+
+			@if ($statement->paid_at)
+				<p>
+					<b>The statement was paid on {{ date_formatted($statement->paid_at) }}</b>
+				</p>
+			@endif
+
+		</div>
+
+		<hr />
 
 		<form role="form" method="POST" action="{{ route('statements.toggle-paid', $statement->id) }}">
 			{{ csrf_field() }}
 
-			@component('partials.forms.buttons.primary')
+			@component('partials.forms.buttons.secondary')
 				Mark {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
 			@endcomponent
 
 		</form>
 
-		<hr />
+	@endcomponent
+
+	@component('partials.sections.section-no-container')
 
 		@component('partials.subtitle')
-			Mark as {{ isset($statement->sent_at) ? 'Unsent' : 'Sent' }}
+			Mark {{ isset($statement->sent_at) ? 'Unsent' : 'Sent' }}
 		@endcomponent
 
-		@if ($statement->sent_at)
-			@component('partials.notifications.primary')
-				The statement was sent to the owners on {{ date_formatted($statement->sent_at) }}
-			@endcomponent
-		@endif
+		<div class="content">
+			<p>
+				You can mark this statement as being sent or unsent without informing the landlords.
+			</p>
+
+			@if ($statement->sent_at)
+				<p>
+					<b>The statement was sent to the owners on {{ date_formatted($statement->sent_at) }}</b>
+				</p>
+			@endif
+
+		</div>
+
+		<hr />
 
 		<form role="form" method="POST" action="{{ route('statements.toggle-sent', $statement->id) }}">
 			{{ csrf_field() }}
 
-			@component('partials.forms.buttons.primary')
+			@component('partials.forms.buttons.secondary')
 				Mark {{ isset($statement->sent_at) ? 'Unsent' : 'Sent' }}
 			@endcomponent
 

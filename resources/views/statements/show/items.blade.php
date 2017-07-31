@@ -5,7 +5,7 @@
 	@component('partials.sections.section-no-container')
 
 		@component('partials.title')
-			Items
+			Statement Items
 		@endcomponent
 
 		@component('partials.subtitle')
@@ -23,6 +23,10 @@
 			@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
 
 		@endif
+
+	@endcomponent
+
+	@component('partials.sections.section-no-container')
 
 		@component('partials.subtitle')
 			Expense Items

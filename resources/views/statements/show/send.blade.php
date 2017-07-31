@@ -5,20 +5,30 @@
 	@component('partials.sections.section-no-container')
 
 		@component('partials.title')
-			{{ isset($statement->sent_at) ? 'Re-Send' : 'Send' }} Statement to Owner
+			{{ isset($statement->sent_at) ? 'Re-Send' : 'Send' }} Statement to Landlord
 		@endcomponent
 
-		@if ($statement->sent_at)
-			@component('partials.notifications.primary')
-				Statement was sent {{ date_formatted($statement->sent_at) }}
-			@endcomponent
-		@endif
+		<div class="content">
+
+			@if ($statement->sent_at)
+				<p>
+					<b>Statement was sent to the landlord {{ date_formatted($statement->sent_at) }}</b>
+				</p>
+			@endif
+
+			<p>
+				You can send an email to the landlords with the rental statement, invoices and any expense invoices attached by clicking the button below.
+			</p>
+
+		</div>
+
+		<hr />
 
 		<form role="form" method="POST" action="{{ route('statements.send', $statement->id) }}">
 			{{ csrf_field() }}
 
 			@component('partials.forms.buttons.primary')
-				Send Statement
+				{{ $statement->sent_at ? 'Re-Send' : 'Send' }} Statement
 			@endcomponent
 
 		</form>

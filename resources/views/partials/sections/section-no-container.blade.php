@@ -1,4 +1,4 @@
-<div>
+<section class="section">
 	@if (isset($saveButton))
 		<button type="submit" class="button is-success is-pulled-right">
 			<span class="icon is-small">
@@ -24,4 +24,4 @@
 	<div class="content">
 		{{ $slot }}
 	</div>
-</div>
+</section>

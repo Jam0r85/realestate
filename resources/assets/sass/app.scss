@@ -35,9 +35,7 @@ body {
 $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto Slab", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
 .is-subtitle {
-	background-color: $white-ter;
-	border-left: 4px solid $primary;
-	padding: 1.5rem;
+	font-weight: bold !important;
 }
 
 /**
@@ -148,4 +146,19 @@ dt {
 dd {
 	margin-bottom: 0.7rem;
 	color: $grey;
+}
+
+/**
+ * Layouts
+ */
+.section {
+	background-color: inherit;
+}
+.side-nav .section {
+	padding-top: 0;
+}
+.column.is-faded {
+	margin-top: -35px;
+	padding-top: 50px;
+	background: linear-gradient(to right, $white-ter, $white 20px);
 }

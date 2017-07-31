@@ -90,7 +90,7 @@
 
 	@component('partials.sections.section')
 
-		<div class="columns is-flex is-column-mobile">
+		<div class="columns is-flex is-column-mobile side-nav">
 			<div class="column is-3">
 				<aside class="menu">
 					<p class="menu-label">
@@ -172,7 +172,7 @@
 					@endif
 				</aside>
 			</div>
-			<div class="column is-9">
+			<div class="column is-faded is-9">
 
 				@yield('sub-content')
 
