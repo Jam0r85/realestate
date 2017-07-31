@@ -1,4 +1,4 @@
-<table class="table is-striped is-bordered">
+<table class="table is-striped is-bordered is-fullwidth">
 	@if (isset($head))
 		<thead>
 			{{ $head }}
