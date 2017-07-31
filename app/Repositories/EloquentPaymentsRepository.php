@@ -35,7 +35,7 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 	 * @param  string $payment_method
 	 * @return mixed
 	 */
-	public function createPayment(array $data, $parent, $payment_method = 'payments')
+	public function createPayment(array $data, $parent, $payment_method = 'payments', $users_relation = 'users')
 	{
 		if (!method_exists($parent, $payment_method)) {
 			return;
@@ -47,6 +47,8 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		// Check whether the created_at date has been provided.
 		if (isset($data['created_at'])) {
 			$data['created_at'] = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+		} else {
+			$data['created_at'] = Carbon::now();
 		}
 
 		// Create the payment
@@ -56,8 +58,8 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		if (isset($data['user_id'])) {
 			$payment->users()->attach($data['user_id']);
 		} else {
-			if (method_exists($parent, 'users')) {
-				$payment->users()->attach($parent->users);
+			if (method_exists($parent, $users_relation)) {
+				$payment->users()->attach($parent->$users_relation);
 			}
 		}
 

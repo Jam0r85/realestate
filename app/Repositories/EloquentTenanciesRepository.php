@@ -77,7 +77,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		$tenancy = $this->find($id);
 
 		// Create this payment.
-		$payment = $this->payments->createPayment($data, $tenancy, 'rent_payments');
+		$payment = $this->payments->createPayment($data, $tenancy, 'rent_payments', 'tenants');
 
 		// Flash a success message.
 		$this->successMessage('The payment was recorded');
