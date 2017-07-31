@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Payment;
+use Carbon\Carbon;
 
 class EloquentPaymentsRepository extends EloquentBaseRepository
 {
@@ -43,6 +44,11 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		// Create a random key.
 		$data['key'] = str_random(30);
 
+		// Check whether the created_at date has been provided.
+		if (isset($data['created_at'])) {
+			$data['created_at'] = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+		}
+
 		// Create the payment
 		$payment = $parent->$payment_method()->create($data);
 
@@ -50,7 +56,7 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		if (isset($data['user_id'])) {
 			$payment->users()->attach($data['user_id']);
 		} else {
-			if (method_exists($parent, users)) {
+			if (method_exists($parent, 'users')) {
 				$payment->users()->attach($parent->users);
 			}
 		}

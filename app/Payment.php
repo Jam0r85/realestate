@@ -32,7 +32,7 @@ class Payment extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['key','amount','payment_method_id','note'];
+    protected $fillable = ['key','amount','payment_method_id','note','created_at'];
 
     /**
      * Scope a query to only include rent payments.
