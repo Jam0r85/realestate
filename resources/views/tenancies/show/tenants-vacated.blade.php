@@ -16,6 +16,8 @@
 
 		<hr />
 
+		@include('partials.errors-block')
+
 		<form role="form" method="POST" action="{{ route('tenancies.tenants-vacated', $tenancy->id) }}">
 			{{ csrf_field() }}
 

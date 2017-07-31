@@ -53,16 +53,22 @@
 						</header>
 						<div class="card-content">
 
-							<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
-								{{ csrf_field() }}
+							@if ($tenancy->canRecordRentPayment())
 
-								@include('tenancies.partials.payment-form')
+								<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
+									{{ csrf_field() }}
 
-								@component('partials.forms.buttons.primary')
-									Record Payment
-								@endcomponent
+									@include('tenancies.partials.payment-form')
 
-							</form>
+									@component('partials.forms.buttons.primary')
+										Record Payment
+									@endcomponent
+
+								</form>
+
+							@else
+								<p>This tenancy cannot accept new rent payments.</p>
+							@endif
 
 						</div>
 					</div>
@@ -80,16 +86,22 @@
 						</header>
 						<div class="card-content">
 
-							<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
-								{{ csrf_field() }}
+							@if ($tenancy->canCreateStatement())
 
-								@include('tenancies.partials.statement-form')
+								<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
+									{{ csrf_field() }}
 
-								@component('partials.forms.buttons.primary')
-									Create Statement
-								@endcomponent
+									@include('tenancies.partials.statement-form')
 
-							</form>
+									@component('partials.forms.buttons.primary')
+										Create Statement
+									@endcomponent
+
+								</form>
+
+							@else
+								<p>This tenancy cannot accept new rental statements.</p>
+							@endif
 
 						</div>
 					</div>

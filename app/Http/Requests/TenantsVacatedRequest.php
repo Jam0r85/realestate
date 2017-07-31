@@ -24,7 +24,7 @@ class TenantsVacatedRequest extends FormRequest
     public function rules()
     {
         return [
-            'vacated_on' => 'required|sometimes'
+            //
         ];
     }
 }

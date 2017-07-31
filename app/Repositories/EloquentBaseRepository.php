@@ -288,18 +288,28 @@ class EloquentBaseRepository
      * @param  mixed $model
      * @return mixed
      */
-    public function archive($model)
+    public function archive($id, $data = [])
     {
-        $model = $this->find($model);
+        // Find the model.
+        $model = $this->find($id);
 
+        // Do we have data to update the model with?
+        if (count($data)) {
+            $this->update($data, $model);
+        }
+
+        // If the model is already archived, return
         if ($model->trashed()) {
             return;
         }
 
+        // Archive the model
         $model->delete();
 
+        // Show the message
         $this->flashMessage('Archived');
 
+        // Clear the cache
         $this->clearCache();
 
         return $model;

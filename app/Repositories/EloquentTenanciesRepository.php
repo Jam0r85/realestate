@@ -123,4 +123,20 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		$this->successMessage('The tenants were recorded as vacating');
 		return $tenancy;
 	}
+
+	/**
+	 * Archive a tenancy.
+	 * 
+	 * @param  integer $id
+	 * @return \App\Tenancy
+	 */
+	public function archiveTenancy($id)
+	{
+		$data = [
+			'is_overdue' => false
+		];
+		
+		$tenancy = $this->archive($id, $data);
+		return $tenancy;
+	}
 }

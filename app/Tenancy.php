@@ -35,6 +35,15 @@ class Tenancy extends BaseModel
     protected $with = [];
 
     /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'is_overdue' => 'boolean'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -266,19 +275,36 @@ class Tenancy extends BaseModel
     /**
      * Check whether this tenancy allows new statements.
      * 
-     * @return boolean
+     * @return bool
      */
     public function canCreateStatement()
     {
+        // Rent balance is less than the rent amount required.
         if ($this->rent_balance < $this->rent_amount) {
             return false;
         }
 
-        if (!$this->isManaged()) {
+        // Tenancy is trashed.
+        if ($this->trashed()) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Check whether you can record new rent payments for this tenancy.
+     * 
+     * @return bool
+     */
+    public function canRecordRentPayment()
+    {
+        // Tenancy is trashed.
+        if ($this->trashed()) {
+            return false;
+        }
+
+        true;
     }
 
     public function setOverdueStatus()

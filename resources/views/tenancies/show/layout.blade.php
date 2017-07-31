@@ -129,7 +129,15 @@
 									<i class="fa fa-sign-out"></i>
 								</span>
 								Tenants Vacated
-							</a>	
+							</a>
+							@if ($tenancy->vacated_on)
+								<a href="{{ route('tenancies.show', [$tenancy->id, 'archive']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'archive'])) }}">
+									<span class="icon is-small">
+										<i class="fa fa-archive"></i>
+									</span>
+									Finish Tenancy
+								</a>
+							@endif
 						</li>
 					</ul>
 					<p class="menu-label">

@@ -168,14 +168,15 @@ class TenancyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archive the tenancy.
      *
-     * @param  \App\Tenancy  $tenancy
+     * @param  integer $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tenancy $tenancy)
+    public function archive($id)
     {
-        //
+        $this->tenancies->archiveTenancy($id);
+        return back();
     }
 
     /**
