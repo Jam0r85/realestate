@@ -167,6 +167,10 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $this->properties->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
         }
 
+        if (isset($data['bank_account_id'])) {
+            $this->properties->updateBankAccount($data['bank_account_id'], $statement->property->id);
+        }
+
         return $statement;
     }
 

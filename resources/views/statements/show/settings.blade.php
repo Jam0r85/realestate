@@ -29,6 +29,21 @@
 			</div>
 
 			<div class="field">
+				<label class="label" for="bank_account_id">Bank Account</label>
+				<div class="control">
+					<select name="bank_account_id" class="select2">
+						<option value="0">None</option>
+						@foreach (bank_accounts($statement->property->owners->pluck('id')->toArray()) as $account)
+							<option @if ($statement->property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">{{ $account->name }}</option>
+						@endforeach
+					</select>
+				</div>
+				<p class="help">
+					<b>Please note:</b> Changing this will also update the default property setting.
+				</p>
+			</div>
+
+			<div class="field">
 				<label class="label" for="sending_method">Sending Method</label>
 				<div class="control">
 					<span class="select is-fullwidth">
@@ -39,7 +54,7 @@
 					</span>
 				</div>
 				<p class="help">
-					Changing this will also update the default property setting.
+					<b>Please note</b>: Changing this will also update the default property setting.
 				</p>
 			</div>
 
