@@ -18,12 +18,12 @@
 		@component('partials.sections.section-no-container')
 
 			@component('partials.subtitle')
-				{{ $name }}
+				{{ $name }} {{ currency($payments->sum('amount')) }}
 			@endcomponent
 
 			@component('partials.table')
 				@slot('head')
-					<th>Name</th>
+					<th width="100%">Name</th>
 					<th>Amount</th>
 					<th></th>
 				@endslot
