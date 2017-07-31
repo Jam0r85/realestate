@@ -83,8 +83,10 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		$this->successMessage('The payment was recorded');
 
 		// Create a statement if the balance held is enough
-		if ($tenancy->canCreateStatement()) {
-			$this->statements->createStatement(array_only($data, ['amount']), $tenancy->id);
+		if (isset($data['create_auto_statement'])) {
+			if ($tenancy->canCreateStatement()) {
+				$this->statements->createStatement(array_only($data, ['amount']), $tenancy->id);
+			}
 		}
 
 		return $tenancy;

@@ -24,3 +24,10 @@
 		</span>
 	</p>
 </div>
+
+<div class="field">
+	<label class="checkbox">
+		<input type="checkbox" name="create_auto_statement" value="true" checked />
+		Create the next rental statement should there be enough rent held?
+	</label>
+</div>
