@@ -8,10 +8,6 @@
 			Payments
 		@endcomponent
 
-		@component('partials.subtitle')
-			Payments History
-		@endcomponent
-
 		@include('payments.partials.table', ['payments' => $tenancy->rent_payments])
 
 	@endcomponent

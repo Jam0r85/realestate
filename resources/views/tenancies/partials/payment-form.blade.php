@@ -1,14 +1,20 @@
 <div class="field">
 	<label class="label" for="created_at">Date</label>
-	<p class="control">
+	<div class="control">
 		<input type="date" name="created_at" class="input" value="{{ old('created_at') }}" />
+	</div>
+	<p class="help">
+		<b>Optional:</b> Manually set the date that this payment was received.
 	</p>
 </div>
 
 <div class="field">
 	<label class="label" for="amount">Amount</label>
-	<p class="control">
+	<div class="control">
 		<input type="number" step="any" name="amount" class="input" value="{{ old('amount') }}" />
+	</div>
+	<p class="help">
+		Enter the rent payment amount.
 	</p>
 </div>
 

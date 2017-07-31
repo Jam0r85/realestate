@@ -30,56 +30,63 @@
 
 			</div>
 		</div>
-		<div class="columns">
-			<div class="column is-6">
 
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Record Rent Payment
-						</p>
-					</header>
-					<div class="card-content">
+		@include('partials.errors-block')
 
-						<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
-							{{ csrf_field() }}
+		<div class="tile is-ancestor">
+			<div class="tile is-6">
+				<div class="tile is-vertical is-parent">
 
-							@include('tenancies.partials.payment-form')
+					<div class="tile is-child card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Record Rent Payment
+							</p>
+						</header>
+						<div class="card-content">
 
-							@component('partials.forms.buttons.primary')
-								Record Payment
-							@endcomponent
+							<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
+								{{ csrf_field() }}
 
-						</form>
+								@include('tenancies.partials.payment-form')
 
+								@component('partials.forms.buttons.primary')
+									Record Payment
+								@endcomponent
+
+							</form>
+
+						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
-			<div class="column is-6">
+			<div class="tile is-6">
+				<div class="tile is-vertical is-parent">
 
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Create Rental Statement
-						</p>
-					</header>
-					<div class="card-content">
+					<div class="tile is-child card">
+						<header class="card-header">
+							<p class="card-header-title">
+								Create Rental Statement
+							</p>
+						</header>
+						<div class="card-content">
 
-						<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
-							{{ csrf_field() }}
+							<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
+								{{ csrf_field() }}
 
-							@include('tenancies.partials.statement-form')
+								@include('tenancies.partials.statement-form')
 
-							@component('partials.forms.buttons.primary')
-								Create Statement
-							@endcomponent
+								@component('partials.forms.buttons.primary')
+									Create Statement
+								@endcomponent
 
-						</form>
+							</form>
 
+						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
 		</div>
 

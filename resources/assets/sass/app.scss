@@ -15,6 +15,7 @@ $family-sans-serif: font133292, "Ubuntu", BlinkMacSystemFont, -apple-system, "Se
 
 $primary: #1E5F86;
 $warning: $orange;
+$card-header-color: $primary;
 
 /**
  * Import Bulma
@@ -167,4 +168,11 @@ dd {
 .column.is-faded {
 	margin-top: -35px;
 	background: linear-gradient(to right, $white-ter, $white 20px);
+}
+
+/**
+ * Cards
+ */
+.card .card-header {
+	background: $white-ter;
 }
