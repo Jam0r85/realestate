@@ -106,8 +106,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Set the statement end period.
         if (!isset($data['period_end'])) {
-            $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_start'])->addMonth()->subDay();
+            $data['period_end'] = clone $data['period_start'];
+            $data['period_end']->addMonth()->subDay();
         }
+
+        return dd($data);
 
         // Create the statement
         $statement = $this->create($data);
