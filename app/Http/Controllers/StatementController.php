@@ -209,8 +209,9 @@ class StatementController extends Controller
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Statement $statement)
+    public function archive($id)
     {
-        //
+        $this->statements->archiveStatement($id);
+        return back();
     }
 }

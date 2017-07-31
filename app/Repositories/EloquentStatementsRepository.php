@@ -400,4 +400,21 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         $this->successMessage('Statements were sent');
         return true;
     }
+
+    /**
+     * Archive the statement.
+     * 
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function archiveStatement($id)
+    {
+        $statement = $this->archive($id);
+
+        if ($statement->invoice) {
+            $this->invoices->archiveInvoice($statement->invoice->id);
+        }
+
+        return $statement;
+    }
 }

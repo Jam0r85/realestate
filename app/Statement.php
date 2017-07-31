@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Statement extends BaseModel
 {
     use Searchable;
+    use SoftDeletes;
 
     /**
      * Get the indexable data array for the model.
@@ -210,6 +212,20 @@ class Statement extends BaseModel
     public function hasUnsentPayments()
     {
         return $this->payments()->whereNull('sent_at')->count();
+    }
+
+    /**
+     * Check whether the statement can be deleted.
+     * 
+     * @return bool
+     */
+    public function canDelete()
+    {
+        if ($this->trashed()) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**

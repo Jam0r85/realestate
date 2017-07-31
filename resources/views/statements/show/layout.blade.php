@@ -123,7 +123,15 @@
 										<i class="fa fa-cogs"></i>
 									</span>
 								Settings
-							</a>		
+							</a>
+							@if ($statement->canDelete())
+								<a href="{{ route('statements.show', [$statement->id, 'delete']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'delete'])) }}">
+									<span class="icon is-small">
+										<i class="fa fa-trash"></i>
+									</span>
+									Delete
+								</a>
+							@endif
 						</li>
 					</ul>
 					<p class="menu-label">

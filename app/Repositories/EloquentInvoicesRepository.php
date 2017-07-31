@@ -199,4 +199,17 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 
 		return $invoice;
 	}
+
+	/**
+	 * Archive the invoice.
+	 * 
+	 * @param  App\Invoice $id
+	 * @return App\Invoice
+	 */
+	public function archiveInvoice($id)
+	{
+		$invoice = $this->archive($id);
+		$this->resetGroupNextNumber($invoice);
+		return $invoice;
+	}
 }
