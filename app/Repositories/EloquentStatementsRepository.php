@@ -110,8 +110,6 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $data['period_end']->addMonth()->subDay();
         }
 
-        return dd($data);
-
         // Create the statement
         $statement = $this->create($data);
 
