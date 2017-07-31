@@ -38,10 +38,14 @@
 			@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
 
 			<hr />
-			
-			@component('partials.forms.buttons.primary')
-				Send Selected Statements
-			@endcomponent
+
+			<button type="submit" class="button is-primary is-outlined" name="action" value="send">
+				Send Statements
+			</button>
+
+			<button type="submit" class="button is-success is-outlined" name="action" value="send">
+				Mark as Finished
+			</button>
 
 		</form>
 	@endcomponent

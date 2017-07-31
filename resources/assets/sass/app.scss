@@ -155,7 +155,11 @@ dd {
 	background-color: inherit;
 }
 .side-nav .section {
-	padding-top: 0;
+	padding-left: 3rem;
+	border-bottom: 1px solid $white-ter;
+}
+.side-nav aside {
+	padding-right: 1rem;
 }
 .column.is-faded {
 	margin-top: -35px;
