@@ -49,6 +49,10 @@ class EloquentPaymentsRepository extends EloquentBaseRepository
 		// Attach users
 		if (isset($data['user_id'])) {
 			$payment->users()->attach($data['user_id']);
+		} else {
+			if (method_exists($parent, users)) {
+				$payment->users()->attach($parent->users);
+			}
 		}
 
 		// Flash a success message.
