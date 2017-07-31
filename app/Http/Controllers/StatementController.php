@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
+use App\Http\Requests\UpdateStatementRequest;
 use App\Repositories\EloquentStatementsRepository;
 use Illuminate\Http\Request;
 
@@ -116,9 +117,10 @@ class StatementController extends Controller
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Statement $statement)
+    public function update(UpdateStatementRequest $request, $id)
     {
-        //
+        $this->statements->updateStatement($request->input(), $id);
+        return back();
     }
 
     /**

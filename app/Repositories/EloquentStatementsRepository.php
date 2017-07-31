@@ -26,13 +26,19 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     public $expenses;
 
     /**
+     * @var  App\Repositories\EloquentPropertiesRepository
+     */
+    public $properties;
+
+    /**
      * Create a new repository instance.
      *
      * @param   EloquentPaymentsRepository $payments
      * @return  void
      */
-    public function __construct(EloquentInvoicesRepository $invoices, EloquentExpensesRepository $expenses, EloquentStatementPaymentsRepository $statement_payments)
+    public function __construct(EloquentPropertiesRepository $properties, EloquentInvoicesRepository $invoices, EloquentExpensesRepository $expenses, EloquentStatementPaymentsRepository $statement_payments)
     {
+        $this->properties = $properties;
         $this->invoices = $invoices;
         $this->expenses = $expenses;
         $this->statement_payments = $statement_payments;
@@ -131,6 +137,34 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Attach the invoice to the statement.
             $statement->invoices()->attach($invoice);
+        }
+
+        return $statement;
+    }
+
+    /**
+     * Update the statement.
+     * 
+     * @param  array        $data
+     * @param  statement    $id 
+     * @return mixed
+     */
+    public function updateStatement(array $data, $id)
+    {
+        $statement = $this->find($id);
+
+        if (isset($data['period_start'])) {
+            $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
+        }
+
+        if (isset($data['period_end'])) {
+            $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
+        }
+
+        $this->update($data, $statement);
+
+        if (isset($data['sending_method'])) {
+            $this->properties->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
         }
 
         return $statement;

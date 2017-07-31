@@ -1,3 +1,3 @@
-<button type="submit" class="button is-dark">
+<button type="submit" class="button is-outlined">
 	{{ $slot }}
 </button>

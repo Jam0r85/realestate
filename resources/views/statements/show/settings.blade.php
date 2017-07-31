@@ -8,6 +8,8 @@
 			Settings
 		@endcomponent
 
+		@include('partials.errors-block')
+
 		<form role="form" method="POST" action="{{ route('statements.update', $statement->id) }}">
 			{{ csrf_field() }}
 			{{ method_field('PUT') }}
@@ -23,6 +25,21 @@
 				<label class="label" for="period_end">Date End</label>
 				<p class="control">
 					<input type="date" name="period_end" class="input" value="{{ $statement->period_end->format('Y-m-d') }}" />
+				</p>
+			</div>
+
+			<div class="field">
+				<label class="label" for="sending_method">Sending Method</label>
+				<div class="control">
+					<span class="select is-fullwidth">
+						<select name="sending_method">
+							<option @if ($statement->property->hasSetting('post_rental_statement')) selected @endif value="post">By Post</option>
+							<option @if (!$statement->property->hasSetting('post_rental_statement')) selected @endif value="email">By E-Mail</option>
+						</select>
+					</span>
+				</div>
+				<p class="help">
+					Changing this will also update the default property setting.
 				</p>
 			</div>
 
@@ -58,9 +75,9 @@
 		<form role="form" method="POST" action="{{ route('statements.toggle-paid', $statement->id) }}">
 			{{ csrf_field() }}
 
-			@component('partials.forms.buttons.secondary')
+			<button type="submit" class="button is-outlined {{ isset($statement->paid_at) ? 'is-danger' : 'is-success' }}">
 				Mark {{ isset($statement->paid_at) ? 'Unpaid' : 'Paid' }}
-			@endcomponent
+			</button>
 
 		</form>
 
@@ -90,9 +107,9 @@
 		<form role="form" method="POST" action="{{ route('statements.toggle-sent', $statement->id) }}">
 			{{ csrf_field() }}
 
-			@component('partials.forms.buttons.secondary')
+			<button type="submit" class="button is-outlined {{ isset($statement->sent_at) ? 'is-danger' : 'is-success' }}">
 				Mark {{ isset($statement->sent_at) ? 'Unsent' : 'Sent' }}
-			@endcomponent
+			</button>
 
 		</form>
 
