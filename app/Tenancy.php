@@ -23,7 +23,8 @@ class Tenancy extends BaseModel
         'rent_balance',
         'next_statement_start_date',
         'service_charge_amount',
-        'service_charge_formatted'
+        'service_charge_formatted',
+        'days_overdue'
     ];
 
     /**
@@ -225,6 +226,20 @@ class Tenancy extends BaseModel
             return ($this->calculateServiceCharge() * 100) . '%';
         } else {
             return currency($this->calculateServiceCharge());
+        }
+    }
+
+    /**
+     * Get the number of days that this tenancy is overdue by.
+     * 
+     * @return integer
+     */
+    public function getDaysOverdueAttribute()
+    {
+        if ($this->next_statement_start_date < Carbon::now()) {
+            return $this->next_statement_start_date->diffInDays(Carbon::now(), false);
+        } else {
+            return 0;
         }
     }
 

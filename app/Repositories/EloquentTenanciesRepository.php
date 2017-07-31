@@ -51,7 +51,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function getOverdueList()
 	{
-		return $this->getInstance()->whereIsOverdue(1)->get();
+		return $this->getInstance()->whereIsOverdue(1)->get()->sortByDesc('days_overdue');
 	}
 
 	/**

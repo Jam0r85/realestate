@@ -40,6 +40,7 @@
 				<th>Rent</th>
 				<th>Balance</th>
 				<th>Due</th>
+				<th>Diff</th>
 			@endslot
 			@foreach ($tenancies as $tenancy)
 				<tr>
@@ -48,6 +49,7 @@
 					<td>{{ currency($tenancy->rent_amount) }}</td>
 					<td>{{ currency($tenancy->rent_balance) }}</td>
 					<td>{{ date_formatted($tenancy->next_statement_start_date) }}</td>
+					<td>{{ $tenancy->days_overdue }}</td>
 				</tr>
 			@endforeach
 		@endcomponent
