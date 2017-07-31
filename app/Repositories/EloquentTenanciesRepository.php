@@ -55,16 +55,6 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	}
 
 	/**
-	 * Get all of the tenancies order by their balance.
-	 * 
-	 * @return \App\Tenancy
-	 */
-	public function getWithRentBalance()
-	{
-		return $this->getInstance()->withRentBalance()->get()->where('rent_balance', '>', 0);
-	}
-
-	/**
 	 * Store a new rent payment for a tenancy.
 	 * 
 	 * @param  array        $data

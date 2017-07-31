@@ -250,6 +250,7 @@ class Tenancy extends BaseModel
      */
     public function isManaged()
     {
+        // Do we have a service charge?
         if ($this->service->charge == 0) {
             return false;
         }

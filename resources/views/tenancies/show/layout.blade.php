@@ -30,16 +30,6 @@
 				<div class="level-item has-text-centered">
 					<div>
 						<p class="heading">
-							Started
-						</p>
-						<p class="title">
-							
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
 							Rent
 						</p>
 						<p class="title">
@@ -57,34 +47,13 @@
 						</p>
 					</div>
 				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Last Payment
-						</p>
-						<p class="title">
-							{{ date_formatted($tenancy->last_rent_payment->created_at) }}
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Last Statement
-						</p>
-						<p class="title">
-							{{ date_formatted($tenancy->last_statement->period_end) }}
-						</p>
-					</div>
-				</div>
 			</nav>
-
 		</div>
 	</section>
 
 	@component('partials.sections.section')
 
-		<div class="columns is-flex is-column-mobile">
+		<div class="columns is-flex is-column-mobile side-nav">
 			<div class="column is-3">
 				<aside class="menu">
 					<p class="menu-label">
@@ -93,9 +62,33 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('tenancies.show', $tenancy->id) }}" class="{{ set_active(route('tenancies.show', $tenancy->id)) }}">
+								<span class="icon is-small">
+									<i class="fa fa-dashboard"></i>
+								</span>
 								Dashboard
 							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'tenants']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'tenants'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-users"></i>
+								</span>
+								Tenants
+							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'rent-amounts']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'rent-amounts'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-university"></i>
+								</span>
+								Rent Amounts
+							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'agreements']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'agreements'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-book"></i>
+								</span>
+								Agreements
+							</a>	
 							<a href="{{ route('tenancies.show', [$tenancy->id, 'discounts']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'discounts'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-percent"></i>
+								</span>
 								Discounts
 							</a>				
 						</li>
@@ -122,7 +115,7 @@
 					</ul>
 				</aside>
 			</div>
-			<div class="column is-9">
+			<div class="column is-faded is-9">
 
 				@yield('sub-content')
 

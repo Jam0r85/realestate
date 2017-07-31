@@ -58,19 +58,6 @@ class TenancyController extends Controller
     }
 
     /**
-     * Display a listing of tenancies with a rent balance.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function withRentBalance()
-    {
-        $tenancies = $this->tenancies->getWithRentBalance();
-        $title = 'Tenancies with Rent Balance';
-
-        return view('tenancies.index', compact('tenancies','title'));
-    }
-
-    /**
      * Search through the resource and display the results.
      * 
      * @param  Request $request [description]

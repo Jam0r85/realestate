@@ -104,9 +104,6 @@
                                 <a class="navbar-item" href="{{ route('tenancies.overdue') }}">
                                     Overdue
                                 </a>
-                                <a class="navbar-item" href="{{ route('tenancies.with-rent-balance') }}">
-                                    With Rent Balance
-                                </a>
                                 <hr class="navbar-divider" />
                                 <div class="navbar-header">
                                     Payments

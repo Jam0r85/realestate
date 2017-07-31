@@ -1,10 +1,10 @@
 @component('partials.table')
 	@slot('head')
 		<th></th>
-		<th>Date</th>
+		<th>Period</th>
 		<th>Tenancy &amp; Property</th>
 		<th>Amount</th>
-		<th>Period</th>
+		<th>Date</th>
 		<th>Status</th>
 	@endslot
 	@foreach ($statements as $statement)
@@ -14,7 +14,7 @@
 					<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
 				</label>
 			</td>
-			<td>{{ date_formatted($statement->created_at) }}</td>
+			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 			<td>
 				{{ $statement->tenancy->name }}
 				<br />
@@ -25,7 +25,7 @@
 				</a>
 			</td>
 			<td>{{ currency($statement->amount) }}</td>
-			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
+			<td>{{ date_formatted($statement->created_at) }}</td>
 			<td>
 				@if ($statement->sent_at)
 					Sent
