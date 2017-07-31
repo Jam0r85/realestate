@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Repositories\EloquentTenanciesRepository;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class CheckOverdueTenancies extends Command
@@ -45,6 +46,16 @@ class CheckOverdueTenancies extends Command
      */
     public function handle()
     {
+        foreach ($this->tenancies->getAll() as $tenancy) {
+            if ($tenancy->service_charge_amount > 0) {
+                if ($tenancy->next_statement_start_date <= Carbon::now()) {
+                    $tenancy->update(['is_overdue' => true]);
+                } else {
+                    $tenancy->update(['is_overdue' => false]);
+                }
+            }
+        }
+
         $this->info('Tenancies processed');
     }
 }
