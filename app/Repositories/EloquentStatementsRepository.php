@@ -230,14 +230,21 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Find the statement.
         $statement = $this->find($id);
 
-        // Mark the statement as either being paid or not.
         if ($statement->paid_at) {
+            // Mark the statement as being Unpaid.
             $data['paid_at'] = null;
             $message = 'Unpaid';
+
+            // Update the invoice as being unpaid.
+            if ($statement->invoice) {
+                $statement->invoice->update(['paid_at' => null]);
+            }
         } else {
+            // Mark the statement as being Paid.
             $data['paid_at'] = Carbon::now();
             $message = 'Paid';
 
+            // Generate the statement payments should none have been created before hand.
             if (!count($statement->payments)) {
                 $this->statement_payments->createPayments($statement);
             }
