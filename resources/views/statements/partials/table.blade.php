@@ -6,10 +6,6 @@
 		<th>Amount</th>
 		<th>Period</th>
 		<th>Status</th>
-		@if (isset($show_download))
-			<th>Statement</th>
-		@endif
-		<th>User(s)</th>
 	@endslot
 	@foreach ($statements as $statement)
 		<tr>
@@ -40,18 +36,6 @@
 						Unpaid
 					@endif
 				@endif
-			</td>
-			@if (isset($show_download))
-				<td><a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">Download</a></td>
-			@endif
-			<td>
-				@foreach ($statement->users as $user)
-					<a href="{{ route('users.show', $user->id) }}">
-						<span class="tag is-primary">
-							{{ $user->name }}
-						</span>
-					</a>
-				@endforeach
 			</td>
 		</tr>
 	@endforeach
