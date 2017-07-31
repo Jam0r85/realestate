@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto Slab", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
 /**
  * Import the base Bulma variables.
  */
@@ -31,8 +33,6 @@ body {
 /**
  * Font
  */
-
-$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto Slab", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
 .is-subtitle {
 	font-weight: bold !important;
