@@ -71,7 +71,26 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function getUnsentPaged()
     {
-        return $this->getInstance()->whereNull('sent_at')->orWhereNull('paid_at')->with('tenancy', 'tenancy.property', 'users')->latest()->paginate();
+        return $this->getInstance()
+            ->whereNull('sent_at')
+            ->orWhereNull('paid_at')
+            ->with('tenancy', 'tenancy.property', 'users')
+            ->latest()
+            ->paginate();
+    }
+
+    /**
+     * Get all of the unset statements and return them.
+     * 
+     * @return mixed
+     */
+    public function getUnsetList()
+    {
+        return $this->getInstance()
+            ->whereNull('sent_at')
+            ->orWhereNull('paid_at')
+            ->with('tenancy', 'tenancy.property', 'users')
+            ->get();   
     }
 
     /**

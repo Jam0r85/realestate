@@ -6,21 +6,21 @@ use App\Repositories\EloquentTenanciesRepository;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class CheckOverdueTenancies extends Command
+class TenancyBackgroundChecks extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'prop:overdue-tenancies';
+    protected $signature = 'tenancies:background-checks';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Process all managed tenancies and check whether overdue or not.';
+    protected $description = 'Process all managed tenancies and update background details.';
 
     /**
      * @var App\Repositories\EloquentTenanciesRepository.
@@ -47,12 +47,16 @@ class CheckOverdueTenancies extends Command
     public function handle()
     {
         foreach ($this->tenancies->getAll() as $tenancy) {
-            if ($tenancy->service_charge_amount > 0) {
+            if ($tenancy->isManaged()) {
+
+                // Check whether tenancy is overdue
                 if ($tenancy->next_statement_start_date <= Carbon::now()) {
-                    $tenancy->update(['is_overdue' => true]);
+                    $tenancy->fill(['is_overdue' => true]);
                 } else {
-                    $tenancy->update(['is_overdue' => false]);
+                    $tenancy->fill(['is_overdue' => false]);
                 }
+
+                $tenancy->save();
             }
         }
 

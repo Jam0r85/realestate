@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('prop:overdue-tenancies')->hourly();
+        $schedule->command('tenancies:background-checks')->hourly();
+        $schedule->command('statements:background-checks')->daily();
     }
 
     /**
