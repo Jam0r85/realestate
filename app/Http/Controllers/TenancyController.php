@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
+use App\Http\Requests\TenantsVacatedRequest;
 use App\Repositories\EloquentStatementsRepository;
 use App\Repositories\EloquentTenanciesRepository;
 use Illuminate\Http\Request;
@@ -175,5 +176,18 @@ class TenancyController extends Controller
     public function destroy(Tenancy $tenancy)
     {
         //
+    }
+
+    /**
+     * Record the tenants having vacated a tenancy.
+     * 
+     * @param  TenantsVacatedRequest $request
+     * @param  integer               $id
+     * @return \Illuminate\Http\Response]
+     */
+    public function tenantsVacated(TenantsVacatedRequest $request, $id)
+    {
+        $this->tenancies->tenantsVacated($request->vacated_on, $id);
+        return back();
     }
 }

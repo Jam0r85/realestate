@@ -103,4 +103,24 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 
 		return $tenancy;
 	}
+
+	/**
+	 * Record the tenants having vacated a tenancy.
+	 * 
+	 * @param  date 		$vacated_on
+	 * @param  integer 		$id
+	 * @return mixed
+	 */
+	public function tenantsVacated($vacated_on, $id)
+	{
+		if ($vacated_on) {
+			$data['vacated_on'] = Carbon::createFromFormat('Y-m-d', $vacated_on);
+		} else {
+			$data['vacated_on'] = NULL;
+		}
+
+		$tenancy = $this->update($data, $id);
+		$this->successMessage('The tenants were recorded as vacating');
+		return $tenancy;
+	}
 }

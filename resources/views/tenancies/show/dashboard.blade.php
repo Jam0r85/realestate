@@ -14,6 +14,14 @@
 							<span class="tag is-medium is-primary">{{ date_formatted($tenancy->created_at) }}</span>
 						</div>
 					</div>
+					@if ($tenancy->vacated_on)
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">Vacated</span>
+								<span class="tag is-medium is-primary">{{ date_formatted($tenancy->vacated_on) }}</span>
+							</div>
+						</div>
+					@endif
 					<div class="control">
 						<div class="tags has-addons">
 							<span class="tag is-medium is-dark">Latest Rent Payment</span>

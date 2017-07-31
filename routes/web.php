@@ -87,6 +87,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::post('{id}/create-rent-payment', 'TenancyController@createRentPayment')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 	Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
+	Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
 });
 
 Route::prefix('statements')->group(function () {

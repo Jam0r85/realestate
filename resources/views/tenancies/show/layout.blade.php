@@ -47,6 +47,26 @@
 						</p>
 					</div>
 				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Deposit
+						</p>
+						<p class="title">
+							
+						</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading">
+							Deposit Held
+						</p>
+						<p class="title">
+							
+						</p>
+					</div>
+				</div>
 			</nav>
 		</div>
 	</section>
@@ -90,7 +110,26 @@
 									<i class="fa fa-percent"></i>
 								</span>
 								Discounts
-							</a>				
+							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'service']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'service'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-wrench"></i>
+								</span>
+								Service
+							</a>	
+						</li>
+					</ul>
+					<p class="menu-label">
+						Actions
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'tenants-vacated']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'tenants-vacated'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-sign-out"></i>
+								</span>
+								Tenants Vacated
+							</a>	
 						</li>
 					</ul>
 					<p class="menu-label">

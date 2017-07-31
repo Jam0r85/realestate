@@ -4,7 +4,7 @@
 		<input type="date" name="created_at" class="input" value="{{ old('created_at') }}" />
 	</div>
 	<p class="help">
-		<b>Optional:</b> Manually set the date that this payment was received.
+		You can manually set the date or leave blank to use today's date.
 	</p>
 </div>
 

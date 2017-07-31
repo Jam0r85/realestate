@@ -255,6 +255,11 @@ class Tenancy extends BaseModel
             return false;
         }
 
+        // Have the tenants vacated the tenancy?
+        if ($this->vacated_on) {
+            return false;
+        }
+
         return true;
     }
 
