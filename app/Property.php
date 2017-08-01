@@ -123,11 +123,11 @@ class Property extends BaseModel
     {
     	// House name is present, we return that.
     	if ($this->house_name) {
-    		return $this->house_name . ', ' . $this->house_number . ' ' . $this->address1;
+    		return trim($this->house_name . ', ' . $this->house_number . ' ' . $this->address1 ?: '');
     	}
 
     	// Otherwise we return the house number and the first line of the address.
-    	return $this->house_number . ' ' . $this->address1;
+    	return trim($this->house_number . ' ' . $this->address1 ?: '');
     }
 
     /**
