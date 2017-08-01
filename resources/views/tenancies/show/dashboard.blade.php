@@ -86,22 +86,16 @@
 						</header>
 						<div class="card-content">
 
-							@if ($tenancy->canCreateStatement())
+							<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
+								{{ csrf_field() }}
 
-								<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
-									{{ csrf_field() }}
+								@include('tenancies.partials.statement-form')
 
-									@include('tenancies.partials.statement-form')
+								@component('partials.forms.buttons.primary')
+									Create Statement
+								@endcomponent
 
-									@component('partials.forms.buttons.primary')
-										Create Statement
-									@endcomponent
-
-								</form>
-
-							@else
-								<p>This tenancy cannot accept new rental statements.</p>
-							@endif
+							</form>
 
 						</div>
 					</div>

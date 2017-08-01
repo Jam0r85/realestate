@@ -304,7 +304,7 @@ class Tenancy extends BaseModel
             return false;
         }
 
-        true;
+        return true;
     }
 
     public function setOverdueStatus()
