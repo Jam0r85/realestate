@@ -307,12 +307,15 @@ class Tenancy extends BaseModel
         return true;
     }
 
+    /**
+     * Set whether a tenancy is overdue or not.
+     */
     public function setOverdueStatus()
     {
         if ($this->isManaged()) {
 
             // Check whether tenancy is overdue
-            if ($this->next_statement_start_date <= Carbon::now()) {
+            if ($this->next_statement_start_date < Carbon::now()) {
                 $this->update(['is_overdue' => true]);
             } else {
                 $this->update(['is_overdue' => false]);
