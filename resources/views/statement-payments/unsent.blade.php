@@ -35,7 +35,7 @@
 					@foreach ($payments as $payment)
 						<tr>
 							<td>
-								<div class="is-pulled-right">
+								<div class="is-pulled-right has-text-right">
 									@if ($name == '')								
 										@if ($payment->bank_account)
 											{{ $payment->bank_account->name }}

@@ -25,9 +25,6 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'required_without_all:first_name,last_name',
-            'first_name' => 'required_without:company_name,last_name',
-            'last_name' => 'required_without_all:first_name,company_name',
             'email' => new UniqueWithSoftDeletes('users','email')
         ];
     }

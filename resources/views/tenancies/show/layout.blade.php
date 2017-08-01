@@ -164,6 +164,39 @@
 			</div>
 			<div class="column is-faded is-9">
 
+				<section class="section">
+
+					<div class="field is-grouped is-grouped-multiline">
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">Started</span>
+								<span class="tag is-medium is-primary">{{ date_formatted($tenancy->created_at) }}</span>
+							</div>
+						</div>
+						@if ($tenancy->vacated_on)
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-medium is-dark">Vacated</span>
+									<span class="tag is-medium is-primary">{{ date_formatted($tenancy->vacated_on) }}</span>
+								</div>
+							</div>
+						@endif
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">Latest Rent Payment</span>
+								<span class="tag is-medium is-primary">{{ $tenancy->last_rent_payment ? date_formatted($tenancy->last_rent_payment->created_at) : 'Never' }}</span>
+							</div>
+						</div>
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">Next Statement Due</span>
+								<span class="tag is-medium is-primary">{{ date_formatted($tenancy->next_statement_start_date) }}</span>
+							</div>
+						</div>
+					</div>
+
+				</section>
+
 				@yield('sub-content')
 
 			</div>
