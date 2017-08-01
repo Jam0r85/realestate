@@ -75,7 +75,8 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		// Create a statement if the balance held is enough
 		if (isset($data['create_auto_statement'])) {
 			if ($tenancy->canCreateStatement()) {
-				$this->statements->createStatement(array_only($data, ['amount']), $tenancy->id);
+				$statement = $this->statements->createStatement(array_only($data, ['amount']), $tenancy->id);
+				return route()->redirect('statements.show', $statement->id);
 			}
 		}
 
