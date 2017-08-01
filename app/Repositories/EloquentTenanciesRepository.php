@@ -76,7 +76,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		if (isset($data['create_auto_statement'])) {
 			if ($tenancy->canCreateStatement()) {
 				$statement = $this->statements->createStatement(array_only($data, ['amount']), $tenancy->id);
-				return route()->redirect('statements.show', $statement->id);
+				return redirect()->route('statements.show', $statement->id);
 			}
 		}
 
