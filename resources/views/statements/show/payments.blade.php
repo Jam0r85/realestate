@@ -5,11 +5,7 @@
 	@component('partials.sections.section-no-container')
 
 		@component('partials.title')
-			Statement Payments List
-		@endcomponent
-
-		@component('partials.subtitle')
-			Generated Payments
+			Statement Payments Out
 		@endcomponent
 
 		@component('partials.table')

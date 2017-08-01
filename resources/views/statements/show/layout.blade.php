@@ -148,7 +148,7 @@
 								<span class="icon is-small">
 									<i class="fa fa-gbp"></i>
 								</span>
-								Payments List
+								Payments Out
 							</a>
 						</li>
 					</ul>
@@ -175,50 +175,58 @@
 			<div class="column is-faded is-9">
 
 				<section class="section">
-					<div class="container">
 
-						<div class="field is-grouped is-grouped-multiline">
-							<div class="control">
-								<div class="tags has-addons">
-									<span class="tag is-medium is-dark">
-										Address
-									</span>
-									<span class="tag is-medium is-primary">
-										{{ $statement->recipient_inline }}
-									</span>
-								</div>
-							</div>
-							<div class="control">
-								<div class="tags has-addons">
-									<span class="tag is-medium is-dark">
-										Send By
-									</span>
-									<span class="tag is-medium is-primary">
-										@if ($statement->sendByPost())
-											Post
-										@else
-											E-Mail
-										@endif
-									</span>
-								</div>
-							</div>
-							<div class="control">
-								<div class="tags has-addons">
-									<span class="tag is-medium is-dark">
-										Pay By
-									</span>
-									<span class="tag is-medium is-primary">
-										@if ($statement->bank_account)
-											Bank Account
-										@else
-											Cash or Cheque
-										@endif
-									</span>
-								</div>
+					<div class="field is-grouped is-grouped-multiline">
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">
+									Address
+								</span>
+								<span class="tag is-medium is-primary">
+									{{ $statement->recipient_inline }}
+								</span>
 							</div>
 						</div>
-
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">
+									Send By
+								</span>
+								<span class="tag is-medium is-primary">
+									@if ($statement->sendByPost())
+										Post
+									@else
+										E-Mail
+									@endif
+								</span>
+							</div>
+						</div>
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">
+									Pay By
+								</span>
+								<span class="tag is-medium is-primary">
+									@if ($statement->bank_account)
+										Bank Account
+									@else
+										Cash or Cheque
+									@endif
+								</span>
+							</div>
+						</div>
+						<div class="control">
+							<div class="tags has-addons">
+								<span class="tag is-medium is-dark">
+									Payments
+								</span>
+								<span class="tag is-medium {{ count($statement->payments) ? 'is-success' : 'is-danger' }}">
+									{{ count($statement->payments) ? 'Generated' : 'Not Generated' }}
+								</span>
+							</div>
+						</div>
 					</div>
+
 				</section>
 
 				@yield('sub-content')
