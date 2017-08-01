@@ -206,6 +206,14 @@ class Statement extends BaseModel
     }
 
     /**
+     * Get the statement's bank account.
+     */
+    public function getBankAccountAttribute()
+    {
+        return $this->property->bank_account;
+    }
+
+    /**
      * Check whether a statement has an invoice.
      * 
      * @return bool
