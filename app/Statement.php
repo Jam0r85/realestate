@@ -186,13 +186,23 @@ class Statement extends BaseModel
     }
 
     /**
-     * Get the recipient of the rental statement.
+     * Get the statement's recipient address.
      * 
      * @return string
      */
     public function getRecipientAttribute()
     {
         return $this->users()->first()->home_formatted;
+    }
+
+    /**
+     * Get the statement's recipient address as an inline string.
+     * 
+     * @return string
+     */
+    public function getRecipientInlineAttribute()
+    {
+        return str_replace('<br />', ', ', $this->recipient);
     }
 
     /**

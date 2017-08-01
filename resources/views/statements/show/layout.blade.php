@@ -181,6 +181,16 @@
 							<div class="control">
 								<div class="tags has-addons">
 									<span class="tag is-medium is-dark">
+										Address
+									</span>
+									<span class="tag is-medium is-primary">
+										{{ $statement->recipient_inline }}
+									</span>
+								</div>
+							</div>
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-medium is-dark">
 										Send By
 									</span>
 									<span class="tag is-medium is-primary">
