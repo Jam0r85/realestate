@@ -45,7 +45,7 @@
 									@elseif ($name == 'invoices')
 										#{{ $payment->parent->number }}
 									@elseif ($name == 'expenses')
-										{{ $payment->parent->statement_name }}
+										{!! $payment->parent->statement_name !!}
 									@endif
 								</div>	
 								{{ $payment->statement->property->short_name }}					
