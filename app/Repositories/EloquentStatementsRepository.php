@@ -112,6 +112,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Build the data array.
         $data['key'] = str_random(30);
+        $data['created_at'] = Carbon::now();
 
         // Set the statement amount.
         if (!isset($data['amount'])) {
