@@ -69,20 +69,6 @@
 						</p>
 					</div>
 				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Send By
-						</p>
-						<p class="title">
-							@if ($statement->sendByPost())
-								By Post
-							@else
-								By E-Mail
-							@endif
-						</p>
-					</div>
-				</div>
 			</nav>
 
 		</div>
@@ -176,7 +162,10 @@
 									Invoice #{{ $statement->invoice->number }}
 								</a>
 								<a href="{{ route('downloads.invoice', $statement->invoice->id) }}" target="_blank">
-									Download
+									<span class="icon is-small">
+										<i class="fa fa-download"></i>
+									</span>
+									Download Invoice
 								</a>	
 							</li>
 						</ul>
@@ -184,6 +173,43 @@
 				</aside>
 			</div>
 			<div class="column is-faded is-9">
+
+				<section class="section">
+					<div class="container">
+
+						<div class="field is-grouped is-grouped-multiline">
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-medium is-dark">
+										Send By
+									</span>
+									<span class="tag is-medium is-primary">
+										@if ($statement->sendByPost())
+											Post
+										@else
+											E-Mail
+										@endif
+									</span>
+								</div>
+							</div>
+							<div class="control">
+								<div class="tags has-addons">
+									<span class="tag is-medium is-dark">
+										Pay By
+									</span>
+									<span class="tag is-medium is-primary">
+										@if ($statement->bank_account)
+											Bank Account
+										@else
+											Cash or Cheque
+										@endif
+									</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</section>
 
 				@yield('sub-content')
 

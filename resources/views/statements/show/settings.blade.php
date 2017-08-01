@@ -88,7 +88,7 @@
 		<div class="content">
 
 			<p>
-				You can mark this statement as being paid or unpaid.
+				You can mark this statement as being paid or unpaid without actually sending any payments. <b>Note:</b> If no payments have been generated for this statement that will be created automatically when submitting the form.
 			</p>
 
 			@if ($statement->paid_at)
@@ -120,7 +120,7 @@
 
 		<div class="content">
 			<p>
-				You can mark this statement as being sent or unsent without informing the landlords.
+				You can mark this statement as being sent without sending it to the owners or mark it as being unsent again.
 			</p>
 
 			@if ($statement->sent_at)
