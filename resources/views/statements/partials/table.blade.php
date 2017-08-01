@@ -1,6 +1,5 @@
 @component('partials.table')
 	@slot('head')
-		<th></th>
 		<th>Period</th>
 		<th>Tenancy &amp; Property</th>
 		<th>Amount</th>
@@ -9,11 +8,6 @@
 	@endslot
 	@foreach ($statements as $statement)
 		<tr>
-			<td>
-				<label class="checkbox">
-					<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
-				</label>
-			</td>
 			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 			<td>
 				{{ $statement->tenancy->name }}

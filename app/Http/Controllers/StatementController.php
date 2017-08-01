@@ -50,7 +50,7 @@ class StatementController extends Controller
         $statements = $this->statements->getUnsentPaged();
         $title = 'Unsent Statements List';
 
-        return view('statements.index', compact('statements','title'));
+        return view('statements.unsent', compact('statements','title'));
     }
 
     /**

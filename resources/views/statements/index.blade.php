@@ -33,21 +33,8 @@
 
 		</div>
 
-		<form role="form" method="POST" action="{{ route('statements.send') }}">
-			{{ csrf_field() }}
-			@include('statements.partials.table', ['show_tenancy' => true, 'show_property' => true])
+		@include('statements.partials.table')
 
-			<hr />
-
-			<button type="submit" class="button is-primary is-outlined" name="action" value="send">
-				Send Statements
-			</button>
-
-			<button type="submit" class="button is-success is-outlined" name="action" value="send">
-				Mark as Finished
-			</button>
-
-		</form>
 	@endcomponent
 
 @endsection
