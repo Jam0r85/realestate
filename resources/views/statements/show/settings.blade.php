@@ -36,6 +36,13 @@
 			</div>
 
 			<div class="field">
+				<label class="label" for="amount">Statement Amount</label>
+				<p class="control">
+					<input type="number" step="any" name="amount" class="input" value="{{ $statement->amount }}" />
+				</p>
+			</div>
+
+			<div class="field">
 				<label class="label" for="bank_account_id">Bank Account</label>
 				<div class="control">
 					<select name="bank_account_id" class="select2">
