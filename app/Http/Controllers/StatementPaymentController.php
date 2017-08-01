@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StatementPaymentSentRequest;
 use App\Repositories\EloquentStatementPaymentsRepository;
 use Illuminate\Http\Request;
 
@@ -61,5 +62,17 @@ class StatementPaymentController extends Controller
         $title = 'Search Results';
 
         return view('statement-payments.index', compact('payments','title'));
+    }
+
+    /**
+     * Mark the provided statement payments as sent.
+     * 
+     * @param  StatementPaymentSentRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function markSent(StatementPaymentSentRequest $request)
+    {
+        $this->statement_payments->sendPayments($request->payment_id);
+        return back();
     }
 }

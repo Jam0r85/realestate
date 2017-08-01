@@ -13,46 +13,61 @@
 		@endslot
 	@endcomponent
 
-	@foreach ($groups as $name => $payments)
+	@component('partials.sections.section')
 
-		@component('partials.sections.section-no-container')
+		<form role="form" method="POST" action="{{ route('statement-payments.mark-sent') }}">
+			{{ csrf_field() }}
 
-			@component('partials.subtitle')
-				{{ $name }} {{ currency($payments->sum('amount')) }}
-			@endcomponent
+			@include('partials.errors-block')
 
-			@component('partials.table')
-				@slot('head')
-					<th width="100%">Name</th>
-					<th>Amount</th>
-					<th></th>
-				@endslot
-				@foreach ($payments as $payment)
-					<tr>
-						<td>
-							<div class="is-pulled-right">
-								@if ($name == '')								
-									@if ($payment->bank_account)
-										{{ $payment->bank_account->name }}
-									@else
-										Cheque or Cash
+			@foreach ($groups as $name => $payments)
+
+				@component('partials.subtitle')
+					{{ $name }} {{ currency($payments->sum('amount')) }}
+				@endcomponent
+
+				@component('partials.table')
+					@slot('head')
+						<th width="100%">Name</th>
+						<th>Amount</th>
+						<th></th>
+					@endslot
+					@foreach ($payments as $payment)
+						<tr>
+							<td>
+								<div class="is-pulled-right">
+									@if ($name == '')								
+										@if ($payment->bank_account)
+											{{ $payment->bank_account->name }}
+										@else
+											Cheque or Cash
+										@endif
+									@elseif ($name == 'invoices')
+										#{{ $payment->parent->number }}
+									@elseif ($name == 'expenses')
+										{{ $payment->parent->name }}
 									@endif
-								@elseif ($name == 'invoices')
-									#{{ $payment->parent->number }}
-								@elseif ($name == 'expenses')
-									{{ $payment->parent->name }}
-								@endif
-							</div>	
-							{{ $payment->statement->property->short_name }}					
-						</td>
-						<td>{{ currency($payment->amount) }}</td>
-						<td></td>
-					</tr>
-				@endforeach
-			@endcomponent
+								</div>	
+								{{ $payment->statement->property->short_name }}					
+							</td>
+							<td>{{ currency($payment->amount) }}</td>
+							<td>
+								<input type="checkbox" name="payment_id[]" value="{{ $payment->id }}" />								
+							</td>
+						</tr>
+					@endforeach
+				@endcomponent
 
-		@endcomponent
+				<hr />
 
-	@endforeach
+			@endforeach
+
+			<button type="submit" class="button is-primary is-outlined">
+				Mark as Sent
+			</button>
+
+		</form>
+
+	@endcomponent
 
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\StatementPayment;
+use Carbon\Carbon;
 
 class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 {
@@ -94,10 +95,10 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	}
 
 	/**
-	 * Create the individual payments for a rental statement.
+	 * Create the statement payments for the given rental statement.
 	 * 
-	 * @param  \App\Repositories\EloquentStatementRepository $statement
-	 * @return \App\Repositories\EloquentStatementRepository
+	 * @param  \App\Statement $statement
+	 * @return \App\Statement
 	 */
 	public function createPayments($statement)
 	{
@@ -111,13 +112,38 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	}
 
 	/**
-	 * Delete the current statement payments.
+	 * Delete payments for a given statement.
 	 * 
-	 * @param  \App\Repositories\EloquentStatementRepository $statement
+	 * @param  \App\Statement $statement
 	 * @return void.
 	 */
 	public function deletePayments($statement)
 	{
 		$statement->payments()->delete();
+	}
+
+	/**
+	 * Mark the provided payments as have being sent.
+	 * 
+	 * @param  array  $payments
+	 * @return void
+	 */
+	public function sendPayments(array $payment_ids)
+	{
+		foreach ($payment_ids as $id) {
+
+			$data = [
+				'sent_at' => Carbon::now()
+			];
+
+			$payment = $this->update($data, $id);
+
+			// Should the statement have no more unsent payments, it needs to be marked as paid.
+			if (!$payment->statement->hasUnsentPayments()) {
+				$payment->statement()->update($data);
+			}
+		}
+
+		return back();
 	}
 }
