@@ -37,6 +37,7 @@ class StatementPayment extends BaseModel
      */
 	protected $fillable = [
 		'statement_id',
+        'user_id',
 		'amount',
 		'bank_account_id',
 		'sent_at',
