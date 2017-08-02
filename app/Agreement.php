@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Agreement extends BaseModel
 {
 	use SoftDeletes;
-	
+
     /**
      * The attributes that should be mutated to dates.
      * 
@@ -36,5 +36,35 @@ class Agreement extends BaseModel
     public function owner()
     {
     	return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the agreement ends_at field but format it.
+     * 
+     * @return string
+     */
+    public function getEndsAtFormattedAttribute()
+    {
+    	if ($this->ends_at) {
+    		return date_formatted($this->ends_at);
+    	}
+
+    	return 'n/a';
+    }
+
+    /**
+     * Get the agreement length but format it.
+     * 
+     * @return string
+     */
+    public function getLengthFormattedAttribute()
+    {
+    	$parts = explode('-', $this->length);
+
+    	if ($parts[0] > 0) {
+    		return $parts[0] . ' ' . $parts[1];
+    	}
+
+    	return 'SPT';
     }
 }

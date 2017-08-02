@@ -18,8 +18,8 @@
 			@foreach ($tenancy->agreements as $agreement)
 				<tr>
 					<td>{{ date_formatted($agreement->starts_at) }}</td>
-					<td></td>
-					<td></td>
+					<td>{{ $agreement->length_formatted }}</td>
+					<td>{{ $agreement->ends_at_formatted }}</td>
 					<td></td>
 				</tr>
 			@endforeach
