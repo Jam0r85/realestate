@@ -74,7 +74,20 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     {
         return $this->getInstance()
             ->whereNull('sent_at')
-            ->orWhereNull('paid_at')
+            ->with('tenancy', 'tenancy.property', 'users')
+            ->latest()
+            ->paginate();
+    }
+
+    /**
+     * Get all records in the repo and paginate them.
+     *
+     * @return mixed
+     */
+    public function getUnpaidPaged()
+    {
+        return $this->getInstance()
+            ->whereNull('paid_at')
             ->with('tenancy', 'tenancy.property', 'users')
             ->latest()
             ->paginate();

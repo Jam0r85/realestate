@@ -94,6 +94,7 @@ Route::prefix('tenancies')->group(function () {
 Route::prefix('statements')->group(function () {
 	Route::get('/', 'StatementController@index')->name('statements.index');
 	Route::get('unsent', 'StatementController@unsent')->name('statements.unsent');
+	Route::get('unpaid', 'StatementController@unpaid')->name('statements.unpaid');
 	Route::post('search', 'StatementController@search')->name('statements.search');
 	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');

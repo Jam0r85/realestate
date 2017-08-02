@@ -73,8 +73,8 @@
 
 			<hr />
 
-			<button type="submit" class="button is-primary is-outlined" name="action" value="send">
-				Send Statements
+			<button type="submit" class="button is-success is-outlined" name="action" value="send">
+				Mark as Paid
 			</button>
 
 		</form>

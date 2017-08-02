@@ -58,6 +58,19 @@ class StatementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function unpaid()
+    {
+        $statements = $this->statements->getUnpaidPaged();
+        $title = 'Unpaid Statements List';
+
+        return view('statements.unpaid', compact('statements','title'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $request)
     {
         $statements = $this->statements->search($request->search_term);
