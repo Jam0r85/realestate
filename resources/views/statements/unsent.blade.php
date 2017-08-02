@@ -38,7 +38,7 @@
 				@foreach ($statements as $statement)
 					<tr>
 						<td>
-							@if (!$statement->paid_at)
+							@if ($statement->paid_at)
 								<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
 							@endif
 						</td>
@@ -54,7 +54,7 @@
 						</td>
 						<td>{{ currency($statement->amount) }}</td>
 						<td>{{ date_formatted($statement->created_at) }}</td>
-						<td>{!! $statement->is_paid ? '<span class="tag is-success">Paid</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
+						<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
 					</tr>
 				@endforeach
 			@endcomponent

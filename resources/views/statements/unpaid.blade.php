@@ -45,7 +45,7 @@
 					</td>
 					<td>{{ currency($statement->amount) }}</td>
 					<td>{{ date_formatted($statement->created_at) }}</td>
-					<td>{!! count($statement->payments) ? '<span class="tag is-success">Generated</span>' : '<span class="tag is-danger">None</span>' !!}</td>
+					<td>{!! count($statement->payments) ? '<span class="tag is-success">Generated</span>' : '<span class="tag is-danger">Not Generated</span>' !!}</td>
 				</tr>
 			@endforeach
 		@endcomponent
