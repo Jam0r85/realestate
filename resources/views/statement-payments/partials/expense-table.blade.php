@@ -8,7 +8,7 @@
 	@foreach ($payments as $payment)
 		<tr>
 			<td>{{ $payment->statement->property->short_name }}</td>
-			<td>{{ $payment->parent->statement_name }}</td>
+			<td>{!! $payment->parent->statement_name !!}</td>
 			<td>{{ currency($payment->amount) }}</td>
 			<td><input type="checkbox" name="payment_id[]" value="{{ $payment->id }}" /></td>
 		</tr>

@@ -96,6 +96,11 @@ class StatementPayment extends BaseModel
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Get the statement payment group name.
+     * 
+     * @return string
+     */
     public function getGroupAttribute()
     {
         if ($this->parent_type == 'invoices') {
@@ -139,7 +144,7 @@ class StatementPayment extends BaseModel
     {
         // We have a bank account, return the basic details.
         if ($this->bank_account) {
-            return 'Bank';
+            return $this->bank_account->name;
         }
 
         // No bank account provided, just return Cash or Cheque.
