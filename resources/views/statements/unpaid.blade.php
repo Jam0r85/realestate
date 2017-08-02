@@ -15,22 +15,15 @@
 	@component('partials.sections.section')
 
 		<div class="content">
-
-			<form role="form" method="POST" action="{{ route('statements.search') }}">
-				{{ csrf_field() }}
-
-				<div class="field is-grouped">
-					<p class="control is-expanded">
-						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
-					</p>
-					<p class="control">
-						@component('partials.forms.buttons.primary')
-							Search
-						@endcomponent
-					</p>
-				</div>
-			</form>
-
+			<p>
+				Listed below are all rental statements which are yet to be marked as having being paid. You can mark a statement as being paid by selecting the box clicking the 'Mark as Paid' button at the bottom.
+			</p>
+			<div class="notification is-primary">
+				<b>Important!</b> This will mark every single statement payment as having been sent (and will auto generate the statement payments if none exist)
+			</div>
+			<p>
+				Alternatively when processing a bulk payment to the owners, once all of a statements payments have been marked as having been sent, the statement will automatically be updated to sent status.
+			</p>
 		</div>
 
 		<form role="form" method="POST" action="{{ route('statements.toggle-paid') }}">
@@ -48,9 +41,7 @@
 				@foreach ($statements as $statement)
 					<tr>
 						<td>
-							<label class="checkbox">
-								<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
-							</label>
+							<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
 						</td>
 						<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 						<td>
