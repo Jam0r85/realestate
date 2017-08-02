@@ -29,7 +29,7 @@ class Statement extends BaseModel
      * 
      * @var array
      */
-    protected $dates = ['period_start','period_end','paid_at','sent_at'];
+    protected $dates = ['created_at','period_start','period_end','paid_at','sent_at'];
 
     /**
      * The attributes that are mass assignable.

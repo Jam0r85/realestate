@@ -412,7 +412,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                 }
 
                 // Statement has not been paid in full, we return.
-                if (is_null($statement->paid_at)) {
+                if (!$statement->paid_at) {
                     return;
                 }
             }
