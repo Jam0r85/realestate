@@ -32,7 +32,8 @@
 					<th>Period</th>
 					<th>Tenancy &amp; Property</th>
 					<th>Amount</th>
-					<th>Date</th>
+					<th>Send By</th>
+					<th>E-Mails</th>
 					<th>Paid</th>
 				@endslot
 				@foreach ($statements as $statement)
@@ -53,8 +54,15 @@
 							</a>
 						</td>
 						<td>{{ currency($statement->amount) }}</td>
-						<td>{{ date_formatted($statement->created_at) }}</td>
-						<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
+						<td>{{ $statement->sendByPost() ? 'Post' : 'E-Mail' }}</td>
+						<td>
+							@foreach ($statement->getUserEmails() as $email)
+								<span class="tag is-primary">
+									{{ $email }}
+								</span>
+							@endforeach
+						</td>
+						<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid ' . date_formatted($statement->paid_at) .'</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
 					</tr>
 				@endforeach
 			@endcomponent

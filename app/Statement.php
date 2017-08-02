@@ -187,6 +187,19 @@ class Statement extends BaseModel
     }
 
     /**
+     * Get the user email's for this statement.
+     * 
+     * @return array
+     */
+    public function getUserEmails()
+    {
+        if (count($this->users)) {
+            return $this->users->pluck('email')->toArray();
+        }
+        return [];
+    }
+
+    /**
      * Get the statement's recipient address.
      * 
      * @return string
@@ -259,11 +272,13 @@ class Statement extends BaseModel
      */
     public function sendByPost()
     {
-        return $this->property->hasSetting('post_rental_statement');
+        return (boolean) $this->property->hasSetting('post_rental_statement');
     }
 
     /**
      * Mark the statement as being sent by updating the sent_at field.
+     *
+     * @return  void
      */
     public function setSent($date = null)
     {
