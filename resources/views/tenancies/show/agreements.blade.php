@@ -20,7 +20,7 @@
 					<td>{{ date_formatted($agreement->starts_at) }}</td>
 					<td>{{ $agreement->length_formatted }}</td>
 					<td>{{ $agreement->ends_at_formatted }}</td>
-					<td></td>
+					<td>{{ $agreement->getStatusFormatted() }}</td>
 				</tr>
 			@endforeach
 		@endcomponent

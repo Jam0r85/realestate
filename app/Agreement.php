@@ -39,6 +39,24 @@ class Agreement extends BaseModel
     }
 
     /**
+     * Get the agreement status.
+     * 
+     * @return string
+     */
+    public function getStatusFormatted()
+    {
+    	if ($this->starts_at > Carbon::now()) {
+    		return 'Proposed';
+    	}
+
+    	if (!is_null($this->ends_at) && $this->ends_at <= Carbon::now()) {
+    		return 'Ended';
+    	}
+
+    	return 'Active';
+    }
+
+    /**
      * Get the agreement ends_at field but format it.
      * 
      * @return string
