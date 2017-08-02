@@ -37,7 +37,7 @@ class StatementToLandlord extends Mailable
         // Check which markdown we want to use.
         if ($this->statement->sendByPost()) {
             $this->subject('Rental Statement: ' . $this->statement->property->short_name);
-            $this->markdown('email-templates.statement-to-landlord-post', ['statement' => $this->statement]);
+            $this->markdown('email-templates.statement-to-landlord-post');
         } else {
 
             // Grab the statement..
@@ -46,7 +46,7 @@ class StatementToLandlord extends Mailable
 
             $this->subject('Rental Statement: ' . $this->statement->property->short_name);
             $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
-            $this->markdown('email-templates.statement-to-landlord-email', ['statement' => $this->statement]);
+            $this->markdown('email-templates.statement-to-landlord-email');
             
             // Check whether the statement has any expense payments
             if (count($this->statement->expenses)) {
