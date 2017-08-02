@@ -46,7 +46,6 @@ class StatementPaymentController extends Controller
     public function unsent()
     {
     	$groups = $this->statement_payments->getUnsentGrouped();
-        // return dd($groups);
     	return view('statement-payments.unsent', compact('groups'));
     }
 

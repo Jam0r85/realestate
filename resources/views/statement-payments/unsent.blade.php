@@ -23,8 +23,10 @@
 			@foreach ($groups as $name => $payments)
 
 				@component('partials.subtitle')
-					{{ $name }} {{ currency($payments->sum('amount')) }}
+					{{ ucwords($name) }} {{ currency($payments->sum('amount')) }}
 				@endcomponent
+
+				@include('statement-payments.partials.'.$name.'-table')
 
 				@component('partials.table')
 					@slot('head')

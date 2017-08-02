@@ -35,7 +35,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	public function getUnsentGrouped()
 	{
 		$payments = $this->getInstance()->whereNull('sent_at')->get();
-        $groups = $payments->groupBy('parent_type');
+        $groups = $payments->groupBy('group')->sortBy('bank_account.name');
 
         return $groups;
 	}

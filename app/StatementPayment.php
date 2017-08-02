@@ -22,6 +22,17 @@ class StatementPayment extends BaseModel
             'sent' => $this->sent_at
         ];
     }
+
+    /**
+     * The attrbites that should be included in the collection.
+     * 
+     * @var array
+     */
+    protected $appends = [
+        'group',
+        'name_formatted',
+        'method_formatted'
+    ];
     
     /**
      * The attributes that should be mutated to dates.
@@ -83,6 +94,19 @@ class StatementPayment extends BaseModel
     public function owner()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function getGroupAttribute()
+    {
+        if ($this->parent_type == 'invoices') {
+            return 'invoice';
+        }
+
+        if ($this->parent_type == 'expenses') {
+            return 'expense';
+        }
+
+        return 'landlord';
     }
 
     /**
