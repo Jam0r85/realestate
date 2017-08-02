@@ -2,10 +2,12 @@
 
 namespace App\Jobs;
 
-use Exception;
-use App\Mail\ErrorToUser;
-use App\Mail\StatementToLandlord;
+use App\Mail\ErrorSendingStatement;
+use App\Mail\StatementByEmail;
+use App\Mail\StatementByPost;
 use App\Statement;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,6 +23,11 @@ class SendStatement implements ShouldQueue
      * @var \App\Statement
      */
     public $statement;
+
+    /**
+     * @var bool
+     */
+    public $sent;
 
     /**
      * Create a new job instance.
@@ -40,17 +47,27 @@ class SendStatement implements ShouldQueue
      */
     public function handle()
     {
-        if (count($this->getEmails())) {
-            // Send the statement by email.
-            Mail::to($this->getEmails())->send(
-                new StatementToLandlord($this->statement)
-            );
-
-            if (count(Mail::failures()) == 0) {
-                $this->statement->setSent();
+        if ($this->statement->sendByEmail()) {
+            if (count($this->statement->getUserEmails())) {
+                Mail::to($this->statement->getUserEmails())->send(
+                    new StatementByEmail($this->statement)
+                );
+                $this->updateSent();
+            } else {
+                Mail::to(get_setting('company_email'))->send(
+                    new ErrorSendingStatement($this->statement, 'missing-emails')
+                );
             }
-        } else {
-            $this->statement->setSent();
+        }
+
+        if ($this->statement->sendByPost()) {
+            if (count($this->statement->getUserEmails())) {
+                Mail::to($this->statement->getUserEmails())->send(
+                    new StatementByPost($this->statement)
+                );
+            }
+
+            $this->updateSent();
         }
     }
 
@@ -68,32 +85,12 @@ class SendStatement implements ShouldQueue
     }
 
     /**
-     * Get the emails of the owners that this statement is being sent to.
+     * Update the statement as having been sent.
      * 
-     * @return array
+     * @return void
      */
-    protected function getEmails()
+    protected function updateSent()
     {
-        $emails = [];
-
-        if (count($this->statement->users)) {
-            foreach ($this->statement->users as $user) {
-                if ($user->email) {
-                    $emails[] = $user->email;
-                }
-            }
-        }
-
-        return $emails;
-    }
-
-    /**
-     * The error message should the job fail to process.
-     * 
-     * @return [type] [description]
-     */
-    protected function errorMessage()
-    {
-        return 'There was an error sending statement #' . $this->statement->id . ' to the owners by e-mail either because the e-mail failed to send or no e-mail was provided';
+        $this->statement->update(['sent_at' => Carbon::now()]);
     }
 }

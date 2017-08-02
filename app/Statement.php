@@ -266,13 +266,27 @@ class Statement extends BaseModel
     }
 
     /**
-     * Are we posting this rental statement instead of sending it by email?
+     * Are we sending this statement by post?
      * 
      * @return bool
      */
     public function sendByPost()
     {
         return (boolean) $this->property->hasSetting('post_rental_statement');
+    }
+
+    /**
+     * Are we sending this statement by email?
+     * 
+     * @return bool
+     */
+    public function sendByEmail()
+    {
+        if ($this->sendByPost()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

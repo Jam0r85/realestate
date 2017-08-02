@@ -19,7 +19,7 @@ class SendUnsentStatements extends Command
      *
      * @var string
      */
-    protected $description = 'Send all the unset statements.';
+    protected $description = 'Loop through unsent statements and send them.';
 
     /**
      * \App\Repositories\EloquentStatementsRepository
@@ -44,11 +44,10 @@ class SendUnsentStatements extends Command
      */
     public function handle()
     {
-        // Get an array of statement id's which have not been sent yet.
-        $ids = $this->statements->getUnsentList()->pluck('id');
+        $statement_ids = $this->statements->getUnsentList()->pluck('id');
 
-        if (count($ids)) {
-            $this->statements->sendStatementsWithChecks($ids);
+        if (count($statement_ids)) {
+            $this->statements->sendStatementsWithChecks($statement_ids);
             $this->info(count($ids) . ' were assigned to be sent');
         } else {
             $this->info('No unsent statements found');

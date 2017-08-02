@@ -391,9 +391,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     }
 
     /**
-     * Send the given statement to it's owner.
+     * Loop through the given statement ids and send each one
      *
-     * @param integer $id
+     * @param array $ids
      * @return \App\Statement
      */
     public function send($ids, $checks = false)

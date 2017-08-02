@@ -46,8 +46,10 @@ class CheckStatementPaid extends Command
     public function handle()
     {
         foreach ($this->statements->getUnpaidList() as $statement) {
-            if (!$statement->hasUnsentPayments()) {
-                $statement->update(['paid_at' => Carbon::now()]);
+            if ($statement->landlord_balance_amount > 0) {
+                if (!$statement->hasUnsentPayments()) {
+                    $statement->update(['paid_at' => Carbon::now()]);
+                }
             }
         }
 

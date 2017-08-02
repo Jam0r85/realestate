@@ -1,7 +1,7 @@
 @component('mail::message')
-# There was an error!
+# Error Sending Statement {{ $statement->id }}
 
-{{ $this->message }}
+{{ $message }}
 
 Thanks,<br>
 {{ get_setting('company_name', config('app.name')) }}
