@@ -132,11 +132,10 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 * @param  array  $payments
 	 * @return void
 	 */
-	public function sendPayments(array $payment_ids)
+	public function markPaymentsSent(array $payment_ids)
 	{
-		foreach ($payment_ids as $id) {
-			$this->sendPayment($id);
-		}
+		StatementPayment::whereIn('id', $payment_ids)
+			->update(['sent_at' => Carbon::now()]);
 
 		return back();
 	}

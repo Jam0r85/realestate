@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Laravel\Scout\Searchable;
 
 class StatementPayment extends BaseModel
@@ -150,19 +149,5 @@ class StatementPayment extends BaseModel
 
         // No bank account provided, just return Cash or Cheque.
         return 'Cash or Cheque';
-    }
-
-    /**
-     * Mark the statement payment as being sent by updating the sent_at field.
-     * 
-     * @return  void
-     */
-    public function setSent($date = null)
-    {
-        if (is_null($date)) {
-            $date = Carbon::now();
-        }
-
-        $this->update(['sent_at' => $date]);
     }
 }

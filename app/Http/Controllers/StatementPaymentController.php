@@ -71,7 +71,7 @@ class StatementPaymentController extends Controller
      */
     public function markSent(StatementPaymentSentRequest $request)
     {
-        $this->statement_payments->sendPayments($request->payment_id);
+        $this->statement_payments->markPaymentsSent($request->payment_id);
         return back();
     }
 }
