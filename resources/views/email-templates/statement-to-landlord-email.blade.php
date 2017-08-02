@@ -1,9 +1,9 @@
 @component('mail::message')
 # Hello!
 
-Please find attached the latest rental statement for the property <b>{{ $this->statement->tenancy->property->name }}</b> which was processed today.
+Please find attached the latest rental statement for the property <b>{{ $statement->tenancy->property->name }}</b> which was processed today.
 
-The balance of {{ currency($this->statement->landlord_balance_amount) }} was sent by {{ $this->statement->bank_account ? 'Bank Transfer' : 'Cheque' }}
+The balance of {{ currency($statement->landlord_balance_amount) }} was sent by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}
 
 Thanks,<br>
 {{ get_setting('company_name', config('app.name')) }}
