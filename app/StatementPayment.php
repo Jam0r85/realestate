@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Laravel\Scout\Searchable;
 
 class StatementPayment extends BaseModel
