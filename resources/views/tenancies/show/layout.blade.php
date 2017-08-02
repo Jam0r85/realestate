@@ -170,7 +170,7 @@
 						<div class="control">
 							<div class="tags has-addons">
 								<span class="tag is-medium is-dark">Started</span>
-								<span class="tag is-medium is-primary">{{ date_formatted($tenancy->created_at) }}</span>
+								<span class="tag is-medium is-primary">{{ date_formatted($tenancy->started_at) }}</span>
 							</div>
 						</div>
 						@if ($tenancy->vacated_on)

@@ -13,4 +13,20 @@
 		@endslot
 	@endcomponent
 
+	@component('partials.sections.section')
+
+		<div class="field">
+			<label class="label" for="property_id">Property</label>
+			<div class="control">
+				<select name="property_id" class="select2">
+					<option value="">Please select..</option>
+					@foreach (properties() as $property)
+						<option value="{{ $property->id }}">{{ $property->name }}</option>
+					@endforeach
+				</select>
+			</div>
+		</div>
+
+	@endcomponent
+
 @endsection

@@ -90,15 +90,17 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a current rent amount.
+     * A tenancy can have a current rent amount based on it starting before today.
      */
     public function current_rent()
     {
-        return $this->hasOne('App\TenancyRent')->where('starts_at', '<=', Carbon::now())->latest('starts_at');
+        return $this->hasOne('App\TenancyRent')
+            ->where('starts_at', '<=', Carbon::now())
+            ->latest('starts_at');
     }
 
     /**
-     * A tenancy can have many tenants.
+     * A tenancy can have many users as tenants.
      */
     public function tenants()
     {
@@ -110,15 +112,17 @@ class Tenancy extends BaseModel
      */
     public function rent_payments()
     {
-    	return $this->morphMany('App\Payment', 'parent')->with('method')->latest();
+    	return $this->morphMany('App\Payment', 'parent')
+            ->latest();
     }
 
     /**
-     * A tenancy can have a last rent payment.
+     * A tenancy can have a last rent payment based on the date it was created.
      */
     public function last_rent_payment()
     {
-        return $this->morphOne('App\Payment', 'parent')->latest();
+        return $this->morphOne('App\Payment', 'parent')
+            ->latest();
     }
 
     /**
@@ -126,7 +130,8 @@ class Tenancy extends BaseModel
      */
     public function statements()
     {
-        return $this->hasMany('App\Statement')->latest('period_start');
+        return $this->hasMany('App\Statement')
+            ->latest('period_start');
     }
 
     /**
@@ -134,7 +139,39 @@ class Tenancy extends BaseModel
      */
     public function last_statement()
     {
-        return $this->hasOne('App\Statement')->latest('period_start');
+        return $this->hasOne('App\Statement')
+            ->latest('period_start');
+    }
+
+    /**
+     * A tenancy can have many agreements.
+     */
+    public function agreements()
+    {
+        return $this->hasMany('App\Agreement')
+            ->latest('starts_at');
+    }
+
+    /**
+     * A tenancy can have a current agreement.
+     */
+    public function current_agreement()
+    {
+        return $this->hasOne('App\Agreement')
+            ->where('starts_at', '<=', Carbon::now())
+            ->where('ends_at', '>', Carbon::now())
+            ->orWhere('starts_at', '<=', Carbon::now())
+            ->whereNull('ends_at')
+            ->latest();
+    }
+
+    /**
+     * A tenancy can have a first agreement.
+     */
+    public function first_agreement()
+    {
+        return $this->hasOne('App\Agreement')
+            ->oldest('starts_at');
     }
 
     /**
@@ -250,6 +287,20 @@ class Tenancy extends BaseModel
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Get the tenancy start date.
+     * 
+     * @return string
+     */
+    public function getStartedAtAttribute()
+    {
+        if ($this->first_agreement) {
+            return $this->first_agreement->started_at;
+        }
+
+        return null;
     }
 
     /**
