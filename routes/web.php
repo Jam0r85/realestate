@@ -101,7 +101,7 @@ Route::prefix('statements')->group(function () {
 	Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 	Route::post('{id}/toggle-paid', 'StatementController@togglePaid')->name('statements.toggle-paid');
 	Route::post('{id}/toggle-sent', 'StatementController@toggleSent')->name('statements.toggle-sent');
-	Route::post('send/{id?}', 'StatementController@send')->name('statements.send');
+	Route::post('send', 'StatementController@send')->name('statements.send');
 	Route::put('{id}', 'StatementController@update')->name('statements.update');
 	Route::delete('{id}', 'StatementController@archive')->name('statements.delete');
 });

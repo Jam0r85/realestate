@@ -380,11 +380,28 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param integer $id
      * @return \App\Statement
      */
-    public function send($statement)
+    public function send($ids, $checks = false)
     {
-        $job = (new SendStatement($statement));
+        foreach($ids as $id) {
+            $statement = $this->find($id);
 
-        dispatch($job);
+            if ($checks == true) {
+                
+                // Statement has already been sent, we return.
+                if ($statement->sent_at) {
+                    return;
+                }
+
+                // Statement has not been paid in full, we return.
+                if (is_null($statement->paid_at)) {
+                    return;
+                }
+            }
+
+            $job = (new SendStatement($statement));
+
+            dispatch($job);
+        }
 
         $this->successMessage('The statements were added to send queue');
 
@@ -399,10 +416,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function sendStatements($ids = [])
     {
-        foreach ($ids as $id) {
-            $statement = $this->find($id);
-            $this->send($statement);
-        }
+        $this->send($ids);
     }
 
     /**
@@ -414,21 +428,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function sendStatementsWithChecks($ids = [])
     {
-        foreach ($ids as $id) {
-            $statement = $this->find($id);
-
-            // Statement has already been sent, we return.
-            if ($statement->sent_at) {
-                return;
-            }
-
-            // Statement has not been paid in full, we return.
-            if (is_null($statement->paid_at)) {
-                return;
-            }
-
-            $this->send($statement);
-        }
+        $this->send($ids, true);
     }
 
     /**

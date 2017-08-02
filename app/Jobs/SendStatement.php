@@ -40,13 +40,15 @@ class SendStatement implements ShouldQueue
      */
     public function handle()
     {
-        // Send the statement by email.
-        Mail::to($this->getEmails())->send(
-            new StatementToLandlord($this->statement)
-        );
+        if (count($this->getEmails())) {
+            // Send the statement by email.
+            Mail::to($this->getEmails())->send(
+                new StatementToLandlord($this->statement)
+            );
 
-        if (count(Mail::failures()) == 0) {
-            $this->statement->setSent();
+            if (count(Mail::failures()) == 0) {
+                $this->statement->setSent();
+            }
         }
     }
 

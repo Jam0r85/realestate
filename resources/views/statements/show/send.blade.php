@@ -24,8 +24,9 @@
 
 		<hr />
 
-		<form role="form" method="POST" action="{{ route('statements.send', $statement->id) }}">
+		<form role="form" method="POST" action="{{ route('statements.send') }}">
 			{{ csrf_field() }}
+			<input type="hidden" name="statement_id[]" value="{{ $statement->id }}" />
 
 			@component('partials.forms.buttons.primary')
 				{{ $statement->sent_at ? 'Re-Send' : 'Send' }} Statement
