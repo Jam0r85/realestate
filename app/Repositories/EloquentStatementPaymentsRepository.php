@@ -135,21 +135,11 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	public function markPaymentsSent(array $payment_ids)
 	{
 		StatementPayment::whereIn('id', $payment_ids)
+			->whereNull('sent_at')
 			->update(['sent_at' => Carbon::now()]);
 
-		return back();
-	}
+		$this->successMessage('The statement payments were marked as sent');
 
-	/**
-	 * Send a single payment.
-	 * 
-	 * @param  \App\StatementPayment $id
-	 * @return \App\StatementPayment
-	 */
-	public function sendPayment($id)
-	{
-		$payment = $this->find($id);
-		$payment->setSent();
-		return $payment;
+		return back();
 	}
 }
