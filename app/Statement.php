@@ -194,8 +194,9 @@ class Statement extends BaseModel
     public function getUserEmails()
     {
         if (count($this->users)) {
-            return $this->users->pluck('email')->toArray();
+            return $this->users()->whereNotNull('email')->pluck('email')->toArray();
         }
+
         return [];
     }
 
