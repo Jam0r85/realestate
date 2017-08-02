@@ -18,6 +18,9 @@
 			<p>
 				Listed below are all rental statements which are yet to be marked as having being paid.
 			</p>
+			<p>
+				This is done automatically once all the payments for a statement have been marked as having been sent.
+			</p>
 		</div>
 
 		@component('partials.table')
@@ -42,7 +45,7 @@
 					</td>
 					<td>{{ currency($statement->amount) }}</td>
 					<td>{{ date_formatted($statement->created_at) }}</td>
-					<td>{{ count($statement->payments) ? 'Generated' : 'None' }}</td>
+					<td>{!! count($statement->payments) ? '<span class="tag is-success">Generated</span>' : '<span class="tag is-danger">None</span>' !!}</td>
 				</tr>
 			@endforeach
 		@endcomponent

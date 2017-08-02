@@ -15,22 +15,12 @@
 	@component('partials.sections.section')
 
 		<div class="content">
-
-			<form role="form" method="POST" action="{{ route('statements.search') }}">
-				{{ csrf_field() }}
-
-				<div class="field is-grouped">
-					<p class="control is-expanded">
-						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
-					</p>
-					<p class="control">
-						@component('partials.forms.buttons.primary')
-							Search
-						@endcomponent
-					</p>
-				</div>
-			</form>
-
+			<p>
+				Listed below are all the rental statements which are yet to be sent to their owners.
+			</p>
+			<p>
+				A statement can be sent once it has been updated as having being paid.
+			</p>
 		</div>
 
 		<form role="form" method="POST" action="{{ route('statements.send') }}">
@@ -43,14 +33,14 @@
 					<th>Tenancy &amp; Property</th>
 					<th>Amount</th>
 					<th>Date</th>
-					<th>Payments</th>
+					<th>Paid</th>
 				@endslot
 				@foreach ($statements as $statement)
 					<tr>
 						<td>
-							<label class="checkbox">
+							@if (!$statement->paid_at)
 								<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
-							</label>
+							@endif
 						</td>
 						<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 						<td>
@@ -64,7 +54,7 @@
 						</td>
 						<td>{{ currency($statement->amount) }}</td>
 						<td>{{ date_formatted($statement->created_at) }}</td>
-						<td>{{ count($statement->payments) ? 'Generated' : 'None' }}</td>
+						<td>{!! $statement->is_paid ? '<span class="tag is-success">Paid</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
 					</tr>
 				@endforeach
 			@endcomponent
