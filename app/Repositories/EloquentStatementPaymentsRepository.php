@@ -123,7 +123,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	}
 
 	/**
-	 * Mark the provided payments as have being sent.
+	 * Update the given payments and mark them as sent.
 	 * 
 	 * @param  array  $payments
 	 * @return void
@@ -131,19 +131,22 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	public function sendPayments(array $payment_ids)
 	{
 		foreach ($payment_ids as $id) {
-
-			$data = [
-				'sent_at' => Carbon::now()
-			];
-
-			$payment = $this->update($data, $id);
-
-			// Should the statement have no more unsent payments, it needs to be marked as paid.
-			if (!$payment->statement->hasUnsentPayments()) {
-				$payment->statement()->update($data);
-			}
+			$this->sendPayment($id);
 		}
 
 		return back();
+	}
+
+	/**
+	 * Send a single payment.
+	 * 
+	 * @param  \App\StatementPayment $id
+	 * @return \App\StatementPayment
+	 */
+	public function sendPayment($id)
+	{
+		$payment = $this->find($id);
+		$payment->setSent();
+		return $payment;
 	}
 }

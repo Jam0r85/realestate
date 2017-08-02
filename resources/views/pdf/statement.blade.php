@@ -73,23 +73,25 @@
 				</thead>
 				<tbody>
 
-					@foreach ($statement->invoice->items as $item)
-						<tr>
-							<td>
-								<b>{{ $item->name }}</b>
-								{!! $item->description ? '<br />' . $item->description : '' !!}
-								@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
-									<br />
-									@foreach ($statement->tenancy->service_discounts as $discount)
-										<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
-									@endforeach
-								@endif
-							</td>
-							<td class="">{{ currency($item->total_net) }}</td>
-							<td class="">{{ currency($item->total_tax) }}</td>
-							<td class="">{{ currency($item->total) }}</td>
-						</tr>
-					@endforeach
+					@if($statement->invoice)
+						@foreach ($statement->invoice->items as $item)
+							<tr>
+								<td>
+									<b>{{ $item->name }}</b>
+									{!! $item->description ? '<br />' . $item->description : '' !!}
+									@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
+										<br />
+										@foreach ($statement->tenancy->service_discounts as $discount)
+											<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
+										@endforeach
+									@endif
+								</td>
+								<td class="">{{ currency($item->total_net) }}</td>
+								<td class="">{{ currency($item->total_tax) }}</td>
+								<td class="">{{ currency($item->total) }}</td>
+							</tr>
+						@endforeach
+					@endif
 
 					@foreach ($statement->expenses as $expense)
 						<tr>

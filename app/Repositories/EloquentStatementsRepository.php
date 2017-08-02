@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Jobs\SendStatement;
 use App\Mail\StatementToLandlord;
 use App\Statement;
 use App\Tenancy;
@@ -80,17 +81,29 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     }
 
     /**
-     * Get all of the unset statements and return them.
-     * 
+     * Get all of the unsent statements.
+     *
      * @return mixed
      */
-    public function getUnsetList()
+    public function getUnsentList()
     {
         return $this->getInstance()
             ->whereNull('sent_at')
-            ->orWhereNull('paid_at')
             ->with('tenancy', 'tenancy.property', 'users')
-            ->get();   
+            ->get();
+    }
+
+    /**
+     * Get all of the unpaid statements.
+     *
+     * @return mixed
+     */
+    public function getUnpaidList()
+    {
+        return $this->getInstance()
+            ->whereNull('paid_at')
+            ->with('tenancy', 'tenancy.property', 'users')
+            ->get();
     }
 
     /**
@@ -168,9 +181,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
     /**
      * Update the statement.
-     * 
+     *
      * @param  array        $data
-     * @param  statement    $id 
+     * @param  statement    $id
      * @return mixed
      */
     public function updateStatement(array $data, $id)
@@ -362,50 +375,65 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     }
 
     /**
-     * Send the statements.
+     * Send the given statement to it's owner.
      *
-     * @param  [type] $ids [description]
-     * @return [type]      [description]
+     * @param integer $id
+     * @return \App\Statement
      */
-    public function send($ids)
+    public function send($statement)
     {
-        if (!is_array($ids)) {
-            $ids = explode(',', $ids);
-        }
+        $job = (new SendStatement($statement));
 
-        // Loop through the provided statement IDs
+        dispatch($job);
+
+        $this->successMessage('The statements were added to send queue');
+
+        return $statement;
+    }
+
+    /**
+     * Send the given statements.
+     * 
+     * @param  array  $ids
+     * @return void
+     */
+    public function sendStatements($ids = [])
+    {
         foreach ($ids as $id) {
-            
-            // Find the statement
+            $statement = $this->find($id);
+            $this->send($statement);
+        }
+    }
+
+    /**
+     * Send the given statements but perform some security checks before hand to precent
+     * duplicate statements being sent to owners.
+     * 
+     * @param  array  $ids
+     * @return void
+     */
+    public function sendStatementsWithChecks($ids = [])
+    {
+        foreach ($ids as $id) {
             $statement = $this->find($id);
 
-            // Make sure there is at least one statement user with an email.
-            $emails = [];
-            
-            foreach ($statement->users as $user) {
-                if ($user->email) {
-                    $emails[] = $user->email;
-                }
+            // Statement has already been sent, we return.
+            if ($statement->sent_at) {
+                return;
             }
 
-            // Send the email.
-            if (count($emails)) {
-                Mail::to($emails)->send(new StatementToLandlord($statement));
-            } else {
-                flash('Statement email not sent')->info();
+            // Statement has not been paid in full, we return.
+            if (is_null($statement->paid_at)) {
+                return;
             }
 
-            // Update the statement sent date.
-            $statement->update(['sent_at' => Carbon::now()]);
+            $this->send($statement);
         }
-
-        $this->successMessage('Statements were sent');
-        return true;
     }
 
     /**
      * Archive the statement.
-     * 
+     *
      * @param  [type] $id [description]
      * @return [type]     [description]
      */

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -192,7 +193,11 @@ class Statement extends BaseModel
      */
     public function getRecipientAttribute()
     {
-        return $this->users()->first()->home_formatted;
+        if (count($this->users)) {
+            return $this->users()->first()->home_formatted;
+        }
+
+        return '';
     }
 
     /**
@@ -255,5 +260,17 @@ class Statement extends BaseModel
     public function sendByPost()
     {
         return $this->property->hasSetting('post_rental_statement');
+    }
+
+    /**
+     * Mark the statement as being sent by updating the sent_at field.
+     */
+    public function setSent($date = null)
+    {
+        if (is_null($date)) {
+            $date = Carbon::now();
+        }
+
+        $this->update(['sent_at' => $date]);
     }
 }

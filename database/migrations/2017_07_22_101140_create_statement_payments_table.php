@@ -15,6 +15,7 @@ class CreateStatementPaymentsTable extends Migration
     {
         Schema::create('statement_payments', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('statement_id')->unsigned();
             $table->decimal('amount', 12, 3);
             $table->string('parent_type')->nullable();

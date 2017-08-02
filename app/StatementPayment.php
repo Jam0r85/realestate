@@ -77,6 +77,14 @@ class StatementPayment extends BaseModel
     }
 
     /**
+     * A statement payment was created by an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get the statement payment's name formatted.
      * 
      * @return string
@@ -111,5 +119,19 @@ class StatementPayment extends BaseModel
 
         // No bank account provided, just return Cash or Cheque.
         return 'Cash or Cheque';
+    }
+
+    /**
+     * Mark the statement payment as being sent by updating the sent_at field.
+     * 
+     * @return  void
+     */
+    public function setSent($date = null)
+    {
+        if (is_null($date)) {
+            $date = Carbon::now();
+        }
+
+        $this->update(['sent_at' => $date]);
     }
 }
