@@ -49,6 +49,8 @@ class SendStatement implements ShouldQueue
             if (count(Mail::failures()) == 0) {
                 $this->statement->setSent();
             }
+        } else {
+            $this->statement->setSent();
         }
     }
 
