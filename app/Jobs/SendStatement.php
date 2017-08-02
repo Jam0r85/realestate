@@ -6,7 +6,6 @@ use App\Mail\ErrorSendingStatement;
 use App\Mail\StatementByEmail;
 use App\Mail\StatementByPost;
 use App\Statement;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,11 +51,11 @@ class SendStatement implements ShouldQueue
                 Mail::to($this->statement->getUserEmails())->send(
                     new StatementByEmail($this->statement)
                 );
-                $this->updateSent();
             } else {
                 Mail::to(get_setting('company_email'))->send(
                     new ErrorSendingStatement($this->statement, 'missing-emails')
                 );
+                $this->resetSent();
             }
         }
 
@@ -66,8 +65,6 @@ class SendStatement implements ShouldQueue
                     new StatementByPost($this->statement)
                 );
             }
-
-            $this->updateSent();
         }
     }
 
@@ -89,8 +86,8 @@ class SendStatement implements ShouldQueue
      * 
      * @return void
      */
-    protected function updateSent()
+    protected function resetSent()
     {
-        $this->statement->update(['sent_at' => Carbon::now()]);
+        $this->statement->update(['sent_at' => NULL]);
     }
 }

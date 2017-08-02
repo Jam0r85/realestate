@@ -417,6 +417,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $job = (new SendStatement($statement));
 
             dispatch($job);
+
+            // We mark the statement as have being sent to prevent duplicate requests to send.
+            $statement->update(['sent_at' => Carbon::now()]);
         }
 
         $this->successMessage('The statements were added to send queue');
