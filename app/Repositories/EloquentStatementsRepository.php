@@ -308,46 +308,49 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     }
 
     /**
-     * Toggle a statement as being paid or unpaid.
+     * Toggle the provided statements as being paid.
      *
-     * @param  \App\Statement $id
+     * @param  array $ids
      * @return \App\Statement
      */
-    public function togglePaid($id)
+    public function togglePaid(array $ids)
     {
-        // Find the statement.
-        $statement = $this->find($id);
+        foreach ($ids as $id) {
 
-        if ($statement->paid_at) {
-            // Mark the statement as being Unpaid.
-            $data['paid_at'] = null;
-            $message = 'Unpaid';
+            // Find the statement.
+            $statement = $this->find($id);
 
-            // Update the invoice as being unpaid.
-            if ($statement->invoice) {
-                $statement->invoice->update(['paid_at' => null]);
+            if ($statement->paid_at) {
+                // Mark the statement as being Unpaid.
+                $data['paid_at'] = null;
+                $message = 'Unpaid';
+
+                // Update the invoice as being unpaid.
+                if ($statement->invoice) {
+                    $statement->invoice->update(['paid_at' => null]);
+                }
+            } else {
+                // Mark the statement as being Paid.
+                $data['paid_at'] = Carbon::now();
+                $message = 'Paid';
+
+                // Generate the statement payments should none have been created before hand.
+                if (!count($statement->payments)) {
+                    $this->statement_payments->createPayments($statement);
+                }
+
+                // Update the invoice as being paid.
+                if ($statement->invoice) {
+                    $statement->invoice->update(['paid_at' => Carbon::now()]);
+                }
+
+                // Mark the statement payments as being sent.
+                $statement->payments()->whereNull('sent_at')->update(['sent_at' => $statement->created_at]);
             }
-        } else {
-            // Mark the statement as being Paid.
-            $data['paid_at'] = Carbon::now();
-            $message = 'Paid';
 
-            // Generate the statement payments should none have been created before hand.
-            if (!count($statement->payments)) {
-                $this->statement_payments->createPayments($statement);
-            }
-
-            // Update the invoice as being paid.
-            if ($statement->invoice) {
-                $statement->invoice->update(['paid_at' => Carbon::now()]);
-            }
-
-            // Mark the statement payments as being sent.
-            $statement->payments()->whereNull('sent_at')->update(['sent_at' => $statement->created_at]);
+            // Update the statement.
+            $this->update($data, $id);
         }
-
-        // Update the statement.
-        $this->update($data, $id);
 
         $this->successMessage('Statement was marked as ' . $message);
 

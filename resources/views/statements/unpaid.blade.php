@@ -33,7 +33,7 @@
 
 		</div>
 
-		<form role="form" method="POST" action="{{ route('statements.send') }}">
+		<form role="form" method="POST" action="{{ route('statements.toggle-paid') }}">
 			{{ csrf_field() }}
 
 			@component('partials.table')

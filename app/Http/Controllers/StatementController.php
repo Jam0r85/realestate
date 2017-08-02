@@ -142,9 +142,15 @@ class StatementController extends Controller
      * @param  \App\Repositories\EloquentStatementsRepository $id
      * @return Illuminate\Http\Response
      */
-    public function togglePaid($id)
+    public function togglePaid(Request $request, $id = null)
     {
-        $this->statements->togglePaid($id);
+        $statements = $request->statement_id;
+
+        if ($id) {
+            $statements[] = $id;
+        }
+
+        $this->statements->togglePaid($statements);
         return back();
     }
 
