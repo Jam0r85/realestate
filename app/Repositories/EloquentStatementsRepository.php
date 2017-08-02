@@ -103,7 +103,6 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         return $this->getInstance()
             ->whereNull('sent_at')
             ->latest()
-            ->with('tenancy', 'tenancy.property', 'users')
             ->get();
     }
 
@@ -116,7 +115,6 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     {
         return $this->getInstance()
             ->whereNull('paid_at')
-            ->with('tenancy', 'tenancy.property', 'users')
             ->get();
     }
 
