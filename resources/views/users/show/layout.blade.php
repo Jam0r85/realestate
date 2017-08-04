@@ -67,6 +67,16 @@
 						</li>
 					</ul>
 					<p class="menu-label">
+						Actions
+					</p>
+					<ul class="menu-list">
+						<li>
+							<a href="{{ route('users.show', [$user->id, 'send-email']) }}">
+								Send E-Mail
+							</a>
+						</li>
+					</ul>
+					<p class="menu-label">
 						Tenancies
 					</p>
 					<p class="menu-label">

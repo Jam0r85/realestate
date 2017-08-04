@@ -39,6 +39,6 @@ class SendUserEmail extends BaseMailer
             }
         }
 
-        return $mail->markdown('emails.user-message');
+        return $mail->markdown('email-templates.user-message');
     }
 }

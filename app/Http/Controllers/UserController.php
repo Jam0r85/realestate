@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendUserEmailRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
@@ -21,7 +22,7 @@ class UserController extends BaseController
 
     /**
      * Create a new controller instance.
-     * 
+     *
      * @param   EloquentUsersRepository $users
      * @return  void
      */
@@ -41,7 +42,7 @@ class UserController extends BaseController
         $users = $this->users->getAllPaged();
         $title = 'Users List';
         
-        return view('users.index', compact('users','title'));
+        return view('users.index', compact('users', 'title'));
     }
 
     /**
@@ -54,12 +55,12 @@ class UserController extends BaseController
         $users = $this->users->getArchivedPaged();
         $title = 'Archived Users';
 
-        return view('users.index', compact('users','title'));
+        return view('users.index', compact('users', 'title'));
     }
 
     /**
      * Search through the resource.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -68,7 +69,7 @@ class UserController extends BaseController
         $users = $this->users->search($request->search_term);
         $title = 'Search Results';
 
-        return view('users.index', compact('users','title'));
+        return view('users.index', compact('users', 'title'));
     }
 
     /**
@@ -89,7 +90,7 @@ class UserController extends BaseController
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->users->createUser($request->input());        
+        $user = $this->users->createUser($request->input());
         return redirect()->route('users.show', $user->id);
     }
 
@@ -108,7 +109,7 @@ class UserController extends BaseController
 
     /**
      * Show the form for editing a resource.
-     * 
+     *
      * @param  integer $id
      * @return \Illuminate\Http\Responce
      */
@@ -155,7 +156,7 @@ class UserController extends BaseController
      */
     public function updatePhone(UpdateUserPhoneRequest $request, $id)
     {
-        $data = $request->only('phone_number','phone_number_other');
+        $data = $request->only('phone_number', 'phone_number_other');
         $user = $this->users->updatePhone($data, $id);
         
         return back();
@@ -215,21 +216,24 @@ class UserController extends BaseController
 
     /**
      * Send the user an email message.
-     * 
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\User                $id
      * @return \Illuminate\Http\Response
      */
-    public function sendEmail(Request $request, $id)
+    public function sendEmail(SendUserEmailRequest $request, $id)
     {
         $user = $this->users->find($id);
-        Mail::to($user)->send(new SendUserEmail($request->subject, $request->body, $request->attachments));
+        Mail::to($user)->send(new SendUserEmail($request->subject, $request->message, $request->attachments));
+
+        flash('Email was sent')->success();
+        
         return back();
     }
 
     /**
      * Archive the specified resource in storage.
-     * 
+     *
      * @param  \App\User  $user
      * @return \Illuminate\Http\Responce
      */
@@ -241,7 +245,7 @@ class UserController extends BaseController
 
     /**
      * Restore the specified resource in storage.
-     * 
+     *
      * @param  \App\User  $user
      * @return \Illuminate\Http\Responce
      */
