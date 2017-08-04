@@ -388,6 +388,17 @@ class EloquentBaseRepository
     }
 
     /**
+     * Show a warning flash message.
+     *
+     * @param  string $message
+     * @return
+     */
+    public function warningMessage($message)
+    {
+        return $this->customFlashMessage($message, 'danger');
+    }
+
+    /**
      * Show a custom flash message.
      *
      * @param  string $message

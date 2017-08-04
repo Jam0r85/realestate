@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Mail\SendUserEmail;
 use App\Repositories\EloquentUsersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -223,11 +222,13 @@ class UserController extends BaseController
      */
     public function sendEmail(SendUserEmailRequest $request, $id)
     {
-        $user = $this->users->find($id);
-        Mail::to($user)->send(new SendUserEmail($request->subject, $request->message, $request->attachments));
+        $data = [
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'attachments' => $request->attachments
+        ];
 
-        flash('Email was sent')->success();
-        
+        $this->users->sendEmail($data, $id);        
         return back();
     }
 

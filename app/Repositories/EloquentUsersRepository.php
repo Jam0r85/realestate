@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Mail\SendUserEmail;
 use App\Mail\UserWelcomeEmail;
 use App\User;
 use Illuminate\Support\Facades\Mail;
@@ -154,6 +155,28 @@ class EloquentUsersRepository extends EloquentBaseRepository
 		$user->update(['property_id' => $property_id]);
 
 		$this->successMessage('The user\'s home address was updated');
+
+		return $user;
+	}
+
+	/**
+	 * Send the user an email message.
+	 * 
+	 * @param  array $data
+	 * @param  \App\User $id
+	 * @return \App\User
+	 */
+	public function sendEmail($data, $id)
+	{
+		$user = $this->find($id);
+
+		if (!$user->email) {
+			return $this->warningMessage('User does not have a valid e-mail address');
+		}
+
+		Mail::to($user)->send(new SendUserEmail($data['subject'], $data['message'], $data['attachments']));
+
+		$this->successMessage('The email was sent');
 
 		return $user;
 	}
