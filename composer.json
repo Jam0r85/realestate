@@ -18,8 +18,7 @@
         "laravel/tinker": "~1.0",
         "pragmarx/countries": "^0.1.1",
         "predis/predis": "^1.1",
-        "propaganistas/laravel-phone": "^2.8",
-        "mailin-api/mailin-api-php": "^1.0.7"
+        "propaganistas/laravel-phone": "^2.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
