@@ -12,6 +12,20 @@ class Tenancy extends BaseModel
 	use SoftDeletes;
 	use Searchable;
 
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array['property'] = $this->property->name;
+
+        return $array;
+    }
+
 	/**
 	 * The attrbites that should be included in the collection.
 	 * 

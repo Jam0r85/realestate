@@ -16,7 +16,14 @@ class Invoice extends BaseModel
      * 
      * @var array
      */
-    protected $appends = ['total','total_net','total_tax','total_payments','total_balance','recipient_full'];
+    protected $appends = [
+        'total',
+        'total_net',
+        'total_tax',
+        'total_payments',
+        'total_balance',
+        'recipient_full'
+    ];
     
     /**
      * The attributes that should be mutated to dates.
