@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Repositories\EloquentInvoicesRepository;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class CheckInvoicePaid extends Command
