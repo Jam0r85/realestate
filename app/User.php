@@ -12,6 +12,18 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
     
     /**
      * Set the page limit for pagination.
