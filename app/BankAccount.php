@@ -27,6 +27,13 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * The relations that should be eager leader.
+     * 
+     * @var array
+     */
+    protected $with = ['users'];
+
+    /**
      * The attributes that are mass assignable.
      * 
      * @var array
