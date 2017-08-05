@@ -57,6 +57,16 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	}
 
 	/**
+	 * Get a list of unpaid invoices.
+	 * 
+	 * @return
+	 */
+	public function getUnpaidList()
+	{
+		return $this->getInstance()->whereNull('paid_at')->get();
+	}
+
+	/**
 	 * Get a list of overdue invoices.
 	 * 
 	 * @return
