@@ -20,6 +20,9 @@ class BankAccount extends BaseModel
     {
         $array = $this->toArray();
 
+        // Filter account numbers to only index the first 4 numbers for security.
+        $array['account_number'] = substr($array['account_number'], 0, 4);
+
         return $array;
     }
 
