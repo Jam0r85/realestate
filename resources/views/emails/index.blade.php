@@ -25,13 +25,15 @@
 					<td>{{ $email->to }}</td>
 					<td></td>
 					<td>
-						<a href="{{ route('emails.preview', $email->id) }}" target="_blank" class="button is-small is-primary">
+						<a href="{{ route('emails.preview', $email->id) }}" target="_blank" class="button is-small is-outlined is-primary">
 							View E-Mail
 						</a>
 					</td>				
 				</tr>
 			@endforeach
 		@endcomponent
+
+		@include('partials.pagination', ['collection' => $emails])
 
 	@endcomponent
 

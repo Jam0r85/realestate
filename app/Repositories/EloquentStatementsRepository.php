@@ -62,7 +62,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function getSentPaged()
     {
-        return $this->getInstance()->whereNotNull('sent_at')->with('tenancy', 'tenancy.property', 'users')->latest()->paginate();
+        return $this->getInstance()
+            ->whereNotNull('sent_at')
+            ->with('tenancy', 'tenancy.property', 'users')
+            ->latest('sent_at')
+            ->paginate();
     }
 
     /**
