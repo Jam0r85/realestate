@@ -4,10 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Crypt;
+use Laravel\Scout\Searchable;
 
 class BankAccount extends BaseModel
 {
     use SoftDeletes;
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
 
     /**
      * The attributes that are mass assignable.
