@@ -56,13 +56,34 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('users.show', $user->id) }}" class="{{ set_active(route('users.show', $user->id)) }}">
-								Account
+								<span class="icon is-small">
+									<i class="fa fa-user"></i>
+								</span>
+								Account Details
+							</a>
+							<a href="{{ route('users.show', [$user->id, 'update-email']) }}" class="{{ set_active(route('users.show', [$user->id, 'update-email'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-envelope"></i>
+								</span>
+								Update E-Mail
+							</a>
+							<a href="{{ route('users.show', [$user->id, 'change-password']) }}" class="{{ set_active(route('users.show', [$user->id, 'change-password'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-lock"></i>
+								</span>
+								Change Password
 							</a>
 							<a href="{{ route('users.show', [$user->id, 'home-address']) }}" class="{{ set_active(route('users.show', [$user->id, 'home-address'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-home"></i>
+								</span>
 								Home Address
 							</a>
-							<a href="{{ route('users.show', [$user->id, 'email-notifications']) }}" class="{{ set_active(route('users.show', [$user->id, 'email-notifications'])) }}">
-								E-Mail Notifications
+							<a href="{{ route('users.show', [$user->id, 'notifications']) }}" class="{{ set_active(route('users.show', [$user->id, 'notifications'])) }}">
+								<span class="icon is-small">
+									<i class="fa fa-bell"></i>
+								</span>
+								Notifications
 							</a>		
 						</li>
 					</ul>
