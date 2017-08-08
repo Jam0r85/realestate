@@ -233,6 +233,16 @@ class Statement extends BaseModel
     }
 
     /**
+     * Get the statement's period formatted.
+     * 
+     * @return string
+     */
+    public function getPeriodFormattedAttribute()
+    {
+        return date_formatted($this->period_start) . ' - ' . date_formatted($this->period_end);
+    }
+
+    /**
      * Check whether a statement has an invoice.
      * 
      * @return bool

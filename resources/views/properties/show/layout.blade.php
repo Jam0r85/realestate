@@ -123,11 +123,43 @@
 						</div>
 					@endif
 
-					@if (count($property->invoices))
+					@if (count($property->recent_statements))
 						<div class="card mb-2">
 							<div class="card-content">
-								<h3 class="title">Invoices</h3>
-								<h5 class="subtitle">The following invoices have been created for this property.</h5>
+								<h3 class="title">Statements</h3>
+								<h5 class="subtitle">The following statements are registered to this property.</h5>
+
+								<table class="table is-fullwidth is-striped">
+									<thead>
+										<th>Period</th>
+										<th>Tenancy</th>
+										<th>Amount</th>
+										<th>Status</th>
+									</thead>
+									<tbody>
+										@foreach ($property->recent_statements as $statement)
+											<tr>
+												<td><a href="{{ route('statements.show', $statement->id) }}">{{ $statement->period_formatted }}</a></td>
+												<td>{{ $statement->tenancy->name }}</td>
+												<td>{{ currency($statement->amount) }}</td>
+												<td>
+													<span class="tag is-medium {{ $statement->sent_at ? 'is-success' : 'is-danger' }}">
+														{{ $statement->sent_at ? 'Sent' : 'Unsent' }}
+													</span>
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+					@endif
+
+					@if (count($property->recent_invoices))
+						<div class="card mb-2">
+							<div class="card-content">
+								<h3 class="title">Recent Invoices</h3>
+								<h5 class="subtitle">The following invoices are the most recent for this property.</h5>
 
 								<table class="table is-fullwidth is-striped">
 									<thead>
@@ -137,7 +169,7 @@
 										<th>Status</th>
 									</thead>
 									<tbody>
-										@foreach ($property->invoices as $invoice)
+										@foreach ($property->recent_invoices as $invoice)
 											<tr>
 												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
 												<td>{{ currency($invoice->total) }}</td>
