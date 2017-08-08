@@ -133,9 +133,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Update the created at date if present.
         if (isset($data['created_at'])) {
-            $statement->update([
-                'created_at' => Carbon::createFromFormat('Y-m-d', $data['created_at'])
-            ]);
+            $statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+            $statement->save();
         }
 
         // Attach the property owners to the statement.
@@ -222,7 +221,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         }
 
         $this->togglePaid([$statement->id]);
-        // $this->toggleSent($statement);
+        $this->toggleSent($statement);
 
         return $tenancy;
     }
