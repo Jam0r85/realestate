@@ -66,6 +66,14 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many tenancies.
+	 */
+	public function tenancies()
+	{
+		return $this->hasMany('App\Tenancy');
+	}
+
+	/**
 	 * A property was created by a user who is the owner.
 	 */
 	public function owner()

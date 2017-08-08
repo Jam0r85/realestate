@@ -98,6 +98,20 @@
 								<h3 class="title">Tenancies</h3>
 								<h5 class="subtitle">The following tenancies are registered to this property.</h5>
 
+								<table class="table is-fullwidth is-striped">
+									<thead>
+										<th>Name</th>
+										<th>Rent</th>
+									</thead>
+									<tbody>
+										@foreach ($property->tenancies as $tenancy)
+											<tr>
+												<td>{{ $tenancy->name }}</td>
+												<td>{{ currency($tenancy->current_rent) }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							</div>
 						</div>
 
