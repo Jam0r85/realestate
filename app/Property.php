@@ -93,7 +93,7 @@ class Property extends BaseModel
 	/**
 	 * A property can have many recent statements through it's tenancies.
 	 */
-	public function recnet_statements()
+	public function recent_statements()
 	{
 		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
 			->latest('starts_at')
