@@ -127,6 +127,9 @@
 			@else
 				<p>Cheque or Cash</p>
 			@endif
+			@if ($statement->sendByEmail())
+				<p>Send by E-Mail</p>
+			@endif
 		</div>
 	</section>
 
