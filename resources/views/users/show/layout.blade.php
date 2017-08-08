@@ -93,6 +93,9 @@
 					<ul class="menu-list">
 						<li>
 							<a href="{{ route('users.show', [$user->id, 'send-email']) }}">
+								<span class="icon is-small">
+									<i class="fa fa-envelope-open"></i>
+								</span>
 								Send E-Mail
 							</a>
 						</li>

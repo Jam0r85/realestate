@@ -38,7 +38,8 @@ class Tenancy extends BaseModel
         'next_statement_start_date',
         'service_charge_amount',
         'service_charge_formatted',
-        'days_overdue'
+        'days_overdue',
+        'started_at'
     ];
 
     /**
