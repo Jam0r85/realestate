@@ -112,7 +112,7 @@
 												<td>{{ date_formatted($tenancy->started_at) }}</td>
 												<td>
 													<span class="tag is-medium {{ $tenancy->vacated_on ? 'is-warning' : 'is-success' }}">
-														{{ $invoice->vacated_on ? 'Vacated' : 'Active' }}
+														{{ $tenancy->vacated_on ? 'Vacated' : 'Active' }}
 													</span>
 												</td>
 											</tr>
