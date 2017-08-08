@@ -31,7 +31,7 @@
 						<thead>
 							<th>Name</th>
 							<th>
-								<span class="is-pulled-right">
+								<span class="is-pulled-right has-text-primary">
 									Set {{ $property->short_name }} as Home?
 								</span>
 								Home
