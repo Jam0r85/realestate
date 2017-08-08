@@ -13,7 +13,6 @@ $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Ox
  */
 
 $primary: #1E5F86;
-$warning: $orange;
 $card-header-color: $primary;
 
 /**
@@ -169,4 +168,11 @@ dd {
  */
 .mb-2 {
 	margin-bottom: 2rem !important;
+}
+
+/**
+ * Tags
+ */
+.tag.is-medium {
+	height: 2.25em;
 }

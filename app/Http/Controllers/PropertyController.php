@@ -145,4 +145,10 @@ class PropertyController extends Controller
     {
         //
     }
+
+    public function updateOwners(Request $request, $id)
+    {
+        $this->properties->updateOwners($request->input(), $id);
+        return back();
+    }
 }

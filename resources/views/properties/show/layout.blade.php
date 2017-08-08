@@ -9,7 +9,15 @@
 
 			{{-- Show the owners --}}
 			@if (count($property->owners))
-				<p>Current Owners:
+				<div class="control">
+					<a href="{{ route('properties.show', [$property->id, 'edit-owners']) }}" class="button is-warning">
+						<span class="icon is-small">
+							<i class="fa fa-edit"></i>
+						</span>
+						<span>
+							Edit Owners
+						</span>
+					</a>
 					@foreach ($property->owners as $owner)
 						<a href="{{ route('users.show', $owner->id) }}">
 							<span class="tag is-medium @if ($owner->property_id == $property->id) is-success @else is-primary @endif">
@@ -17,7 +25,7 @@
 							</span>
 						</a>
 					@endforeach
-				</p>
+				</div>
 			@endif
 
 		</div>
@@ -143,6 +151,11 @@
 												<td>{{ $statement->tenancy->name }}</td>
 												<td>{{ currency($statement->amount) }}</td>
 												<td>
+													@if ($statement->paid_at)
+														<span class="tag is-danger">
+															Unpaid
+														</span>
+													@endif
 													<span class="tag is-medium {{ $statement->sent_at ? 'is-success' : 'is-danger' }}">
 														{{ $statement->sent_at ? 'Sent' : 'Unsent' }}
 													</span>
@@ -151,6 +164,9 @@
 										@endforeach
 									</tbody>
 								</table>
+								<footer class="card-footer">
+									<a class="card-footer-item">Update Statement Settings</a>
+								</footer>
 							</div>
 						</div>
 					@endif

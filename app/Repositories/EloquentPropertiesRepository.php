@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Property;
+use App\User;
 
 class EloquentPropertiesRepository extends EloquentBaseRepository
 {
@@ -69,6 +70,25 @@ class EloquentPropertiesRepository extends EloquentBaseRepository
         }
 
         $this->successMessage('The statement sending method was updated');
+
+        return $property;
+    }
+
+    public function updateOwners(array $data, $id)
+    {
+        $property = Property::findOrFail($id);
+
+        if (isset($data['remove'])) {
+            // Remove the owners from the property.
+            $property->owners()->detach($data['remove']);
+
+            // Reset the home address for each user.
+            User::whereIn('id', $data['remove'])->where('property_id', $id)->update(['property_id' => NULL]);
+        }
+
+        if (isset($data['new_owners'])) {
+            $property->owners()->attach($data['new_owners']);
+        }
 
         return $property;
     }
