@@ -37,14 +37,16 @@
 						</div>
 						<div class="field">
 							<label class="label" for="bank_account_id">Bank Account</label>
-							<p class="control">
-								<select name="bank_account_id" class="select2">
-									<option value="0">None</option>
-									@foreach (bank_accounts($property->owners->pluck('id')->toArray()) as $account)
-										<option @if ($property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">{{ $account->name }}</option>
-									@endforeach
-								</select>
-							</p>
+							<div class="control">
+								<span class="select is-fullwidth">
+									<select name="bank_account_id">
+										<option value="0">None</option>
+										@foreach (bank_accounts($property->owners->pluck('id')->toArray()) as $account)
+											<option @if ($property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">{{ $account->name }}</option>
+										@endforeach
+									</select>
+								</span>
+							</div>
 						</div>
 
 					</div>
