@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Jobs\SendStatement;
 use App\Mail\StatementToLandlord;
+use App\Repositories\EloquentPaymentsRepository;
 use App\Statement;
 use App\Tenancy;
 use Carbon\Carbon;
@@ -127,11 +128,11 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      *
      * @param  array  $data
      * @param  [type] $tenancy [description]
+     * @param boolean $service_charge
      * @return [type]          [description]
      */
-    public function createStatement(array $data, $id)
+    public function createStatement(array $data, $id, $service_charge = true)
     {
-        // Find the tenancy.
         if (isset($data['tenancy_id'])) {
             $tenancy = Tenancy::findOrFail($data['tenancy_id']);
         } else {
@@ -139,10 +140,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $data['tenancy_id'] = $tenancy->id;
         }
 
-        // Build the data array.
         $data['key'] = str_random(30);
 
-        // Set the statement amount.
         if (!isset($data['amount'])) {
             $data['amount'] = $tenancy->rent_amount;
         }
@@ -158,16 +157,25 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         if (!isset($data['period_end'])) {
             $data['period_end'] = clone $data['period_start'];
             $data['period_end']->addMonth()->subDay();
+        } else {
+            $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
         }
 
         // Create the statement
         $statement = $this->create($data);
 
+        // Updatd the created at date if present.
+        if (isset($data['created_at'])) {
+            $statement->update([
+                'created_at' => Carbon::createFromFormat('Y-m-d', $data['created_at'])
+            ]);
+        }
+
         // Attach the property owners to the statement.
         $statement->users()->sync($tenancy->property->owners);
 
         // Create the service charge invoice should we need to.
-        if ($tenancy->service_charge_amount) {
+        if ($tenancy->service_charge_amount && $service_charge == true) {
 
             // Create an invoice.
             $invoice = $this->invoices->createInvoice([
@@ -192,6 +200,63 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         }
 
         return $statement;
+    }
+
+    /**
+     * Create an old rental statement.
+     * 
+     * @param  array  $data [description]
+     * @param  [type] $id   [description]
+     * @return [type]       [description]
+     */
+    public function createOldStatement(array $data, $id)
+    {
+        $data['paid_at'] = $data['created_at'];
+        $data['sent_at'] = $data['created_at'];
+
+        // Find the tenancy.
+        if (isset($data['tenancy_id'])) {
+            $tenancy = Tenancy::findOrFail($data['tenancy_id']);
+        } else {
+            $tenancy = Tenancy::findOrFail($id);
+            $data['tenancy_id'] = $tenancy->id;
+        }
+
+        // First we record the rent payment for the tenancy.
+        $payments = new EloquentPaymentsRepository();
+        $payments->createPayment([
+            'amount' => $data['rent_received'] ? $data['rent_received'] : $data['amount'],
+            'created_at' => $data['created_at'],
+            'payment_method_id' => $data['payment_method_id']
+        ], $tenancy, 'rent_payments', 'tenants');
+
+        // Create the statement
+        $statement = $this->createStatement($data, $id, false);
+
+        // Make sure we have an invoice number
+        if ($data['invoice_number']) {
+
+            $total_items = count(array_where($data['item_name'], function ($value, $key) {
+                return !is_null($value);
+            }));
+
+            // Add the invoice items should there be any.
+            if (count($data['item_name'])) {
+                for ($i = 0; $i < $total_items; $i++) {
+
+                    $item['name'] = $data['item_name'][$i];
+                    $item['description'] = $data['item_description'][$i];
+                    $item['quantity'] = $data['item_quantity'][$i];
+                    $item['amount'] = $data['item_amount'][$i];
+                    $item['tax_rate_id'] = $data['item_tax_rate_id'][$i];
+                    $item['invoice_number'] = $data['invoice_number'];
+
+                    $this->createInvoiceItem($item, $statement);
+                }
+            }
+        }
+
+        return $tenancy;
     }
 
     /**
@@ -242,7 +307,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Create an invoice.
             $invoice = $this->invoices->createInvoice([
-                'property_id' => $statement->property->id
+                'property_id' => $statement->property->id,
+                'number' => $data['invoice_number']
             ]);
 
             // Attach the invoice to the rental statement.

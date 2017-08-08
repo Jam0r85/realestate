@@ -148,6 +148,9 @@
 							<a href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'statements'])) }}">
 								Statements
 							</a>
+							<a href="{{ route('tenancies.show', [$tenancy->id, 'record-old-statement']) }}" class="{{ set_active(route('tenancies.show', [$tenancy->id, 'record-old-statement'])) }}">
+								Record Old Statement
+							</a>
 						</li>
 					</ul>
 					<p class="menu-label">

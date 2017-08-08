@@ -104,8 +104,10 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		// Create the invoice
 		$invoice = $this->create($data);
 
-		// Increment the group number
-		$group->increment('next_number');
+		// Increment the group number ONLY if the next number matches the one stored in the data.
+		if ($data['number'] == $group->next_number) {
+			$group->increment('next_number');
+		}
 
 		// Add property owners if no users are present.
 		if (!isset($data['user_id'])) {

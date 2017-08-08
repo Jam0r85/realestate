@@ -155,6 +155,19 @@ class TenancyController extends Controller
     }
 
     /**
+     * Store an old tenancy rental statement in storage.
+     * 
+     * @param  StoreTenancyRentPaymentRequest $request
+     * @param  \App\Tenancy                   $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createOldRentalStatement(StoreStatementRequest $request, $id)
+    {
+        $this->statements->createOldStatement($request->input(), $id);
+        return back();
+    }
+
+    /**
      * Update the discounts for a tenancy.
      * 
      * @param  Request       $request
