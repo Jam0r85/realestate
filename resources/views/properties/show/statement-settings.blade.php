@@ -12,14 +12,10 @@
 			<h1 class="title">{{ $property->name }}</h1>
 			<h2 class="subtitle">Statement Settings</h2>
 
-		</div>
-	</section>
+			<hr />
 
-	<form role="form" method="POST" action="{{ route('properties.update-statement-settings', $property->id) }}">
-		{{ csrf_field() }}
-
-		<section class="section">
-			<div class="container">
+			<form role="form" method="POST" action="{{ route('properties.update-statement-settings', $property->id) }}">
+				{{ csrf_field() }}
 
 				<div class="card mb-2">
 					<header class="card-header">
@@ -90,9 +86,9 @@
 					</span>
 				</button>
 
-			</div>
-		</section>
+			</form>
 
-	</form>
+		</div>
+	</section>
 
 @endsection

@@ -81,7 +81,7 @@ class PropertyController extends Controller
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'dashboard')
+    public function show($id, $section = 'layout')
     {
         $property = $this->properties->find($id);
         return view('properties.show.' . $section, compact('property'));

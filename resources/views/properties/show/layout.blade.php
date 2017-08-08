@@ -28,11 +28,7 @@
 				</div>
 			@endif
 
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
+			<hr />
 
 			<div class="columns">
 				<div class="column is-4">

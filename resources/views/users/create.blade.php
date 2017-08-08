@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('users.index') }}">Users</a></li>
-	<li class="is-active"><a>Create New User</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			Create New User
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">New User</h1>
 
-		@include('partials.errors-block')
+			<hr />
 
-		<form action="{{ route('users.store') }}" method="POST">
-			{{ csrf_field() }}
+			@include('partials.errors-block')
 
-			@include('users.partials.form')
+			<form action="{{ route('users.store') }}" method="POST">
+				{{ csrf_field() }}
 
-			@component('partials.forms.buttons.primary')
-				Create User
-			@endcomponent
+				@include('users.partials.form')
 
-		</form>
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Create User
+					</span>
+				</button>
 
-	@endcomponent
+			</form>
+
+		</div>
+	</section>
 
 @endsection

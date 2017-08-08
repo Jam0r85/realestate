@@ -12,11 +12,7 @@
 			<h1 class="title">{{ $property->name }}</h1>
 			<h2 class="subtitle">Edit Details</h2>
 
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
+			<hr />
 
 			<form role="form" method="POST" action="{{ route('properties.update', $property->id) }}">
 				{{ csrf_field() }}

@@ -11,15 +11,11 @@
 
 			<h1 class="title">{{ $property->name }}</h1>
 			<h2 class="subtitle">Update Owners</h2>
+		
+			<hr />
 
-		</div>
-	</section>
-
-	<form role="form" method="POST" action="{{ route('properties.update-owners', $property->id) }}">
-		{{ csrf_field() }}
-
-		<section class="section">
-			<div class="container">
+			<form role="form" method="POST" action="{{ route('properties.update-owners', $property->id) }}">
+				{{ csrf_field() }}
 
 				<div class="card mb-2">
 					<header class="card-header">
@@ -89,9 +85,9 @@
 					</span>
 				</button>
 
-			</div>
-		</section>
+			</form>
 
-	</form>
+		</div>
+	</section>
 
 @endsection
