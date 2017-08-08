@@ -374,41 +374,17 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
             // Statement is paid.
             if (!is_null($statement->paid_at)) {
-
                 // Mark the statement as being Unpaid.
                 $data['paid_at'] = null;
                 $message = 'Unpaid';
-
-                // Update the invoice as being unpaid.
-                if ($statement->invoice) {
-                    $statement->invoice->update(['paid_at' => null]);
-                }
-
             } else {
-
                 // Mark the statement as being Paid.
                 $data['paid_at'] = Carbon::now();
                 $message = 'Paid';
-
-                // Generate the statement payments should none have been created before hand.
-                if (!count($statement->payments)) {
-                    $statement_payments_repo = new EloquentStatementPaymentsRepository();
-                    $statement_payments_repo->createPayments($statement);
-                }
-
-                // Update the invoice as being paid.
-                if ($statement->invoice) {
-                    $statement->invoice->update(['paid_at' => Carbon::now()]);
-                }
-
-                // Mark the statement payments as being sent.
-                $statement->payments()->whereNull('sent_at')->update([
-                    'sent_at' => $statement->created_at
-                ]);
             }
 
             // Update the statement.
-            $statement->update(['sent_at' => $data['sent_at']]);
+            $statement->update(['paid_at' => $data['paid_at']]);
         }
 
         $this->successMessage('Statement was marked as ' . $message);
