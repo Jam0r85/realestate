@@ -146,6 +146,7 @@ class StatementController extends Controller
     {
         $statements = $request->statement_id;
 
+        // Should the ID be provided, we add it to the statements array
         if ($id) {
             $statements[] = $id;
         }

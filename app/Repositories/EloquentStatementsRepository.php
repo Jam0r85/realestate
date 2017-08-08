@@ -211,9 +211,6 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function createOldStatement(array $data, $id)
     {
-        $data['paid_at'] = $data['created_at'];
-        $data['sent_at'] = $data['created_at'];
-
         // Find the tenancy.
         if (isset($data['tenancy_id'])) {
             $tenancy = Tenancy::findOrFail($data['tenancy_id']);
@@ -256,6 +253,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             }
         }
 
+        $this->togglePaid([$statement->id]);
+        // $this->toggleSent($statement);
+
         return $tenancy;
     }
 
@@ -268,24 +268,36 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function updateStatement(array $data, $id)
     {
+        // Find the statement
         $statement = $this->find($id);
 
+        // Set the period_start.
         if (isset($data['period_start'])) {
             $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
         }
 
+        // Set the period_end.
         if (isset($data['period_end'])) {
             $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
         }
 
+        // Update the statement.
         $this->update($data, $statement);
 
+        // Update the sending_method for the statement and property.
         if (isset($data['sending_method'])) {
             $this->properties->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
         }
 
+        // Update the bank account for the statement and property.
         if (isset($data['bank_account_id'])) {
             $this->properties->updateBankAccount($data['bank_account_id'], $statement->property->id);
+        }
+
+        // Update the created_at date.
+        if (isset($data['created_at'])) {
+            $statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+            $statement->save();
         }
 
         return $statement;
@@ -388,7 +400,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             // Find the statement.
             $statement = $this->find($id);
 
-            if ($statement->paid_at) {
+            // Statement is paid.
+            if (!is_null($statement->paid_at)) {
+
                 // Mark the statement as being Unpaid.
                 $data['paid_at'] = null;
                 $message = 'Unpaid';
@@ -397,7 +411,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                 if ($statement->invoice) {
                     $statement->invoice->update(['paid_at' => null]);
                 }
+
             } else {
+
                 // Mark the statement as being Paid.
                 $data['paid_at'] = Carbon::now();
                 $message = 'Paid';
@@ -440,9 +456,12 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Mark the statement as either being sent or not.
         if ($statement->sent_at) {
+
             $data['sent_at'] = null;
             $message = 'Unsent';
+
         } else {
+
             $data['sent_at'] = Carbon::now();
             $message = 'Sent';
 
@@ -450,6 +469,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             if ($statement->invoice) {
                 $statement->invoice->update(['sent_at' => Carbon::now()]);
             }
+
         }
 
         // Update the statement.
