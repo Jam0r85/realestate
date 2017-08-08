@@ -26,6 +26,10 @@ class EloquentPropertiesRepository extends EloquentBaseRepository
     {
         $property = $this->create($data);
 
+        if (isset($data['owner_id'])) {
+            $property->owners()->attach($data['owner_id']);
+        }
+
         return $property;
     }
 

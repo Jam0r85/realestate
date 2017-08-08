@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Invoice;
 use App\Jobs\SendStatement;
 use App\Mail\StatementToLandlord;
-use App\Repositories\EloquentPaymentsRepository;
 use App\Statement;
 use App\Tenancy;
 use Carbon\Carbon;
@@ -93,55 +92,38 @@ class EloquentStatementsRepository extends EloquentBaseRepository
     /**
      * Create a new statement for a tenancy.
      *
-     * @param  array  $data
-     * @param  [type] $tenancy [description]
+     * @param array $data
+     * @param integer $tenancy_id
      * @param boolean $service_charge
      * @return [type]          [description]
      */
-    public function createStatement(array $data, $id, $service_charge = true)
+    public function createStatement(array $data, $tenancy_id, $create_service_charge = true)
     {
-        if (isset($data['tenancy_id'])) {
-            $tenancy = Tenancy::findOrFail($data['tenancy_id']);
-        } else {
-            $tenancy = Tenancy::findOrFail($id);
-            $data['tenancy_id'] = $tenancy->id;
-        }
+        $tenancy = Tenancy::findOrFail($tenancy_id);
 
-        $data['key'] = str_random(30);
+        $data['period_start'] = isset($data['period_start']) ? Carbon::createFromFormat('Y-m-d', $data['peroid_start']) : $tenancy->next_statement_start_date;
 
-        if (!isset($data['amount'])) {
-            $data['amount'] = $tenancy->rent_amount;
-        }
-
-        // Set the statement start period.
-        if (!isset($data['period_start'])) {
-            $data['period_start'] = $tenancy->next_statement_start_date;
-        } else {
-            $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
-        }
-
-        // Set the statement end period.
         if (!isset($data['period_end'])) {
-            $data['period_end'] = clone $data['period_start'];
+            $data['period_end'] = clone $period_start;
             $data['period_end']->addMonth()->subDay();
         } else {
             $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
         }
 
-        // Create the statement
-        $statement = $this->create($data);
+        $data['key'] = str_random(30);
+        $data['amount'] = isset($data['amount']) ?: $tenancy->rent_amount;
+        $data['created_at'] = isset($data['created_at']) ? Carbon::createFromFormat('Y-m-d', $data['created_at']) : Carbon::now();
 
-        // Update the created at date if present.
-        if (isset($data['created_at'])) {
-            $statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
-            $statement->save();
-        }
+        // Save the statement.
+        $statement = $tenancy->statements()->save(
+            Statement::create($data)
+        );
 
         // Attach the property owners to the statement.
         $statement->users()->sync($tenancy->property->owners);
 
         // Create the service charge invoice should we need to.
-        if ($tenancy->service_charge_amount && $service_charge == true) {
+        if ($tenancy->service_charge_amount && $create_service_charge == true) {
 
             $this->createInvoiceItem([
                 'name' => $tenancy->service->name,
@@ -264,12 +246,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param  \App\Statement. $id
      * @return mixed
      */
-    public function createInvoiceItem(array $data, $id)
+    public function createInvoiceItem(array $data, $statement)
     {
-        $invoices_repo = new EloquentInvoicesRepository();
-
-        $statement = $this->find($id);
-
         // Statement doesn't have a current invoice attached to it.
         if (!$statement->hasInvoice()) {
 

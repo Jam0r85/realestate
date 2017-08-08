@@ -203,15 +203,15 @@
                 </div>
             </div>
         </nav>
-
-        <nav class="breadcrumb">
-            <ul>
-                <li><a href="{{ url('/') }}">Home</a></li>
-                @yield('breadcrumbs')
-            </ul>
-        </nav>
             
         @include('flash::message')
+
+        {{-- Show a warning if no branches have been created --}}
+        @if (!count(branches()))
+            <div class="notification">
+                No branches have been registered with this application. Please register a branch in the <a href="{{ route('settings.branches') }}">Settings</a>.
+            </div>
+        @endif
 
         @yield('content')
 

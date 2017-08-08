@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\StatementCreating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

@@ -1,39 +1,53 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li class="is-active"><a>{{ $title }}</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $title }}
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">{{ $title }}</h1>
 
-		<div class="content">
+			<hr />
 
 			<form role="form" method="POST" action="{{ route('properties.search') }}">
 				{{ csrf_field() }}
 
 				<div class="field is-grouped">
-					<p class="control is-expanded">
+					<div class="control">
+						<a href="{{ route('properties.create') }}" class="button is-primary is-outlined">
+							<span class="icon is-small">
+								<i class="fa fa-plus"></i>
+							</span>
+							<span>
+								New Property
+							</span>
+						</a>
+					</div>
+					<div class="control is-expanded">
 						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
-					</p>
-					<p class="control">
-						@component('partials.forms.buttons.primary')
-							Search
-						@endcomponent
-					</p>
+					</div>
+					<div class="control">
+						<button type="submit" class="button">
+							<span class="icon is-small">
+								<i class="fa fa-search"></i>
+							</span>
+							<span>
+								Search
+							</span>
+						</button>
+					</div>
 				</div>
 			</form>
 
 		</div>
+	</section>
 
-		@include('properties.partials.table')
-	@endcomponent
+	<section class="section">
+		<div class="container">
+
+			@include('properties.partials.table')
+
+		</div>
+	</section>
 
 @endsection
