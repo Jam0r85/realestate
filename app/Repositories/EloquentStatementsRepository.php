@@ -213,7 +213,9 @@ class EloquentStatementsRepository extends EloquentBaseRepository
                     $item['quantity'] = $data['item_quantity'][$i];
                     $item['amount'] = $data['item_amount'][$i];
                     $item['tax_rate_id'] = $data['item_tax_rate_id'][$i];
+
                     $item['invoice_number'] = $data['invoice_number'];
+                    $item['created_at'] = $data['created_at'];
 
                     $this->createInvoiceItem($item, $statement);
                 }
@@ -288,7 +290,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             // Create an invoice.
             $invoice = $invoices_repo->createInvoice([
                 'property_id' => $statement->property->id,
-                'number' => $data['invoice_number']
+                'number' => $data['invoice_number'],
+                'created_at' => $data['created_at']
             ]);
 
             // Attach the invoice to the rental statement.

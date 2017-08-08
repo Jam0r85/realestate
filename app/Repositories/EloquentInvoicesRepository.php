@@ -99,6 +99,12 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 
 		// Create the invoice
 		$invoice = $this->create($data);
+	
+		// Set the created_at date.
+		if (isset($data['created_at'])) {
+			$invoice->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+			$invoice->save();
+		}
 
 		// Increment the group number ONLY if the next number matches the one stored in the data.
 		if ($data['number'] == $group->next_number) {
