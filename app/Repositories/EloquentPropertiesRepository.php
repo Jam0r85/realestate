@@ -74,18 +74,39 @@ class EloquentPropertiesRepository extends EloquentBaseRepository
         return $property;
     }
 
+    /**
+     * Update the owners of a property.
+     * 
+     * @param array $data data given to the method
+     * @param integer $id the ID of the property
+     * @return \App\Property
+     */
     public function updateOwners(array $data, $id)
     {
         $property = Property::findOrFail($id);
 
+        // Remove the owners.
         if (isset($data['remove'])) {
-            // Remove the owners from the property.
             $property->owners()->detach($data['remove']);
-
-            // Reset the home address for each user.
-            User::whereIn('id', $data['remove'])->where('property_id', $id)->update(['property_id' => NULL]);
+            // Should the owner's home be set to the property, we reset it too.
+            User::whereIn('id', $data['remove'])->where('property_id', $id)->update(['property_id' => null]);
         }
 
+        // Set as the home address.
+        if (isset($data['home_address'])) {
+            // Should we want to remove owners, compare them so that we only update the owners not being removed.
+            if (isset($data['remove'])) {
+                $data['home_address'] = array_diff($data['home_address'], $data['remove']);
+            }
+            // Update the owner's home addresses'
+            User::whereIn('id', $property->owners()->pluck('id')->toArray())->where('property_id', $id)->update(['property_id' => null]);
+            User::whereIn('id', $data['home_address'])->update(['property_id' => $id]);
+        } else {
+            // No home address' were provided, remove them all.
+            User::whereIn('id', $property->owners()->pluck('id')->toArray())->where('property_id', $id)->update(['property_id' => null]);
+        }
+
+        // Attach new owners to the property.
         if (isset($data['new_owners'])) {
             $property->owners()->attach($data['new_owners']);
         }
