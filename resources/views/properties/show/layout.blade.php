@@ -107,7 +107,7 @@
 										@foreach ($property->tenancies as $tenancy)
 											<tr>
 												<td>{{ $tenancy->name }}</td>
-												<td>{{ currency($tenancy->current_rent) }}</td>
+												<td>{{ currency($tenancy->rent_amount) }}</td>
 											</tr>
 										@endforeach
 									</tbody>
