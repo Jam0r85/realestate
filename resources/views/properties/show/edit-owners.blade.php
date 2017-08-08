@@ -10,6 +10,7 @@
 			</a>
 
 			<h1 class="title">{{ $property->name }}</h1>
+			<h2 class="subtitle">Update Owners</h2>
 
 		</div>
 	</section>

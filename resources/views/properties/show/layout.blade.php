@@ -172,7 +172,7 @@
 								</table>
 							</div>
 							<footer class="card-footer">
-								<a class="card-footer-item">Update Statement Settings</a>
+								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}">Update Statement Settings</a>
 							</footer>
 						</div>
 					@endif

@@ -67,8 +67,7 @@ Route::prefix('properties')->group(function () {
 	Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
 	Route::post('{id}/update-owners', 'PropertyController@updateOwners')->name('properties.update-owners');
 	Route::put('{id}', 'PropertyController@update')->name('properties.update');
-	Route::put('{id}/update-bank-account', 'PropertyController@updateBankAccount')->name('properties.update-bank-account');
-	Route::put('{id}/update-statement-sending', 'PropertyController@updateStatementSending')->name('properties.update-statement-sending');
+	Route::post('{id}/update-statement-settings', 'PropertyController@updateStatementSettings')->name('properties.update-statement-settings');
 });
 
 Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');

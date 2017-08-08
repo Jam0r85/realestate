@@ -118,22 +118,9 @@ class PropertyController extends Controller
      * @param  \App\Property  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateBankAccount(Request $request, $id)
+    public function updateStatementSettings(Request $request, $id)
     {
-        $this->properties->updateBankAccount($request->bank_account_id, $id);
-        return back();
-    }
-
-    /**
-     * Update the properties statement sending method.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Property  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateStatementSending(Request $request, $id)
-    {
-        $this->properties->updateStatementSendingMethod($request->sending_method, $id);
+        $this->properties->updateStatementSettings($request->input(), $id);
         return back();
     }
 
@@ -148,6 +135,13 @@ class PropertyController extends Controller
         //
     }
 
+    /**
+     * Update the owners of the property.
+     * 
+     * @param Request $request
+     * @param integer $id
+     * @return void
+     */
     public function updateOwners(Request $request, $id)
     {
         $this->properties->updateOwners($request->input(), $id);

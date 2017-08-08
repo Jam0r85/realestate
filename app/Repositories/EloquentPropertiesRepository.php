@@ -35,41 +35,31 @@ class EloquentPropertiesRepository extends EloquentBaseRepository
     }
 
     /**
-     * Update the bank account for the property.
+     * Update the statement settings for the given property.
      *
-     * @param  integer $account_id
-     * @param  App\Property $id
-     * @return mixed
+     * @param array $data
+     * @param integer $id
+     * @return \App\Property $property
      */
-    public function updateBankAccount($account_id, $id)
+    public function updateStatementSettings(array $data, $id)
     {
         $property = $this->find($id);
 
-        $property->update(['bank_account_id' => $account_id]);
-
-        $this->successMessage('The bank account was updated');
-
-        return $property;
-    }
-
-    /**
-     * Update the bank account for the property.
-     *
-     * @param  integer $account_id
-     * @param  App\Property $id
-     * @return mixed
-     */
-    public function updateStatementSendingMethod($method, $id)
-    {
-        $property = $this->find($id);
-
-        if ($method == 'post') {
-            $property->storeSetting('post_rental_statement', true);
-        } elseif ($method == 'email') {
-            $property->storeSetting('post_rental_statement');
+        if (isset($data['sending_method'])) {
+            if ($data['sending_method'] == 'post') {
+                $property->storeSetting('post_rental_statement', true);
+            } elseif ($data['sending_method'] == 'email') {
+                $property->storeSetting('post_rental_statement');
+            }
         }
 
-        $this->successMessage('The statement sending method was updated');
+        if (isset($data['bank_account_id'])) {
+            $property->update(['bank_account_id' => $data['bank_account_id']]);
+        } else {
+            $property->update(['bank_account_id' => null]);
+        }
+
+        $this->successMessage('The statement settings were updated.');
 
         return $property;
     }
