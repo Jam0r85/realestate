@@ -101,7 +101,7 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		$invoice = $this->create($data);
 	
 		// Set the created_at date.
-		if (isset($data['created_at'])) {
+		if (isset($data['created_at']) && !empty($data['created_at'])) {
 			$invoice->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
 			$invoice->save();
 		}
