@@ -30,14 +30,24 @@
 					<table class="table is-fullwidth is-striped is-bordered">
 						<thead>
 							<th>Name</th>
-							<th>Home Address</th>
+							<th>
+								<span class="is-pulled-right">
+									Set as Home?
+								</span>
+								Home
+							</th>
 							<th><span class="has-text-danger">Remove?</span></th>
 						</thead>
 						<tbody>
 							@foreach ($property->owners as $owner)
 								<tr>
 									<td>{{ $owner->name }}</td>
-									<td><input type="checkbox" name="home_address[]" value="{{ $owner->id }}" @if ($owner->property_id == $property->id) checked @endif /></td>
+									<td>
+										<div class="is-pulled-right">
+											<input type="checkbox" name="home_address[]" value="{{ $owner->id }}" @if ($owner->property_id == $property->id) checked @endif />
+										</div>
+										{{ $owner->home ? $owner->home->name : '' }}
+									</td>
 									<td><input type="checkbox" name="remove[]" value="{{ $owner->id }}" /></td>
 								</tr>
 							@endforeach
