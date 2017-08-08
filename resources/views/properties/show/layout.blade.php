@@ -74,7 +74,10 @@
 							</tr>
 						</table>
 						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}">Edit Details</a>
+							<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}">Edit Details</a>	
+							@if (count($property->tenancies))
+								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}">Statement Settings</a>
+							@endif
 						</footer>
 					</div>
 
@@ -85,6 +88,14 @@
 							</p>
 						</header>
 						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="has-text-grey">Branch</td>
+								<td class="has-text-right">{{ $property->branch->name }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Created By</td>
+								<td class="has-text-right"><a href="{{ route('users.show', $property->owner->id) }}">{{ $property->owner->name }}</a></td>
+							</tr>
 							<tr>
 								<td class="has-text-grey">Created On</td>
 								<td class="has-text-right">{{ date_formatted($property->created_at) }}</td>
@@ -171,9 +182,6 @@
 									</tbody>
 								</table>
 							</div>
-							<footer class="card-footer">
-								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}">Update Statement Settings</a>
-							</footer>
 						</div>
 					@endif
 

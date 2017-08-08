@@ -42,7 +42,7 @@
 						<tbody>
 							@foreach ($property->owners as $owner)
 								<tr>
-									<td>{{ $owner->name }}</td>
+									<td><a href="{{ route('users.show', $owner->id) }}">{{ $owner->name }}</a></td>
 									<td>
 										<div class="is-pulled-right">
 											<input type="checkbox" name="home_address[]" value="{{ $owner->id }}" @if ($owner->property_id == $property->id) checked @endif />
