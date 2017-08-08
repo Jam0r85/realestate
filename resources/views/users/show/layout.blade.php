@@ -1,11 +1,91 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('users.index') }}">Users</a></li>
-	<li class="is-active"><a>{{ $user->name }}</a></li>
-@endsection
-
 @section('content')
+
+	<section class="section">
+		<div class="container">
+
+			<h1 class="title">{{ $user->name }}</h1>
+			<h2 class="subtitle">{!! $user->home ? $user->home->name : '<span class="has-text-info">Homeless</span>' !!}</h2>
+
+			<hr />
+
+			<div class="columns">
+				<div class="column is-4">
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								User Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="has-text-grey">Title</td>
+								<td class="has-text-right">{{ $user->title }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">First Name</td>
+								<td class="has-text-right">{{ $user->first_name }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Last Name</td>
+								<td class="has-text-right">{{ $user->last_name }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Company</td>
+								<td class="has-text-right">{{ $user->company_name }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">E-Mail</td>
+								<td class="has-text-right">{{ $user->email }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Mobile Phone</td>
+								<td class="has-text-right">{{ $user->phone_number }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Other Phone Number</td>
+								<td class="has-text-right">{{ $user->phone_number_other }}</td>
+							</tr>
+						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">Edit Details</a>
+							<a class="card-footer-item">Edit E-Mail</a>
+							<a class="card-footer-item">Edit Password</a>
+						</footer>
+					</div>
+
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">
+								System Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="has-text-grey">Branch</td>
+								<td class="has-text-right">{{ $user->branch ? $user->branch->name : '' }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Created By</td>
+								<td class="has-text-right">{{ $user->owner ? $user->owner->name : '' }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Created On</td>
+								<td class="has-text-right">{{ date_formatted($user->created_at) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Last Updated On</td>
+								<td class="has-text-right">{{ date_formatted($user->updated_at) }}</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
 
 	@component('partials.sections.hero.container')
 		@slot('title')

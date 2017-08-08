@@ -105,6 +105,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()

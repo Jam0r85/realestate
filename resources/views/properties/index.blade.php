@@ -7,8 +7,6 @@
 
 			<h1 class="title">{{ $title }}</h1>
 
-			<hr />
-
 			<form role="form" method="POST" action="{{ route('properties.search') }}">
 				{{ csrf_field() }}
 
@@ -39,11 +37,7 @@
 				</div>
 			</form>
 
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
+			<hr />
 
 			<div class="content">
 				<span class="tag is-medium is-primary">
