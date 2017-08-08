@@ -143,27 +143,13 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Create the service charge invoice should we need to.
         if ($tenancy->service_charge_amount && $service_charge == true) {
 
-            // Create an invoice.
-            $invoices_repo = new EloquentInvoicesRepository();
-            $invoice = $invoices_repo->createInvoice([
-                'created_at' => $statement->created_at,
-                'property_id' => $tenancy->property_id
-            ]);
-
-            // Attach the property owners to the invoice.
-            $invoice->users()->sync($tenancy->property->owners);
-
-            // Create the service charge invoice item.
-            $item = $invoices_repo->createInvoiceItem([
+            $this->createInvoiceItem([
                 'name' => $tenancy->service->name,
                 'description' => $tenancy->service->description,
                 'quantity' => 1,
                 'amount' => $tenancy->service_charge_amount,
                 'tax_rate_id' => $tenancy->service->tax_rate_id
-            ], $invoice);
-
-            // Attach the invoice to the statement.
-            $statement->invoices()->attach($invoice);
+            ], $statement);
         }
 
         return $statement;
@@ -290,8 +276,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             // Create an invoice.
             $invoice = $invoices_repo->createInvoice([
                 'property_id' => $statement->property->id,
-                'number' => $data['invoice_number'],
-                'created_at' => $data['created_at']
+                'number' => isset($data['invoice_number']) ?: null,
+                'created_at' => isset($data['created_at']) ?: null
             ]);
 
             // Attach the invoice to the rental statement.
