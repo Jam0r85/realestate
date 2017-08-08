@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Invoice;
 use App\Jobs\SendStatement;
 use App\Mail\StatementToLandlord;
 use App\Repositories\EloquentPaymentsRepository;
@@ -12,40 +13,6 @@ use Illuminate\Support\Facades\Mail;
 
 class EloquentStatementsRepository extends EloquentBaseRepository
 {
-    /**
-     * @var  App\Repositories\EloquentInvoicesRepository
-     */
-    public $invoices;
-
-    /**
-     * @var  App\Repositories\EloquentStatementPaymentsRepository
-     */
-    public $statement_payments;
-
-    /**
-     * @var  App\Repositories\EloquentExpensesRepository
-     */
-    public $expenses;
-
-    /**
-     * @var  App\Repositories\EloquentPropertiesRepository
-     */
-    public $properties;
-
-    /**
-     * Create a new repository instance.
-     *
-     * @param   EloquentPaymentsRepository $payments
-     * @return  void
-     */
-    public function __construct(EloquentPropertiesRepository $properties, EloquentInvoicesRepository $invoices, EloquentExpensesRepository $expenses, EloquentStatementPaymentsRepository $statement_payments)
-    {
-        $this->properties = $properties;
-        $this->invoices = $invoices;
-        $this->expenses = $expenses;
-        $this->statement_payments = $statement_payments;
-    }
-
     /**
      * Get the class name.
      *
@@ -164,7 +131,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Create the statement
         $statement = $this->create($data);
 
-        // Updatd the created at date if present.
+        // Update the created at date if present.
         if (isset($data['created_at'])) {
             $statement->update([
                 'created_at' => Carbon::createFromFormat('Y-m-d', $data['created_at'])
@@ -178,7 +145,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         if ($tenancy->service_charge_amount && $service_charge == true) {
 
             // Create an invoice.
-            $invoice = $this->invoices->createInvoice([
+            $invoices_repo = new EloquentInvoicesRepository();
+            $invoice = $invoices_repo->createInvoice([
                 'created_at' => $statement->created_at,
                 'property_id' => $tenancy->property_id
             ]);
@@ -187,7 +155,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             $invoice->users()->sync($tenancy->property->owners);
 
             // Create the service charge invoice item.
-            $item = $this->invoices->createInvoiceItem([
+            $item = $invoices_repo->createInvoiceItem([
                 'name' => $tenancy->service->name,
                 'description' => $tenancy->service->description,
                 'quantity' => 1,
@@ -220,8 +188,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         }
 
         // First we record the rent payment for the tenancy.
-        $payments = new EloquentPaymentsRepository();
-        $payments->createPayment([
+        $payments_repo = new EloquentPaymentsRepository();
+        $payment = $payments_repo->createPayment([
             'amount' => $data['rent_received'] ? $data['rent_received'] : $data['amount'],
             'created_at' => $data['created_at'],
             'payment_method_id' => $data['payment_method_id']
@@ -268,9 +236,6 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function updateStatement(array $data, $id)
     {
-        // Find the statement
-        $statement = $this->find($id);
-
         // Set the period_start.
         if (isset($data['period_start'])) {
             $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
@@ -282,16 +247,18 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         }
 
         // Update the statement.
-        $this->update($data, $statement);
+        $statement = $this->update($data, $id);
 
         // Update the sending_method for the statement and property.
         if (isset($data['sending_method'])) {
-            $this->properties->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
+            $properties_repo = new EloquentPropertiesRepository();
+            $properties_repo->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
         }
 
         // Update the bank account for the statement and property.
         if (isset($data['bank_account_id'])) {
-            $this->properties->updateBankAccount($data['bank_account_id'], $statement->property->id);
+            $properties_repo = new EloquentPropertiesRepository();
+            $properties_repo->updateBankAccount($data['bank_account_id'], $statement->property->id);
         }
 
         // Update the created_at date.
@@ -312,13 +279,15 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      */
     public function createInvoiceItem(array $data, $id)
     {
+        $invoices_repo = new EloquentInvoicesRepository();
+
         $statement = $this->find($id);
 
         // Statement doesn't have a current invoice attached to it.
         if (!$statement->hasInvoice()) {
 
             // Create an invoice.
-            $invoice = $this->invoices->createInvoice([
+            $invoice = $invoices_repo->createInvoice([
                 'property_id' => $statement->property->id,
                 'number' => $data['invoice_number']
             ]);
@@ -333,7 +302,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         }
 
         // Create the invoice item.
-        $item = $this->invoices->createInvoiceItem($data, $invoice);
+        $item = $invoices_repo->createInvoiceItem($data, $invoice);
 
         $this->successMessage('The invoice item was created');
 
@@ -356,7 +325,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         $data['property_id'] = $statement->property->id;
 
         // Create the expense.
-        $expense = $this->expenses->createExpense($data);
+        $expenses_repo = new EloquentExpensesRepository();
+        $expense = $expenses_repo->createExpense($data);
 
         // Attach the expense to the statement.
         $statement->expenses()->attach($expense, ['amount' => $data['cost']]);
@@ -378,8 +348,10 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Find the statement.
         $statement = $this->find($id);
 
+        $statement_payments_repo = new EloquentStatementPaymentsRepository();
+
         // Generate the payments
-        $this->statement_payments->createPayments($statement);
+        $statement_payments_repo->createPayments($statement);
 
         // Flash a success message.
         $this->successMessage('Statement payments were created');
@@ -420,7 +392,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
                 // Generate the statement payments should none have been created before hand.
                 if (!count($statement->payments)) {
-                    $this->statement_payments->createPayments($statement);
+                    $statement_payments_repo = new EloquentStatementPaymentsRepository();
+                    $statement_payments_repo->createPayments($statement);
                 }
 
                 // Update the invoice as being paid.
@@ -435,7 +408,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
             }
 
             // Update the statement.
-            $this->update($data, $id);
+            $statement->update(['sent_at' => $data['sent_at']]);
         }
 
         $this->successMessage('Statement was marked as ' . $message);
@@ -456,23 +429,19 @@ class EloquentStatementsRepository extends EloquentBaseRepository
 
         // Mark the statement as either being sent or not.
         if ($statement->sent_at) {
-
             $data['sent_at'] = null;
             $message = 'Unsent';
-
         } else {
-
             $data['sent_at'] = Carbon::now();
             $message = 'Sent';
 
-            // Update the invoice as being paid.
             if ($statement->invoice) {
-                $statement->invoice->update(['sent_at' => Carbon::now()]);
+                $invoices_repo = new EloquentInvoicesRepository();
+                $invoice = $invoices_repo->find($statement->invoice);
+                $invoice->sent_at = Carbon::now();
             }
-
         }
 
-        // Update the statement.
         $this->update($data, $id);
 
         $this->successMessage('Statement was marked as ' . $message);

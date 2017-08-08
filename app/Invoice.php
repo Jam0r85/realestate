@@ -33,13 +33,6 @@ class Invoice extends BaseModel
 	protected $dates = ['due_at','sent_at','paid_at'];
 
     /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = ['property','users','items'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array

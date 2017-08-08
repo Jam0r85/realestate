@@ -205,10 +205,6 @@ class EloquentBaseRepository
         $instance = $this->getInstance();
         $instance = $this->hasSoftDeletes($instance);
 
-        if (count($with)) {
-            $instance = $instance->with($with);
-        }
-
         return $instance->findOrFail($model);
     }
 

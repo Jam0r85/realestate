@@ -11,22 +11,6 @@ use Carbon\Carbon;
 class EloquentInvoicesRepository extends EloquentBaseRepository
 {
 	/**
-	 * @var  App\Repositories\EloquentPaymentsRepository
-	 */
-	public $payments;
-
-    /**
-     * Create a new repository instance.
-     * 
-     * @param   EloquentPaymentsRepository $payments
-     * @return  void
-     */
-	public function __construct(EloquentPaymentsRepository $payments)
-	{
-		$this->payments = $payments;
-	}
-
-	/**
 	 * Get the class name.
 	 * 
 	 * @return string
@@ -43,7 +27,10 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function getPaidPaged()
 	{
-		return $this->getInstance()->whereNotNull('paid_at')->latest('number')->paginate();
+		return $this->getInstance()
+			->whereNotNull('paid_at')
+			->latest('number')
+			->paginate();
 	}	
 
 	/**
@@ -53,7 +40,10 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function getUnpaidPaged()
 	{
-		return $this->getInstance()->whereNull('paid_at')->oldest()->paginate();
+		return $this->getInstance()
+			->whereNull('paid_at')
+			->oldest()
+			->paginate();
 	}
 
 	/**
@@ -63,7 +53,9 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function getUnpaidList()
 	{
-		return $this->getInstance()->whereNull('paid_at')->get();
+		return $this->getInstance()
+			->whereNull('paid_at')
+			->get();
 	}
 
 	/**
@@ -73,7 +65,11 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 	 */
 	public function getOverduePaged()
 	{
-		return $this->getInstance()->whereNull('paid_at')->where('due_at', '<', Carbon::now())->latest('due_at')->paginate();
+		return $this->getInstance()
+			->whereNull('paid_at')
+			->where('due_at', '<', Carbon::now())
+			->latest('due_at')
+			->paginate();
 	}
 
 	/**
@@ -173,7 +169,8 @@ class EloquentInvoicesRepository extends EloquentBaseRepository
 		$invoice = $this->find($id);
 
 		// Create the payment
-		$payment = $this->payments->createPayment($data, $invoice);
+		$payments = new EloquentPaymentsRepository();
+		$payment = $payments->createPayment($data, $invoice);
 
 		// Grab a fresh copy of the invoice
 		$invoice->fresh();
