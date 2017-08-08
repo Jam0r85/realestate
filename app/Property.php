@@ -87,7 +87,7 @@ class Property extends BaseModel
 	public function statements()
 	{
 		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
-			->latest('starts_at');
+			->latest('period_start');
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Property extends BaseModel
 	public function recent_statements()
 	{
 		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
-			->latest('starts_at')
+			->latest('period_start')
 			->limit(10);
 	}
 
