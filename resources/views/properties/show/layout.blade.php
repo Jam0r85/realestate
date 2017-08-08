@@ -110,7 +110,11 @@
 												<td><a href="{{ route('tenancies.show', $tenancy->id) }}">{{ $tenancy->name }}</a></td>
 												<td>{{ currency($tenancy->rent_amount) }}</td>
 												<td>{{ date_formatted($tenancy->started_at) }}</td>
-												<td>{{ $tenancy->vacated_on ? 'Vacated' : 'Active' }}</td>
+												<td>
+													<span class="tag is-medium {{ $tenancy->vacated_on ? 'is-warning' : 'is-success' }}">
+														{{ $invoice->vacated_on ? 'Vacated' : 'Active' }}
+													</span>
+												</td>
 											</tr>
 										@endforeach
 									</tbody>
@@ -135,10 +139,14 @@
 									<tbody>
 										@foreach ($property->invoices as $invoice)
 											<tr>
-												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number_format }}</a></td>
+												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
 												<td>{{ currency($invoice->total) }}</td>
 												<td>{{ date_formatted($invoice->created_at) }}</td>
-												<td>{{ $invoice->paid_at ? 'Paid' : 'Unpaid' }}</td>
+												<td>
+													<span class="tag is-medium {{ $invoice->paid_at ? 'is-success' : 'is-danger' }}">
+														{{ $invoice->paid_at ? 'Paid' : 'Unpaid' }}
+													</span>
+												</td>
 											</tr>
 										@endforeach
 									</tbody>
