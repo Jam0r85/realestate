@@ -151,8 +151,8 @@
 												<td>{{ $statement->tenancy->name }}</td>
 												<td>{{ currency($statement->amount) }}</td>
 												<td>
-													@if ($statement->paid_at)
-														<span class="tag is-danger">
+													@if (is_null($statement->paid_at))
+														<span class="tag is-medium is-danger">
 															Unpaid
 														</span>
 													@endif
@@ -164,10 +164,10 @@
 										@endforeach
 									</tbody>
 								</table>
-								<footer class="card-footer">
-									<a class="card-footer-item">Update Statement Settings</a>
-								</footer>
 							</div>
+							<footer class="card-footer">
+								<a class="card-footer-item">Update Statement Settings</a>
+							</footer>
 						</div>
 					@endif
 
