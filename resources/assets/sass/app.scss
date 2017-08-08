@@ -176,3 +176,6 @@ dd {
 .tag.is-medium {
 	height: 2.25em;
 }
+td .tag.is-medium {
+	height: 2em !important;
+}

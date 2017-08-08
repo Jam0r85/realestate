@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyRequest;
+use App\Http\Requests\UpdatePropertyRequest;
 use App\Repositories\EloquentPropertiesRepository;
 use Illuminate\Http\Request;
 
@@ -104,9 +105,10 @@ class PropertyController extends Controller
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Property $property)
+    public function update(UpdatePropertyRequest $request, $id)
     {
-        //
+        $this->properties->update($request->input(), $id);
+        return back();
     }
 
     /**

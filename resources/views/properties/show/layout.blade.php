@@ -74,7 +74,7 @@
 							</tr>
 						</table>
 						<footer class="card-footer">
-							<a class="card-footer-item">Edit</a>
+							<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}">Edit Details</a>
 						</footer>
 					</div>
 
@@ -93,6 +93,12 @@
 								<td class="has-text-grey">Last Updated On</td>
 								<td class="has-text-right">{{ date_formatted($property->updated_at) }}</td>
 							</tr>
+							@if ($property->deleted_at)
+								<tr>
+									<td class="has-text-grey">Archived On</td>
+									<td class="has-text-right">{{ date_formatted($property->deleted_at) }}</td>
+								</tr>
+							@endif
 						</table>
 					</div>
 
@@ -207,69 +213,5 @@
 			</div>
 		</div>
 	</section>
-
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $property->short_name }}
-		@endslot
-		@slot('subTitle')
-			{{ $property->name }}
-			@foreach ($property->owners as $user)
-				<a href="{{ route('users.show', $user->id) }}">
-					<span class="tag is-light">
-						{{ $user->name }}
-					</span>
-				</a>
-			@endforeach
-		@endslot
-	@endcomponent
-
-	<section class="hero is-dark is-bold">
-		<div class="hero-body">
-
-			<nav class="level">
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Amount
-						</p>
-						<p class="title">
-							
-						</p>
-					</div>
-				</div>
-			</nav>
-
-		</div>
-	</section>
-
-	@component('partials.sections.section')
-
-		<div class="columns is-flex is-column-mobile">
-			<div class="column is-3">
-				<aside class="menu">
-					<p class="menu-label">
-						Property
-					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('properties.show', $property->id) }}" class="{{ set_active(route('properties.show', $property->id)) }}">
-								Dashboard
-							</a>
-							<a href="{{ route('properties.show', [$property->id, 'statement-settings']) }}" class="{{ set_active(route('properties.show', [$property->id, 'statement-settings'])) }}">
-								Statement Settings
-							</a>
-						</li>
-					</ul>
-				</aside>
-			</div>
-			<div class="column is-9">
-
-				@yield('sub-content')
-
-			</div>
-		</div>
-
-	@endcomponent
 
 @endsection
