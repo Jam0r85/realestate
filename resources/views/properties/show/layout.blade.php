@@ -91,8 +91,7 @@
 				</div>
 				<div class="column is-8">
 
-
-
+					@if (count($property->tenancies))
 						<div class="card mb-2">
 							<div class="card-content">
 								<h3 class="title">Tenancies</h3>
@@ -118,23 +117,40 @@
 								</table>
 							</div>
 						</div>
+					@endif
 
+					@if (count($property->invoices))
 						<div class="card mb-2">
 							<div class="card-content">
 								<h3 class="title">Invoices</h3>
 								<h5 class="subtitle">The following invoices have been created for this property.</h5>
 
+								<table class="table is-fullwidth is-striped">
+									<thead>
+										<th>Number</th>
+										<th>Total</th>
+										<th>Created</th>
+										<th>Status</th>
+									</thead>
+									<tbody>
+										@foreach ($property->invoices as $invoice)
+											<tr>
+												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number_format }}</a></td>
+												<td>{{ currency($invoice->total) }}</td>
+												<td>{{ date_formatted($invoice->created_at) }}</td>
+												<td>{{ $invoice->paid_at ? 'Paid' : 'Unpaid' }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							</div>
 						</div>
-
-
+					@endif
 
 				</div>
 			</div>
 		</div>
 	</section>
-
-
 
 	@component('partials.sections.hero.container')
 		@slot('title')

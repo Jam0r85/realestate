@@ -45,6 +45,15 @@
 	<section class="section">
 		<div class="container">
 
+			<div class="content">
+				<span class="tag is-medium is-primary">
+					Owner
+				</span>
+				<span class="tag is-medium is-success">
+					Owner &amp; Occupier
+				</span>
+			</div>
+
 			@include('properties.partials.table')
 
 		</div>
