@@ -32,7 +32,7 @@
 							<th>Name</th>
 							<th>
 								<span class="is-pulled-right">
-									Set {{ $property->short_name }} Home?
+									Set {{ $property->short_name }} as Home?
 								</span>
 								Home
 							</th>
