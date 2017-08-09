@@ -24,7 +24,10 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function getSentPaged()
 	{
-		return $this->getInstance()->whereNotNull('sent_at')->latest()->paginate();
+		return $this->getInstance()
+			->whereNotNull('sent_at')
+			->latest('sent_at')
+			->paginate();
 	}
 
 	/**
