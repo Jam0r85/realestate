@@ -6,32 +6,22 @@ use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenantsVacatedRequest;
-use App\Repositories\EloquentStatementsRepository;
-use App\Repositories\EloquentTenanciesRepository;
 use App\Services\StatementService;
+use App\Services\TenancyService;
+use App\Tenancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TenancyController extends BaseController
 {
     /**
-     * @var  App\Repositories\EloquentTenanciesRepository
-     * @var  App\Repositories\EloquentStatementsRepository
-     */
-    protected $tenancies;
-    protected $statements;
-
-    /**
      * Create a new controller instance.
      * 
-     * @param   EloquentTenanciesRepository $properties
      * @return  void
      */
-    public function __construct(EloquentTenanciesRepository $tenancies, EloquentStatementsRepository $statements)
+    public function __construct()
     {
         $this->middleware('auth');
-
-        $this->tenancies = $tenancies;
-        $this->statements = $statements;
     }
 
     /**
@@ -41,7 +31,7 @@ class TenancyController extends BaseController
      */
     public function index()
     {
-        $tenancies = $this->tenancies->getAllPaged();
+        $tenancies = Tenancy::latest()->paginate();
         $title = 'Tenancies List';
 
         return view('tenancies.index', compact('tenancies','title'));
@@ -54,7 +44,7 @@ class TenancyController extends BaseController
      */
     public function overdue()
     {
-        $tenancies = $this->tenancies->getOverdueList();
+        $tenancies = Tenancy::where('is_overdue', 1)->latest()->get();
         $title = 'Overdue Tenancies';
 
         return view('tenancies.overdue', compact('tenancies','title'));
@@ -68,7 +58,7 @@ class TenancyController extends BaseController
      */
     public function search(Request $request)
     {
-        $tenancies = $this->tenancies->search($request->search_term);
+        $tenancies = Tenancy::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('tenancies.index', compact('tenancies','title'));
@@ -92,7 +82,11 @@ class TenancyController extends BaseController
      */
     public function store(StoreTenancyRequest $request)
     {
-        $tenancy = $this->tenancies->createTenancy($request->input());
+        $service = new TenancyService();
+        $service->createTenancy($request->input());
+
+        $this->successMessage('The tenancy was created');
+
         return redirect()->route('tenancies.show', $tenancy->id);
     }
 
@@ -104,19 +98,8 @@ class TenancyController extends BaseController
      */
     public function show($id, $section = 'dashboard')
     {
-        $tenancy = $this->tenancies->find($id);
+        $tenancy = Tenancy::withTrashed()->findOrFail($id);
         return view('tenancies.show.' . $section, compact('tenancy'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tenancy  $tenancy
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tenancy $tenancy)
-    {
-        //
     }
 
     /**
@@ -140,7 +123,11 @@ class TenancyController extends BaseController
      */
     public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
     {
-        $this->tenancies->createRentPayment($request->input(), $id);
+        $service = new TenancyService();
+        $service->createRentPayment($request->input(), $id);
+
+        $this->successMessage('The payment was recorded');
+
         return back();
     }
 
@@ -170,7 +157,11 @@ class TenancyController extends BaseController
      */
     public function createOldRentalStatement(StoreStatementRequest $request, $id)
     {
-        $this->statements->createOldStatement($request->input(), $id);
+        $service = new StatementService();
+        $service->createOldStatement($request->input(), $id);
+
+        $this->successMessage('The old statement was created');
+
         return back();
     }
 
@@ -195,7 +186,12 @@ class TenancyController extends BaseController
      */
     public function archive($id)
     {
-        $this->tenancies->archiveTenancy($id);
+        $tenancy = Tenancy::findOrFail($id);
+        $tenancy->deleted_at = Carbon::now();
+        $tenancy->save();
+
+        $this->successMessage('The tenancy was archived');
+
         return back();
     }
 
@@ -208,7 +204,12 @@ class TenancyController extends BaseController
      */
     public function tenantsVacated(TenantsVacatedRequest $request, $id)
     {
-        $this->tenancies->tenantsVacated($request->vacated_on, $id);
+        $tenancy = Tenancy::findOrFail($id);
+        $tenancy->vacated_on = $request->vacated_on;
+        $tenancy->save();
+
+        $this->successMessage('The tenants were recorded as vacating');
+
         return back();
     }
 }
