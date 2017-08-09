@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenantsVacatedRequest;
+use App\Services\PaymentService;
 use App\Services\StatementService;
 use App\Services\TenancyService;
 use App\Tenancy;
@@ -123,8 +124,8 @@ class TenancyController extends BaseController
      */
     public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
     {
-        $service = new TenancyService();
-        $service->createRentPayment($request->input(), $id);
+        $service = new PaymentService();
+        $service->createTenancyRentPayment($request->input(), $id);
 
         $this->successMessage('The payment was recorded');
 
