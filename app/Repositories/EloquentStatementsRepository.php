@@ -219,7 +219,7 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         $statement = $this->update($data, $id);
 
         $properties_repo = new EloquentPropertiesRepository();
-        $properties_repo->updateStatementSettings(array_only($data, ['sending_method','bank_account_id']));
+        $properties_repo->updateStatementSettings(array_only($data, ['sending_method','bank_account_id']), $statement->property->id);
 
         // Update the created_at date.
         if (isset($data['created_at'])) {
