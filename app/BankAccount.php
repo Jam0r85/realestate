@@ -49,6 +49,14 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * A bank account can have an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    /**
      * A bank account can have many properties.
      */
     public function properties()

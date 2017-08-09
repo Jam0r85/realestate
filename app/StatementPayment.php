@@ -141,7 +141,7 @@ class StatementPayment extends BaseModel
             return $this->bank_account->name;
         }
 
-        if (!$this->parent) {
+        if ($this->parent == 'invoices') {
             return 'n/a';
         }
 

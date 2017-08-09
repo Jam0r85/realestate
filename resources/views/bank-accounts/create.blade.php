@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('bank-accounts.index') }}">Bank Accounts List</a></li>
-	<li class="is-active"><a>New Bank Account</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			New Bank Account
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">New Bank Account</h1>
 
-		<form role="form" method="POST" action="{{ route('bank-accounts.store') }}">
-			{{ csrf_field() }}
+			<hr />
 
-			@include('partials.errors-block')
+			<form role="form" method="POST" action="{{ route('bank-accounts.store') }}">
+				{{ csrf_field() }}
 
-			@include('bank-accounts.partials.form')
+				@include('partials.errors-block')
 
-			@component('partials.forms.buttons.primary')
-				Create Bank Account
-			@endcomponent
+				@include('bank-accounts.partials.form')
 
-		</form>
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Create Bank Account
+					</span>
+				</button>
 
-	@endcomponent
+			</form>
+
+		</div>
+	</section>
 
 @endsection

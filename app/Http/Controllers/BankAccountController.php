@@ -66,9 +66,10 @@ class BankAccountController extends Controller
      * @param  \App\BankAccount  $bankAccount
      * @return \Illuminate\Http\Response
      */
-    public function show(BankAccount $bankAccount)
+    public function show($id, $section = 'layout')
     {
-        //
+        $account = $this->accounts->find($id);
+        return view('bank-accounts.show.' . $section, compact('account'));
     }
 
     /**
