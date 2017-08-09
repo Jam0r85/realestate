@@ -30,23 +30,47 @@ class TenancyService
 		// Attach the tenants
 		$tenancy->tenants()->attach($data['users']);
 
-		// Store the tenancy agreement.
-		$agreement = Agreement::createAgreement([
-			'user_id' => Auth::user()->id,
-			'tenancy_id' => $tenancy->id,
-			'starts_at' => Carbon::createFromFormat('Y-m-d', $data['start_date']),
-			'length' => str_slug($data['length'])
-		]);
+		// Build the tenancy agreement.
+		$agreement = new Agreement();
+		$agreement->user_id = Auth::user()->id;
+		$agreement->starts_at = Carbon::createFromFormat('Y-m-d', $data['start_date']);
+		$agreement->length = str_slug($data['length']);
+		$agreement->ends_at = $this->calculateEndDate($agreement->starts_at, $agreement->length);
 
-		// Store the tenancy rent amount.
-		$rent = TenancyRent::create([
-			'user_id' => Auth::user()->id,
-			'tenancy_id' => $tenancy->id,
-			'amount' => $data['rent_amount'],
-			'starts_at' => $agreement->starts_at
-		]);
+		// Save the tenancy agreement.
+		$tenancy->agreements()->save($agreement);
+
+		// Build the rent amount.
+		$rent = new TenancyRent();
+		$rent->user_id = Auth::user()->id;
+		$rent->amount = $data['rent_amount'];
+		$rent->starts_at = $agreement->starts_at;
+
+		// Save the rent amount
+		$tenancy->rents()->save($rent);
 
 		return $tenancy;
+	}
+
+	/**
+	 * Calculate the end date when given the start date and the length.
+	 * 
+	 * @param \Carbon\Carbon $start
+	 * @param string $length
+	 * @return mixed
+	 */
+	public function calculateEndDate($start, $length)
+	{
+        list($number, $modifier) = explode('-', $length);
+
+        if ($number == 0) {
+            return null;
+        }
+
+        if ($number > 0) {
+            $ends_at = clone $start;
+            return $ends_at->addMonth($number)->subDay();
+        }
 	}
 
 	public function createRentAmount()
