@@ -99,7 +99,13 @@
 							<p class="card-header-title">E-Mail History</p>
 						</header>
 						<div class="card-content">
-							<b>Current E-Mail:</b> {{ $user->email }}
+							@if ($user->email)
+								<b>E-Mail</b> - {{ $user->email }}
+							@else
+								<div class="notification">
+									This user does not have an e-mail address.
+								</div>
+							@endif
 						</div>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">Edit E-Mail</a>
