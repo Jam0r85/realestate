@@ -171,15 +171,31 @@ class InvoiceController extends BaseController
     }
 
     /**
-     * Archive the specified resource in storage.
+     * Archive an invoice in storage.
      *
-     * @param  \App\Invoice  $invoice
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function archive($id)
     {
-        $this->invoices->archive($id);
-        $this->invoices->resetGroupNextNumber($id);
+        $invoice = Invoice::findOrFail($id);
+        $invoice->deleted_at = Carbon::now();
+        $invoice->save();
+
+        return back();
+    }
+
+    /**
+     * Restore an invoice in storage.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        $invoice = Invoice::withTrashed()->findOrFail($id);
+        $invoice->deleted_at = null;
+        $invoice->save();
 
         return back();
     }

@@ -46,6 +46,17 @@
 			</div>
 
 			<div class="field">
+				<label class="label" for="users">Users</label>
+				<p class="control is-expanded">
+					<select name="users[]" class="select2" multiple>
+						@foreach (users() as $user)
+							<option value="{{ $user->id }}">{{ $user->name }}</option>
+						@endforeach
+					</select>
+				</p>
+			</div>
+
+			<div class="field">
 				<label class="label" for="number">Number</label>
 				<p class="control">
 					<input type="number" name="number" class="input" />
