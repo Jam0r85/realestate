@@ -38,9 +38,9 @@
 					@include('properties.partials.form')
 
 					<div class="field">
-						<label class="label" for="owner_id[]">Owners</label>
+						<label class="label" for="owners">Owners</label>
 						<div class="control">
-							<select name="owner_id[]" class="select2" multiple>
+							<select name="owners[]" class="select2" multiple>
 								@foreach (users() as $user)
 									<option value="{{ $user->id }}">{{ $user->name }}</option>
 								@endforeach

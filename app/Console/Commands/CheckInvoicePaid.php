@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Invoice;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

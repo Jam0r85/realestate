@@ -4,26 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
-use App\Repositories\EloquentPropertiesRepository;
+use App\Property;
+use App\Services\PropertyService;
 use Illuminate\Http\Request;
 
-class PropertyController extends Controller
+class PropertyController extends BaseController
 {
-    /**
-     * @var  App\Repositories\EloquentPropertiesRepository
-     */
-    protected $properties;
-
     /**
      * Create a new controller instance.
      * 
-     * @param   EloquentPropertiesRepository $properties
      * @return  void
      */
-    public function __construct(EloquentPropertiesRepository $properties)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->properties = $properties;
     }
 
     /**
@@ -33,7 +27,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $properties = $this->properties->getAllPaged();
+        $properties = Property::latest()->paginate();
         $title = 'Properties List';
 
         return view('properties.index', compact('properties','title'));
@@ -47,7 +41,7 @@ class PropertyController extends Controller
      */
     public function search(Request $request)
     {
-        $properties = $this->properties->search($request->search_term);
+        $properties = Property::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('properties.index', compact('properties','title'));
@@ -71,7 +65,12 @@ class PropertyController extends Controller
      */
     public function store(StorePropertyRequest $request)
     {
-        $property = $this->properties->createProperty($request->input());
+        $property = Property::create($request->input());
+
+        $property->owners()->attach($request->owners);
+
+        $this->successMessage('The property was created');
+
         return redirect()->route('properties.show', $property->id);
     }
 
@@ -83,19 +82,8 @@ class PropertyController extends Controller
      */
     public function show($id, $section = 'layout')
     {
-        $property = $this->properties->find($id);
+        $property = Property::findOrFail($id);
         return view('properties.show.' . $section, compact('property'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Property  $property
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Property $property)
-    {
-        //
     }
 
     /**
@@ -107,7 +95,12 @@ class PropertyController extends Controller
      */
     public function update(UpdatePropertyRequest $request, $id)
     {
-        $this->properties->update($request->input(), $id);
+        $property = Property::findOrFail($id);
+        $property->fill($request->input());
+        $property->save();
+
+        $this->successMessage('The property was updated');
+
         return back();
     }
 
@@ -120,19 +113,12 @@ class PropertyController extends Controller
      */
     public function updateStatementSettings(Request $request, $id)
     {
-        $this->properties->updateStatementSettings($request->input(), $id);
-        return back();
-    }
+        $service = new PropertyService();
+        $service->updateOwners($request->input(), $id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Property  $property
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Property $property)
-    {
-        //
+        $this->successMessage('Statement settings updated');
+
+        return back();
     }
 
     /**
@@ -144,7 +130,11 @@ class PropertyController extends Controller
      */
     public function updateOwners(Request $request, $id)
     {
-        $this->properties->updateOwners($request->input(), $id);
+        $service = new PropertyService();
+        $service->updateOwners($request->input(), $id);
+
+        $this->successMessage('The owners were updated');
+
         return back();
     }
 }
