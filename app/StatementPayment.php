@@ -125,7 +125,11 @@ class StatementPayment extends BaseModel
 
         // Set the expense name.
         if ($this->parent_type == 'expenses') {
-            return 'Expense Payment (' . $this->parent->name . ')';
+            if ($this->parent->trashed()) {
+                return 'Expense Deleted';
+            } else {
+                return 'Expense Payment (' . $this->parent->name . ')';
+            }
         }
 
         // Return the generic name of Landlord when no parent is supplied.
