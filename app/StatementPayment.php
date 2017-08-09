@@ -21,13 +21,6 @@ class StatementPayment extends BaseModel
     }
 
     /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = ['statement'];
-
-    /**
      * The attrbites that should be included in the collection.
      * 
      * @var array
