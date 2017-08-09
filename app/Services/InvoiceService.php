@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Invoice;
 use App\InvoiceGroup;
+use App\InvoiceItem;
 use Illuminate\Support\Facades\Auth;
 
 class InvoiceService
@@ -40,6 +41,29 @@ class InvoiceService
 
 		// Increment the invoice group number.
 		InvoiceGroup::findOrFail($data['invoice_group_id'])->increment('next_number');
+
+		return $invoice;
+	}
+
+	/**
+	 * Create an invoice item.
+	 * 
+	 * @param array $data
+	 * @param integer $id
+	 * @return \App\Invoice
+	 */
+	public function createInvoiceItem(array $data, $id)
+	{
+		$invoice = Invoice::findOrFail($id);
+
+		$item = new InvoiceItem();
+		$item->name = $data['name'];
+		$item->description = $data['description'];
+		$item->amount = $data['amount'];
+		$item->quantity = $data['quantity'];
+		$item->tax_rate_id = $data['tax_rate_id'];
+
+		$invoice->items()->save($item);
 
 		return $invoice;
 	}

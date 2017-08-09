@@ -10,7 +10,7 @@ use App\Invoice;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class InvoiceController extends BaseController
 {
     public $invoice_service;
 
@@ -97,6 +97,9 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         $invoice = $this->invoice_service->createInvoice($request->input());
+
+        $this->successMessage('The invoice was created');
+
         return redirect()->route('invoices.show', $invoice->id);
     }
 
@@ -121,7 +124,12 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, $id)
     {
-        $this->invoices->updateInvoice($request->input(), $id);
+        $invoice = Invoice::findOrFail($id);
+        $invoice->fill($request->input());
+        $invoice->save();
+
+        $this->successMessage('The invoice was updated');
+
         return back();
     }
 
@@ -134,7 +142,10 @@ class InvoiceController extends Controller
      */
     public function createItem(StoreInvoiceItemRequest $request, $id)
     {
-        $this->invoices->createInvoiceItem($request->input(), $id);
+        $this->invoice_service->createInvoiceItem($request->input(), $id);
+
+        $this->successMessage('The invoice item was created');
+
         return redirect()->route('invoices.show', $id);
     }
 
