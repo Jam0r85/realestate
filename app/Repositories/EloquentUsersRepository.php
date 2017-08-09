@@ -174,7 +174,13 @@ class EloquentUsersRepository extends EloquentBaseRepository
 			return $this->warningMessage('User does not have a valid e-mail address');
 		}
 
-		Mail::to($user)->send(new SendUserEmail($data['subject'], $data['message'], $data['attachments']));
+		if ($data['email'] != $user->email) {
+			
+		}
+
+		Mail::to($user)->send(
+			new SendUserEmail($data['subject'], $data['message'], $data['attachments'], $user)
+		);
 
 		$this->successMessage('The email was sent');
 

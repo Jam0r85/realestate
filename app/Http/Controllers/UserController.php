@@ -223,6 +223,7 @@ class UserController extends BaseController
     public function sendEmail(SendUserEmailRequest $request, $id)
     {
         $data = [
+            'email' => $request->email,
             'subject' => $request->subject,
             'message' => $request->message,
             'attachments' => $request->attachments
