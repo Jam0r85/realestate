@@ -46,29 +46,16 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function createTenancy(array $data)
 	{
-		// Store the tenancy.
-		$tenancy = $this->create(array_only($data, ['service_id','property_id']));
+		$property = new Property();
+		$property->user_id = Auth::user()->id;
+		$property->fill($data);
+		$property->save();
 
-		// Attach the tenants
-		$tenancy->tenants()->attach($data['users']);
+		if (isset($data['owners'])) {
+			$property->owners()->attach($data['owners']);
+		}
 
-		// Store the tenancy agreement.
-		$agreement = Agreement::createAgreement([
-			'user_id' => Auth::user()->id,
-			'tenancy_id' => $tenancy->id,
-			'starts_at' => Carbon::createFromFormat('Y-m-d', $data['start_date']),
-			'length' => str_slug($data['length'])
-		]);
-
-		// Store the tenancy rent amount.
-		$rent = TenancyRent::create([
-			'user_id' => Auth::user()->id,
-			'tenancy_id' => $tenancy->id,
-			'amount' => $data['rent_amount'],
-			'starts_at' => $agreement->starts_at
-		]);
-
-		return $tenancy;
+		return $property;
 	}
 
 	/**

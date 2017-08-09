@@ -4,9 +4,30 @@ namespace App\Services;
 
 use App\Property;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyService
 {
+    /**
+     * Create a new property.
+     * 
+     * @param array $data
+     * @return \App\Property
+     */
+    public function createProperty(array $data)
+    {
+        $property = new Property();
+        $property->user_id = Auth::user()->id;
+        $property->fill($data);
+        $property->save();
+
+        if (isset($data['owners'])) {
+            $property->owners()->attach($data['owners']);
+        }
+
+        return $property;
+    }
+
 	/**
 	 * Update the property owners.
 	 * 

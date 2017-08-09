@@ -65,9 +65,8 @@ class PropertyController extends BaseController
      */
     public function store(StorePropertyRequest $request)
     {
-        $property = Property::create($request->input());
-
-        $property->owners()->attach($request->owners);
+        $service = new PropertyService();
+        $property = $service->createProperty($request->input());
 
         $this->successMessage('The property was created');
 
