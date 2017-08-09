@@ -1,6 +1,5 @@
 @component('partials.table')
 	@slot('head')
-		<th>Property</th>
 		<th>Statement</th>
 		<th>Name</th>
 		<th>Method</th>
@@ -9,8 +8,7 @@
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
-			<td>{{ $payment->statement->property->short_name }}</td>
-			<td>{{ $payment->statement->name }}</td>
+			<td><a href="{{ route('statements.show', $payment->statement->id) }}">{{ $payment->statement->name }}</a></td>
 			<td>{{ $payment->name_formatted }}</td>
 			<td>{{ $payment->method_formatted }}</td>
 			<td>{{ currency($payment->amount) }}</td>
