@@ -120,6 +120,8 @@ class UserController extends BaseController
 
         $this->successMessage('The user was updated');
 
+        Cache::tags('users')->flush();
+
         return back();
     }
 
