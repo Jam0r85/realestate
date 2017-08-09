@@ -6,6 +6,7 @@ use App\Services\InvoiceService;
 use App\Statement;
 use App\Tenancy;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StatementService
 {
@@ -59,6 +60,72 @@ class StatementService
 	}
 
 	/**
+	 * Create an old statement.
+	 * 
+	 * @param array $data
+	 * @param integer $id
+	 * @return \App\Statement
+	 */
+	public function createOldStatement(array $data, $id)
+	{
+		// Find the tenancy.
+		$tenancy = Tenancy::findOrFail($id);
+
+		// Build the statement.
+		$statement = new Statement();
+		$statement->key = str_random(30);
+		$statement->user_id = Auth::user()->id;
+		$statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+		$statement->period_start = Carbon::createFromFormat('Y-m-d', $data['period_start']);
+		$statement->period_end = Carbon::createFromFormat('Y-m-d', $data['period_end']);
+		$statement->amount = $data['amount'];
+
+		$statement->paid_at = $statement->created_at;
+		$statement->sent_at = $statement->created_at;
+
+		// Save the statement.
+		$tenancy->statements()->save($statement);
+
+		// Build an array for the payment.
+		$payment_data = [
+			'payment_method_id' => $data['payment_method_id'],
+			'amount' => $data['rent_received'] ? $data['rent_received'] : $data['amount'],
+			'created_at' => $data['created_at']
+		];
+
+		// Create the rental payment.
+		$service = new PaymentService();
+		$service->createTenancyRentPayment($payment_data, $tenancy->id);
+
+		// Check whether we have any invoice items to add.
+		if ($data['invoice_number']) {
+
+            $total_items = count(array_where($data['item_name'], function ($value, $key) {
+                return !is_null($value);
+            }));
+
+            // Add the invoice items should there be any.
+            if (count($data['item_name'])) {
+                for ($i = 0; $i < $total_items; $i++) {
+
+                    $item['name'] = $data['item_name'][$i];
+                    $item['description'] = $data['item_description'][$i];
+                    $item['quantity'] = $data['item_quantity'][$i];
+                    $item['amount'] = $data['item_amount'][$i];
+                    $item['tax_rate_id'] = $data['item_tax_rate_id'][$i];
+
+                    $item['number'] = $data['invoice_number'];
+                    $item['created_at'] = $data['created_at'];
+
+                    $this->createInvoiceItem($item, $statement->id);
+                }
+            }
+        }
+
+		return $statement;
+	}
+
+	/**
 	 * Check and create the service charge invoice item.
 	 * 
 	 * @param integer $statement_id
@@ -92,7 +159,7 @@ class StatementService
 	 * @param integer $statement_id
 	 * @return \App\Invoice
 	 */
-	public function createInvoice($statement_id)
+	public function createInvoice($statement_id, $data = [])
 	{
 		// Find the statement that we are creating this invoice for.
 		$statement = Statement::findOrFail($statement_id);
@@ -129,7 +196,7 @@ class StatementService
 
         // Should we not have a valid invoice, we create one.
         if (!$invoice) {
-        	$invoice = $this->createInvoice($statement_id);
+        	$invoice = $this->createInvoice($statement_id, array_only($data, ['created_at','number']));
         }
 
         // Create and store the invoice item.

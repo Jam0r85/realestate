@@ -18,27 +18,40 @@ class InvoiceService
 	 */
 	public function createInvoice(array $data)
 	{
-		$data['key'] = str_random(30);
-		$data['user_id'] = Auth::user()->id;
-		$data['due_at'] = Carbon::now()->addDay(get_setting('invoice_due_after'), 30);
+		$invoice = new Invoice();
+		$invoice->key = str_random(30);
+		$invoice->user_id = Auth::user()->id;
+		$invoice->property_id = $data['property_id'];
+		$invoice->due_at = Carbon::now()->addDay(get_setting('invoice_due_after'), 30);
 
 		// Set the default terms if they are missing.
 		if (!isset($data['terms'])) {
-			$data['terms'] = get_setting('invoice_default_terms', null);
+			$invoice->terms = get_setting('invoice_default_terms', null);
+		} else {
+			$invoice->terms = $data['terms'];
 		}
 
 		// Set the invoice group.
 		if (!isset($data['invoice_group_id'])) {
-			$data['invoice_group_id'] = get_setting('invoice_default_group');
+			$invoice->invoice_group_id = get_setting('invoice_default_group');
+		} else {
+			$invoice->invoice_group_id = $data['invoice_group_id'];
 		}
 
 		// Set the invoice number.
 		if (!isset($data['number'])) {
-			$data['number'] = InvoiceGroup::findOrFail($data['invoice_group_id'])->next_number;
+			$invoice->number = InvoiceGroup::findOrFail($data['invoice_group_id'])->next_number;
+		} else {
+			$invoice->number = $data['number'];
+		}
+
+		// Set the created_at date.
+		if (isset($data['created_at'])) {
+			$invoice->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
 		}
 
 		// Create the invoice.
-		$invoice = Invoice::create($data);
+		$invoice->save();
 
 		// Attach the invoice users.
 		if (isset($data['users'])) {
@@ -46,7 +59,11 @@ class InvoiceService
 		}
 
 		// Increment the invoice group number.
-		InvoiceGroup::findOrFail($data['invoice_group_id'])->increment('next_number');
+		$invoice_group = InvoiceGroup::findOrFail($invoice->invoice_group_id);
+		
+		if ($invoice->number == $invoice_group->next_number) {
+			$invoice_group->increment('next_number');
+		}
 
 		return $invoice;
 	}

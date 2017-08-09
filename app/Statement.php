@@ -73,6 +73,14 @@ class Statement extends BaseModel
     }
 
     /**
+     * A statement can have an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * A statement can belong to many invoices.
      */
     public function invoices()
