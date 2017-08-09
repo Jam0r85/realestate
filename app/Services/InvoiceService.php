@@ -50,6 +50,10 @@ class InvoiceService
 			$invoice->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
 		}
 
+		if (isset($data['paid_at'])) {
+			$invoice->paid_at = Carbon::createFromFormat('Y-m-d', $data['paid_at']);
+		}
+
 		// Create the invoice.
 		$invoice->save();
 
@@ -60,7 +64,7 @@ class InvoiceService
 
 		// Increment the invoice group number.
 		$invoice_group = InvoiceGroup::findOrFail($invoice->invoice_group_id);
-		
+
 		if ($invoice->number == $invoice_group->next_number) {
 			$invoice_group->increment('next_number');
 		}

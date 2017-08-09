@@ -117,8 +117,9 @@ class StatementService
                     $item['amount'] = $data['item_amount'][$i];
                     $item['tax_rate_id'] = $data['item_tax_rate_id'][$i];
 
-                    $item['number'] = $data['invoice_number'];
-                    $item['created_at'] = $data['created_at'];
+                    $item['number'] = $data['invoice_number']; // Invoice number.
+                    $item['created_at'] = $data['created_at']; // Invoice created at date.
+                    $item['paid_at'] = $data['created_at']; // Invoice paid at date.
 
                     $this->createInvoiceItem($item, $statement->id);
                 }
