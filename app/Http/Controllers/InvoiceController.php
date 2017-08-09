@@ -131,6 +131,8 @@ class InvoiceController extends BaseController
         $invoice->fill($request->input());
         $invoice->save();
 
+        $invoice->users()->sync($request->input('users'));
+
         $this->successMessage('The invoice was updated');
 
         return back();
