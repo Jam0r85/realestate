@@ -139,7 +139,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 
 		$statement = new Statement();
 		$statement->key = str_random(30);
-		$statement->amount = isset($data['amount']) ?: $tenancy->rent_amount;
+		$statement->amount = isset($data['amount']) ?? $tenancy->rent_amount;
 		$statement->period_start = $data['period_start'];
 		$statement->period_end = $data['period_end'];
 
