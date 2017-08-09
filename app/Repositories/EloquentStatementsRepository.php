@@ -218,17 +218,8 @@ class EloquentStatementsRepository extends EloquentBaseRepository
         // Update the statement.
         $statement = $this->update($data, $id);
 
-        // Update the sending_method for the statement and property.
-        if (isset($data['sending_method'])) {
-            $properties_repo = new EloquentPropertiesRepository();
-            $properties_repo->updateStatementSendingMethod($data['sending_method'], $statement->property->id);
-        }
-
-        // Update the bank account for the statement and property.
-        if (isset($data['bank_account_id'])) {
-            $properties_repo = new EloquentPropertiesRepository();
-            $properties_repo->updateBankAccount($data['bank_account_id'], $statement->property->id);
-        }
+        $properties_repo = new EloquentPropertiesRepository();
+        $properties_repo->updateStatementSettings(array_only($data, ['sending_method','bank_account_id']));
 
         // Update the created_at date.
         if (isset($data['created_at'])) {
