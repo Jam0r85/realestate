@@ -25,7 +25,7 @@ class StatementPayment extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['statement','bank_account','parent'];
+    protected $with = ['statement'];
 
     /**
      * The attrbites that should be included in the collection.
