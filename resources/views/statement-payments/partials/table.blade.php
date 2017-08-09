@@ -1,6 +1,6 @@
 @component('partials.table')
 	@slot('head')
-		<th>Statement</th>
+		<th>Tenancy</th>
 		<th>Name</th>
 		<th>Method</th>
 		<th>Amount</th>
@@ -8,7 +8,7 @@
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
-			<td><a href="{{ route('statements.show', $payment->statement->id) }}">{{ $payment->statement->name }}</a></td>
+			<td><a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a></td>
 			<td>{{ $payment->name_formatted }}</td>
 			<td>@if ($payment->bank_account) Bank @else Cash or Cheque @endif</td>
 			<td>{{ currency($payment->amount) }}</td>
