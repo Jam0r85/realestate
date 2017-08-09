@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\EloquentInvoicesRepository;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -23,20 +22,14 @@ class CheckInvoicePaid extends Command
     protected $description = 'Check whether unpaid invoices have been paid.';
 
     /**
-     * \App\Repositories\EloquentInvoicesRepository
-     */
-    public $invoices;
-
-    /**
      * Create a new command instance.
      *
      * @param \App\Repositories\EloquentInvoicesRepository $invoices
      * @return void
      */
-    public function __construct(EloquentInvoicesRepository $invoices)
+    public function __construct()
     {
         parent::__construct();
-        $this->invoices = $invoices;
     }
 
     /**
@@ -46,9 +39,12 @@ class CheckInvoicePaid extends Command
      */
     public function handle()
     {
-        foreach ($this->invoices->getUnpaidList() as $invoice) {
+        $unpaid_invoices = Invoice::whereNull('paid_at')->get();
+
+        foreach ($unpaid_invoices as $invoice) {
             if ($invoice->total_balance <= 0) {
-                $invoice->update(['paid_at' => Carbon::now()]);
+                $invoice->paid_at = Carbon::now();
+                $invoice->save();
             }
         }
 
