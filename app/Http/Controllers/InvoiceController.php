@@ -7,23 +7,21 @@ use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Invoice;
+use App\Services\PaymentService;
 use App\Services\InvoiceService;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class InvoiceController extends BaseController
 {
-    public $invoice_service;
-
     /**
      * Create a new controller instance.
      * 
      * @return  void
      */
-    public function __construct(InvoiceService $invoice_service)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->invoice_service = $invoice_service;
     }
 
     /**
@@ -100,7 +98,8 @@ class InvoiceController extends BaseController
      */
     public function store(StoreInvoiceRequest $request)
     {
-        $invoice = $this->invoice_service->createInvoice($request->input());
+        $service = new InvoiceService();
+        $invoice = $service->createInvoice($request->input());
 
         $this->successMessage('The invoice was created');
 
@@ -146,7 +145,8 @@ class InvoiceController extends BaseController
      */
     public function createItem(StoreInvoiceItemRequest $request, $id)
     {
-        $this->invoice_service->createInvoiceItem($request->input(), $id);
+        $service = new InvoiceService();
+        $service->createInvoiceItem($request->input(), $id);
 
         $this->successMessage('The invoice item was created');
 
@@ -162,7 +162,11 @@ class InvoiceController extends BaseController
      */
     public function createPayment(StoreInvoicePaymentRequest $request, $id)
     {
-        $this->invoices->createPayment($request->input(), $id);
+        $service = new PaymentService();
+        $service->createInvoicePayment($request->input(), $id);
+
+        $this->successMessage('Payment was recorded');
+
         return back();
     }
 

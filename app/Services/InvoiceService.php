@@ -19,6 +19,7 @@ class InvoiceService
 	{
 		$data['key'] = str_random(30);
 		$data['user_id'] = Auth::user()->id;
+		$data['due_at'] = Carbon::now()->addDay(get_setting('invoice_due_after'), 30);
 
 		// Set the invoice group.
 		if (!isset($data['invoice_group_id'])) {
