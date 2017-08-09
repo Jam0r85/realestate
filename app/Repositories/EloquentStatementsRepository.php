@@ -237,8 +237,10 @@ class EloquentStatementsRepository extends EloquentBaseRepository
      * @param  \App\Statement. $id
      * @return mixed
      */
-    public function createInvoiceItem(array $data, $statement)
+    public function createInvoiceItem(array $data, $id)
     {
+        $statement = Statement::findOrFail($id);
+        
         // Statement doesn't have a current invoice attached to it.
         if (!$statement->hasInvoice()) {
 
