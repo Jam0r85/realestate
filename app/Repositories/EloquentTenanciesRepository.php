@@ -101,7 +101,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 					'is_auto' => true
 				];
 
-				Statement::createFromTenancy($data, $tenancy->id);
+				$this->createStatement($data, $tenancy->id);
 			}
 		}
 
@@ -117,7 +117,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function updateDiscounts($discounts = [], $id)
 	{
-		Tenancy::findOrFail($id);
+		$tenancy = Tenancy::findOrFail($id);
 
 		if (!count($discounts)) {
 			$tenancy->discounts()->detach();
