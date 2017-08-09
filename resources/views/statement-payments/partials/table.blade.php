@@ -10,7 +10,7 @@
 		<tr>
 			<td><a href="{{ route('statements.show', $payment->statement->id) }}">{{ $payment->statement->name }}</a></td>
 			<td>{{ $payment->name_formatted }}</td>
-			<td>{{ $payment->method_formatted }}</td>
+			<td>{{ $payment->bank_account ? 'Bank' : 'Cash or Cheque' }}</td>
 			<td>{{ currency($payment->amount) }}</td>
 			<td>{{ date_formatted($payment->sent_at) }}</td>
 		</tr>

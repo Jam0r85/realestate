@@ -15,24 +15,24 @@ class StatementPayment extends BaseModel
      */
     public function toSearchableArray()
     {
-        return [
-            'date' => $this->created_at,
-            'property' => $this->statement->property->name,
-            'amount' => $this->amount,
-            'sent' => $this->sent_at
-        ];
+        $array = $this->toArray();
+
+        return $array;
     }
+
+    /**
+     * The relations that should be eager leader.
+     * 
+     * @var array
+     */
+    protected $with = ['statement','bank_account','parent'];
 
     /**
      * The attrbites that should be included in the collection.
      * 
      * @var array
      */
-    protected $appends = [
-        'group',
-        'name_formatted',
-        'method_formatted'
-    ];
+    protected $appends = ['group','name_formatted','method_formatted'];
     
     /**
      * The attributes that should be mutated to dates.
