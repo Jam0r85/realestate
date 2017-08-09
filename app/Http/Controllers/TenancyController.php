@@ -84,7 +84,7 @@ class TenancyController extends BaseController
     public function store(StoreTenancyRequest $request)
     {
         $service = new TenancyService();
-        $service->createTenancy($request->input());
+        $tenancy = $service->createTenancy($request->input());
 
         $this->successMessage('The tenancy was created');
 

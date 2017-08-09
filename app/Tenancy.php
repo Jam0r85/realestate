@@ -301,6 +301,10 @@ class Tenancy extends BaseModel
      */
     public function getDaysOverdueAttribute()
     {
+        if (!$this->is_overdue) {
+            return null;
+        }
+        
         if ($this->next_statement_start_date < Carbon::now()) {
             return $this->next_statement_start_date->diffInDays(Carbon::now(), false);
         } else {
