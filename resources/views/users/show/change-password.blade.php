@@ -1,37 +1,49 @@
-@extends('users.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.sections.section-no-container')
+	<section class="section">
+		<div class="container">
 
-		@component('partials.title')
-			Change Password
-		@endcomponent
+			<a href="{{ route('users.show', $user->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		<form role="form" method="POST" action="{{ route('users.update-password', $user->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}
+			<h1 class="title">{{ $user->name }}</h1>
+			<h2 class="subtitle">Change Password</h2>
 
-			<div class="field">
-				<label class="label" for="password">New Password</label>
-				<p class="control">
-					<input type="password" class="input" name="password" />
-				</p>
-			</div>
+			<hr />
 
-			<div class="field">
-				<label class="label" for="password_confirmation">Confirm New Password</label>
-				<p class="control">
-					<input type="password" class="input" name="password_confirmation" />
-				</p>
-			</div>
+			<form role="form" method="POST" action="{{ route('users.update-password', $user->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('PUT') }}
 
-			@component('partials.forms.buttons.primary')
-				Update Password
-			@endcomponent
+				<div class="field">
+					<label class="label" for="password">New Password</label>
+					<p class="control">
+						<input type="password" class="input" name="password" />
+					</p>
+				</div>
 
-		</form>
+				<div class="field">
+					<label class="label" for="password_confirmation">Confirm New Password</label>
+					<p class="control">
+						<input type="password" class="input" name="password_confirmation" />
+					</p>
+				</div>
 
-	@endcomponent
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Change Password
+					</span>
+				</button>
+
+			</form>
+
+		</div>
+	</section>
 
 @endsection

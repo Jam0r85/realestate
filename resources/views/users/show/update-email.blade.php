@@ -1,36 +1,49 @@
-@extends('users.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.sections.section-no-container')
+	<section class="section">
+		<div class="container">
 
-		@component('partials.title')
-			Update E-Mail
-		@endcomponent
+			<a href="{{ route('users.show', $user->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		<form role="form" method="POST" action="{{ route('users.update-email', $user->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}
+			<h1 class="title">{{ $user->name }}</h1>
+			<h2 class="subtitle">Update E-Mail</h2>
 
-			<div class="field">
-				<label class="label" for="email">New E-Mail</label>
-				<p class="control">
-					<input type="email" name="email" class="input" value="{{ old('email') }}" />
-				</p>
-			</div>
+			<hr />
 
-			<div class="field">
-				<label class="label" for="email_confirmation">Confirm New E-Mail</label>
-				<p class="control">
-					<input type="email" name="email_confirmation" class="input" value="" />
-				</p>
-			</div>
+			<form role="form" method="POST" action="{{ route('users.update-email', $user->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('PUT') }}
 
-			@component('partials.forms.buttons.primary')
-				Update E-Mail
-			@endcomponent
-		</form>
+				<div class="field">
+					<label class="label" for="email">New E-Mail</label>
+					<p class="control">
+						<input type="email" name="email" class="input" value="{{ old('email') }}" />
+					</p>
+				</div>
 
-	@endcomponent
+				<div class="field">
+					<label class="label" for="email_confirmation">Confirm New E-Mail</label>
+					<p class="control">
+						<input type="email" name="email_confirmation" class="input" value="" />
+					</p>
+				</div>
+
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Update E-Mail
+					</span>
+				</button>
+
+			</form>
+
+		</div>
+	</section>
 
 @endsection

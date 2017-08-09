@@ -51,8 +51,8 @@
 						</table>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">Edit Details</a>
-							<a class="card-footer-item">Edit E-Mail</a>
-							<a class="card-footer-item">Edit Password</a>
+							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">Edit E-Mail</a>
+							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'change-password']) }}">Edit Password</a>
 						</footer>
 					</div>
 
