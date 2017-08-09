@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Invoice;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class InvoiceController extends BaseController
 {
@@ -58,7 +59,10 @@ class InvoiceController extends BaseController
      */
     public function overdue()
     {
-        $invoices = Invoice::where('due_at', '<=', Carbon::now())->whereNull('paid_at')->latest()->paginate();
+        $invoices = Invoice::where('due_at', '<=', Carbon::now())
+            ->whereNull('paid_at')
+            ->latest()
+            ->paginate();            
         $title = 'Overdue Invoices';
 
         return view('invoices.index', compact('invoices','title'));
