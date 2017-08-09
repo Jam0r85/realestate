@@ -152,7 +152,7 @@ class TenancyController extends Controller
      */
     public function createRentalStatement(StoreStatementRequest $request, $id)
     {
-        $this->statements->createStatement($request->input(), $id);
+        $this->tenancies->createStatement($request->input(), $id);
         return back();
     }
 

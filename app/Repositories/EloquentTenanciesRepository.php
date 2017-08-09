@@ -3,6 +3,9 @@
 namespace App\Repositories;
 
 use App\Agreement;
+use App\Invoice;
+use App\InvoiceGroup;
+use App\InvoiceItem;
 use App\Payment;
 use App\Statement;
 use App\Tenancy;
@@ -106,6 +109,99 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 		}
 
 		return $tenancy;
+	}
+
+	/**
+	 * Create a rental statement.
+	 * 
+	 * @param array $data
+	 * @param integer $tenancy_id
+	 * @return \App\Statement
+	 */
+	public function createStatement(array $data, $tenancy_id)
+	{
+		$tenancy = Tenancy::findOrFail($tenancy_id);
+
+		// Work out the start date if not set.
+		if (!isset($data['period_start'])) {
+			$data['period_start'] = $tenancy->next_statement_start_date;
+		} else {
+			$data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
+		}
+
+		// Work out the end date of not set.
+		if (!isset($data['period_end'])) {
+			$data['period_end'] = clone $data['period_start'];
+			$data['period_end']->addMonth()->subDay();
+		} else {
+			$data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
+		}
+
+		$statement = new Statement();
+		$statement->key = str_random(30);
+		$statement->amount = isset($data['amount']) ?: $tenancy->rent_amount;
+		$statement->period_start = $data['period_start'];
+		$statement->period_end = $data['period_end'];
+
+		$tenancy->statements()->save($statement);
+
+		$this->successMessage('The statement was created');
+
+		$this->createStatementServiceInvoiceItem($statement, $tenancy);
+
+		return $statement;
+	}
+
+	/**
+	 * Create the service change invoice item and attach it to the statement.
+	 * 
+	 * @param \App\Statement $statement
+	 * @param \App\Tenancy $tenancy
+	 * @return void
+	 */
+	public function createStatementServiceInvoiceItem(Statement $statement, Tenancy $tenancy)
+	{
+		$this->createStatementInvoiceItem([
+			'name' => $tenancy->service->name,
+			'description' => $tenancy->service->description,
+			'quantity' => 1,
+			'amount' => $tenancy->service_charge_amount,
+			'tax_rate_id' => $tenancy->service->tax_rate_id
+		], $statement);
+	}
+
+	/**
+	 * Create an invoice item for the given statement.
+	 * 
+	 * @param array $data
+	 * @param \App\Statement $statement
+	 * @return void
+	 */
+	public function createStatementInvoiceItem(array $data, Statement $statement)
+	{
+		$invoice = $statement->invoice;
+
+		if (!$invoice) {
+			$invoice = new Invoice();
+			$invoice->user_id = Auth::user()->id;
+			$invoice->property_id = $statement->property->id;
+			$invoice->key = str_random(30);
+			$invoice->invoice_group_id = isset($data['invoice_group_id']) ?: get_setting('invoice_default_group', 0);
+			$invoice->number = isset($data['number']) ?: InvoiceGroup::findOrFail($invoice->invoice_group_id)->next_number;
+
+			$invoice = $statement->invoices()->save($invoice);
+
+			InvoiceGroup::find($invoice->invoice_group_id)->increment('next_number');
+		}
+
+		$item = new InvoiceItem();
+		$item->name = $data['name'];
+		$item->description = $data['description'];
+		$item->amount = $data['amount'];
+		$item->quantity = $data['quantity'];
+		$item->tax_rate_id = $data['tax_rate_id'];
+
+		$invoice->items()->save($item);
 	}
 
 	/**
