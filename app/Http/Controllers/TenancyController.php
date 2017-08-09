@@ -8,9 +8,10 @@ use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Repositories\EloquentStatementsRepository;
 use App\Repositories\EloquentTenanciesRepository;
+use App\Services\StatementService;
 use Illuminate\Http\Request;
 
-class TenancyController extends Controller
+class TenancyController extends BaseController
 {
     /**
      * @var  App\Repositories\EloquentTenanciesRepository
@@ -152,7 +153,11 @@ class TenancyController extends Controller
      */
     public function createRentalStatement(StoreStatementRequest $request, $id)
     {
-        $this->tenancies->createStatement($request->input(), $id);
+        $service = new StatementService();
+        $service->createStatement($request->input(), $id);
+
+        $this->successMessage('The statement was created');
+
         return back();
     }
 
