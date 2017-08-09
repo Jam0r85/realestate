@@ -312,7 +312,7 @@ class Tenancy extends BaseModel
     public function getStartedAtAttribute()
     {
         if ($this->first_agreement) {
-            return $this->first_agreement->started_at;
+            return $this->first_agreement->starts_at;
         }
 
         return null;
