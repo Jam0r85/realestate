@@ -54,7 +54,8 @@ class StatementPayment extends BaseModel
 	 */
     public function statement()
     {
-    	return $this->belongsTo('App\Statement');
+    	return $this->belongsTo('App\Statement')
+            ->withTrashed();
     }
 
     /**
