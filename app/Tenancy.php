@@ -253,7 +253,11 @@ class Tenancy extends BaseModel
      */
     public function getNextStatementStartDateAttribute()
     {
-        return $this->last_statement ? $this->last_statement->period_end->addDay() : Carbon::now();
+        if ($this->last_statement) {
+            return $this->last_statement->period_end->addDay();
+        }
+
+        return $this->started_at;
     }
 
     /**
