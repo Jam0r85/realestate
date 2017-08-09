@@ -38,6 +38,7 @@ class Invoice extends BaseModel
      * @var array
      */
 	protected $fillable = [
+        'user_id',
 		'property_id',
 		'invoice_group_id',
 		'number',

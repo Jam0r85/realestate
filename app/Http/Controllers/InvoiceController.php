@@ -6,26 +6,23 @@ use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Repositories\EloquentInvoicesRepository;
+use App\Invoice;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    /**
-     * @var  App\Repositories\EloquentInvoicesRepository
-     */
-    protected $invoices;
+    public $invoice_service;
 
     /**
      * Create a new controller instance.
      * 
-     * @param   EloquentInvoicesRepository $invoices
      * @return  void
      */
-    public function __construct(EloquentInvoicesRepository $invoices)
+    public function __construct(InvoiceService $invoice_service)
     {
         $this->middleware('auth');
-        $this->invoices = $invoices;
+        $this->invoice_service = $invoice_service;
     }
 
     /**
@@ -35,7 +32,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = $this->invoices->getPaidPaged();
+        $invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
         $title = 'Invoices List';
 
         return view('invoices.index', compact('invoices','title'));
@@ -48,7 +45,7 @@ class InvoiceController extends Controller
      */
     public function unpaid()
     {
-        $invoices = $this->invoices->getUnpaidPaged();
+        $invoices = Invoice::whereNull('paid_at')->latest()->paginate();
         $title = 'Unpaid Invoices';
 
         return view('invoices.index', compact('invoices','title'));
@@ -61,7 +58,7 @@ class InvoiceController extends Controller
      */
     public function overdue()
     {
-        $invoices = $this->invoices->getOverduePaged();
+        $invoices = Invoice::where('due_at', '<=', Carbon::now())->whereNull('paid_at')->latest()->paginate();
         $title = 'Overdue Invoices';
 
         return view('invoices.index', compact('invoices','title'));
@@ -75,7 +72,7 @@ class InvoiceController extends Controller
      */
     public function search(Request $request)
     {
-        $invoices = $this->invoices->search($request->search_term);
+        $invoices = Invoice::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('invoices.index', compact('invoices','title'));
@@ -99,7 +96,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        $invoice = $this->invoices->createInvoice($request->input());
+        $invoice = $this->invoice_service->createInvoice($request->input());
         return redirect()->route('invoices.show', $invoice->id);
     }
 
@@ -111,7 +108,7 @@ class InvoiceController extends Controller
      */
     public function show($id, $section = 'items')
     {
-        $invoice = $this->invoices->find($id);
+        $invoice = Invoice::findOrFail($id);
         return view('invoices.show.' . $section, compact('invoice'));
     }
 
