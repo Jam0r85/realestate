@@ -52,7 +52,8 @@ class Statement extends BaseModel
 	 */
 	public function tenancy()
 	{
-		return $this->belongsTo('App\Tenancy');
+		return $this->belongsTo('App\Tenancy')
+            ->withTrashed();
 	}
 
 	/**
