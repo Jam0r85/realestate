@@ -22,6 +22,11 @@ class InvoiceService
 		$data['user_id'] = Auth::user()->id;
 		$data['due_at'] = Carbon::now()->addDay(get_setting('invoice_due_after'), 30);
 
+		// Set the default terms if they are missing.
+		if (!isset($data['terms'])) {
+			$data['terms'] = get_setting('invoice_default_terms', null);
+		}
+
 		// Set the invoice group.
 		if (!isset($data['invoice_group_id'])) {
 			$data['invoice_group_id'] = get_setting('invoice_default_group');
