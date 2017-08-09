@@ -134,3 +134,12 @@ if (!function_exists('bank_accounts')) {
 		})->get();
 	}
 }
+
+if (!function_exists('services')) {
+	function services()
+	{
+		return cache()->tags('services')->remember('services', 60, function () {
+			return \App\Service::orderBy('name')->get();
+		});
+	}
+}

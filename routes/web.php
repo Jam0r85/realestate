@@ -79,6 +79,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('overdue', 'TenancyController@overdue')->name('tenancies.overdue');
 	Route::post('search', 'TenancyController@search')->name('tenancies.search');
 	Route::get('create', 'TenancyController@create')->name('tenancies.create');
+	Route::post('/', 'TenancyController@store')->name('tenancies.store');
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 	Route::post('{id}/create-rent-payment', 'TenancyController@createRentPayment')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');

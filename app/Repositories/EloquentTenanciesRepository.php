@@ -2,38 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Repositories\EloquentInvoicesRepository;
-use App\Repositories\EloquentPaymentsRepository;
-use App\Repositories\EloquentStatementsRepository;
+use App\Agreement;
 use App\Tenancy;
+use App\TenancyRent;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EloquentTenanciesRepository extends EloquentBaseRepository
 {
-	/**
-	 * @var  App\Repositories\EloquentPaymentsRepository
-	 * @var  App\Repositories\EloquentStatementsRepository
-	 * @var  App\Repositories\EloquentInvoicesRepository
-	 */
-	public $payments;
-	public $statements;
-	public $invoices;
-
-    /**
-     * Create a new repository instance.
-     * 
-     * @param   EloquentPaymentsRepository   $payments
-     * @param   EloquentStatementsRepository $statements
-     * @param   EloquentInvoicesRepository   $invoices
-     * @return  void
-     */
-	public function __construct(EloquentPaymentsRepository $payments, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices)
-	{
-		$this->payments = $payments;
-		$this->statements = $statements;
-		$this->invoices = $invoices;
-	}
-
 	/**
 	 * Get the class name.
 	 * 
@@ -51,7 +27,43 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	 */
 	public function getOverdueList()
 	{
-		return $this->getInstance()->whereIsOverdue(1)->get()->sortByDesc('days_overdue');
+		return $this->getInstance()
+			->whereIsOverdue(1)
+			->get()
+			->sortByDesc('days_overdue');
+	}
+
+	/**
+	 * Create a new tenancy.
+	 * 
+	 * @param array $data
+	 * @return \App\Tenancy
+	 */
+	public function createTenancy(array $data)
+	{
+		// Store the tenancy.
+		$tenancy = $this->create(array_only($data, ['service_id','property_id']));
+
+		// Attach the tenants
+		$tenancy->tenants()->attach($data['users']);
+
+		// Store the tenancy agreement.
+		$agreement = Agreement::createAgreement([
+			'user_id' => Auth::user()->id,
+			'tenancy_id' => $tenancy->id,
+			'starts_at' => Carbon::createFromFormat('Y-m-d', $data['start_date']),
+			'length' => str_slug($data['length'])
+		]);
+
+		// Store the tenancy rent amount.
+		$rent = TenancyRent::create([
+			'user_id' => Auth::user()->id,
+			'tenancy_id' => $tenancy->id,
+			'amount' => $data['rent_amount'],
+			'starts_at' => $agreement->starts_at
+		]);
+
+		return $tenancy;
 	}
 
 	/**

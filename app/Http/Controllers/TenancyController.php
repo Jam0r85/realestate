@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
+use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Repositories\EloquentStatementsRepository;
 use App\Repositories\EloquentTenanciesRepository;
@@ -88,9 +89,10 @@ class TenancyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTenancyRequest $request)
     {
-        //
+        $tenancy = $this->tenancies->createTenancy($request->input());
+        return redirect()->route('tenancies.show', $tenancy->id);
     }
 
     /**

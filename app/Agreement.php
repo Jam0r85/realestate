@@ -86,4 +86,25 @@ class Agreement extends BaseModel
 
     	return 'SPT';
     }
+
+    public static function createAgreement(array $data)
+    {
+        // Calculate the end date provding it hasn't already been set.
+        if (!isset($data['ends_at'])) {
+
+            list($number, $length) = explode('-', $data['length']);
+
+            if ($number == 0) {
+                $data['ends_at'] = null;
+            }
+
+            if ($number > 0) {
+                $data['ends_at'] = clone $data['starts_at'];
+                $data['ends_at']->addMonth($number)->subDay();
+            }
+        }
+
+        // Create the statement
+        return parent::create($data);
+    }
 }

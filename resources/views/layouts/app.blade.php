@@ -71,15 +71,6 @@
                                 <a class="navbar-item" href="{{ route('bank-accounts.create') }}">
                                     New Bank Account
                                 </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Groups
-                                </div>
-                                @foreach (userGroups() as $user_group_menu)
-                                    <a class="navbar-item" href="{{ route('user-groups.show', $user_group_menu->slug) }}">
-                                        {{ $user_group_menu->name }}
-                                    </a>
-                                @endforeach
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
