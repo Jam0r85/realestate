@@ -11,7 +11,7 @@
 			<td>
 				@foreach ($property->owners as $owner)
 					<a href="{{ route('users.show', $owner->id) }}">
-						<span class="tag is-medium @if ($owner->property_id == $property->id) is-success @else is-primary @endif">
+						<span class="tag @if ($owner->property_id == $property->id) is-success @else is-primary @endif">
 							{{ $owner->name }}
 						</span>
 					</a>
