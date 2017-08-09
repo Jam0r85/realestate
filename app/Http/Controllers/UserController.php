@@ -8,27 +8,21 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Repositories\EloquentUsersRepository;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends BaseController
 {
     /**
-     * @var  App\Repositories\EloquentUsersRepository
-     */
-    protected $users;
-
-    /**
      * Create a new controller instance.
      *
      * @param   EloquentUsersRepository $users
      * @return  void
      */
-    public function __construct(EloquentUsersRepository $users)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->users = $users;
     }
 
     /**
@@ -38,7 +32,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = $this->users->getAllPaged();
+        $users = User::latest()->paginate();
         $title = 'Users List';
         
         return view('users.index', compact('users', 'title'));
@@ -51,7 +45,7 @@ class UserController extends BaseController
      */
     public function archived()
     {
-        $users = $this->users->getArchivedPaged();
+        $users = User::onlyTrashed()->latest()->paginate();
         $title = 'Archived Users';
 
         return view('users.index', compact('users', 'title'));
@@ -65,7 +59,7 @@ class UserController extends BaseController
      */
     public function search(Request $request)
     {
-        $users = $this->users->search($request->search_term);
+        $users = User::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('users.index', compact('users', 'title'));
@@ -89,7 +83,9 @@ class UserController extends BaseController
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->users->createUser($request->input());
+        $user = User::create($request->input());
+        $this->successMessage('The user was created');
+
         return redirect()->route('users.show', $user->id);
     }
 
@@ -102,20 +98,8 @@ class UserController extends BaseController
      */
     public function show($id, $section = 'account')
     {
-        $user = $this->users->find($id);
+        $user = User::withTrashed()->findOrFail($id);
         return view('users.show.' . $section, compact('user'));
-    }
-
-    /**
-     * Show the form for editing a resource.
-     *
-     * @param  integer $id
-     * @return \Illuminate\Http\Responce
-     */
-    public function edit($id)
-    {
-        $user = $this->users->find($id);
-        return view('users.edit', compact('user'));
     }
 
     /**
@@ -127,8 +111,11 @@ class UserController extends BaseController
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $data = $request->except('_token');
-        $user = $this->users->updateUser($data, $id);
+        $user = User::findOrFail($id);
+        $user->fill($request->input());
+        $user->save();
+
+        $this->successMessage('The user was updated');
 
         return back();
     }
@@ -142,22 +129,12 @@ class UserController extends BaseController
      */
     public function updateEmail(UpdateUserEmailRequest $request, $id)
     {
-        $user = $this->users->updateEmail($request->email, $id);
-        return back();
-    }
+        $user = User::findOrFail($id);
+        $user->email = $request->email;
+        $user->save();
 
-    /**
-     * Update the user's email address in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserEmailRequest  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updatePhone(UpdateUserPhoneRequest $request, $id)
-    {
-        $data = $request->only('phone_number', 'phone_number_other');
-        $user = $this->users->updatePhone($data, $id);
-        
+        $this->successMessage('The users email was updated');
+
         return back();
     }
 
@@ -170,7 +147,12 @@ class UserController extends BaseController
      */
     public function updatePassword(UpdateUserPasswordRequest $request, $id)
     {
-        $user = $this->users->updatePassword($request->password, $id);
+        $user = User::findOrFail($id);
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $this->successMessage('The users password was updated');
+
         return back();
     }
 
@@ -209,7 +191,12 @@ class UserController extends BaseController
      */
     public function updateHomeAddress(Request $request, $id)
     {
-        $user = $this->users->updateHomeAddress($request->property_id, $id);
+        $user = User::findOrFail($id);
+        $user->property_id = $request->property_id;
+        $user->save();
+
+        $this->successMessage('The users home address was updated');
+
         return back();
     }
 
@@ -229,7 +216,18 @@ class UserController extends BaseController
             'attachments' => $request->attachments
         ];
 
-        $this->users->sendEmail($data, $id);        
+        $user = User::findOrFail($id);
+
+        if (!$user->email) {
+            return back();
+        }
+
+        Mail::to($user)->send(
+            new SendUserEmail($data['subject'], $data['message'], $data['attachments'])
+        );
+
+        $this->successMessage('The email was sent to the user');
+      
         return back();
     }
 
@@ -241,7 +239,12 @@ class UserController extends BaseController
      */
     public function archive($id)
     {
-        $user = $this->users->archive($id);
+        User::findOrFail($id);
+        $user->deleted_at = Carbon::now();
+        $user->save();
+
+        $this->successMessage('The user was archived');
+
         return back();
     }
 
@@ -253,7 +256,12 @@ class UserController extends BaseController
      */
     public function restore($id)
     {
-        $user = $this->users->restore($id);
+        $user = User::findOrFail($id);
+        $user->deleted_at = null;
+        $user->save();
+
+        $this->successMessage('The user was restored');
+
         return back();
     }
 
