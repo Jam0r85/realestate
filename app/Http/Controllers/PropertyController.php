@@ -113,8 +113,9 @@ class PropertyController extends BaseController
      */
     public function updateStatementSettings(Request $request, $id)
     {
-        $service = new PropertyService();
-        $service->updateOwners($request->input(), $id);
+        $property = Property::findOrFail($id);
+        $property->bank_account_id = $request->bank_account_id;
+        $property->save();
 
         $this->successMessage('Statement settings updated');
 
