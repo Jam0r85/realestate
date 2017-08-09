@@ -84,7 +84,10 @@ class StatementService
 		$statement->sent_at = $statement->created_at;
 
 		// Save the statement.
-		$tenancy->statements()->save($statement);
+		$statement = $tenancy->statements()->save($statement);
+
+		// Attach the property owners to the statement.
+		$statement->users()->attach($tenancy->property->owners);
 
 		// Build an array for the payment.
 		$payment_data = [
