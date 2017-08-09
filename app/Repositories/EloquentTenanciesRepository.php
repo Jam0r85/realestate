@@ -81,7 +81,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 
 		// Store the rent payment.
 		$payment = $tenancy->rent_payments()->save(
-			Payment::create($data)
+			Payment::createPayment($data)
 		);
 
 		// Attach the tenants to the payment.
