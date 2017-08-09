@@ -116,7 +116,11 @@ class StatementPayment extends BaseModel
     {
         // Set the invoice name.
         if ($this->parent_type == 'invoices') {
-            return 'Invoice Payment (' . $this->parent->number . ')';
+            if ($this->parent->trashed()) {
+                return 'Invoice Deleted';
+            } else {
+                return 'Invoice Payment (' . $this->parent->number . ')';
+            }
         }
 
         // Set the expense name.
