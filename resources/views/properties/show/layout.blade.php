@@ -8,25 +8,23 @@
 			<h1 class="title">{{ $property->name }}</h1>
 
 			{{-- Show the owners --}}
-			@if (count($property->owners))
-				<div class="control">
-					<a href="{{ route('properties.show', [$property->id, 'edit-owners']) }}" class="button is-warning">
-						<span class="icon is-small">
-							<i class="fa fa-edit"></i>
-						</span>
-						<span>
-							Edit Owners
+			<div class="control">
+				<a href="{{ route('properties.show', [$property->id, 'edit-owners']) }}" class="button is-warning">
+					<span class="icon is-small">
+						<i class="fa fa-edit"></i>
+					</span>
+					<span>
+						Edit Owners
+					</span>
+				</a>
+				@foreach ($property->owners as $owner)
+					<a href="{{ route('users.show', $owner->id) }}">
+						<span class="tag is-medium @if ($owner->property_id == $property->id) is-success @else is-primary @endif">
+							{{ $owner->name }}
 						</span>
 					</a>
-					@foreach ($property->owners as $owner)
-						<a href="{{ route('users.show', $owner->id) }}">
-							<span class="tag is-medium @if ($owner->property_id == $property->id) is-success @else is-primary @endif">
-								{{ $owner->name }}
-							</span>
-						</a>
-					@endforeach
-				</div>
-			@endif
+				@endforeach
+			</div>
 
 			<hr />
 

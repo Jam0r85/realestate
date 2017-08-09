@@ -6,7 +6,21 @@
 		<div class="container">
 
 			<h1 class="title">{{ $user->name }}</h1>
-			<h2 class="subtitle">{!! $user->home ? $user->home->name : '<span class="has-text-info">Homeless</span>' !!}</h2>
+
+			<div class="control">
+				<a href="{{ route('users.show', [$user->id, 'home-address']) }}" class="button is-warning">
+					<span class="icon is-small">
+						<i class="fa fa-edit"></i>
+					</span>
+					<span>
+						Set Home Address
+					</span>
+				</a>
+
+				<span class="tag is-medium {{ $user->home ? 'is-success' : '' }}">
+					{{ $user->home ? $user->home->name : 'Not Set' }}
+				</span>
+			</div>
 
 			<hr />
 
@@ -37,10 +51,6 @@
 								<td class="has-text-right">{{ $user->company_name }}</td>
 							</tr>
 							<tr>
-								<td class="has-text-grey">E-Mail</td>
-								<td class="has-text-right">{{ $user->email }}</td>
-							</tr>
-							<tr>
 								<td class="has-text-grey">Mobile Phone</td>
 								<td class="has-text-right">{{ $user->phone_number }}</td>
 							</tr>
@@ -51,7 +61,6 @@
 						</table>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">Edit Details</a>
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">Edit E-Mail</a>
 							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'change-password']) }}">Edit Password</a>
 						</footer>
 					</div>
@@ -80,6 +89,22 @@
 								<td class="has-text-right">{{ date_formatted($user->updated_at) }}</td>
 							</tr>
 						</table>
+					</div>
+
+				</div>
+				<div class="column is-8">
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">E-Mail History</p>
+						</header>
+						<div class="card-content">
+							<b>Current E-Mail:</b> {{ $user->email }}
+						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">Edit E-Mail</a>
+							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'send-email']) }}">Send E-Mail Message</a>
+						</footer>
 					</div>
 
 				</div>
