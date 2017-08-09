@@ -19,7 +19,6 @@ class InvoiceService
 	{
 		$data['key'] = str_random(30);
 		$data['user_id'] = Auth::user()->id;
-		$data['terms'] = get_setting('invoice_default_terms', null);
 
 		// Set the invoice group.
 		if (!isset($data['invoice_group_id'])) {

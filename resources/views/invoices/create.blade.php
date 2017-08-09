@@ -58,7 +58,7 @@
 			<div class="field">
 				<label class="label" for="terms">Terms</label>
 				<p class="control">
-					<textarea name="terms" class="textarea"></textarea>
+					<textarea name="terms" class="textarea">{{ get_setting('invoice_default_terms') }}</textarea>
 				</p>
 			</div>
 
