@@ -62,7 +62,8 @@ class Property extends BaseModel
 	 */
 	public function invoices()
 	{
-		return $this->hasMany('App\Invoice');
+		return $this->hasMany('App\Invoice')
+			->latest();
 	}
 
 	/**
@@ -70,7 +71,9 @@ class Property extends BaseModel
 	 */
 	public function recent_invoices()
 	{
-		return $this->hasMany('App\Invoice')->limit(10);
+		return $this->hasMany('App\Invoice')->
+			latest()
+			->limit(10);
 	}
 
 	/**
