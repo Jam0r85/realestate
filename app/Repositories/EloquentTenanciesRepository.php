@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Agreement;
+use App\Payment;
+use App\Statement;
 use App\Tenancy;
 use App\TenancyRent;
 use Carbon\Carbon;
@@ -69,17 +71,21 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	/**
 	 * Store a new rent payment for a tenancy.
 	 * 
-	 * @param  array        $data
-	 * @param  \App\Tenancy $id
-	 * @return \App\Tenancy
+	 * @param array $data
+	 * @param integer $id
+	 * @return App\Tenancy
 	 */
 	public function createRentPayment(array $data, $id)
 	{
-		// Find the tenancy.
-		$tenancy = $this->find($id);
+		$tenancy = Tenancy::findOrFail($id);
 
-		// Create this payment.
-		$payment = $this->payments->createPayment($data, $tenancy, 'rent_payments', 'tenants');
+		// Store the rent payment.
+		$payment = $tenancy->rent_payments()->save(
+			Payment::create($data)
+		);
+
+		// Attach the tenants to the payment.
+		$payment->users()->attach($tenancy->tenants);
 
 		// Flash a success message.
 		$this->successMessage('The payment was recorded');
@@ -92,7 +98,7 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 					'is_auto' => true
 				];
 
-				$this->statements->createStatement($data, $tenancy->id);
+				Statement::createFromTenancy($data, $tenancy->id);
 			}
 		}
 
@@ -102,13 +108,13 @@ class EloquentTenanciesRepository extends EloquentBaseRepository
 	/**
 	 * Update the discounts in storage for a tenancy.
 	 * 
-	 * @param  array  $discounts [description]
-	 * @param  [type] $id        [description]
-	 * @return [type]            [description]
+	 * @param array $discounts
+	 * @param integer $id
+	 * @return \App\Tenancy
 	 */
 	public function updateDiscounts($discounts = [], $id)
 	{
-		$tenancy = $this->find($id);
+		Tenancy::findOrFail($id);
 
 		if (!count($discounts)) {
 			$tenancy->discounts()->detach();

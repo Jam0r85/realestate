@@ -314,4 +314,19 @@ class Statement extends BaseModel
 
         $this->update(['sent_at' => $date]);
     }
+
+    /**
+     * Create a new statement for a given tenancy.
+     * 
+     * @param array $data
+     * @param integer $id
+     * @return \App\Statement
+     */
+    public static function createFromTenancy(array $data, $tenancy_id)
+    {
+
+        $statement = parent::create($data);
+
+        return $statement;
+    }
 }
