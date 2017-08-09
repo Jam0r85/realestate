@@ -141,6 +141,10 @@ class StatementPayment extends BaseModel
             return $this->bank_account->name;
         }
 
+        if (!$this->parent) {
+            return 'n/a';
+        }
+
         // No bank account provided, just return Cash or Cheque.
         return 'Cash or Cheque';
     }
