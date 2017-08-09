@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends BaseController
@@ -85,6 +86,8 @@ class UserController extends BaseController
     {
         $user = User::create($request->input());
         $this->successMessage('The user was created');
+
+        Cache::tags('users')->flush();
 
         return redirect()->route('users.show', $user->id);
     }
