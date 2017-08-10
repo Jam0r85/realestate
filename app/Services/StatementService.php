@@ -145,18 +145,11 @@ class StatementService
 		$tenancy = Tenancy::findOrFail($tenancy_id);
 
 		// Check whether there is actually a service charge amount
-		if ($tenancy->service_charge_amount <= 0) {
-			return false;
+		if (!$tenancy->hasServiceCharge()) {
+			return;
 		}
 
-		// Make sure that the rent balance is greater or equal to the rent amount
-		if ($tenancy->rent_balance < $tenancy->rent_amount) {
-			return false;
-		}
-
-		$this->createServiceChargeItem($statement_id, $tenancy_id);
-
-		return true;
+		$this->createServiceChargeItem($statement_id, $tenancy);
 	}
 
 	/**
@@ -220,11 +213,8 @@ class StatementService
 	 * @param integer $tenancy_id
 	 * @return void
 	 */
-	public function createServiceChargeItem($statement_id, $tenancy_id)
+	public function createServiceChargeItem($statement_id, Tenancy $tenancy)
 	{
-		// Find the tenancy.
-		$tenancy = Tenancy::findOrFail($tenancy_id);
-
 		// Build the data array.
 		$data = [
             'name' => $tenancy->service->name,
@@ -236,8 +226,6 @@ class StatementService
 
         // Create the invoice item.
         $this->createInvoiceItem($data, $statement_id);
-
-        return;
 	}
 
 	public function createExpenseItem()

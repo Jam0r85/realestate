@@ -281,6 +281,24 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Check whether the tenancy has a service charge.
+     * 
+     * @return bool
+     */
+    public function hasServiceCharge()
+    {
+        if (!$this->service) {
+            return false;
+        }
+
+        if (empty($this->service->charge)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the tenancy's service charge formatted.
      * 
      * @return string
