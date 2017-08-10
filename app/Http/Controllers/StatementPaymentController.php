@@ -26,7 +26,7 @@ class StatementPaymentController extends BaseController
      */
     public function index()
     {
-    	$payments = StatementPayment::whereNotNull('sent_at')->latest()->paginate();
+    	$payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
     	$title = 'Sent Statement Payments';
 
     	return view('statement-payments.index', compact('payments','title'));

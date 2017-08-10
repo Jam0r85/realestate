@@ -9,7 +9,7 @@
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
-			<td>{{ $payment->statement->tenancy->property->name }}</td>
+			<td>{{ $payment->statement->tenancy->property->short_name }}</td>
 			<td>
 				<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a>
 				@if ($payment->statement->trashed())
