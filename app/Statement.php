@@ -22,6 +22,9 @@ class Statement extends BaseModel
     {
         $array = $this->toArray();
 
+        $array['property'] = $this->property;
+        $array['tenancy'] = $this->tenancy;
+
         return $array;
     }
     
