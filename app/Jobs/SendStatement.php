@@ -47,7 +47,7 @@ class SendStatement implements ShouldQueue
     public function handle()
     {
         if ($this->statement->sendByEmail()) {
-            if (count($this->statement->getUserEmails())) {
+            if ($this->statement->hasUserEmails()) {
                 Mail::to($this->statement->getUserEmails())->send(
                     new StatementByEmail($this->statement)
                 );
