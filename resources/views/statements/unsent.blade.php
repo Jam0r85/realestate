@@ -31,7 +31,7 @@
 							<tr>
 								<td>
 									@if ($statement->paid_at)
-										<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
+										<input type="checkbox" name="statements[]" value="{{ $statement->id }}" />
 									@endif
 								</td>
 								<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
