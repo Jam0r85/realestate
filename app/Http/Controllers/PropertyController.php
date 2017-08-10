@@ -70,6 +70,8 @@ class PropertyController extends BaseController
 
         $this->successMessage('The property was created');
 
+        Cache::tags('properties')->flush();
+
         return redirect()->route('properties.show', $property->id);
     }
 
@@ -100,6 +102,8 @@ class PropertyController extends BaseController
 
         $this->successMessage('The property was updated');
 
+        Cache::tags('properties')->flush();
+
         return back();
     }
 
@@ -117,6 +121,8 @@ class PropertyController extends BaseController
         $property->save();
 
         $this->successMessage('Statement settings updated');
+
+        Cache::tags('properties')->flush();
 
         return back();
     }
