@@ -73,7 +73,7 @@ class Expense extends Model
      */
     public function getBalanceAmountAttribute()
     {
-        return $this->cost - $this->payments->sum('pivot.amount');
+        return $this->cost - $this->statements->sum('pivot.amount');
     }
 
     /**
