@@ -31,7 +31,7 @@
 	<p class="control">
 		<select name="users[]" class="select2" multiple>
 			@foreach (users() as $user)
-				<option value="{{ $user->id }}">{{ $user->name }}</option>
+				<option @if (isset($account) && ($account->users->contains($user->id))) selected @endif value="{{ $user->id }}">{{ $user->name }}</option>
 			@endforeach
 		</select>
 	</p>
