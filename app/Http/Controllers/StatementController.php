@@ -104,20 +104,26 @@ class StatementController extends BaseController
 
     /**
      * Toggle a statement as being paid or unpaid.
-     * 
+     *
+     * @param [type] $[name] [<description>]
      * @param  \App\Repositories\EloquentStatementsRepository $id
      * @return Illuminate\Http\Response
      */
     public function togglePaid(Request $request, $id = null)
     {
-        $statements = $request->statement_id;
+        // Build a statements array.
+        $statements = [];
 
-        // Should the ID be provided, we add it to the statements array
-        if ($id) {
+        // Should the ID be provided, we add it to the array.
+        if (!is_null($id)) {
             $statements[] = $id;
         }
 
-        $this->statements->togglePaid($statements);
+        $service = new StatementService();
+        $result = $service->toggleStatementsPaid($statements);
+
+        $this->successMessage('The statement(s) were ' . $result);
+
         return back();
     }
 

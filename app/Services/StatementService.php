@@ -347,9 +347,33 @@ class StatementService
 		}
 	}
 
-	public function togglePaid()
+	/**
+	 * Toggle the given statements as having been paid.
+	 * 
+	 * @param array $ids
+	 * @return string
+	 */
+	public function toggleStatementsPaid(array $ids)
 	{
+		foreach ($ids as $id) {
+			$statement = Statement::findOrFail($id);
 
+			if (is_null($statement->paid_at)) {
+				$statement->paid_at = Carbon::now();
+				$status = 'Paid';
+			} else {
+				$statement->paid_at = null;
+				$status = 'Unpaid';
+			}
+
+			$statement->save();
+		}
+
+		if (count($ids) == 1) {
+			return $status;
+		} else {
+			return 'Updated';
+		}
 	}
 
 	public function toggleSend()
