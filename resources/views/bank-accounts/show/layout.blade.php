@@ -91,6 +91,30 @@
 				</div>
 				<div class="column is-8">
 
+					@if (count($account->properties))
+						<div class="card">
+							<div class="card-content">
+
+								<h3 class="title">Properties</h3>
+								<h5 class="subtitle">The properties that currently linked to this bank account.</h5>
+
+								<table class="table is-striped is-fullwidth">
+									<thead>
+										<th>Name</th>
+									</thead>
+									<tbody>
+										@foreach ($account->properties as $property)
+											<tr>
+												<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					@endif
+
 				</div>
 			</div>
 
