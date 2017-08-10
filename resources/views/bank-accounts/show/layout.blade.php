@@ -119,12 +119,12 @@
 						<div class="card">
 							<div class="card-content">
 
-								<h3 class="title">Statement Payments</h3>
+								<h3 class="title">Recent Statement Payments</h3>
 								<h5 class="subtitle">The statement payments that have been sent to this bank account.</h5>
 
 								<table class="table is-striped is-fullwidth">
 									<thead>
-										<th>Date</th>
+										<th>Sent</th>
 										<th>Tenancy</th>
 										<th>Name</th>
 										<th>Amount</th>
@@ -132,8 +132,8 @@
 									<tbody>
 										@foreach ($account->recent_statement_payments as $payment)
 											<tr>
-												<td>{{ date_formatted($payment->created_at) }}</td>
-												<td>{{ $payment->statement->tenancy->name }}</td>
+												<td>{{ $payment->sent_at ? date_formatted($payment->sent_at) : 'Not Sent' }}</td>
+												<td><a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a></td>
 												<td>{{ $payment->name_formatted }}</td>
 												<td>{{ currency($payment->amount) }}</td>
 											</tr>
