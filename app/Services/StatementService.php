@@ -40,6 +40,7 @@ class StatementService
         }
 
         $statement = new Statement();
+        $statement->user_id = Auth::user()->id;
         $statement->key = str_random(30);
         $statement->amount = isset($data['amount']) ? $data['amount'] : $tenancy->rent_amount;
         $statement->period_start = $data['period_start'];
