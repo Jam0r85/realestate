@@ -18,6 +18,22 @@
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
 
+				@if ($user->email)
+					<div class="field">
+						<label class="label" for="current_email">Current E-Mail</label>
+						<p class="control">
+							<input type="email" disabled name="current_email" class="input" value="{{ $user->email }}" />
+						</p>
+					</div>
+
+					<div class="field">
+						<label class="checkbox">
+							<input type="checkbox" name="remove_email" value="true" />
+							Do you want to remove this user's E-Mail?
+						</label>
+					</div>
+				@endif
+
 				<div class="field">
 					<label class="label" for="email">New E-Mail</label>
 					<p class="control">
