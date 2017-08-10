@@ -18,6 +18,8 @@
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
 
+				@include('partials.errors-block')
+
 				@if ($user->email)
 					<div class="field">
 						<label class="label" for="current_email">Current E-Mail</label>
