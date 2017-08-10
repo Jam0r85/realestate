@@ -113,6 +113,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many properties.
+     */
+    public function properties()
+    {
+        return $this->belongsToMany('App\Property');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()

@@ -100,7 +100,7 @@ class UserController extends BaseController
      * @param  string     $section
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'account')
+    public function show($id, $section = 'layout')
     {
         $user = User::withTrashed()->findOrFail($id);
         return view('users.show.' . $section, compact('user'));
