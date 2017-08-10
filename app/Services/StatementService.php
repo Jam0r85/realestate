@@ -57,7 +57,7 @@ class StatementService
         $statement->users()->attach($tenancy->property->owners);
 
         // Create the service charge invoice should we need to.
-        $this->createServiceChargeItem($statement->id, $tenancy->id);
+        $this->createAutomaticServiceChargeInvoice($statement->id, $tenancy->id);
 
 		return $statement;
 	}
