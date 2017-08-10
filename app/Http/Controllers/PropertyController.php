@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePropertyRequest;
 use App\Property;
 use App\Services\PropertyService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PropertyController extends BaseController
 {
@@ -111,14 +112,13 @@ class PropertyController extends BaseController
      * Update the properties bank account in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Property  $id
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function updateStatementSettings(Request $request, $id)
     {
-        $property = Property::findOrFail($id);
-        $property->bank_account_id = $request->bank_account_id;
-        $property->save();
+        $service = new PropertyService();
+        $service->updateStatementSettings($request->only('bank_account_id','sending_method'), $id);
 
         $this->successMessage('Statement settings updated');
 

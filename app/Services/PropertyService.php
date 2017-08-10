@@ -79,21 +79,14 @@ class PropertyService
     {
         $property = Property::findOrFail($id);
 
-        if (isset($data['sending_method'])) {
-            if ($data['sending_method'] == 'post') {
-                $property->storeSetting('post_rental_statement', true);
-            } elseif ($data['sending_method'] == 'email') {
-                $property->storeSetting('post_rental_statement');
-            }
+        if ($data['sending_method'] == 'post') {
+            $property->storeSetting('post_rental_statement', true);
+        } elseif ($data['sending_method'] == 'email') {
+            $property->storeSetting('post_rental_statement');
         }
 
-        if (isset($data['bank_account_id'])) {
-            $property->update(['bank_account_id' => $data['bank_account_id']]);
-        } else {
-            $property->update(['bank_account_id' => null]);
-        }
-
-        $this->successMessage('The statement settings were updated.');
+        $property->bank_account_id = $data['bank_account_id'];
+        $property->save();
 
         return $property;
     }
