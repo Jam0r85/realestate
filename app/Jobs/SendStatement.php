@@ -60,7 +60,7 @@ class SendStatement implements ShouldQueue
         }
 
         if ($this->statement->sendByPost()) {
-            if (count($this->statement->getUserEmails())) {
+            if ($this->statement->hasUserEmails()) {
                 Mail::to($this->statement->getUserEmails())->send(
                     new StatementByPost($this->statement)
                 );
