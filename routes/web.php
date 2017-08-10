@@ -70,6 +70,13 @@ Route::prefix('properties')->group(function () {
 	Route::post('{id}/update-statement-settings', 'PropertyController@updateStatementSettings')->name('properties.update-statement-settings');
 });
 
+Route::prefix('expenses')->group(function () {
+	Route::get('paid', 'ExpenseController@paid')->name('expenses.paid');
+	Route::get('unpaid', 'ExpenseController@unpaid')->name('expenses.unpaid');
+	Route::post('search', 'ExpenseController@search')->name('expenses.search');
+	Route::get('create', 'ExpenseController@create')->name('expenses.create');
+});
+
 Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');
 Route::post('search', 'PaymentController@search')->name('payments.search');
 

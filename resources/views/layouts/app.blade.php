@@ -81,6 +81,13 @@
                                 <a class="navbar-item" href="{{ route('properties.create') }}">
                                     New Property
                                 </a>
+                                <hr class="navbar-divider" />
+                                <div class="navbar-header">
+                                    Expenses
+                                </div>
+                                <a class="navbar-item" href="{{ route('expenses.paid') }}">
+                                    Paid Expenses
+                                </a>
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">

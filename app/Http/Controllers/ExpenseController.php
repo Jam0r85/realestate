@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 class ExpenseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of paid expenses.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function paid()
     {
-        //
+        $expenses = Expense::whereNull('paid_at')->latest()->paginate();
+        $title = 'Unpaid Expenses';
+
+        return view('expenses.index', compact('expenses','title'));
     }
 
     /**
