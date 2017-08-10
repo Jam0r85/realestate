@@ -53,7 +53,7 @@
 			</div>
 
 			<div class="field">
-				<label class="label" for="rent_received">Rent Received <small>(if different from statement amount)</small></label>
+				<label class="label" for="rent_received">Rent Received</label>
 				<div class="control">
 					<input type="number" step="any" name="rent_received" class="input" />
 				</div>
