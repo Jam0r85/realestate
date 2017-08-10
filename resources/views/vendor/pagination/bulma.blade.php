@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav class="pagination">
+    <nav class="pagination mt-2">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <a class="pagination-previous" disabled>
