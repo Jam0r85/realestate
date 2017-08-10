@@ -89,8 +89,6 @@ class BankAccountController extends BaseController
         $account->fill($request->input());
         $account->save();
 
-        $account->users()->sync($request->users);
-
         $this->successMessage('The bank account was updated');
 
         return back();

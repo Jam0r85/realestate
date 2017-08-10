@@ -16,6 +16,17 @@
 
 				@include('bank-accounts.partials.form')
 
+				<div class="field">
+					<label class="label" for="users">Users</label>
+					<p class="control">
+						<select name="users[]" class="select2" multiple>
+							@foreach (users() as $user)
+								<option value="{{ $user->id }}">{{ $user->name }}</option>
+							@endforeach
+						</select>
+					</p>
+				</div>
+
 				<button type="submit" class="button is-primary">
 					<span class="icon is-small">
 						<i class="fa fa-save"></i>
