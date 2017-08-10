@@ -210,6 +210,20 @@ class Statement extends BaseModel
     }
 
     /**
+     * Check whether the statement has valid user email's.
+     * 
+     * @return bool
+     */
+    public function hasUserEmails()
+    {
+        if (!count($this->getUserEmails())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the statement's recipient address.
      * 
      * @return string

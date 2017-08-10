@@ -4,15 +4,9 @@ namespace App\Mail;
 
 use App\Http\Controllers\DownloadController;
 use App\Statement;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
-class StatementByEmail extends Mailable
+class StatementByEmail extends BaseMailer
 {
-    use Queueable, SerializesModels;
-
     /**
      * @var \App\Statement
      */
@@ -26,6 +20,7 @@ class StatementByEmail extends Mailable
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
+        parent::__construct();
     }
 
     /**

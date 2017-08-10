@@ -3,12 +3,8 @@
 namespace App\Mail;
 
 use App\Statement;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
-class StatementByPost extends Mailable
+class StatementByPost extends BaseMailer
 {
     use Queueable, SerializesModels;
 
@@ -22,6 +18,7 @@ class StatementByPost extends Mailable
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
+        parent::__construct;
     }
 
     /**

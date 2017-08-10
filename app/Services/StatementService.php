@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendStatement;
 use App\Services\InvoiceService;
 use App\Statement;
 use App\StatementPayment;
@@ -348,7 +349,7 @@ class StatementService
 	}
 
 	/**
-	 * Toggle the given statements as having been paid.
+	 * Toggle the given statements as having been paid or unpaid.
 	 * 
 	 * @param array $ids
 	 * @return string
@@ -356,21 +357,24 @@ class StatementService
 	public function toggleStatementsPaid(array $ids)
 	{
 		foreach ($ids as $id) {
+
+			// Find the statement
 			$statement = Statement::findOrFail($id);
 
 			if (is_null($statement->paid_at)) {
 				$statement->paid_at = Carbon::now();
-				$status = 'Paid';
+				$message = 'Paid';
 			} else {
 				$statement->paid_at = null;
-				$status = 'Unpaid';
+				$message = 'Unpaid';
 			}
 
 			$statement->save();
 		}
 
+		// Return the correct message.
 		if (count($ids) == 1) {
-			return $status;
+			return $message;
 		} else {
 			return 'Updated';
 		}
@@ -381,8 +385,27 @@ class StatementService
 
 	}
 
-	public function sendToOwners()
+	/**
+	 * Send the given statements to their owners.
+	 * 
+	 * @param mixed $ids
+	 * @return void
+	 */
+	public function sendStatementsToOwners($ids)
 	{
+		if (!is_array($ids)) { $ids = explode(',', $ids); }
 
+    	foreach($ids as $id) {
+
+    		// Find the statement.
+    		$statement = Statement::find($id);
+
+    		// Dispatch the job.
+    		dispatch(new SendStatement($statement));
+
+            // Update the statement as have being sent.
+            $statement->sent_at = Carbon::now();
+            $statement->save();
+        }
 	}
 }

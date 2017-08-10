@@ -10,4 +10,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class BaseMailer extends Mailable implements ShouldQueue
 {
 	use Queueable, SerializesModels;
+
+	public function __construct()
+	{
+		$this->from([
+            'address' => get_setting('company_email'),
+            'name' => get_setting('company_name')
+        ]);
+	}
 }

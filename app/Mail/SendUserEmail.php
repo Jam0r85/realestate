@@ -4,8 +4,25 @@ namespace App\Mail;
 
 class SendUserEmail extends BaseMailer
 {
+    /**
+     * The email subject
+     * 
+     * @var string
+     */
     public $subject;
+
+    /**
+     * The email body message.
+     * 
+     * @var string
+     */
     public $body;
+
+    /**
+     * The files to attach to the email.
+     * 
+     * @var array
+     */
     public $files;
 
     /**
@@ -18,6 +35,7 @@ class SendUserEmail extends BaseMailer
         $this->subject = $subject;
         $this->body = $body;
         $this->files = $files;
+        parent::__construct();
     }
 
     /**
@@ -27,18 +45,16 @@ class SendUserEmail extends BaseMailer
      */
     public function build()
     {
-        $mail = $this->subject($this->subject);
-
         // Loop through any attachments and attach them to the email.
         if (count($this->files)) {
             foreach ($this->files as $file) {
-                $mail->attach($file->getRealPath(), [
+                $this->attach($file->getRealPath(), [
                     'as' => $file->getClientOriginalName(),
                     'mime' => $file->getMimeType()
                 ]);
             }
         }
 
-        return $mail->markdown('email-templates.user-message');
+        return $this->markdown('email-templates.user-message');
     }
 }

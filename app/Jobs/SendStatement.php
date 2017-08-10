@@ -88,6 +88,7 @@ class SendStatement implements ShouldQueue
      */
     protected function resetSent()
     {
-        $this->statement->update(['sent_at' => NULL]);
+        $this->statement->sent_at = null;
+        $this->statement->save();
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\SendUserEmail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -214,13 +215,6 @@ class UserController extends BaseController
      */
     public function sendEmail(SendUserEmailRequest $request, $id)
     {
-        $data = [
-            'email' => $request->email,
-            'subject' => $request->subject,
-            'message' => $request->message,
-            'attachments' => $request->attachments
-        ];
-
         $user = User::findOrFail($id);
 
         if (!$user->email) {
@@ -228,7 +222,7 @@ class UserController extends BaseController
         }
 
         Mail::to($user)->send(
-            new SendUserEmail($data['subject'], $data['message'], $data['attachments'])
+            new SendUserEmail($request->subject, $request->message, $request->attachments)
         );
 
         $this->successMessage('The email was sent to the user');

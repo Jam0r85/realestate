@@ -31,6 +31,7 @@ class ErrorSendingStatement extends Mailable
     {
         $this->statement = $statement;
         $this->message = $this->messageStore($error);
+        parent::__construct;
     }
 
     /**
