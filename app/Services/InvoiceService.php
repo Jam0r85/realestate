@@ -40,7 +40,7 @@ class InvoiceService
 
 		// Set the invoice number.
 		if (!isset($data['number'])) {
-			$invoice->number = InvoiceGroup::findOrFail($data['invoice_group_id'])->next_number;
+			$invoice->number = InvoiceGroup::findOrFail($invoice->invoice_group_id)->next_number;
 		} else {
 			$invoice->number = $data['number'];
 		}
