@@ -67,6 +67,16 @@ class Expense extends Model
     }
 
     /**
+     * Get the expense balance amount.
+     * 
+     * @return integer
+     */
+    public function getBalanceAmountAttribute()
+    {
+        return $this->cost - $this->payments->sum('pivot.amount');
+    }
+
+    /**
      * Get the expenses' statement name.
      * 
      * @return string

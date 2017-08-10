@@ -88,6 +88,9 @@
                                 <a class="navbar-item" href="{{ route('expenses.paid') }}">
                                     Paid Expenses
                                 </a>
+                                <a class="navbar-item" href="{{ route('expenses.unpaid') }}">
+                                    Unapid Expenses
+                                </a>
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">

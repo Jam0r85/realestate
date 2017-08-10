@@ -1,34 +1,30 @@
-@component('partials.table')
-	@slot('head')
+<table class="table is-striped is-fullwidth">
+	<thead>
 		<th>Name</th>
-		@if (isset($description))
-			<th>Description</th>
-		@endif
 		<th>Contractors</th>
+		<th>Property</th>
 		<th>Cost</th>
-		@if (isset($amount))
-			<th>Amount</th>
-		@endif
-	@endslot
-	@foreach ($expenses as $expense)
-		<tr>
-			<td>{{ $expense->name }}</td>
-			@if (isset($description))
-				<td>{{ $expense->description }}</td>
-			@endif
-			<td>
-				@foreach ($expense->contractors as $user)
-					<a href="{{ route('users.show', $user->id) }}">
-						<span class="tag is-primary">
-							{{ $user->name }}
-						</span>
-					</a>
-				@endforeach
-			</td>
-			<td>{{ currency($expense->cost) }}</td>
-			@if (isset($amount))
-				<td>{{ currency($expense->pivot->amount) }}</td>
-			@endif
-		</tr>
-	@endforeach
-@endcomponent
+		<th>Balance</th>
+	</thead>
+	<tbody>
+		@foreach ($expenses as $expense)
+			<tr>
+				<td>{{ $expense->name }}</td>
+				<td>
+					@foreach ($expense->contractors as $user)
+						<a href="{{ route('users.show', $user->id) }}">
+							<span class="tag is-primary">
+								{{ $user->name }}
+							</span>
+						</a>
+					@endforeach
+				</td>
+				<td>{{ $expense->property }}</td>
+				<td>{{ currency($expense->cost) }}</td>
+				<td>{{ currency($expense->balance_amount) }}</td>
+			</tr>
+		@endforeach
+	</tbody>
+</table>
+
+@include('partials.pagination', ['collection' => $expenses])

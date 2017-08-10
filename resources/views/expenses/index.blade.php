@@ -39,6 +39,8 @@
 
 			<hr />
 
+			@include('expenses.partials.table')
+
 		</div>
 	</section>
 

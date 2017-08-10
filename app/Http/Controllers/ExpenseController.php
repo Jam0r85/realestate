@@ -14,6 +14,19 @@ class ExpenseController extends Controller
      */
     public function paid()
     {
+        $expenses = Expense::wherNotNull('paid_at')->latest()->paginate();
+        $title = 'Paid Expenses';
+
+        return view('expenses.index', compact('expenses','title'));
+    }
+
+    /**
+     * Display a listing of unpaid expenses.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unpaid()
+    {
         $expenses = Expense::whereNull('paid_at')->latest()->paginate();
         $title = 'Unpaid Expenses';
 
