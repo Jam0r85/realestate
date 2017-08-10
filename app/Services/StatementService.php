@@ -129,6 +129,9 @@ class StatementService
             }
         }
 
+        // Create the statement payments.
+        $this->createStatementPayments($statement->id, $data['created_at']);
+
 		return $statement;
 	}
 
@@ -239,15 +242,15 @@ class StatementService
 	 * @param integer $id
 	 * @return void
 	 */
-	public function createStatementPayments($id)
+	public function createStatementPayments($id, $sent = null)
 	{
 		$statement = Statement::findOrFail($id);
 
 		$this->deleteStatementPayments($statement);
 
-		$this->createInvoicePayment($statement);
-		$this->createExpensePayment($statement);
-		$this->createLandlordPayment($statement);
+		$this->createInvoicePayment($statement, $sent);
+		$this->createExpensePayment($statement, $sent);
+		$this->createLandlordPayment($statement, $sent);
 	}
 
 	/**
@@ -267,13 +270,14 @@ class StatementService
 	 * @param \App\Statement $statement
 	 * @return void
 	 */
-	public function createInvoicePayment(Statement $statement)
+	public function createInvoicePayment(Statement $statement, $sent = null)
 	{
         if ($statement->hasInvoice()) {
         	$payment = new StatementPayment();
         	$payment->user_id = Auth::user()->id;
         	$payment->statement_id = $statement->id;
         	$payment->amount = $statement->invoice_total_amount;
+        	$payment->sent_at = $sent;
         	$payment->bank_account_id = get_setting('company_bank_account_id', null);
 
         	// We attach the payment to the invoice statement payments
@@ -288,13 +292,14 @@ class StatementService
 	 * @param \App\Statement $statement
 	 * @return void
 	 */
-	public function createExpensePayment(Statement $statement)
+	public function createExpensePayment(Statement $statement, $sent = null)
 	{
 		foreach ($statement->expenses as $expense) {
 			$payment = new StatementPayment();
 			$payment->user_id = Auth::user()->id;
 			$payment->statement_id = $statement->id;
 			$payment->amount = $expense->pivot->amount;
+			$payment->sent_at = $sent;
 
 			$expense->payments()->save($payment);
 
@@ -309,12 +314,13 @@ class StatementService
 	 * @param \App\Statement $statement
 	 * @return void
 	 */
-	public function createLandlordPayment(Statement $statement)
+	public function createLandlordPayment(Statement $statement, $sent = null)
 	{
 		$payment = new StatementPayment();
 		$payment->user_id = Auth::user()->id;
 		$payment->statement_id = $statement->id;
 		$payment->amount = $statement->landlord_balance_amount;
+		$payment->sent_at = $sent;
 		$payment->bank_account_id = $statement->property->bank_account_id;
 		$payment->save();
 	}
