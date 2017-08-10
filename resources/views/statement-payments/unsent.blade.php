@@ -1,43 +1,55 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('statements.index') }}">Statements List</a></li>
-	<li class="is-active"><a>Unsent Statement Payments</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			Unsent Payments
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">Unsent Payments</h1>
 
-		<form role="form" method="POST" action="{{ route('statement-payments.mark-sent') }}">
-			{{ csrf_field() }}
+			<hr />
 
-			@include('partials.errors-block')
+			@if (!count($groups))
 
-			@foreach ($groups as $name => $payments)
+				<div class="notification">
+					There are no outstanding unpaid payments.
+				</div>
 
-				@component('partials.subtitle')
-					{{ ucwords($name) }} {{ currency($payments->sum('amount')) }}
-				@endcomponent
+			@else
 
-				@include('statement-payments.partials.'.$name.'-table')
+				<form role="form" method="POST" action="{{ route('statement-payments.mark-sent') }}">
+					{{ csrf_field() }}
 
-				<hr />
+					@include('partials.errors-block')
 
-			@endforeach
+					@foreach ($groups as $name => $payments)
 
-			<button type="submit" class="button is-primary is-outlined">
-				Mark as Sent
-			</button>
+						<div class="card mb-2">
+							<header class="card-header">
+								<p class="card-header-title">
+									{{ ucwords($name) }} {{ currency($payments->sum('amount')) }}
+								</p>
+							</header>
 
-		</form>
+							@include('statement-payments.partials.'.$name.'-table')
+						</div>
 
-	@endcomponent
+					@endforeach
+
+					<button type="submit" class="button is-primary">
+						<span class="icon is-small">
+							<i class="fa fa-check"></i>
+						</span>
+						<span>
+							Mark as Sent
+						</span>
+					</button>
+
+				</form>
+
+			@endif
+
+		</div>
+	</section>
 
 @endsection

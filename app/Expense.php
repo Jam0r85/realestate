@@ -59,6 +59,14 @@ class Expense extends Model
     }
 
     /**
+     * An expense can have many payments.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\StatementPayment');
+    }
+
+    /**
      * Get the expenses' statement name.
      * 
      * @return string

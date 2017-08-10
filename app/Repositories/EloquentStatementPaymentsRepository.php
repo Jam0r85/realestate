@@ -51,15 +51,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function createInvoicePayment($statement)
 	{
-        if ($statement->hasInvoice()) {        	
-        	$data = [
-        		'statement_id' => $statement->id,
-        		'amount' => $statement->invoice->total,
-        		'bank_account_id' => get_setting('company_bank_account_id')
-        	];
 
-            $statement->invoice->statement_payments()->save($this->create($data));
-        }
 	}
 
 	/**
@@ -70,18 +62,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function createExpensePayment($statement)
 	{
-		foreach ($statement->expenses as $expense) {
-			$data = [
-				'statement_id' => $statement->id,
-				'amount' => $expense->pivot->amount,
-				'parent_type' => 'expenses',
-				'parent_id' => $expense->id
-			];
 
-			$payment = $this->create($data);
-
-			$payment->users()->attach($expense->contractors);
-		}
 	}
 
 	/**
@@ -92,13 +73,7 @@ class EloquentStatementPaymentsRepository extends EloquentBaseRepository
 	 */
 	public function createLandlordPayment($statement)
 	{
-        $data =[
-            'statement_id' => $statement->id,
-            'amount' => $statement->landlord_balance_amount,
-            'bank_account_id' => $statement->property->bank_account_id
-        ];
 
-        $this->create($data);
 	}
 
 	/**

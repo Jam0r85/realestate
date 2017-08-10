@@ -1,81 +1,76 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li class="is-active"><a>{{ $title }}</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $title }}
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
-
-		<div class="content">
-			<p>
-				Listed below are all the rental statements which are yet to be sent to their owners.
-			</p>
-			<p>
-				A statement can be sent once it has been updated as having being paid.
-			</p>
-		</div>
-
-		<form role="form" method="POST" action="{{ route('statements.send') }}">
-			{{ csrf_field() }}
-
-			@component('partials.table')
-				@slot('head')
-					<th></th>
-					<th>Period</th>
-					<th>Tenancy &amp; Property</th>
-					<th>Amount</th>
-					<th>Send By</th>
-					<th>E-Mails</th>
-					<th>Paid</th>
-				@endslot
-				@foreach ($statements as $statement)
-					<tr>
-						<td>
-							@if ($statement->paid_at)
-								<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
-							@endif
-						</td>
-						<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
-						<td>
-							{{ $statement->tenancy->name }}
-							<br />
-							<a href="{{ route('properties.show', $statement->property->id) }}">
-								<span class="tag is-light">
-									{{ $statement->property->short_name }}
-								</span>
-							</a>
-						</td>
-						<td>{{ currency($statement->amount) }}</td>
-						<td>{{ $statement->sendByPost() ? 'Post' : 'E-Mail' }}</td>
-						<td>
-							@foreach ($statement->getUserEmails() as $email)
-								<span class="tag is-primary">
-									{{ $email }}
-								</span>
-							@endforeach
-						</td>
-						<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid ' . date_formatted($statement->paid_at) .'</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
-					</tr>
-				@endforeach
-			@endcomponent
-
-			@include('partials.pagination', ['collection' => $statements])
+			<h1 class="title">Unset Statements</h1>
 
 			<hr />
 
-			<button type="submit" class="button is-primary is-outlined" name="action" value="send">
-				Send Statements
-			</button>
+			<div class="notification">
+				Please note that statements can only be sent once they have been paid.
+			</div>
 
-		</form>
-	@endcomponent
+			<form role="form" method="POST" action="{{ route('statements.send') }}">
+				{{ csrf_field() }}
+
+				<table class="table is-striped is-fullwidth">
+					<thead>
+						<th></th>
+						<th>Period</th>
+						<th>Tenancy &amp; Property</th>
+						<th>Amount</th>
+						<th>Send By</th>
+						<th>E-Mails</th>
+						<th>Paid</th>
+					</thead>
+					<tbody>
+						@foreach ($statements as $statement)
+							<tr>
+								<td>
+									@if ($statement->paid_at)
+										<input type="checkbox" name="statement_id[]" value="{{ $statement->id }}" />
+									@endif
+								</td>
+								<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
+								<td>
+									{{ $statement->tenancy->name }}
+									<br />
+									<a href="{{ route('properties.show', $statement->property->id) }}">
+										<span class="tag is-light">
+											{{ $statement->property->short_name }}
+										</span>
+									</a>
+								</td>
+								<td>{{ currency($statement->amount) }}</td>
+								<td>{{ $statement->sendByPost() ? 'Post' : 'E-Mail' }}</td>
+								<td>
+									@foreach ($statement->getUserEmails() as $email)
+										<span class="tag is-primary">
+											{{ $email }}
+										</span>
+									@endforeach
+								</td>
+								<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid ' . date_formatted($statement->paid_at) .'</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
+
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-envelope-open"></i>
+					</span>
+					<span>
+						Send Statements
+					</span>
+				</button>
+
+			</form>
+
+		</div>
+	</section>
 
 @endsection

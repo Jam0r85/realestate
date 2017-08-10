@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StatementPaymentSentRequest extends FormRequest
+class SendStatementsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,19 +24,7 @@ class StatementPaymentSentRequest extends FormRequest
     public function rules()
     {
         return [
-            'payments' => 'required'
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the rules.
-     * 
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'payment_id.required' => 'Please select at least one payment to mark as sent'
+            'statements' => 'required'
         ];
     }
 }

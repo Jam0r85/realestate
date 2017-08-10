@@ -3,26 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StatementPaymentSentRequest;
-use App\Repositories\EloquentStatementPaymentsRepository;
+use App\Services\StatementService;
+use App\StatementPayment;
 use Illuminate\Http\Request;
 
-class StatementPaymentController extends Controller
+class StatementPaymentController extends BaseController
 {
-    /**
-     * @var  App\Repositories\EloquentStatementPaymentsRepository
-     */
-    protected $statement_payments;
-
     /**
      * Create a new controller instance.
      * 
-     * @param   EloquentStatementPaymentsRepository $statements
      * @return  void
      */
-    public function __construct(EloquentStatementPaymentsRepository $statement_payments)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->statement_payments = $statement_payments;
     }
 
     /**
@@ -32,7 +26,7 @@ class StatementPaymentController extends Controller
      */
     public function index()
     {
-    	$payments = $this->statement_payments->getSentPaged();
+    	$payments = StatementPayment::whereNotNull('sent_at')->latest()->paginate();
     	$title = 'Sent Statement Payments';
 
     	return view('statement-payments.index', compact('payments','title'));
@@ -45,7 +39,8 @@ class StatementPaymentController extends Controller
      */
     public function unsent()
     {
-    	$groups = $this->statement_payments->getUnsentGrouped();
+        $unsent = StatementPayment::whereNull('sent_at')->latest()->get();
+        $groups = $unsent->groupBy('group')->sortBy('bank_account.account_name');
     	return view('statement-payments.unsent', compact('groups'));
     }
 
@@ -57,7 +52,7 @@ class StatementPaymentController extends Controller
      */
     public function search(Request $request)
     {
-        $payments = $this->statement_payments->search($request->search_term);
+        $payments = StatementPayment::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('statement-payments.index', compact('payments','title'));
@@ -66,12 +61,16 @@ class StatementPaymentController extends Controller
     /**
      * Mark the provided statement payments as sent.
      * 
-     * @param  StatementPaymentSentRequest $request
+     * @param \App\Http\Requests\StatementPaymentSentRequest $request
      * @return \Illuminate\Http\Response
      */
     public function markSent(StatementPaymentSentRequest $request)
     {
-        $this->statement_payments->markPaymentsSent($request->payment_id);
+        $service = new StatementService();
+        $service->setStatementPaymentsSent($request->payments);
+
+        $this->successMessage('The statement payments were marked as being sent');
+
         return back();
     }
 }

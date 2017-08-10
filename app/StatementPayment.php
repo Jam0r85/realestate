@@ -25,7 +25,7 @@ class StatementPayment extends BaseModel
      * 
      * @var array
      */
-    protected $appends = ['group','name_formatted','method_formatted'];
+    protected $appends = ['group'];
     
     /**
      * The attributes that should be mutated to dates.
@@ -41,7 +41,6 @@ class StatementPayment extends BaseModel
      */
 	protected $fillable = [
 		'statement_id',
-        'user_id',
 		'amount',
 		'bank_account_id',
 		'sent_at',
@@ -141,7 +140,7 @@ class StatementPayment extends BaseModel
             return $this->bank_account->name;
         }
 
-        if ($this->parent == 'invoices') {
+        if ($this->parent_type == 'invoices') {
             return 'n/a';
         }
 

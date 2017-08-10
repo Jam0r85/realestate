@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\InvoiceService;
 use App\Statement;
+use App\StatementPayment;
 use App\Tenancy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -240,6 +241,110 @@ class StatementService
 	public function createExpenseItem()
 	{
 
+	}
+
+	/**
+	 * Create all the payments out for the given statement.
+	 * 
+	 * @param integer $id
+	 * @return void
+	 */
+	public function createStatementPayments($id)
+	{
+		$statement = Statement::findOrFail($id);
+
+		$this->deleteStatementPayments($statement);
+
+		$this->createInvoicePayment($statement);
+		$this->createExpensePayment($statement);
+		$this->createLandlordPayment($statement);
+	}
+
+	/**
+	 * Delete all payments out for the given statement.
+	 * 
+	 * @param \App\Statement $statement
+	 * @return void
+	 */
+	public function deleteStatementPayments(Statement $statement)
+	{
+		$statement->payments()->delete();
+	}
+
+	/**
+	 * Create the statement invoice payment.
+	 * 
+	 * @param \App\Statement $statement
+	 * @return void
+	 */
+	public function createInvoicePayment(Statement $statement)
+	{
+        if ($statement->hasInvoice()) {
+        	$payment = new StatementPayment();
+        	$payment->user_id = Auth::user()->id;
+        	$payment->statement_id = $statement->id;
+        	$payment->amount = $statement->invoice_total_amount;
+        	$payment->bank_account_id = get_setting('company_bank_account_id', null);
+
+        	// We attach the payment to the invoice statement payments
+        	// (as we want the invoice to become the parent)
+            $statement->invoice->statement_payments()->save($payment);
+        }
+	}
+
+	/**
+	 * Create the expense payments for the statement.
+	 * 
+	 * @param \App\Statement $statement
+	 * @return void
+	 */
+	public function createExpensePayment(Statement $statement)
+	{
+		foreach ($statement->expenses as $expense) {
+			$payment = new StatementPayment();
+			$payment->user_id = Auth::user()->id;
+			$payment->statement_id = $statement->id;
+			$payment->amount = $expense->pivot->amount;
+
+			$expense->payments()->save($payment);
+
+			// Attach the contractors to the payment.
+			$payment->users()->attach($expense->contractors);
+		}
+	}
+
+	/**
+	 * Create the statement landlord payment.
+	 * 
+	 * @param \App\Statement $statement
+	 * @return void
+	 */
+	public function createLandlordPayment(Statement $statement)
+	{
+		$payment = new StatementPayment();
+		$payment->user_id = Auth::user()->id;
+		$payment->statement_id = $statement->id;
+		$payment->amount = $statement->landlord_balance_amount;
+		$payment->bank_account_id = $statement->property->bank_account_id;
+		$payment->save();
+	}
+
+	/**
+	 * Set the given statement payments as have being sent.
+	 * 
+	 * @param array $payments
+	 * @return void
+	 */
+	public function setStatementPaymentsSent(array $payments)
+	{
+		foreach ($payments as $id) {
+			$payment = StatementPayment::find($id);
+
+			if (is_null($payment->sent_at)) {
+				$payment->sent_at = Carbon::now();
+				$payment->save();
+			}
+		}
 	}
 
 	public function togglePaid()

@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('tenancies:background-checks')->hourly();
-        $schedule->command('statement:check-paid')->everyTenMinutes();
-        $schedule->command('invoice:check-paid')->everyTenMinutes();
+        $schedule->command('statement:check-paid')->everyThirtyMinutes();
+        $schedule->command('invoice:check-paid')->everyThirtyMinutes();
     }
 
     /**

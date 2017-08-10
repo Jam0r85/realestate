@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendStatementsRequest;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
-use App\Repositories\EloquentStatementsRepository;
+use App\Services\StatementService;
+use App\Statement;
 use Illuminate\Http\Request;
 
-class StatementController extends Controller
+class StatementController extends BaseController
 {
-    /**
-     * @var  App\Repositories\EloquentStatementsRepository
-     */
-    protected $statements;
-
     /**
      * Create a new controller instance.
      * 
      * @param   EloquentStatementsRepository $statements
      * @return  void
      */
-    public function __construct(EloquentStatementsRepository $statements)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->statements = $statements;
     }
 
     /**
@@ -34,7 +30,7 @@ class StatementController extends Controller
      */
     public function index()
     {
-        $statements = $this->statements->getSentPaged();
+        $statements = Statement::whereNotNull('sent_at')->latest()->paginate();
         $title = 'Sent Statements List';
 
         return view('statements.index', compact('statements','title'));
@@ -47,10 +43,8 @@ class StatementController extends Controller
      */
     public function unsent()
     {
-        $statements = $this->statements->getUnsentPaged();
-        $title = 'Unsent Statements List';
-
-        return view('statements.unsent', compact('statements','title'));
+        $statements = Statement::whereNull('sent_at')->latest()->get();
+        return view('statements.unsent', compact('statements'));
     }
 
     /**
@@ -60,7 +54,7 @@ class StatementController extends Controller
      */
     public function unpaid()
     {
-        $statements = $this->statements->getUnpaidPaged();
+        $statements = Statement::whereNull('paid_at')->latest()->paginate();
         $title = 'Unpaid Statements List';
 
         return view('statements.unpaid', compact('statements','title'));
@@ -73,31 +67,10 @@ class StatementController extends Controller
      */
     public function search(Request $request)
     {
-        $statements = $this->statements->search($request->search_term);
+        $statements = Statement::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('statements.index', compact('statements','title'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -108,31 +81,24 @@ class StatementController extends Controller
      */
     public function show($id, $section = 'items')
     {
-        $statement = $this->statements->find($id);
+        $statement = Statement::findOrFail($id);
         return view('statements.show.' . $section, compact('statement'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Statement  $statement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Statement $statement)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Statement  $statement
+     * @param \App\Http|Requests\UpdateStatementRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateStatementRequest $request, $id)
     {
-        $this->statements->updateStatement($request->input(), $id);
+        $service = new StatementService();
+        $service->updateStatement($request->input(), $id);
+
+        $this->successMessage('The statement was updated');
+
         return back();
     }
 
@@ -168,64 +134,100 @@ class StatementController extends Controller
     }
 
     /**
-     * Send the provided statements.
+     * Send the statements to the owners.
      * 
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param \App\Http\Requests\SendStatementsRequest $request
+     * @return \Illuminate\Http\Response
      */
-    public function send(Request $request)
+    public function send(SendStatementsRequest $request)
     {
-        $this->statements->sendStatements($request->statement_id);
+        $service = new StatementService();
+        $service->sendStatement($request->statements);
+
+        $this->successMessage('The statements were queued to be sent');
+
         return back();
     }
 
    /**
-    * Store a new invoice item for this rental statement.
+    * Create a new invoice item for the statement.
     * 
-    * @param  StoreInvoiceItem $request [description]
-    * @param  [type]           $id      [description]
-    * @return [type]                    [description]
+    * @param \App\Http\Requests\StoreInvoiceItemRequest $request
+    * @param integer $id
+    * @return \Illuminate\Http\Response
     */
     public function createInvoiceItem(StoreInvoiceItemRequest $request, $id)
     {
-        $this->statements->createInvoiceItem($request->input(), $id);
+        $service = new StatementService();
+        $service->createInvoiceItem($request->input(), $id);
+
+        $this->successMessage('The invoice item was created');
+
         return back();
     }
 
    /**
-    * Store a new expense for this rental statement.
+    * Create a new expense item for the statement.
     * 
-    * @param  StoreExpenseRequest $request
-    * @param  App\Statement           $id
+    * @param \App\Http\Requests\StoreExpenseRequest $request
+    * @param integer $id
     * @return \Illuminate\Http\Response
     */
     public function createExpenseItem(StoreExpenseRequest $request, $id)
     {
-        $this->statements->createExpenseItem($request->input(), $id);
+        $service = new StatementService();
+        $service->createExpenseItem($request->input(), $id);
+
+        $this->successMessage('The expense item was created');
+
         return back();
     }
 
    /**
-    * Create the statement payments.
+    * Create the payments for the statement.
     * 
-    * @param  [type]           $id      [description]
-    * @return [type]                    [description]
+    * @param integer $id
+    * @return \Illuminate\Http\Response
     */
     public function createPayments($id)
     {
-        $this->statements->createPayments($id);
+        $service = new StatementService();
+        $service->createStatementPayments($id);
+
+        $this->successMessage('The statement payments were created');
+
         return back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archive the statement.
      *
-     * @param  \App\Statement  $statement
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function archive($id)
     {
-        $this->statements->archiveStatement($id);
+        $statement = Statement::findOrFail($id);
+        $statement->delete();
+
+        $this->successMessage('The statement was archived');
+
+        return back();
+    }
+
+    /**
+     * Restore the statement.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        $statement = Statement::onlyTrashed()->findOrFail($id);
+        $statement->restore();
+
+        $this->successMessage('The statement was restored');
+
         return back();
     }
 }

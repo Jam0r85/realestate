@@ -12,7 +12,7 @@
 			<td>{{ $payment->statement->property->short_name }}</td>
 			<td>{{ $payment->method_formatted }}</td>
 			<td>{{ currency($payment->amount) }}</td>
-			<td><input type="checkbox" name="payment_id[]" value="{{ $payment->id }}" /></td>
+			<td class="has-text-right"><input type="checkbox" name="payments[]" value="{{ $payment->id }}" /></td>
 		</tr>
 	@endforeach
 @endcomponent
