@@ -18,7 +18,7 @@ class StatementPayment extends BaseModel
         $array = $this->only('sent_at','created_at','amount');
 
         // Attach the owner.
-        $array['owner'] = $this->owner->pluck('name','email','phone_number')->toArray();
+        $array['owner'] = $this->owner ? $this->owner->pluck('name','email','phone_number')->toArray() : null;
 
         // Attach the bank account
         $array['bank_account'] = $this->bank_account ? $this->bank_account->name_secure : null;
