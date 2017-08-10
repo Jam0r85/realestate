@@ -21,7 +21,7 @@ class BankAccount extends BaseModel
         $array = $this->toArray();
 
         // Filter account numbers to only index the first 4 numbers for security.
-        $array['account_number'] = substr($array['account_number'], 0, 4);
+        $array['account_number'] = $this->account_number_secure;
 
         // Add the users to the bank accounts.
         $array['users'] = $this->users ? $this->users->pluck('name','email','phone_number')->toArray() : null;
@@ -129,6 +129,16 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * Get part of the account number for security purposes.
+     * 
+     * @return string
+     */
+    public function getAccountNumberSecureAttribute()
+    {
+        return substr($this->account_number, 0, 4);
+    }
+
+    /**
      * Get the bank account's name.
      * 
      * @return string
@@ -136,5 +146,15 @@ class BankAccount extends BaseModel
     public function getNameAttribute()
     {
         return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number . ' - ' . $this->sort_code;
+    }
+
+    /**
+     * Get the bank account's name.
+     * 
+     * @return string
+     */
+    public function getNameSecure()
+    {
+        return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number_secure . ' - ' . $this->sort_code;
     }
 }

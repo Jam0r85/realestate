@@ -17,6 +17,21 @@ class StatementPayment extends BaseModel
     {
         $array = $this->toArray();
 
+        // Attach the bank account
+        $array['bank_account'] = $this->bank_account ? $this->bank_account->name_secure : null;
+
+        // Attach the payment users.
+        $array['users'] = $this->users ? $this->users->pluck('name','email','phone_number')->toArray() : null;
+
+        // Atach the statement details
+        $array['statement'] = $this->statement->pluck('amount')->toArray();
+
+        // Attach the tenancy.
+        $array['tenancy'] = $this->statement->tenancy->name;
+
+        // Attach the property.
+        $array['property'] = $this->statement->tenancy->property->name;
+
         return $array;
     }
 
