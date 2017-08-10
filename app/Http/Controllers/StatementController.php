@@ -130,12 +130,16 @@ class StatementController extends BaseController
     /**
      * Toggle a statement as being sent or unsent.
      * 
-     * @param  \App\Repositories\EloquentStatementsRepository $id
+     * @param integer $id
      * @return Illuminate\Http\Response
      */
     public function toggleSent($id)
     {
-        $this->statements->toggleSent($id);
+        $service = new StatementService();
+        $result = $service->toggleStatementSent($id);
+
+        $this->successMessage('The statement was marked as ' . $result);
+
         return back();
     }
 

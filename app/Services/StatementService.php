@@ -381,9 +381,27 @@ class StatementService
 		}
 	}
 
-	public function toggleSend()
+	/**
+	 * Toggle the given statement as having been sent or unsent.
+	 * 
+	 * @param integer $ids
+	 * @return string
+	 */
+	public function toggleStatementSent($id)
 	{
+		$statement = Statement::findOrFail($id);
 
+		if (is_null($statement->sent_at)) {
+			$statement->sent_at = Carbon::now();
+			$message = 'Sent';
+		} else {
+			$statement->sent_at = null;
+			$message = 'Unsent';
+		}
+
+		$statement->save();
+
+		return $message;
 	}
 
 	/**
