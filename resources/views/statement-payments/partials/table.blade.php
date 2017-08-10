@@ -1,5 +1,6 @@
 @component('partials.table')
 	@slot('head')
+		<th>Property</th>
 		<th>Tenancy</th>
 		<th>Name</th>
 		<th>Method</th>
@@ -8,6 +9,7 @@
 	@endslot
 	@foreach ($payments as $payment)
 		<tr>
+			<td>{{ $payment->statement->tenancy->property->name }}</td>
 			<td>
 				<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a>
 				@if ($payment->statement->trashed())
