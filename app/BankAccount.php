@@ -73,6 +73,15 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * A bank account can have many recent statement payments.
+     */
+    public function recent_statement_payments()
+    {
+        return $this->hasMany('App\StatementPayment')
+            ->limit(10);
+    }
+
+    /**
      * Set the bank account's account number.
      * 
      * @param   string

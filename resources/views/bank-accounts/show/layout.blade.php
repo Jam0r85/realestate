@@ -130,7 +130,7 @@
 										<th>Amount</th>
 									</thead>
 									<tbody>
-										@foreach ($account->statement_payments as $payment)
+										@foreach ($account->recent_statement_payments as $payment)
 											<tr>
 												<td>{{ date_formatted($payment->created_at) }}</td>
 												<td>{{ $payment->statement->tenancy->name }}</td>

@@ -33,6 +33,20 @@ class BankAccountController extends BaseController
     }
 
     /**
+     * Search through the bank accounts and display the results.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $accounts = BankAccount::search($request->search_term)->get();
+        $title = 'Search Results';
+
+        return view('bank-accounts.index', compact('accounts','title'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
