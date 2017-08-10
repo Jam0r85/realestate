@@ -15,7 +15,7 @@ class StatementPayment extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('sent_at','created_at','amount')->toArray();
+        $array = $this->only('sent_at','created_at','amount');
 
         // Attach the owner.
         $array['owner'] = $this->owner->pluck('name','email','phone_number')->toArray();
