@@ -6,8 +6,6 @@ use App\Statement;
 
 class StatementByPost extends BaseMailer
 {
-    use Queueable, SerializesModels;
-
     public $statement;
 
     /**
@@ -18,7 +16,7 @@ class StatementByPost extends BaseMailer
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
-        parent::__construct;
+        parent::__construct();
     }
 
     /**

@@ -7,9 +7,6 @@ use App\Statement;
 
 class StatementByEmail extends BaseMailer
 {
-    /**
-     * @var \App\Statement
-     */
     public $statement;
 
     /**
