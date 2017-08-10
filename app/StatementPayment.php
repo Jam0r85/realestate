@@ -17,8 +17,9 @@ class StatementPayment extends BaseModel
     {
         $array = $this->toArray();
 
-        $array['property'] = $this->property;
-        
+        $array['property'] = $this->property->name;
+        $array['tenancy'] = $this->tenancy->name;
+
         return $array;
     }
 
