@@ -92,16 +92,20 @@ class StatementService
 		// Attach the property owners to the statement.
 		$statement->users()->attach($tenancy->property->owners);
 
-		// Build an array for the payment.
-		$payment_data = [
-			'payment_method_id' => $data['payment_method_id'],
-			'amount' => $data['rent_received'] ? $data['rent_received'] : $data['amount'],
-			'created_at' => $data['created_at']
-		];
+		// Record the rent amount received.
+		if (isset($data['rent_received'])) {
 
-		// Create the rental payment.
-		$service = new PaymentService();
-		$service->createTenancyRentPayment($payment_data, $tenancy->id);
+			// Build an array for the payment.
+			$payment_data = [
+				'payment_method_id' => $data['payment_method_id'],
+				'amount' => $data['rent_received'],
+				'created_at' => $data['created_at']
+			];
+
+			// Create the rental payment.
+			$service = new PaymentService();
+			$service->createTenancyRentPayment($payment_data, $tenancy->id);
+		}
 
 		// Check whether we have any invoice items to add.
 		if ($data['invoice_number']) {

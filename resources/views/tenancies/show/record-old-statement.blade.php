@@ -33,7 +33,7 @@
 			</div>
 
 			<div class="field">
-				<label class="label" for="amount">Amount</label>
+				<label class="label" for="amount">Statement Amount</label>
 				<div class="control">
 					<input type="number" step="any" name="amount" class="input" />
 				</div>
