@@ -19,7 +19,7 @@
 						</a>
 					@endforeach
 				</td>
-				<td>{{ $expense->property }}</td>
+				<td><a href="{{ route('properties.show', $expense->property->id) }}">{{ $expense->property->short_name }}</a></td>
 				<td>{{ currency($expense->cost) }}</td>
 				<td>{{ currency($expense->balance_amount) }}</td>
 			</tr>
