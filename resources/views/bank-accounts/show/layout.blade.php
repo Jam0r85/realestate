@@ -115,6 +115,36 @@
 						</div>
 					@endif
 
+					@if (count($account->statement_payments))
+						<div class="card">
+							<div class="card-content">
+
+								<h3 class="title">Statement Payments</h3>
+								<h5 class="subtitle">The statement payments that have been sent to this bank account.</h5>
+
+								<table class="table is-striped is-fullwidth">
+									<thead>
+										<th>Date</th>
+										<th>Tenancy</th>
+										<th>Name</th>
+										<th>Amount</th>
+									</thead>
+									<tbody>
+										@foreach ($account->statement_payments as $payment)
+											<tr>
+												<td>{{ date_formatted($payment->created_at) }}</td>
+												<td>{{ $payment->statement->tenancy->name }}</td>
+												<td>{{ $payment->name_formatted }}</td>
+												<td>{{ currency($payment->amount) }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					@endif
+
 				</div>
 			</div>
 

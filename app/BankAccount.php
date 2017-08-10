@@ -65,6 +65,14 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * A bank account can have many statement payments.
+     */
+    public function statement_payments()
+    {
+        return $this->hasMany('App\StatementPayment');
+    }
+
+    /**
      * Set the bank account's account number.
      * 
      * @param   string
