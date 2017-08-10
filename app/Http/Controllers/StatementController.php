@@ -54,7 +54,7 @@ class StatementController extends BaseController
      */
     public function unpaid()
     {
-        $statements = Statement::whereNull('paid_at')->latest()->paginate();
+        $statements = Statement::whereNull('paid_at')->latest()->get();
         $title = 'Unpaid Statements List';
 
         return view('statements.unpaid', compact('statements','title'));
