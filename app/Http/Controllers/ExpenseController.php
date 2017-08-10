@@ -14,7 +14,7 @@ class ExpenseController extends Controller
      */
     public function paid()
     {
-        $expenses = Expense::wherNotNull('paid_at')->latest()->paginate();
+        $expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
         $title = 'Paid Expenses';
 
         return view('expenses.index', compact('expenses','title'));
