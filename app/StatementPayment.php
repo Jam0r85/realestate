@@ -15,16 +15,16 @@ class StatementPayment extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = $this->only('sent_at','created_at','amount')->toArray();
+
+        // Attach the owner.
+        $array['owner'] = $this->owner->pluck('name','email','phone_number')->toArray();
 
         // Attach the bank account
         $array['bank_account'] = $this->bank_account ? $this->bank_account->name_secure : null;
 
         // Attach the payment users.
         $array['users'] = $this->users ? $this->users->pluck('name','email','phone_number')->toArray() : null;
-
-        // Atach the statement details
-        $array['statement'] = $this->statement->pluck('amount')->toArray();
 
         // Attach the tenancy.
         $array['tenancy'] = $this->statement->tenancy->name;

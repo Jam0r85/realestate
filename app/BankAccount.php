@@ -153,7 +153,7 @@ class BankAccount extends BaseModel
      * 
      * @return string
      */
-    public function getNameSecure()
+    public function getNameSecureAttribute()
     {
         return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number_secure . ' - ' . $this->sort_code;
     }
