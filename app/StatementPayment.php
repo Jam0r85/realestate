@@ -101,7 +101,7 @@ class StatementPayment extends BaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     /**
