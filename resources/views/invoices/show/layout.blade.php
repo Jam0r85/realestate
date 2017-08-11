@@ -72,6 +72,12 @@
 								<td class="has-text-grey">Remaining Balance</td>
 								<td class="has-text-right">{{ currency($invoice->total_balance) }}</td>
 							</tr>
+							@if ($invoice->paid_at)
+								<tr>
+									<td class="has-text-grey">Paid</td>
+									<td class="has-text-right">{{ date_formatted($invoice->paid_at) }}</td>
+								</tr>
+							@endif
 							<tr>
 								<td class="has-text-grey">Payment Due</td>
 								<td class="has-text-right">{{ date_formatted($invoice->due_at) }}</td>
