@@ -28,6 +28,12 @@
 
 			<hr />
 
+			@if ($invoice->total_balance <= 0)
+				<div class="notification is-success has-text-centered">
+					This invoice has a balance of {{ currency($invoice->total_balance) }} and is being show as having been paid.
+				</div>
+			@endif
+
 			<div class="columns">
 				<div class="column is-4">
 
