@@ -158,9 +158,9 @@ class InvoiceController extends BaseController
     /**
      * Store a new payment for the invoice.
      * 
-     * @param  \App\Http\Requests\StoreInvoicePaymentRequest    $request
-     * @param  \App\Invoice                                     $id
-     * @return\Illuminate\Http\Responce
+     * @param \App\Http\Requests\StoreInvoicePaymentRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Responce
      */
     public function createPayment(StoreInvoicePaymentRequest $request, $id)
     {

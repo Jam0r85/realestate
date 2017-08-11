@@ -1,7 +1,7 @@
 <div class="field">
 	<label class="label" for="amount">Amount</label>
 	<p class="control">
-		<input type="number" step="any" max="{{ $invoice->total_balance }}" name="amount" class="input" value="{{ old('amount') }}" />
+		<input type="number" step="any" name="amount" class="input" value="{{ old('amount') }}" />
 	</p>
 </div>
 

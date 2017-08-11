@@ -1,73 +1,104 @@
-@extends('invoices.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.title')
-		Payments
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section-no-container')
+			<a href="{{ route('invoices.show', $invoice->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		@component('partials.subtitle')
-			Payment History
-		@endcomponent
+			<h1 class="title">Invoice #{{ $invoice->number }}</h1>
+			<h2 class="subtitle">Record a Payment</h2>
 
-		@component('partials.table')
-			@slot('head')
-				<th>Amount</th>
-				<th>Method</th>
-				<th>When</th>
-				<th>User(s)</th>
-			@endslot
-			@foreach ($invoice->payments as $payment)
-				<tr>
-					<td>{{ currency($payment->amount) }}</td>
-					<td>{{ $payment->method->name }}</td>
-					<td>{{ date_formatted($payment->created_at) }}</td>
-					<td>
-						@foreach ($payment->users as $user)
-							<a href="{{ route('users.show', $user->id) }}">
-								<span class="tag is-primary">
-									{{ $user->name }}
-								</span>
-							</a>
-						@endforeach
-					</td>
-				</tr>
-			@endforeach
-		@endcomponent
-
-	@endcomponent
-
-	@component('partials.sections.section-no-container')
-
-		@component('partials.subtitle')
-			Record Payment
-		@endcomponent
-
-		@if (!$invoice->canTakePayments())
-
-			@component('partials.notifications.primary')
-				This invoice has been paid or has a balance of {{ currency(0) }}. You cannot record new payments for it.
-			@endcomponent
-
-		@else
+			<hr />
 
 			@include('partials.errors-block')
 
-			<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
-				{{ csrf_field() }}
+			<div class="columns">
+				<div class="column is-4">
 
-				@include('invoices.partials.payment-form')
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">Record a Payment</p>
+						</header>
+						<div class="card-content">
 
-				@component('partials.forms.buttons.primary')
-					Record Payment
-				@endcomponent
+							<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
+								{{ csrf_field() }}
 
-			</form>
+								@include('invoices.partials.payment-form')
 
-		@endif
+								<button type="submit" class="button is-primary">
+									<span class="icon is-small">
+										<i class="fa fa-save"></i>
+									</span>
+									<span>
+										Record Payment
+									</span>
+								</button>
 
-	@endcomponent
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="column is-8">
+
+					<div class="card">
+						<div class="card-content">
+
+							<h3 class="title">Payments History</h3>
+							<h5 class="subtitle">List of payments made towards this invoice.</h5>
+
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Date</th>
+									<th>Amount</th>
+									<th>Method</th>
+									<th>Users</th>
+								</thead>
+								<tbody>
+									@foreach ($invoice->payments as $payment)
+										<tr>
+											<td>{{ date_formatted($payment->created_at) }}</td>
+											<td>{{ currency($payment->amount) }}</td>
+											<td>{{ $payment->method->name }}</td>
+											<td>
+												@foreach ($payment->users as $user)
+													<span class="tag is-primary">
+														{{ $user->name }}
+													</span>
+												@endforeach
+											</td>
+										</tr>
+									@endforeach
+									@foreach ($invoice->statement_payments as $payment)
+										<tr>
+											<td>{{ date_formatted($payment->created_at) }}</td>
+											<td>{{ currency($payment->amount) }}</td>
+											<td>Statement #{{ $payment->statement->id }}</td>
+											<td>
+												@foreach ($payment->users as $user)
+													<span class="tag is-primary">
+														{{ $user->name }}
+													</span>
+												@endforeach
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</section>
 
 @endsection

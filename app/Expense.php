@@ -2,10 +2,24 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
-class Expense extends Model
+class Expense extends BaseModel
 {
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
+
     /**
      * The attributes that should be mutated to dates.
      * 
