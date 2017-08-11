@@ -286,7 +286,10 @@ class StatementService
 
         	// We attach the payment to the invoice statement payments
         	// (as we want the invoice to become the parent)
-            $statement->invoice->statement_payments()->save($payment);
+            $payment = $statement->invoice->statement_payments()->save($payment);
+
+            // Attach the owners of the property to this payment as they have paid it.
+            $payment->users()->attach($statement->tenancy->property->owners);
         }
 	}
 
