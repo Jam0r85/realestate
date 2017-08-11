@@ -112,7 +112,7 @@ class InvoiceController extends BaseController
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'items')
+    public function show($id, $section = 'layout')
     {
         $invoice = Invoice::findOrFail($id);
         return view('invoices.show.' . $section, compact('invoice'));
