@@ -10,8 +10,22 @@
 
 			@include('invoices.partials.item-form')
 
-			<button type="submit" class="button is-outline">
-				Update
+			<button type="submit" class="button is-danger is-pulled-right" name="remove_item" value="true">
+				<span class="icon is-small">
+					<i class="fa fa-trash"></i>
+				</span>
+				<span>
+					Remove Item
+				</span>
+			</button>
+
+			<button type="submit" class="button is-primary">
+				<span class="icon is-small">
+					<i class="fa fa-save"></i>
+				</span>
+				<span>
+					Save Changes
+				</span>
 			</button>
 		</form>
 

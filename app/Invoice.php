@@ -30,7 +30,7 @@ class Invoice extends BaseModel
      * 
      * @var array
      */
-	protected $dates = ['due_at','sent_at','paid_at'];
+	protected $dates = ['due_at','sent_at','paid_at','deleted_at'];
 
     /**
      * The attributes that are mass assignable.

@@ -114,7 +114,7 @@ class InvoiceController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::withTrashed()->findOrFail($id);
         return view('invoices.show.' . $section, compact('invoice'));
     }
 
@@ -181,8 +181,9 @@ class InvoiceController extends BaseController
     public function archive($id)
     {
         $invoice = Invoice::findOrFail($id);
-        $invoice->deleted_at = Carbon::now();
-        $invoice->save();
+        $invoice->delete();
+
+        $this->successMessage('The invoice was archived');
 
         return back();
     }
@@ -196,8 +197,9 @@ class InvoiceController extends BaseController
     public function restore($id)
     {
         $invoice = Invoice::withTrashed()->findOrFail($id);
-        $invoice->deleted_at = null;
-        $invoice->save();
+        $invoice->restore();
+
+        $this->successMessage('The invoice was restored');
 
         return back();
     }

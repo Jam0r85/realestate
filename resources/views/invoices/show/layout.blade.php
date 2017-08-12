@@ -28,6 +28,12 @@
 
 			<hr />
 
+			@if ($invoice->trashed())
+				<div class="notification is-danger has-text-centered">
+					<b>This invoice was archived {{ date_formatted($invoice->deleted_at) }}</b>
+				</div>
+			@endif
+
 			@if ($invoice->total_balance <= 0)
 				<div class="notification is-success has-text-centered">
 					This invoice has a balance of {{ currency($invoice->total_balance) }} and is being show as having been paid.
@@ -84,8 +90,12 @@
 							</tr>
 						</table>
 						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('invoices.show', [$invoice->id, 'edit-details']) }}">Edit Details</a>
-							<a class="card-footer-item" href="{{ route('downloads.invoice', $invoice->id) }}" target="_blank">Download</a>
+							<a class="card-footer-item" href="{{ route('invoices.show', [$invoice->id, 'edit-details']) }}">
+								Edit
+							</a>
+							<a class="card-footer-item" href="{{ route('downloads.invoice', $invoice->id) }}" target="_blank">
+								Download
+							</a>
 							<a class="card-footer-item" href="#">Send</a>
 						</footer>
 					</div>
@@ -107,7 +117,7 @@
 							</tr>
 						</table>
 						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('invoices.show', [$invoice->id, 'archive']) }}">Archive Invoice</a>
+							<a class="card-footer-item" href="{{ route('invoices.show', [$invoice->id, 'archive']) }}">{{ $invoice->trashed() ? 'Restore' : 'Archive' }} Invoice</a>
 						</footer>
 					</div>
 

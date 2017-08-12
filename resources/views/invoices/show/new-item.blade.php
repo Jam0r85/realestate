@@ -14,21 +14,57 @@
 
 			<hr />
 
-			<form role="form" method="POST" action="{{ route('invoices.create-item', $invoice->id) }}">
-				{{ csrf_field() }}
+			<div class="columns">
+				<div class="column is-6">
 
-				@include('invoices.partials.item-form')
+					<form role="form" method="POST" action="{{ route('invoices.create-item', $invoice->id) }}">
+						{{ csrf_field() }}
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Add Item
-					</span>
-				</button>
+						@include('invoices.partials.item-form')
 
-			</form>
+						<button type="submit" class="button is-primary">
+							<span class="icon is-small">
+								<i class="fa fa-save"></i>
+							</span>
+							<span>
+								Add Item
+							</span>
+						</button>
+
+					</form>
+
+				</div>
+				<div class="column is-6">
+
+					<div class="box">
+						@if (count($invoice->items))
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Name</th>
+									<th>Amount</th>
+									<th>Quantity</th>
+									<th>Total</th>
+								</thead>
+								<tbody>
+									@foreach ($invoice->items as $item)
+										<tr>
+											<td>{{ $item->name }}</td>
+											<td>{{ currency($item->amount) }}</td>
+											<td>{{ $item->quantity }}</td>
+											<td>{{ currency($item->total) }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						@else
+							<div class="notification">
+								No items have been added to this invoice yet.
+							</div>
+						@endif
+					</div>
+
+				</div>
+			</div>
 
 		</div>
 	</section>

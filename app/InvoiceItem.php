@@ -12,13 +12,6 @@ class InvoiceItem extends BaseModel
     protected $appends = ['total','total_net','total_tax'];
 
     /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = ['taxRate'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
