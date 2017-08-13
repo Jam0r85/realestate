@@ -44,14 +44,14 @@ class ReportController extends BaseController
         $until = $request->until ? Carbon::createFromFormat('Y-m-d', $request->until) : Carbon::now();
 
         $tenancies = Tenancy::whereHas('statements', function ($query) use ($request, $from, $until) {
-            $query->whereNotNull('sent_at')->where('created_at', '>=', $from)->where('created_at', '<', $until);
+            $query->whereNotNull('paid_at')->where('created_at', '>=', $from)->where('created_at', '<', $until);
         })->with('property','statements')->get();
 
         foreach ($tenancies as $tenancy) {
             $data[] = [
                 'landlords_name' => $tenancy->landlord_name,
-                'landlord_address' => $tenancy->landlord_address->name_without_postcode,
-                'postcode' => $tenancy->landlord_address->postcode,
+                'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
                 'currency_code' => 'GBP',
                 'total_gross' => $tenancy->statements->sum('landlord_balance_amount'),
                 'let_address' => $tenancy->property->name_without_postcode,
@@ -77,6 +77,9 @@ class ReportController extends BaseController
     {
         Excel::create($data['file_name'], function($excel) use($data) {
             $excel->sheet($data['file_name'], function($sheet) use($data) {
+                $sheet->setColumnFormat(array(
+                    'E' => '[$£]#,##0.00_-'
+                ));
                 $sheet->fromArray($data['data']);
             });
         })->export('xls');
