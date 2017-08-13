@@ -146,7 +146,50 @@
 
 						</div>
 						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">New Item</a>
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">New Invoice Item</a>
+						</footer>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Expense Items</h3>
+							<h5 class="subtitle">The expense items which have been added to this statement.</h5>
+
+							@if (count($statement->expenses))
+								@include('expenses.partials.item-table', ['expenses' => $statement->expenses])
+							@else
+								<div class="notification">
+									This statement has no expense items.
+								</div>
+							@endif
+
+						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-expense-item']) }}">New Expense Item</a>
+						</footer>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Statement Payments</h3>
+							<h5 class="subtitle">List of individual payments to each of the statement recipients.</h5>
+
+							@if (count($statement->payments))
+								@include('expenses.partials.item-table', ['expenses' => $statement->expenses])
+							@else
+								<div class="notification">
+									This statement has no payments generated.
+								</div>
+							@endif
+
+						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="#">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
+							@if (count($statement->payments))
+								<a class="card-footer-item" href="#">Delete Payments</a>
+							@endif
 						</footer>
 					</div>
 
@@ -155,232 +198,5 @@
 
 		</div>
 	</section>
-
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $statement->name }}
-		@endslot
-		@slot('subTitle')
-			{{ $statement->property->name }}
-			@foreach ($statement->users as $user)
-				<a href="{{ route('users.show', $user->id) }}">
-					<span class="tag is-light">
-						{{ $user->name }}
-					</span>
-				</a>
-			@endforeach
-		@endslot
-	@endcomponent
-
-	<section class="hero is-dark is-bold">
-		<div class="hero-body">
-
-			<nav class="level">
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Amount
-						</p>
-						<p class="title">
-							{{ currency($statement->amount) }}
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Invoices Total
-						</p>
-						<p class="title">
-							{{ currency($statement->invoice_total_amount) }}
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Expenses Total
-						</p>
-						<p class="title">
-							{{ currency($statement->expense_total_amount) }}
-						</p>
-					</div>
-				</div>
-				<div class="level-item has-text-centered">
-					<div>
-						<p class="heading">
-							Landlord Balance
-						</p>
-						<p class="title">
-							{{ currency($statement->landlord_balance_amount) }}
-						</p>
-					</div>
-				</div>
-			</nav>
-
-		</div>
-	</section>
-
-	@component('partials.sections.section')
-
-		<div class="columns is-flex is-column-mobile side-nav">
-			<div class="column is-3">
-				<aside class="menu">
-					<p class="menu-label">
-						Statement
-					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('statements.show', $statement->id) }}" class="{{ set_active(route('statements.show', $statement->id)) }}">
-								<span class="icon is-small">
-									<i class="fa fa-list"></i>
-								</span>
-								Statement Items
-							</a>
-							@if (!$statement->paid_at)
-								<a href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-invoice-item'])) }}">
-									<span class="icon is-small">
-										<i class="fa fa-plus"></i>
-									</span>
-									Create Invoice Item
-								</a>
-								<a href="{{ route('statements.show', [$statement->id, 'new-expense-item']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'new-expense-item'])) }}">
-									<span class="icon is-small">
-										<i class="fa fa-plus"></i>
-									</span>
-									Create Expense Item
-								</a>
-							@endif
-							<a href="{{ route('statements.show', [$statement->id, 'settings']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'settings'])) }}">
-									<span class="icon is-small">
-										<i class="fa fa-cogs"></i>
-									</span>
-								Settings
-							</a>
-							@if ($statement->canDelete())
-								<a href="{{ route('statements.show', [$statement->id, 'delete']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'delete'])) }}">
-									<span class="icon is-small">
-										<i class="fa fa-trash"></i>
-									</span>
-									Delete
-								</a>
-							@endif
-						</li>
-					</ul>
-					<p class="menu-label">
-						Statement Actions
-					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('statements.show', [$statement->id, 'send']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'send'])) }}">
-								<span class="icon is-small">
-									<i class="fa fa-envelope"></i>
-								</span>
-								{{ $statement->sent_at ? 'Re-Send' : 'Send' }} Statement
-							</a>
-							<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
-								<span class="icon is-small">
-									<i class="fa fa-download"></i>
-								</span>
-								Download Statement
-							</a>
-						</li>
-					</ul>
-					<p class="menu-label">
-						Payments
-					</p>
-					<ul class="menu-list">
-						<li>
-							<a href="{{ route('statements.show', [$statement->id, 'payments']) }}" class="{{ set_active(route('statements.show', [$statement->id, 'payments'])) }}">
-								<span class="icon is-small">
-									<i class="fa fa-gbp"></i>
-								</span>
-								Payments Out
-							</a>
-						</li>
-					</ul>
-					<p class="menu-label">
-						Invoice
-					</p>
-					@if ($statement->hasInvoice())
-						<ul class="menu-list">
-							<li>
-								<a href="{{ route('invoices.show', $statement->invoice->id) }}">
-									Invoice #{{ $statement->invoice->number }}
-								</a>
-								<a href="{{ route('downloads.invoice', $statement->invoice->id) }}" target="_blank">
-									<span class="icon is-small">
-										<i class="fa fa-download"></i>
-									</span>
-									Download Invoice
-								</a>	
-							</li>
-						</ul>
-					@endif
-				</aside>
-			</div>
-			<div class="column is-faded is-9">
-
-				<section class="section">
-
-					<div class="field is-grouped is-grouped-multiline">
-						<div class="control">
-							<div class="tags has-addons">
-								<span class="tag is-medium is-dark">
-									Address
-								</span>
-								<span class="tag is-medium is-primary">
-									{{ $statement->recipient_inline }}
-								</span>
-							</div>
-						</div>
-						<div class="control">
-							<div class="tags has-addons">
-								<span class="tag is-medium is-dark">
-									Send By
-								</span>
-								<span class="tag is-medium is-primary">
-									@if ($statement->sendByPost())
-										Post
-									@else
-										E-Mail
-									@endif
-								</span>
-							</div>
-						</div>
-						<div class="control">
-							<div class="tags has-addons">
-								<span class="tag is-medium is-dark">
-									Pay By
-								</span>
-								<span class="tag is-medium is-primary">
-									@if ($statement->bank_account)
-										Bank Account
-									@else
-										Cash or Cheque
-									@endif
-								</span>
-							</div>
-						</div>
-						<div class="control">
-							<div class="tags has-addons">
-								<span class="tag is-medium is-dark">
-									Payments
-								</span>
-								<span class="tag is-medium {{ count($statement->payments) ? 'is-success' : 'is-danger' }}">
-									{{ count($statement->payments) ? 'Generated' : 'Not Generated' }}
-								</span>
-							</div>
-						</div>
-					</div>
-
-				</section>
-
-				@yield('sub-content')
-
-			</div>
-		</div>
-
-	@endcomponent
 
 @endsection
