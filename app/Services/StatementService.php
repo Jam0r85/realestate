@@ -140,6 +140,42 @@ class StatementService
 	}
 
 	/**
+	 * Update the statement.
+	 * 
+	 * @param array $data
+	 * @param integer $id
+	 * @return \App\Statement
+	 */
+	public function updateStatement(array $data, $id)
+	{
+		$statement = Statement::findOrFail($id);
+
+        // Set the period_start.
+        if (isset($data['period_start'])) {
+            $data['period_start'] = Carbon::createFromFormat('Y-m-d', $data['period_start']);
+        }
+
+        // Set the period_end.
+        if (isset($data['period_end'])) {
+            $data['period_end'] = Carbon::createFromFormat('Y-m-d', $data['period_end']);
+        }
+
+        // Update the created_at date.
+        if (isset($data['created_at'])) {
+            $statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+        }
+
+        $statement->fill($data);
+        $statement->save();
+
+        // Update the statement settings for the property aswell.
+        $service = new PropertyService();
+        $service->updateStatementSettings(array_only($data, ['sending_method','bank_account_id']), $statement->property->id);
+
+		return $statement;
+	}
+
+	/**
 	 * Check and create the service charge invoice item.
 	 * 
 	 * @param integer $statement_id
