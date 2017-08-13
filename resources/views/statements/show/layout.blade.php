@@ -157,7 +157,7 @@
 							<h5 class="subtitle">The expense items which have been added to this statement.</h5>
 
 							@if (count($statement->expenses))
-								@include('expenses.partials.item-table', ['expenses' => $statement->expenses])
+								@include('expenses.partials.table', ['expenses' => $statement->expenses])
 							@else
 								<div class="notification">
 									This statement has no expense items.
