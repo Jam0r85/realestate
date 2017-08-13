@@ -128,6 +128,29 @@
 					</div>
 
 				</div>
+				<div class="column is-8">
+
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Invoice Items</h3>
+							<h5 class="subtitle">The invoice items which have been added to this statement.</h5>
+
+							@if ($statement->hasInvoice())
+								@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
+							@else
+								<div class="notification">
+									This statement has no invoice items.
+								</div>
+							@endif
+
+						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">New Item</a>
+						</footer>
+					</div>
+
+				</div>
 			</div>
 
 		</div>
