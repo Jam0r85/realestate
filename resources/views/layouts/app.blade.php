@@ -178,6 +178,9 @@
                                 <a class="navbar-item" href="{{ route('settings.index') }}">
                                     Settings
                                 </a>
+                                <a class="navbar-item" href="{{ route('reports.index') }}">
+                                    Reports
+                                </a>
                                 <a class="navbar-item" href="{{ route('emails.index') }}">
                                     Sent E-Mails
                                 </a>

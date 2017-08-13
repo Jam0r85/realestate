@@ -174,6 +174,11 @@ Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloa
 Route::get('emails', 'EmailController@index')->name('emails.index');
 Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
 
+Route::prefix('reports')->group(function () {
+	Route::get('/', 'ReportController@index')->name('reports.index');
+	Route::post('statements-created', 'ReportController@statementsCreated')->name('reports.statements-created');
+});
+
 Route::get('settings', 'SettingController@index')->name('settings.index');
 Route::get('settings/logo', 'SettingController@logo')->name('settings.logo');
 Route::post('settings/logo', 'SettingController@updateLogo')->name('settings.update-logo');
