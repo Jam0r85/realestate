@@ -1,22 +1,24 @@
 @component('partials.table')
 	@slot('head')
-		<th>Period</th>
 		<th>Tenancy &amp; Property</th>
+		<th>Period</th>
 		<th>Amount</th>
 		<th>Date</th>
 		<th>Status</th>
 	@endslot
 	@foreach ($statements as $statement)
 		<tr>
-			<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
 			<td>
-				{{ $statement->tenancy->name }}
+				{{ $statement->property->short_name }}
 				<br />
-				<a href="{{ route('properties.show', $statement->property->id) }}">
-					<span class="tag is-light">
-						{{ $statement->property->short_name }}
+				<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
+					<span class="tag is-primary">
+						{{ $statement->tenancy->name }}
 					</span>
 				</a>
+			</td>
+			<td>
+				<a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a>
 			</td>
 			<td>{{ currency($statement->amount) }}</td>
 			<td>{{ date_formatted($statement->created_at) }}</td>
