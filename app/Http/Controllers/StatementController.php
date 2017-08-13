@@ -79,7 +79,7 @@ class StatementController extends BaseController
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'items')
+    public function show($id, $section = 'layout')
     {
         $statement = Statement::findOrFail($id);
         return view('statements.show.' . $section, compact('statement'));

@@ -1,13 +1,129 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('statements.index') }}">Statements</a></li>
-	<li><a href="{{ route('properties.show', $statement->property->id) }}">{{ $statement->property->short_name }}</a></li>
-	<li><a href="{{ route('tenancies.show', $statement->tenancy_id) }}">{{ $statement->tenancy->name }}</a></li>
-	<li class="is-active"><a>{{ $statement->name }}</a></li>
-@endsection
-
 @section('content')
+
+	<section class="section">
+		<div class="container">
+
+			<h1 class="title">Statement #{{ $statement->id }}</h1>
+			<h2 class="subtitle">{{ $statement->tenancy->property->name }}</h2>
+
+			<div class="control">
+				<a href="{{ route('statements.show', [$statement->id, 'edit-users']) }}" class="button is-warning">
+					<span class="icon is-small">
+						<i class="fa fa-edit"></i>
+					</span>
+					<span>
+						Edit Users
+					</span>
+				</a>
+				@foreach ($statement->users as $user)
+					<a href="{{ route('users.show', $user->id) }}">
+						<span class="tag is-medium is-primary">
+							{{ $user->name }}
+						</span>
+					</a>
+				@endforeach
+			</div>
+
+			<hr />
+
+			<div class="columns">
+				<div class="column is-4">
+
+					@if ($statement->hasInvoice())
+						<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+							<div class="notification is-info has-text-centered mb-2">
+								Statement links to Invoice #{{ $invoice->number }}
+							</div>
+						</a>
+					@endif
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								Statement Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="has-text-grey">Date From</td>
+								<td class="has-text-right">{{ date_formatted($statement->period_start) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Date Until</td>
+								<td class="has-text-right">{{ date_formatted($statement->period_end) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Amount</td>
+								<td class="has-text-right">{{ currency($statement->amount) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Invoices Total</td>
+								<td class="has-text-right">{{ currency($statement->invoice_total_amount) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Expenses Total</td>
+								<td class="has-text-right">{{ currency($statement->expense_total_amount) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Total Out</td>
+								<td class="has-text-right">{{ currency($statement->total_amount) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Balance to Landlord</td>
+								<td class="has-text-right">{{ currency($statement->landlord_balance_amount) }}</td>
+							</tr>
+							@if ($statement->paid_at)
+								<tr>
+									<td class="has-text-grey">Paid</td>
+									<td class="has-text-right">{{ date_formatted($statement->paid_at) }}</td>
+								</tr>
+							@endif
+							@if ($statement->sent_at)
+								<tr>
+									<td class="has-text-grey">Sent</td>
+									<td class="has-text-right">{{ date_formatted($statement->sent_at) }}</td>
+								</tr>
+							@endif
+						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'edit-details']) }}">
+								Edit
+							</a>
+							<a class="card-footer-item" href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
+								Download
+							</a>
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'send']) }}">Send</a>
+						</footer>
+					</div>
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								System Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="has-text-grey">Created On</td>
+								<td class="has-text-right">{{ date_formatted($statement->created_at) }}</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Last Updated On</td>
+								<td class="has-text-right">{{ datetime_formatted($statement->updated_at) }}</td>
+							</tr>
+						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'archive']) }}">{{ $statement->trashed() ? 'Restore' : 'Archive' }} Statement</a>
+						</footer>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</section>
 
 	@component('partials.sections.hero.container')
 		@slot('title')
