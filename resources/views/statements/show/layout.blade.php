@@ -6,7 +6,8 @@
 		<div class="container">
 
 			<h1 class="title">Statement #{{ $statement->id }}</h1>
-			<h2 class="subtitle">{{ $statement->tenancy->property->name }}</h2>
+			<h2><a href="{{ route('properties.show', $statement->property->id) }}">{{ $statement->property->name }}</a></h2>
+			<h2 class="subtitle"><a href="{{ route('tenancies.show', $statement->tenancy->id) }}">{{ $statement->tenancy->name }}</a></h2>
 
 			<div class="control">
 				<a href="{{ route('statements.show', [$statement->id, 'edit-users']) }}" class="button is-warning">
