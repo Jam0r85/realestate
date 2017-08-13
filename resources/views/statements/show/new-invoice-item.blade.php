@@ -14,10 +14,10 @@
 
 			<hr />
 
+			@include('partials.errors-block')
+
 			<form role="form" method="POST" action="{{ route('statements.create-invoice-item', $statement->id) }}">
 				{{ csrf_field() }}
-
-				@include('partials.errors-block')
 
 				@include('invoices.partials.item-form')
 

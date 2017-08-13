@@ -1,25 +1,37 @@
-@extends('statements.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.sections.section-no-container')
+	<section class="section">
+		<div class="container">
 
-		@component('partials.title')
-			Create Expense Item
-		@endcomponent
+			<a href="{{ route('statements.show', $statement->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		<form role="form" method="POST" action="{{ route('statements.create-expense-item', $statement->id) }}">
-			{{ csrf_field() }}
+			<h1 class="title">Statement #{{ $statement->id}}</h1>
+			<h2 class="subtitle">New expense item</h2>
+
+			<hr />
 
 			@include('partials.errors-block')
 
-			@include('expenses.partials.form')
+			<form role="form" method="POST" action="{{ route('statements.create-expense-item', $statement->id) }}">
+				{{ csrf_field() }}				
 
-			@component('partials.forms.buttons.primary')
-				Create Expense Item
-			@endcomponent
-		</form>
+				@include('expenses.partials.form')
 
-	@endcomponent
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Create Item
+					</span>
+				</button>
+			</form>
+
+		</div>
+	</section>
 
 @endsection
