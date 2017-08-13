@@ -41,7 +41,7 @@ class ReportController extends BaseController
     {
 
     	$from = Carbon::createFromFormat('Y-m-d', $request->from);
-        $until = $request->has('until') ? Carbon::createFromFormat('Y-m-d', $request->until) : Carbon::now();
+        $until = $request->until ? Carbon::createFromFormat('Y-m-d', $request->until) : Carbon::now();
     	$statements = Statement::whereNotNull('sent_at')->where('created_at', '>=', $from)->where('created_at', '<', $until)->get();
 
         $this->exportToCsv([
