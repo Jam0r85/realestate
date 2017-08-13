@@ -74,18 +74,26 @@
 								<td class="has-text-grey">Balance to Landlord</td>
 								<td class="has-text-right">{{ currency($statement->landlord_balance_amount) }}</td>
 							</tr>
-							@if ($statement->paid_at)
-								<tr>
-									<td class="has-text-grey">Paid</td>
-									<td class="has-text-right">{{ date_formatted($statement->paid_at) }}</td>
-								</tr>
-							@endif
-							@if ($statement->sent_at)
-								<tr>
-									<td class="has-text-grey">Sent</td>
-									<td class="has-text-right">{{ date_formatted($statement->sent_at) }}</td>
-								</tr>
-							@endif
+							<tr>
+								<td class="has-text-grey">Date Paid</td>
+								<td class="has-text-right">
+									@if (is_null($statement->paid_at))
+										<span class="tag is-danger">Unpaid</span>
+									@else
+										{{ date_formatted($statement->paid_at) }}
+									@endif
+								</td>
+							</tr>
+							<tr>
+								<td class="has-text-grey">Date Sent</td>
+								<td class="has-text-right">
+									@if (is_null($statement->sent_at))
+										<span class="tag is-danger">Unsent</span>
+									@else
+										{{ date_formatted($statement->sent_at) }}
+									@endif
+								</td>
+							</tr>
 						</table>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'edit-details']) }}">
