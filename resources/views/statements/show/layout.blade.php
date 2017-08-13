@@ -186,9 +186,12 @@
 
 						</div>
 						<footer class="card-footer">
-							<a class="card-footer-item" href="#">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
+							<a class="card-footer-item" href="javascript:document.getElementById('generatePaymentsForm').submit();">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
+							<form id="generatePaymentsForm" role="form" method="POST" action="{{ route('statements.create-payments', $statement->id) }}" style="display: hidden;">
+								{{ csrf_field() }}
+							</form>
 							@if (count($statement->payments))
-								<a class="card-footer-item" href="#">Delete Payments</a>
+								<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'delete-payments']) }}">Delete Payments</a>
 							@endif
 						</footer>
 					</div>
