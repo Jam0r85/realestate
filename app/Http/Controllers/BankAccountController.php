@@ -109,6 +109,32 @@ class BankAccountController extends BaseController
     }
 
     /**
+     * Update the users attached to a bank account.
+     * 
+     * @param  Request $request [description]
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateUsers(Request $request, $id)
+    {
+        $account = BankAccount::findOrFail($id);
+
+        // Remove the owners.
+        if (isset($data['remove'])) {
+            $account->users()->detach($data['remove']);
+        }
+
+        // Attach new users to the account.
+        if (isset($data['new_users'])) {
+            $account->users()->attach($data['new_users']);
+        }
+
+        $this->successMessage('The users were updated');
+
+        return back();
+    }
+
+    /**
      * Archive the bank account.
      *
      * @param integer $id

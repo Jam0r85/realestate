@@ -144,6 +144,7 @@ Route::prefix('bank-accounts')->group(function () {
 	Route::post('/', 'BankAccountController@store')->name('bank-accounts.store');
 	Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show');
 	Route::put('{id}', 'BankAccountController@update')->name('bank-accounts.update');
+	Route::post('{id}/update-users', 'BankAccountController@updateUsers')->name('bank-accounts.update-users');
 });
 
 Route::prefix('user-groups')->group(function () {
