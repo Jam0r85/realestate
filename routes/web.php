@@ -176,7 +176,7 @@ Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.previ
 
 Route::prefix('reports')->group(function () {
 	Route::get('/', 'ReportController@index')->name('reports.index');
-	Route::post('statements-created', 'ReportController@statementsCreated')->name('reports.statements-created');
+	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
 });
 
 Route::get('settings', 'SettingController@index')->name('settings.index');

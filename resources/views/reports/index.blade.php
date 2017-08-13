@@ -17,12 +17,12 @@
 					<div class="card mb-2">
 						<header class="card-header">
 							<p class="card-header-title">
-								Statements Created
+								HMRC Landlord Income
 							</p>
 						</header>
 						<div class="card-content">
 
-							<form role="form" method="POST" action="{{ route('reports.statements-created') }}">
+							<form role="form" method="POST" action="{{ route('reports.landlords-income') }}">
 								{{ csrf_field() }}
 
 								<div class="field">

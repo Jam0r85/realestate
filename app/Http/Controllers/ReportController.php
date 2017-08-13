@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StatementReportRequest;
+use App\Http\Requests\LandlordsIncomeRequest;
 use App\Statement;
 use App\Tenancy;
 use Carbon\Carbon;
@@ -38,15 +38,18 @@ class ReportController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function statementsCreated(StatementReportRequest $request)
+    public function landlordsIncome(LandlordsIncomeRequest $request)
     {
+        // Format the dates.
     	$from = Carbon::createFromFormat('Y-m-d', $request->from);
         $until = $request->until ? Carbon::createFromFormat('Y-m-d', $request->until) : Carbon::now();
 
+        // Grab the tenancies.
         $tenancies = Tenancy::whereHas('statements', function ($query) use ($request, $from, $until) {
             $query->whereNotNull('paid_at')->where('created_at', '>=', $from)->where('created_at', '<', $until);
         })->with('property','statements')->get();
 
+        // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
             $data[] = [
                 'landlords_name' => $tenancy->landlord_name,
@@ -61,9 +64,32 @@ class ReportController extends BaseController
             ];
         }
 
+        // Set the column formatting.
+        $column_formatting = [
+            'E' => '[$£]#,##0.00_-'
+        ];
+
+        // Manipulate the required rows.
+        $row_manip = [
+            '1' => [
+                'Landlords\'s Name',
+                'Landlord\'s Address',
+                'Postcode',
+                'Total Gross Amount Due for the Year',
+                'Currency Code',
+                'Let Address',
+                'Let Address Postcode',
+                'Tax Year',
+                'Your Company/Organisation\'s Name'
+            ]
+        ];
+
+        // Export the data as a CSV
         $this->exportToCsv([
             'file_name' => 'Statements Created',
-            'data' => $data
+            'data' => $data,
+            'column_formatting' => $column_formatting,
+            'row_manip' => $row_manip
         ]);
     }
 
@@ -77,10 +103,18 @@ class ReportController extends BaseController
     {
         Excel::create($data['file_name'], function($excel) use($data) {
             $excel->sheet($data['file_name'], function($sheet) use($data) {
-                $sheet->setColumnFormat(array(
-                    'E' => '[$£]#,##0.00_-'
-                ));
+
+                if (isset($data['column_formatting'])) {
+                    $sheet->setColumnFormat($data['column_formatting']);
+                }
+
                 $sheet->fromArray($data['data']);
+
+                if (isset($data['row_manip'])) {
+                    foreach ($data['row_manip'] as $row => $values) {
+                        $sheet->row($row, $values);
+                    }
+                }
             });
         })->export('xls');
     }
