@@ -22,7 +22,7 @@
 			<td>{{ date_formatted($statement->created_at) }}</td>
 			<td>
 				@if ($statement->sent_at)
-					Sent
+					Sent {{ date_formatted($statement->sent_at) }}
 				@else
 					@if ($statement->paid_at)
 						Paid

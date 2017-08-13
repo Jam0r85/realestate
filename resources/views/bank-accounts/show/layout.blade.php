@@ -92,7 +92,7 @@
 				<div class="column is-8">
 
 					@if (count($account->properties))
-						<div class="card">
+						<div class="card mb-2">
 							<div class="card-content">
 
 								<h3 class="title">Properties</h3>

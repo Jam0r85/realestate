@@ -24,7 +24,7 @@
 						</p>
 					</header>
 
-					<table class="table is-fullwidth is-striped is-bordered">
+					<table class="table is-fullwidth is-striped">
 						<thead>
 							<th width="100%">Name</th>
 							<th class="has-text-right"><span class="has-text-danger">Remove?</span></th>
