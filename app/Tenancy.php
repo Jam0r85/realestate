@@ -123,6 +123,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can have many landlords.
+     */
+    public function getLandlordsAttribute()
+    {
+        return $this->property->owners;
+    }
+
+    /**
      * A tenancy can have many rent payments.
      */
     public function rent_payments()
@@ -339,6 +347,35 @@ class Tenancy extends BaseModel
     {
         if ($this->first_agreement) {
             return $this->first_agreement->starts_at;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the tenancy landlord names in a readable format.
+     * 
+     * @return string
+     */
+    public function getLandlordNameAttribute()
+    {
+        if (count($this->landlords)) {
+            foreach ($this->landlords as $landlord) {
+                $names[] = $landlord->name;
+            }
+            return implode(' & ', $names);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the landlord's address for this tenancy.
+     */
+    public function getLandlordAddressAttribute()
+    {
+        if (count($this->landlords)) {
+            return $this->landlords->first()->home;
         }
 
         return null;

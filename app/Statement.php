@@ -36,6 +36,15 @@ class Statement extends BaseModel
     protected $dates = ['period_start','period_end','paid_at','sent_at'];
 
     /**
+     * The attrbites that should be included in the collection.
+     * 
+     * @var array
+     */
+    protected $appends = [
+        'landlord_balance_amount'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

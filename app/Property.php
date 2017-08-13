@@ -27,14 +27,7 @@ class Property extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','short_name'];
-
-    /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = [];
+	protected $appends = ['name','short_name','name_without_postcode'];
 
     /**
      * The attributes that are mass assignable.
@@ -149,6 +142,22 @@ class Property extends BaseModel
 		$name .= $this->town ? ', ' . $this->town : null;
 		$name .= $this->county ? ', ' . $this->county : null;
 		$name .= $this->postcode ? ', ' . $this->postcode : null;
+
+		return $name;
+	}
+
+	/**
+	 * Get the property's name without it's postcode.
+	 * 
+	 * @return string
+	 */
+	public function getNameWithoutPostcodeAttribute()
+	{
+		$name = $this->short_name;
+		$name .= $this->address2 ? ', ' . $this->address2 : null;
+		$name .= $this->address3 ? ', ' . $this->address3 : null;
+		$name .= $this->town ? ', ' . $this->town : null;
+		$name .= $this->county ? ', ' . $this->county : null;
 
 		return $name;
 	}
