@@ -177,7 +177,7 @@
 							<h5 class="subtitle">List of individual payments to each of the statement recipients.</h5>
 
 							@if (count($statement->payments))
-								@include('expenses.partials.item-table', ['expenses' => $statement->expenses])
+								@include('statement-payments.partials.small-table', ['payments' => $statement->payments])
 							@else
 								<div class="notification">
 									This statement has no payments generated.
