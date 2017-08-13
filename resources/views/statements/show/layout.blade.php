@@ -34,7 +34,7 @@
 					@if ($statement->hasInvoice())
 						<a href="{{ route('invoices.show', $statement->invoice->id) }}">
 							<div class="notification is-info has-text-centered mb-2">
-								Statement links to Invoice #{{ $invoice->number }}
+								Statement links to Invoice #{{ $statement->invoice->number }}
 							</div>
 						</a>
 					@endif
