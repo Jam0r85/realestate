@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOldStatementRequest;
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
@@ -156,7 +157,7 @@ class TenancyController extends BaseController
      * @param  \App\Tenancy                   $id
      * @return \Illuminate\Http\Response
      */
-    public function createOldRentalStatement(StoreStatementRequest $request, $id)
+    public function createOldRentalStatement(StoreOldStatementRequest $request, $id)
     {
         $service = new StatementService();
         $service->createOldStatement($request->input(), $id);
