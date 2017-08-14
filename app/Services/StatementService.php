@@ -362,7 +362,7 @@ class StatementService
 			$payment->amount = $expense->pivot->amount;
 			$payment->sent_at = $sent;
 
-			$expense->payments()->save($payment);
+			$payment = $expense->payments()->save($payment);
 
 			// Attach the contractors to the payment.
 			$payment->users()->attach($expense->contractors);

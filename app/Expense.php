@@ -77,7 +77,7 @@ class Expense extends BaseModel
      */
     public function payments()
     {
-        return $this->hasMany('App\StatementPayment');
+        return $this->morphMany('App\StatementPayment');
     }
 
     /**
