@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Expense;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ExpenseService
@@ -16,7 +17,8 @@ class ExpenseService
 	public function createExpense(array $data)
 	{
 		$expense = new Expense();
-		$expense->fill();
+		$expense->user_id = Auth::user()->id;
+		$expense->fill($data);
 		$expense->save();
 
 		// Do we have any contractors to attach?

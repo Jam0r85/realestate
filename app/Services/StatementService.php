@@ -271,9 +271,27 @@ class StatementService
         $this->createInvoiceItem($data, $statement_id);
 	}
 
-	public function createExpenseItem()
+	/**
+	 * Create and store a new expense item.
+	 * 
+	 * @param array $data
+	 * @param integer $statement_id
+	 * @return void
+	 */
+	public function createExpenseItem(array $data, $statement_id)
 	{
+		// Find the statement
+		$statement = Statement::findOrFail($statement_id);
 
+		// Add the property_id to the data.
+		$data['property_id'] = $statement->property->id;
+
+		// Create the expense.
+		$service = new ExpenseService();
+		$expense = $service->createExpense($data);
+
+		// Attach the expense to the statement.
+		$statement->expenses()->attach($expense, ['amount' => $data['cost']]);
 	}
 
 	/**

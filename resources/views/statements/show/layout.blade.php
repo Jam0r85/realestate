@@ -158,7 +158,30 @@
 							<h5 class="subtitle">The expense items which have been added to this statement.</h5>
 
 							@if (count($statement->expenses))
-								@include('expenses.partials.table', ['expenses' => $statement->expenses])
+								<table class="table is-striped is-fullwidth">
+									<thead>
+										<th>Name</th>
+										<th>Contractors</th>
+										<th>Expense Cost</th>
+										<th>Amount</th>
+									</thead>
+									<tbody>
+										@foreach ($statement->expenses as $expense)
+											<tr>
+												<td>{{ $expense->name }}</td>
+												<td>
+													@foreach ($expense->contractors as $user)
+														<span class="tag is-primary">
+															{{ $user->name }}
+														</span>
+													@endforeach
+												</td>
+												<td>{{ currency($expense->cost) }}</td>
+												<td>{{ currency($expense->pivot->amount) }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							@else
 								<div class="notification">
 									This statement has no expense items.
