@@ -164,7 +164,7 @@ class Tenancy extends BaseModel
     {
         return $this->hasMany('App\Statement')
             ->latest()
-            ->limit(20);
+            ->limit(15);
     }
 
     /**
