@@ -113,23 +113,28 @@
 				</tfoot>
 			</table>
 
-			<div class="has-text-right">
-				<p><b>{{ currency($statement->landlord_balance_amount) }}</b> balance to landlord</p>
-			</div>
-
 		</div>
 	</section>
 
 	<section class="section">
 		<div class="container">
-			@if ($statement->property->bank_account)
-				<p>Payment by Bank Transfer</p>
-			@else
-				<p>Cheque or Cash</p>
-			@endif
-			@if ($statement->sendByEmail())
-				<p>Send by E-Mail</p>
-			@endif
+			<table>
+				<tr>
+					<td width="50%">
+						@if ($statement->property->bank_account)
+							<p>Payment by Bank Transfer</p>
+						@else
+							<p>Cheque or Cash</p>
+						@endif
+						@if ($statement->sendByEmail())
+							<p>Send by E-Mail</p>
+						@endif
+					</td>
+					<td width="50%" class="has-text-right">
+						<b>{{ currency($statement->landlord_balance_amount) }}</b> balance to landlord
+					</td>
+				</tr>
+			</table>
 		</div>
 	</section>
 
