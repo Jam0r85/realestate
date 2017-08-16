@@ -109,7 +109,9 @@ Route::prefix('statements')->group(function () {
 	Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
 	Route::post('send', 'StatementController@send')->name('statements.send');
 	Route::put('{id}', 'StatementController@update')->name('statements.update');
-	Route::delete('{id}', 'StatementController@archive')->name('statements.delete');
+	Route::post('{id}/archive', 'StatementController@archive')->name('statements.archive');
+	Route::post('{id}/restore', 'StatementController@restore')->name('statements.restore');
+	Route::post('{id}/destroy', 'StatementController@destroy')->name('statements.destroy');
 });
 
 Route::get('statement-payments', 'StatementPaymentController@index')->name('statement-payments.index');

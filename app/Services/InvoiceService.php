@@ -94,4 +94,26 @@ class InvoiceService
 
 		return $invoice;
 	}
+
+	/**
+	 * Destroy an invoice.
+	 * Invoice items have a foreign link and are automatically deleted.
+	 * 
+	 * @param array $options
+	 * @param integer $invoice_id
+	 * @return \App\Invoice
+	 */
+	public function destroyInvoice($options = [], $invoice_id)
+	{
+		$invoice = Invoice::withTrashed()->findOrFail($invoice_id);
+
+		// Delete the invoice payments.
+		if (isset($options['payments'])) {
+			$invoice->payments->delete();
+		}
+
+		$invoice->forceDelete();
+
+		return $invoice;
+	}
 }

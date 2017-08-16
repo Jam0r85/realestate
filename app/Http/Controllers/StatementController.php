@@ -240,4 +240,21 @@ class StatementController extends BaseController
 
         return back();
     }
+
+    /**
+     * Destroy the statement.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $service = new StatementService();
+        $service->destroyStatement($request->input(), $id);
+
+        $this->successMessage('The statement was destroyed');
+
+        return redirect()->route('statements.index');
+    }
 }

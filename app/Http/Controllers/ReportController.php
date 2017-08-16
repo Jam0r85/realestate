@@ -64,6 +64,11 @@ class ReportController extends BaseController
             ];
         }
 
+        // Re-arrange the values by landlords name.
+        $data = array_values(array_sort($data, function ($value) {
+            return $value['landlords_name'];
+        }));
+
         // Set the column formatting.
         $column_formatting = [
             'E' => '[$£]#,##0.00_-'

@@ -482,4 +482,38 @@ class StatementService
             $statement->save();
         }
 	}
+
+	/**
+	 * Destroy a statement.
+	 * 
+	 * @param array $options
+	 * @param integer $statement_id
+	 * @return \App\Statement
+	 */
+	public function destroyStatement($options = [], $statement_id)
+	{
+		$statement = Statement::withTrashed()->findOrFail($statement_id);
+
+		// Destroy the paid statement payments.
+		if (isset($options['paid_payments'])) {
+			$statement->payments()->whereNotNull('sent_at')->delete();
+		}
+
+		// Destroy unpaid statement payments.
+		if (isset($options['unpaid_payments'])) {
+			$statement->payments()->whereNull('sent_at')->delete();
+		}
+
+		// Destroy the invoice.
+		if (isset($options['invoice'])) {
+			if ($statement->hasInvoice()) {
+				$service = new InvoiceService();
+				$service->destroyInvoice(['payments'], $statement->invoice->id);
+			}
+		}
+
+		$statement->forceDelete();
+
+		return $statement;
+	}
 }
