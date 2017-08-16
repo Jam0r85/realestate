@@ -56,7 +56,7 @@ class ReportController extends BaseController
                 'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
                 'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
                 'currency_code' => 'GBP',
-                'total_gross' => $tenancy->statements->sum('landlord_balance_amount'),
+                'total_gross' => $tenancy->statements->sum('amount'),
                 'let_address' => $tenancy->property->name_without_postcode,
                 'let_address_postcode' => $tenancy->property->postcode,
                 'tax_year' => $from->format('Y') . '/' . $until->format('Y'),
