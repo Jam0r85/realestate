@@ -100,8 +100,6 @@ class ReportController extends BaseController
             return $value['landlords_name'];
         }));
 
-        return dd($results);
-
         // Set the column formatting.
         $column_formatting = [
             'E' => '[$£]#,##0.00_-'
