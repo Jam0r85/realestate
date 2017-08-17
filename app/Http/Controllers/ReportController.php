@@ -74,7 +74,7 @@ class ReportController extends BaseController
                     'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
                     'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
                     'currency_code' => 'GBP',
-                    'total_gross' => $tenancy->statements->sum('amount'),
+                    'total_gross' => $statements->sum('amount'),
                     'let_address' => $tenancy->property->name_without_postcode,
                     'let_address_postcode' => $tenancy->property->postcode,
                     'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
@@ -87,7 +87,7 @@ class ReportController extends BaseController
         $results = array_values(array_sort($results, function ($value) {
             return $value['landlords_name'];
         }));
-        
+
         // Set the column formatting.
         $column_formatting = [
             'E' => '[$£]#,##0.00_-'
