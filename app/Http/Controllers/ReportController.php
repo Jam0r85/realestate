@@ -40,39 +40,54 @@ class ReportController extends BaseController
      */
     public function landlordsIncome(LandlordsIncomeRequest $request)
     {
-        // Format the dates.
-    	$from = Carbon::createFromFormat('Y-m-d', $request->from);
-        $until = Carbon::createFromFormat('Y-m-d', $request->until);
+        // Set the from date.
+        if ($request->has('from') && !empty($request->from)) {
+            $from_date = Carbon::createFromFormat('Y-m-d', $request->from);
+        } else {
+            $from_date = Statement::oldest()->first()->created_at;
+        }
 
-        // Grab the tenancies.
-        $tenancies = Tenancy::whereHas('statements', function ($query) use ($request, $from, $until) {
-            $query->whereNotNull('paid_at')->where('created_at', '>=', $from)->where('created_at', '<', $until);
-        })->with('property','statements')->get();
+        // Set the until date.
+        if ($request->has('until') && !empty($request->until)) {
+            $until_date = Carbon::createFromFormat('Y-m-d', $request->until);
+        } else {
+            $until_date = Statement::latest()->first()->created_at;
+        }
 
-        // Creat a blank array.
-        $data = [];
-        $let_address = array_column($data, 'let_address');
+        // Grab all of the tenancies.
+        $tenancies = Tenancy::all();
+
+        // Create a results array.
+        $results = [];
 
         // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
-            $data[] = [
-                'landlords_name' => $tenancy->landlord_name,
-                'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
-                'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                'currency_code' => 'GBP',
-                'total_gross' => $tenancy->statements->sum('amount'),
-                'let_address' => $tenancy->property->name_without_postcode,
-                'let_address_postcode' => $tenancy->property->postcode,
-                'tax_year' => $from->format('Y') . '/' . $until->format('Y'),
-                'company_name' => get_setting('company_name')
-            ];
+            $statements = $tenancy->statements()
+                ->where('created_at', '>=', $from_date)
+                ->where('created_at', '<', $until_date)
+                ->whereNotNull('paid_at')
+                ->get();
+
+            if (count($statements)) {
+                $results[] = [
+                    'landlords_name' => $tenancy->landlord_name,
+                    'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                    'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
+                    'currency_code' => 'GBP',
+                    'total_gross' => $tenancy->statements->sum('amount'),
+                    'let_address' => $tenancy->property->name_without_postcode,
+                    'let_address_postcode' => $tenancy->property->postcode,
+                    'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
+                    'company_name' => get_setting('company_name')
+                ];
+            }
         }
 
         // Re-arrange the values by landlords name.
-        $data = array_values(array_sort($data, function ($value) {
+        $results = array_values(array_sort($results, function ($value) {
             return $value['landlords_name'];
         }));
-
+        
         // Set the column formatting.
         $column_formatting = [
             'E' => '[$£]#,##0.00_-'
@@ -96,7 +111,7 @@ class ReportController extends BaseController
         // Export the data as a CSV
         $this->exportToCsv([
             'file_name' => 'Statements Created',
-            'data' => $data,
+            'data' => $results,
             'column_formatting' => $column_formatting,
             'row_manip' => $row_manip
         ]);

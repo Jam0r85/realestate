@@ -24,7 +24,7 @@ class LandlordsIncomeRequest extends FormRequest
     public function rules()
     {
         return [
-            'from' => 'required'
+            'from' => 'sometimes'
         ];
     }
 }
