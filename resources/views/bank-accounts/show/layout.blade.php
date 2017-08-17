@@ -92,56 +92,52 @@
 				<div class="column is-8">
 
 					@if (count($account->properties))
-						<div class="card mb-2">
-							<div class="card-content">
+						<div class="box mb-2">
 
-								<h3 class="title">Properties</h3>
-								<h5 class="subtitle">The properties that currently linked to this bank account.</h5>
+							<h3 class="title">Properties</h3>
+							<h5 class="subtitle">The properties that currently linked to this bank account.</h5>
 
-								<table class="table is-striped is-fullwidth">
-									<thead>
-										<th>Name</th>
-									</thead>
-									<tbody>
-										@foreach ($account->properties as $property)
-											<tr>
-												<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Name</th>
+								</thead>
+								<tbody>
+									@foreach ($account->properties as $property)
+										<tr>
+											<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 
-							</div>
 						</div>
 					@endif
 
 					@if (count($account->statement_payments))
-						<div class="card">
-							<div class="card-content">
+						<div class="box">
 
-								<h3 class="title">Recent Statement Payments</h3>
-								<h5 class="subtitle">The statement payments that have been sent to this bank account.</h5>
+							<h3 class="title">Recent Statement Payments</h3>
+							<h5 class="subtitle">The statement payments that have been sent to this bank account.</h5>
 
-								<table class="table is-striped is-fullwidth">
-									<thead>
-										<th>Sent</th>
-										<th>Tenancy</th>
-										<th>Name</th>
-										<th>Amount</th>
-									</thead>
-									<tbody>
-										@foreach ($account->recent_statement_payments as $payment)
-											<tr>
-												<td>{{ $payment->sent_at ? date_formatted($payment->sent_at) : 'Not Sent' }}</td>
-												<td><a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a></td>
-												<td>{{ $payment->name_formatted }}</td>
-												<td>{{ currency($payment->amount) }}</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Sent</th>
+									<th>Tenancy</th>
+									<th>Name</th>
+									<th>Amount</th>
+								</thead>
+								<tbody>
+									@foreach ($account->recent_statement_payments as $payment)
+										<tr>
+											<td>{{ $payment->sent_at ? date_formatted($payment->sent_at) : 'Not Sent' }}</td>
+											<td><a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a></td>
+											<td>{{ $payment->name_formatted }}</td>
+											<td>{{ currency($payment->amount) }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 
-							</div>
 						</div>
 					@endif
 

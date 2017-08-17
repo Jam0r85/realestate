@@ -114,24 +114,24 @@
 					</div>
 
 					@if (count($user->properties))
-						<div class="card mb-2">
-							<div class="card-content">
-								<h3 class="title">Properties</h3>
-								<h5 class="subtitle">The properties that this user is linked to.</h5>
+						<div class="box mb-2">
 
-								<table class="table is-striped is-fullwidth">
-									<thead>
-										<th>Name</th>
-									</thead>
-									<tbody>
-										@foreach ($user->properties as $property)
-											<tr>
-												<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
+							<h3 class="title">Properties</h3>
+							<h5 class="subtitle">The properties that this user is linked to.</h5>
+
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Name</th>
+								</thead>
+								<tbody>
+									@foreach ($user->properties as $property)
+										<tr>
+											<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+
 						</div>
 					@endif
 

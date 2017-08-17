@@ -130,7 +130,7 @@
 							<p>Send by E-Mail</p>
 						@endif
 					</td>
-					<td width="50%" class="has-text-right">
+					<td width="50%" class="has-text-right"
 						<b>{{ currency($statement->landlord_balance_amount) }}</b> balance to landlord
 					</td>
 				</tr>
