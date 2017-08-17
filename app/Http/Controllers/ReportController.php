@@ -62,6 +62,8 @@ class ReportController extends BaseController
 
         // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
+            $exists = false;
+
             $statements = $tenancy->statements()
                 ->where('created_at', '>=', $from_date)
                 ->where('created_at', '<', $until_date)
@@ -69,17 +71,27 @@ class ReportController extends BaseController
                 ->get();
 
             if (count($statements)) {
-                $results[] = [
-                    'landlords_name' => $tenancy->landlord_name,
-                    'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
-                    'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                    'currency_code' => 'GBP',
-                    'total_gross' => $statements->sum('amount'),
-                    'let_address' => $tenancy->property->name_without_postcode,
-                    'let_address_postcode' => $tenancy->property->postcode,
-                    'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
-                    'company_name' => get_setting('company_name')
-                ];
+
+                foreach ($results as $key => $values) {
+                    if (in_array($tenancy->property->name_without_postcode, $values)) {
+                        $results[$key]['total_gross'] += $statements->sum('amount');
+                        $exists = true;
+                    }
+                }
+
+                if ($exists == false) {
+                    $results[] = [
+                        'landlords_name' => $tenancy->landlord_name,
+                        'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                        'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
+                        'currency_code' => 'GBP',
+                        'total_gross' => $statements->sum('amount'),
+                        'let_address' => $tenancy->property->name_without_postcode,
+                        'let_address_postcode' => $tenancy->property->postcode,
+                        'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
+                        'company_name' => get_setting('company_name')
+                    ];
+                }    
             }
         }
 
@@ -87,6 +99,8 @@ class ReportController extends BaseController
         $results = array_values(array_sort($results, function ($value) {
             return $value['landlords_name'];
         }));
+
+        return dd($results);
 
         // Set the column formatting.
         $column_formatting = [
