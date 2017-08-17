@@ -77,7 +77,7 @@
 						@foreach ($statement->invoice->items as $item)
 							<tr>
 								<td>
-									<b>{{ $item->name }}</b>
+									<b>{{ $item->name }} (Inv. #{{ $item->invoice->number }})</b>
 									{!! $item->description ? '<br />' . $item->description : '' !!}
 									@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
 										<br />
