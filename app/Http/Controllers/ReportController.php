@@ -42,7 +42,7 @@ class ReportController extends BaseController
     {
         // Format the dates.
     	$from = Carbon::createFromFormat('Y-m-d', $request->from);
-        $until = $request->until ? Carbon::createFromFormat('Y-m-d', $request->until) : Carbon::now();
+        $until = Carbon::createFromFormat('Y-m-d', $request->until);
 
         // Grab the tenancies.
         $tenancies = Tenancy::whereHas('statements', function ($query) use ($request, $from, $until) {
