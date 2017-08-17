@@ -93,6 +93,7 @@
 
 							<table class="table is-striped is-fullwidth">
 								<thead>
+									<th>Date</th>
 									<th>Start</th>
 									<th>End</th>
 									<th>Amount</th>
@@ -101,6 +102,7 @@
 								<tbody>
 									@foreach ($tenancy->latest_statements as $statement)
 										<tr>
+											<td>{{ date_formatted($statement->created_at) }}</td>
 											<td>{{ date_formatted($statement->period_start) }}</td>
 											<td>{{ date_formatted($statement->period_end) }}</td>
 											<td>{{ currency($statement->amount) }}</td>
