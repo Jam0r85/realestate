@@ -6,7 +6,16 @@ function date_formatted($date)
 		return null;
 	}
 
-	return $date->format('d F, Y');
+	return $date->format('d M, Y');
+}
+
+function longdate_formatted($date)
+{
+	if (empty($date)) {
+		return null;
+	}
+
+	return $date->format('d F Y');
 }
 
 function datetime_formatted($date)

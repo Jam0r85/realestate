@@ -29,7 +29,7 @@
 				Rental Statement
 			</h1>
 			<h2 class="subtitle">
-				{{ date_formatted($statement->created_at) }}
+				{{ longdate_formatted($statement->created_at) }}
 			</h2>
 		</div>
 	</section>
@@ -38,7 +38,7 @@
 		<div class="container">
 
 			<ul class="list-unstyled">
-				<li><strong>Rental Period:</strong> {{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</li>
+				<li><strong>Rental Period:</strong> {{ longdate_formatted($statement->period_start) }} - {{ longdate_formatted($statement->period_end) }}</li>
 				<li><strong>Property:</strong> {{ $statement->property->name }}</li>
 				<li><strong>{{ str_plural('Tenant', count($statement->tenancy->users)) }}:</strong> {{ $statement->tenancy->name }}</li>
 			</ul>

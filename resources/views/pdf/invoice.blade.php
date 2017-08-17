@@ -38,7 +38,7 @@
 				Invoice {{ $invoice->number }}
 			</h1>
 			<h2 class="subtitle">
-				{{ date_formatted($invoice->created_at) }}
+				{{ longdate_formatted($invoice->created_at) }}
 			</h2>
 		</div>
 	</section>
