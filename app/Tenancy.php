@@ -163,7 +163,7 @@ class Tenancy extends BaseModel
     public function latest_statements()
     {
         return $this->hasMany('App\Statement')
-            ->latest()
+            ->latest('period_start')
             ->limit(15);
     }
 

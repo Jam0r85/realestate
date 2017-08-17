@@ -49,6 +49,10 @@ class ReportController extends BaseController
             $query->whereNotNull('paid_at')->where('created_at', '>=', $from)->where('created_at', '<', $until);
         })->with('property','statements')->get();
 
+        // Creat a blank array.
+        $data = [];
+        $let_address = array_column($data, 'let_address');
+
         // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
             $data[] = [
