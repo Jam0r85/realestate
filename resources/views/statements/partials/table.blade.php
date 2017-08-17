@@ -4,7 +4,6 @@
 		<th>Property</th>
 		<th>Period</th>
 		<th>Amount</th>
-		<th>Date</th>
 		<th>Status</th>
 	@endslot
 	@foreach ($statements as $statement)
@@ -19,7 +18,6 @@
 				<a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a>
 			</td>
 			<td>{{ currency($statement->amount) }}</td>
-			<td>{{ date_formatted($statement->created_at) }}</td>
 			<td>
 				@if ($statement->sent_at)
 					Sent {{ date_formatted($statement->sent_at) }}
