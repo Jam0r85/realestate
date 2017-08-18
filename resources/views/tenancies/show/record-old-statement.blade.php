@@ -245,7 +245,7 @@
 		});
 
 		//Now clone you select2 div 
-		$('#expenseItemColumn').clone(true).insertAfter("#expenseItems"); 
+		$('#expenseItemColumn').clone(true).find('input').val('').end().appendTo("#expenseItems"); 
 
 		//we must have to re-initialize  select2 
 		$('.select2').select2(); 
@@ -254,7 +254,7 @@
 	$('#cloneInvoiceItem').click(function() {
 
 		//Now clone you select2 div 
-		$('#invoiceItemColumn').clone(true).find("input").val("").end().appendTo("#invoiceItems"); 
+		$('#invoiceItemColumn').clone(true).find('input').val('').end().appendTo("#invoiceItems"); 
 	});
 </script>
 @endpush
