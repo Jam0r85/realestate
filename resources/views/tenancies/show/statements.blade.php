@@ -19,6 +19,7 @@
 					<th>Period</th>
 					<th>Amount</th>
 					<th>Invoice</th>
+					<th>Landlord</th>
 					<th>Date</th>
 					<th>Status</th>
 				</thead>
@@ -38,6 +39,7 @@
 									</a>
 								@endif
 							</td>
+							<td>{{ currency($statement->landlord_balance_amount) }}</td>
 							<td>{{ date_formatted($statement->created_at) }}</td>
 							<td>
 								@if ($statement->sent_at)
