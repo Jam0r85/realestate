@@ -157,6 +157,39 @@
 
 				</div>
 
+				<div class="box">
+
+					<h3 class="title">Record Expenses</h3>
+					<h5 class="subtitle">Optional - record expenses for this statement.</h5>
+
+					<hr />
+
+					<div class="columns">
+						<div class="column is-4">
+
+							<h4 class="subtitle">Expense Item 1</h4>
+
+							@include('expenses.partials.form', ['array' => true])
+
+						</div>
+						<div class="column is-4">
+
+							<h4 class="subtitle">Expense Item 2</h4>
+
+							@include('expenses.partials.form', ['array' => true])
+
+						</div>
+						<div class="column is-4">
+
+							<h4 class="subtitle">Expense Item 3</h4>
+
+							@include('expenses.partials.form', ['array' => true])
+
+						</div>
+					</div>
+
+				</div>
+
 				<button type="submit" class="button is-primary">
 					<span class="icon is-small">
 						<i class="fa fa-save"></i>

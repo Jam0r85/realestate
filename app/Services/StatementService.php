@@ -110,13 +110,13 @@ class StatementService
 		// Check whether we have any invoice items to add.
 		if ($data['invoice_number']) {
 
-            $total_items = count(array_where($data['item_name'], function ($value, $key) {
+            $total_invoice_items = count(array_where($data['item_name'], function ($value, $key) {
                 return !is_null($value);
             }));
 
             // Add the invoice items should there be any.
             if (count($data['item_name'])) {
-                for ($i = 0; $i < $total_items; $i++) {
+                for ($i = 0; $i < $total_invoice_items; $i++) {
 
                     $item['name'] = $data['item_name'][$i];
                     $item['description'] = $data['item_description'][$i];
@@ -130,6 +130,22 @@ class StatementService
 
                     $this->createInvoiceItem($item, $statement->id);
                 }
+            }
+        }
+
+        $total_expense_items = count(array_where($data['expense_name'], function ($value, $key) {
+            return !is_null($value);
+        }));
+
+        // Add the expense items should there be any.
+        if (count($data['expense_name'])) {
+            for ($i = 0; $i < $total_expense_items; $i++) {
+
+            	$item['name'] = $data['expense_name'][$i];
+            	$item['cost'] = $data['expense_cost'][$i];
+            	$item['contractors'] = $data['expense_contractors'][$i];
+
+            	$this->createExpenseItem($item, $statement->id);
             }
         }
 
