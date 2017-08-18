@@ -117,44 +117,55 @@
 					</div>
 				</div>
 
-				<div class="box">
+			</div>
+		</section>
 
-					<h3 class="title">Record Invoice</h3>
-					<h5 class="subtitle">Optional - record the invoice for this statement at the same time.</h5>
+		<section class="section">
+			<div class="container">
 
-					<div class="field">
-						<label class="label" for="invoice_number">Invoice Number</label>
-						<div class="control">
-							<input type="number" step="any" name="invoice_number" class="input" />
+				<div class="is-pulled-right">
+					<button type="button" class="button is-outlined is-centered" id="cloneInvoiceItem">
+						<span class="icon is-small">
+							<i class="fa fa-plus"></i>
+						</span>
+						<span>
+							Another Invoice Item
+						</span>
+					</button>
+				</div>
+
+				<h3 class="title">Record Invoice</h3>
+				<h5 class="subtitle">Optional - record the invoice for this statement at the same time.</h5>
+
+				<div class="field">
+					<label class="label" for="invoice_number">Invoice Number</label>
+					<div class="control">
+						<input type="number" step="any" name="invoice_number" class="input" />
+					</div>
+				</div>
+
+				<div id="invoiceItems">
+					<div id="invoiceItemColumn">
+						<div class="card mb-2">
+							<header class="card-header">
+								<p class="card-header-title">
+									Invoice Item
+								</p>
+							</header>
+							<div class="card-content">
+
+								@include('invoices.partials.item-form', [
+									'array' => true,
+									'data' => [
+										'name' => 'Full Management',
+										'description' => 'Full management service at 10% plus VAT',
+										'quantity' => '1'
+									]
+								])
+
+							</div>
 						</div>
 					</div>
-
-					<hr />
-
-					<div class="columns">
-						<div class="column is-4">
-
-							<h4 class="subtitle">Invoice Item 1</h4>
-
-							@include('invoices.partials.item-form', ['array' => true])
-
-						</div>
-						<div class="column is-4">
-
-							<h4 class="subtitle">Invoice Item 2</h4>
-
-							@include('invoices.partials.item-form', ['array' => true])
-
-						</div>
-						<div class="column is-4">
-
-							<h4 class="subtitle">Invoice Item 3</h4>
-
-							@include('invoices.partials.item-form', ['array' => true])
-
-						</div>
-					</div>
-
 				</div>
 
 				<button type="submit" class="button is-primary">
@@ -234,10 +245,16 @@
 		});
 
 		//Now clone you select2 div 
-		$('#expenseItemColumn').clone( true).insertAfter("#expenseItems"); 
+		$('#expenseItemColumn').clone(true).insertAfter("#expenseItems"); 
 
 		//we must have to re-initialize  select2 
 		$('.select2').select2(); 
+	});
+
+	$('#cloneInvoiceItem').click(function() {
+
+		//Now clone you select2 div 
+		$('#invoiceItemColumn').clone(true).find("input").val("").end().appendTo("#invoiceItems"); 
 	});
 </script>
 @endpush
