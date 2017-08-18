@@ -19,6 +19,17 @@ class ExpenseService
 		$expense = new Expense();
 		$expense->user_id = Auth::user()->id;
 		$expense->fill($data);
+
+		// Set the created_at date.
+		if (isset($data['created_at'])) {
+			$expense->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+		}
+
+		// Set the paid_at date.
+		if (isset($data['paid_at'])) {
+			$expense->paid_at = Carbon::createFromFormat('Y-m-d', $data['paid_at']);
+		}
+
 		$expense->save();
 
 		// Do we have any contractors to attach?

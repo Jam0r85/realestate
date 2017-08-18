@@ -50,6 +50,7 @@ class InvoiceService
 			$invoice->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
 		}
 
+		// Set the paid_at date.
 		if (isset($data['paid_at'])) {
 			$invoice->paid_at = Carbon::createFromFormat('Y-m-d', $data['paid_at']);
 		}
