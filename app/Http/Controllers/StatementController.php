@@ -67,7 +67,8 @@ class StatementController extends BaseController
      */
     public function search(Request $request)
     {
-        $statements = Statement::search($request->search_term)->latest('period_start')->get();
+        $statements = Statement::search($request->search_term)->get();
+        $statements->sortBy('period_start');
         $title = 'Search Results';
 
         return view('statements.index', compact('statements','title'));
