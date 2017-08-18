@@ -172,42 +172,33 @@
 		<section class="section">
 			<div class="container">
 
+				<div class="is-pulled-right">
+					<button type="button" class="button is-outlined is-centered" id="cloneExpenseItem">
+						<span class="icon is-small">
+							<i class="fa fa-plus"></i>
+						</span>
+						<span>
+							Another Expense Item
+						</span>
+					</button>
+				</div>
+
 				<h3 class="title">Record Expenses</h3>
 				<h5 class="subtitle">Optional - record expenses for this statement.</h5>
 
 				<hr />
 
-				<div class="tile is-ancestor" id="expense_items">
-					<div id="expense_item_column" class="tile is-parent">
-						<div class="tile is-child card">
-
+				<div id="expenseItems">
+					<div id="expenseItemColumn">
+						<div class="card mb-2">
 							<header class="card-header">
 								<p class="card-header-title">
-									Expense Item 1
+									Expense Item
 								</p>
 							</header>
 							<div class="card-content">
 								@include('expenses.partials.form', ['array' => true])
-							</div>				
-
-						</div>
-					</div>
-					<div class="tile is-parent">
-						<div class="tile is-child card">
-
-							<div class="card-content">
-
-									<button type="button" class="button is-outlined is-centered">
-										<span class="icon is-small">
-											<i class="fa fa-plus"></i>
-										</span>
-										<span>
-											Add Expense Item
-										</span>
-									</button>
-
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -230,6 +221,23 @@
 
 @push('footer_scripts')
 <script>
+	$('#cloneExpenseItem').click(function() {
 
+		var div = $("#expenseItems div"); 
+
+		//find all select2 and destroy them   
+		div.find(".select2").each(function(index)
+		{
+			if ($(this).data('select2')) {
+				$(this).select2('destroy');
+			} 
+		});
+
+		//Now clone you select2 div 
+		$('#expenseItemColumn').clone( true).insertAfter("#expenseItems"); 
+
+		//we must have to re-initialize  select2 
+		$('.select2').select2(); 
+	});
 </script>
 @endpush
