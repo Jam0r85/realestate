@@ -115,7 +115,7 @@ class StatementService
             }));
 
             // Add the invoice items should there be any.
-            if (count($data['item_name'])) {
+            if (count($total_invoice_items)) {
                 for ($i = 0; $i < $total_invoice_items; $i++) {
 
                     $item['name'] = $data['item_name'][$i];
@@ -138,7 +138,7 @@ class StatementService
         }));
 
         // Add the expense items should there be any.
-        if (count($data['expense_name'])) {
+        if (count($total_expense_items)) {
             for ($i = 0; $i < $total_expense_items; $i++) {
 
             	$item['name'] = $data['expense_name'][$i];
@@ -146,7 +146,7 @@ class StatementService
             	$item['contractors'] = $data['expense_contractors'][$i];
 
             	$item['created_at'] = $data['created_at'];
-            	$item['paid_at'] = $data['paid_at'];
+            	$item['paid_at'] = $data['created_at'];
 
             	$this->createExpenseItem($item, $statement->id);
             }
