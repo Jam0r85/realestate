@@ -1,42 +1,63 @@
-@extends('tenancies.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.sections.section-no-container')
+	<section class="section">
+		<div class="container">
 
-		@component('partials.title')
-			Statements
-		@endcomponent
+			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		@component('partials.table')
-			@slot('head')
-				<th>Period</th>
-				<th>Amount</th>
-				<th>Date</th>
-				<th>Status</th>
-			@endslot
-			@foreach ($tenancy->statements()->paginate() as $statement)
-				<tr>
-					<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
-					<td>{{ currency($statement->amount) }}</td>
-					<td>{{ date_formatted($statement->created_at) }}</td>
-					<td>
-						@if ($statement->sent_at)
-							Sent
-						@else
-							@if ($statement->paid_at)
-								Paid
-							@else
-								Unpaid
-							@endif
-						@endif
-					</td>
-				</tr>
-			@endforeach
-		@endcomponent
+			<h1 class="title">{{ $tenancy->name }}</h1>
+			<h2 class="subtitle">Statements list</h2>
 
-		@include('partials.pagination', ['collection' => $tenancy->statements()->paginate()])
+			<hr />
 
-	@endcomponent
+			<table class="table is-striped is-fullwidth">
+				<thead>
+					<th>Period</th>
+					<th>Amount</th>
+					<th>Invoice</th>
+					<th>Date</th>
+					<th>Status</th>
+				</thead>
+				<tbody>
+					@foreach ($tenancy->statements()->paginate() as $statement)
+						<tr>
+							<td>
+								<a href="{{ route('statements.show', $statement->id) }}">
+									{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}
+								</a>
+							</td>
+							<td>{{ currency($statement->amount) }}</td>
+							<td>
+								@if ($statement->hasInvoice())
+									<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+										{{ $statement->invoice->number }}
+									</a>
+								@endif
+							</td>
+							<td>{{ date_formatted($statement->created_at) }}</td>
+							<td>
+								@if ($statement->sent_at)
+									Sent {{ date_formatted($statement->sent_at) }}
+								@else
+									@if ($statement->paid_at)
+										Paid
+									@else
+										Unpaid
+									@endif
+								@endif
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+
+			@include('partials.pagination', ['collection' => $tenancy->statements()->paginate()])
+
+		</div>
+	</section>
 
 @endsection
