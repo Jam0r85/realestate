@@ -16,11 +16,12 @@
 
 			<table class="table is-striped is-fullwidth">
 				<thead>
-					<th>Period</th>
-					<th>Amount</th>
-					<th>Invoice</th>
-					<th>Landlord</th>
 					<th>Date</th>
+					<th>Start</th>
+					<th>End</th>
+					<th>Amount</th>
+					<th>Landlord</th>
+					<th>Invoice</th>
 					<th>Status</th>
 				</thead>
 				<tbody>
@@ -28,10 +29,13 @@
 						<tr>
 							<td>
 								<a href="{{ route('statements.show', $statement->id) }}">
-									{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}
+									 {{ date_formatted($statement->created_at) }}
 								</a>
 							</td>
+							<td>{{ date_formatted($statement->period_start) }}</td>
+							<td>{{ date_formatted($statement->period_end) }}</td>
 							<td>{{ currency($statement->amount) }}</td>
+							<td>{{ currency($statement->landlord_balance_amount) }}</td>
 							<td>
 								@if ($statement->hasInvoice())
 									<a href="{{ route('invoices.show', $statement->invoice->id) }}">
@@ -39,8 +43,6 @@
 									</a>
 								@endif
 							</td>
-							<td>{{ currency($statement->landlord_balance_amount) }}</td>
-							<td>{{ date_formatted($statement->created_at) }}</td>
 							<td>
 								@if ($statement->sent_at)
 									Sent {{ date_formatted($statement->sent_at) }}
