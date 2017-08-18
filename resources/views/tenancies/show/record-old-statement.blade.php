@@ -159,7 +159,8 @@
 									'data' => [
 										'name' => 'Full Management',
 										'description' => 'Full management service at 10% plus VAT',
-										'quantity' => '1'
+										'quantity' => '1',
+										'amount' => session('old_statement_management_service_amount')
 									]
 								])
 

@@ -129,6 +129,11 @@ class StatementService
                     $item['paid_at'] = $data['created_at']; // Invoice paid at date.
 
                     $this->createInvoiceItem($item, $statement->id);
+
+			        // Flash the statement management amount for next time.
+			        if (strpos($item['description'], 'management service') !== false) {
+			        	session()->flash('old_statement_management_service_amount', $item['amount']);
+			        }
                 }
             }
         }

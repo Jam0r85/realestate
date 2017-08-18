@@ -26,6 +26,9 @@
 			@if (!isset($array))
 				value="{{ isset($item) ? $item->amount : old('amount') }}"
 			@endif
+			@if (isset($data))
+				value="{{ $data['amount'] }}"
+			@endif
 		/>
 	</p>
 </div>
