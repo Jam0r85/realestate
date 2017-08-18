@@ -2,22 +2,22 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	<form role="form" method="POST" action="{{ route('tenancies.create-old-rental-statement', $tenancy->id) }}">
+		{{ csrf_field() }}
 
-			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+		<section class="section">
+			<div class="container">
 
-			<h1 class="title">{{ $tenancy->name }}</h1>
-			<h2 class="subtitle">Record old statement</h2>
+				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
+					Return
+				</a>
 
-			<hr />
+				<h1 class="title">{{ $tenancy->name }}</h1>
+				<h2 class="subtitle">Record old statement</h2>
 
-			@include('partials.errors-block')
+				<hr />
 
-			<form role="form" method="POST" action="{{ route('tenancies.create-old-rental-statement', $tenancy->id) }}">
-				{{ csrf_field() }}
+				@include('partials.errors-block')
 
 				<div class="columns">
 					<div class="column is-6">
@@ -157,37 +157,59 @@
 
 				</div>
 
-				<div class="box">
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Record Statement
+					</span>
+				</button>
 
-					<h3 class="title">Record Expenses</h3>
-					<h5 class="subtitle">Optional - record expenses for this statement.</h5>
+			</div>
+		</section>
 
-					<hr />
+		<section class="section">
+			<div class="container">
 
-					<div class="columns">
-						<div class="column is-4">
+				<h3 class="title">Record Expenses</h3>
+				<h5 class="subtitle">Optional - record expenses for this statement.</h5>
 
-							<h4 class="subtitle">Expense Item 1</h4>
+				<hr />
 
-							@include('expenses.partials.form', ['array' => true])
+				<div class="tile is-ancestor" id="expense_items">
+					<div id="expense_item_column" class="tile is-parent">
+						<div class="tile is-child card">
 
-						</div>
-						<div class="column is-4">
-
-							<h4 class="subtitle">Expense Item 2</h4>
-
-							@include('expenses.partials.form', ['array' => true])
-
-						</div>
-						<div class="column is-4">
-
-							<h4 class="subtitle">Expense Item 3</h4>
-
-							@include('expenses.partials.form', ['array' => true])
+							<header class="card-header">
+								<p class="card-header-title">
+									Expense Item 1
+								</p>
+							</header>
+							<div class="card-content">
+								@include('expenses.partials.form', ['array' => true])
+							</div>				
 
 						</div>
 					</div>
+					<div class="tile is-parent">
+						<div class="tile is-child card">
 
+							<div class="card-content">
+
+									<button type="button" class="button is-outlined is-centered">
+										<span class="icon is-small">
+											<i class="fa fa-plus"></i>
+										</span>
+										<span>
+											Add Expense Item
+										</span>
+									</button>
+
+							</div>
+
+						</div>
+					</div>
 				</div>
 
 				<button type="submit" class="button is-primary">
@@ -199,9 +221,15 @@
 					</span>
 				</button>
 
-			</form>
+			</div>
+		</section>
 
-		</div>
-	</section>
+	</form>
 
 @endsection
+
+@push('footer_scripts')
+<script>
+
+</script>
+@endpush
