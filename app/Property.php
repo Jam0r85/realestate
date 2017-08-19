@@ -27,9 +27,7 @@ class Property extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','short_name','name_without_postcode','select_name'];
-
-	protected $with = ['owners'];
+	protected $appends = ['name','short_name','name_without_postcode'];
 
     /**
      * The attributes that are mass assignable.
