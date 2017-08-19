@@ -16,10 +16,14 @@
 			<td>{{ $tenancy->service->name }}</td>
 			<td>
 				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on <= \Carbon\Carbon::now()))
-					Vacated!
+					<span class="tag is-medium is-danger">
+						Vacated
+					</span>
 				@endif
 				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on > \Carbon\Carbon::now()))
-					Vacating!
+					<span class="tag is-medium is-warning">
+						Vacating
+					</span>
 				@endif
 			</td>
 		</tr>
