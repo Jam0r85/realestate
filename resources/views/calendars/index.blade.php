@@ -1,21 +1,26 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li class="is-active"><a>Calendars</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			Calendars
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">Calendars</h1>
 
-		@include('calendars.partials.table', ['calendars' => $calendars])
+			<a href="{{ route('calendars.create') }}" class="button is-primary is-outlined">
+				<span class="icon is-small">
+					<i class="fa fa-plus"></i>
+				</span>
+				<span>
+					New Calendar
+				</span>
+			</a>
 
-	@endcomponent
+			<hr />
+
+			@include('calendars.partials.table', ['calendars' => $calendars])
+
+		</div>
+	</section>
 
 @endsection

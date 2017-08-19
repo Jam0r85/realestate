@@ -9,11 +9,18 @@ $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Ox
 @import "node_modules/bulma/sass/utilities/initial-variables";
 
 /**
- * Colors
+ * Setup the Colors
  */
 
-$primary: #1E5F86;
-$card-header-color: $primary;
+$orange: #FFB60B;
+
+$primary: #FF5353;
+$info: $blue;
+$success: $green;
+$warning: $orange;
+$danger: $red;
+$dark: $grey-darker;
+$text: $grey;
 
 /**
  * Import Bulma
@@ -31,11 +38,21 @@ body {
 }
 
 /**
- * Font
+ * Font Styling
  */
 
-.is-subtitle {
-	font-weight: bold !important;
+.is-muted {
+	color: $grey-lighter;
+}
+
+.card .subtitle, .box .subtitle {
+	font-size: $size-6;
+	color: $grey;
+}
+
+.card .title, .box .title {
+	padding-bottom: $size-7;
+	font-size: $size-4;
 }
 
 /**
@@ -152,7 +169,6 @@ dd {
  */
 .card .card-header {
 	background: $white-ter;
-	text-transform: uppercase;
 }
 .card-footer a {
 	background-color: $white-ter;
@@ -162,7 +178,7 @@ dd {
 }
 
 /**
- * Margins
+ * Custom Margins
  */
 .mb-2 {
 	margin-bottom: 2rem !important;

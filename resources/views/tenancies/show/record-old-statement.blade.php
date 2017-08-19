@@ -19,7 +19,7 @@
 
 				@include('partials.errors-block')
 
-				<div class="columns">
+				<div class="columns is-desktop">
 					<div class="column is-one-third">
 
 						<div class="box mb-2">

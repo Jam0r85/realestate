@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('calendars.index') }}">Calendars</a></li>
-	<li class="is-active"><a>Create New Calendar</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			Create New Calendar
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<h1 class="title">New Calendar</h1>
 
-		@include('partials.errors-block')
+			<hr />
 
-		<form role="form" method="POST" action="{{ route('calendars.store') }}">
-			{{ csrf_field() }}
+			@include('partials.errors-block')
 
-			@include('calendars.partials.form')
+			<form role="form" method="POST" action="{{ route('calendars.store') }}">
+				{{ csrf_field() }}
 
-			@component('partials.forms.buttons.save')
-				Save Calendar
-			@endcomponent
+				@include('calendars.partials.form')
 
-		</form>
+				<button type="submit" class="button is-primary">
+					<span class="icon is-small">
+						<i class="fa fa-save"></i>
+					</span>
+					<span>
+						Create Calendar
+					</span>
+				</button>
 
-	@endcomponent
+			</form>
+
+		</div>
+	</section>
 
 @endsection
