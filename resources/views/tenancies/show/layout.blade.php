@@ -35,6 +35,7 @@
 			<div class="columns">
 				<div class="column is-one-third">
 
+					{{-- Tenancy Details Card --}}
 					<div class="card mb-2">
 						<header class="card-header">
 							<p class="card-header-title">
@@ -58,6 +59,7 @@
 						</table>
 					</div>
 
+					{{-- Rent Details Card --}}
 					<div class="card mb-2">
 						<header class="card-header">
 							<p class="card-header-title">
@@ -80,6 +82,7 @@
 						</table>
 					</div>
 
+					{{-- Agreement Details Card --}}
 					<div class="card mb-2">
 						<header class="card-header">
 							<p class="card-header-title">
@@ -93,6 +96,89 @@
 
 				</div>
 				<div class="column is-two-thirds">
+
+					{{-- Recent Rent Payments Card --}}
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Latest Rent Payments</h3>
+							<h5 class="subtitle">List of the latest rent payments recorded against this tenancy.</h5>
+
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Date</th>
+									<th>Amount</th>
+									<th>Method</th>
+									<th>User(s)</th>
+								</thead>
+								<tbody>
+									@foreach ($tenancy->rent_payments()->limit(5)->get() as $payment)
+										<tr>
+											<td>{{ date_formatted($payment->created_at) }}</td>
+											<td>{{ currency($payment->amount) }}</td>
+											<td>{{ $payment->method->name }}</td>
+											<td>
+												@foreach ($payment->users as $user)
+													<span class="tag is-primary">
+														{{ $user->name }}
+													</span>
+												@endforeach
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+					{{-- Recent Statements Card --}}
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Latest Statements</h3>
+							<h5 class="subtitle">List of the latest statements generated for this tenancy.</h5>
+
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Date</th>
+									<th>Starts</th>
+									<th>Ends</th>
+									<th>Amount</th>
+									<th>Invoice</th>
+								</thead>
+								<tbody>
+									@foreach ($tenancy->statements()->limit(5)->get() as $statement)
+										<tr>
+											<td>
+												<a href="{{ route('statements.show', $statement->id) }}">
+													{{ date_formatted($statement->created_at) }}
+												</a>
+											</td>
+											<td>{{ date_formatted($statement->period_start) }}</td>
+											<td>{{ date_formatted($statement->period_end) }}</td>
+											<td>{{ currency($statement->amount) }}</td>
+											<td>
+												@if ($statement->hasInvoice())
+													<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+														{{ $statement->invoice->number }}
+													</a>
+												@endif
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}">
+								Statements List
+							</a>
+						</footer>
+					</div>
+
+
 
 				</div>
 			</div>
