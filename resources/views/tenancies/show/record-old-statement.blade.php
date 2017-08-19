@@ -20,7 +20,7 @@
 				@include('partials.errors-block')
 
 				<div class="columns">
-					<div class="column is-6">
+					<div class="column is-one-third">
 
 						<div class="box mb-2">
 
@@ -85,7 +85,7 @@
 						</div>
 
 					</div>
-					<div class="column is-6">
+					<div class="column">
 
 						<div class="box">
 
