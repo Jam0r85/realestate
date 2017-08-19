@@ -82,6 +82,20 @@
 								</div>
 							</div>
 
+							<div class="field">
+								<label class="label" for="users">Users</label>
+								<div class="control">
+									<select name="users[]" class="select2" multiple>
+										@foreach (users() as $user)
+											<option value="{{ $user->id }}">{{ $user->name }}</option>
+										@endforeach
+									</select>
+								</div>
+								<p class="help">
+									You can overwrite the users who are atatched to this statement (usually property owners) by selecting them.
+								</p>
+							</div>
+
 						</div>
 
 					</div>
@@ -241,6 +255,7 @@
 
 @push('footer_scripts')
 <script>
+	// Clone an expense item.
 	$('#cloneExpenseItem').click(function() {
 
 		var div = $("#expenseItems div"); 
@@ -254,16 +269,15 @@
 		});
 
 		//Now clone you select2 div 
-		$('#expenseItemColumn').clone(true).find('input').val('').end().appendTo("#expenseItems"); 
+		$('#expenseItemColumn').clone(true).find('input,textarea').val('').end().appendTo("#expenseItems"); 
 
 		//we must have to re-initialize  select2 
 		$('.select2').select2(); 
 	});
 
+	// Clone an invoice item.
 	$('#cloneInvoiceItem').click(function() {
-
-		//Now clone you select2 div 
-		$('#invoiceItemColumn').clone(true).find('input').val('').end().appendTo("#invoiceItems"); 
+		$('#invoiceItemColumn').clone(true).find('input,textarea').val('').end().appendTo("#invoiceItems"); 
 	});
 </script>
 @endpush

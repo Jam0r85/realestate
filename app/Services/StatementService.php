@@ -74,6 +74,13 @@ class StatementService
 		// Find the tenancy.
 		$tenancy = Tenancy::findOrFail($id);
 
+		// Create an array of users for this statement.
+		if (isset($data['users'])) {
+			$users = $data['users'];
+		} else {
+			$users = $tenancy->property->owners->pluck('id')->toArray();
+		}
+
 		// Build the statement.
 		$statement = new Statement();
 		$statement->key = str_random(30);
@@ -90,7 +97,7 @@ class StatementService
 		$statement = $tenancy->statements()->save($statement);
 
 		// Attach the property owners to the statement.
-		$statement->users()->attach($tenancy->property->owners);
+		$statement->users()->attach($users);
 
 		// Record the rent amount received.
 		if (isset($data['rent_received'])) {
@@ -123,6 +130,8 @@ class StatementService
                     $item['quantity'] = $data['item_quantity'][$i];
                     $item['amount'] = $data['item_amount'][$i];
                     $item['tax_rate_id'] = $data['item_tax_rate_id'][$i];
+
+                    $item['users'] = $users;
 
                     $item['number'] = $data['invoice_number']; // Invoice number.
                     $item['created_at'] = $data['created_at']; // Invoice created at date.
@@ -233,7 +242,11 @@ class StatementService
 
 		// Build the data array.
 		$data['property_id'] = $statement->property->id;
-		$data['users'] = $statement->property->owners;
+
+		// Set the users
+		if (!isset($data['users'])) {
+			$data['users'] = $statement->property->owners;
+		}
 
 		// Create and store the new invoice.
 		$service = new InvoiceService();
@@ -263,7 +276,7 @@ class StatementService
 
         // Should we not have a valid invoice, we create one.
         if (!$invoice) {
-        	$invoice = $this->createInvoice($statement_id, array_only($data, ['created_at','number']));
+        	$invoice = $this->createInvoice($statement_id, array_only($data, ['created_at','number','users']));
         }
 
         // Create and store the invoice item.

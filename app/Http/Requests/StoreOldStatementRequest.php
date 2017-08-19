@@ -24,9 +24,10 @@ class StoreOldStatementRequest extends FormRequest
     public function rules()
     {
         return [
-            'created_at' => 'required',
-            'period_start' => 'required',
-            'period_end' => 'required'
+            'created_at' => 'required|date_format:Y-m-d',
+            'period_start' => 'required|date_format:Y-m-d',
+            'period_end' => 'required|date_format:Y-m-d',
+            'amount'
         ];
     }
 }
