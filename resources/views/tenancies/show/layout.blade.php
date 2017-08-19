@@ -138,6 +138,10 @@
 							<div class="tile is-parent is-half">
 								<div class="tile is-child box">
 
+									<span class="tag is-primary is-medium is-pulled-right">
+										{{ currency($tenancy->rent_balance) }}
+									</span>
+
 									<h3 class="title">Record Rent Payment</h3>
 
 									<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
