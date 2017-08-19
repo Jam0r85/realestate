@@ -121,6 +121,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many invoices.
+     */
+    public function invoices()
+    {
+        return $this->belongsToMany('App\Invoice');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()

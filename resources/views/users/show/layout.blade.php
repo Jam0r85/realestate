@@ -113,27 +113,51 @@
 						</footer>
 					</div>
 
-					@if (count($user->properties))
-						<div class="box mb-2">
+					<div class="box mb-2">
 
-							<h3 class="title">Properties</h3>
-							<h5 class="subtitle">The properties that this user is linked to.</h5>
+						<h3 class="title">Properties</h3>
+						<h5 class="subtitle">The properties that this user is linked to.</h5>
 
-							<table class="table is-striped is-fullwidth">
-								<thead>
-									<th>Name</th>
-								</thead>
-								<tbody>
-									@foreach ($user->properties as $property)
-										<tr>
-											<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
+						<table class="table is-striped is-fullwidth">
+							<thead>
+								<th>Name</th>
+							</thead>
+							<tbody>
+								@foreach ($user->properties as $property)
+									<tr>
+										<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
 
-						</div>
-					@endif
+					</div>
+
+					<div class="box mb-2">
+
+						<h3 class="title">Recent Invoices</h3>
+						<h5 class="subtitle">The recent paid and unpaid invoices that this user is linked to.</h5>
+
+						<table class="table is-striped is-fullwidth">
+							<thead>
+								<th>Number</th>
+								<th>Amount</th>
+								<th>Balance</th>
+								<th>Date</th>
+							</thead>
+							<tbody>
+								@foreach ($user->invoices()->limit(5)->get() as $invoice)
+									<tr>
+										<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
+										<td>{{ currency($invoice->total) }}</td>
+										<td>{{ currency($invoice->total_balance) }}</td>
+										<td>{{ date_formatted($invoice->created_at) }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+
+					</div>
 
 				</div>
 			</div>
