@@ -82,7 +82,10 @@
 						</table>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-rent-amount']) }}">
-								New Rent Amount
+								New
+							</a>
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'rent-amount-history']) }}">
+								History
 							</a>
 						</footer>
 					</div>
@@ -118,7 +121,10 @@
 						</table>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-agreement']) }}">
-								New Agreement
+								New
+							</a>
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'agreement-history']) }}">
+								History
 							</a>
 						</footer>
 					</div>

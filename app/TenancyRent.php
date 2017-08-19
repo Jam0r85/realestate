@@ -19,4 +19,12 @@ class TenancyRent extends Model
      * @var array
      */
     protected $dates = ['starts_at'];
+
+    /**
+     * A tenancy rent amount was created by an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

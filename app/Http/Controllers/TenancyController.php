@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOldStatementRequest;
+use App\Http\Requests\StoreRentAmountRequest;
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
@@ -163,6 +164,30 @@ class TenancyController extends BaseController
         $service->createOldStatement($request->input(), $id);
 
         $this->successMessage('The old statement was created');
+
+        return back();
+    }
+
+    /**
+     * Store a new rent amount in storage.
+     * 
+     * @param \App\Http\Requests\StoreRentAmountRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createRentAmount(StoreRentAmountRequest $request, $id)
+    {
+        $tenancy = Tenancy::findOrFail($id);
+        
+        $service = new TenancyService();
+        $service->createRentAmount($request->input(), $tenancy);
+
+        // Create an agreement at the same time?
+        if ($request->has('create_agreement')) {
+            $service->createTenancyAgreement($request->input(), $id);
+        }
+
+        $this->successMessage('The rent amount was recorded');
 
         return back();
     }

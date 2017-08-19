@@ -30,21 +30,17 @@ class TenancyService
 		// Attach the tenants
 		$tenancy->tenants()->attach($data['users']);
 
-		// Build the tenancy agreement.
-		$agreement = new Agreement();
-		$agreement->user_id = Auth::user()->id;
-		$agreement->starts_at = Carbon::createFromFormat('Y-m-d', $data['start_date']);
-		$agreement->length = str_slug($data['length']);
-		$agreement->ends_at = $this->calculateEndDate($agreement->starts_at, $agreement->length);
-
 		// Save the tenancy agreement.
-		$tenancy->agreements()->save($agreement);
+		$this->createTenancyAgreement([
+			'starts_at' => $data['start_date'],
+			'length' => $data['length']
+		], $tenancy);
 
-		// Build the rent amount.
-		$rent = new TenancyRent();
-		$rent->user_id = Auth::user()->id;
-		$rent->amount = $data['rent_amount'];
-		$rent->starts_at = $agreement->starts_at;
+		// Save the rent amount.
+		$this->createRentAmount([
+			'amount' => $data['amount'],
+			'starts_at' => $data['start_date']
+		], $tenancy);
 
 		// Save the rent amount
 		$tenancy->rents()->save($rent);
@@ -73,13 +69,54 @@ class TenancyService
         }
 	}
 
-	public function createRentAmount()
+	/**
+	 * Create a rent amount for the given tenancy.
+	 * 
+	 * @param array $data
+	 * @param \App\Tenancy $tenancy
+	 * @return \App\TenancyRent
+	 */
+	public function createRentAmount(array $data, Tenancy $tenancy)
 	{
+		// Format the starts_at date.
+		if (isset($data['starts_at'])) {
+			$data['starts_at'] = Carbon::createFromFormat('Y-m-d', $data['starts_at']);
+		}
 
+		$rent = new TenancyRent();
+		$rent->user_id = Auth::user()->id;
+		$rent->fill($data);
+
+		// Save the rent amount
+		$tenancy->rents()->save($rent);
+
+		return $rent;
 	}
 
-	public function createTenancyAgreement()
+	/**
+	 * Create a tenancy agreement for the given tenancy.
+	 * 
+	 * @param array $data
+	 * @param \App\Tenancy $tenancy
+	 * @return \App\Agreement
+	 */
+	public function createTenancyAgreement(array $data, Tenancy $tenancy)
 	{
+		if (isset($data['starts_at'])) {
+			$data['starts_at'] = Carbon::createFromFormat('Y-m-d', $data['starts_at']);
+		}
 
+		if (isset($data['length'])) {
+			$data['length'] = str_slug($data['length']);
+		}
+
+		$agreement = new Agreement();
+		$agreement->user_id = Auth::user()->id;
+		$agreement->fill($data);
+		$agreement->ends_at = $this->calculateEndDate($agreement->starts_at, $agreement->length);
+
+		$tenancy->agreements()->save($agreement);
+
+		return $agreement;
 	}
 }
