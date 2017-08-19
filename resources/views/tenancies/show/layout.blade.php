@@ -1,12 +1,104 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('tenancies.index') }}">Tenancies</a></li>
-	<li><a href="{{ route('properties.show', $tenancy->property->id) }}">{{ $tenancy->property->short_name }}</a></li>
-	<li class="is-active"><a>{{ $tenancy->name }}</a></li>
-@endsection
-
 @section('content')
+
+	<section class="section">
+		<div class="container">
+
+			<h1 class="title">{{ $tenancy->name }}</h1>
+			<h2 class="subtitle">
+				<a href="{{ route('properties.show', $tenancy->property->id) }}">
+					{{ $tenancy->property->name }}
+				</a>
+			</h2>
+
+			<div class="control">
+				<a href="{{ route('tenancies.show', [$tenancy->id, 'edit-tenants']) }}" class="button is-warning">
+					<span class="icon is-small">
+						<i class="fa fa-edit"></i>
+					</span>
+					<span>
+						Edit Tenants
+					</span>
+				</a>
+				@foreach ($tenancy->tenants as $user)
+					<a href="{{ route('users.show', $user->id) }}">
+						<span class="tag is-medium is-primary">
+							{{ $user->name }}
+						</span>
+					</a>
+				@endforeach
+			</div>
+
+			<hr />
+
+			<div class="columns">
+				<div class="column is-one-third">
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								Tenancy Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="is-muted">Started</td>
+								<td class="has-text-right">
+									{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : 'Not Started' }}
+								</td>
+							</tr>
+							@if ($tenancy->vacated_on)
+								<tr>
+									<td class="is-muted">Vacated</td>
+									<td class="has-text-right">{{ date_formatted($tenancy->vacated_on) }}
+									</td>
+								</tr>
+							@endif
+						</table>
+					</div>
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								Rent Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="is-muted">Date Set</td>
+								<td class="has-text-right">
+									{{ $tenancy->current_rent ? date_formatted($tenancy->current_rent->starts_at) : 'No Rent Set' }}
+								</td>
+							</tr>
+							<tr>
+								<td class="is-muted">Rent PCM</td>
+								<td class="has-text-right">
+									{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : 'n/a' }}
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								Agreement Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+
+						</table>
+					</div>
+
+				</div>
+				<div class="column is-two-thirds">
+
+				</div>
+			</div>
+
+		</div>
+	</section>
 
 	@component('partials.sections.hero.container')
 		@slot('title')

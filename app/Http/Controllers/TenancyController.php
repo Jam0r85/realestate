@@ -98,7 +98,7 @@ class TenancyController extends BaseController
      * @param  \App\Tenancy  $tenancy
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'dashboard')
+    public function show($id, $section = 'layout')
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
         return view('tenancies.show.' . $section, compact('tenancy'));
