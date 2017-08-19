@@ -23,6 +23,7 @@
 					<th>Landlord</th>
 					<th>Invoice</th>
 					<th>Status</th>
+					<th>PDF</th>
 				</thead>
 				<tbody>
 					@foreach ($tenancy->statements()->paginate() as $statement)
@@ -53,6 +54,11 @@
 										Unpaid
 									@endif
 								@endif
+							</td>
+							<td>
+								<a href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
+									Download
+								</a>
 							</td>
 						</tr>
 					@endforeach

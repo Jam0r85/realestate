@@ -1,15 +1,22 @@
-@extends('tenancies.show.layout')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
-	@component('partials.sections.section-no-container')
+	<section class="section">
+		<div class="container">
 
-		@component('partials.title')
-			Payments
-		@endcomponent
+			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
+				Return
+			</a>
 
-		@include('payments.partials.table', ['payments' => $tenancy->rent_payments])
+			<h1 class="title">{{ $tenancy->name }}</h1>
+			<h2 class="subtitle">Rent payments received</h2>
 
-	@endcomponent
+			<hr />
+
+			@include('payments.partials.table', ['payments' => $tenancy->rent_payments])
+
+		</div>
+	</section>
 
 @endsection
