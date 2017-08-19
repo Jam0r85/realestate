@@ -27,7 +27,9 @@ class Property extends BaseModel
 	 * 
 	 * @var array
 	 */
-	protected $appends = ['name','short_name','name_without_postcode'];
+	protected $appends = ['name','short_name','name_without_postcode','select_name'];
+
+	protected $with = ['owners'];
 
     /**
      * The attributes that are mass assignable.
@@ -203,5 +205,21 @@ class Property extends BaseModel
     public function getNameFormattedAttribute()
     {
     	return str_replace(', ', '<br />', $this->name);
+    }
+
+    /**
+     * Get the property's select name for drop down menus.
+     * 
+     * @return string
+     */
+    public function getSelectNameAttribute()
+    {
+    	$name = $this->name;
+
+    	if (count($this->owners)) {
+    		$name .= ' (' . implode(' & ', $this->owners->pluck('name')->toArray()) . ')';
+    	}
+
+    	return $name;
     }
 }
