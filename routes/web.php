@@ -75,6 +75,7 @@ Route::prefix('expenses')->group(function () {
 	Route::get('unpaid', 'ExpenseController@unpaid')->name('expenses.unpaid');
 	Route::post('search', 'ExpenseController@search')->name('expenses.search');
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
+	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
 });
 
 Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');

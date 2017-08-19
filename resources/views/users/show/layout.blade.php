@@ -159,6 +159,32 @@
 
 					</div>
 
+					<div class="box mb-2">
+
+						<h3 class="title">Recent Expenses</h3>
+						<h5 class="subtitle">The recent paid and unpaid expenses linked to this user.</h5>
+
+						<table class="table is-striped is-fullwidth">
+							<thead>
+								<th>Name</th>
+								<th>Cost</th>
+								<th>Balance</th>
+								<th>Date</th>
+							</thead>
+							<tbody>
+								@foreach ($user->expenses()->limit(5)->get() as $expense)
+									<tr>
+										<td><a href="{{ route('expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
+										<td>{{ currency($expense->cost) }}</td>
+										<td>{{ currency($expense->balance_amount) }}</td>
+										<td>{{ date_formatted($expense->created_at) }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+
+					</div>
+
 				</div>
 			</div>
 		</div>

@@ -129,6 +129,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many expenses.
+     */
+    public function expenses()
+    {
+        return $this->belongsToMany('App\Expense');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()
