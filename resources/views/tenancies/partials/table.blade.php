@@ -5,6 +5,7 @@
 		<th>Rent</th>
 		<th>Balance</th>
 		<th>Service</th>
+		<th></th>
 	@endslot
 	@foreach ($tenancies as $tenancy)
 		<tr>
@@ -13,6 +14,14 @@
 			<td>{{ currency($tenancy->rent_amount) }}</td>
 			<td>{{ currency($tenancy->rent_balance) }}</td>
 			<td>{{ $tenancy->service->name }}</td>
+			<td>
+				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on <= \Carbon\Carbon::now()))
+					Vacated!
+				@endif
+				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on > \Carbon\Carbon::now()))
+					Vacating!
+				@endif
+			</td>
 		</tr>
 	@endforeach
 @endcomponent
