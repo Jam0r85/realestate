@@ -33,7 +33,7 @@
 			<hr />
 
 			<div class="columns">
-				<div class="column is-one-third">
+				<div class="column is-one-quarter-desktop is-one-third-tablet">
 
 					{{-- Tenancy Details Card --}}
 					<div class="card mb-2">
@@ -80,6 +80,11 @@
 								</td>
 							</tr>
 						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-rent-amount']) }}">
+								New Rent Amount
+							</a>
+						</footer>
 					</div>
 
 					{{-- Agreement Details Card --}}
@@ -90,12 +95,36 @@
 							</p>
 						</header>
 						<table class="table is-fullwidth is-striped">
-
+							<tr>
+								<td class="is-muted">Started</td>
+								<td class="has-text-right">
+									{{ $tenancy->current_agreement ? date_formatted($tenancy->current_agreement->starts_at) : 'No Active Agreement' }}
+								</td>
+							</tr>
+							@if ($tenancy->current_agreement)
+								<tr>
+									<td class="is-muted">Length</td>
+									<td class="has-text-right">
+										{{ $tenancy->current_agreement->length_formatted }}
+									</td>
+								</tr>
+								<tr>
+									<td class="is-muted">Ends</td>
+									<td class="has-text-right">
+										{{ $tenancy->current_agreement->ends_at_formatted }}
+									</td>
+								</tr>
+							@endif
 						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-agreement']) }}">
+								New Agreement
+							</a>
+						</footer>
 					</div>
 
 				</div>
-				<div class="column is-two-thirds">
+				<div class="column">
 
 					{{-- Recent Rent Payments Card --}}
 					<div class="card mb-2">
@@ -130,6 +159,11 @@
 							</table>
 
 						</div>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'payments']) }}">
+								Rent Payments List
+							</a>
+						</footer>
 					</div>
 
 					{{-- Recent Statements Card --}}
@@ -174,6 +208,9 @@
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}">
 								Statements List
+							</a>
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'record-old-statement']) }}">
+								Record Old Statement
 							</a>
 						</footer>
 					</div>
