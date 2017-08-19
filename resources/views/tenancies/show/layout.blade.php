@@ -132,6 +132,59 @@
 				</div>
 				<div class="column">
 
+					<div class="tiles mb-2">
+						<div class="tile is-ancestor">
+							{{-- Record Rent Payment Card --}}
+							<div class="tile is-parent is-half">
+								<div class="tile is-child box">
+
+									<h3 class="title">Record Rent Payment</h3>
+
+									<form role="form" method="POST" action="{{ route('tenancies.create-rent-payment', $tenancy->id) }}">
+										{{ csrf_field() }}
+
+										@include('tenancies.partials.payment-form')
+
+										<button type="submit" class="button is-primary">
+											<span class="icon is-small">
+												<i class="fa fa-save"></i>
+											</span>
+											<span>
+												Record Payment
+											</span>
+										</button>
+
+									</form>
+
+								</div>
+							</div>
+							{{-- Create Statement Card --}}
+							<div class="tile is-parent is-half">
+								<div class="tile is-child box">
+
+									<h3 class="title">Create Statement</h3>
+
+									<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id) }}">
+										{{ csrf_field() }}
+
+										@include('tenancies.partials.statement-form')
+
+										<button type="submit" class="button is-primary">
+											<span class="icon is-small">
+												<i class="fa fa-save"></i>
+											</span>
+											<span>
+												Create Statement
+											</span>
+										</button>
+
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
 					{{-- Recent Rent Payments Card --}}
 					<div class="card mb-2">
 						<div class="card-content">

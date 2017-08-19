@@ -184,7 +184,7 @@ class TenancyController extends BaseController
 
         // Create an agreement at the same time?
         if ($request->has('create_agreement')) {
-            $service->createTenancyAgreement($request->input(), $id);
+            $service->createTenancyAgreement($request->input(), $tenancy);
         }
 
         $this->successMessage('The rent amount was recorded');

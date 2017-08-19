@@ -47,7 +47,7 @@ class Agreement extends BaseModel
     public function getStatusFormatted()
     {
     	if ($this->starts_at > Carbon::now()) {
-    		return 'Proposed';
+    		return 'Pending';
     	}
 
     	if (!is_null($this->ends_at) && $this->ends_at <= Carbon::now()) {
