@@ -56,6 +56,14 @@
 									</td>
 								</tr>
 							@endif
+							<tr>
+								<td class="is-muted">Service</td>
+								<td class="has-text-right">{{ $tenancy->service->name }}</td>
+							</tr>
+							<tr>
+								<td class="is-muted">Service Charge</td>
+								<td class="has-text-right">{{ $tenancy->service_charge_formatted }} <span class="tag is-primary">{{ currency($tenancy->service_charge_amount) }}</span></td>
+							</tr>
 						</table>
 					</div>
 
