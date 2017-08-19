@@ -98,6 +98,7 @@
 									<th>End</th>
 									<th>Amount</th>
 									<th>Balance</th>
+									<th>Invoice</th>
 								</thead>
 								<tbody>
 									@foreach ($tenancy->latest_statements as $statement)
@@ -107,6 +108,13 @@
 											<td>{{ date_formatted($statement->period_end) }}</td>
 											<td>{{ currency($statement->amount) }}</td>
 											<td>{{ currency($statement->landlord_balance_amount) }}</td>
+											<td>
+												@if ($statement->hasInvoice())
+													<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+														{{ $statement->invoice->number }}
+													</a>
+												@endif
+											</td>
 										</tr>
 									@endforeach
 								</tbody>
