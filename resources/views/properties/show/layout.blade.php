@@ -110,116 +110,110 @@
 				</div>
 				<div class="column is-8">
 
-					@if (count($property->tenancies))
-						<div class="card mb-2">
-							<div class="card-content">
-								<h3 class="title">Tenancies</h3>
-								<h5 class="subtitle">The following tenancies are registered to this property.</h5>
+					<div class="card mb-2">
+						<div class="card-content">
+							<h3 class="title">Tenancies</h3>
+							<h5 class="subtitle">The following tenancies are registered to this property.</h5>
 
-								<table class="table is-fullwidth is-striped">
-									<thead>
-										<th>Name</th>
-										<th>Rent</th>
-										<th>Started</th>
-										<th>Status</th>
-									</thead>
-									<tbody>
-										@foreach ($property->tenancies as $tenancy)
-											<tr>
-												<td><a href="{{ route('tenancies.show', $tenancy->id) }}">{{ $tenancy->name }}</a></td>
-												<td>{{ currency($tenancy->rent_amount) }}</td>
-												<td>{{ date_formatted($tenancy->started_at) }}</td>
-												<td>
-													<span class="tag is-medium {{ $tenancy->vacated_on ? 'is-warning' : 'is-success' }}">
-														{{ $tenancy->vacated_on ? 'Vacated' : 'Active' }}
-													</span>
-												</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
+							<table class="table is-fullwidth is-striped">
+								<thead>
+									<th>Name</th>
+									<th>Rent</th>
+									<th>Started</th>
+									<th>Status</th>
+								</thead>
+								<tbody>
+									@foreach ($property->tenancies as $tenancy)
+										<tr>
+											<td><a href="{{ route('tenancies.show', $tenancy->id) }}">{{ $tenancy->name }}</a></td>
+											<td>{{ currency($tenancy->rent_amount) }}</td>
+											<td>{{ date_formatted($tenancy->started_at) }}</td>
+											<td>
+												<span class="tag is-medium {{ $tenancy->vacated_on ? 'is-warning' : 'is-success' }}">
+													{{ $tenancy->vacated_on ? 'Vacated' : 'Active' }}
+												</span>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
-					@endif
+					</div>
 
-					@if (count($property->recent_statements))
-						<div class="card mb-2">
-							<div class="card-content">
-								<h3 class="title">Statements</h3>
-								<h5 class="subtitle">The following statements are registered to this property.</h5>
+					<div class="card mb-2">
+						<div class="card-content">
+							<h3 class="title">Statements</h3>
+							<h5 class="subtitle">The following statements are registered to this property.</h5>
 
-								<table class="table is-fullwidth is-striped">
-									<thead>
-										<th>Period</th>
-										<th>Tenancy</th>
-										<th>Amount</th>
-										<th>Status</th>
-									</thead>
-									<tbody>
-										@foreach ($property->statements()->limit(5)->get() as $statement)
-											<tr>
-												<td><a href="{{ route('statements.show', $statement->id) }}">{{ $statement->period_formatted }}</a></td>
-												<td>{{ $statement->tenancy->name }}</td>
-												<td>{{ currency($statement->amount) }}</td>
-												<td>
-													@if (is_null($statement->paid_at))
-														<span class="tag is-medium is-danger">
-															Unpaid
-														</span>
-													@endif
-													<span class="tag is-medium {{ $statement->sent_at ? 'is-success' : 'is-danger' }}">
-														{{ $statement->sent_at ? 'Sent' : 'Unsent' }}
+							<table class="table is-fullwidth is-striped">
+								<thead>
+									<th>Period</th>
+									<th>Tenancy</th>
+									<th>Amount</th>
+									<th>Status</th>
+								</thead>
+								<tbody>
+									@foreach ($property->statements()->limit(5)->get() as $statement)
+										<tr>
+											<td><a href="{{ route('statements.show', $statement->id) }}">{{ $statement->period_formatted }}</a></td>
+											<td>{{ $statement->tenancy->name }}</td>
+											<td>{{ currency($statement->amount) }}</td>
+											<td>
+												@if (is_null($statement->paid_at))
+													<span class="tag is-medium is-danger">
+														Unpaid
 													</span>
-												</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
-							<footer class="card-footer">
-								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statements']) }}">	
-									Statements List
-								</a>
-							</footer>
+												@endif
+												<span class="tag is-medium {{ $statement->sent_at ? 'is-success' : 'is-danger' }}">
+													{{ $statement->sent_at ? 'Sent' : 'Unsent' }}
+												</span>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
-					@endif
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statements']) }}">	
+								Statements List
+							</a>
+						</footer>
+					</div>
 
-					@if (count($property->recent_invoices))
-						<div class="card mb-2">
-							<div class="card-content">
-								<h3 class="title">Recent Invoices</h3>
-								<h5 class="subtitle">The following invoices are the most recent for this property.</h5>
+					<div class="card mb-2">
+						<div class="card-content">
+							<h3 class="title">Recent Invoices</h3>
+							<h5 class="subtitle">The following invoices are the most recent for this property.</h5>
 
-								<table class="table is-fullwidth is-striped">
-									<thead>
-										<th>Number</th>
-										<th>Total</th>
-										<th>Created</th>
-										<th>Status</th>
-									</thead>
-									<tbody>
-										@foreach ($property->invoices()->limit(10)->get() as $invoice)
-											<tr>
-												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
-												<td>{{ currency($invoice->total) }}</td>
-												<td>{{ date_formatted($invoice->created_at) }}</td>
-												<td>
-													<span class="tag is-medium {{ $invoice->paid_at ? 'is-success' : 'is-danger' }}">
-														{{ $invoice->paid_at ? 'Paid' : 'Unpaid' }}
-													</span>
-												</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
-							<footer class="card-footer">
-								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'invoices']) }}">
-									Invoices List
-								</a>
-							</footer>
+							<table class="table is-fullwidth is-striped">
+								<thead>
+									<th>Number</th>
+									<th>Total</th>
+									<th>Created</th>
+									<th>Status</th>
+								</thead>
+								<tbody>
+									@foreach ($property->invoices()->limit(10)->get() as $invoice)
+										<tr>
+											<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
+											<td>{{ currency($invoice->total) }}</td>
+											<td>{{ date_formatted($invoice->created_at) }}</td>
+											<td>
+												<span class="tag is-medium {{ $invoice->paid_at ? 'is-success' : 'is-danger' }}">
+													{{ $invoice->paid_at ? 'Paid' : 'Unpaid' }}
+												</span>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
-					@endif
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'invoices']) }}">
+								Invoices List
+							</a>
+						</footer>
+					</div>
 
 				</div>
 			</div>
