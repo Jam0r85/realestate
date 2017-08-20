@@ -64,6 +64,14 @@ class Expense extends BaseModel
     }
 
     /**
+     * An expense can have many documents.
+     */
+    public function invoices()
+    {
+        return $this->belongsToMany('App\Document', 'parent');
+    }
+
+    /**
      * An expense can belong to many statements.
      */
     public function statements()
@@ -107,5 +115,15 @@ class Expense extends BaseModel
         }
 
         return $name;
+    }
+
+    /**
+     * Does this expense have an invoice?
+     * 
+     * @return bool
+     */
+    public function hasInvoice()
+    {
+
     }
 }
