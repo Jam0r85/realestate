@@ -10,7 +10,7 @@
 			</a>
 
 			<h1 class="title">{{ $tenancy->name }}</h1>
-			<h2 class="subtitle">New rent amount</h2>
+			<h2 class="subtitle">Tenancy agreement history</h2>
 
 			<hr />
 

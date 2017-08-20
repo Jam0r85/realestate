@@ -23,7 +23,7 @@
 					<th>Date</th>
 				</thead>
 				<tbody>
-					@foreach ($user->expenses as $expense)
+					@foreach ($user->expenses()->paginate() as $expense)
 						<tr>
 							<td>
 								<a href="{{ route('expenses.show', $expense->id) }}">
@@ -42,6 +42,8 @@
 					@endforeach
 				</tbody>
 			</table>
+
+			@include('partials.pagination', ['collection' => $user->expenses()->paginate()])
 
 		</div>
 	</section>
