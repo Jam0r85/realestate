@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 class ExpenseController extends BaseController
 {
     /**
+     * Create a new controller instance.
+     *
+     * @param   EloquentUsersRepository $users
+     * @return  void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of paid expenses.
      *
      * @return \Illuminate\Http\Response

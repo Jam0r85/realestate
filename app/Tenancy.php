@@ -158,16 +158,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a number of latest statements.
-     */
-    public function latest_statements()
-    {
-        return $this->hasMany('App\Statement')
-            ->latest('period_start')
-            ->limit(15);
-    }
-
-    /**
      * A tenancy can have a last rental statement.
      */
     public function last_statement()

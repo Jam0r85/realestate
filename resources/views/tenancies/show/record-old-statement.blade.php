@@ -115,7 +115,7 @@
 									<th>Invoice</th>
 								</thead>
 								<tbody>
-									@foreach ($tenancy->latest_statements as $statement)
+									@foreach ($tenancy->statements()->latest('id')->limit(10)->get() as $statement)
 										<tr>
 											<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->created_at) }}</a></td>
 											<td>{{ date_formatted($statement->period_start) }}</td>

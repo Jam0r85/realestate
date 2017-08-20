@@ -60,16 +60,6 @@ class Property extends BaseModel
 	}
 
 	/**
-	 * A property can have recent invoices.
-	 */
-	public function recent_invoices()
-	{
-		return $this->hasMany('App\Invoice')->
-			latest()
-			->limit(10);
-	}
-
-	/**
 	 * A property can have many tenancies.
 	 */
 	public function tenancies()
@@ -85,16 +75,6 @@ class Property extends BaseModel
 	{
 		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
 			->latest('period_start');
-	}
-
-	/**
-	 * A property can have many recent statements through it's tenancies.
-	 */
-	public function recent_statements()
-	{
-		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
-			->latest('period_start')
-			->limit(10);
 	}
 
 	/**

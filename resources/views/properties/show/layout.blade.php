@@ -156,7 +156,7 @@
 										<th>Status</th>
 									</thead>
 									<tbody>
-										@foreach ($property->recent_statements as $statement)
+										@foreach ($property->statements()->limit(5)->get() as $statement)
 											<tr>
 												<td><a href="{{ route('statements.show', $statement->id) }}">{{ $statement->period_formatted }}</a></td>
 												<td>{{ $statement->tenancy->name }}</td>
@@ -176,6 +176,11 @@
 									</tbody>
 								</table>
 							</div>
+							<footer class="card-footer">
+								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'statements']) }}">	
+									Statements List
+								</a>
+							</footer>
 						</div>
 					@endif
 
@@ -193,7 +198,7 @@
 										<th>Status</th>
 									</thead>
 									<tbody>
-										@foreach ($property->recent_invoices as $invoice)
+										@foreach ($property->invoices()->limit(10)->get() as $invoice)
 											<tr>
 												<td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->number }}</a></td>
 												<td>{{ currency($invoice->total) }}</td>
@@ -208,6 +213,11 @@
 									</tbody>
 								</table>
 							</div>
+							<footer class="card-footer">
+								<a class="card-footer-item" href="{{ route('properties.show', [$property->id, 'invoices']) }}">
+									Invoices List
+								</a>
+							</footer>
 						</div>
 					@endif
 
