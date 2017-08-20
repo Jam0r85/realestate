@@ -65,6 +65,8 @@
 				</tbody>
 			</table>
 
+			@include('partials.pagination', ['collection' => $property->statements()->paginate()])
+
 		</div>
 	</section>
 
