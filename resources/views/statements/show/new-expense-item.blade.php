@@ -17,7 +17,8 @@
 			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('statements.create-expense-item', $statement->id) }}">
-				{{ csrf_field() }}				
+				{{ csrf_field() }}
+				<input type="hidden" name="property_id" value="{{ $statement->tenancy->property->id }}" />		
 
 				@include('expenses.partials.form')
 

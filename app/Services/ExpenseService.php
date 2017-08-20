@@ -2,13 +2,22 @@
 
 namespace App\Services;
 
+use App\Document;
 use App\Expense;
+use App\Services\DocumentService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ExpenseService
 {
+	/**
+	 * The folder for storing the expense documents.
+	 * 
+	 * @var string
+	 */
+	public $document_path = 'expenses';
+
 	/**
 	 * Create and store a new expense.
 	 * 
@@ -38,33 +47,20 @@ class ExpenseService
 			$expense->contractors()->attach($data['contractors']);
 		}
 
+		// Do we have invoices to upload for this expense?
+		if (isset($data['files'])) {
+			foreach ($data['files'] as $file) {
+
+				$service = new DocumentService();
+				$document = $service->storeFile($file, $this->document_path);
+				$document['name'] = $expense->name . ' Invoice';
+
+				$invoice = $service->createDocument($document);
+
+				$expense->invoices()->save($invoice);
+			}
+		}
+
 		return $expense;
-	}
-
-	/**
-	 * Upload an expense dcocument.
-	 * 
-	 * @param  [type]  $file    [description]
-	 * @param  Expense $expense [description]
-	 * @return [type]           [description]
-	 */
-	public function uploadDocument($file, Expense $expense)
-    {
-        $path = Storage::putFile('documents/expenses/' . $expense->id, $file);
-
-        $extension = $file->getClientOriginalExtension();
-        
-        $data = [
-            'name' => $expense->name . ' Invoice',
-            'description' => 'Invoice for the expense ' . $expense->name,
-            'path' => $path,
-            'extension' => $extension,
-        ];
-
-        $document = new Document();
-        $document->fill($data);
-        $document->unique = str_random(30);
-
-        return $expense->documents()->save($document);
     }
 }

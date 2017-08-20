@@ -27,7 +27,7 @@ class Expense extends BaseModel
      */
     protected $dates = ['paid_at'];
 
-       /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -68,7 +68,7 @@ class Expense extends BaseModel
      */
     public function invoices()
     {
-        return $this->belongsToMany('App\Document', 'parent');
+        return $this->morphMany('App\Document', 'parent');
     }
 
     /**

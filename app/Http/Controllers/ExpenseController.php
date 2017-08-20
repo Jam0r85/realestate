@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
+use App\Http\Requests\StoreExpenseRequest;
+use App\Services\ExpenseService;
 use Illuminate\Http\Request;
 
-class ExpenseController extends Controller
+class ExpenseController extends BaseController
 {
     /**
      * Display a listing of paid expenses.
@@ -40,7 +42,7 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        return view('expenses.create');
     }
 
     /**
@@ -49,9 +51,17 @@ class ExpenseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreExpenseRequest $request)
     {
-        //
+        $data = $request->input();
+        $data['files'] = $request->file('files');
+
+        $service = new ExpenseService();
+        $service->createExpense($data);
+
+        $this->successMessage('The expense was created');
+
+        return back();
     }
 
     /**
