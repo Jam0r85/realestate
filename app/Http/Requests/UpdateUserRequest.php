@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'company_name' => 'required_without_all:first_name,last_name',
-            'first_name' => 'required_without:company_name,last_name',
+            'first_name' => 'required_without_all:company_name,last_name',
             'last_name' => 'required_without_all:first_name,company_name'
         ];
     }
