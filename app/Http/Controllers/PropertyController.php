@@ -28,7 +28,7 @@ class PropertyController extends BaseController
      */
     public function index()
     {
-        $properties = Property::latest()->paginate();
+        $properties = Property::with('owners')->latest()->paginate();
         $title = 'Properties List';
 
         return view('properties.index', compact('properties','title'));
@@ -42,7 +42,7 @@ class PropertyController extends BaseController
      */
     public function search(Request $request)
     {
-        $properties = Property::search($request->search_term)->get();
+        $properties = Property::with('owners')->search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('properties.index', compact('properties','title'));
