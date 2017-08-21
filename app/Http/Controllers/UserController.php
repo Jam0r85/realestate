@@ -63,8 +63,8 @@ class UserController extends BaseController
     public function search(Request $request)
     {
         $users = User::search($request->search_term)->get();
-        $users->load('properties');
-        
+        $users->load('home');
+
         $title = 'Search Results';
 
         return view('users.index', compact('users', 'title'));
