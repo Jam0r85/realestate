@@ -35,7 +35,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::with('properties')->latest()->paginate();
+        $users = User::with('home')->latest()->paginate();
         $title = 'Users List';
         
         return view('users.index', compact('users', 'title'));
@@ -48,7 +48,7 @@ class UserController extends BaseController
      */
     public function archived()
     {
-        $users = User::with('properties')->onlyTrashed()->latest()->paginate();
+        $users = User::with('home')->onlyTrashed()->latest()->paginate();
         $title = 'Archived Users';
 
         return view('users.index', compact('users', 'title'));
@@ -62,7 +62,7 @@ class UserController extends BaseController
      */
     public function search(Request $request)
     {
-        $users = User::with('properties')->search($request->search_term)->get();
+        $users = User::with('home')->search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('users.index', compact('users', 'title'));
