@@ -42,7 +42,9 @@ class PropertyController extends BaseController
      */
     public function search(Request $request)
     {
-        $properties = Property::with('owners')->search($request->search_term)->get();
+        $properties = Property::search($request->search_term)->get();
+        $properties->load('owners');
+        
         $title = 'Search Results';
 
         return view('properties.index', compact('properties','title'));
