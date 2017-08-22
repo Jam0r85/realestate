@@ -124,6 +124,10 @@ class Expense extends BaseModel
      */
     public function hasInvoice()
     {
+        if (count($this->invoices)) {
+            return true;
+        }
 
+        return false;
     }
 }
