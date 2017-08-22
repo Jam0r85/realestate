@@ -40,9 +40,11 @@ class StatementByEmail extends BaseMailer
             // Loop through the expenses
             foreach ($this->statement->expenses as $expense) {
                 // Check whether the expense has an invoice
-                if ($expense->invoice) {
-                    // Attach the invoice to the email
-                    $this->attachData(get_file($expense->invoice->path), $expense->name . '.' . $expense->invoice->extension);
+                if (count($expense->invoices)) {
+                    foreach ($expense->invoices as $invoice) {
+                        // Attach the invoice to the email
+                        $this->attachData(get_file($invoice->path), $expense->name . '.' . $invoice->extension);
+                    }
                 }
             }
         }
