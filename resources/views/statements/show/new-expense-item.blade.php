@@ -73,7 +73,7 @@
 						<i class="fa fa-save"></i>
 					</span>
 					<span>
-						Create Item
+						Add &amp; Create Item(s)
 					</span>
 				</button>
 			</form>
