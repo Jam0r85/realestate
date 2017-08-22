@@ -27,7 +27,7 @@ class StoreExpenseRequest extends FormRequest
             'property_id' => 'required|sometimes',
             'name' => 'required',
             'cost' => 'required',
-            'files' => 'sometimes|file'
+            'files' => 'sometimes'
         ];
     }
 
