@@ -2,7 +2,8 @@
 	@slot('head')
 		<th>Tenancy</th>
 		<th>Property</th>
-		<th>Period</th>
+		<th>Starts</th>
+		<th>Ends</th>
 		<th>Amount</th>
 		<th>Status</th>
 	@endslot
@@ -15,7 +16,11 @@
 			</td>
 			<td>{{ $statement->property->short_name }}</td>
 			<td>
-				<a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a>
+				<a href="{{ route('statements.show', $statement->id) }}">
+					{{ date_formatted($statement->period_start) }}
+				</a>
+			</td>
+			<td>{{ date_formatted($statement->period_end) }}</a>
 			</td>
 			<td>{{ currency($statement->amount) }}</td>
 			<td>
