@@ -54,8 +54,22 @@ class CheckExpensePaid extends Command
 
         foreach ($expenses as $expense) {
             if ($expense->balance_amount <= 0) {
-                $expense->paid_at = Carbon::now();
-                $expense->save();
+
+                // We automatically set the statements as having been paid.
+                $statements_paid = true;
+
+                // Loop through each of the statements attached to the expense and check whether they have been paid.
+                foreach ($expense->statements as $statement) {
+                    if (is_null($statement->paid_at)) {
+                        $statements_paid = false;
+                    }
+                }
+
+                // Should all statements attached to this expense be paid, we mark the expense as being paid.
+                if ($statements_paid == true) {
+                    $expense->paid_at = Carbon::now();
+                    $expense->save();
+                }
             }
         }
 

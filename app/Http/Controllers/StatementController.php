@@ -189,7 +189,7 @@ class StatementController extends BaseController
         $service = new StatementService();
         $service->createExpenseItem($request->input(), $id);
 
-        $this->successMessage('The expense item was created');
+        $this->successMessage('The expense item was added');
 
         return back();
     }

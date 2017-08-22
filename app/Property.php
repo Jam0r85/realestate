@@ -69,6 +69,25 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many expenses.
+	 */
+	public function expenses()
+	{
+		return $this->hasMany('App\Expense')
+			->latest();
+	}
+
+	/**
+	 * A property can have many expenses.
+	 */
+	public function unpaid_expenses()
+	{
+		return $this->hasMany('App\Expense')
+			->whereNull('paid_at')
+			->latest();
+	}
+
+	/**
 	 * A property can have many statements through it's tenancies.
 	 */
 	public function statements()

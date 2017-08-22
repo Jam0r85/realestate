@@ -24,10 +24,7 @@ class StoreExpenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'property_id' => 'required|sometimes',
-            'name' => 'required',
-            'cost' => 'required',
-            'files' => 'sometimes'
+            //
         ];
     }
 
