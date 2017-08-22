@@ -20,7 +20,11 @@
 						<select name="property_id" class="select2">
 							<option value="">Please select..</option>
 							@foreach(properties() as $property)
-								<option value="{{ $property->id }}">{{ $property->select_name }}</option>
+								<option 
+									@if (old('property_id') == $property->id) selected @endif
+									value="{{ $property->id }}">
+										{{ $property->select_name }}
+								</option>
 							@endforeach
 						</select>
 					</div>

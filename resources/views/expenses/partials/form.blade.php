@@ -25,7 +25,11 @@
 	<div class="control">
 		<select name="{{ isset($array) ? 'expense_contractors[]' : 'contractors' }}" class="select2" multiple>
 			@foreach (users() as $user)
-				<option value="{{ $user->id }}">{{ $user->name }}</option>
+				<option 
+					@if (old('contractors') && in_array($user->id, old('contractors'))) selected @endif
+					value="{{ $user->id }}">
+						{{ $user->name }}
+				</option>
 			@endforeach
 		</select>
 	</div>
