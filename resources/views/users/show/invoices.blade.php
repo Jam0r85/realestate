@@ -10,7 +10,7 @@
 			</a>
 
 			<h1 class="title">{{ $user->name }}</h1>
-			<h2 class="subtitle">Invoices linked to this user</h2>
+			<h2 class="subtitle">Invoices billed to this user</h2>
 
 			<hr />
 

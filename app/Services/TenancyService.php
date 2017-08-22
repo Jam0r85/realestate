@@ -38,7 +38,7 @@ class TenancyService
 
 		// Save the rent amount.
 		$this->createRentAmount([
-			'amount' => $data['amount'],
+			'amount' => $data['rent_amount'],
 			'starts_at' => $data['start_date']
 		], $tenancy);
 
