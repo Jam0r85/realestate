@@ -104,6 +104,7 @@
 						<div class="box">
 
 							<h3 class="title">Latest Recorded Statements</h3>
+							<h5 class="subtitle">The statements are ordered by the ID they were recorded, not by their date.</h5>
 
 							<table class="table is-striped is-fullwidth">
 								<thead>
@@ -115,7 +116,7 @@
 									<th>Invoice</th>
 								</thead>
 								<tbody>
-									@foreach ($tenancy->statements()->latest('id')->limit(10)->get() as $statement)
+									@foreach ($tenancy->oldStatementsList() as $statement)
 										<tr>
 											<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->created_at) }}</a></td>
 											<td>{{ date_formatted($statement->period_start) }}</td>

@@ -158,6 +158,19 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Get the old statements list.
+     * 
+     */
+    public function oldStatementsList()
+    {
+        return $this->hasMany('App\Statement')
+            ->with('invoices')
+            ->latest('id')
+            ->limit(10)
+            ->get();
+    }
+
+    /**
      * A tenancy can have a last rental statement.
      */
     public function last_statement()
