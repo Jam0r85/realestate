@@ -284,7 +284,11 @@ class Statement extends BaseModel
      */
     public function hasInvoice()
     {
-        return (boolean) $this->invoices()->first();
+        if (count($this->invoices)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
