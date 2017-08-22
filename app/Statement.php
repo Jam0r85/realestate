@@ -144,7 +144,7 @@ class Statement extends BaseModel
      */
     public function getInvoiceAttribute()
     {
-        return $this->invoices()->first();
+        return $this->invoices->first();
     }
 
     /**

@@ -164,7 +164,7 @@ class Tenancy extends BaseModel
     public function oldStatementsList()
     {
         return $this->hasMany('App\Statement')
-            ->with('invoices')
+            ->with('invoices','invoices.items','expenses')
             ->latest('id')
             ->limit(10)
             ->get();
