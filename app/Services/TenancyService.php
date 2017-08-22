@@ -42,9 +42,6 @@ class TenancyService
 			'starts_at' => $data['start_date']
 		], $tenancy);
 
-		// Save the rent amount
-		$tenancy->rents()->save($rent);
-
 		return $tenancy;
 	}
 
