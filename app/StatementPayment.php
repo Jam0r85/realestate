@@ -6,8 +6,6 @@ use Laravel\Scout\Searchable;
 
 class StatementPayment extends BaseModel
 {
-    use Searchable;
-
     /**
      * Get the indexable data array for the model.
      *
