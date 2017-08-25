@@ -25,8 +25,8 @@ class StoreOldStatementRequest extends FormRequest
     {
         return [
             'created_at' => 'required|date_format:Y-m-d',
-            'period_start' => 'required|date_format:Y-m-d|unique:statements,period_start',
-            'period_end' => 'required|date_format:Y-m-d|unique:statements,period_end',
+            'period_start' => 'required|date_format:Y-m-d',
+            'period_end' => 'required|date_format:Y-m-d',
             'amount',
             'invoice_number' => 'required|unique:invoices,number'
         ];
