@@ -163,7 +163,7 @@
 				<div class="field">
 					<label class="label" for="invoice_number">Invoice Number</label>
 					<div class="control">
-						<input type="number" step="any" name="invoice_number" class="input" />
+						<input type="number" step="any" name="invoice_number" class="input" value="{{ old('invoice_number') }}" />
 					</div>
 				</div>
 
