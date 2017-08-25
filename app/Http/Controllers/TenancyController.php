@@ -160,8 +160,6 @@ class TenancyController extends BaseController
      */
     public function createOldRentalStatement(StoreOldStatementRequest $request, $id)
     {
-        return dd($request);
-
         $service = new StatementService();
         $service->createOldStatement($request->input(), $id);
 
