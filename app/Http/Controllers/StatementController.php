@@ -43,7 +43,7 @@ class StatementController extends BaseController
      */
     public function unsent()
     {
-        $statements = Statement::whereNull('sent_at')->latest()->get();
+        $statements = Statement::with('users','tenancy')->whereNull('sent_at')->latest()->get();
         return view('statements.unsent', compact('statements'));
     }
 
