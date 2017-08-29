@@ -53,3 +53,11 @@
 	</section>
 
 @endsection
+
+@push('footer_scripts')
+<script>
+	$(':checkbox[name=landlord_all]').click (function () {
+		$(':checkbox[name=payments[]]').prop('checked', this.checked);
+	});
+</script>
+@endpush
