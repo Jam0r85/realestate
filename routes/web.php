@@ -119,7 +119,6 @@ Route::prefix('statements')->group(function () {
 
 Route::get('statement-payments', 'StatementPaymentController@index')->name('statement-payments.index');
 Route::get('statement-payments/unsent', 'StatementPaymentController@unsent')->name('statement-payments.unsent');
-Route::post('statement-payments/search', 'StatementPaymentController@search')->name('statement-payments.search');
 Route::post('statement-payments/mark-sent', 'StatementPaymentController@markSent')->name('statement-payments.mark-sent');
 
 Route::prefix('users')->group(function () {

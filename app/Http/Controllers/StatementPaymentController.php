@@ -45,20 +45,6 @@ class StatementPaymentController extends BaseController
     }
 
     /**
-     * Search through the resource and display the results.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $payments = StatementPayment::search($request->search_term)->get();
-        $title = 'Search Results';
-
-        return view('statement-payments.index', compact('payments','title'));
-    }
-
-    /**
      * Mark the provided statement payments as sent.
      * 
      * @param \App\Http\Requests\StatementPaymentSentRequest $request

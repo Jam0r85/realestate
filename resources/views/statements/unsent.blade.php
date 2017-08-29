@@ -41,7 +41,11 @@
 											<input type="checkbox" name="statements[]" value="{{ $statement->id }}" />
 										@endif
 									</td>
-									<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</a></td>
+									<td>
+										<a href="{{ route('statements.show', $statement->id) }}">
+											{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}
+										</a>
+									</td>
 									<td>
 										{{ $statement->tenancy->name }}
 										<br />
@@ -60,7 +64,13 @@
 											</span>
 										@endforeach
 									</td>
-									<td>{!! $statement->paid_at ? '<span class="tag is-success">Paid ' . date_formatted($statement->paid_at) .'</span>' : '<span class="tag is-danger">Not Paid</span>' !!}</td>
+									<td>
+										@if ($statement->paid_at)
+											<span class="tag is-success">Paid {{ date_formatted($statement->paid_at)  }}</span>
+										@else
+											<span class="tag is-danger">Not Paid</span>
+										@endif
+									</td>
 								</tr>
 							@endforeach
 						</tbody>

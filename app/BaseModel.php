@@ -29,7 +29,7 @@ class BaseModel extends Model
 	 */
 	public function hasSetting($key)
 	{
-		return (boolean) $this->settings()->where('key', $key)->whereNotNull('value')->first();
+		return $this->settings()->where('key', $key)->whereNotNull('value')->first();
 	}
 
 	/**
