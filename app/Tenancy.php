@@ -241,7 +241,11 @@ class Tenancy extends BaseModel
      */
     public function getNameAttribute()
     {
-    	return implode(' & ', $this->tenants->pluck('name')->toArray());
+        if (count($this->tenants)) {
+            return implode(' & ', $this->tenants->pluck('name')->toArray());
+        }
+
+        return 'Tenancy #' . $this->id;
     }
 
     /**
@@ -261,10 +265,17 @@ class Tenancy extends BaseModel
      */
     public function getRentBalanceAttribute()
     {
-    	$payments = $this->rent_payments ? $this->rent_payments->sum('amount') : 0;
-        $statement_payments = $this->statements ? $this->statements->sum('amount') : 0;
+        $payments = $statements = 0;
 
-        return $payments - $statement_payments;
+        if (count($this->rent_payments)) {
+            $payments = $this->rent_payments->sum('amount');
+        }
+
+        if (count($this->statements)) {
+            $statements = $this->statements->sum('amount');
+        }
+
+        return $payments - $statements;
     }
 
     /**
