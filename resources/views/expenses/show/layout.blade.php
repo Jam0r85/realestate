@@ -128,26 +128,37 @@
 							<h3 class="title">Invoices</h3>
 							<h5 class="subtitle">Uploaded invoices for this expense.</h5>
 
-							<table class="table is-striped is-fullwidth">
-								<thead>
-									<th>Name</th>
-									<th>Extension</th>
-									<th>Document</th>
-								</thead>
-								<tbody>
-									@foreach ($expense->invoices as $invoice)
-										<tr>
-											<td>{{ $invoice->name }}</td>
-											<td>{{ $invoice->extension }}</td>
-											<td>
-												<a href="{{ Storage::url($invoice->path) }}" target="_blank">
-													Download
-												</a>
-											</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
+							<form role="form" method="POST" action="{{ route('expenses.delete-invoice', $expense->id) }}">
+								{{ csrf_field() }}
+
+								<table class="table is-striped is-fullwidth">
+									<thead>
+										<th>Name</th>
+										<th>Extension</th>
+										<th>Document</th>
+										<th>Remove</th>
+									</thead>
+									<tbody>
+										@foreach ($expense->invoices as $invoice)
+											<tr>
+												<td>{{ $invoice->name }}</td>
+												<td>{{ $invoice->extension }}</td>
+												<td>
+													<a href="{{ Storage::url($invoice->path) }}" target="_blank">
+														Download
+													</a>
+												</td>
+												<td>
+													<button type="submit" name="invoice_id" value="{{ $invoice->id }}" class="button is-small is-danger">
+														Delete
+													</button>
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+
+							</form>
 
 						</div>
 					</div>

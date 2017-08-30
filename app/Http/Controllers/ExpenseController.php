@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Document;
 use App\Expense;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Services\DocumentService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExpenseController extends BaseController
 {
@@ -111,6 +113,26 @@ class ExpenseController extends BaseController
         }
 
         $this->successMessage('The invoice(s) were uploaded');
+
+        return back();
+    }
+
+    /**
+     * Delete an invoice for the expense.
+     * 
+     * @param  Request $request [description]
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteInvoice(Request $request, $id)
+    {
+        $invoice = Document::findOrFail($request->invoice_id);
+
+        Storage::delete($invoice->path);
+
+        $invoice->delete();
+
+        $this->successMessage('The invoice was deleted');
 
         return back();
     }
