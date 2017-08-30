@@ -20,10 +20,31 @@ class Statement extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = $this->only('amount');
 
-        $array['property'] = $this->property;
-        $array['tenancy'] = $this->tenancy;
+        // Get the dates.
+        $array['dates'] = [
+            'created_at' => $this->created_at,
+            'sent_at' => $this->sent_at,
+            'paid_at' => $this->paid_at
+        ];
+
+        // Get the property name.
+        $array['property'] = $this->property->name;
+
+        // Get the tenancy.
+        $array['tenancy'] = $this->tenancy->name;
+
+        // Get the amounts.
+        $array['amounts'] = [
+            'statement' => $this->amount,
+            'invoices' => count($this->invoices) ? $this->invoices->sum('total') : null,
+            'expenses' => count($this->expenses) ? $this->expenses->sum('pivot.amount') : null,
+            'landlord' => $this->landlord_balance_amount
+        ];
+
+        // Get the users.
+        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
 
         return $array;
     }
