@@ -10,11 +10,32 @@
 			</a>
 
 			<h1 class="title">{{ $tenancy->name }}</h1>
-			<h2 class="subtitle">Rent payments received</h2>
+			<h2 class="subtitle">Rent payments recorded to this tenancy.</h2>
 
 			<hr />
 
-			@include('payments.partials.table', ['payments' => $tenancy->rent_payments])
+			<table class="table is-striped is-fullwidth">
+				<thead>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Method</th>
+					<th>User(s)</th>
+					<th>Receipt</th>
+				</thead>
+				<tbody>
+					@foreach ($tenancy->rent_payments()->paginate() as $payment)
+						<tr>
+							<td>{{ date_formatted($payment->created_at) }}</td>
+							<td>{{ currency($payment->amount) }}</td>
+							<td>{{ $payment->method->name }}</td>
+							<td></td>
+							<td></td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+
+			@include('partials.pagination', ['collection' => $tenancy->statements()->paginate()])
 
 		</div>
 	</section>
