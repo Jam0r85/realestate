@@ -12,6 +12,28 @@ class Invoice extends BaseModel
     use Searchable;
 
     /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('number','created_at');
+
+        $array['property'] = $this->property->name;
+
+        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
+
+        $array['amount'] = [
+            'total' => $this->total,
+            'net' => $this->total_net,
+            'tax' => $this->total_tax
+        ];
+
+        return $array;
+    }
+
+    /**
      * The attrbites that should be included in the collection.
      * 
      * @var array
