@@ -89,6 +89,7 @@
 				</div>
 				<div class="column">
 
+					{{-- Statement Payments --}}
 					<div class="card mb-2">
 						<div class="card-content">
 
@@ -118,6 +119,49 @@
 
 						</div>
 					</div>
+					{{-- End Statement Payments --}}
+
+					{{-- Uploaded Invoices --}}
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Invoices</h3>
+							<h5 class="subtitle">Uploaded invoices for this expense.</h5>
+
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Name</th>
+									<th>Extension</th>
+									<th>Document</th>
+								</thead>
+								<tbody>
+									@foreach ($expense->invoices as $invoice)
+										<tr>
+											<td>{{ $invoice->name }}</td>
+											<td>{{ $invoice->extension }}</td>
+											<td>
+												<a href="{{ Storage::url($invoice->path) }}" target="_blank">
+													Download
+												</a>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+					{{-- End Uploaded Invoices --}}
+
+					{{-- Upload Invoices --}}
+					<div class="card mb-2">
+						<div class="card-content">
+
+							<h3 class="title">Upload Invoice(s)</h3>
+
+						</div>
+					</div>
+					{{-- End Upload Invoices --}}
 
 				</div>
 			</div>
