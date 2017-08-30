@@ -43,6 +43,9 @@ class Invoice extends BaseModel
             'tax' => $this->total_tax
         ];
 
+        // Get the item names and descriptions.
+        $array['items'] = count($this->items) ? $this->items->pluck('name','description')->toArray() : null;
+
         return $array;
     }
 
