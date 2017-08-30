@@ -32,6 +32,8 @@
 
 			<hr />
 
+			@include('tenancies.partials.layout-notices')
+
 			<div class="columns">
 				<div class="column is-one-quarter-desktop is-one-third-tablet">
 
@@ -65,6 +67,11 @@
 								<td class="has-text-right">{{ $tenancy->service_charge_formatted }} <span class="tag is-primary">{{ currency($tenancy->service_charge_amount) }}</span></td>
 							</tr>
 						</table>
+						<footer class="card-footer">
+							<a class="card-footer-item" href="{{ route('tenancies.show', [$tenancy->id, 'vacated']) }}">
+								Vacated
+							</a>
+						</footer>
 					</div>
 
 					{{-- Rent Details Card --}}
