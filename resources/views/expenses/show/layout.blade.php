@@ -102,15 +102,15 @@
 									<th>Amount</th>
 								</thead>
 								<tbody>
-									@foreach ($expense->payments as $payment)
+									@foreach ($expense->statements as $statement)
 										<tr>
-											<td>{{ date_formatted($payment->created_at) }}</td>
+											<td>{{ date_formatted($statement->created_at) }}</td>
 											<td>
-												<a href="{{ route('statements.show', $payment->id) }}">
-													Statement #{{ $payment->id }}
+												<a href="{{ route('statements.show', $statement->id) }}">
+													Statement #{{ $statement->id }}
 												</a>
 											</td>
-											<td>{{ currency($payment->pivot->amount) }}</td>
+											<td>{{ currency($statement->pivot->amount) }}</td>
 										</tr>
 									@endforeach
 								</tbody>
