@@ -18,12 +18,25 @@ class Invoice extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('number','created_at');
+        // Filter the model.
+        $array = $this->only('number');
 
+        // Get the dates.
+        $array['dates'] = [
+            'created_at' => $this->created_at,
+            'paid' => $this->paid_at,
+        ];
+
+        // Get the property name.
         $array['property'] = $this->property->name;
 
+        // Get the recipient of the invoice.
+        $array['recipient'] = $this->recipient;
+
+        // Get the attached users to the invoice.
         $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
 
+        // Get the amounts of the invoice.
         $array['amount'] = [
             'total' => $this->total,
             'net' => $this->total_net,
