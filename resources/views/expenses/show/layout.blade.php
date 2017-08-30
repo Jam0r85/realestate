@@ -159,6 +159,22 @@
 
 							<h3 class="title">Upload Invoice(s)</h3>
 
+							<form role="form" method="POST" action="{{ route('expenses.upload-invoices', $expense->id) }}" enctype="multipart/form-data">
+								{{ csrf_field() }}
+
+								<div class="field">
+									<label class="label" for="invoices">Select invoice(s)</label>
+									<div class="control">
+										<input type="file" name="invoices[]" multiple class="input" />
+									</div>
+								</div>
+
+								<button type="submit" class="button is-primary">
+									Upload Invoice(s)
+								</button>
+
+							</form>
+
 						</div>
 					</div>
 					{{-- End Upload Invoices --}}

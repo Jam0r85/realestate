@@ -76,6 +76,7 @@ Route::prefix('expenses')->group(function () {
 	Route::post('search', 'ExpenseController@search')->name('expenses.search');
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
 	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
+	Route::post('{id}/upload-invoices', 'ExpenseController@uploadInvoices')->name('expenses.upload-invoices');
 	Route::post('/', 'ExpenseController@store')->name('expenses.store');
 });
 

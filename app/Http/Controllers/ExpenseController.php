@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Expense;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Services\DocumentService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
 
@@ -85,6 +86,33 @@ class ExpenseController extends BaseController
     {
         $expense = Expense::findOrFail($id);
         return view('expenses.show.layout', compact('expense'));
+    }
+
+    /**
+     * Upload invoices to the expense.
+     * 
+     * @param  Request $request [description]
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadInvoices(Request $request, $id)
+    {
+        $expense = Expense::findOrFail($id);
+
+        foreach ($request->file('invoices') as $invoice) {
+
+            $service = new DocumentService();
+            $document = $service->storeFile($invoice, 'expenses');
+            $document['name'] = $expense->name . ' Invoice';
+
+            $stored_invoice = $service->createDocument($document);
+
+            $expense->invoices()->save($stored_invoice);
+        }
+
+        $this->successMessage('The invoice(s) were uploaded');
+
+        return back();
     }
 
     /**
