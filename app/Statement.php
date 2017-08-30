@@ -24,9 +24,9 @@ class Statement extends BaseModel
 
         // Get the dates.
         $array['dates'] = [
-            'created_at' => $this->created_at,
-            'sent_at' => $this->sent_at,
-            'paid_at' => $this->paid_at
+            'created_at' => $this->created_at->toFormattedDateString(),
+            'sent_at' => $this->sent_at->toFormattedDateString(),
+            'paid_at' => $this->paid_at->toFormattedDateString()
         ];
 
         // Get the property name.
@@ -41,6 +41,12 @@ class Statement extends BaseModel
             'invoices' => count($this->invoices) ? $this->invoices->sum('total') : null,
             'expenses' => count($this->expenses) ? $this->expenses->sum('pivot.amount') : null,
             'landlord' => $this->landlord_balance_amount
+        ];
+
+        // Get the Items
+        $array['items'] = [
+            'invoice' => count($this->invoices) ? $this->invoice->items->pluck('name','description')->toArray() : null,
+            'expense' => count($this->expenses) ? $this->expenses->pluck('name')->toArray() : null
         ];
 
         // Get the users.

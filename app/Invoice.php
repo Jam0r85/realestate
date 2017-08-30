@@ -23,8 +23,8 @@ class Invoice extends BaseModel
 
         // Get the dates.
         $array['dates'] = [
-            'created_at' => $this->created_at,
-            'paid' => $this->paid_at,
+            'created_at' => $this->created_at->toFormattedDateString(),
+            'paid' => $this->paid_at->toFormattedDateString()
         ];
 
         // Get the property name.
