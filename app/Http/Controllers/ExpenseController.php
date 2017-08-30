@@ -81,9 +81,10 @@ class ExpenseController extends BaseController
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show(Expense $expense)
+    public function show($id)
     {
-        //
+        $expense = Expense::findOrFail($id);
+        return view('expenses.show.layout', compact('expense'));
     }
 
     /**

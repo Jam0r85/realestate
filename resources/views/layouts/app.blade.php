@@ -21,7 +21,7 @@
         <nav class="navbar">
             <div class="navbar-brand">
                 <a class="navbar-item" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ get_setting('company_name', config('app.name', 'Laravel')) }}
                 </a>
 
                 <div class="navbar-burger burger" data-target="navMenuExample">
