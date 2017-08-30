@@ -24,9 +24,9 @@ class Statement extends BaseModel
 
         // Get the dates.
         $array['dates'] = [
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'sent_at' => $this->sent_at->toFormattedDateString(),
-            'paid_at' => $this->paid_at->toFormattedDateString()
+            'created_at' => $this->created_at,
+            'sent_at' => $this->sent_at,
+            'paid_at' => $this->paid_at
         ];
 
         // Get the property name.
