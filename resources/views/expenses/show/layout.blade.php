@@ -105,7 +105,11 @@
 									@foreach ($expense->payments as $payment)
 										<tr>
 											<td>{{ date_formatted($payment->created_at) }}</td>
-											<td>Statement {{ $statement->id }}</td>
+											<td>
+												<a href="{{ route('statements.show', $payment->id) }}">
+													Statement #{{ $payment->id }}
+												</a>
+											</td>
 											<td>{{ currency($payment->pivot->amount) }}</td>
 										</tr>
 									@endforeach
