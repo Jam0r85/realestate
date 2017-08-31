@@ -29,7 +29,9 @@
 
 			<hr />
 
-			@include('payments.partials.table', ['show_tenancy' => true])
+			@include('payments.partials.table', [
+				'show_tenancy' => true
+			])
 
 		</div>
 	</section>

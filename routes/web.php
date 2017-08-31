@@ -81,8 +81,11 @@ Route::prefix('expenses')->group(function () {
 	Route::post('/', 'ExpenseController@store')->name('expenses.store');
 });
 
-Route::get('rent-payments', 'PaymentController@rentPayments')->name('payments.rent');
-Route::post('search', 'PaymentController@search')->name('payments.search');
+Route::prefix('payments')->group(function () {
+	Route::get('rental', 'PaymentController@rentPayments')->name('payments.rent');
+	Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
+	Route::post('search', 'PaymentController@search')->name('payments.search');
+});
 
 Route::prefix('tenancies')->group(function () {
 	Route::get('/', 'TenancyController@index')->name('tenancies.index');

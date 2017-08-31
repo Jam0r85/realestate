@@ -15,7 +15,22 @@ class Payment extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = $this->only('amount','created_at');
+
+        // Get the method name.
+        $array['method'] = $this->method->name;
+
+        // Get the tenancy details.
+        if ($this->parent_type == 'tenancies') {
+            $array['tenancy'] = $this->parent->name;
+            $array['property'] = $this->parent->property->name;
+        }
+
+        // Get the invoice details.
+        if ($this->parent_type == 'invoices') {
+            $array['invoice_number'] = $this->parent->number;
+            $array['property'] = $this->parent->property->name;
+        }
 
         return $array;
     }

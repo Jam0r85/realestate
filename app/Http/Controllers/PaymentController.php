@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\EloquentPaymentsRepository;
+use App\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     /**
-     * @var  App\Repositories\EloquentPaymentsRepository
-     */
-    protected $payments;
-
-    /**
      * Create a new controller instance.
      * 
-     * @param   EloquentPaymentsRepository $payments
      * @return  void
      */
-    public function __construct(EloquentPaymentsRepository $payments)
+    public function __construct()
     {
-        $this->payments = $payments;
         $this->middleware('auth');
     }
 
@@ -31,7 +24,7 @@ class PaymentController extends Controller
      */
     public function rentPayments()
     {
-        $payments = $this->payments->getRentPaymentsPaged();
+        $payments = Payment::latest()->paginate();
         $title = 'Rent Payments';
 
         return view('payments.index', compact('payments','title'));
@@ -45,9 +38,21 @@ class PaymentController extends Controller
      */
     public function search(Request $request)
     {
-        $payments = $this->payments->search($request->search_term);
+        $payments = Payment::search($request->search_term)->get();
         $title = 'Search Results';
 
         return view('payments.index', compact('payments','title'));
+    }
+
+    /**
+     * Find and display the payment.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id, $section = 'layout')
+    {
+        $payment = Payment::findOrFail($id);
+        return view('payments.show.' . $section, compact('payment'));
     }
 }

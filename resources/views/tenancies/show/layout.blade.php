@@ -221,7 +221,11 @@
 								<tbody>
 									@foreach ($tenancy->rent_payments()->limit(5)->get() as $payment)
 										<tr>
-											<td>{{ date_formatted($payment->created_at) }}</td>
+											<td>
+												<a href="{{ route('payments.show', $payment->id) }}">
+													{{ date_formatted($payment->created_at) }}
+												</a>
+											</td>
 											<td>{{ currency($payment->amount) }}</td>
 											<td>{{ $payment->method->name }}</td>
 											<td>
