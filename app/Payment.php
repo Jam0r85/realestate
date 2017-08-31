@@ -32,6 +32,9 @@ class Payment extends BaseModel
             $array['property'] = $this->parent->property->name;
         }
 
+        // Get the users.
+        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
+
         return $array;
     }
     

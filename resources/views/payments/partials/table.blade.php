@@ -12,11 +12,19 @@
 	<tbody>
 		@foreach ($payments as $payment)
 			<tr>
-				<td>{{ date_formatted($payment->created_at) }}</td>
+				<td>
+					<a href="{{ route('payments.show', $payment->id) }}">
+						{{ date_formatted($payment->created_at) }}
+					</a>
+				</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
 				@if (isset($show_tenancy))
-					<td>{{ $payment->parent->name }}</td>
+					<td>
+						<a href="{{ route('tenancies.show', $payment->parent_id) }}">
+							{{ $payment->parent->name }}
+						</a>
+					</td>
 				@endif
 				<td>
 					@foreach ($payment->users as $user)
