@@ -85,6 +85,7 @@ Route::prefix('payments')->group(function () {
 	Route::get('rental', 'PaymentController@rentPayments')->name('payments.rent');
 	Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
 	Route::post('search', 'PaymentController@search')->name('payments.search');
+	Route::put('{id}', 'PaymentController@update')->name('payments.update');
 });
 
 Route::prefix('tenancies')->group(function () {

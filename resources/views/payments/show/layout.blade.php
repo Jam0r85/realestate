@@ -38,6 +38,20 @@
 						</footer>
 					</div>
 
+					<div class="card mb-2">
+						<header class="card-header">
+							<p class="card-header-title">
+								System Details
+							</p>
+						</header>
+						<table class="table is-fullwidth is-striped">
+							<tr>
+								<td class="is-muted">Date Recorded</td>
+								<td class="has-text-right">{{ date_formatted($payment->created_at) }}</td>
+							</tr>
+						</table>
+					</div>
+
 				</div>
 			</div>
 

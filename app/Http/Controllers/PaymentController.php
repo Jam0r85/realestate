@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePaymentRequest;
 use App\Payment;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class PaymentController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -54,5 +55,23 @@ class PaymentController extends Controller
     {
         $payment = Payment::findOrFail($id);
         return view('payments.show.' . $section, compact('payment'));
+    }
+
+    /**
+     * Update the payment in storage.
+     * 
+     * @param \App\Http\Requests\UpdatePaymentRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdatePaymentRequest $request, $id)
+    {
+        $payment = Payment::findOrFail($id);
+        $payment->fill($request->input());
+        $payment->save();
+
+        $this->successMessage('The payment was updated');
+
+        return back();
     }
 }
