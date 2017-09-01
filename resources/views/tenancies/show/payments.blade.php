@@ -14,6 +14,10 @@
 
 			<hr />
 
+			<h2 class="title is-muted">
+				{{ currency($tenancy->rent_payments->sum('amount')) }} total received
+			</h2>
+
 			<table class="table is-striped is-fullwidth">
 				<thead>
 					<th>Date</th>
