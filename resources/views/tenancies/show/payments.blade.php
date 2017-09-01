@@ -25,7 +25,11 @@
 				<tbody>
 					@foreach ($tenancy->rent_payments()->paginate() as $payment)
 						<tr>
-							<td>{{ date_formatted($payment->created_at) }}</td>
+							<td>
+								<a href="{{ Route('payments.show', $payment->id) }}">
+									{{ date_formatted($payment->created_at) }}
+								</a>
+							</td>
 							<td>{{ currency($payment->amount) }}</td>
 							<td>{{ $payment->method->name }}</td>
 							<td>
@@ -37,7 +41,11 @@
 									</a>
 								@endforeach
 							</td>
-							<td></td>
+							<td>
+								<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank">
+									View
+								</a>
+							</td>
 						</tr>
 					@endforeach
 				</tbody>

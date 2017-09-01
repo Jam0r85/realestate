@@ -15,7 +15,13 @@ class Expense extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = $this->only('name','cost','created_at','paid_at');
+
+        // Get the property.
+        $array['property'] = $this->property->name;
+
+        // Get the contractors
+        $array['contractors'] = count($this->contractors) ? $this->contractors->pluck('name')->toArray() : null;
 
         return $array;
     }

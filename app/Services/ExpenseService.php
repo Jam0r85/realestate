@@ -63,4 +63,6 @@ class ExpenseService
 
 		return $expense;
     }
+
+    protected function checkForSimilarExpense($data, )
 }

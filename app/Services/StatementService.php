@@ -334,6 +334,11 @@ class StatementService
 
             // Create the expense.
             $service = new ExpenseService();
+
+            if ($service->checkForSimilarExpense($data, $statement) === false) {
+                abort(404);
+            }
+
             $expense = $service->createExpense($data);
 
             // Attach the expense to the statement.
