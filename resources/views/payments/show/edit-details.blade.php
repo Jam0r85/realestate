@@ -41,7 +41,7 @@
 							<select name="payment_method_id">
 								@foreach (payment_methods() as $method)
 									<option 
-										@if ($payment->method_id == $method->id) selected @endif 
+										@if ($payment->payment_method_id == $method->id) selected @endif 
 										value="{{ $method->id }}">
 											{{ $method->name }}
 									</option>
