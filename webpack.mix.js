@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+let mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,11 +12,6 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-	.scripts([
-		'node_modules/moment/min/moment-with-locales.min.js',
-		'node_modules/fullcalendar/dist/fullcalendar.min.js',
-		'node_modules/select2/dist/js/select2.min.js'
-	], 'public/js/all.js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.styles([
 		'node_modules/fullcalendar/dist/fullcalendar.min.css',

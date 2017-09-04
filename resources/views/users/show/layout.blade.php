@@ -5,171 +5,87 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">{{ $user->name }}</h1>
+			<div class="page-title">
+				<div class="float-right">
+					@include('users.partials.dropdown-menus')
+				</div>
+				<h1>{{ $user->name }}</h1>
+			</div>
 
-			<div class="control">
-				<a href="{{ route('users.show', [$user->id, 'home-address']) }}" class="button is-warning">
-					<span class="icon is-small">
-						<i class="fa fa-edit"></i>
-					</span>
-					<span>
-						Set Home Address
-					</span>
-				</a>
+			<div class="row">
+				<div class="col col-5">
 
-				<span class="tag is-medium {{ $user->home ? 'is-success' : '' }}">
-					{{ $user->home ? $user->home->name : 'Not Set' }}
-				</span>
+					@include('users.partials.home-address-card')
+					@include('users.partials.system-info-card')
+
+				</div>
+				<div class="col col-7">
+
+					@include('users.partials.user-info-card')
+
+				</div>
 			</div>
 
 			<hr />
 
-			<div class="columns">
-				<div class="column is-4">
+			<ul class="nav nav-tabs" id="userTabs" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#properties" role="tab">Properties</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
+				</li>
+			</ul>
 
-					<div class="card mb-2">
-						<header class="card-header">
-							<p class="card-header-title">
-								User Details
-							</p>
-						</header>
-						<table class="table is-fullwidth is-striped">
-							<tr>
-								<td class="has-text-grey">Title</td>
-								<td class="has-text-right">{{ $user->title }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">First Name</td>
-								<td class="has-text-right">{{ $user->first_name }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Last Name</td>
-								<td class="has-text-right">{{ $user->last_name }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Company</td>
-								<td class="has-text-right">{{ $user->company_name }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Mobile Phone</td>
-								<td class="has-text-right">{{ $user->phone_number }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Other Phone Number</td>
-								<td class="has-text-right">{{ $user->phone_number_other }}</td>
-							</tr>
-						</table>
-						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">Edit Details</a>
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'change-password']) }}">Edit Password</a>
-						</footer>
-					</div>
+			<div class="tab-content">
+				<div class="tab-pane active" id="properties" role="tabpanel">
 
-					<div class="card">
-						<header class="card-header">
-							<p class="card-header-title">
-								System Details
-							</p>
-						</header>
-						<table class="table is-fullwidth is-striped">
-							<tr>
-								<td class="has-text-grey">Branch</td>
-								<td class="has-text-right">{{ $user->branch ? $user->branch->name : '' }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Created By</td>
-								<td class="has-text-right">{{ $user->owner ? $user->owner->name : '' }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Created On</td>
-								<td class="has-text-right">{{ date_formatted($user->created_at) }}</td>
-							</tr>
-							<tr>
-								<td class="has-text-grey">Last Updated On</td>
-								<td class="has-text-right">{{ date_formatted($user->updated_at) }}</td>
-							</tr>
-						</table>
-					</div>
+					<table class="table table-striped table-responsive">
+						<thead>
+							<th>Name</th>
+						</thead>
+						<tbody>
+							@foreach ($user->properties as $property)
+								<tr>
+									<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
 
 				</div>
-				<div class="column is-8">
-
-					<div class="card mb-2">
-						<header class="card-header">
-							<p class="card-header-title">E-Mail History</p>
-						</header>
-						<div class="card-content">
-							@if ($user->email)
-								<b>E-Mail</b> - {{ $user->email }}
-							@else
-								<div class="notification">
-									This user does not have an e-mail address.
-								</div>
-							@endif
-						</div>
-						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">Edit E-Mail</a>
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'send-email']) }}">Send E-Mail Message</a>
-						</footer>
-					</div>
-
-					<div class="box mb-2">
-
-						<h3 class="title">Properties</h3>
-						<h5 class="subtitle">The properties that this user is linked to.</h5>
-
-						<table class="table is-striped is-fullwidth">
-							<thead>
-								<th>Name</th>
-							</thead>
-							<tbody>
-								@foreach ($user->properties as $property)
-									<tr>
-										<td><a href="{{ route('properties.show', $property->id) }}">{{ $property->name }}</a></td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
-
-					</div>
+				<div class="tab-pane" id="invoices" role="tabpanel">
 
 					@include('users.partials.recent-invoices')
 
-					<div class="card mb-2">
-						<div class="card-content">
+				</div>
+				<div class="tab-pane" id="expenses" role="tabpanel">
 
-							<h3 class="title">Recent Expenses</h3>
-							<h5 class="subtitle">The recent paid and unpaid expenses linked to this user.</h5>
-
-							<table class="table is-striped is-fullwidth">
-								<thead>
-									<th>Name</th>
-									<th>Cost</th>
-									<th>Balance</th>
-									<th>Date</th>
-								</thead>
-								<tbody>
-									@foreach ($user->expenses()->limit(5)->get() as $expense)
-										<tr>
-											<td><a href="{{ route('expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
-											<td>{{ currency($expense->cost) }}</td>
-											<td>{{ currency($expense->balance_amount) }}</td>
-											<td>{{ date_formatted($expense->created_at) }}</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
-
-						</div>
-						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('users.show', [$user->id, 'expenses']) }}">
-								Expenses List
-							</a>
-						</footer>
-					</div>
+					<table class="table table-striped table-responsive">
+						<thead>
+							<th>Name</th>
+							<th>Cost</th>
+							<th>Balance</th>
+							<th>Date</th>
+						</thead>
+						<tbody>
+							@foreach ($user->expenses()->limit(5)->get() as $expense)
+								<tr>
+									<td><a href="{{ route('expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
+									<td>{{ currency($expense->cost) }}</td>
+									<td>{{ currency($expense->balance_amount) }}</td>
+									<td>{{ date_formatted($expense->created_at) }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
 
 				</div>
 			</div>
+
 		</div>
 	</section>
 

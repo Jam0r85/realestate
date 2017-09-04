@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends BaseController
 {
@@ -35,7 +36,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::with('home')->latest()->paginate();
+        $users = User::latest()->paginate();
         $title = 'Users List';
         
         return view('users.index', compact('users', 'title'));
@@ -48,7 +49,7 @@ class UserController extends BaseController
      */
     public function archived()
     {
-        $users = User::with('home')->onlyTrashed()->latest()->paginate();
+        $users = User::onlyTrashed()->latest()->paginate();
         $title = 'Archived Users';
 
         return view('users.index', compact('users', 'title'));
@@ -62,9 +63,17 @@ class UserController extends BaseController
      */
     public function search(Request $request)
     {
-        $users = User::search($request->search_term)->get();
-        $users->load('home');
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('users_search_term');
+            return redirect()->route('users.index');
+        }
 
+        if ($request && $request->has('search_term')) {
+            Session::put('users_search_term', $request->search_term);
+        }
+
+        $users = User::search(Session::get('users_search_term'))->get();
         $title = 'Search Results';
 
         return view('users.index', compact('users', 'title'));
@@ -88,7 +97,11 @@ class UserController extends BaseController
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->input());
+        $user = new User();
+        $user->fill($request->input());
+        $user->password = bcrypt(str_random(15));
+        $user->save();
+
         $this->successMessage('The user was created');
 
         Cache::tags('users')->flush();

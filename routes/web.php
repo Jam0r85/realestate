@@ -12,7 +12,7 @@
 */
 Auth::routes();
 
-Route::get('/', 'DashboardController@index');
+Route::get('/', 'DashboardController@index')->name('home');
 
 Route::prefix('calendars')->group(function () {
 	Route::get('/', 'CalendarController@index')->name('calendars.index');
@@ -71,8 +71,7 @@ Route::prefix('properties')->group(function () {
 });
 
 Route::prefix('expenses')->group(function () {
-	Route::get('paid', 'ExpenseController@paid')->name('expenses.paid');
-	Route::get('unpaid', 'ExpenseController@unpaid')->name('expenses.unpaid');
+	Route::get('paid', 'ExpenseController@index')->name('expenses.index');
 	Route::post('search', 'ExpenseController@search')->name('expenses.search');
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
 	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
@@ -82,7 +81,7 @@ Route::prefix('expenses')->group(function () {
 });
 
 Route::prefix('payments')->group(function () {
-	Route::get('rental', 'PaymentController@rentPayments')->name('payments.rent');
+	Route::get('rent', 'PaymentController@rentPayments')->name('payments.rent');
 	Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
 	Route::post('search', 'PaymentController@search')->name('payments.search');
 	Route::put('{id}', 'PaymentController@update')->name('payments.update');
@@ -187,6 +186,10 @@ Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.previ
 Route::prefix('reports')->group(function () {
 	Route::get('/', 'ReportController@index')->name('reports.index');
 	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
+});
+
+Route::prefix('invoice-groups')->group(function () {
+	Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
 });
 
 Route::get('settings', 'SettingController@index')->name('settings.index');

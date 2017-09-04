@@ -5,9 +5,9 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">New User</h1>
-
-			<hr />
+			<div class="page-title">
+				<h1>New User</h1>
+			</div>
 
 			@include('partials.errors-block')
 
@@ -16,13 +16,8 @@
 
 				@include('users.partials.form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Create User
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Create User
 				</button>
 
 			</form>

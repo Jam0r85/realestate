@@ -37,7 +37,7 @@ class User extends Authenticatable
      * 
      * @var array
      */
-    protected $appends = ['name','home_inline','home_formatted'];
+    protected $appends = ['name'];
 
     /**
      * The attributes that are mass assignable.
@@ -183,26 +183,6 @@ class User extends Authenticatable
         }
 
         return trim($this->first_name . ' ' . $this->last_name);
-    }
-
-    /**
-     * Get the user's home address.
-     * 
-     * @return string
-     */
-    public function getHomeInlineAttribute()
-    {
-        return $this->home ? $this->home->name : null;
-    }
-
-    /**
-     * Get the user's home address formatted (eg. for letters)
-     * 
-     * @return string
-     */
-    public function getHomeFormattedAttribute()
-    {
-        return $this->home ? $this->home->name_formatted : null;
     }
 
     /**

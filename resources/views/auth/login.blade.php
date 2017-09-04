@@ -2,63 +2,45 @@
 
 @section('content')
 
-    @component('partials.sections.section')
-
-        <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
-
-                @include('partials.errors-block')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
 
                 <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Staff Login
-                        </p>
-                    </header>
-                    <div class="card-content">
+                    <div class="card-body">
+
+                        @include('partials.errors-block')
 
                         <form role="form" method="POST" action="{{ route('login') }}">
                             {{ csrf_field() }}
 
-                            <div class="field">
-                                <label class="label" for="email">E-Mail Address</label>
-                                <p class="control">
-                                    <input type="email" name="email" class="input" value="{{ old('email') }}" />
-                                </p>
+                            <div class="form-group">
+                                <label for="email">E-Mail Address</label>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}" />
                             </div>
 
-                            @component('partials.forms.field')
-                                @slot('type')
-                                    password
-                                @endslot
-                                @slot('label')
-                                    Password
-                                @endslot
-                                @slot('name')
-                                    password
-                                @endslot
-                            @endcomponent
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
 
-                            @component('partials.forms.field-checkbox')
-                                @slot('label')
-                                    Remember Me?
-                                @endslot
-                                @slot('name')
-                                    remember_me
-                                @endslot
-                                @slot('value')
-                                    true
-                                @endslot
-                            @endcomponent
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="remember_me" value="true" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Remember me?</span>
+                                </label>
+                            </div>
 
-                            <a href="{{ route('password.request') }}" class="is-pulled-right button is-link">
-                                Forgotten Password?
-                            </a>
+                            <div class="float-right">
+                                <a href="{{ route('password.request') }}" class="btn btn-light">
+                                    Forgotten Password?
+                                </a>
+                            </div>
 
-                            @component('partials.forms.buttons.save')
+                            <button type="submit" class="btn btn-primary">
                                 Login
-                            @endcomponent
-
+                            </button>
                         </form>
 
                     </div>
@@ -66,7 +48,6 @@
 
             </div>
         </div>
-
-    @endcomponent
+    </div>
     
 @endsection

@@ -18,193 +18,175 @@
 <body>
     <div id="app">
 
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url('/') }}">
-                    {{ get_setting('company_name', config('app.name', 'Laravel')) }}
-                </a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
 
-                <div class="navbar-burger burger" data-target="navMenuExample">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
+            <a class="navbar-brand" href="{{ route('home') }}">
+                {{ get_setting('company_name', config('app.name', 'Laravel')) }}
+            </a>
 
-            <div id="navMenuExample" class="navbar-menu">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                @auth()
-                    <div class="navbar-start">
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="#">
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto">
+
+                    @auth
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Planner
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('calendars.index') }}">
+                                @slot('id')
+                                    plannerDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="plannerDropdown">
+                                <a class="dropdown-item" href="{{ route('calendars.index') }}">
                                     Calendars
                                 </a>
-                                <hr class="navbar-divider" />
-                                <a class="navbar-item" href="{{ route('events.index') }}">
+                                <a class="dropdown-item" href="{{ route('events.index') }}">
                                     Events
                                 </a>
                             </div>
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('users.index') }}">
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Users
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('users.create') }}">
-                                    New User
+                                @slot('id')
+                                    usersDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                    Users List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <a class="navbar-item" href="{{ route('users.archived') }}">
+                                <a class="dropdown-item" href="{{ route('users.archived') }}">
                                     Archived Users
                                 </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Bank Accounts
-                                </div>
-                                <a class="navbar-item" href="{{ route('bank-accounts.index') }}">
-                                    Bank Account List
-                                </a>
-                                <a class="navbar-item" href="{{ route('bank-accounts.create') }}">
-                                    New Bank Account
+                                <a class="dropdown-item" href="{{ route('bank-accounts.index') }}">
+                                    Bank Accounts List
                                 </a>
                             </div>
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('properties.index') }}">
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Properties
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('properties.create') }}">
-                                    New Property
+                                @slot('id')
+                                    propertiesDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('properties.index') }}">
+                                    Properties List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Expenses
-                                </div>
-                                <a class="navbar-item" href="{{ route('expenses.paid') }}">
-                                    Paid Expenses
-                                </a>
-                                <a class="navbar-item" href="{{ route('expenses.unpaid') }}">
-                                    Unapid Expenses
+                                <a class="dropdown-item" href="{{ route('expenses.index') }}">
+                                    Expenses List
                                 </a>
                             </div>
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('tenancies.index') }}">
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Tenancies
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('tenancies.create') }}">
-                                    New Tenancy
+                                @slot('id')
+                                    tenanciesDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('tenancies.index') }}">
+                                    Tenancies List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <a class="navbar-item" href="{{ route('tenancies.overdue') }}">
-                                    Overdue
+                                <a class="dropdown-item" href="{{ route('payments.rent') }}">
+                                    Rent Payments List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Payments
-                                </div>
-                                <a class="navbar-item" href="{{ route('payments.rent') }}">
-                                    Rent Payments
+                                <a class="dropdown-item" href="{{ route('statements.index') }}">
+                                    Statements List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Statements
-                                </div>
-                                <a class="navbar-item" href="{{ route('statements.index') }}">
-                                    Sent Statements
-                                </a>
-                                <a class="navbar-item" href="{{ route('statements.unsent') }}">
-                                    Unsent Statements
-                                </a>
-                                <a class="navbar-item" href="{{ route('statements.unpaid') }}">
-                                    Unpaid Statements
-                                </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Statement Payments
-                                </div>
-                                <a class="navbar-item" href="{{ route('statement-payments.index') }}">
-                                    Sent Payments
-                                </a>
-                                <a class="navbar-item" href="{{ route('statement-payments.unsent') }}">
-                                    Unsent Payments
+                                <a class="dropdown-item" href="{{ route('statement-payments.index') }}">
+                                    Statement Payments List
                                 </a>
                             </div>
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('invoices.index') }}">
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Invoices
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('invoices.create') }}">
-                                    New Invoice
+                                @slot('id')
+                                    invoicesDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('invoices.index') }}">
+                                    Invoices List
                                 </a>
-                                <hr class="navbar-divider" />
-                                <a class="navbar-item" href="{{ route('invoices.unpaid') }}">
-                                    Unpaid Invoices
+                                <a class="dropdown-item" href="{{ route('invoice-groups.index') }}">
+                                    Invoice Groups List
                                 </a>
-                                <a class="navbar-item" href="{{ route('invoices.overdue') }}">
-                                    Overdue Invoices
-                                </a>
-                                <hr class="navbar-divider" />
-                                <div class="navbar-header">
-                                    Groups
-                                </div>
-                                @foreach (invoiceGroups() as $invoice_group_menu)
-                                    <a class="navbar-item" href="{{ route('invoice-groups.show', $invoice_group_menu->id) }}">
-                                        {{ $invoice_group_menu->name }}
-                                    </a>
-                                @endforeach
                             </div>
-                        </div>
+
+                        </li>
+
                     @endauth
 
-                </div>
-                <div class="navbar-end">
+                </ul>
+                <ul class="navbar-nav">
 
-                    @if (Auth::check())
+                    @auth
+                        <li class="nav-item dropdown">
 
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-active" href="{{ route('users.show', Auth::id()) }}">
+                            @component('partials.bootstrap.dropdown-toggle')
                                 {{ Auth::user()->name }}
-                            </a>
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item" href="{{ route('settings.index') }}">
+                                @slot('id')
+                                    loginDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('settings.index') }}">
                                     Settings
                                 </a>
-                                <a class="navbar-item" href="{{ route('reports.index') }}">
+                                <a class="dropdown-item" href="{{ route('reports.index') }}">
                                     Reports
                                 </a>
-                                <a class="navbar-item" href="{{ route('emails.index') }}">
+                                <a class="dropdown-item" href="{{ route('emails.index') }}">
                                     Sent E-Mails
                                 </a>
-                                <a class="navbar-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
                                 <form role="form" method="POST" action="{{ route('logout') }}" id="logout-form">
                                     {{ csrf_field() }}
                                 </form>
                             </div>
-                        </div>
 
-                    @else
+                        </li>
 
-                        <a href="{{ route('login') }}" class="navbar-item">
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}" class="navbar-item">
-                            Register
-                        </a>
+                    @endauth
 
-                    @endif
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                Login
+                            </a>
+                        </li>
+                    @endguest
 
-                </div>
+                </ul>
             </div>
         </nav>
             
@@ -212,12 +194,15 @@
 
         {{-- Show a warning if no branches have been created --}}
         @if (!count(branches()))
-            <div class="notification">
-                No branches have been registered with this application. Please register a branch in the <a href="{{ route('settings.branches') }}">Settings</a>.
+            <div class="alert alert-danger">
+                <b>No branches have been registered with this application.</b>
+                <br />Please register a branch in the <a href="{{ route('settings.branches') }}">Settings</a>.
             </div>
         @endif
 
-        @yield('content')
+        <div class="mb-5">
+            @yield('content')
+        </div>
 
     </div>
 
@@ -230,12 +215,10 @@
     </div>
 
     <!-- Scripts -->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous"></script>
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="{{ mix('js/all.js') }}"></script>
+    <script>
+        $('.select2').select2();
+    </script>
 
     @stack('footer_scripts')
 </body>
