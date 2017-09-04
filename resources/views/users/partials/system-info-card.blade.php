@@ -3,29 +3,29 @@
 		<i class="fa fa-cogs"></i> System Information
 	</div>
 	<ul class="list-group list-group-flush">
-		<li class="list-group-item flex-column">
-			<div class="d-flex justify-content-between">
-				{{ $user->branch ? $user->branch->name : '' }}
-				<span class="text-muted">
-					Branch
-				</span>
-			</div>
-		</li>
-		<li class="list-group-item flex-column">
-			<div class="d-flex justify-content-between">
-				{{ date_formatted($user->created_at) }}
-				<span class="text-muted">
-					Registered
-				</span>
-			</div>
-		</li>
-		<li class="list-group-item flex-column">
-			<div class="d-flex justify-content-between">
-				{{ date_formatted($user->updated_at) }}
-				<span class="text-muted">
-					Updated
-				</span>
-			</div>
-		</li>
+		@component('partials.bootstrap.list-group-item')
+			{{ $user->branch ? $user->branch->name : '' }}
+			@slot('title')
+				Branch
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $user->owner ? $user->owner->name : '' }}
+			@slot('title')
+				Created By
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ date_formatted($user->created_at) }}
+			@slot('title')
+				Registered
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ date_formatted($user->updated_at) }}
+			@slot('title')
+				Updated
+			@endslot
+		@endcomponent
 	</ul>
 </div>

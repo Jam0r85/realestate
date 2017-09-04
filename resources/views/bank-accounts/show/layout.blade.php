@@ -43,7 +43,7 @@
 					@include('bank-accounts.partials.properties-table')
 
 				</div>
-				<div class="tab pane" id="payments" role="tabpanel">
+				<div class="tab-pane" id="payments" role="tabpanel">
 
 					@include('bank-accounts.partials.payments-table')
 

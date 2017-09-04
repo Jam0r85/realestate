@@ -121,6 +121,23 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many tenancies.
+     */
+    public function tenancies()
+    {
+        return $this->belongsToMany('App\Tenancy');
+    }
+
+    /**
+     * A user can have many active tenancies.
+     */
+    public function activeTenancies()
+    {
+        return $this->belongsToMany('App\Tenancy')
+            ->whereNull('vacatedOn');
+    }
+
+    /**
      * A user can have many invoices.
      */
     public function invoices()

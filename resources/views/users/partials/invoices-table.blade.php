@@ -5,6 +5,7 @@
 		<th>Amount</th>
 		<th>Balance</th>
 		<th>Date</th>
+		<th>Status</th>
 	</thead>
 	<tbody>
 		@foreach ($user->invoices()->limit(5)->get() as $invoice)
@@ -18,6 +19,7 @@
 				<td>{{ currency($invoice->total) }}</td>
 				<td>{{ currency($invoice->total_balance) }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
+				<td></td>
 			</tr>
 		@endforeach
 	</tbody>
