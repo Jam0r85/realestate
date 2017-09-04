@@ -153,7 +153,8 @@ class User extends Authenticatable
      */
     public function expenses()
     {
-        return $this->belongsToMany('App\Expense');
+        return $this->belongsToMany('App\Expense')
+            ->with('property','statements');
     }
 
     /**
