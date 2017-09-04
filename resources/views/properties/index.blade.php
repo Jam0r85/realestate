@@ -5,50 +5,43 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">{{ $title }}</h1>
-
-			<form role="form" method="POST" action="{{ route('properties.search') }}">
-				{{ csrf_field() }}
-
-				<div class="field is-grouped">
-					<div class="control">
-						<a href="{{ route('properties.create') }}" class="button is-primary is-outlined">
-							<span class="icon is-small">
-								<i class="fa fa-plus"></i>
+			<div class="page-title">
+				<h1>
+					{{ $title }}
+					<a href="{{ route('properties.create') }}" class="btn btn-primary">
+						<i class="fa fa-plus"></i> New Property
+					</a>
+				</h1>
+			</div>
+			<div class="page-search">
+				<form role="form" method="POST" action="{{ route('properties.search') }}">
+					{{ csrf_field() }}
+					<div class="form-group">
+						<div class="input-group">
+							{{-- Clear Search Button --}}
+							@if (session('properties_search_term'))
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-danger" name="clear_search" value="true">
+										<i class="fa fa-trash"></i> Clear
+									</button>
+								</span>
+							@endif
+							<input type="text" name="search_term" class="form-control" placeholder="Search for..." value="{{ session('properties_search_term') }}" />
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-secondary">
+									<i class="fa fa-search"></i> Search
+								</button>
 							</span>
-							<span>
-								New Property
-							</span>
-						</a>
+						</div>
 					</div>
-					<div class="control is-expanded">
-						<input type="text" name="search_term" class="input" value="{{ session('search_term') }}" />
-					</div>
-					<div class="control">
-						<button type="submit" class="button">
-							<span class="icon is-small">
-								<i class="fa fa-search"></i>
-							</span>
-							<span>
-								Search
-							</span>
-						</button>
-					</div>
-				</div>
-			</form>
-
-			<hr />
-
-			<div class="content">
-				<span class="tag is-medium is-primary">
-					Owner
-				</span>
-				<span class="tag is-medium is-success">
-					Owner &amp; Occupier
-				</span>
+				</form>
 			</div>
 
-			@include('properties.partials.table')
+			<div class="row">
+				<div class="col">
+					@include('properties.partials.table')
+				</div>
+			</div>
 
 		</div>
 	</section>

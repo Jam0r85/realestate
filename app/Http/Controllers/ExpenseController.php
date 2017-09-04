@@ -24,16 +24,16 @@ class ExpenseController extends BaseController
     }
     
     /**
-     * Display a listing of paid expenses.
+     * Display a listing of expenses.
      *
      * @return \Illuminate\Http\Response
      */
-    public function paid()
+    public function index()
     {
-        $expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
-        $title = 'Paid Expenses';
+        $unpaid_expenses = Expense::whereNull('paid_at')->latest()->get();
+        $paid_expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
 
-        return view('expenses.paid', compact('expenses','title'));
+        return view('expenses.index', compact('unpaid_expenses','paid_expenses'));
     }
 
     /**

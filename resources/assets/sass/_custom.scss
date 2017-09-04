@@ -14,11 +14,13 @@ section.section {
 	margin-bottom: 1rem;
 }
 
-.text-white .card-footer a {
+.text-white .card-footer a,
+.text-white .table a {
 	color: #fff;
-	opacity: 0.6;
+	opacity: 0.8;
 }
-.text-white .card-footer a:hover {
+.text-white .card-footer a:hover,
+.text-white .table a:hover {
 	color: #fff;
 	opacity: 1;
 }
