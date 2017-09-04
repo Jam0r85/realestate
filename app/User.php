@@ -128,7 +128,8 @@ class User extends Authenticatable
      */
     public function tenancies()
     {
-        return $this->belongsToMany('App\Tenancy');
+        return $this->belongsToMany('App\Tenancy')
+            ->with('property','current_rent','rent_payments','tenants');
     }
 
     /**
@@ -145,7 +146,8 @@ class User extends Authenticatable
      */
     public function invoices()
     {
-        return $this->belongsToMany('App\Invoice');
+        return $this->belongsToMany('App\Invoice')
+            ->with('property','payments','statement_payments');
     }
 
     /**
