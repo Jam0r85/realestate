@@ -1,4 +1,4 @@
-<table class="table table-bordered table-responsive">
+<table class="table table-striped table-responsive">
 	<thead>
 		<th>Name</th>
 		<th>Email</th>
