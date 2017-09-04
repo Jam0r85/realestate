@@ -5,12 +5,12 @@
 		<th>Property</th>
 		<th>Cost</th>
 		<th>Balance</th>
-		<th>Invoice(s)</th>
+		<th><i class="fa fa-upload"></i></th>
 	</thead>
 	<tbody>
 		@foreach ($expenses as $expense)
 			<tr>
-				<td>
+				<td class="text-truncate">
 					<a href="{{ route('expenses.show', $expense->id) }}">
 						{{ $expense->name }}
 					</a>
@@ -29,13 +29,7 @@
 				<td>{{ currency($expense->balance_amount) }}</td>
 				<td>
 					@if ($expense->hasInvoice())
-						<span class="tag is-success">
-							Yes
-						</span>
-					@else
-						<span class="tag is-warning">
-							No
-						</span>
+						<i class="fa fa-check"></i>
 					@endif
 				</td>
 			</tr>

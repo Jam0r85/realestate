@@ -5,7 +5,7 @@
 		<th>Property</th>
 		<th>Cost</th>
 		<th>Paid</th>
-		<th>Invoice(s)</th>
+		<th><i class="fa fa-upload"></i></th>
 	</thead>
 	<tbody>
 		@foreach ($expenses as $expense)
@@ -29,13 +29,7 @@
 				<td>{{ date_formatted($expense->paid_at) }}</td>
 				<td>
 					@if ($expense->hasInvoice())
-						<span class="tag is-success">
-							Yes
-						</span>
-					@else
-						<span class="tag is-warning">
-							No
-						</span>
+						<i class="fa fa-check"></i>
 					@endif
 				</td>
 			</tr>
