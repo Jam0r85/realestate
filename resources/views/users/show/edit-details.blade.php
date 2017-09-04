@@ -5,30 +5,24 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('users.show', $user->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $user->name }}</h1>
+				<h3>Edit personal details</h3>
+			</div>
 
-			<h1 class="title">{{ $user->name }}</h1>
-			<h2 class="subtitle">Edit Details</h2>
-
-			<hr />
+			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('users.update', $user->id) }}">
 				{{ csrf_field() }}
-				{{ method_field('PUT') }}
-
-				@include('partials.errors-block')
+				{{ method_field('PUT') }}			
 
 				@include('users.partials.form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Save Changes
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Save Changes
 				</button>
 
 			</form>
