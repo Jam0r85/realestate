@@ -129,13 +129,13 @@ class BankAccountController extends BaseController
         $account = BankAccount::findOrFail($id);
 
         // Remove the owners.
-        if (isset($data['remove'])) {
-            $account->users()->detach($data['remove']);
+        if ($request->has('remove')) {
+            $account->users()->detach($request->remove);
         }
 
         // Attach new users to the account.
-        if (isset($data['new_users'])) {
-            $account->users()->attach($data['new_users']);
+        if ($request->has('new_users')) {
+            $account->users()->attach($request->new_users);
         }
 
         $this->successMessage('The users were updated');

@@ -26,20 +26,27 @@
 
 				@else
 
-					<table class="table table-striped table-responsive mb-3">
-						<thead>
-							<th width="100%">Name</th>
-							<th class="has-text-right"><span class="has-text-danger">Remove?</span></th>
-						</thead>
-						<tbody>
+					<div class="card bg-primary mb-3">
+						<div class="card-header text-white">
+							<i class="fa fa-users"></i> Current Linked Users
+						</div>
+						<ul class="list-group list-group-flush">
 							@foreach ($account->users as $user)
-								<tr>
-									<td><a href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a></td>
-									<td class="has-text-right"><input type="checkbox" name="remove[]" value="{{ $user->id }}" /></td>
-								</tr>
+								<li class="list-group-item flex-column">
+									<div class="d-flex justify-content-between">
+										<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
+											{{ $user->name }}
+										</a>
+										<label class="custom-control custom-checkbox">
+											<input class="custom-control-input" type="checkbox" name="remove[]" value="{{ $user->id }}" />
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">Remove?</span>
+										</label>
+									</div>
+								</li>
 							@endforeach
-						</tbody>
-					</table>
+						</ul>
+					</div>
 
 				@endif
 
