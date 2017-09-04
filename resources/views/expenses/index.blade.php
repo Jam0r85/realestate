@@ -51,7 +51,7 @@
 
 				<div class="row">
 					<div class="col">
-						@include('expenses.partials.paid-expenses-table', ['expenses' => $unpaid_expenses])
+						@include('expenses.partials.unpaid-expenses-table', ['expenses' => $unpaid_expenses])
 					</div>
 				</div>
 			</div>
