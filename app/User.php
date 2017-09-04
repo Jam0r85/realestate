@@ -147,7 +147,7 @@ class User extends Authenticatable
     public function invoices()
     {
         return $this->belongsToMany('App\Invoice')
-            ->with('property','payments','statement_payments');
+            ->with('property','payments','statement_payments','items','items.taxRate');
     }
 
     /**
