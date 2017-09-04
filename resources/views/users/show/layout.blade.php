@@ -33,10 +33,13 @@
 					<a class="nav-link active" data-toggle="tab" href="#properties" role="tab">Properties</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#tenancies" role="tab">Tenancies</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
+					<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses <small>(as contractor)</small></a>
 				</li>
 			</ul>
 
@@ -55,6 +58,11 @@
 							@endforeach
 						</tbody>
 					</table>
+
+				</div>
+				<div class="tab-pane" id="tenancies" role="tabpanel">
+
+					@include('users.partials.tenancies-table')
 
 				</div>
 				<div class="tab-pane" id="invoices" role="tabpanel">

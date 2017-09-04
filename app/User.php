@@ -117,7 +117,10 @@ class User extends Authenticatable
      */
     public function properties()
     {
-        return $this->belongsToMany('App\Property');
+        return $this->belongsToMany('App\Property')
+            ->orderBy('address1')
+            ->orderBy('house_name')
+            ->orderBy('house_number');
     }
 
     /**

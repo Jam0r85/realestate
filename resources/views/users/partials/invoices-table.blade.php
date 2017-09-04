@@ -8,7 +8,7 @@
 		<th>Status</th>
 	</thead>
 	<tbody>
-		@foreach ($user->invoices()->limit(5)->get() as $invoice)
+		@foreach ($user->invoices()->limit(15)->get() as $invoice)
 			<tr>
 				<td>
 					<a href="{{ route('invoices.show', $invoice->id) }}" title="{{ $invoice->number }}">

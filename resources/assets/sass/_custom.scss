@@ -2,6 +2,10 @@ section.section {
 	margin: 2rem 0;
 }
 
+.tab-pane .table thead th {
+	border-top: 0;	
+}
+
 .page-title {
 	margin-bottom: 2rem;
 }
