@@ -59,29 +59,12 @@
 				</div>
 				<div class="tab-pane" id="invoices" role="tabpanel">
 
-					@include('users.partials.recent-invoices')
+					@include('users.partials.invoices-table')
 
 				</div>
 				<div class="tab-pane" id="expenses" role="tabpanel">
 
-					<table class="table table-striped table-responsive">
-						<thead>
-							<th>Name</th>
-							<th>Cost</th>
-							<th>Balance</th>
-							<th>Date</th>
-						</thead>
-						<tbody>
-							@foreach ($user->expenses()->limit(5)->get() as $expense)
-								<tr>
-									<td><a href="{{ route('expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
-									<td>{{ currency($expense->cost) }}</td>
-									<td>{{ currency($expense->balance_amount) }}</td>
-									<td>{{ date_formatted($expense->created_at) }}</td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+					@include('users.partials.expenses-table')
 
 				</div>
 			</div>
