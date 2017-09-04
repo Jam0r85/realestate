@@ -5,26 +5,28 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('bank-accounts.show', $account->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $account->account_name }}</h1>
+				<h2>Edit Users</h2>
+			</div>
 
-			<h1 class="title">{{ $account->account_name }}</h1>
-			<h2 class="subtitle">Edit Users</h2>
-
-			<hr />
+			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('bank-accounts.update-users', $account->id) }}">
 				{{ csrf_field() }}
 
-				<div class="card mb-2">
-					<header class="card-header">
-						<p class="card-header-title">
-							Current Users
-						</p>
-					</header>
+				@if (!count($account->users))
 
-					<table class="table is-fullwidth is-striped">
+					<div class="alert alert-danger">
+						<b>No users linked!</b><br />No users have been linked to this account yet.
+					</div>
+
+				@else
+
+					<table class="table table-striped table-responsive mb-3">
 						<thead>
 							<th width="100%">Name</th>
 							<th class="has-text-right"><span class="has-text-danger">Remove?</span></th>
@@ -38,39 +40,30 @@
 							@endforeach
 						</tbody>
 					</table>
-				</div>
 
-				<div class="card mb-2">
-					<header class="card-header">
-						<p class="card-header-title">
-							Attach New Users
-						</p>
-					</header>
-					<div class="card-content">
+				@endif
 
-						<div class="field">
-							<label class="label" for="new_users">Search Users</label>
-							<div class="control">
-								<select name="new_users[]" class="select2" multiple>
-									@foreach (users() as $user)
-										@if (!$account->users->contains($user->id))
-											<option value="{{ $user->id }}">{{ $user->name }}</option>
-										@endif
-									@endforeach
-								</select>
-							</div>
+				<div class="card mb-3">
+					<div class="card-body">
+
+						<div class="form-group">
+							<label for="new_users">
+								Search and choose the users you wish to link to this bank account
+							</label>
+							<select name="new_users[]" class="form-control select2" multiple>
+								@foreach (users() as $user)
+									@if (!$account->users->contains($user->id))
+										<option value="{{ $user->id }}">{{ $user->name }}</option>
+									@endif
+								@endforeach
+							</select>
 						</div>
 
 					</div>
 				</div>
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Save Changes
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Save Changes
 				</button>
 
 			</form>

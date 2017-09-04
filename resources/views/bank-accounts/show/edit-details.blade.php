@@ -5,14 +5,13 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('bank-accounts.show', $account->id) }}" class="button is-pulled-right">
-				Return
-			</a>
-
-			<h1 class="title">{{ $account->account_name }}</h1>
-			<h2 class="subtitle">Edit Details</h2>
-
-			<hr />
+			<div class="page-title">
+				<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $account->account_name }}</h1>
+				<h3>Edit account details</h3>
+			</div>
 
 			@include('partials.errors-block')
 
@@ -22,13 +21,8 @@
 
 				@include('bank-accounts.partials.form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Save Changes
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Save Changes
 				</button>
 
 			</form>

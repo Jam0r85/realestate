@@ -41,7 +41,15 @@ class BankAccountController extends BaseController
      */
     public function search(Request $request)
     {
-        $accounts = BankAccount::search($request->search_term)->get();
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('bank_accounts_search_term');
+            return redirect()->route('bank-accounts.index');
+        }
+
+        Session::put('bank_accounts_search_term', $request->search_term);
+
+        $accounts = BankAccount::search(Session::get('bank_accounts_search_term'))->get();
         $title = 'Search Results';
 
         return view('bank-accounts.index', compact('accounts','title'));

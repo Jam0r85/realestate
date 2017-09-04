@@ -14,7 +14,6 @@
 				</h1>
 			</div>
 			<div class="page-search">
-
 				<form role="form" method="POST" action="{{ route('users.search') }}">
 					{{ csrf_field() }}
 					<div class="form-group">
@@ -36,7 +35,6 @@
 						</div>
 					</div>
 				</form>
-
 			</div>
 
 			<div class="row">

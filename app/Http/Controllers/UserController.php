@@ -69,9 +69,7 @@ class UserController extends BaseController
             return redirect()->route('users.index');
         }
 
-        if ($request && $request->has('search_term')) {
-            Session::put('users_search_term', $request->search_term);
-        }
+        Session::put('users_search_term', $request->search_term);
 
         $users = User::search(Session::get('users_search_term'))->get();
         $title = 'Search Results';

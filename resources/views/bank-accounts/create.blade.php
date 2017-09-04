@@ -5,35 +5,28 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">New Bank Account</h1>
+			<div class="page-title">
+				<h1>New Bank Account</h1>
+			</div>
 
-			<hr />
+			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('bank-accounts.store') }}">
-				{{ csrf_field() }}
-
-				@include('partials.errors-block')
+				{{ csrf_field() }}				
 
 				@include('bank-accounts.partials.form')
 
-				<div class="field">
-					<label class="label" for="users">Users</label>
-					<p class="control">
-						<select name="users[]" class="select2" multiple>
-							@foreach (users() as $user)
-								<option value="{{ $user->id }}">{{ $user->name }}</option>
-							@endforeach
-						</select>
-					</p>
+				<div class="form-group">
+					<label for="users">Users</label>
+					<select name="users[]" class="form-control select2" multiple>
+						@foreach (users() as $user)
+							<option value="{{ $user->id }}">{{ $user->name }}</option>
+						@endforeach
+					</select>
 				</div>
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Create Bank Account
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Create Bank Account
 				</button>
 
 			</form>

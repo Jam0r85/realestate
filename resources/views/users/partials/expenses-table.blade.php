@@ -15,7 +15,7 @@
 						{{ $expense->name }}
 					</a>
 				</td>
-				<td>{{ $expense->property->name }}</td>
+				<td>{{ $expense->property->short_name }}</td>
 				<td>{{ currency($expense->cost) }}</td>
 				<td>{{ currency($expense->balance_amount) }}</td>
 				<td>{{ date_formatted($expense->created_at) }}</td>
