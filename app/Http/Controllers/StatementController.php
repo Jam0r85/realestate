@@ -30,34 +30,10 @@ class StatementController extends BaseController
      */
     public function index()
     {
-        $statements = Statement::whereNotNull('sent_at')->latest()->paginate();
-        $title = 'Sent Statements List';
+        $sent_statements = Statement::whereNotNull('sent_at')->latest()->paginate();
+        $unsent_statements = Statement::with('users','tenancy')->whereNull('sent_at')->latest()->get();
 
-        return view('statements.index', compact('statements','title'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function unsent()
-    {
-        $statements = Statement::with('users','tenancy')->whereNull('sent_at')->latest()->get();
-        return view('statements.unsent', compact('statements'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function unpaid()
-    {
-        $statements = Statement::whereNull('paid_at')->latest()->get();
-        $title = 'Unpaid Statements List';
-
-        return view('statements.unpaid', compact('statements','title'));
+        return view('statements.index', compact('sent_statements','unsent_statements'));
     }
 
     /**

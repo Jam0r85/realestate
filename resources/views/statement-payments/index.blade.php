@@ -3,7 +3,7 @@
 @section('content')
 
 	<section class="section">
-		<div class="container">
+		<div class="container-fluid">
 
 			<div class="page-title">
 				<h1>Statement Payments List</h1>
@@ -14,7 +14,7 @@
 
 	@if (count($unsent_payments))
 		<section class="section">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="page-title">
 					<h3 class="text-danger">
 						<a href="{{ route('statement-payments.download') }}" target="_blank" class="btn btn-secondary float-right">
@@ -56,7 +56,7 @@
 	@endif
 
 	<section class="section">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="page-title">
 				<h3 class="text-success">
 					Sent Payments
