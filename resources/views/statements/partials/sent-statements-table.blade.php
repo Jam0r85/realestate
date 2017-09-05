@@ -5,7 +5,7 @@
 		<th>Starts</th>
 		<th>Ends</th>
 		<th>Amount</th>
-		<th>Status</th>
+		<th>Sent</th>
 	</thead>
 	<tbody>
 		@foreach ($statements as $statement)
@@ -15,7 +15,7 @@
 						{!! truncate($statement->tenancy->name, '200px') !!}
 					</a>
 				</td>
-				<td>{{ $statement->property->short_name }}</td>
+				<td>{!! truncate($statement->property->short_name) !!}</td>
 				<td>
 					<a href="{{ route('statements.show', $statement->id) }}">
 						{{ date_formatted($statement->period_start) }}
@@ -24,17 +24,7 @@
 				<td>{{ date_formatted($statement->period_end) }}</a>
 				</td>
 				<td>{{ currency($statement->amount) }}</td>
-				<td>
-					@if ($statement->sent_at)
-						Sent {{ date_formatted($statement->sent_at) }}
-					@else
-						@if ($statement->paid_at)
-							Paid
-						@else
-							Unpaid
-						@endif
-					@endif
-				</td>
+				<td>{{ date_formatted($statement->sent_at) }}</td>
 			</tr>
 		@endforeach
 	</tbody>
