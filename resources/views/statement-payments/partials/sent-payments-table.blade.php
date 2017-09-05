@@ -13,9 +13,7 @@
 				<td>{{ $payment->statement->tenancy->property->short_name }}</td>
 				<td>
 					<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">
-						<span class="d-inline-block text-truncate" style="width: 250px">
-							{{ $payment->statement->tenancy->name }}
-						</span>
+						{!! truncate($payment->statement->tenancy->name) !!}
 					</a>
 				</td>
 				<td>{{ $payment->name_formatted }}</td>
