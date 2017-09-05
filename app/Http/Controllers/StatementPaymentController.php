@@ -30,7 +30,7 @@ class StatementPaymentController extends BaseController
     	$sent_payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
 
         $sent_payments->load('statement','statement.tenancy','statement.tenancy.property','users','bank_account');
-        $unsent_payments->load('statement','statement.tenancy.property','users','bank_account');
+        $unsent_payments->load('statement','statement.tenancy.property','users','bank_account','parent');
 
         if (count($unsent_payments)) {
             $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
