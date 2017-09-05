@@ -5,61 +5,40 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">New Property</h1>
+			<div class="page-title">
+				<h1>New Property</h1>
+			</div>
 
-			<hr />
+			@include('partials.errors-block')
 
-			@if (!count(branches()))
+			<form role="form" method="POST" action="{{ route('properties.store') }}">
+				{{ csrf_field() }}
 
-				<div class="notification">
-					You must register a branch before you can start adding new properties.
+				<div class="form-group">
+					<label for="branch_id">Branch</label>
+					<select name="branch_id" class="form-control">
+						@foreach (branches() as $branch)
+							<option value="{{ $branch->id }}">{{ $branch->name }}</option>
+						@endforeach
+					</select>
 				</div>
 
-			@else
+				@include('properties.partials.form')
 
-				@include('partials.errors-block')
+				<div class="form-group">
+					<label for="owners">Owners</label>
+					<select name="owners[]" class="form-control select2" multiple>
+						@foreach (users() as $user)
+							<option value="{{ $user->id }}">{{ $user->name }}</option>
+						@endforeach
+					</select>
+				</div>
 
-				<form role="form" method="POST" action="{{ route('properties.store') }}">
-					{{ csrf_field() }}
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Create Property
+				</button>
 
-					<div class="field">
-						<label class="label" for="branch_id">Branch</label>
-						<p class="control is-expanded">
-							<span class="select is-fullwidth">
-								<select name="branch_id">
-									@foreach (branches() as $branch)
-										<option value="{{ $branch->id }}">{{ $branch->name }}</option>
-									@endforeach
-								</select>
-							</span>
-						</p>
-					</div>
-
-					@include('properties.partials.form')
-
-					<div class="field">
-						<label class="label" for="owners">Owners</label>
-						<div class="control">
-							<select name="owners[]" class="select2" multiple>
-								@foreach (users() as $user)
-									<option value="{{ $user->id }}">{{ $user->name }}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-
-					<button type="submit" class="button is-primary">
-						<span class="icon is-small">
-							<i class="fa fa-save"></i>
-						</span>
-						<span>
-							Create Property
-						</span>
-					</button>
-
-				</form>
-
-			@endif
+			</form>
 
 		</div>
 	</section>
