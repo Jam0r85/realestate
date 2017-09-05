@@ -1,10 +1,10 @@
-<table class="table is-striped is-bordered is-fullwidth">
+<table class="table table-striped table-responsive">
 	<thead>
 		<th>Number</th>
 		<th>Property</th>
 		<th>Amount</th>
 		<th>
-			<input type="checkbox" name="invoice_all" >
+
 		</th>
 	</thead>
 	<tbody>
@@ -13,7 +13,9 @@
 				<td width="10%">{{ $payment->parent->number }}</td>
 				<td width="80%">{{ $payment->statement->property->short_name }}</td>
 				<td width="10%">{{ currency($payment->amount) }}</td>
-				<td class="has-text-right"><input type="checkbox" name="payments[]" value="{{ $payment->id }}" /></td>
+				<td class="text-right">
+					<input type="checkbox" name="payments[]" value="{{ $payment->id }}" />
+				</td>
 			</tr>
 		@endforeach
 	</tbody>

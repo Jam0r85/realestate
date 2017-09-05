@@ -26,22 +26,14 @@ class StatementPaymentController extends BaseController
      */
     public function index()
     {
-    	$payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
-    	$title = 'Sent Statement Payments';
+        $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
+    	$sent_payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
 
-    	return view('statement-payments.index', compact('payments','title'));
-    }
+        if (count($unsent_payments)) {
+            $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
+        }
 
-    /**
-     * Display a listing of the resource.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function unsent()
-    {
-        $unsent = StatementPayment::whereNull('sent_at')->latest()->get();
-        $groups = $unsent->groupBy('group')->sortBy('bank_account.account_name');
-    	return view('statement-payments.unsent', compact('groups'));
+    	return view('statement-payments.index', compact('unsent_payments','sent_payments'));
     }
 
     /**
