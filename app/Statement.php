@@ -270,10 +270,12 @@ class Statement extends BaseModel
     public function getRecipientAttribute()
     {
         if (count($this->users)) {
-            return $this->users()->first()->home_formatted;
+            foreach ($this->users as $user) {
+                if ($user->home) {
+                    return $user->home->name_formatted;
+                }
+            }
         }
-
-        return '';
     }
 
     /**
