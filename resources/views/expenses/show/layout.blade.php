@@ -12,6 +12,12 @@
 				<h1>{{ $expense->name }}</h1>
 			</div>
 
+			@if ($expense->paid_at)
+				<div class="alert alert-success">
+					This expense was paid {{ date_formatted($expense->paid_at) }}
+				</div>
+			@endif
+
 			<div class="row">
 				<div class="col col-5">
 
