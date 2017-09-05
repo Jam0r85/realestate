@@ -6,9 +6,6 @@
 		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit-details']) }}">
 			Edit Expense Details
 		</a>
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'update-contractors']) }}">
-			Update Contractors
-		</a>
 		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'manage-invoices']) }}">
 			Manage Invoices
 		</a>

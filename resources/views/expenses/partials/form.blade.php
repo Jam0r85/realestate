@@ -18,10 +18,11 @@
 
 <div class="form-group">
 	<label for="{{ isset($array) ? 'expense_contractors' : 'contractors' }}">Contractors</label>
-	<select name="{{ isset($array) ? 'expense_contractors[]' : 'contractors' }}" class="form-control select2" multiple>
+	<select name="{{ isset($array) ? 'expense_contractors[]' : 'contractors[]' }}" class="form-control select2" multiple>
 		@foreach (users() as $user)
 			<option 
 				@if (old('contractors') && in_array($user->id, old('contractors'))) selected @endif
+				@if (isset($expense) && ($expense->contractors->contains($user->id))) selected @endif
 				value="{{ $user->id }}">
 					{{ $user->name }}
 			</option>

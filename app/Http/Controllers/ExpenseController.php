@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Document;
 use App\Expense;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Http\Requests\UpdateExpenseRequest;
 use App\Services\DocumentService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
@@ -87,10 +88,10 @@ class ExpenseController extends BaseController
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $section ='layout')
     {
         $expense = Expense::findOrFail($id);
-        return view('expenses.show.layout', compact('expense'));
+        return view('expenses.show.' . $section, compact('expense'));
     }
 
     /**
@@ -141,26 +142,23 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Expense  $expense
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Expense $expense)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Expense  $expense
+     * @param
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(UpdateExpenseRequest $request, $id)
     {
-        //
+        $expense = Expense::findOrFail($id);
+        $expense->fill($request->input());
+        $expense->save();
+
+        $expense->contractors()->sync($request->contractors);
+
+        $this->successMessage('The expense was updated');
+
+        return back();
     }
 
     /**
