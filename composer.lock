@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "63256f5c49aba60d6cd06fe3b87cce78",
+    "content-hash": "450e40c0e7be6306d5c910dece0809d6",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1112,16 +1112,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.1",
+            "version": "v5.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "fad090f6e14b97df91489803644ac88b5321864e"
+                "reference": "65da63c8ad4836e2bcddcff75becd49c71c5041c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/fad090f6e14b97df91489803644ac88b5321864e",
-                "reference": "fad090f6e14b97df91489803644ac88b5321864e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/65da63c8ad4836e2bcddcff75becd49c71c5041c",
+                "reference": "65da63c8ad4836e2bcddcff75becd49c71c5041c",
                 "shasum": ""
             },
             "require": {
@@ -1240,37 +1240,38 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-01T06:33:38+00:00"
+            "time": "2017-09-04T14:09:04+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v0.1.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "1ab87ed3986bf3094ac38d64206f4d5db5393e8d"
+                "reference": "060d62df3cd44eca39fc6d10bfc481f590de72ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/1ab87ed3986bf3094ac38d64206f4d5db5393e8d",
-                "reference": "1ab87ed3986bf3094ac38d64206f4d5db5393e8d",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/060d62df3cd44eca39fc6d10bfc481f590de72ac",
+                "reference": "060d62df3cd44eca39fc6d10bfc481f590de72ac",
                 "shasum": ""
             },
             "require": {
                 "cakephp/chronos": "^1.0",
-                "illuminate/contracts": "~5.4",
-                "illuminate/queue": "~5.4",
-                "illuminate/support": "~5.4",
+                "ext-pcntl": "*",
+                "illuminate/contracts": "~5.5",
+                "illuminate/queue": "~5.5",
+                "illuminate/support": "~5.5",
                 "php": ">=7.1.0",
                 "predis/predis": "^1.1",
                 "ramsey/uuid": "^3.5",
-                "symfony/debug": "~3.2"
+                "symfony/debug": "~3.3"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
-                "orchestra/database": "~3.4",
-                "orchestra/testbench": "~3.4",
-                "phpunit/phpunit": "~5.0"
+                "orchestra/database": "~3.5",
+                "orchestra/testbench": "~3.5",
+                "phpunit/phpunit": "~6.0"
             },
             "type": "library",
             "extra": {
@@ -1280,7 +1281,10 @@
                 "laravel": {
                     "providers": [
                         "Laravel\\Horizon\\HorizonServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "Horizon": "Laravel\\Horizon\\Horizon"
+                    }
                 }
             },
             "autoload": {
@@ -1303,7 +1307,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2017-07-26T13:47:32+00:00"
+            "time": "2017-08-29T19:22:49+00:00"
         },
         {
             "name": "laravel/scout",
@@ -4615,16 +4619,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.7.1",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "15ea9ac619e37009edcda64089e3fa4cc88aa659"
+                "reference": "c9b8c6088acd19d769d4cc0ffa60a9fe34344bd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/15ea9ac619e37009edcda64089e3fa4cc88aa659",
-                "reference": "15ea9ac619e37009edcda64089e3fa4cc88aa659",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/c9b8c6088acd19d769d4cc0ffa60a9fe34344bd6",
+                "reference": "c9b8c6088acd19d769d4cc0ffa60a9fe34344bd6",
                 "shasum": ""
             },
             "require": {
@@ -4674,7 +4678,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2017-09-03T09:38:53+00:00"
+            "time": "2017-09-04T11:05:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

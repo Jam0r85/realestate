@@ -13,7 +13,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.*",
-        "laravel/horizon": "^0.1.0",
+        "laravel/horizon": "^1.0.0",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "^2.1",
