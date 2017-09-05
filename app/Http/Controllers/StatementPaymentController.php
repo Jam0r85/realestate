@@ -44,7 +44,7 @@ class StatementPaymentController extends BaseController
      * 
      * @return \Illuminate\Http\Response
      */
-    public function download()
+    public function print()
     {
         $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
 
@@ -53,7 +53,7 @@ class StatementPaymentController extends BaseController
         }
 
         $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
-        return view('pdf.statement-payments', compact('unsent_payments'));
+        return view('statement-payments.print', compact('unsent_payments'));
     }
 
     /**

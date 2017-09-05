@@ -17,8 +17,8 @@
 			<div class="container">
 				<div class="page-title">
 					<h3 class="text-danger">
-						<a href="{{ route('statement-payments.download') }}" target="_blank" class="btn btn-secondary float-right">
-							<i class="fa fa-download"></i> Download
+						<a href="{{ route('statement-payments.print') }}" target="_blank" class="btn btn-secondary float-right">
+							<i class="fa fa-print"></i> Print
 						</a>
 						Unsent Payments
 					</h3>

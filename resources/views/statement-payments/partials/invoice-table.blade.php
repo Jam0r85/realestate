@@ -2,7 +2,7 @@
 	<thead>
 		<th>Number</th>
 		<th>Property</th>
-		<th>Amount</th>
+		<th class="text-right">Amount</th>
 		<th>
 
 		</th>
@@ -10,9 +10,9 @@
 	<tbody>
 		@foreach ($payments as $payment)
 			<tr>
-				<td width="10%">{{ $payment->parent->number }}</td>
-				<td width="80%">{{ $payment->statement->property->short_name }}</td>
-				<td width="10%">{{ currency($payment->amount) }}</td>
+				<td>{{ $payment->parent->number }}</td>
+				<td>{{ $payment->statement->property->short_name }}</td>
+				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
 					<input type="checkbox" name="payments[]" value="{{ $payment->id }}" />
 				</td>

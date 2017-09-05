@@ -2,7 +2,7 @@
 	<thead>
 		<th>Property</th>
 		<th>Expense</th>
-		<th>Amount</th>
+		<th class="text-right">Amount</th>
 		<th>
 
 		</th>
@@ -12,7 +12,7 @@
 			<tr>
 				<td>{{ $payment->statement->property->short_name }}</td>
 				<td>{!! $payment->parent->statement_name !!}</td>
-				<td>{{ currency($payment->amount) }}</td>
+				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
 					<input type="checkbox" name="payments[]" value="{{ $payment->id }}" />
 				</td>
