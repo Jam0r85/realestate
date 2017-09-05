@@ -79,6 +79,7 @@ class Statement extends BaseModel
 	protected $fillable = [
 		'tenancy_id',
 		'key',
+        'send_by',
 		'period_start',
 		'period_end',
 		'amount',
@@ -318,27 +319,27 @@ class Statement extends BaseModel
     }
 
     /**
-     * Are we sending this statement by post?
+     * Send this statement by post?
      * 
      * @return bool
      */
     public function sendByPost()
     {
-        return (boolean) $this->property->hasSetting('post_rental_statement');
+        if ($this->send_by == 'post') {
+            return true;
+        }
     }
 
     /**
-     * Are we sending this statement by email?
+     * Send this statement by email?
      * 
      * @return bool
      */
     public function sendByEmail()
     {
-        if ($this->sendByPost()) {
-            return false;
+        if ($this->send_by == 'email') {
+            return true;
         }
-
-        return true;
     }
 
     /**

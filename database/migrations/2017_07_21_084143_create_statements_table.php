@@ -20,6 +20,7 @@ class CreateStatementsTable extends Migration
             $table->decimal('amount', 12, 2);
             $table->date('period_start');
             $table->date('period_end');
+            $table->string('send_by');
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('sent_at')->nullable();
             $table->timestamps();
