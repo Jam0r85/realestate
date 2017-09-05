@@ -41,10 +41,10 @@ class UpdateStatementSendBy extends Command
         $statements = Statement::all();
 
         foreach ($statements as $statement) {
+            $statement->send_by = 'email';
+            
             if ($statement->property->hasSetting('post_rental_statement')) {
                 $statement->send_by = 'post';
-            } else {
-                $statement->send_by = 'email';
             }
 
             $statement->save();
