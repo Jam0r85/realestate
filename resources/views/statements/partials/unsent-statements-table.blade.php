@@ -33,9 +33,7 @@
 					</td>
 					<td>{{ date_formatted($statement->period_end) }}</td>
 					<td>
-						<span class="d-inline-block text-truncate" style="max-width: 200px">
-							{{ $statement->tenancy->name }}
-						</span>
+						{!! truncate($statement->tenancy->name, '200px') !!}
 						<br />
 						<a href="{{ route('properties.show', $statement->property->id) }}">
 							<span class="tag is-light">

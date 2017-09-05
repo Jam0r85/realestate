@@ -12,7 +12,7 @@
 			<tr>
 				<td>
 					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
-						{{ $statement->tenancy->name }}
+						{!! truncate($statement->tenancy->name, '200px') !!}
 					</a>
 				</td>
 				<td>{{ $statement->property->short_name }}</td>
