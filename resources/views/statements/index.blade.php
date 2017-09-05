@@ -36,7 +36,7 @@
 	</section>
 
 	<section class="section">
-		<div class="container-fluid">
+		<div class="container">
 
 			<h3 class="text-danger">
 				Unsent and/or Unpaid Statements
@@ -52,7 +52,7 @@
 	</section>
 
 	<section class="section">
-		<div class="container-fluid">
+		<div class="container">
 
 			<h3 class="text-success">
 				Sent Statements
