@@ -94,7 +94,7 @@ if (!function_exists('properties')) {
 	function properties()
 	{
 		return cache()->tags('properties')->remember('properties', 60, function () {
-			return \App\Property::latest()->get();
+			return \App\Property::with('owners')->latest()->get();
 		});
 	}
 }

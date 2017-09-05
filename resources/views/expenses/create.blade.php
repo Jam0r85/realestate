@@ -5,47 +5,38 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">Create Expense</h1>
-
-			<hr />
+			<div class="page-title">
+				<h1>Create Expense</h1>
+			</div>
 
 			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('expenses.store') }}" enctype="multipart/form-data">
 				{{ csrf_field() }}
 
-				<div class="field">
-					<label class="label" for="property_id">Property</label>
-					<div class="control">
-						<select name="property_id" class="select2">
-							<option value="">Please select..</option>
-							@foreach(properties() as $property)
-								<option 
-									@if (old('property_id') == $property->id) selected @endif
-									value="{{ $property->id }}">
-										{{ $property->select_name }}
-								</option>
-							@endforeach
-						</select>
-					</div>
+				<div class="form-group">
+					<label for="property_id">Property</label>
+					<select name="property_id" class="form-control select2">
+						<option value="">Please select..</option>
+						@foreach(properties() as $property)
+							<option 
+								@if (old('property_id') == $property->id) selected @endif
+								value="{{ $property->id }}">
+									{{ $property->name }} ({{ implode(', ', $property->owners->pluck('name')->toArray()) }})
+							</option>
+						@endforeach
+					</select>
 				</div>
 
 				@include('expenses.partials.form')
 
-				<div class="field">
-					<label class="label" for="files">Invoice(s)</label>
-					<div class="control">
-						<input type="file" class="input" name="files[]" multiple />
-					</div>
+				<div class="form-group">
+					<label for="files">Invoice(s)</label>
+					<input type="file" class="form-control-file" name="files[]" multiple />
 				</div>
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Create Expense
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Create Expense
 				</button>
 
 			</form>

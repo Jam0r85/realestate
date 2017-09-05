@@ -1,6 +1,6 @@
 <div class="card mb-3">
 	<div class="card-header">
-		<i class="fa fa-cogs"></i> User's Information
+		<i class="fa fa-user"></i> User's Information
 	</div>
 	<ul class="list-group list-group-flush">
 		<li class="list-group-item flex-column">
