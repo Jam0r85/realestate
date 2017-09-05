@@ -31,7 +31,7 @@ class StatementController extends BaseController
     public function index()
     {
         $sent_statements = Statement::whereNotNull('sent_at')->latest()->paginate();
-        $unsent_statements = Statement::with('users','tenancy')->whereNull('sent_at')->latest()->get();
+        $unsent_statements = Statement::with('users','tenancy')->where('sent_at', null)->orWhere('paid_at', null)->latest()->get();
 
         return view('statements.index', compact('sent_statements','unsent_statements'));
     }

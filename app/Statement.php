@@ -236,34 +236,6 @@ class Statement extends BaseModel
     }
 
     /**
-     * Get the user email's for this statement.
-     * 
-     * @return array
-     */
-    public function getUserEmails()
-    {
-        if (count($this->users)) {
-            return $this->users()->whereNotNull('email')->pluck('email')->toArray();
-        }
-
-        return [];
-    }
-
-    /**
-     * Check whether the statement has valid user email's.
-     * 
-     * @return bool
-     */
-    public function hasUserEmails()
-    {
-        if (!count($this->getUserEmails())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Get the statement's recipient address.
      * 
      * @return string

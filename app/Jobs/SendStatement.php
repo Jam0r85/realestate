@@ -46,9 +46,26 @@ class SendStatement implements ShouldQueue
      */
     public function handle()
     {
+        /**
+         * Build an array of e-mails to send the statement too.
+         * @var array
+         */
+        $emails = [];
+
+        /**
+         * Loop through the statement users and get the emails.
+         */
+        if (count($this->statement->users)) {
+            foreach ($this->statement->users as $user) {
+                if ($user->email) {
+                    $emails[] = $user->email;
+                }
+            }
+        }
+
         if ($this->statement->sendByEmail()) {
-            if ($this->statement->hasUserEmails()) {
-                Mail::to($this->statement->getUserEmails())->send(
+            if (count($emails)) {
+                Mail::to($emails)->send(
                     new StatementByEmail($this->statement)
                 );
             } else {
@@ -66,19 +83,6 @@ class SendStatement implements ShouldQueue
                 );
             }
         }
-    }
-
-    /**
-     * The job failed to process.
-     * 
-     * @param  Exception $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        Mail::to(get_setting('company_email'))->send(
-            new ErrorToUser($this->errorMessage())
-        );
     }
 
     /**

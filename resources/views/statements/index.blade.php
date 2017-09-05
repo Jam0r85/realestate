@@ -39,8 +39,14 @@
 		<div class="container-fluid">
 
 			<h3 class="text-danger">
-				Unsent Statements
+				Unsent and/or Unpaid Statements
 			</h3>
+
+			<div class="row">
+				<div class="col">
+					@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
+				</div>
+			</div>
 
 		</div>
 	</section>
