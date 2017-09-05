@@ -37,6 +37,23 @@ class StatementPaymentController extends BaseController
     }
 
     /**
+     * Download the statement payments as a PDF.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function download()
+    {
+        $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
+
+        if (!count($unsent_payments)) {
+            return back();
+        }
+
+        $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
+        return view('pdf.statement-payments', compact('unsent_payments'));
+    }
+
+    /**
      * Mark the provided statement payments as sent.
      * 
      * @param \App\Http\Requests\StatementPaymentSentRequest $request
