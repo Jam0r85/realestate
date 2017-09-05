@@ -10,9 +10,9 @@
 	<tbody>
 		@foreach ($expenses as $expense)
 			<tr>
-				<td class="text-truncate">
+				<td>
 					<a href="{{ route('expenses.show', $expense->id) }}">
-						{{ $expense->name }}
+						{!! truncate($expense->name) !!}
 					</a>
 				</td>
 				<td>
