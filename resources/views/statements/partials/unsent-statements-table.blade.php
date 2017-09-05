@@ -33,7 +33,7 @@
 					</td>
 					<td>{{ date_formatted($statement->period_end) }}</td>
 					<td>
-						<span class="d-inline-block text-truncate" style="max-width: 150px">
+						<span class="d-inline-block text-truncate" style="max-width: 200px">
 							{{ $statement->tenancy->name }}
 						</span>
 						<br />

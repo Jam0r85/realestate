@@ -12,10 +12,11 @@
 			<tr>
 				<td>{{ $payment->statement->tenancy->property->short_name }}</td>
 				<td>
-					<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a>
-					@if ($payment->statement->trashed())
-						<span class="tag is-danger">Statement Deleted</span>
-					@endif
+					<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">
+						<span class="d-inline-block text-truncate" style="width: 250px">
+							{{ $payment->statement->tenancy->name }}
+						</span>
+					</a>
 				</td>
 				<td>{{ $payment->name_formatted }}</td>
 				<td>@if ($payment->bank_account) Bank @else Cash or Cheque @endif</td>
