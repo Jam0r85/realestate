@@ -8,7 +8,7 @@
 		<ul class="list-group list-group-flush">
 			@foreach ($expense->invoices as $invoice)
 				@component('partials.bootstrap.list-group-item')
-					<a href="#" target="_blank">
+					<a href="{{ Storage::url($invoice->path) }}" target="_blank" title="{{ $invoice->name }}">
 						{{ $invoice->name }}
 					</a>
 				@endcomponent
