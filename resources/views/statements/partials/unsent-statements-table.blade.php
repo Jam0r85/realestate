@@ -33,11 +33,11 @@
 					</td>
 					<td>{{ date_formatted($statement->period_end) }}</td>
 					<td>
-						{!! truncate($statement->tenancy->name, '200px') !!}
+						{!! truncate($statement->tenancy->name) !!}
 						<br />
 						<a href="{{ route('properties.show', $statement->property->id) }}">
 							<span class="tag is-light">
-								{{ $statement->property->short_name }}
+								{!! truncate($statement->property->short_name) !!}
 							</span>
 						</a>
 					</td>
