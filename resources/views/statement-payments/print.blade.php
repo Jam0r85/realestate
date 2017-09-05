@@ -18,7 +18,7 @@
 <body>
 
 	<section class="section">
-		<div class="container-fluid">
+		<div class="container">
 
 			@foreach ($unsent_payments as $name => $payments)
 
