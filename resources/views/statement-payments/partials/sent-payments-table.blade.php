@@ -10,7 +10,7 @@
 	<tbody>
 		@foreach ($sent_payments as $payment)
 			<tr>
-				<td>{{ $payment->statement->tenancy->property->short_name }}</td>
+				<td>{!! truncate($payment->statement->tenancy->property->short_name) !!}</td>
 				<td>
 					<a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">
 						{!! truncate($payment->statement->tenancy->name) !!}

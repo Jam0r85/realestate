@@ -32,16 +32,20 @@
 						</div>
 						<ul class="list-group list-group-flush">
 							@foreach ($account->users as $user)
-								<li class="list-group-item flex-column">
-									<div class="d-flex justify-content-between">
-										<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-											{{ $user->name }}
-										</a>
-										<label class="custom-control custom-checkbox">
-											<input class="custom-control-input" type="checkbox" name="remove[]" value="{{ $user->id }}" />
-											<span class="custom-control-indicator"></span>
-											<span class="custom-control-description">Remove?</span>
-										</label>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col">
+											<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
+												{{ $user->name }}
+											</a>
+										</div>
+										<div class="col text-right">
+											<label class="custom-control custom-checkbox">
+												<input class="custom-control-input" type="checkbox" name="remove[]" value="{{ $user->id }}" />
+												<span class="custom-control-indicator"></span>
+												<span class="custom-control-description">Remove?</span>
+											</label>
+										</div>
 									</div>
 								</li>
 							@endforeach

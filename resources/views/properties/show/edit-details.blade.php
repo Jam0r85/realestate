@@ -5,30 +5,24 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('properties.show', $property->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('properties.show', $property->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $property->short_name }}</h1>
+				<h2>Edit Details</h2>
+			</div>
 
-			<h1 class="title">{{ $property->name }}</h1>
-			<h2 class="subtitle">Edit Details</h2>
-
-			<hr />
+			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('properties.update', $property->id) }}">
 				{{ csrf_field() }}
-				{{ method_field('PUT') }}
-
-				@include('partials.errors-block')
+				{{ method_field('PUT') }}				
 
 				@include('properties.partials.form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Save Changes
-					</span>
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-save"></i> Save Changes
 				</button>
 
 			</form>
