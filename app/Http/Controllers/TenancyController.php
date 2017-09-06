@@ -14,6 +14,7 @@ use App\Services\TenancyService;
 use App\Tenancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TenancyController extends BaseController
 {
@@ -62,7 +63,15 @@ class TenancyController extends BaseController
      */
     public function search(Request $request)
     {
-        $tenancies = Tenancy::search($request->search_term)->get();
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('tenancies_search_term');
+            return redirect()->route('users.index');
+        }
+
+        Session::put('tenancies_search_term', $request->search_term);
+
+        $tenancies = Tenancy::search(Session::get('tenancies_search_term'))->get();
         $title = 'Search Results';
 
         return view('tenancies.index', compact('tenancies','title'));
