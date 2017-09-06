@@ -66,7 +66,7 @@ class TenancyController extends BaseController
         // Clear the search term.
         if ($request && $request->has('clear_search')) {
             Session::forget('tenancies_search_term');
-            return redirect()->route('users.index');
+            return redirect()->route('tenancies.index');
         }
 
         Session::put('tenancies_search_term', $request->search_term);
