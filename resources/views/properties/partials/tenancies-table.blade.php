@@ -10,7 +10,7 @@
 			<tr>
 				<td>
 					<a href="{{ route('tenancies.show', $tenancy->id) }}" title="{{ $tenancy->name }}">
-						{{ $tenancy->name }}
+						{!! truncate($tenancy->name) !!}
 					</a>
 				</td>
 				<td>{{ currency($tenancy->rent_amount) }}</td>

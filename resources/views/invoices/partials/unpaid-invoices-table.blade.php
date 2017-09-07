@@ -18,7 +18,7 @@
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td>{{ $invoice->property->short_name }}</td>
 				<td>{{ currency($invoice->total) }}</td>
-				<td>{{ currency($invoice->total_balance) }}</td>
+				<td>{{ count($invoice->items) ? currency($invoice->total_balance) : 'n/a' }}</td>
 				<td>
 					@foreach ($invoice->users as $user)
 						<a class="badge badge-primary" href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">

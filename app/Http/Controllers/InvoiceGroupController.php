@@ -5,26 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInvoiceGroupRequest;
 use App\Http\Requests\UpdateInvoiceGroupRequest;
 use App\InvoiceGroup;
-use App\Repositories\EloquentInvoiceGroupsRepository;
 use Illuminate\Http\Request;
 
 class InvoiceGroupController extends Controller
 {
     /**
-     * @var  App\Repositories\EloquentInvoiceGroupsRepository
-     */
-    protected $invoice_groups;
-
-    /**
      * Create a new controller instance.
      * 
-     * @param   EloquentInvoiceGroupsRepository $invoice_groups
      * @return  void
      */
-    public function __construct(EloquentInvoiceGroupsRepository $invoice_groups)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->invoice_groups = $invoice_groups;
     }
 
     /**
@@ -34,11 +26,10 @@ class InvoiceGroupController extends Controller
      */
     public function index()
     {
-        $with = [];
-        $invoice_groups = $this->invoice_groups->getAllPaged($with);
-        $archived_invoice_groups = $this->invoice_groups->getArchivedPaged($with);
-
-        return view('invoice-groups.index', compact('invoice_groups','archived_invoice_groups'));
+        $invoice_groups = InvoiceGroup::latest()->paginate();
+        $invoice_groups->load('invoices','invoices.items','invoices.items.taxRate');
+        
+        return view('invoice-groups.index', compact('invoice_groups'));
     }
 
     /**

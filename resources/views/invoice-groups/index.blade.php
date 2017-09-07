@@ -1,57 +1,29 @@
-@extends('settings.template')
+@extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('settings.index') }}">Settings</a></li>
-	<li class="is-active"><a>Invoice Groups</a></li>
-@endsection
+@section('content')
 
-@section('sub-content')
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section-no-container')
-		@slot('title')
-			Invoice Groups
-		@endslot
-		@slot('subTitle')
-			Current active invoice groups for all branches.
-		@endslot
+			<div class="page-title">
+				<h1>
+					Invoice Groups List
+				</h1>
+			</div>
 
-		@include('invoice-groups.partials.table', ['invoice_groups' => $invoice_groups])
+		</div>
+	</section>
 
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section-no-container')
-		@slot('title')
-			Archived Invoice Groups
-		@endslot
-		@slot('subTitle')
-			Old invoice groups which have now been archived and are no longer used.
-		@endslot
+			<div class="row">
+				<div class="col">
+					@include('invoice-groups.partials.table', ['invoice_groups' => $invoice_groups])
+				</div>
+			</div>
 
-		@include('invoice-groups.partials.table', ['invoice_groups' => $archived_invoice_groups])
-
-	@endcomponent
-
-	<form role="form" method="POST" action="{{ route('invoice-groups.store') }}">
-		{{ csrf_field() }}
-
-		@component('partials.sections.section-no-container')
-			@slot('title')
-				New Invoice Group
-			@endslot
-			@slot('subTitle')
-				Create a new invoice group for the company.
-			@endslot
-
-			@include('partials.errors-block')
-
-			@include('invoice-groups.partials.form')
-
-			<button type="submit" class="button is-primary is-outlined">
-				Create Group
-			</button>
-
-		@endcomponent
-
-	</form>
+		</div>
+	</section>
 
 @endsection

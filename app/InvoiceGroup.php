@@ -35,7 +35,18 @@ class InvoiceGroup extends BaseModel
 	 */
     public function invoices()
     {
-    	return $this->hasMany('App\Invoice')->latest();
+    	return $this->hasMany('App\Invoice')
+            ->latest();
+    }
+
+    /**
+     * An invoice group can have many unpaid invoices.
+     */
+    public function unpaidInvoices()
+    {
+        return $this->hasMany('App\Invoice')
+            ->whereNull('paid_at')
+            ->latest();
     }
 
     /**
@@ -44,15 +55,5 @@ class InvoiceGroup extends BaseModel
     public function branch()
     {
     	return $this->belongsTo('App\Branch');
-    }
-
-    /**
-     * Get the total income from paid invoices for this group.
-     * 
-     * @return integer
-     */
-    public function getInvoicesTotalAttribute()
-    {
-        return $this->invoices()->whereNotNull('paid_at')->get()->sum('total');
     }
 }

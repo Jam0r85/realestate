@@ -50,6 +50,9 @@
 					<h3 class="text-danger">
 						Unpaid Invoices
 					</h3>
+					<h5 class="text-muted">
+						Invoices with a balance of {{ currency(0) }} will be marked as paid shortly.
+					</h5>
 				</div>
 
 				<div class="row">
