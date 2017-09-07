@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends BaseController
 {
@@ -39,7 +40,15 @@ class PaymentController extends BaseController
      */
     public function search(Request $request)
     {
-        $payments = Payment::search($request->search_term)->get();
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('payments_search_term');
+            return back();
+        }
+
+        Session::put('payments_search_term', $request->search_term);
+
+        $payments = Payment::search(Session::get('payments_search_term'))->get();
         $title = 'Search Results';
 
         return view('payments.index', compact('payments','title'));
