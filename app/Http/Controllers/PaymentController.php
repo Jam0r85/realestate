@@ -25,10 +25,10 @@ class PaymentController extends BaseController
      */
     public function rentPayments()
     {
-        $payments = Payment::latest()->paginate();
+        $payments = Payment::where('parent_type', 'tenancies')->latest()->paginate();
         $title = 'Rent Payments';
 
-        return view('payments.index', compact('payments','title'));
+        return view('payments.rent', compact('payments','title'));
     }
 
     /**
