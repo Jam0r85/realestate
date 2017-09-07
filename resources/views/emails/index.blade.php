@@ -2,39 +2,41 @@
 
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			Sent E-Mails
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<div class="page-title">
+				<h1>
+					Sent E-Mails History
+				</h1>
+			</div>
 
-		@component('partials.table')
-			@slot('head')
-				<th>Sent</th>				
-				<th>Subject</th>
-				<th>Recipient</th>
-				<th>Users</th>
-				<th>Options</th>
-			@endslot
-			@foreach ($emails as $email)
-				<tr>
-					<td>{{ datetime_formatted($email->created_at) }}</td>
-					<td>{{ $email->subject }}</td>
-					<td>{{ $email->to }}</td>
-					<td></td>
-					<td>
-						<a href="{{ route('emails.preview', $email->id) }}" target="_blank" class="button is-small is-outlined is-primary">
-							View E-Mail
-						</a>
-					</td>				
-				</tr>
-			@endforeach
-		@endcomponent
+			<table class="table table-striped table-responsive">
+				<thead>
+					<th>Sent</th>				
+					<th>Subject</th>
+					<th>Recipient</th>
+					<th class="text-right">Preview</th>
+				</thead>
+				<tbody>
+					@foreach ($emails as $email)
+						<tr>
+							<td>{{ date_formatted($email->created_at) }}</td>
+							<td>{!! truncate($email->subject) !!}</td>
+							<td>{{ $email->to }}</td>
+							<td class="text-right">
+								<a href="{{ route('emails.preview', $email->id) }}" target="_blank">
+									View
+								</a>
+							</td>				
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
 
-		@include('partials.pagination', ['collection' => $emails])
+			@include('partials.pagination', ['collection' => $emails])
 
-	@endcomponent
+		</div>
+	</section>
 
 @endsection

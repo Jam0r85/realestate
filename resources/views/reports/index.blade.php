@@ -5,47 +5,36 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">Reports</h1>
-
-			<hr />
+			<div class="page-title">
+				<h1>Reports</h1>
+			</div>
 
 			@include('partials.errors-block')
 
-			<div class="columns">
-				<div class="column is-6">
+			<div class="row">
+				<div class="col col-6">
 
 					<div class="card mb-2">
-						<header class="card-header">
-							<p class="card-header-title">
-								HMRC Landlord Income
-							</p>
-						</header>
-						<div class="card-content">
+						<div class="card-header">
+							HMRC Landlord Income
+						</div>
+						<div class="card-body">
 
 							<form role="form" method="POST" action="{{ route('reports.landlords-income') }}">
 								{{ csrf_field() }}
 
-								<div class="field">
-									<label class="label" for="from">From</label>
-									<div class="control">
-										<input type="date" class="input" name="from" value="{{ old('from') }}" />
-									</div>
+								<div class="form-group">
+									<label for="from">From</label>
+									<input type="date" class="form-control" name="from" value="{{ old('from') }}" />
 								</div>
 
-								<div class="field">
-									<label class="label" for="until">Until</label>
-									<div class="control">
-										<input type="date" class="input" name="until" value="{{ old('until') }}" />
-									</div>
+								<div class="form-group">
+									<label for="until">Until</label>
+									<input type="date" class="form-control" name="until" value="{{ old('until') }}" />
 								</div>
 
-								<button type="submit" class="button is-primary">
-									<span class="icon is-small">
-										<i class="fa fa-book"></i>
-									</span>
-									<span>
-										Generate
-									</span>
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-book"></i> Generate
 								</button>
 
 							</form>
