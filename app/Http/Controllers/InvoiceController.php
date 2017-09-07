@@ -31,23 +31,15 @@ class InvoiceController extends BaseController
      */
     public function index()
     {
-        $invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
+        $paid_invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
+        $unpaid_invoices = Invoice::whereNull('paid_at')->latest()->get();
+
+        $paid_invoices->load('property','users','items','items.taxRate','payments','statement_payments');
+        $unpaid_invoices->load('property','users','items','items.taxRate','payments','statement_payments');
+
         $title = 'Invoices List';
 
-        return view('invoices.index', compact('invoices','title'));
-    }
-
-    /**
-     * Display a listing of unpaid invoices.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function unpaid()
-    {
-        $invoices = Invoice::whereNull('paid_at')->latest()->paginate();
-        $title = 'Unpaid Invoices';
-
-        return view('invoices.index', compact('invoices','title'));
+        return view('invoices.index', compact('paid_invoices','unpaid_invoices','title'));
     }
 
     /**

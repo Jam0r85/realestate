@@ -13,6 +13,7 @@
 					</a>
 				</h1>
 			</div>
+			
 			<div class="page-search">
 				<form role="form" method="POST" action="{{ route('users.search') }}">
 					{{ csrf_field() }}
