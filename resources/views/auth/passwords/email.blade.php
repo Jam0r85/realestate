@@ -2,58 +2,51 @@
 
 @section('content')
 
-    @component('partials.sections.section')
+    <section class="section">
+        <div class="container">
 
-        <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
+            <div class="row">
+                <div class="col-md-6 mr-auto ml-auto">
 
-                @if (session('status'))
-                    @component('partials.notifications.success')
-                        {{ session('status') }}
-                    @endcomponent
-                @endif
+                    @if (session('status'))
+                        <div class="alert alert-info">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-                @include('partials.errors-block')
+                    @include('partials.errors-block')
 
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Request Password Reset
-                        </p>
-                    </header>
-                    <div class="card-content">
+                    <div class="card">
+                        <div class="card-header">
+                            Request Password Reqest
+                        </div>
+                        <div class="card-body">
 
-                        <form role="form" method="POST" action="{{ route('password.email') }}">
-                            {{ csrf_field() }}
+                            <form role="form" method="POST" action="{{ route('password.email') }}">
+                                {{ csrf_field() }}
 
-                            @component('partials.forms.field')
-                                @slot('label')
-                                    E-Mail Address
-                                @endslot
-                                @slot('name')
-                                    email
-                                @endslot
-                                @slot('iconLeft')
-                                    envelope
-                                @endslot
-                            @endcomponent
+                                <div class="form-group">
+                                    <label for="email">E-Mail Address</label>
+                                    <input type="email" name="email" class="form-control" />
+                                </div>
 
-                            <a href="{{ route('login') }}" class="is-pulled-right button is-link">
-                                Back to Login
-                            </a>
+                                <a href="{{ route('login') }}" class="float-right btn btn-link">
+                                    Back to Login
+                                </a>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    Send Password Reset Link
+                                </button>
 
-                            @component('partials.forms.buttons.save')
-                                Send Password Reset Link
-                            @endcomponent
+                            </form>
 
-                        </form>
-
+                        </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
 
-    @endcomponent
+        </div>
+    </section>
 
 @endsection
