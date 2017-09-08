@@ -40,7 +40,7 @@
 		</div>
 	</section>
 
-	@if (count($unpaid_expenses))
+	@if (count($unpaid_expenses) && $paid_expenses->currentPage() == 1)
 		<section class="section">
 			<div class="container">
 				<div class="page-title">

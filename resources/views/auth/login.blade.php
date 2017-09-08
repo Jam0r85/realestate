@@ -7,6 +7,9 @@
             <div class="col-md-6 ml-auto mr-auto">
 
                 <div class="card">
+                    <div class="card-header">
+                        Staff Login
+                    </div>
                     <div class="card-body">
 
                         @include('partials.errors-block')
