@@ -6,10 +6,37 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" />
 
 	    <style type="text/css">
-	    	@page {
-	    		margin: 0px !important;
-	    		padding: 0px !important;
-	    	}
+			@page { margin: 100px 25px; }
+			header {
+				text-align: right;
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				right: 0px;
+				height: 150px;
+				padding: 1rem 2rem 0 2rem;
+			}
+			footer {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 50px;
+				padding: 1rem 2rem 0 2rem;
+			}
+			footer ul {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+			footer ul li {
+				display: inline;
+			}
+			footer ul li span.footer-title {
+				font-weight: bold;
+				padding-right: 0.2rem;
+			}
+	    	main { margin-top: 150px; }
 	    	body {
 	    		font-size: 15px;
 	    	}
@@ -27,10 +54,6 @@
 	    	.has-header {
 	    		margin-top: 1.5rem;
 	    	}
-	    	.header-image {
-	    		max-height: 150px;
-	    		max-width: 160px;
-	    	} 
 			.page-break {
 			    page-break-after: always;
 			}
@@ -51,3 +74,36 @@
 
 	</head>
 	<body>
+
+		<header>
+			@if (get_setting('company_logo'))
+				<img src="{{ get_file(get_setting('company_logo')) }}" />
+			@else
+				<h1>{{ get_setting('company_name') }}</h1>
+			@endif 
+		</header>
+
+		<footer>
+			<ul>
+				@if (get_setting('head_office_phone'))
+					<li>
+						<span class="footer-title">Phone</span>
+						{{ get_setting('head_office_phone') }}
+					</li>
+				@endif
+				@if (get_setting('head_office_email'))
+					<li>
+						<span class="footer-title">E-Mail</span>
+						{{ get_setting('head_office_email') }}
+					</li>
+				@endif
+				@if (get_setting('vat_number'))
+					<li>
+						<span class="footer-title">VAT</span>
+						{{ get_setting('vat_number') }}
+					</li>
+				@endif
+			</ul>
+		</footer>
+
+		<main>

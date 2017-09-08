@@ -2,20 +2,6 @@
 
 @section('content')
 
-	<section class="section has-header">
-		<div class="container">
-			<div class="heading has-text-right">
-
-				@if (get_setting('company_logo'))	
-					<img src="{{ get_file(get_setting('company_logo')) }}" class="header-image" />
-				@else
-					<h1>{{ get_setting('company_name') }}</h1>
-				@endif 
-
-			</div>
-		</div>
-	</section>
-
 	<section class="section">
 		<div class="container">
 			<div class="recipient">
