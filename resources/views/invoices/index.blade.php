@@ -41,8 +41,7 @@
 		</div>
 	</section>
 
-	@if (count($unpaid_invoices))
-
+	@if (count($unpaid_invoices) && $paid_invoices->currentPage() == 1)
 		<section class="section">
 			<div class="container">
 
@@ -63,7 +62,6 @@
 
 			</div>
 		</section>
-
 	@endif
 
 	<section class="section">
