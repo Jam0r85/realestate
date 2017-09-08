@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateExpenseRequest;
 use App\Services\DocumentService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ExpenseController extends BaseController
@@ -32,25 +33,34 @@ class ExpenseController extends BaseController
     public function index()
     {
         $unpaid_expenses = Expense::whereNull('paid_at')->latest()->get();
-        $paid_expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
+        $expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
 
         $unpaid_expenses->load('property','contractors','invoices','statements');
-        $paid_expenses->load('property','contractors','invoices','statements');
+        $expenses->load('property','contractors','invoices','statements');
 
-        return view('expenses.index', compact('unpaid_expenses','paid_expenses'));
+        return view('expenses.index', compact('unpaid_expenses','expenses'));
     }
 
     /**
-     * Display a listing of unpaid expenses.
+     * Search through the resource.
      *
+     * @param \Illuminate\Http\Response $request
      * @return \Illuminate\Http\Response
      */
-    public function unpaid()
+    public function search(Request $request)
     {
-        $expenses = Expense::whereNull('paid_at')->latest()->paginate();
-        $title = 'Unpaid Expenses';
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('expenses_search_term');
+            return redirect()->route('expenses.index');
+        }
 
-        return view('expenses.unpaid', compact('expenses','title'));
+        Session::put('expenses_search_term', $request->search_term);
+
+        $expenses = Expense::search(Session::get('expenses_search_term'))->get();
+        $title = 'Search Results';
+
+        return view('expenses.index', compact('expenses', 'title'));
     }
 
     /**

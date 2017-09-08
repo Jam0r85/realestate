@@ -38,8 +38,6 @@ Route::prefix('events')->group(function () {
 
 Route::prefix('invoices')->group(function () {
 	Route::get('/', 'InvoiceController@index')->name('invoices.index');
-	Route::get('unpaid', 'InvoiceController@unpaid')->name('invoices.unpaid');
-	Route::get('overdue', 'InvoiceController@overdue')->name('invoices.overdue');
 	Route::get('create', 'InvoiceController@create')->name('invoices.create');
 	Route::post('/', 'InvoiceController@store')->name('invoices.store');	
 	Route::post('search', 'InvoiceController@search')->name('invoices.search');
@@ -71,7 +69,7 @@ Route::prefix('properties')->group(function () {
 });
 
 Route::prefix('expenses')->group(function () {
-	Route::get('paid', 'ExpenseController@index')->name('expenses.index');
+	Route::get('/', 'ExpenseController@index')->name('expenses.index');
 	Route::post('search', 'ExpenseController@search')->name('expenses.search');
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
 	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
@@ -179,6 +177,7 @@ Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloa
 Route::get('download/statement/{id}', 'DownloadController@statement')->name('downloads.statement');
 Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloads.payment');
 
+// E-Mail history and preview the e-mail
 Route::get('emails', 'EmailController@index')->name('emails.index');
 Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
 

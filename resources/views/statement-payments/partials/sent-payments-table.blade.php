@@ -9,7 +9,7 @@
 		<th>Sent</th>
 	</thead>
 	<tbody>
-		@foreach ($sent_payments as $payment)
+		@foreach ($payments as $payment)
 			<tr>
 				<td>{!! truncate($payment->statement->tenancy->property->short_name) !!}</td>
 				<td>
@@ -27,4 +27,4 @@
 	</tbody>
 </table>
 
-@include('partials.pagination', ['collection' => $sent_payments])
+@include('partials.pagination', ['collection' => $payments])

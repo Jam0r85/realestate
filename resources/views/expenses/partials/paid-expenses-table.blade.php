@@ -11,7 +11,7 @@
 		@foreach ($expenses as $expense)
 			<tr>
 				<td>
-					<a href="{{ route('expenses.show', $expense->id) }}">
+					<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
 						{{ $expense->name }}
 					</a>
 				</td>
@@ -22,7 +22,7 @@
 				</td>
 				<td>
 					@foreach ($expense->contractors as $user)
-						<a href="{{ route('users.show', $user->id) }}" class="badge badge-primary">
+						<a href="{{ route('users.show', $user->id) }}" class="badge badge-primary" title="{{ $user->name }}">
 							{{ $user->name }}
 						</a>
 					@endforeach

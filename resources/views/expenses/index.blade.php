@@ -13,6 +13,7 @@
 					</a>
 				</h1>
 			</div>
+			
 			<div class="page-search">
 				<form role="form" method="POST" action="{{ route('expenses.search') }}">
 					{{ csrf_field() }}
@@ -40,36 +41,43 @@
 		</div>
 	</section>
 
-	@if (count($unpaid_expenses) && $paid_expenses->currentPage() == 1)
-		<section class="section">
-			<div class="container">
-				<div class="page-title">
-					<h3 class="text-danger">
-						Unpaid Expenses
-					</h3>
-				</div>
+	@if (isset($unpaid_expenses))
+		@if (count($unpaid_expenses) && $expenses->currentPage() == 1)
+			<section class="section">
+				<div class="container">
+					<div class="page-title">
+						<h3 class="text-danger">
+							Unpaid Expenses
+						</h3>
+					</div>
 
-				<div class="row">
-					<div class="col">
-						@include('expenses.partials.unpaid-expenses-table', ['expenses' => $unpaid_expenses])
+					<div class="row">
+						<div class="col">
+							@include('expenses.partials.unpaid-expenses-table', ['expenses' => $unpaid_expenses])
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		@endif
 	@endif
 
 	<section class="section">
 		<div class="container">
-			<div class="page-title">
-				<h3 class="text-success">
-					Paid Expenses
-				</h3>
-			</div>
+
+			@if (!session('expenses_search_term'))
+				<div class="page-title">
+					<h3 class="text-success">
+						Paid Expenses
+					</h3>
+				</div>
+			@endif
+
 			<div class="row">
 				<div class="col">
-					@include('expenses.partials.paid-expenses-table', ['expenses' => $paid_expenses])
+					@include('expenses.partials.paid-expenses-table')
 				</div>
 			</div>
+
 		</div>
 	</section>
 

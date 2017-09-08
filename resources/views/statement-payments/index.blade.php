@@ -12,7 +12,7 @@
 		</div>
 	</section>
 
-	@if (count($unsent_payments)  && $sent_payments->currentPage() == 1)
+	@if (count($unsent_payments)  && $payments->currentPage() == 1)
 		<section class="section">
 			<div class="container">
 				<div class="page-title">

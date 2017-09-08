@@ -7,10 +7,11 @@ use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Invoice;
-use App\Services\PaymentService;
 use App\Services\InvoiceService;
+use App\Services\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class InvoiceController extends BaseController
 {
@@ -31,31 +32,15 @@ class InvoiceController extends BaseController
      */
     public function index()
     {
-        $paid_invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
+        $invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
         $unpaid_invoices = Invoice::whereNull('paid_at')->latest()->get();
 
-        $paid_invoices->load('property','users','items','items.taxRate','payments','statement_payments');
+        $invoices->load('property','users','items','items.taxRate','payments','statement_payments');
         $unpaid_invoices->load('property','users','items','items.taxRate','payments','statement_payments');
 
         $title = 'Invoices List';
 
-        return view('invoices.index', compact('paid_invoices','unpaid_invoices','title'));
-    }
-
-    /**
-     * Display a listing of overdue invoices.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function overdue()
-    {
-        $invoices = Invoice::where('due_at', '<=', Carbon::now())
-            ->whereNull('paid_at')
-            ->latest()
-            ->paginate();            
-        $title = 'Overdue Invoices';
-
-        return view('invoices.index', compact('invoices','title'));
+        return view('invoices.index', compact('invoices','unpaid_invoices','title'));
     }
 
     /**
@@ -66,7 +51,15 @@ class InvoiceController extends BaseController
      */
     public function search(Request $request)
     {
-        $invoices = Invoice::search($request->search_term)->get();
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('invoices_search_term');
+            return redirect()->route('invoices.index');
+        }
+
+        Session::put('invoices_search_term', $request->search_term);
+
+        $invoices = Invoice::search(Session::get('invoices_search_term'))->get();
         $title = 'Search Results';
 
         return view('invoices.index', compact('invoices','title'));

@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateStatementRequest;
 use App\Services\StatementService;
 use App\Statement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class StatementController extends BaseController
 {
@@ -46,9 +47,16 @@ class StatementController extends BaseController
      */
     public function search(Request $request)
     {
-        $statements = Statement::search($request->search_term)->get();
-        $statements->sortBy('period_start');
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('statements_search_term');
+            return redirect()->route('statements.index');
+        }
 
+        Session::put('statements_search_term', $request->search_term);
+
+        $statements = Statement::search(Session::get('statements_search_term'))->get();
+        $statements->sortBy('period_start');
         $title = 'Search Results';
 
         return view('statements.index', compact('statements','title'));

@@ -41,41 +41,45 @@
 		</div>
 	</section>
 
-	@if (count($unpaid_invoices) && $paid_invoices->currentPage() == 1)
-		<section class="section">
-			<div class="container">
+	@if (isset($unpaid_invoices))
+		@if (count($unpaid_invoices) && $invoices->currentPage() == 1)
+			<section class="section">
+				<div class="container">
 
-				<div class="page-title">
-					<h3 class="text-danger">
-						Unpaid Invoices
-					</h3>
-					<h5 class="text-muted">
-						Invoices with a balance of {{ currency(0) }} will be marked as paid shortly.
-					</h5>
-				</div>
-
-				<div class="row">
-					<div class="col">
-						@include('invoices.partials.unpaid-invoices-table', ['invoices' => $unpaid_invoices])
+					<div class="page-title">
+						<h3 class="text-danger">
+							Unpaid Invoices
+						</h3>
+						<h5 class="text-muted">
+							Invoices with a balance of {{ currency(0) }} will be marked as paid shortly.
+						</h5>
 					</div>
-				</div>
 
-			</div>
-		</section>
+					<div class="row">
+						<div class="col">
+							@include('invoices.partials.unpaid-invoices-table', ['invoices' => $unpaid_invoices])
+						</div>
+					</div>
+
+				</div>
+			</section>
+		@endif
 	@endif
 
 	<section class="section">
 		<div class="container">
 
-			<div class="page-title">
-				<h3 class="text-success">
-					Paid Invoices
-				</h3>
-			</div>
+			@if (!session('invoices_search_term'))
+				<div class="page-title">
+					<h3 class="text-success">
+						Paid Invoices
+					</h3>
+				</div>
+			@endif
 
 			<div class="row">
 				<div class="col">
-					@include('invoices.partials.paid-invoices-table', ['invoices' => $paid_invoices])
+					@include('invoices.partials.paid-invoices-table')
 				</div>
 			</div>
 

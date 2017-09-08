@@ -11,13 +11,13 @@
 		@foreach ($statements as $statement)
 			<tr>
 				<td>
-					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
-						{!! truncate($statement->tenancy->name, '200px') !!}
+					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}" title="{{ $statement->tenancy->name }}">
+						{!! truncate($statement->tenancy->name) !!}
 					</a>
 				</td>
 				<td>{!! truncate($statement->property->short_name) !!}</td>
 				<td>
-					<a href="{{ route('statements.show', $statement->id) }}">
+					<a href="{{ route('statements.show', $statement->id) }}" title="Statement #{{ $statement->id }}">
 						{{ date_formatted($statement->period_start) }}
 					</a>
 				</td>

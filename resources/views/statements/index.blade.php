@@ -8,6 +8,7 @@
 			<div class="page-title">
 				<h1>Statements List</h1>
 			</div>
+
 			<div class="page-search">
 				<form role="form" method="POST" action="{{ route('statements.search') }}">
 					{{ csrf_field() }}
@@ -35,7 +36,6 @@
 		</div>
 	</section>
 
-
 	@if (isset($unsent_statements))
 		@if (count($unsent_statements) && $statements->currentPage() == 1)
 			<section class="section">
@@ -56,9 +56,13 @@
 	<section class="section">
 		<div class="container">
 
-			<h3 class="text-success">
-				Sent Statements
-			</h3>
+			@if (!session('statements_search_term'))
+				<div class="page-title">
+					<h3 class="text-success">
+						Sent Statements
+					</h3>
+				</div>
+			@endif
 
 			<div class="row">
 				<div class="col">
