@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\UniqueWithSoftDeletes;
+use App\Rules\UniqueName;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInvoiceGroupRequest extends FormRequest
@@ -27,7 +27,7 @@ class StoreInvoiceGroupRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                new UniqueWithSoftDeletes('invoice_groups','name')
+                new UniqueName('invoice_groups','name')
             ],
             'next_number' => 'required|numeric',
             'format' => 'required',

@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateInvoiceGroupRequest;
 use App\InvoiceGroup;
 use Illuminate\Http\Request;
 
-class InvoiceGroupController extends Controller
+class InvoiceGroupController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -33,6 +33,16 @@ class InvoiceGroupController extends Controller
     }
 
     /**
+     * Display the form for creating a new resource.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('invoice-groups.create');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,7 +50,12 @@ class InvoiceGroupController extends Controller
      */
     public function store(StoreInvoiceGroupRequest $request)
     {
-        $this->invoice_groups->create($request->input());
+        $group = new InvoiceGroup();
+        $group->fill($request->input());
+        $group->save();
+
+        $this->successMessage('The invoice group was created');
+
         return back();
     }
 

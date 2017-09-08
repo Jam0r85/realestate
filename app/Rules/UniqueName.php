@@ -5,10 +5,10 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use DB;
 
-class UniqueWithSoftDeletes implements Rule
+class UniqueName implements Rule
 {
-    protected $table;
-    protected $field;
+    public $table;
+    public $field;
 
     /**
      * Create a new rule instance.
@@ -34,9 +34,9 @@ class UniqueWithSoftDeletes implements Rule
             return true;
         }
         
-        $query = DB::table($this->table)->whereNull('deleted_at')->where($this->field, $value)->get();
+        $query = DB::table($this->table)->whereNull('deleted_at')->where($this->field, $value)->first();
 
-        if ($query === null) {
+        if (count($query)) {
             return false;
         } else {
             return true;
@@ -50,6 +50,6 @@ class UniqueWithSoftDeletes implements Rule
      */
     public function message()
     {
-        return 'The ' . $this->field . ' has already been taken.';
+        return 'That name has already been taken.';
     }
 }

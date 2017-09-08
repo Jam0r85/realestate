@@ -51,7 +51,9 @@ Route::prefix('invoices')->group(function () {
 });
 
 Route::prefix('invoice-groups')->group(function () {
+	Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
 	Route::post('/', 'InvoiceGroupController@store')->name('invoice-groups.store');
+	Route::get('create', 'InvoiceGroupController@create')->name('invoice-groups.create');
 	Route::get('{id}/edit', 'InvoiceGroupController@edit')->name('invoice-groups.edit');
 	Route::put('{id}', 'InvoiceGroupController@update')->name('invoice-groups.update');
 	Route::get('{id}', 'InvoiceGroupController@show')->name('invoice-groups.show');
@@ -184,10 +186,6 @@ Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.previ
 Route::prefix('reports')->group(function () {
 	Route::get('/', 'ReportController@index')->name('reports.index');
 	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
-});
-
-Route::prefix('invoice-groups')->group(function () {
-	Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
 });
 
 Route::get('settings', 'SettingController@index')->name('settings.index');
