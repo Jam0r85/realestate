@@ -34,9 +34,9 @@ class StatementController extends BaseController
         $unsent_statements = Statement::where('sent_at', null)->orWhere('paid_at', null)->latest()->get();
 
         $unsent_statements->load('tenancy','tenancy.property','tenancy.tenants','users');
-        $sent_statements->load('tenancy','tenancy.property','tenancy.tenants');
+        $statements->load('tenancy','tenancy.property','tenancy.tenants');
 
-        return view('statements.index', compact('sent_statements','unsent_statements'));
+        return view('statements.index', compact('statements','unsent_statements'));
     }
 
     /**
@@ -48,6 +48,7 @@ class StatementController extends BaseController
     {
         $statements = Statement::search($request->search_term)->get();
         $statements->sortBy('period_start');
+
         $title = 'Search Results';
 
         return view('statements.index', compact('statements','title'));
