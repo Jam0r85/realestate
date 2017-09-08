@@ -5,6 +5,8 @@
 				{{ $title }}
 			</span>
 		@endif
-		{{ $slot }}
+		<span class="text-right">
+			{{ $slot }}
+		</span>
 	</div>
 </li>

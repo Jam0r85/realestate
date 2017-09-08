@@ -3,7 +3,6 @@
 		<th>Name</th>
 		<th>Next Number</th>
 		<th>Unpaid</th>
-		<th>Total</th>
 		<th>Format</th>
 	</thead>
 	<tbody>
@@ -16,7 +15,6 @@
 				</td>
 				<td>{{ $group->next_number }}</td>
 				<td>{{ count($group->unpaidInvoices) }}</td>
-				<td>{{ currency($group->invoices->sum('total')) }}</td>
 				<td>{{ $group->format }}</td>
 			</tr>
 		@endforeach

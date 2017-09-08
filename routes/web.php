@@ -164,8 +164,10 @@ Route::prefix('user-groups')->group(function () {
 });
 
 Route::prefix('branches')->group(function () {
+	Route::get('/', 'BranchController@index')->name('branches.index');
+	Route::get('create', 'BranchController@create')->name('branches.create');
 	Route::post('/', 'BranchController@store')->name('branches.store');
-	Route::get('{id}', 'BranchController@show')->name('branches.show');
+	Route::get('{id}/{section?}', 'BranchController@show')->name('branches.show');
 	Route::put('{id}', 'BranchController@update')->name('branches.update');
 });
 
@@ -188,13 +190,5 @@ Route::prefix('reports')->group(function () {
 	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
 });
 
-Route::get('settings', 'SettingController@index')->name('settings.index');
-Route::get('settings/logo', 'SettingController@logo')->name('settings.logo');
-Route::post('settings/logo', 'SettingController@updateLogo')->name('settings.update-logo');
-Route::post('settings/remove-logo', 'SettingController@removeLogo')->name('settings.remove-logo');
-Route::get('settings/branches', 'BranchController@index')->name('settings.branches');
-Route::get('settings/branches/roles', 'RoleController@index')->name('settings.roles');
-Route::get('settings/user-groups', 'UserGroupController@index')->name('settings.user-groups');
-Route::get('settings/invoice-groups', 'InvoiceGroupController@index')->name('settings.invoice-groups');
-Route::get('settings/permissions', 'SettingController@permissions')->name('settings.permissions');
-Route::post('settings', 'SettingController@update')->name('settings.update');
+Route::get('settings/{section?}', 'SettingController@index')->name('settings.index');
+Route::post('settings', 'SettingController@updateGeneral')->name('settings.update-general');

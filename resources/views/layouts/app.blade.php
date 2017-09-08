@@ -160,6 +160,9 @@
                                 <a class="dropdown-item" href="{{ route('settings.index') }}">
                                     Settings
                                 </a>
+                                <a class="dropdown-item" href="{{ route('branches.index') }}">
+                                    Branches
+                                </a>
                                 <a class="dropdown-item" href="{{ route('reports.index') }}">
                                     Reports
                                 </a>

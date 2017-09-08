@@ -1,6 +1,10 @@
 <?php
 
-function set_active($route)
+class Menu
 {
-    return Request::url() == $route ? 'is-active' :  ''; 
+
+	public static function activeRoute($route, $output = "is-active")
+	{
+	    if (Route::currentRouteName() == $route) return $output;
+	}
 }

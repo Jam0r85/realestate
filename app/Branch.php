@@ -10,7 +10,7 @@ class Branch extends BaseModel
      * @var array
      */
 	protected $fillable = [
-		'name', 'phone_number', 'email'
+		'name', 'phone_number', 'email', 'address'
 	];
 
     /**
@@ -37,11 +37,8 @@ class Branch extends BaseModel
         return $this->hasManyThrough('App\Event', 'App\Calendar');
     }
 
-    /**
-     * A branch has many registered users.
-     */
-    public function users()
+    public function getAddressFormattedAttribute()
     {
-        return $this->hasMany('App\User');
+        return nl2br($this->address);
     }
 }

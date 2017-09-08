@@ -1,6 +1,6 @@
-@extends('settings.template')
+@extends('layouts.app')
 
-@section('sub-content')
+@section('content')
 
 	<form role="form" method="POST" action="{{ route('settings.update') }}">
 		{{ csrf_field() }}

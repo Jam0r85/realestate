@@ -2,60 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Permission;
-use App\Repositories\EloquentSettingsRepository;
+use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends BaseController
 {
-    /**
-     * @var  App\Repositories\EloquentSettingsRepository
-     */
-    protected $settings;
-    protected $branches;
 
     /**
      * Create a new controller instance.
-     * 
-     * @param   EloquentSettingsRepository $users
+     *
      * @return  void
      */
-    public function __construct(EloquentSettingsRepository $settings)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->settings = $settings;
     }
 
     /**
-     * Display a listing of the resource.
+     * Display the settings layout and different sections
      *
+     * @param string $section
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($section = 'general')
     {
-        return view('settings.index');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function logo()
-    {
-        return view('settings.logo');
-    }
-
-    /**
-     * Display a listing of permissions.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function permissions()
-    {
-        $permissions = Permission::orderBy('slug')->get();
-        return view('settings.permissions', compact('permissions'));
+        $settings = Setting::all();
+        return view('settings.' . $section);
     }
 
     /**
@@ -65,16 +39,41 @@ class SettingController extends BaseController
      * @param  \App\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateGeneral(Request $request)
     {
-        $data = $request->except('_token');
-        $this->settings->save($data);
+        $values = $request->except('_token');
+        $this->updateSettingsTable($values);
+
+        $this->successMessage('Changes were saved');
+
         return back();
     }
 
     /**
+     * Update the settings table.
+     *
+     * @param array $data
+     * @return void
+     */
+    protected function updateSettingsTable($data)
+    {
+        foreach ($data as $key => $value) {
+            if (Setting::where('key', $key)->exists()) {
+                $setting = Setting::where('key', $key)->update(['value' => $value]);
+            } else {
+                $new = new Setting();
+                $new->key = $key;
+                $new->value = $value;
+                $new->save();
+            }
+        }
+
+        Cache::forget('site.settings');
+    }
+
+    /**
      * Upload and update the company logo.
-     * 
+     *
      * @param  Request $request [description]
      * @return [type]           [description]
      */
