@@ -1,25 +1,23 @@
 @include('pdf._header')
 
-	<section class="section has-header">
-		<div class="container">
-			<div class="heading has-text-right">
-
-				@if (get_setting('company_logo'))	
-					<img src="{{ get_file(get_setting('company_logo')) }}" class="header-image" />
-				@else
-					<h1>{{ get_setting('company_name') }}</h1>
-				@endif 
-
-			</div>
-		</div>
-	</section>
-
 	<section class="section">
 		<div class="container">
-			<div class="recipient">
-				<p>{{ implode(' & ', $statement->users->pluck('name')->toArray()) }}</p>
-				<p>{!! $statement->recipient !!}</p>
-			</div>
+
+			<table>
+				<tr>
+					<td>
+						<p>{{ implode(' & ', $statement->users->pluck('name')->toArray()) }}</p>
+						<p>{!! $statement->recipient !!}</p>
+					</td>
+					<td class="has-text-right">
+						<p>{{ get_setting('company_name') }}</p>
+						@if ($statement->tenancy->branch)
+							{!! $statement->tenancy->branch->address_formatted !!}
+						@endif
+					</td>
+				</tr>
+			</table>
+
 		</div>
 	</section>
 

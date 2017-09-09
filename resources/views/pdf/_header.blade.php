@@ -10,11 +10,17 @@
 			header {
 				text-align: right;
 				position: fixed;
-				top: 0px;
+				top: 50px;
 				left: 0px;
 				right: 0px;
 				height: 150px;
-				padding: 1rem 2rem 0 2rem;
+				padding: 0 2rem;
+			}
+			header img {
+				padding: 1rem;
+			}
+			header h1 {
+				font-size: 3rem;
 			}
 			footer {
 				position: fixed;
@@ -38,6 +44,7 @@
 			}
 	    	main { margin-top: 150px; }
 	    	body {
+	    		line-height: 18px;
 	    		font-size: 15px;
 	    	}
 	    	.recipient {
@@ -95,6 +102,20 @@
 						<li>
 							<span class="footer-title">E-Mail</span>
 							{{ $invoice->invoiceGroup->branch->email }}
+						</li>
+					@endif
+				@endif
+
+				{{-- Invoice footer taken from it's group and branch --}}
+				@if (isset($statement))
+					@if ($statement->tenancy->branch)
+						<li>
+							<span class="footer-title">Phone</span>
+							{{ $statement->tenancy->branch->phone_number }}
+						</li>
+						<li>
+							<span class="footer-title">E-Mail</span>
+							{{ $statement->tenancy->branch->email }}
 						</li>
 					@endif
 				@endif

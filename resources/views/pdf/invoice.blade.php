@@ -4,16 +4,34 @@
 
 	<section class="section">
 		<div class="container">
-			<div class="recipient">
-				<p>{{ implode(' & ', $invoice->users->pluck('name')->toArray()) }}</p>
-				<p>
-					@if ($invoice->statement)
-						{!! $invoice->statement->recipient !!}
-					@else
-						{!! nl2br($invoice->recipient) !!}
-					@endif
-				</p>
-			</div>
+
+			<table>
+				<tr>
+					<td>
+						<p>{{ implode(' & ', $invoice->users->pluck('name')->toArray()) }}</p>
+						<p>
+							@if ($invoice->statement)
+								{!! $invoice->statement->recipient !!}
+							@else
+								{!! nl2br($invoice->recipient) !!}
+							@endif
+						</p>
+					</td>
+					<td class="has-text-right">
+						<p>{{ get_setting('company_name') }}</p>
+						@if (isset($statement))
+							@if ($statement->tenancy->branch)
+								{!! $statement->tenancy->branch->address_formatted !!}
+							@endif
+						@else
+							@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
+								{!! $invoice->invoiceGroup->branch->address_formatted !!}
+							@endif
+						@endif
+					</td>
+				</tr>
+			</table>
+
 		</div>
 	</section>
 
