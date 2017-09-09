@@ -110,17 +110,9 @@ class Invoice extends BaseModel
     /**
      * An invoice belongs to an invoice group.
      */
-    public function group()
+    public function invoiceGroup()
     {
     	return $this->belongsTo('App\InvoiceGroup');
-    }
-
-    /**
-     * An invoice belongs to a branch through it's invoice group.
-     */
-    public function branch()
-    {
-    	return $this->belongsToThrough('App\Branch', 'App\InvoiceGroup');
     }
 
     /**

@@ -85,21 +85,24 @@
 
 		<footer>
 			<ul>
-				@if (get_setting('head_office_phone'))
-					<li>
-						<span class="footer-title">Phone</span>
-						{{ get_setting('head_office_phone') }}
-					</li>
+				{{-- Invoice footer taken from it's group and branch --}}
+				@if (isset($invoice))
+					@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
+						<li>
+							<span class="footer-title">Phone</span>
+							{{ $invoice->invoiceGroup->branch->phone_number }}
+						</li>
+						<li>
+							<span class="footer-title">E-Mail</span>
+							{{ $invoice->invoiceGroup->branch->email }}
+						</li>
+					@endif
 				@endif
-				@if (get_setting('head_office_email'))
-					<li>
-						<span class="footer-title">E-Mail</span>
-						{{ get_setting('head_office_email') }}
-					</li>
-				@endif
+
+				{{-- VAT Number taken from settings --}}
 				@if (get_setting('vat_number'))
 					<li>
-						<span class="footer-title">VAT</span>
+						<span class="footer-title">VAT #</span>
 						{{ get_setting('vat_number') }}
 					</li>
 				@endif
