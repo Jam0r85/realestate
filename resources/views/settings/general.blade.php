@@ -20,16 +20,6 @@
 			</div>
 
 			<div class="form-group">
-				<label for="head_office_phone">Head Office Phone Number</label>
-				<input type="text" name="head_office_phone" class="form-control" value="{{ get_setting('head_office_phone') }}" />
-			</div>
-
-			<div class="form-group">
-				<label for="head_office_email">Head Office E-Mail</label>
-				<input type="text" name="head_office_email" class="form-control" value="{{ get_setting('head_office_email') }}" />
-			</div>
-
-			<div class="form-group">
 				<label for="vat_number">VAT Number</label>
 				<input type="text" name="vat_number" class="form-control" value="{{ get_setting('vat_number') }}" />
 				<small class="form-text text-muted">
