@@ -235,6 +235,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can belong to a branch.
+     */
+    public function branch()
+    {
+        return $this->belongsTo('App\Branch');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string
