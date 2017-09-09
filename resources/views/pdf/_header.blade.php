@@ -51,7 +51,7 @@
 	    		margin-bottom: 1rem;
 	    	}
 		    .section {
-		    	padding: 1rem 2rem;
+		    	padding: 0.5rem 2rem;
 		    	margin: 0;
 		    }
 		    .section .container {
