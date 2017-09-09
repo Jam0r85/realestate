@@ -28,7 +28,7 @@
 							<th>Name</th>
 							<th>Preview</th>
 							<th>Private</th>
-							<th class="text-right">Delete</th>
+							<th>Delete</th>
 						</thead>
 						<tbody>
 							@foreach ($expense->invoices as $invoice)
@@ -43,8 +43,14 @@
 											<i class="fa fa-download"></i> Download
 										</a>
 									</td>
-									<td></td>
-									<td class="text-right">
+									<td>
+										<label class="custom-control custom-checkbox">
+											<input class="custom-control-input" type="checkbox" name="invoice_private[]" value="{{ $invoice->id }}" />
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description"></span>
+										</label>
+									</td>
+									<td>
 										<label class="custom-control custom-checkbox">
 											<input class="custom-control-input" type="checkbox" name="invoice_delete[]" value="{{ $invoice->id }}" />
 											<span class="custom-control-indicator"></span>

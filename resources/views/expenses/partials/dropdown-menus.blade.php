@@ -9,6 +9,9 @@
 		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'manage-invoices']) }}">
 			Manage Invoices
 		</a>
+		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit-contractors']) }}">
+			Edit Contractors
+		</a>
 	</div>
 </div>
 

@@ -48,6 +48,18 @@ class DocumentService
 	}
 
 	/**
+	 * Retreive and download a document from storage.
+	 * 
+	 * @param integer $id
+	 * @return
+	 */
+	public function downloadDocument($id)
+	{
+		$document = Document::findOrFail($id);
+		return true;
+	}
+
+	/**
 	 * Update a document in storage.
 	 * 
 	 * @param array $data

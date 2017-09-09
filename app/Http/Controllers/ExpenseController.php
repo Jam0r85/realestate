@@ -145,22 +145,27 @@ class ExpenseController extends BaseController
         return back();
     }
 
+
     /**
-     * Delete an invoice for the expense.
+     * Update the contracrtors for the expense.
      * 
-     * @param  Request $request [description]
+     * @param \Illuminate\Http\Request $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteInvoice(Request $request, $id)
+    public function updateContractors(Request $request, $id)
     {
-        $invoice = Document::findOrFail($request->invoice_id);
+        $expense = Expense::findOrFail($id);
 
-        Storage::delete($invoice->path);
+        if ($request->has('remove')) {
+            $expense->contractors()->detach($request->remove);
+        }
 
-        $invoice->delete();
+        if ($request->has('new_contractors')) {
+            $expense->contractors()->attach($request->new_contractors);
+        }
 
-        $this->successMessage('The invoice was deleted');
+        $this->successMessage('The contractors were updated');
 
         return back();
     }
