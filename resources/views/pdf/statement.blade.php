@@ -125,7 +125,9 @@
 				<tr>
 					<td width="50%">
 						@if ($statement->property->bank_account)
-							<p>Paid To: {{ $statement->property->bank_account->account_name }} / {{ $statement->property->bank_account->sort_code }} / {{ $statement->property->bank_account->account_number }}</p>
+							<p>
+								<b>BACS:</b> {{ $statement->property->bank_account->account_name }} / {{ $statement->property->bank_account->sort_code }} / {{ $statement->property->bank_account->account_number }}
+							</p>
 						@else
 							<p>Cheque or Cash</p>
 						@endif
