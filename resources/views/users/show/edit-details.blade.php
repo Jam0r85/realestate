@@ -21,9 +21,9 @@
 
 				@include('users.partials.form')
 
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Save Changes
-				</button>
+				@component('partials.bootstrap.save-submit-button')
+					Save Changes
+				@endcomponent
 
 			</form>
 

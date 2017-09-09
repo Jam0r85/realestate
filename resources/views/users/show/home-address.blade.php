@@ -9,7 +9,6 @@
 				<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
 					Return
 				</a>
-
 				<h1>{{ $user->name }}</h1>
 				<h3>Update user's home address</h3>
 			</div>
@@ -28,9 +27,9 @@
 					</select>
 				</div>
 
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Save Changes
-				</button>
+				@component('partials.bootstrap.save-submit-button')
+					Update Home
+				@endcomponent
 
 			</form>
 

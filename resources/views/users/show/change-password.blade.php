@@ -5,41 +5,31 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('users.show', $user->id) }}" class="button is-pulled-right">
-				Return
-			</a>
-
-			<h1 class="title">{{ $user->name }}</h1>
-			<h2 class="subtitle">Change Password</h2>
-
-			<hr />
+			<div class="page-title">
+				<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $user->name }}</h1>
+				<h3>Change Password</h3>
+			</div>
 
 			<form role="form" method="POST" action="{{ route('users.update-password', $user->id) }}">
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
 
-				<div class="field">
-					<label class="label" for="password">New Password</label>
-					<p class="control">
-						<input type="password" class="input" name="password" />
-					</p>
+				<div class="form-group">
+					<label for="password">New Password</label>
+					<input type="password" class="form-control" name="password" />
 				</div>
 
-				<div class="field">
-					<label class="label" for="password_confirmation">Confirm New Password</label>
-					<p class="control">
-						<input type="password" class="input" name="password_confirmation" />
-					</p>
+				<div class="form-group">
+					<label for="password_confirmation">Confirm New Password</label>
+					<input type="password" class="form-control" name="password_confirmation" />
 				</div>
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Change Password
-					</span>
-				</button>
+				@component('partials.bootstrap.save-submit-button')
+					Change Password
+				@endcomponent
 
 			</form>
 

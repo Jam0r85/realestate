@@ -24,7 +24,7 @@ class UpdateUserEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required_without:remove_email|confirmed|sometimes|unique:users,email'
+            //
         ];
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\SendUserEmail;
+use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -150,10 +151,20 @@ class UserController extends BaseController
     public function updateEmail(UpdateUserEmailRequest $request, $id)
     {
         $user = User::findOrFail($id);
+
+        if ($user->email && $request->has('remove_email')) {
+            $service = new UserService();
+            $service->removeUserEmail($user);
+
+            $this->successMessage('The e-mail for this user was removed');
+
+            return back();
+        }
+
         $user->email = $request->email;
         $user->save();
 
-        $this->successMessage('The users email was updated');
+        $this->successMessage('The users e-mail was updated');
 
         return back();
     }
