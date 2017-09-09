@@ -76,8 +76,7 @@ Route::prefix('expenses')->group(function () {
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
 	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
 	Route::put('{id}', 'ExpenseController@update')->name('expenses.update');
-	Route::post('{id}/upload-invoices', 'ExpenseController@uploadInvoices')->name('expenses.upload-invoices');
-	Route::post('{id}/delete-invoice', 'ExpenseController@deleteInvoice')->name('expenses.delete-invoice');
+	Route::post('{id}/update-invoices', 'ExpenseController@updateInvoices')->name('expenses.update-invoices');
 	Route::post('/', 'ExpenseController@store')->name('expenses.store');
 });
 

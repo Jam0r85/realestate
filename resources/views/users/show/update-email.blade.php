@@ -6,7 +6,7 @@
 		<div class="container">
 
 			<div class="page-title">
-				<a href="{{ route('users.show', $user->id) }}" class="btn btn-primary float-right">
+				<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
 					Return
 				</a>
 				<h1>{{ $user->name }}</h1>

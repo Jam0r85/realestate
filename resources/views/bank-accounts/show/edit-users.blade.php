@@ -10,7 +10,7 @@
 					Return
 				</a>
 				<h1>{{ $account->account_name }}</h1>
-				<h2>Edit Users</h2>
+				<h3>Edit Users</h3>
 			</div>
 
 			@include('partials.errors-block')

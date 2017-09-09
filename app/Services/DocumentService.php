@@ -46,4 +46,36 @@ class DocumentService
 
 		return $document;
 	}
+
+	/**
+	 * Update a document in storage.
+	 * 
+	 * @param array $data
+	 * @param integer $id
+	 * @return void
+	 */
+	public function updateDocument($data, $id)
+	{
+		$document = Document::findOrFail($id);
+		$document->fill($data);
+		$document->save();
+	}
+
+	/**
+	 * Delete a document from storage.
+	 * 
+	 * @param integer $id
+	 * @return void
+	 */
+	public function deleteDocument($id, $file = false)
+	{
+		$document = Document::findOrFail($id);
+
+		// Delete the file from storage
+		if ($file == true) {
+			Storage::delete($document->path);
+		}
+
+		$document->delete();
+	}
 }
