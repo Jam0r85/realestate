@@ -343,17 +343,19 @@ class Statement extends BaseModel
     }
 
     /**
-     * Mark the statement as being sent by updating the sent_at field.
-     *
-     * @return  void
+     * Check whether the statement has user's with an email address.
+     * 
+     * @return bool
      */
-    public function setSent($date = null)
+    public function getUserEmails()
     {
-        if (is_null($date)) {
-            $date = Carbon::now();
+        if (count($this->users)) {
+            if (count($emails = $this->users()->whereNotNull('email')->pluck('email')->toArray())) {
+                return $emails;
+            }
         }
 
-        $this->update(['sent_at' => $date]);
+        return false;
     }
 
     /**

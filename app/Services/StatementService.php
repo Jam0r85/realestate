@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
-use App\Jobs\SendStatement;
+use App\Mail\StatementByEmail;
+use App\Mail\StatementByPost;
 use App\Services\InvoiceService;
 use App\Statement;
 use App\StatementPayment;
 use App\Tenancy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class StatementService
 {
@@ -533,27 +535,50 @@ class StatementService
     /**
      * Send the given statements to their owners.
      *
-     * @param mixed $ids
+     * @param array $statement_ids
      * @return void
      */
-    public function sendStatementsToOwners($ids)
+    public function sendStatementToOwners($statement_ids)
     {
-        if (!is_array($ids)) {
-            $ids = explode(',', $ids);
-        }
+        foreach ($statement_ids as $id) {
 
-        foreach ($ids as $id) {
-
-            // Find the statement.
             $statement = Statement::find($id);
-
-            // Dispatch the job.
-            dispatch(new SendStatement($statement));
-
-            // Update the statement as have being sent.
             $statement->sent_at = Carbon::now();
             $statement->save();
+
+            if (count($emails = $statement->getUserEmails())) {
+                if ($statement->sendByPost()) {
+                    Mail::to($emails)
+                        ->queue(new StatementByPost($statement));
+                }
+
+                if ($statement->sendByEmail()) {
+                    $this->sendStatementByEmail($statement);
+                }
+            }
         }
+    }
+
+    /**
+     * Send the statement by email.
+     * 
+     * @param \App\Statement $statement
+     * @param array $emails
+     * @return void
+     */
+    public function sendStatementByEmail(Statement $statement, $user = null)
+    {
+        if (!$statement->getUserEmails()) {
+            return false;
+        }
+
+        if (is_null($user)) {
+            $user = $statement->users;
+        }
+
+        Mail::to($user)->queue(new StatementByEmail($statement));
+
+        return true;
     }
 
     /**

@@ -16,4 +16,15 @@ class BaseController extends Controller
 	{
 		flash($message)->success();
 	}
+
+	/**
+	 * Flash a warning message to the screen.
+	 * 
+	 * @param string $message
+	 * @return void
+	 */
+	protected function warningMessage($message)
+	{
+		flash($message)->danger();
+	}
 }

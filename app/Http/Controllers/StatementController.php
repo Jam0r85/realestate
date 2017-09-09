@@ -141,9 +141,21 @@ class StatementController extends BaseController
     public function send(SendStatementsRequest $request)
     {
         $service = new StatementService();
-        $service->sendStatementsToOwners($request->statements);
 
-        $this->successMessage('The statements were queued to be sent');
+        // Multiple statements to be sent
+        if ($request->has('statements')) {
+            $service->sendStatementToOwners($request->statements);
+            $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
+        }
+
+        if ($request->has('statement_id')) {
+            $statement = Statement::findOrFail($request->statement_id);
+            if ($service->sendStatementByEmail($statement)) {
+                $this->successMessage('The statement was sent');
+            } else {
+                $this->warningMessage('The statement was not sent. Do the recipients have emails?');
+            }
+        }
 
         return back();
     }

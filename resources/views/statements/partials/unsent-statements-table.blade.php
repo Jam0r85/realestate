@@ -8,7 +8,7 @@
 			<th>End</th>
 			<th>Tenancy &amp; Property</th>
 			<th>Send By</th>
-			<th>E-Mails</th>
+			<th>Recipients</th>
 		</thead>
 		<tbody>
 			@foreach ($statements as $statement)

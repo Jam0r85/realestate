@@ -24,7 +24,7 @@ class SendStatementsRequest extends FormRequest
     public function rules()
     {
         return [
-            'statements' => 'required'
+            //
         ];
     }
 }
