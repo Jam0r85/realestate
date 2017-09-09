@@ -92,22 +92,10 @@
 
 		<footer>
 			<ul>
-				{{-- Invoice footer taken from it's group and branch --}}
-				@if (isset($invoice))
-					@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
-						<li>
-							<span class="footer-title">Phone</span>
-							{{ $invoice->invoiceGroup->branch->phone_number }}
-						</li>
-						<li>
-							<span class="footer-title">E-Mail</span>
-							{{ $invoice->invoiceGroup->branch->email }}
-						</li>
-					@endif
-				@endif
 
 				{{-- Invoice footer taken from it's group and branch --}}
 				@if (isset($statement))
+
 					@if ($statement->tenancy->branch)
 						<li>
 							<span class="footer-title">Phone</span>
@@ -118,6 +106,20 @@
 							{{ $statement->tenancy->branch->email }}
 						</li>
 					@endif
+
+				@else
+
+					@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
+						<li>
+							<span class="footer-title">Phone</span>
+							{{ $invoice->invoiceGroup->branch->phone_number }}
+						</li>
+						<li>
+							<span class="footer-title">E-Mail</span>
+							{{ $invoice->invoiceGroup->branch->email }}
+						</li>
+					@endif
+
 				@endif
 
 				{{-- VAT Number taken from settings --}}
