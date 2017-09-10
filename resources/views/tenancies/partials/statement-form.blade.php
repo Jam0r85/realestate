@@ -11,7 +11,7 @@
 <div class="field">
 	<label class="label" for="period_start">Start Date</label>
 	<div class="control">
-		<input type="date" name="period_start" class="input" value="{{ $tenancy->next_statement_start_date->format('Y-m-d') }}" />
+		<input type="date" name="period_start" class="input" value="{{ $tenancy->next_statement_start_date ? $tenancy->next_statement_start_date->format('Y-m-d') : '' }}" />
 	</div>
 	<p class="help">
 		Enter the start date of the statement or leave blank.
