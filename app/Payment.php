@@ -37,20 +37,13 @@ class Payment extends BaseModel
 
         return $array;
     }
-    
-    /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = [];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['key','amount','payment_method_id','note','created_at'];
+    protected $fillable = ['key','amount','payment_method_id','note'];
 
     /**
      * Scope a query to only include rent payments.

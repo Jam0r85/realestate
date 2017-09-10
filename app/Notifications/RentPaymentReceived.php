@@ -62,7 +62,8 @@ class RentPaymentReceived extends Notification
         return [
             'payment_id' => $this->payment->id,
             'amount' => $this->payment->amount,
-            'method' => $this->payment->method->name
+            'method' => $this->payment->method->name,
+            'note' => $this->payment->note
         ];
     }
 }

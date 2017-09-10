@@ -21,6 +21,14 @@
 	</div>
 
 	<div class="form-group">
+		<label for="note">Note</label>
+		<textarea name="note" class="form-control"></textarea>
+		<small class="form-text text-muted">
+			Enter an optional note to the user.
+		</small>
+	</div>
+
+	<div class="form-group">
 		<label class="custom-control custom-checkbox">
 			<input type="checkbox" class="custom-control-input" name="send_receipt_to_tenants" value="true">
 			<span class="custom-control-indicator"></span>

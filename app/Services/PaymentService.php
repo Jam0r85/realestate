@@ -47,11 +47,10 @@ class PaymentService
 		// Build the payment.
 		$payment = new Payment();
 		$payment->key = str_random(30);
-		$payment->payment_method_id = $data['payment_method_id'];
-		$payment->amount = $data['amount'];
+		$payment->fill($data);
 
 		if (isset($data['created_at'])) {
-			$payment->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+			$payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
 		}
 
 		// Create and store the payment.
