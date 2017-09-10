@@ -153,11 +153,11 @@ class DownloadController extends Controller
      * @param  \App\Payment $id
      * @return \Illuminate\Http\Response
      */
-    public function payment($id)
+    public function payment($id, $return = 'stream')
     {
         $payment = $this->payments->find($id);
         $pdf_name = 'Payment ' . $payment->id;
         $this->pdf->loadHtml($this->getView('pdf.payment', ['payment' => $payment, 'title' => 'Payment ' . $payment->id]));
-        return $this->stream();
+        return $this->$return();
     }
 }

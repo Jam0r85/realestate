@@ -20,6 +20,14 @@
 		</select>
 	</div>
 
+	<div class="form-group">
+		<label class="custom-control custom-checkbox">
+			<input type="checkbox" class="custom-control-input" name="send_receipt_to_tenants" value="true">
+			<span class="custom-control-indicator"></span>
+			<span class="custom-control-description">Send notification and receipt by e-mail to tenants?</span>
+		</label>
+	</div>
+
 	@component('partials.bootstrap.save-submit-button')
 		Record Payment
 	@endcomponent

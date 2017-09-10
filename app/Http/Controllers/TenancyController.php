@@ -8,12 +8,15 @@ use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenantsVacatedRequest;
+use App\Notifications\RentPaymentReceived;
 use App\Services\PaymentService;
 use App\Services\StatementService;
 use App\Services\TenancyService;
 use App\Tenancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 
 class TenancyController extends BaseController
@@ -136,10 +139,18 @@ class TenancyController extends BaseController
      */
     public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
     {
-        $service = new PaymentService();
-        $service->createTenancyRentPayment($request->input(), $id);
+        $tenancy = Tenancy::findOrFail($id);
 
-        $this->successMessage('The payment was recorded');
+        $service = new PaymentService();
+        $payment = $service->createTenancyRentPayment($request->input(), $id);
+        $message = 'The payment was recorded';
+
+        if ($request->has('send_receipt_to_tenants')) {
+            Notification::send($tenancy->tenants, new RentPaymentReceived($payment));
+            $message .= ' and the receipt was sent to the tenants';
+        }
+
+        $this->successMessage($message);
 
         return back();
     }

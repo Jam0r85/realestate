@@ -12,6 +12,9 @@
 				<li class="list-group-item">
 					<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
 						{{ $user->name }}
+						@if ($user->email)
+							({{ $user->email }})
+						@endif
 					</a>
 				</li>
 			@endforeach

@@ -107,7 +107,7 @@
 						</li>
 					@endif
 
-				@else
+				@elseif (isset($invoice))
 
 					@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
 						<li>
@@ -118,6 +118,21 @@
 							<span class="footer-title">E-Mail</span>
 							{{ $invoice->invoiceGroup->branch->email }}
 						</li>
+					@endif
+
+				@elseif (isset($payment))
+
+					@if ($payment->parent_type == 'tenancies')
+
+						<li>
+							<span class="footer-title">Phone</span>
+							{{ $payment->parent->branch->phone_number }}
+						</li>
+						<li>
+							<span class="footer-title">E-Mail</span>
+							{{ $payment->parent->branch->email }}
+						</li>
+
 					@endif
 
 				@endif

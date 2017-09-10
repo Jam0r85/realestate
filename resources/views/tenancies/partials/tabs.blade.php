@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="tab-pane fade show active" id="recordNewStatement" role="tabpanel" aria-labelledby="recordNewStatement-Tab">
+	<div class="tab-pane fade" id="recordNewStatement" role="tabpanel" aria-labelledby="recordNewStatement-Tab">
 		<div class="card">
 			<div class="card-body">
 				@include('tenancies.partials.record-statement-form')
