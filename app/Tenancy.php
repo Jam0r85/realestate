@@ -154,6 +154,7 @@ class Tenancy extends BaseModel
     public function statements()
     {
         return $this->hasMany('App\Statement')
+            ->with('invoices')
             ->latest('period_start');
     }
 
