@@ -165,11 +165,11 @@ class TenancyController extends BaseController
     public function createRentalStatement(StoreStatementRequest $request, $id)
     {
         $service = new StatementService();
-        $service->createStatement($request->input(), $id);
+        $statement = $service->createStatement($request->input(), $id);
 
         $this->successMessage('The statement was created');
 
-        return back();
+        return redirect()->route('statements.show', $statement);
     }
 
     /**

@@ -38,4 +38,32 @@
 		</div>
 	</section>
 
+	<section class="section">
+		<div class="container">
+
+			<ul class="nav nav-tabs" id="userTabs" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#payments" role="tab">Payments</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#statements" role="tab">Statements</a>
+				</li>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane active" id="payments" role="tabpanel">
+					
+					@include('tenancies.partials.payments-table')
+
+				</div>
+				<div class="tab-pane" id="statements" role="tabpanel">
+
+					@include('tenancies.partials.statements-table')
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+
 @endsection

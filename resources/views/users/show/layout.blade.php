@@ -32,7 +32,11 @@
 				</div>
 			</div>
 
-			<hr />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
 
 			<ul class="nav nav-tabs" id="userTabs" role="tablist">
 				<li class="nav-item">
