@@ -55,6 +55,10 @@
 					
 					@include('tenancies.partials.payments-table')
 
+					<a href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="View All Rent Payments Received" class="btn btn-primary">
+						View All Rent Payments Received
+					</a>
+
 				</div>
 				<div class="tab-pane" id="statements" role="tabpanel">
 

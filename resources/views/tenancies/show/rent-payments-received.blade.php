@@ -5,20 +5,25 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $tenancy->name }}</h1>
+				<h3>Rent payments recorded to this tenancy.</h3>
+			</div>
 
-			<h1 class="title">{{ $tenancy->name }}</h1>
-			<h2 class="subtitle">Rent payments recorded to this tenancy.</h2>
+		</div>
+	</section>
 
-			<hr />
+	<section class="section">
+		<div class="container">
 
-			<h2 class="title is-muted">
+			<h4 class="text-muted">
 				{{ currency($tenancy->rent_payments->sum('amount')) }} total received
-			</h2>
+			</h4>
 
-			<table class="table is-striped is-fullwidth">
+			<table class="table table-striped table-responsive">
 				<thead>
 					<th>Date</th>
 					<th>Amount</th>
@@ -38,16 +43,14 @@
 							<td>{{ $payment->method->name }}</td>
 							<td>
 								@foreach ($payment->users as $user)
-									<a href="{{ Route('users.show', $user->id) }}">
-										<span class="tag is-primary">
-											{{ $user->name }}
-										</span>
+									<a href="{{ Route('users.show', $user->id) }}" class="badge badge-primary" title="{{ $user->name }}">
+										{{ $user->name }}
 									</a>
 								@endforeach
 							</td>
 							<td>
-								<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank">
-									View
+								<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download Receipt">
+									Download
 								</a>
 							</td>
 						</tr>
