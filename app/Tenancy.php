@@ -136,6 +136,7 @@ class Tenancy extends BaseModel
     public function rent_payments()
     {
     	return $this->morphMany('App\Payment', 'parent')
+            ->with('method','users')
             ->latest();
     }
 
