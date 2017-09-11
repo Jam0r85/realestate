@@ -8,247 +8,200 @@
 		<section class="section">
 			<div class="container">
 
-				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
-					Return
-				</a>
+				<div class="page-title">
+					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
+						Return
+					</a>
+					<h1>{{ $tenancy->name }}</h1>
+					<h3 class="text-muted">Record old statement</h3>
+				</div>
 
-				<h1 class="title">{{ $tenancy->name }}</h1>
-				<h2 class="subtitle">Record old statement</h2>
+			</div>
+		</section>
 
-				<hr />
+		<div class="container">
+			@include('partials.errors-block')
 
-				@include('partials.errors-block')
+			<div class="row">
+				<div class="col-5">
 
-				<div class="columns is-desktop">
-					<div class="column is-one-third">
+					<section class="section">
 
-						<div class="box mb-2">
-
-							<h3 class="title">Record Rent Payment</h3>
-							<h5 class="subtitle">Optional - record a rental payment at the same time.</h5>
-
-							<div class="field">
-								<label class="label" for="payment_method_id">Payment Method</label>
-								<div class="control">
-									<span class="select is-fullwidth">
-										<select name="payment_method_id">
-											@foreach (payment_methods() as $method)
-												<option @if (old('payment_method_id') && old('payment_method_id') == $method->id) selected @endif value="{{ $method->id }}">{{ $method->name }}</option>
-											@endforeach
-										</select>
-									</span>
-								</div>
+						<div class="card mb-3">
+							<div class="card-header">
+								Statement Details
 							</div>
+							<div class="card-body">
 
-							<div class="field">
-								<label class="label" for="rent_received">Rent Received</label>
-								<div class="control">
-									<input type="number" step="any" name="rent_received" class="input" value="{{ old('rent_received') }}" />
+								<div class="form-group">
+									<label for="created_at">Date Created</label>
+									<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" />
+									<small class="form-text text-muted">
+										The date of the statement when it was originally created.
+									</small>
 								</div>
-							</div>
 
-						</div>
-
-						<div class="box mb-2">
-
-							<h3 class="title">Statement Details</h3>
-							<h5 class="subtitle">Statement details - The statement recipient, payment method, etc will automatically be selected based on the current property settings.</h5>
-
-							<div class="field">
-								<label class="label" for="created_at">Date Created</label>
-								<div class="control">
-									<input type="date" name="created_at" class="input" value="{{ old('created_at') }}" />
+								<div class="form-group">
+									<label for="period_start">Date Start</label>
+									<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" />
+									<small class="form-text text-muted">
+										The start date of the statement.
+									</small>
 								</div>
-							</div>
 
-							<div class="field">
-								<label class="label" for="period_start">Date Start</label>
-								<div class="control">
-									<input type="date" name="period_start" class="input" value="{{ old('period_start') }}" />
+								<div class="form-group">
+									<label for="period_end">Date End</label>
+									<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" />
+									<small class="form-text text-muted">
+										The end date of the statement.
+									</small>
 								</div>
-							</div>
 
-							<div class="field">
-								<label class="label" for="period_end">Date End</label>
-								<div class="control">
-									<input type="date" name="period_end" class="input" value="{{ old('period_end') }}" />
+								<div class="form-group">
+									<label for="amount">Amount</label>
+									<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" />
+									<small class="form-text text-muted">
+										Enter the rent amount of the statement.
+									</small>
 								</div>
-							</div>
 
-							<div class="field">
-								<label class="label" for="amount">Statement Rent Amount</label>
-								<div class="control">
-									<input type="number" step="any" name="amount" class="input" value="{{ old('amount') }}" />
-								</div>
-							</div>
-
-							<div class="field">
-								<label class="label" for="users">Users</label>
-								<div class="control">
-									<select name="users[]" class="select2" multiple>
+								<div class="form-group">
+									<label for="users">Users</label>
+									<select name="users[]" class="form-control select2" multiple>
 										@foreach (users() as $user)
 											<option value="{{ $user->id }}">{{ $user->name }}</option>
 										@endforeach
 									</select>
+									<small class="form-text text-muted">
+										Set the user's of this statement manually of leave blank for it to select the property owners by default.
+									</small>
 								</div>
-								<p class="help">
-									You can overwrite the users who are atatched to this statement (usually property owners) by selecting them.
-								</p>
-							</div>
-
-						</div>
-
-					</div>
-					<div class="column">
-
-						<div class="box">
-
-							<h3 class="title">Latest Recorded Statements</h3>
-							<h5 class="subtitle">The statements are ordered by the ID they were recorded, not by their date.</h5>
-
-							<table class="table is-striped is-fullwidth">
-								<thead>
-									<th>Date</th>
-									<th>Start</th>
-									<th>End</th>
-									<th>Amount</th>
-									<th>Balance</th>
-									<th>Invoice</th>
-								</thead>
-								<tbody>
-									@foreach ($tenancy->oldStatementsList() as $statement)
-										<tr>
-											<td><a href="{{ route('statements.show', $statement->id) }}">{{ date_formatted($statement->created_at) }}</a></td>
-											<td>{{ date_formatted($statement->period_start) }}</td>
-											<td>{{ date_formatted($statement->period_end) }}</td>
-											<td>{{ currency($statement->amount) }}</td>
-											<td>{{ currency($statement->landlord_balance_amount) }}</td>
-											<td>
-												@if ($statement->hasInvoice())
-													<a href="{{ route('invoices.show', $statement->invoice->id) }}">
-														{{ $statement->invoice->number }}
-													</a>
-												@endif
-											</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
-
-						</div>
-
-					</div>
-				</div>
-
-			</div>
-		</section>
-
-		<section class="section">
-			<div class="container">
-
-				<div class="is-pulled-right">
-					<button type="button" class="button is-outlined is-centered" id="cloneInvoiceItem">
-						<span class="icon is-small">
-							<i class="fa fa-plus"></i>
-						</span>
-						<span>
-							Another Invoice Item
-						</span>
-					</button>
-				</div>
-
-				<h3 class="title">Record Invoice</h3>
-				<h5 class="subtitle">Optional - record the invoice for this statement at the same time.</h5>
-
-				<div class="field">
-					<label class="label" for="invoice_number">Invoice Number</label>
-					<div class="control">
-						<input type="number" step="any" name="invoice_number" class="input" value="{{ old('invoice_number') }}" />
-					</div>
-				</div>
-
-				<div id="invoiceItems">
-					<div id="invoiceItemColumn">
-						<div class="card mb-2">
-							<header class="card-header">
-								<p class="card-header-title">
-									Invoice Item
-								</p>
-							</header>
-							<div class="card-content">
-
-								@include('invoices.partials.item-form', [
-									'array' => true,
-									'data' => [
-										'name' => 'Full Management',
-										'description' => 'Full management service at 10% plus VAT',
-										'quantity' => '1',
-										'amount' => session('old_statement_management_service_amount')
-									]
-								])
 
 							</div>
 						</div>
-					</div>
-				</div>
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Record Statement
-					</span>
-				</button>
+					</section>
 
-			</div>
-		</section>
+					<section class="section">
 
-		<section class="section">
-			<div class="container">
+						<div class="card mb-3">
+							<div class="card-header">
+								<button type="button" class="btn btn-secondary btn-sm float-right" id="cloneInvoiceItem">
+									<i class="fa fa-plus"></i> Invoice Item
+								</button>
+								Record Invoice &amp; Invoice Items
+							</div>
+							<div class="card-body">
 
-				<div class="is-pulled-right">
-					<button type="button" class="button is-outlined is-centered" id="cloneExpenseItem">
-						<span class="icon is-small">
-							<i class="fa fa-plus"></i>
-						</span>
-						<span>
-							Another Expense Item
-						</span>
-					</button>
-				</div>
+								<div class="form-group">
+									<label for="invoice_number">Invoice Number</label>
+									<input type="number" step="any" name="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
+									<small class="form-text text-muted">
+										Invoice number is required when adding invoice items.
+									</small>
+								</div>
 
-				<h3 class="title">Record Expenses</h3>
-				<h5 class="subtitle">Optional - record expenses for this statement.</h5>
+								<hr />
 
-				<hr />
+								<div id="invoiceItems">
+									<div id="invoiceItemColumn">
+										<div class="card border-info mb-3">
+											<div class="card-header">
+												Invoice Item
+											</div>
+											<div class="card-body">
 
-				<div id="expenseItems">
-					<div id="expenseItemColumn">
-						<div class="card mb-2">
-							<header class="card-header">
-								<p class="card-header-title">
-									Expense Item
-								</p>
-							</header>
-							<div class="card-content">
-								@include('expenses.partials.form', ['array' => true])
+												@include('invoices.partials.item-form', [
+													'array' => true,
+													'data' => [
+														'name' => 'Full Management',
+														'description' => 'Full management service at 10% plus VAT',
+														'quantity' => '1',
+														'amount' => session('old_statement_management_service_amount')
+													]
+												])
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+								@component('partials.bootstrap.save-submit-button')
+									Record Old Statement
+								@endcomponent
+
 							</div>
 						</div>
-					</div>
+
+					</section>
+
+					<section class="section">
+
+						<div class="card mb-3">
+							<div class="card-header">
+								<button type="button" class="btn btn-secondary btn-sm float-right" id="cloneExpenseItem">
+									<i class="fa fa-plus"></i> Expense Item
+								</button>
+								Expense Items
+							</div>
+							<div class="card-body">
+
+								<div id="expenseItems">
+									<div id="expenseItemColumn">
+										<div class="card border-warning mb-3">
+											<div class="card-header">
+												Expense Item
+											</div>
+											<div class="card-body">
+												@include('expenses.partials.form', ['array' => true])
+											</div>
+										</div>
+									</div>
+								</div>
+
+								@component('partials.bootstrap.save-submit-button')
+									Record Old Statement
+								@endcomponent
+
+							</div>
+						</div>
+
+					</section>
+
 				</div>
+				<div class="col-7">
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Record Statement
-					</span>
-				</button>
+					<table class="table table-striped table-responsive">
+						<thead>
+							<th>Date</th>
+							<th>Starts</th>
+							<th>Ends</th>
+							<th>Amount</th>
+							<th>Invoice</th>
+						</thead>
+						<tbody>
+							@foreach ($tenancy->statements as $statement)
+								<tr>
+									<td>{{ date_formatted($statement->created_at) }}</td>
+									<td>{{ date_formatted($statement->period_start) }}</td>
+									<td>{{ date_formatted($statement->period_end) }}</td>
+									<td>{{ currency($statement->amount) }}</td>
+									<td>
+										@if ($statement->invoice)
+											<a href="{{ route('invoices.show', $statement->invoice->id) }}" title="Invoice #{{ $statement->invoice->number }}">
+												{{ $statement->invoice->number }}
+											</a>
+										@endif
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
 
+				</div>
 			</div>
-		</section>
+
+		</div>
 
 	</form>
 
