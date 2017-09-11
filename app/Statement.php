@@ -345,7 +345,7 @@ class Statement extends BaseModel
     /**
      * Check whether the statement has user's with an email address.
      * 
-     * @return bool
+     * @return mixed
      */
     public function getUserEmails()
     {

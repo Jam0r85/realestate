@@ -35,12 +35,12 @@
 			</div>
 
 			<div class="alert alert-info">
+				Statements are usual sent to the owners of this property by 
 				@if ($statement->sendByPost())
-					Send by Post
+					Post
 				@endif
-
 				@if ($statement->sendByEmail())
-					Send by E-Mail
+					E-Mail
 				@endif
 			</div>
 
@@ -50,7 +50,7 @@
 				<input type="hidden" name="statement_id" value="{{ $statement->id }}" />
 
 				<button type="submit" class="btn btn-primary" @if (!$statement->getUserEmails()) disabled @endif>
-					<i class="fa fa-envelope-open"></i> Send Statement
+					<i class="fa fa-envelope-open"></i> Send Statement By E-Mail
 				</button>
 
 			</form>

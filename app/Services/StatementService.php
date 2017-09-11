@@ -552,29 +552,48 @@ class StatementService
             $statement->sent_at = Carbon::now();
             $statement->save();
 
-            if (count($emails = $statement->getUserEmails())) {
-                if ($statement->sendByPost()) {
-                    Mail::to($emails)
-                        ->queue(new StatementByPost($statement));
-                }
+            if ($statement->sendByPost()) {
+                $this->sendStatementByPostNotice($statement);
+            }
 
-                if ($statement->sendByEmail()) {
-                    $this->sendStatementByEmail($statement);
-                }
+            if ($statement->sendByEmail()) {
+                $this->sendStatementByEmail($statement);
             }
         }
+    }
+
+    /**
+     * Send the statement user's a notice that their statement has been sent via post.
+     * 
+     * @param \App\Statement $statement
+     * @param \App\User $user
+     * @return Mail
+     */
+    public function sendStatementByPostNotice(Statement $statement, $user = null)
+    {
+        // No user e-mails present, do nothing.
+        if (is_null($statement->getUserEmails())) {
+            return false;
+        }
+
+        // User is null, get the statement users.
+        if (is_null($user)) {
+            $user = $statement->users;
+        }
+
+        return Mail::to($user)->queue(new StatementByPost($statement));
     }
 
     /**
      * Send the statement by email.
      * 
      * @param \App\Statement $statement
-     * @param array $emails
-     * @return void
+     * @param \App\User $user
+     * @return Mail
      */
     public function sendStatementByEmail(Statement $statement, $user = null)
     {
-        if (!$statement->getUserEmails()) {
+        if (is_null($statement->getUserEmails())) {
             return false;
         }
 
@@ -582,9 +601,7 @@ class StatementService
             $user = $statement->users;
         }
 
-        Mail::to($user)->queue(new StatementByEmail($statement));
-
-        return true;
+        return Mail::to($user)->queue(new StatementByEmail($statement));
     }
 
     /**
