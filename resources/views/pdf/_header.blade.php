@@ -23,12 +23,13 @@
 				font-size: 3rem;
 			}
 			footer {
+				font-size: 0.9rem;
 				position: fixed;
 				bottom: 0px;
-				left: 0px;
-				right: 0px;
+				left: 50px;
+				right: 50px;
 				height: 50px;
-				padding: 1rem 2rem 0 2rem;
+				border-top: 2px solid #ddd;
 			}
 			footer ul {
 				margin: 0;
