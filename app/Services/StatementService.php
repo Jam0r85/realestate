@@ -98,6 +98,12 @@ class StatementService
         $statement->period_end = Carbon::createFromFormat('Y-m-d', $data['period_end']);
         $statement->amount = $data['amount'];
 
+        if ($tenancy->property->hasSetting('post_rental_statement')) {
+            $statement->send_by = 'post';
+        } else {
+            $statement->send_by = 'email';
+        }
+
         $statement->paid_at = $statement->created_at;
         $statement->sent_at = $statement->created_at;
 
