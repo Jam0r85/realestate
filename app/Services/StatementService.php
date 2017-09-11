@@ -546,9 +546,9 @@ class StatementService
      */
     public function sendStatementToOwners($statement_ids)
     {
-        foreach ($statement_ids as $id) {
+        foreach ($statement_ids as $statement_id) {
 
-            $statement = Statement::find($id);
+            $statement = Statement::find($statement_id);
             $statement->sent_at = Carbon::now();
             $statement->save();
 
@@ -569,7 +569,6 @@ class StatementService
      * 
      * @param \App\Statement $statement
      * @param \App\User $user
-     * @return Mail
      */
     public function sendStatementByPostNotice(Statement $statement, $user = null)
     {
@@ -584,7 +583,6 @@ class StatementService
         }
 
         Mail::to($user)->queue(new StatementByPost($statement));
-        return true;
     }
 
     /**
@@ -592,7 +590,6 @@ class StatementService
      * 
      * @param \App\Statement $statement
      * @param \App\User $user
-     * @return Mail
      */
     public function sendStatementByEmail(Statement $statement, $user = null)
     {
@@ -605,7 +602,6 @@ class StatementService
         }
 
         Mail::to($user)->queue(new StatementByEmail($statement));
-        return true;
     }
 
     /**
