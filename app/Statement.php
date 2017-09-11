@@ -355,7 +355,7 @@ class Statement extends BaseModel
             }
         }
 
-        return false;
+        return null;
     }
 
     /**

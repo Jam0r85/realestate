@@ -542,7 +542,7 @@ class StatementService
      * Send the given statements to their owners.
      *
      * @param array $statement_ids
-     * @return void
+     * @return bool
      */
     public function sendStatementToOwners($statement_ids)
     {
@@ -560,6 +560,8 @@ class StatementService
                 $this->sendStatementByEmail($statement);
             }
         }
+
+        return true;
     }
 
     /**
@@ -572,7 +574,7 @@ class StatementService
     public function sendStatementByPostNotice(Statement $statement, $user = null)
     {
         // No user e-mails present, do nothing.
-        if (is_null($statement->getUserEmails())) {
+        if (!$statement->getUserEmails()) {
             return false;
         }
 
@@ -581,7 +583,8 @@ class StatementService
             $user = $statement->users;
         }
 
-        return Mail::to($user)->queue(new StatementByPost($statement));
+        Mail::to($user)->queue(new StatementByPost($statement));
+        return true;
     }
 
     /**
@@ -593,7 +596,7 @@ class StatementService
      */
     public function sendStatementByEmail(Statement $statement, $user = null)
     {
-        if (is_null($statement->getUserEmails())) {
+        if (!$statement->getUserEmails()) {
             return false;
         }
 
@@ -601,7 +604,8 @@ class StatementService
             $user = $statement->users;
         }
 
-        return Mail::to($user)->queue(new StatementByEmail($statement));
+        Mail::to($user)->queue(new StatementByEmail($statement));
+        return true;
     }
 
     /**
