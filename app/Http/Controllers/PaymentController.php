@@ -51,7 +51,7 @@ class PaymentController extends BaseController
         $payments = Payment::search(Session::get('payments_search_term'))->get();
         $title = 'Search Results';
 
-        return view('payments.index', compact('payments','title'));
+        return view('payments.rent', compact('payments','title'));
     }
 
     /**
