@@ -143,17 +143,20 @@ class StatementController extends BaseController
         $service = new StatementService();
 
         // Multiple statements to be sent
+        // App checks whether to send the statement by e-mail or just a notice that it has been posted.
         if ($request->has('statements')) {
             $service->sendStatementToOwners($request->statements);
             $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
         }
 
+        // Single statement to be sent
+        // This defaults to sending the statement by e-mail.
         if ($request->has('statement_id')) {
             $statement = Statement::findOrFail($request->statement_id);
             if ($service->sendStatementByEmail($statement)) {
                 $this->successMessage('The statement was sent');
             } else {
-                $this->warningMessage('The statement was not sent. Do the recipients have emails?');
+                $this->warningMessage('The statement was not sent. Is there a valid e-mail address?');
             }
         }
 
