@@ -49,6 +49,7 @@ class PaymentController extends BaseController
         Session::put('payments_search_term', $request->search_term);
 
         $payments = Payment::search(Session::get('payments_search_term'))->get();
+        $payments->sortByDesc('created_at');
         $title = 'Search Results';
 
         return view('payments.rent', compact('payments','title'));
