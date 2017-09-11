@@ -30,6 +30,7 @@
 				right: 50px;
 				height: 50px;
 				border-top: 2px solid #ddd;
+				padding-top: 0.5rem;
 			}
 			footer ul {
 				margin: 0;
