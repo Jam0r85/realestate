@@ -25,6 +25,6 @@ class BaseController extends Controller
 	 */
 	protected function warningMessage($message)
 	{
-		flash($message)->danger();
+		flash($message)->error();
 	}
 }

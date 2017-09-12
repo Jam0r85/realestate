@@ -570,19 +570,16 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByPostNotice(Statement $statement, $user = null)
+    public function sendStatementByPostNotice(Statement $statement)
     {
         // No user e-mails present, do nothing.
-        if (!$statement->getUserEmails()) {
+        if (!$emails = $statement->getUserEmails()) {
             return false;
         }
 
-        // User is null, get the statement users.
-        if (is_null($user)) {
-            $user = $statement->users;
-        }
+        Mail::to($emails)->queue(new StatementByPost($statement));
 
-        Mail::to($user)->queue(new StatementByPost($statement));
+        return true;
     }
 
     /**
@@ -591,17 +588,15 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByEmail(Statement $statement, $user = null)
+    public function sendStatementByEmail(Statement $statement)
     {
-        if (!$statement->getUserEmails()) {
+        if (!$emails = $statement->getUserEmails()) {
             return false;
         }
 
-        if (is_null($user)) {
-            $user = $statement->users;
-        }
+        Mail::to($emails)->queue(new StatementByEmail($statement));
 
-        Mail::to($user)->queue(new StatementByEmail($statement));
+        return true;
     }
 
     /**
