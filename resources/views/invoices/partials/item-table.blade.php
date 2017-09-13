@@ -14,7 +14,7 @@
 			@foreach ($items as $invoice_item)
 				<tr>
 					<td>
-						<a href="#" class="modal-button" data-target="{{ route('invoices.edit-item', $invoice_item->id) }}">
+						<a href="{{ route('invoices.edit-item', $invoice_item->id) }}" name="Edit Item">
 							<b>{{ $invoice_item->name }}</b>
 						</a>
 						<br />{{ $invoice_item->description }}
