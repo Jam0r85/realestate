@@ -12,7 +12,7 @@
 
 <div class="form-group">
 	<label for="{{ isset($array) ? 'item_description' : 'description' }}">Description</label>
-	<textarea name="{{ isset($array) ? 'item_description[]' : 'description' }}" class="form-control">{{ isset($item) ? $item->description : old('description') }}{{ isset($data) ? $data['description'] : '' }}</textarea>
+	<textarea rows="6" name="{{ isset($array) ? 'item_description[]' : 'description' }}" class="form-control">{{ isset($item) ? $item->description : old('description') }}{{ isset($data) ? $data['description'] : '' }}</textarea>
 </div>
 
 <div class="form-group">
