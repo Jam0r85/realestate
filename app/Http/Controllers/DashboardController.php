@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function index()
     {
         $overdue_tenancies = Tenancy::isOverdue()->get();
-        $overdue_tenancies->sortByDesc('days_overdue');
+        $overdue_tenancies = $overdue_tenancies->sortByDesc('days_overdue');
 
     	return view('dashboard.index', compact('overdue_tenancies'));
     }
