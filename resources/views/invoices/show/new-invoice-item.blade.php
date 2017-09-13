@@ -39,24 +39,29 @@
 				<div class="col">
 
 					@if (count($invoice->items))
-						<table class="table table-striped table-responsive">
-							<thead>
-								<th>Name</th>
-								<th>Amount</th>
-								<th>Quantity</th>
-								<th>Total</th>
-							</thead>
-							<tbody>
-								@foreach ($invoice->items as $item)
-									<tr>
-										<td>{{ $item->name }}</td>
-										<td>{{ currency($item->amount) }}</td>
-										<td>{{ $item->quantity }}</td>
-										<td>{{ currency($item->total) }}</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+						<div class="card mb-3">
+							<div class="card-header">
+								Current Invoice Items
+							</div>							
+							<table class="table table-striped table-responsive">
+								<thead>
+									<th>Name</th>
+									<th>Amount</th>
+									<th>Quantity</th>
+									<th>Total</th>
+								</thead>
+								<tbody>
+									@foreach ($invoice->items as $item)
+										<tr>
+											<td>{{ $item->name }}</td>
+											<td>{{ currency($item->amount) }}</td>
+											<td>{{ $item->quantity }}</td>
+											<td>{{ currency($item->total) }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
 					@else
 						<div class="alert alert-info">
 							No items have been added to this invoice yet.

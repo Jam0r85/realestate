@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tenancy;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,6 +24,8 @@ class DashboardController extends Controller
 	 */
     public function index()
     {
-    	return view('dashboard.index');
+        $overdue_tenancies = Tenancy::where('is_overdue', '>', '0')->orderBy('is_overdue', 'desc')->get();
+
+    	return view('dashboard.index', compact('overdue_tenancies'));
     }
 }
