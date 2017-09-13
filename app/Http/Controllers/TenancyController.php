@@ -46,16 +46,16 @@ class TenancyController extends BaseController
     }
 
     /**
-     * Display a listing of tenancies with a rent balance.
+     * Display a listing of overdue tenancies.
      *
      * @return \Illuminate\Http\Response
      */
     public function overdue()
     {
-        $tenancies = Tenancy::where('is_overdue', 1)->latest()->get();
-        $title = 'Overdue Tenancies';
+        $tenancies = Tenancy::isOverdue()->get();
+        $tenancies = $tenancies->sortByDesc('days_overdue');
 
-        return view('tenancies.overdue', compact('tenancies','title'));
+        return view('tenancies.overdue', compact('tenancies'));
     }
 
     /**

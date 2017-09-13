@@ -1,6 +1,6 @@
 <div class="card mb-3">
 	<div class="card-header">
-		<i class="fa fa-info"></i> Tenancy Details
+		<i class="fa fa-info-circle"></i> Tenancy Details
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
