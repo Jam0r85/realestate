@@ -156,7 +156,7 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have a last rent payment based on the date it was created.
      */
-    public function last_rent_payment()
+    public function getLastRentPaymentAttribute()
     {
         return $this->rent_payments()->latest()->first();
     }
