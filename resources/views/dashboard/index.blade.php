@@ -19,7 +19,7 @@
 										{{ $tenancy->name }}
 									</a>
 									@slot('title')
-										{{ $tenancy->is_overdue }} {{ str_plural('day', $tenancy->is_overdue) }}
+										{{ $tenancy->days_overdue }} {{ str_plural('day', $tenancy->days_overdue) }}
 									@endslot
 								@endcomponent
 							@endforeach
