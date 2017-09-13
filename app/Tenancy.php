@@ -158,7 +158,8 @@ class Tenancy extends BaseModel
      */
     public function lastRentPayment()
     {
-        return $this->rent_payments()->latest()->first();
+        return $this->morphOne('App\Payment', 'parent')
+            ->latest();
     }
 
     /**
