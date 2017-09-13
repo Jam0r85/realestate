@@ -16,7 +16,7 @@
 
 			<div class="form-group">
 				<label for="invoice_default_terms">Default Invoice Terms</label>
-				<textarea name="invoice_default_terms" class="form-control">{{ get_setting('invoice_default_terms') }}</textarea>
+				<textarea name="invoice_default_terms" rows="6" class="form-control">{{ get_setting('invoice_default_terms') }}</textarea>
 			</div>
 
 		</section>
