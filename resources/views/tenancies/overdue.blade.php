@@ -35,7 +35,11 @@
 							</td>
 							<td>{{ $tenancy->property->short_name }}</td>
 							<td>{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : 'None' }}</td>
-							<td>{{ currency($tenancy->rent_balance) }}</td>
+							<td>
+								<span class="@if ($tenancy->rent_balance < 0) text-danger @endif">
+									{{ currency($tenancy->rent_balance) }}
+								</span>
+							</td>
 							<td>{{ $tenancy->last_rent_payment ? date_formatted($tenancy->last_rent_payment->created_at) : 'Never' }}</td>
 						</tr>
 					@endforeach

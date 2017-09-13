@@ -97,10 +97,8 @@ class Tenancy extends BaseModel
     public function scopeIsOverdue($query)
     {
         return $query
-            ->where('is_overdue', 1)
-            ->whereNull('vacated_on')
-            ->orWhere('is_overdue', 1)
-            ->where('vacated_on', '>', Carbon::now());
+            ->with('properties','tenants','current_rent','rent_payments')
+            ->where('is_overdue', 1);
     }
 
 	/**
