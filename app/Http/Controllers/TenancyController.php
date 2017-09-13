@@ -53,7 +53,6 @@ class TenancyController extends BaseController
     public function overdue()
     {
         $tenancies = Tenancy::isOverdue()->get();
-        $tenancies->load('statements','last_statement','tenants','properties','rent_payments');
         $tenancies = $tenancies->sortByDesc('days_overdue');
 
         return view('tenancies.overdue', compact('tenancies'));
