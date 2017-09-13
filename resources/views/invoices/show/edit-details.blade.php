@@ -49,7 +49,16 @@
 
 				<div class="form-group">
 					<label for="recipient">Recipient</label>
-					<textarea name="recipient" class="form-control" rows="5">{{ $invoice->recipient }}</textarea>
+					<textarea @if ($invoice->statement) disabled @endif name="recipient" class="form-control" rows="5">{{ $invoice->recipient }}</textarea>
+					@if ($invoice->statement)
+						<small class="form-text text-danger">
+							This invoice is attached to a rental statement and will inherit the rental statement's address.
+						</small>
+					@else
+						<small class="form-text text-muted">
+							Enter the recipient address for this invoice. If the invoice has users attached to it, their names will automatically be added above the address for you.
+						</small>
+					@endif
 				</div>
 
 				<div class="form-group">
