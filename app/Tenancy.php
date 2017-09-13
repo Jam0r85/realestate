@@ -97,7 +97,7 @@ class Tenancy extends BaseModel
     public function scopeIsOverdue($query)
     {
         return $query
-            ->with('property','tenants','current_rent','rent_payments')
+            ->with('property','tenants','current_rent','rent_payments','statements')
             ->where('is_overdue', 1);
     }
 
@@ -158,8 +158,7 @@ class Tenancy extends BaseModel
      */
     public function last_rent_payment()
     {
-        return $this->morphOne('App\Payment', 'parent')
-            ->latest();
+        return $this->rent_payments()->latest()->first();
     }
 
     /**
