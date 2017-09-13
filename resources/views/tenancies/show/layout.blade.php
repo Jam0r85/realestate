@@ -26,7 +26,7 @@
 					@include('tenancies.partials.system-info-card')
 
 				</div>
-				<div class="col col-7">
+				<div class="col">
 
 					@include('tenancies.partials.rent-info-card')
 					@include('tenancies.partials.service-card')
