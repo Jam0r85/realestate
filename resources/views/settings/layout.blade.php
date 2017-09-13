@@ -10,6 +10,9 @@
 					<a class="nav-link" href="{{ route('settings.index') }}" title="General Settings">
 						General Settings
 					</a>
+					<a class="nav-link" href="{{ route('settings.index', 'invoice') }}" title="Invoice Settings">
+						Invoice Settings
+					</a>
 					<a class="nav-link" href="#">Logo Settings</a>
 				</nav>
 			</div>
