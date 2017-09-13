@@ -28,6 +28,7 @@
 				</div>
 				<div class="col">
 
+					@include('tenancies.partials.tenancy-details-card')
 					@include('tenancies.partials.rent-info-card')
 					@include('tenancies.partials.service-card')
 					@include('tenancies.partials.agreement-card')
@@ -51,7 +52,7 @@
 			</ul>
 
 			<div class="tab-content">
-				<div class="tab-pane active" id="payments" role="tabpanel">
+				<div class="tab-pane fade show active" id="payments" role="tabpanel">
 					
 					@include('tenancies.partials.payments-table')
 
@@ -60,7 +61,7 @@
 					</a>
 
 				</div>
-				<div class="tab-pane" id="statements" role="tabpanel">
+				<div class="tab-pane fade" id="statements" role="tabpanel">
 
 					@include('tenancies.partials.statements-table')
 
