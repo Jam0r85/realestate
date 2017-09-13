@@ -5,28 +5,30 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('invoices.show', $invoice->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-primary float-right">
+					Return
+				</a>	
+				<h1>Invoice #{{ $invoice->number }}</h1>
+				<h3>Record a Payment</h3>
+			</div>
 
-			<h1 class="title">Invoice #{{ $invoice->number }}</h1>
-			<h2 class="subtitle">Record a Payment</h2>
+		</div>
+	</section>
 
-			<hr />
+	<section class="section">
+		<div class="container">
+
+			@include('partials.errors-block')
 
 			<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
 				{{ csrf_field() }}
 
 				@include('invoices.partials.payment-form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Record Payment
-					</span>
-				</button>
+				@component('partials.bootstrap.save-submit-button')
+					Record Payment
+				@endcomponent
 
 			</form>
 

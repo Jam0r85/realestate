@@ -6,6 +6,9 @@
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'edit-details']) }}">
 			Edit Invoice Details
 		</a>
+		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'record-payment']) }}" title="Record Payment">
+			Record Payment
+		</a>
 		<a class="dropdown-item" href="{{ route('downloads.invoice', $invoice->id) }}" title="Download Invoice" target="_blank">
 			Download as PDF
 		</a>
