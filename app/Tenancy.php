@@ -97,7 +97,6 @@ class Tenancy extends BaseModel
     public function scopeIsOverdue($query)
     {
         return $query
-            ->with('statements','tenants')
             ->where('is_overdue', 1)
             ->whereNull('vacated_on')
             ->orWhere('is_overdue', 1)
@@ -300,7 +299,6 @@ class Tenancy extends BaseModel
         if (count($this->statements)) {
             $statements = $this->statements->sum('amount');
         }
-
         return $payments - $statements;
     }
 
