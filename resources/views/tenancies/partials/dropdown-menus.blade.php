@@ -23,7 +23,7 @@
 		Actions
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="tenanciesActionsDropdown">
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'vacated-tenants']) }}">
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenants-vacated']) }}">
 			Tenants Vacated
 		</a>
 	</div>
