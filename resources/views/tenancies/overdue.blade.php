@@ -40,7 +40,7 @@
 									{{ currency($tenancy->rent_balance) }}
 								</span>
 							</td>
-							<td>{{ $tenancy->last_rent_payment ? date_formatted($tenancy->last_rent_payment->created_at) : 'Never' }}</td>
+							<td>{{ $tenancy->lastRentPayment() ? date_formatted($tenancy->lastRenrPayment()->created_at) : 'Never' }}</td>
 						</tr>
 					@endforeach
 				</tbody>
