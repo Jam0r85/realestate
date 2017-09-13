@@ -97,7 +97,7 @@ class Tenancy extends BaseModel
     public function scopeIsOverdue($query)
     {
         return $query
-            ->with('properties','tenants','current_rent','rent_payments')
+            ->with('property','tenants','current_rent','rent_payments')
             ->where('is_overdue', 1);
     }
 
