@@ -19,18 +19,46 @@
 	<section class="section">
 		<div class="container">
 
-			@include('partials.errors-block')
+			<div class="row">
+				<div class="col col-8">
 
-			<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
-				{{ csrf_field() }}
+					@include('partials.errors-block')
 
-				@include('invoices.partials.payment-form')
+					<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
+						{{ csrf_field() }}
 
-				@component('partials.bootstrap.save-submit-button')
-					Record Payment
-				@endcomponent
+						@include('invoices.partials.payment-form')
 
-			</form>
+						@component('partials.bootstrap.save-submit-button')
+							Record Payment
+						@endcomponent
+
+					</form>
+
+				</div>
+				<div class="col">
+
+					<div class="card mb-3">
+						<div class="card-header">
+							Invoice Details
+						</div>
+						<ul class="list-group list-group-flush">
+							@component('partials.bootstrap.list-group-item')
+								{{ currency($invoice->total) }}
+								@slot('title')
+									Invoice Total
+								@endslot
+							@endcomponent
+							@component('partials.bootstrap.list-group-item')
+								{{ currency($invoice->balance_total) }}
+								@slot('title')
+									Balance Remaining
+								@endslot
+							@endcomponent
+						</ul>
+					</div>
+				</div>
+			</div>
 
 		</div>
 	</section>
