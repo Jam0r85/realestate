@@ -1,4 +1,4 @@
-<li class="list-group-item flex-column">
+<li class="list-group-item {{ isset($style) ? $style : '' }} flex-column">
 	<div class="d-flex justify-content-between">
 		@if (isset($title))
 			<span class="text-muted">

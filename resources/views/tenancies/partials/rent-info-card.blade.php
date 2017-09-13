@@ -21,6 +21,9 @@
 				@slot('title')
 					Current Rent
 				@endslot
+				@slot('style')
+					list-group-item-info
+				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
 				{{ $tenancy->current_rent ? date_formatted($tenancy->current_rent->starts_at) : '' }}
