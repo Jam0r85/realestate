@@ -22,6 +22,7 @@
 				<div class="col col-4">
 
 					@include('invoices.partials.linked-users-card')
+					@include('invoices.partials.statement-card')
 					@include('invoices.partials.balance-card')
 					@include('invoices.partials.system-info-card')
 
