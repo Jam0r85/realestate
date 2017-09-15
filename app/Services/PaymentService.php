@@ -29,6 +29,13 @@ class PaymentService
 
 		$payment->users()->attach($invoice->users);
 
+		$invoice->fresh();
+		
+		if (is_null($invoice->paid_at) && $invoice->total_balance <= 0) {
+			$invoice->paid_at = Carbon::now();
+			$invoice->save();
+		}
+
 		return $payment;
 	}
 
