@@ -38,12 +38,37 @@
 	{{-- Title --}}
 	<section class="section">
 		<div class="container">
-			<h1 class="title">
-				Invoice {{ $invoice->number }}
-			</h1>
-			<h2 class="subtitle">
-				{{ longdate_formatted($invoice->created_at) }}
-			</h2>
+
+			<table>
+				<tr>
+					<td>
+						<h1 class="title">
+							Invoice {{ $invoice->number }}
+						</h1>
+						<h2 class="subtitle">
+							{{ longdate_formatted($invoice->created_at) }}
+						</h2>
+					</td>
+					<td class="has-text-right">
+
+						@if ($invoice->statement)]
+
+							@if ($invoice->statement->pait_at)
+								<h1 class="is-success">Paid {{ date_formatted($invoice->statement->paid_at) }}</h1>
+							@endif
+
+						@else
+
+							@if ($invoice->paid_at)
+								<h1 class="is-success">Paid {{ date_formatted($invoice->paid_at) }}</h1>
+							@endif
+
+						@endif
+
+					</td>
+				</tr>
+			</table>
+
 		</div>
 	</section>
 

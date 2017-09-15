@@ -23,7 +23,7 @@ class BaseController extends Controller
 	 * @param string $message
 	 * @return void
 	 */
-	protected function warningMessage($message)
+	protected function errorMessage($message)
 	{
 		flash($message)->error();
 	}

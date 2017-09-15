@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyInvoiceRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
@@ -187,5 +188,28 @@ class InvoiceController extends BaseController
         $this->successMessage('The invoice was restored');
 
         return back();
+    }
+
+    /**
+     * Destroy an invoice from storage.
+     * 
+     * @param \App\Http\Requests\DestroyInvoiceRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DestroyInvoiceRequest $request, $id)
+    {
+        $invoice = Invoice::withTrashed()->findOrFail($id);
+
+        if ($request->confirmation != $id) {
+            $this->errorMessage('The ID provided did not match the invoice ID');
+            return back();
+        }
+
+        $invoice->items()->delete();
+        $invoice->forceDelete();
+
+        $this->successMessage('The invoice was destroyed');
+        return redirect()->route('invoices.index');
     }
 }

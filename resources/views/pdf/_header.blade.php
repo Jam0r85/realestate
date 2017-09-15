@@ -46,7 +46,7 @@
 			}
 	    	main { margin-top: 150px; }
 	    	body {
-	    		line-height: 19px;
+	    		line-height: 20px;
 	    		font-size: 15px;
 	    	}
 	    	.recipient {
