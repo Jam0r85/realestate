@@ -43,7 +43,7 @@ class CheckInvoicePaid extends Command
         $unpaid_invoices = Invoice::whereNull('paid_at')->get();
 
         foreach ($unpaid_invoices as $invoice) {
-            if ($invoice->total_balance <= 0) {
+            if (count($invoice->items) && $invoice->total_balance <= 0) {
                 $invoice->paid_at = Carbon::now();
                 $invoice->save();
             }
