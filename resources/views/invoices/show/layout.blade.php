@@ -18,6 +18,14 @@
 	<section class="section">
 		<div class="container">
 
+			@if ($invoice->paid_at)
+
+				<div class="alert alert-success">
+					Invoice <b>Paid</b> on {{ date_formatted($invoice->paid_at) }}
+				</div>
+
+			@endif
+
 			<div class="row">
 				<div class="col col-4">
 
