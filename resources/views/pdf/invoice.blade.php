@@ -54,7 +54,7 @@
 						@if ($invoice->statement)]
 
 							@if ($invoice->statement->pait_at)
-								<h1 class="title is-success">Paid {{ date_formatted($invoice->statement->paid_at) }}</h1>
+								<h2 class="subtitle is-success">Paid {{ date_formatted($invoice->statement->paid_at) }}</h2>
 							@endif
 
 						@else
