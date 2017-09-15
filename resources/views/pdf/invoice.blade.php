@@ -51,9 +51,9 @@
 					</td>
 					<td class="has-text-right">
 
-						@if ($invoice->statement)]
+						@if ($invoice->statement)
 
-							@if ($invoice->statement->pait_at)
+							@if ($invoice->statement->paid_at)
 								<h2 class="subtitle is-success">Paid {{ date_formatted($invoice->statement->paid_at) }}</h2>
 							@endif
 
