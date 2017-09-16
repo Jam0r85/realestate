@@ -124,6 +124,11 @@
                                 <a class="dropdown-item" href="{{ route('statement-payments.index') }}">
                                     Statement Payments List
                                 </a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Management</h6>
+                                <a class="dropdown-item" href="{{ route('gas-safe.index') }}" title="Gas Safe Reminders">
+                                    Gas Safe Reminders
+                                </a>
                             </div>
 
                         </li>

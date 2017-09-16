@@ -182,7 +182,6 @@ Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloa
 Route::get('download/statement/{id}', 'DownloadController@statement')->name('downloads.statement');
 Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloads.payment');
 
-// E-Mail history and preview the e-mail
 Route::get('emails', 'EmailController@index')->name('emails.index');
 Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
 
@@ -193,3 +192,9 @@ Route::prefix('reports')->group(function () {
 
 Route::get('settings/{section?}', 'SettingController@index')->name('settings.index');
 Route::post('settings', 'SettingController@updateGeneral')->name('settings.update-general');
+
+Route::prefix('gas-safe')->group(function () {
+	Route::get('/', 'GasSafeController@index')->name('gas-safe.index');
+	Route::get('create', 'GasSafeController@create')->name('gas-safe.create');
+	Route::post('/', 'GasSafeController@store')->name('gas-safe.store');
+});
