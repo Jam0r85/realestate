@@ -194,9 +194,10 @@ Route::get('settings/{section?}', 'SettingController@index')->name('settings.ind
 Route::post('settings', 'SettingController@updateGeneral')->name('settings.update-general');
 
 Route::prefix('gas-safe')->group(function () {
-	Route::get('/', 'GasSafeController@index')->name('gas-safe.index');
-	Route::get('create', 'GasSafeController@create')->name('gas-safe.create');
-	Route::post('/', 'GasSafeController@store')->name('gas-safe.store');
-	Route::get('{id}/{section?}', 'GasSafeController@show')->name('gas-safe.show');
-	Route::put('{id}', 'GasSafeController@update')->name('gas-safe.update');
+	Route::get('/', 'GasController@index')->name('gas-safe.index');
+	Route::get('create', 'GasController@create')->name('gas-safe.create');
+	Route::post('/', 'GasController@store')->name('gas-safe.store');
+	Route::get('{id}/{section?}', 'GasController@show')->name('gas-safe.show');
+	Route::put('{id}', 'GasController@update')->name('gas-safe.update');
+	Route::delete('{id}', 'GasController@destroy')->name('gas-safe.destroy');
 });

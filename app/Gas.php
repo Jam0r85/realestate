@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GasSafeReminder extends Model
+class Gas extends Model
 {
     /**
      * The attributes that should be cast to native types.

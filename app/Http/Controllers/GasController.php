@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\GasSafeReminder;
+use App\Gas;
 use App\Http\Requests\StoreGasSafeReminderRequest;
-use App\Services\GasSafeService;
+use App\Services\GasService;
 use Illuminate\Http\Request;
 
-class GasSafeController extends BaseController
+class GasController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -27,7 +27,7 @@ class GasSafeController extends BaseController
      */
     public function index()
     {
-        $reminders = GasSafeReminder::expireDate()->paginate();
+        $reminders = Gas::expireDate()->paginate();
         $title = 'Gas Safe Reminders';
 
         return view('gas-safe.index', compact('reminders','title'));
@@ -51,7 +51,7 @@ class GasSafeController extends BaseController
      */
     public function store(StoreGasSafeReminderRequest $request)
     {
-        $service = new GasSafeService();
+        $service = new GasService();
         $service->createGasSafeReminder($request->input());
 
         $this->successMessage('The gas safe reminder was created');
@@ -67,7 +67,7 @@ class GasSafeController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $reminder = GasSafeReminder::findOrFail($id);
+        $reminder = Gas::findOrFail($id);
         return view('gas-safe.show.' . $section, compact('reminder'));
     }
 
@@ -80,7 +80,7 @@ class GasSafeController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $reminder = GasSafeReminder::findOrFail($id);
+        $reminder = Gas::findOrFail($id);
         $reminder->fill($request->input());
         $reminder->save();
 
@@ -97,8 +97,13 @@ class GasSafeController extends BaseController
      * @param  \App\GasSafe  $gasSafe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GasSafe $gasSafe)
+    public function destroy($id)
     {
-        //
+        $reminder = Gas::findOrFail($id);
+        $reminder->delete();
+
+        $this->successMessage('The reminder was deleted');
+
+        return redirect()->route('gas-safe.index');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\GasSafeReminder;
+use App\Gas;
 use Illuminate\Support\Facades\Auth;
 
-class GasSafeService
+class GasService
 {
 	/**
 	 * Create a new gas safe reminder.
@@ -15,7 +15,7 @@ class GasSafeService
 	 */
 	public function createGasSafeReminder(array $data)
 	{
-		$reminder = new GasSafeReminder();
+		$reminder = new Gas();
 		$reminder->user_id = Auth::user()->id;
 		$reminder->property_id = $data['property_id'];
 		$reminder->expires_on = $data['expires_on'];

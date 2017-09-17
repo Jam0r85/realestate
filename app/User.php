@@ -160,6 +160,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many gas reminders.
+     */
+    public function gas()
+    {
+        return $this->belongsToMany('App\Gas');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGasSafeRemindersTable extends Migration
+class CreateGasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGasSafeRemindersTable extends Migration
      */
     public function up()
     {
-        Schema::create('gas_safe_reminders', function (Blueprint $table) {
+        Schema::create('gas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('property_id')->unsigned();
@@ -32,6 +32,6 @@ class CreateGasSafeRemindersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gas_safe_reminders');
+        Schema::dropIfExists('gas');
     }
 }
