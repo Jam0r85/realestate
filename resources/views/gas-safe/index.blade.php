@@ -31,7 +31,11 @@
 				<tbody>
 					@foreach ($reminders as $reminder)
 						<tr>
-							<td>{{ date_formatted($reminder->expires_on) }}</td>
+							<td>
+								<a href="{{ route('gas-safe.show', $reminder->id) }}">
+									{{ date_formatted($reminder->expires_on) }}
+								</a>
+							</td>
 							<td>{{ $reminder->property->short_name }}</td>
 							<td>
 								@foreach ($reminder->contractors as $user)
@@ -40,7 +44,7 @@
 									</a>
 								@endforeach
 							</td>
-							<td>{{ $reminder->last_reminder ? date_formatted($reminder->last_reminder) : '' }}</td>
+							<td>{{ $reminder->last_reminder ? date_formatted($reminder->last_reminder) : '-' }}</td>
 							<td><i class="fa fa-{{ $reminder->is_booked ? 'check' : 'times' }}"></i></td>
 						</tr>
 					@endforeach

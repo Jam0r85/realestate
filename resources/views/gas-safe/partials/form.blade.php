@@ -12,6 +12,7 @@
         <option value="">Please select..</option>
         @foreach (properties() as $property)
             <option 
+                @if (isset($reminder) && ($reminder->property_id == $property->id)) selected @endif
                 @if (old('property_id') == $property->id) selected @endif
                 value="{{ $property->id }}">
                 {{ $property->select_name }}
@@ -25,7 +26,9 @@
     <select name="contractors[]" class="form-control select2" multiple>
         <option value="">Please select..</option>
         @foreach (users() as $user)
-            <option value="{{ $user->id }}">
+            <option 
+                @if (isset($reminder) && ($reminder->contractors->contains($user->id))) selected @endif
+                value="{{ $user->id }}">
                 {{ $user->name }}
             </option>
         @endforeach

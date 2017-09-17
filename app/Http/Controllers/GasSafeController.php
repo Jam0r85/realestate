@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\GasSafeReminder;
+use App\Http\Requests\StoreGasSafeReminderRequest;
 use App\Services\GasSafeService;
 use Illuminate\Http\Request;
 
 class GasSafeController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @param   EloquentUsersRepository $users
+     * @return  void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +49,7 @@ class GasSafeController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGasSafeReminderRequest $request)
     {
         $service = new GasSafeService();
         $service->createGasSafeReminder($request->input());
@@ -53,20 +65,10 @@ class GasSafeController extends BaseController
      * @param  \App\GasSafe  $gasSafe
      * @return \Illuminate\Http\Response
      */
-    public function show(GasSafe $gasSafe)
+    public function show($id, $section = 'layout')
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\GasSafe  $gasSafe
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(GasSafe $gasSafe)
-    {
-        //
+        $reminder = GasSafeReminder::findOrFail($id);
+        return view('gas-safe.show.' . $section, compact('reminder'));
     }
 
     /**
@@ -76,9 +78,17 @@ class GasSafeController extends BaseController
      * @param  \App\GasSafe  $gasSafe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GasSafe $gasSafe)
+    public function update(Request $request, $id)
     {
-        //
+        $reminder = GasSafeReminder::findOrFail($id);
+        $reminder->fill($request->input());
+        $reminder->save();
+
+        $reminder->contractors()->sync($request->contractors);
+
+        $this->successMessage('The reminder was updated');
+
+        return back();
     }
 
     /**

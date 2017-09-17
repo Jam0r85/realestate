@@ -197,4 +197,6 @@ Route::prefix('gas-safe')->group(function () {
 	Route::get('/', 'GasSafeController@index')->name('gas-safe.index');
 	Route::get('create', 'GasSafeController@create')->name('gas-safe.create');
 	Route::post('/', 'GasSafeController@store')->name('gas-safe.store');
+	Route::get('{id}/{section?}', 'GasSafeController@show')->name('gas-safe.show');
+	Route::put('{id}', 'GasSafeController@update')->name('gas-safe.update');
 });
