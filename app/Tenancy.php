@@ -483,18 +483,41 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Set whether a tenancy is overdue or not.
+     * Check whether the tenancy is overdue.
      */
-    public function setOverdueStatus()
+    public function checkWhetherOverdue()
     {
-        if ($this->isManaged()) {
+        $overdue = false;
 
-            // Check whether tenancy is overdue
-            if ($this->next_statement_start_date < Carbon::now()) {
-                $this->update(['is_overdue' => true]);
-            } else {
-                $this->update(['is_overdue' => false]);
+        // Make sure the property is managed first.
+        if ($this->isManaged()) {
+            if (count($this->statements)) {
+
+                // Create a next statement date variable and add 3 days
+                $next_statement_date = $this->next_statement_start_date;
+                $next_statement_date->addDays(3);
+
+                // Check whether the next statement date has been passed.
+                if ($next_statement_date <= Carbon::now()) {
+                    $overdue = true;
+                }
+
+                // Overwrite the status should the tenancy be vacated.
+                if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
+                    $overdue = false;
+                }
             }
         }
+
+        return $overdue;
+    }
+
+    /**
+     * Set and store whether this tenancy is overdue.
+     */
+    public function setOverdue()
+    {
+        $this->is_overdue = $this->checkWhetherOverdue();
+        $this->save();
     }
 }
