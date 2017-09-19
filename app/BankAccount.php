@@ -23,8 +23,11 @@ class BankAccount extends BaseModel
         // Filter account numbers to only index the first 4 numbers for security.
         $array['account_number'] = $this->account_number_secure;
 
-        // Add the users to the bank accounts.
-        $array['users'] = $this->users ? $this->users->pluck('name','email','phone_number')->toArray() : null;
+        // Account has users, add them to the array.
+        if (count($this->users)) {
+            $array['users'] = $this->users->pluck('name')->toArray();
+            $array['emails'] = $this->users->pluck('email')->toArray();
+        }
 
         return $array;
     }
