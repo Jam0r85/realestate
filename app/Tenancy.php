@@ -504,6 +504,8 @@ class Tenancy extends BaseModel
 
         // Make sure the property is managed first.
         if ($this->isManaged()) {
+
+            // Secondly make sure there have been previous rental statements.
             if (count($this->statements)) {
 
                 // Create a next statement date variable and add 3 days
@@ -515,9 +517,10 @@ class Tenancy extends BaseModel
                     $overdue = true;
                 }
 
-                // Overwrite the status should the tenancy be vacated.
-                if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
-                    $overdue = false;
+                // Has the tenant vacated?
+                if ($this->vacated_on) {
+
+
                 }
             }
         }

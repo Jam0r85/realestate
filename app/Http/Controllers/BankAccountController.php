@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBankAccountRequest;
 use App\Http\Requests\UpdateBankAccountRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BankAccountController extends BaseController
 {
