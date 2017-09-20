@@ -25,21 +25,8 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'property_id' => 'required',
             'invoice_group_id' => 'required',
             'number' => new UniqueInvoiceNumber()
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the rules.
-     * 
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'property_id.required' => 'You must select a property for this invoice.'
         ];
     }
 }

@@ -76,7 +76,9 @@
 	<section class="section">
 		<div class="container">
 			<ul class="list-unstyled">
-				<li><strong>Property:</strong> {{ $invoice->property->name }}</li>
+				@if ($invoice->property)
+					<li><strong>Property:</strong> {{ $invoice->property->name }}</li>
+				@endif
 			</ul>
 		</div>
 	</section>

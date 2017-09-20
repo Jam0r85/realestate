@@ -15,7 +15,7 @@
 					</a>
 				</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
-				<td>{{ $invoice->property->short_name }}</td>
+				<td>{{ $invoice->property ? $invoice->property->short_name : '-' }}</td>
 				<td>{{ currency($invoice->total) }}</td>
 				<td>
 					@foreach ($invoice->users as $user)

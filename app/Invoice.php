@@ -12,6 +12,15 @@ class Invoice extends BaseModel
     use Searchable;
 
     /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'property_id' => 'integer'
+    ];
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return  array
@@ -28,7 +37,9 @@ class Invoice extends BaseModel
         ];
 
         // Get the property name.
-        $array['property'] = $this->property->name;
+        if ($this->property) {
+            $array['property'] = $this->property->name;
+        }
 
         // Get the recipient of the invoice.
         $array['recipient'] = $this->recipient;

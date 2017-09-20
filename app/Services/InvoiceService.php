@@ -21,7 +21,7 @@ class InvoiceService
 		$invoice = new Invoice();
 		$invoice->key = str_random(30);
 		$invoice->user_id = Auth::user()->id;
-		$invoice->property_id = $data['property_id'];
+		$invoice->property_id = isset($data['property_id']) ? $data['property_id'] : 0;
 		$invoice->due_at = Carbon::now()->addDay(get_setting('invoice_due_after'), 30);
 
 		// Set the default terms if they are missing.

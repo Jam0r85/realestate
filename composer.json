@@ -10,7 +10,6 @@
         "barryvdh/laravel-debugbar": "^2.4",
         "dompdf/dompdf": "^0.8.0",
         "fideloper/proxy": "~3.3",
-        "graham-campbell/exceptions": "^10.0",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.5",

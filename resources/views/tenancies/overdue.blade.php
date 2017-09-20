@@ -30,10 +30,10 @@
 							<td>{{ $tenancy->days_overdue }} {{ str_plural('day', $tenancy->days_overdue) }}</td>
 							<td>
 								<a href="{{ route('tenancies.show', $tenancy->id) }}" title="{{ $tenancy->name }}">
-									{{ $tenancy->name }}
+									{!! truncate($tenancy->name) !!}
 								</a>
 							</td>
-							<td>{{ $tenancy->property->short_name }}</td>
+							<td>{!! truncate($tenancy->property->short_name) !!}</td>
 							<td>{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : 'None' }}</td>
 							<td>
 								<span class="@if ($tenancy->rent_balance < 0) text-danger @endif">

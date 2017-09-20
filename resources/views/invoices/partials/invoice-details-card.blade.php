@@ -4,9 +4,13 @@
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('properties.show', $invoice->property_id) }}" title="{{ $invoice->property->name }}">
-				{{ $invoice->property->name }}
-			</a>
+			@if ($invoice->property)
+				<a href="{{ route('properties.show', $invoice->property_id) }}" title="{{ $invoice->property->name }}">
+					{{ $invoice->property->name }}
+				</a>
+			@else
+				-
+			@endif
 			@slot('title')
 				Property
 			@endslot
