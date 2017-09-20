@@ -2,7 +2,6 @@
 
 function currency($amount = null)
 {
-	return $amount;
 	if (is_null($amount)) {
 		$amount = 0;
 	}
