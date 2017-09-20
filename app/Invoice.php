@@ -184,7 +184,17 @@ class Invoice extends BaseModel
      */
     public function getRecipientAttribute($value)
     {
-        return $value ? decrypt($value) : $value;
+        if ($value) {
+            return decrypt($value);
+        }
+
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                if ($user->home) {
+                    return $user->home->name_formatted;
+                }
+            }
+        }
     }
 
     /**
@@ -245,28 +255,6 @@ class Invoice extends BaseModel
     public function getStatementAttribute()
     {
         return $this->statements()->first();
-    }
-
-    /**
-     * Get the invoice's full recipient including the users and the address.
-     * 
-     * @return string
-     */
-    public function getRecipientFullAttribute()
-    {
-        if ($this->recipient) {
-            return $this->recipient;
-        }
-
-        if (count($this->users)) {
-            foreach ($this->users as $user) {
-                if ($user->home) {
-                    return $user->home->name_formatted;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

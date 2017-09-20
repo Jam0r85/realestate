@@ -13,7 +13,7 @@
 							@if ($invoice->statement)
 								{!! $invoice->statement->recipient !!}
 							@else
-								{!! nl2br($invoice->recipient) !!}
+								{!! $invoice->recipient !!}
 							@endif
 						</p>
 					</td>
