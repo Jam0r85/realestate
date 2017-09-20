@@ -254,7 +254,19 @@ class Invoice extends BaseModel
      */
     public function getRecipientFullAttribute()
     {
-        return $this->recipient;
+        if ($this->recipient) {
+            return $this->recipient;
+        }
+
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                if ($user->home) {
+                    return $user->home->name_formatted;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
