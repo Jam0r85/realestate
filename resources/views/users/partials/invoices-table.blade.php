@@ -15,7 +15,7 @@
 						{{ $invoice->number }}
 					</a>
 				</td>
-				<td>{{ $invoice->property->short_name }}</td>
+				<td>{{ $invoice->property ? $invoice->property->short_name : '-' }}</td>
 				<td>{{ currency($invoice->total) }}</td>
 				<td>{{ currency($invoice->total_balance) }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
