@@ -518,9 +518,8 @@ class Tenancy extends BaseModel
                 }
 
                 // Has the tenant vacated?
-                if ($this->vacated_on) {
-
-
+                if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
+                    $overdue = false;
                 }
             }
         }

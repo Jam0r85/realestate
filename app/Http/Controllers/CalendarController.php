@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Calendar;
 use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
-use App\Repositories\EloquentCalendarsRepository;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
-    /**
-     * @var  App\Repositories\EloquentCalendarsRepository
-     */
-    protected $calendars;
-
     /**
      * Create a new controller instance.
      * 
      * @param   EloquentUsersRepository $users
      * @return  void
      */
-    public function __construct(EloquentCalendarsRepository $calendars)
+    public function __construct()
     {
-         $this->calendars = $calendars;
          $this->middleware('auth');
     }
 
@@ -33,7 +27,7 @@ class CalendarController extends Controller
      */
     public function index()
     {
-        $calendars = $this->calendars->getAllPaged();
+        $calendars = Calendar::paginate();
         return view('calendars.index', compact('calendars'));
     }
 
@@ -68,9 +62,8 @@ class CalendarController extends Controller
      */
     public function show($id, $section = 'show')
     {
-        $calendar = $this->calendars->find($id);
-        $archived_events = $this->calendars->archivedEvents($id);
-        return view('calendars.' . $section, compact('calendar','archived_events'));
+        $calendar = Calendar::findOrFail($id);
+        return view('calendars.' . $section, compact('calendar'));
     }
 
     /**

@@ -5,20 +5,22 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">Calendars</h1>
+			<div class="page-title">
+				<h1>
+					Calendars List
+					<a href="{{ route('calendars.create') }}" class="btn btn-primary" title="New Calendar">
+						<i class="fa fa-user-plus"></i> New Calendar
+					</a>
+				</h1>
+			</div>
 
-			<a href="{{ route('calendars.create') }}" class="button is-primary is-outlined">
-				<span class="icon is-small">
-					<i class="fa fa-plus"></i>
-				</span>
-				<span>
-					New Calendar
-				</span>
-			</a>
+		</div>
+	</section>
 
-			<hr />
+	<section class="section">
+		<div class="container">
 
-			@include('calendars.partials.table', ['calendars' => $calendars])
+			@include('calendars.partials.table')
 
 		</div>
 	</section>

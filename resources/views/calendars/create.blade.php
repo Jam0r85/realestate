@@ -5,9 +5,15 @@
 	<section class="section">
 		<div class="container">
 
-			<h1 class="title">New Calendar</h1>
+			<div class="page-title">
+				<h1>New Calendar</h1>
+			</div>
 
-			<hr />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
 
 			@include('partials.errors-block')
 
@@ -16,14 +22,9 @@
 
 				@include('calendars.partials.form')
 
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Create Calendar
-					</span>
-				</button>
+				@component('partials.bootstrap.save-submit-button')
+					Create Calendar
+				@endcomponent
 
 			</form>
 

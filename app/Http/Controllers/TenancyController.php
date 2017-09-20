@@ -254,6 +254,7 @@ class TenancyController extends BaseController
     {
         $tenancy = Tenancy::findOrFail($id);
         $tenancy->vacated_on = $request->vacated_on;
+        $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
         $tenancy->save();
 
         $this->successMessage('The tenants were recorded as vacating');

@@ -9,7 +9,7 @@ Thanks,<br>
 {{ get_setting('company_name', config('app.name')) }}
 
 @component('mail::subcopy')
-Should you have any questions regarding this rental statement please contact us on 0121 355 0880.
+Please note that this is an automatic e-mail and should you have any questions regarding this e-mail or the attached rental statement please you should contact us on 0121 355 0880.
 @endcomponent
 
 @endcomponent

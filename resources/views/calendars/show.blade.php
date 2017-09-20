@@ -1,23 +1,27 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('calendars.index') }}">Calendars</a></li>
-	<li class="is-active"><a>{{ $calendar->name }}</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $calendar->name }}
-		@endslot
-	@endcomponent
+	<section class="section">
+		<div class="container">
 
-	@component('partials.sections.section')
+			<div class="page-title">
+				<div class="float-right">
+					@include('calendars.partials.dropdown-menu')
+				</div>
+				<h1>{{ $calendar->name }}</h1>
+			</div>
 
-		<div id="calendar"></div>
+		</div>
+	</section>
 
-	@endcomponent
+	<section class="section">
+		<div class="container">
+
+			<div id="calendar"></div>
+
+		</div>
+	</section>
 
 @endsection
 

@@ -1,6 +1,12 @@
-@component('partials.table')
-	@slot('head')
+<table class="table table-striped table-responsive">
+	<thead>
 		<th>Name</th>
-	@endslot
-	@each('calendars.partials.table-row', $calendars, 'calendar')
-@endcomponent
+	</thead>
+	<tbody>
+		@foreach ($calendars as $calendar)
+			<tr>
+				<td><a href="{{ route('calendars.show', $calendar->id) }}">{{ $calendar->name }}</a></td>
+			</tr>
+		@endforeach
+	</tbody>
+</table>
