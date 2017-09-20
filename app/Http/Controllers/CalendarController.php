@@ -7,7 +7,7 @@ use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
 use Illuminate\Http\Request;
 
-class CalendarController extends Controller
+class CalendarController extends BaseController
 {
     /**
      * Create a new controller instance.

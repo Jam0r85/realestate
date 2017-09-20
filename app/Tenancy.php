@@ -78,30 +78,6 @@ class Tenancy extends BaseModel
     protected $dates = ['vacated_on'];
 
     /**
-     * Scope a query to only include tenancies with a rent balance.
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function scopeWithRentBalance($query)
-    {
-        return $query;
-    }
-
-    /**
-     * Scope a query to only include tenancies which are not vacated.
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function scopeWhereNotVacated($query)
-    {
-        return $query
-            ->whereNull('vacated_on')
-            ->orWhere('vacated_on', '>', Carbon::now());
-    }
-
-    /**
      * Scope a query to only include tenancies which are overdue.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -111,7 +87,7 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','current_rent','rent_payments','lastRentPayment','statements','last_statement')
-            ->where('is_overdue', 1);
+            ->where('is_overdue', '1');
     }
 
 	/**

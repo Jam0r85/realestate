@@ -159,7 +159,7 @@ Route::prefix('bank-accounts')->group(function () {
 Route::prefix('user-groups')->group(function () {
 	Route::get('/', 'UserGroupController@index')->name('user-groups.index');
 	Route::post('/', 'UserGroupController@store')->name('user-groups.store');
-	Route::get('{name}', 'UserGroupController@show')->name('user-groups.show'); // We do this name so it looks nicer
+	Route::get('{name}', 'UserGroupController@show')->name('user-groups.show');
 	Route::get('{id}/edit', 'UserGroupController@edit')->name('user-groups.edit');
 	Route::put('{id}', 'UserGroupController@update')->name('user-groups.update');
 });
