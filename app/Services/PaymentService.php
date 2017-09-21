@@ -86,6 +86,10 @@ class PaymentService
 		$payment->key = str_random(30);
 		$payment->fill($data);
 
+		if (isset($data['created_at'])) {
+			$payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
+		}
+
 		$payment = $deposit->payments()->save($payment);
 
 		return $payment;

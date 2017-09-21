@@ -64,6 +64,11 @@
 									{{ csrf_field() }}
 
 									<div class="form-group">
+										<label for="created_at">Date</label>
+										<input type="date" name="created_at" class="form-control">
+									</div>
+
+									<div class="form-group">
 										<label for="amount">Amount</label>
 										<input type="number" step="any" name="amount" class="form-control">
 									</div>

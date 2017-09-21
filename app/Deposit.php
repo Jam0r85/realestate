@@ -47,7 +47,8 @@ class Deposit extends Model
      */
     public function payments()
     {
-    	return $this->morphMany('App\Payment', 'parent');
+    	return $this->morphMany('App\Payment', 'parent')
+            ->latest();
     }
 
     /**
