@@ -6,6 +6,7 @@ use App\Calendar;
 use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends BaseController
 {
@@ -49,8 +50,13 @@ class CalendarController extends BaseController
      */
     public function store(StoreCalendarRequest $request)
     {
-        $data = $request->except('_token');        
-        $calendar = $this->calendars->create($data);
+        $calendar = new Calendar();
+        $calendar->user_id = Auth::user()->id;
+        $calendar->fill($request->input());
+        $calendar->save();
+
+        $this->successMessage('The calendar ' . $calendar->name . ' was created');
+
         return back();
     }
 

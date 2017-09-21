@@ -73,9 +73,7 @@
 				   	data: { calendar_id: '{{ $calendar->id }}', start: start, end: end },
 				    url: '{{ route('events.create') }}',
 				    success: function(data) {
-	                    $('.modal').addClass('is-active');
-	                    $('html').addClass('is-clipped');
-				        $('#modal-content').html(data);
+				        $('#modal-container').html(data);
 				    },
 				    error: function(data) {
 				    	alert('Error accessing the Event Controller');

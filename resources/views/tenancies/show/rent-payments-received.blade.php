@@ -58,7 +58,7 @@
 				</tbody>
 			</table>
 
-			@include('partials.pagination', ['collection' => $tenancy->statements()->paginate()])
+			@include('partials.pagination', ['collection' => $tenancy->rent_payments()->paginate()])
 
 		</div>
 	</section>

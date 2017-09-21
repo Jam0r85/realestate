@@ -221,13 +221,7 @@
 
     </div>
 
-    <div id="modal-container">
-        <div class="modal">
-            <div class="modal-background"></div>
-            <div id="modal-content"></div>
-            <button class="modal-close is-large"></button>
-        </div>
-    </div>
+    <div id="modal-container"></div>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
