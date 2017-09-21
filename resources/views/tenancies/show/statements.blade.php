@@ -5,16 +5,21 @@
 	<section class="section">
 		<div class="container">
 
-			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+			<div class="page-title">
+				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
+					Return
+				</a>
+				<h1>{{ $tenancy->name }}</h1>
+				<h3>Statements created for this tenancy.</h3>
+			</div>
 
-			<h1 class="title">{{ $tenancy->name }}</h1>
-			<h2 class="subtitle">Statements list</h2>
+		</div>
+	</section>
 
-			<hr />
+	<section class="section">
+		<div class="container">
 
-			<table class="table is-striped is-fullwidth">
+			<table class="table table-striped table-responsive">
 				<thead>
 					<th>Date</th>
 					<th>Start</th>
