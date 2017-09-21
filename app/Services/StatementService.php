@@ -67,6 +67,9 @@ class StatementService
         // Create the service charge invoice should we need to.
         $this->createAutomaticServiceChargeInvoice($statement->id, $tenancy->id);
 
+        // Set the tenancy overdue status.
+        $tenancy->setOverdue();
+
         return $statement;
     }
 
