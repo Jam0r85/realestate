@@ -12,8 +12,8 @@
 				<h1>
 					{{ $title }}
 					@if (isset($deposit_balance))
-						<span class="badge badge-primary">
-							{{ currency($deposit_balance) }} held
+						<span class="badge badge-success">
+							{{ currency($deposit_balance) }}
 						</span>
 					@endif
 				</h1>
