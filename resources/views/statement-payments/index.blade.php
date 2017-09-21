@@ -15,19 +15,25 @@
 	@if (count($unsent_payments)  && $payments->currentPage() == 1)
 		<section class="section">
 			<div class="container">
-				<div class="page-title">
-					<h3 class="text-danger">
-						<a href="{{ route('statement-payments.print') }}" target="_blank" class="btn btn-secondary float-right">
-							<i class="fa fa-print"></i> Print
-						</a>
-						Unsent Payments
-					</h3>
-				</div>
-				<div class="row">
-					<div class="col">
 
-						<form role="form" method="POST" action="{{ route('statement-payments.mark-sent') }}">
-							{{ csrf_field() }}
+				<form role="form" method="POST" action="{{ route('statement-payments.mark-sent') }}">
+					{{ csrf_field() }}
+
+					<div class="page-title">
+						<h3 class="text-danger">
+							<div class="float-right">
+								<a href="{{ route('statement-payments.print') }}" target="_blank" class="btn btn-secondary">
+									<i class="fa fa-print"></i> Print
+								</a>
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-check"></i> Mark as Sent
+								</button>
+							</div>
+							Unsent Payments
+						</h3>
+					</div>
+					<div class="row">
+						<div class="col">
 
 							@include('partials.errors-block')
 
@@ -43,14 +49,11 @@
 
 							@endforeach
 
-							<button type="submit" class="btn btn-primary">
-								<i class="fa fa-check"></i> Mark as Sent
-							</button>
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+
+				</form>
+
 			</div>
 		</section>
 	@endif
