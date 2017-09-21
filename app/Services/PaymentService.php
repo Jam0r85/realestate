@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Deposit;
 use App\Invoice;
 use App\Payment;
 use App\Tenancy;
@@ -65,6 +66,27 @@ class PaymentService
 
 		// Attach the tenants as the payment users.
 		$payment->users()->attach($tenancy->tenants);
+
+		return $payment;
+	}
+
+	/**
+	 * Record a payment for a deposit.
+	 * 
+	 * @param array $data
+	 * @param integer $id
+	 * @return \App\Payment
+	 */
+	public function createDepositPayment(array $data, $id)
+	{
+		$deposit = Deposit::findOrFail($id);
+
+		// Build the payment.
+		$payment = new Payment();
+		$payment->key = str_random(30);
+		$payment->fill($data);
+
+		$payment = $deposit->payments()->save($payment);
 
 		return $payment;
 	}

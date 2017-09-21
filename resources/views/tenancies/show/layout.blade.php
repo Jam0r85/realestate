@@ -41,7 +41,16 @@
 				<div class="col">
 
 					@include('tenancies.partials.tenancy-details-card')
-					@include('tenancies.partials.rent-info-card')
+
+					<div class="row">
+						<div class="col">
+							@include('tenancies.partials.rent-info-card')
+						</div>
+						<div class="col">
+							@include('tenancies.partials.deposit-info-card')
+						</div>
+					</div>
+
 					@include('tenancies.partials.service-card')
 					@include('tenancies.partials.agreement-card')
 

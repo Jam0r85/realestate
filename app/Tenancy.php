@@ -247,6 +247,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy can have a single deposit.
+     */
+    public function deposit()
+    {
+        return $this->hasOne('App\Deposit');
+    }
+
+    /**
      * Get the tenancy's name.
      * 
      * @return string

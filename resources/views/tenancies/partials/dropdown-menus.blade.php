@@ -9,6 +9,9 @@
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-rent-amount']) }}" title="Record New Rent Amount">
 			Record New Rent Amount
 		</a>
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-deposit']) }}" title="Manage Deposit">
+			{{ $tenancy->deposit ? 'Manage Deposit' : 'Record Deposit' }}
+		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-tenants']) }}" title="Manage Tenants">
 			Manage Tenants
 		</a>

@@ -1,4 +1,4 @@
-<?php
+\<?php
 
 /*
 |--------------------------------------------------------------------------
@@ -200,4 +200,10 @@ Route::prefix('gas-safe')->group(function () {
 	Route::get('{id}/{section?}', 'GasController@show')->name('gas-safe.show');
 	Route::put('{id}', 'GasController@update')->name('gas-safe.update');
 	Route::delete('{id}', 'GasController@destroy')->name('gas-safe.destroy');
+});
+
+Route::prefix('deopsit')->group(function () {
+	Route::post('/', 'DepositController@store')->name('deposit.store');
+	Route::put('{id}', 'DepositController@update')->name('deposit.update');
+	Route::post('{id}/record-payment', 'DepositController@createDepositPayment')->name('deposit.record-payment');
 });
