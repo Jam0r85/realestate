@@ -25,6 +25,12 @@
 					@endif
 				@endslot
 			@endcomponent
+			@component('partials.bootstrap.list-group-item')
+				{{ $tenancy->deposit->unique_id }}
+				@slot('title')
+					ID
+				@endslot
+			@endcomponent
 		</ul>
 	@endif
 </div>

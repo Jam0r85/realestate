@@ -2,10 +2,27 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
-class Deposit extends Model
+class Deposit extends BaseModel
 {
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('amount','unique_id');
+
+        $array['tenancy'] = $this->tenancy->name;
+        $array['property'] = $this->tenancy->property->name;
+
+        return $array;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,7 +31,7 @@ class Deposit extends Model
 	protected $fillable = [
 		'tenancy_id',
 		'amount',
-        'uniqud_id'
+        'unique_id'
 	];
 
 	/**

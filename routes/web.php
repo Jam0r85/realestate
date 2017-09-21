@@ -203,6 +203,8 @@ Route::prefix('gas-safe')->group(function () {
 });
 
 Route::prefix('deopsit')->group(function () {
+	Route::get('/', 'DepositController@index')->name('deposit.index');
+	Route::post('/search', 'DepositController@search')->name('deposit.search');
 	Route::post('/', 'DepositController@store')->name('deposit.store');
 	Route::put('{id}', 'DepositController@update')->name('deposit.update');
 	Route::post('{id}/record-payment', 'DepositController@createDepositPayment')->name('deposit.record-payment');

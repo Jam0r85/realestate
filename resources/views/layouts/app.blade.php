@@ -109,7 +109,10 @@
                                     Tenancies List
                                 </a>
                                 <a class="dropdown-item" href="{{ route('tenancies.overdue') }}" title="Overdue Tenancies List">
-                                    Overdue Tenancies List
+                                    Overdue Tenancies
+                                </a>
+                                <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
+                                    Deposits List
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Rent Payments</h6>
