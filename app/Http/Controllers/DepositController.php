@@ -8,6 +8,7 @@ use App\Http\Requests\StoreDepositRequest;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class DepositController extends BaseController
 {
@@ -23,6 +24,28 @@ class DepositController extends BaseController
         $title = 'Deposits List';
 
         return view('deposits.index', compact('title','deposits','deposit_balance'));
+    }
+
+    /**
+     * Search through the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('deposit_search_term');
+            return redirect()->route('deposit.index');
+        }
+
+        Session::put('deposit_search_term', $request->search_term);
+
+        $deposits = Deposit::search(Session::get('deposit_search_term'))->get();
+        $title = 'Search Results';
+
+        return view('deposits.index', compact('deposits', 'title'));
     }
 
     /**
