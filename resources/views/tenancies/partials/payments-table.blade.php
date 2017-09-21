@@ -32,5 +32,3 @@
 		@endforeach
 	</tbody>
 </table>
-
-@include('partials.pagination', ['collection' => $tenancies])
