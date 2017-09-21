@@ -37,7 +37,9 @@ class StatementController extends BaseController
         $unsent_statements->load('tenancy','tenancy.property','tenancy.tenants','users');
         $statements->load('tenancy','tenancy.property','tenancy.tenants');
 
-        return view('statements.index', compact('statements','unsent_statements'));
+        $title = 'Statements List';
+
+        return view('statements.index', compact('statements','unsent_statements','title'));
     }
 
     /**
