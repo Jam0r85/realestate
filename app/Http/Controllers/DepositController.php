@@ -18,10 +18,11 @@ class DepositController extends BaseController
      */
     public function index()
     {
-        $deposits = Deposit::latest()->paginate();
+        $deposits = Deposit::with('payments','owner')->latest()->paginate();
+        $deposit_balance = Deposit::all()->sum('balance');
         $title = 'Deposits List';
 
-        return view('deposits.index', compact('title','deposits'));
+        return view('deposits.index', compact('title','deposits','deposit_balance'));
     }
 
     /**

@@ -6,8 +6,16 @@
 		<div class="container">
 
 			<div class="page-title">
+				<div class="float-right">
+
+				</div>
 				<h1>
 					{{ $title }}
+					@if (isset($deposit_balance))
+						<span class="badge badge-primary">
+							{{ currency($deposit_balance) }} held
+						</span>
+					@endif
 				</h1>
 			</div>
 			
