@@ -19,6 +19,11 @@
 				@slot('title')
 					Balance
 				@endslot
+				@slot('style')
+					@if ($tenancy->deposit->amount == $tenancy->deposit->balance)
+						list-group-item-success
+					@endif
+				@endslot
 			@endcomponent
 		</ul>
 	@endif
