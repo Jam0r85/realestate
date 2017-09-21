@@ -18,6 +18,18 @@
 	<section class="section">
 		<div class="container">
 
+			@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
+				<div class="alert alert-danger">
+					The tenants are <b>vacating</b> this property on {{ date_formatted($tenancy->vacated_on) }}
+				</div>
+			@endif
+
+			@if ($tenancy->vacated_on && $tenancy->vacated_on <= \Carbon\Carbon::now())
+				<div class="alert alert-danger">
+					The tenants <b>vacated</b> this property on {{ date_formatted($tenancy->vacated_on) }}
+				</div>
+			@endif
+
 			<div class="row">
 				<div class="col col-5">
 

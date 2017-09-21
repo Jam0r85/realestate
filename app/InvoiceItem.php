@@ -50,9 +50,11 @@ class InvoiceItem extends BaseModel
     {
         if (!$this->taxRate) {
             $amount = 0;
+        } else {
+            $amount = $this->taxRate->amount;
         }
 
-        $amount = ($this->taxRate->amount / 100) * $this->total_net;
+        $amount = ($amount / 100) * $this->total_net;
 
         return number_format($amount, 2);
     }

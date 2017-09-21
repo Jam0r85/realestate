@@ -42,8 +42,8 @@ Route::prefix('invoices')->group(function () {
 	Route::post('/', 'InvoiceController@store')->name('invoices.store');	
 	Route::post('search', 'InvoiceController@search')->name('invoices.search');
 	Route::post('{id}/create-item', 'InvoiceController@createItem')->name('invoices.create-item');
-	Route::get('{item_id}/edit-item', 'InvoiceItemController@edit')->name('invoices.edit-item');
-	Route::put('{item_id}/update-item', 'InvoiceItemController@update')->name('invoices.update-item');
+	Route::get('{id}/edit-item', 'InvoiceItemController@edit')->name('invoices.edit-item'); // Item ID
+	Route::put('{id}/update-item', 'InvoiceItemController@update')->name('invoices.update-item'); // Item ID
 	Route::post('{id}/create-payment', 'InvoiceController@createPayment')->name('invoices.create-payment');
 	Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 	Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
