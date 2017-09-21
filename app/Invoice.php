@@ -184,8 +184,18 @@ class Invoice extends BaseModel
      */
     public function getRecipientAttribute($value)
     {
-        if ($value) {
-            return decrypt($value);
+        return $value ? decrypt($value) : null;
+    }
+
+    /**
+     * Get the invoice recipient formatted.
+     * 
+     * @return string
+     */
+    public function getRecipientFormattedAttribute()
+    {
+        if ($this->recipient) {
+            return nl2br($this->recipient);
         }
 
         if (count($this->users)) {
