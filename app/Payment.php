@@ -23,13 +23,17 @@ class Payment extends BaseModel
         // Get the tenancy details.
         if ($this->parent_type == 'tenancies') {
             $array['tenancy'] = $this->parent->name;
-            $array['property'] = $this->parent->property->name;
+            if ($this->parent->property) {
+                $array['property'] = $this->parent->property->name;
+            }
         }
 
         // Get the invoice details.
         if ($this->parent_type == 'invoices') {
             $array['invoice_number'] = $this->parent->number;
-            $array['property'] = $this->parent->property->name;
+            if ($this->parent->property) {
+                $array['property'] = $this->parent->property->name;
+            }
         }
 
         // Get the users.
