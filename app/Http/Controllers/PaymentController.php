@@ -77,7 +77,9 @@ class PaymentController extends BaseController
     public function update(UpdatePaymentRequest $request, $id)
     {
         $payment = Payment::findOrFail($id);
-        $payment->fill($request->input());
+        $payment->created_at = $request->created_at;
+        $payment->amount = $request->amount;
+        $payment->payment_method_id = $request->payment_method_id;
         $payment->save();
 
         $this->successMessage('The payment was updated');
