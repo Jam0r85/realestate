@@ -71,7 +71,7 @@ class Invoice extends BaseModel
         'total_tax',
         'total_payments',
         'total_balance',
-        'recipient_full'
+        'recipient_formatted'
     ];
     
     /**
