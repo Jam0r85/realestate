@@ -6,6 +6,7 @@
 		<th>Balance</th>
 		<th>Date</th>
 		<th>Status</th>
+		<th><i class="fa fa-download"></i></th>
 	</thead>
 	<tbody>
 		@foreach ($user->invoices()->limit(15)->get() as $invoice)
@@ -20,6 +21,11 @@
 				<td>{{ currency($invoice->total_balance) }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td></td>
+				<td>
+					<a href="{{ route('downloads.invoice', $invoice->id) }}" title="Download invoice">
+						Download
+					</a>
+				</td>
 			</tr>
 		@endforeach
 	</tbody>
