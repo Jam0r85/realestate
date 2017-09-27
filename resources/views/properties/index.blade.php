@@ -13,35 +13,27 @@
 					</a>
 				</h1>
 			</div>
-			<div class="page-search">
-				<form role="form" method="POST" action="{{ route('properties.search') }}">
-					{{ csrf_field() }}
-					<div class="form-group">
-						<div class="input-group">
-							{{-- Clear Search Button --}}
-							@if (session('properties_search_term'))
-								<span class="input-group-btn">
-									<button type="submit" class="btn btn-danger" name="clear_search" value="true">
-										<i class="fa fa-trash"></i> Clear
-									</button>
-								</span>
-							@endif
-							<input type="text" name="search_term" class="form-control" placeholder="Search for..." value="{{ session('properties_search_term') }}" />
-							<span class="input-group-btn">
-								<button type="submit" class="btn btn-secondary">
-									<i class="fa fa-search"></i> Search
-								</button>
-							</span>
-						</div>
-					</div>
-				</form>
-			</div>
 
-			<div class="row">
-				<div class="col">
-					@include('properties.partials.table')
-				</div>
-			</div>
+			{{-- Properties Search --}}
+			@component('partials.bootstrap.page-search')
+				@slot('route')
+					{{ route('properties.search') }}
+				@endslot
+				@if (session('properties_search_term'))
+					@slot('search_term')
+						{{ session('properties_search_term') }}
+					@endslot
+				@endif
+			@endcomponent
+			{{-- End of Properties Search --}}
+
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+
+			@include('properties.partials.table')
 
 		</div>
 	</section>
