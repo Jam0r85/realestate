@@ -23,6 +23,7 @@
 					<th>Rent</th>
 					<th>Balance</th>
 					<th>Last Payment</th>
+					<th>Last Reminder</th>
 				</thead>
 				<tbody>
 					@foreach ($tenancies as $tenancy)
@@ -41,6 +42,7 @@
 								</span>
 							</td>
 							<td>{{ $tenancy->lastRentPayment ? date_formatted($tenancy->lastRentPayment->created_at) : 'Never' }}</td>
+							<td></td>
 						</tr>
 					@endforeach
 				</tbody>
