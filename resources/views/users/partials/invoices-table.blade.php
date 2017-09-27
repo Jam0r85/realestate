@@ -22,7 +22,7 @@
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td></td>
 				<td>
-					<a href="{{ route('downloads.invoice', $invoice->id) }}" title="Download invoice">
+					<a href="{{ route('downloads.invoice', $invoice->id) }}" title="Download invoice" target="_blank">
 						Download
 					</a>
 				</td>
