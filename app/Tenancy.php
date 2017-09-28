@@ -47,7 +47,7 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $with = [];
+    protected $with = ['tenants'];
 
     /**
      * The attributes that should be cast to native types.
