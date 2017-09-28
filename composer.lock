@@ -1244,16 +1244,16 @@
         },
         {
             "name": "laravel/horizon",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "df65f5b3f5119cc5f0a6bfbd501f83580efd0842"
+                "reference": "ace7b035708db2c87b6661ab33d154421509c0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/df65f5b3f5119cc5f0a6bfbd501f83580efd0842",
-                "reference": "df65f5b3f5119cc5f0a6bfbd501f83580efd0842",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/ace7b035708db2c87b6661ab33d154421509c0dd",
+                "reference": "ace7b035708db2c87b6661ab33d154421509c0dd",
                 "shasum": ""
             },
             "require": {
@@ -1308,7 +1308,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2017-09-12T12:50:19+00:00"
+            "time": "2017-09-19T13:13:40+00:00"
         },
         {
             "name": "laravel/scout",
@@ -2094,16 +2094,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.10",
+            "version": "v2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d"
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/634bae8e911eefa89c1abfbf1b66da679ac8f54d",
-                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
                 "shasum": ""
             },
             "require": {
@@ -2138,7 +2138,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-13T16:27:32+00:00"
+            "time": "2017-09-27T21:40:39+00:00"
         },
         {
             "name": "phenx/php-font-lib",

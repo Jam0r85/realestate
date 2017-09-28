@@ -35,7 +35,7 @@
 
 								<div class="form-group">
 									<label for="created_at">Date Created</label>
-									<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" />
+									<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" required />
 									<small class="form-text text-muted">
 										The date of the statement when it was originally created.
 									</small>
@@ -43,7 +43,7 @@
 
 								<div class="form-group">
 									<label for="period_start">Date Start</label>
-									<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" />
+									<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" required />
 									<small class="form-text text-muted">
 										The start date of the statement.
 									</small>
@@ -51,7 +51,7 @@
 
 								<div class="form-group">
 									<label for="period_end">Date End</label>
-									<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" />
+									<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" required />
 									<small class="form-text text-muted">
 										The end date of the statement.
 									</small>
@@ -59,7 +59,7 @@
 
 								<div class="form-group">
 									<label for="amount">Amount</label>
-									<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" />
+									<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" required />
 									<small class="form-text text-muted">
 										Enter the rent amount of the statement.
 									</small>
