@@ -43,6 +43,13 @@ class Deposit extends BaseModel
         'balance'
     ];
 
+    /**
+     * The relations that should be eager leader.
+     * 
+     * @var array
+     */
+    protected $with = ['payments'];
+
 	/**
 	 * A deposit was recorded by an owner.
 	 */
