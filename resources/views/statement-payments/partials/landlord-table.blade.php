@@ -14,7 +14,7 @@
 				<td>{{ $payment->method_formatted }}</td>
 				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
-					<input type="checkbox" name="payments[]" value="{{ $payment->id }}" />
+					@include('statement-payments.partials.payment-checkbox')
 				</td>
 			</tr>
 		@endforeach
