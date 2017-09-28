@@ -19,7 +19,7 @@ class DepositController extends BaseController
      */
     public function index()
     {
-        $deposits = Deposit::with('payments','owner')->latest()->paginate();
+        $deposits = Deposit::with('payments','owner','tenancy')->latest()->paginate();
         $deposit_balance = Deposit::all()->sum('balance');
         $title = 'Deposits List';
 
