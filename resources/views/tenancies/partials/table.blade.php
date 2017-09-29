@@ -5,7 +5,7 @@
 		<th>Rent</th>
 		<th>Balance</th>
 		<th>Service</th>
-		<th></th>
+		<th>Status</th>
 	@endslot
 	@foreach ($tenancies as $tenancy)
 		<tr>
@@ -16,12 +16,12 @@
 			<td>{{ $tenancy->service->name }}</td>
 			<td>
 				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on <= \Carbon\Carbon::now()))
-					<span class="tag is-danger">
+					<span class="text-danger">
 						Vacated
 					</span>
 				@endif
 				@if (!is_null($tenancy->vacated_on) && ($tenancy->vacated_on > \Carbon\Carbon::now()))
-					<span class="tag is-warning">
+					<span class="text-warning">
 						Vacating
 					</span>
 				@endif
