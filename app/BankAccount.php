@@ -67,7 +67,8 @@ class BankAccount extends BaseModel
      */
     public function properties()
     {
-        return $this->hasMany('App\Property');
+        return $this->hasMany('App\Property')
+            ->withTrashed();
     }
 
     /**

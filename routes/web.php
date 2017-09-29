@@ -69,6 +69,7 @@ Route::prefix('properties')->group(function () {
 	Route::post('{id}/update-owners', 'PropertyController@updateOwners')->name('properties.update-owners');
 	Route::put('{id}', 'PropertyController@update')->name('properties.update');
 	Route::post('{id}/update-statement-settings', 'PropertyController@updateStatementSettings')->name('properties.update-statement-settings');
+	Route::delete('{id}', 'PropertyController@archive')->name('properties.archive');
 });
 
 Route::prefix('expenses')->group(function () {

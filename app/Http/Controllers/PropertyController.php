@@ -86,7 +86,7 @@ class PropertyController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $property = Property::findOrFail($id);
+        $property = Property::withTrashed()->findOrFail($id);
         return view('properties.show.' . $section, compact('property'));
     }
 
@@ -142,6 +142,23 @@ class PropertyController extends BaseController
         $service->updateOwners($request->input(), $id);
 
         $this->successMessage('The owners were updated');
+
+        return back();
+    }
+
+    /**
+     * Archive a property.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function archive(Request $request, $id)
+    {
+        $property = Property::findOrFail($id);
+        $property->delete();
+
+        $this->successMessage('The property was archived');
 
         return back();
     }
