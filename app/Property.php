@@ -22,6 +22,15 @@ class Property extends BaseModel
     	return $array;
     }
 
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+    	'data' => 'json'
+   ];
+
 	/**
 	 * The attrbites that should be included in the collection.
 	 * 

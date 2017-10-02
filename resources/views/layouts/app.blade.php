@@ -20,7 +20,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
 
-            <a class="navbar-brand" href="{{ route('home') }}">
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
                 {{ get_setting('company_name', config('app.name', 'Laravel')) }}
             </a>
 
@@ -207,16 +207,10 @@
                 </ul>
             </div>
         </nav>
-            
-        @include('flash::message')
 
-        {{-- Show a warning if no branches have been created --}}
-        @if (!count(branches()))
-            <div class="alert alert-danger">
-                <b>No branches have been registered with this application.</b>
-                <br />Please register a branch in the <a href="{{ route('settings.branches') }}">Settings</a>.
-            </div>
-        @endif
+        <div class="container">            
+            @include('flash::message')
+        </div>
 
         <div class="mb-5">
             @yield('content')

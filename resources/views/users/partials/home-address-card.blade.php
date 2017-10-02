@@ -1,5 +1,5 @@
-<div class="card text-white @if ($user->home) bg-success @else bg-danger @endif mb-3">
-	<div class="card-header">
+<div class="card mb-3">
+	<div class="card-header @if ($user->home) bg-success @else bg-danger @endif text-white">
 		<i class="fa fa-home"></i> Home Address
 	</div>
 	<div class="card-body">

@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class Gas extends Model
+class Gas extends BaseModel
 {
     use Searchable;
 
