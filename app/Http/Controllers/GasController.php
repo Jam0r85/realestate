@@ -6,6 +6,7 @@ use App\Gas;
 use App\Http\Requests\StoreGasSafeReminderRequest;
 use App\Services\GasService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class GasController extends BaseController
 {
