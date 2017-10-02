@@ -56,7 +56,7 @@ class Gas extends Model
 	 */
     public function scopeExpireDate($query)
     {
-    	return $query->orderBy('expires_on', 'desc');
+    	return $query->orderBy('expires_on', 'asc');
     }
 
     /**
