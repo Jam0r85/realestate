@@ -196,6 +196,7 @@ Route::post('settings', 'SettingController@updateGeneral')->name('settings.updat
 
 Route::prefix('gas-safe')->group(function () {
 	Route::get('/', 'GasController@index')->name('gas-safe.index');
+	Route::post('/', 'GasController@search')->name('gas-safe.search');
 	Route::get('create', 'GasController@create')->name('gas-safe.create');
 	Route::post('/', 'GasController@store')->name('gas-safe.store');
 	Route::get('{id}/{section?}', 'GasController@show')->name('gas-safe.show');

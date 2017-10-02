@@ -14,6 +14,19 @@
 				</h1>
 			</div>
 
+			{{-- Users Search --}}
+			@component('partials.bootstrap.page-search')
+				@slot('route')
+					{{ route('gas-safe.search') }}
+				@endslot
+				@if (session('gas_search_term'))
+					@slot('search_term')
+						{{ session('gas_search_term') }}
+					@endslot
+				@endif
+			@endcomponent
+			{{-- End of Users Search --}}
+
 		</div>
 	</section>
 

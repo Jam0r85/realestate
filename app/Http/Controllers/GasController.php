@@ -34,6 +34,28 @@ class GasController extends BaseController
     }
 
     /**
+     * Search through the resource.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('gas_search_term');
+            return redirect()->route('gas-safe.index');
+        }
+
+        Session::put('gas_search_term', $request->search_term);
+
+        $reminders = Gas::search(Session::get('gas_search_term'))->get();
+        $title = 'Search Results';
+
+        return view('gas-safe.index', compact('reminders', 'title'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
