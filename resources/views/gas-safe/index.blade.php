@@ -64,6 +64,8 @@
 				</tbody>
 			</table>
 
+			@include('partials.pagination', ['collection' => $reminders])
+
 		</div>
 	</section>
 

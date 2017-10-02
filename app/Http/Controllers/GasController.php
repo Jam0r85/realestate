@@ -29,6 +29,7 @@ class GasController extends BaseController
     public function index()
     {
         $reminders = Gas::expireDate()->paginate();
+        $reminders->load('contractors','property');
         $title = 'Gas Safe Reminders';
 
         return view('gas-safe.index', compact('reminders','title'));
