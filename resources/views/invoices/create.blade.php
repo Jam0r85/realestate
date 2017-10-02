@@ -44,7 +44,7 @@
 
 				<div class="form-group">
 					<label for="number">Overwrite Invoice Number</label>
-					<input type="number" name="number" class="form-control" />
+					<input type="text" name="number" class="form-control" />
 				</div>
 
 				<div class="form-group">

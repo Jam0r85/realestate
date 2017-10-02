@@ -35,7 +35,7 @@
 
 				<div class="form-group">
 					<label for="number">Number</label>
-					<input type="number" class="form-control" name="number" value="{{ $invoice->number }}" />
+					<input type="text" class="form-control" name="number" value="{{ $invoice->number }}" />
 				</div>
 
 				<div class="form-group">
