@@ -37,7 +37,7 @@ class PaymentService
 		$invoice->fresh();
 		
 		if (is_null($invoice->paid_at) && $invoice->total_balance <= 0) {
-			$invoice->paid_at = Carbon::now();
+			$invoice->paid_at = $payment->created_at;
 			$invoice->save();
 		}
 

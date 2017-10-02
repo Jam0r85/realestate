@@ -114,7 +114,11 @@ class InvoiceController extends BaseController
     public function update(UpdateInvoiceRequest $request, $id)
     {
         $invoice = Invoice::findOrFail($id);
-        $invoice->fill($request->input());
+        $invoice->created_at = $request->created_at;
+        $invoice->due_at = $request->due_at;
+        $invoice->number = $request->number;
+        $invoice->recipient = $request->recipient;
+        $invoice->terms = $request->terms;
         $invoice->save();
 
         $invoice->users()->sync($request->input('users'));
