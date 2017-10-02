@@ -6,6 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gas extends Model
 {
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('expires_on');
+        $array['property'] = $this->property->name;
+        $array['contractor'] = $this->contractors->pluck('name','email');
+
+        return $array;
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
