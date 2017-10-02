@@ -6,7 +6,7 @@
 		<div class="container">
 
 			<div class="page-title">
-				<a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-primary float-right">
+				<a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-secondary float-right">
 					Return
 				</a>	
 				<h1>Invoice #{{ $invoice->number }}</h1>
@@ -50,7 +50,7 @@
 								@endslot
 							@endcomponent
 							@component('partials.bootstrap.list-group-item')
-								{{ currency($invoice->balance_total) }}
+								{{ currency($invoice->total_balance) }}
 								@slot('title')
 									Balance Remaining
 								@endslot

@@ -239,7 +239,8 @@ class Invoice extends BaseModel
     }
 
     /**
-     * Get the invoice's total payments amount.
+     * Get the invoice's total payments amount by combining the
+     * statement payments and direct payments.
      * 
      * @return integer
      */
