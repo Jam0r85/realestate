@@ -18,7 +18,8 @@ class Gas extends Model
     {
         $array = $this->only('expires_on');
         $array['property'] = $this->property->name;
-        $array['contractor'] = $this->contractors->pluck('name','email');
+        $array['contractor_name'] = $this->contractors->pluck('name');
+        $array['contractor_email'] = $this->contractors->pluck('email');
 
         return $array;
     }
