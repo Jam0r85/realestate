@@ -26,6 +26,10 @@ class PaymentService
 		$payment->amount = $data['amount'];
 		$payment->payment_method_id = $data['payment_method_id'];
 
+		if (isset($data['created_at'])) {
+			$payment->created_at = $data['created_at'];
+		}
+
 		$payment = $invoice->payments()->save($payment);
 
 		$payment->users()->attach($invoice->users);
