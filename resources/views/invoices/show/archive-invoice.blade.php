@@ -85,7 +85,7 @@
 
 						<div class="form-group">
 							<label for="confirmation">Enter the ID of this invoice to confirm that you wish to destroy it.</label>
-							<input type="number" class="form-control" name="confirmation">
+							<input type="number" class="form-control" name="confirmation" required>
 						</div>
 
 						<button type="submit" class="btn btn-danger">
