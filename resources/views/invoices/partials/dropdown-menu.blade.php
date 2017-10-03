@@ -24,7 +24,7 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoiceActionsDropdown">
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'archive-invoice']) }}">
-			Archive Invoice
+			{{ $invoice->trashed() ? 'Restore' : 'Archive' }} or Delete Invoice
 		</a>
 	</div>
 </div>

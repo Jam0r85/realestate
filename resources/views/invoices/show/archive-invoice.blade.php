@@ -21,7 +21,29 @@
 
 			@include('partials.errors-block')
 
-			@if (!$invoice->trashed())
+			@if ($invoice->trashed())
+
+				<div class="card mb-3">
+					<div class="card-body">
+						<h4 class="card-title">
+							Restore Invoice
+						</h4>
+						<p class="card-text">
+							You can restore this invoice and bring it back to life.
+						</p>
+
+						<form role="form" method="POST" action="{{ route('invoices.restore', $invoice->id) }}">
+							{{ csrf_field() }}
+
+							<button type="submit" class="btn btn-secondary">
+								<i class="fa fa-save"></i> Restore Invoice
+							</button>
+
+						</form>
+					</div>
+				</div>
+
+			@else
 
 				<div class="card mb-3">
 					<div class="card-body">

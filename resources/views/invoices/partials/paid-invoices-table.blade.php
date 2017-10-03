@@ -11,7 +11,7 @@
 			<tr>
 				<td>
 					<a href="{{ route('invoices.show', $invoice->id) }}" title="{{ $invoice->number }}">
-						{{ $invoice->number }}
+						{{ $invoice->name }}
 					</a>
 				</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>

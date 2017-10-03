@@ -41,6 +41,7 @@ Route::prefix('invoices')->group(function () {
 	Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 	Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
 	Route::post('{id}/archive', 'InvoiceController@archive')->name('invoices.archive');
+	Route::post('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
 	Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
 });
 

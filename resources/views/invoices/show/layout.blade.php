@@ -9,7 +9,7 @@
 				<div class="float-right">
 					@include('invoices.partials.dropdown-menu')
 				</div>
-				<h1>Invoice #{{ $invoice->number }}</h1>
+				<h1>Invoice {{ $invoice->name }}</h1>
 			</div>
 
 		</div>

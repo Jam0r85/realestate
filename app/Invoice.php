@@ -168,6 +168,16 @@ class Invoice extends BaseModel
     }
 
     /**
+     * Get the name of this invoice.
+     * 
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return str_replace('{{number}}', $this->number, $this->invoiceGroup->format);
+    }
+
+    /**
      * Set the invoice's recipient.
      * 
      * @param string $value
