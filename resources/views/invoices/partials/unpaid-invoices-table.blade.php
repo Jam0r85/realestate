@@ -16,7 +16,7 @@
 					</a>
 				</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
-				<td>{{ $invoice->property ? truncate($invoice->property->short_name) : '-' }}</td>
+				<td>{!! $invoice->property ? truncate($invoice->property->short_name) : '-' !!}</td>
 				<td>{{ currency($invoice->total) }}</td>
 				<td>{{ count($invoice->items) ? currency($invoice->total_balance) : 'n/a' }}</td>
 				<td>
