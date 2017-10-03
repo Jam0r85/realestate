@@ -12,15 +12,6 @@ class Invoice extends BaseModel
     use Searchable;
 
     /**
-     * The attributes that should be cast to native types.
-     * 
-     * @var array
-     */
-    protected $casts = [
-        'property_id' => 'integer'
-    ];
-
-    /**
      * Get the indexable data array for the model.
      *
      * @return  array
@@ -59,6 +50,15 @@ class Invoice extends BaseModel
 
         return $array;
     }
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'property_id' => 'integer'
+    ];
 
     /**
      * The attrbites that should be included in the collection.
@@ -101,6 +101,10 @@ class Invoice extends BaseModel
 		'sent_at',
 		'paid_at'
 	];
+
+    protected $with = [
+        'invoiceGroup'
+    ];
 
 	/**
 	 * An invoice can belong to an owner.
