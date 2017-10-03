@@ -21,21 +21,30 @@
 
 			@include('partials.errors-block')
 
-			<form role="form" method="POST" action="{{ route('invoices.update-item', $item->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}
+			<div class="card mb-3 border-primary">
+				<div class="card-header bg-primary text-white">
+					Item Details
+				</div>
+				<div class="card-body">
 
-				@include('invoices.partials.item-form')
+					<form role="form" method="POST" action="{{ route('invoices.update-item', $item->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
-				<button type="submit" class="btn btn-danger float-right" name="remove_item" value="true">
-					<i class="fa fa-trash"></i> Remove Item
-				</button>
+						@include('invoices.partials.item-form')
 
-				@component('partials.bootstrap.save-submit-button')
-					Save Changes
-				@endcomponent
+						<button type="submit" class="btn btn-danger float-right" name="remove_item" value="true">
+							<i class="fa fa-trash"></i> Remove Item
+						</button>
 
-			</form>
+						@component('partials.bootstrap.save-submit-button')
+							Save Changes
+						@endcomponent
+
+					</form>
+
+				</div>
+			</div>
 
 		</div>
 	</section>
