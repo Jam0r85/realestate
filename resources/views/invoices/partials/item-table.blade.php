@@ -21,7 +21,7 @@
 					</td>
 					<td>{{ currency($invoice_item->amount) }}</td>
 					<td>{{ $invoice_item->quantity }}</td>
-					<td>{{ $invoice_item->taxRate ? $invoice_item->taxRate->name_formatted : null }}</td>
+					<td>{{ $invoice_item->taxRate ? $invoice_item->taxRate->name : null }}</td>
 					<td>{{ currency($invoice_item->total) }}</td>
 				</tr>
 			@endforeach
