@@ -20,23 +20,32 @@
 		<div class="container">
 
 			<div class="row">
-				<div class="col col-8">
+				<div class="col-sm-12 col-md-6">
 
 					@include('partials.errors-block')
 
-					<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
-						{{ csrf_field() }}
+					<div class="card mb-3">
+						<div class="card-header bg-primary text-white">
+							Direct Payment
+						</div>
+						<div class="card-body">
 
-						@include('invoices.partials.payment-form')
+							<form role="form" method="POST" action="{{ route('invoices.create-payment', $invoice->id) }}">
+								{{ csrf_field() }}
 
-						@component('partials.bootstrap.save-submit-button')
-							Record Payment
-						@endcomponent
+								@include('invoices.partials.payment-form')
 
-					</form>
+								@component('partials.bootstrap.save-submit-button')
+									Record Payment
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
 
 				</div>
-				<div class="col">
+				<div class="col-sm-12 col-md-6">
 
 					<div class="card mb-3">
 						<div class="card-header">
@@ -57,6 +66,36 @@
 							@endcomponent
 						</ul>
 					</div>
+
+					<div class="card mb-3">
+						<div class="card-header">
+							Payments History
+						</div>
+						<table class="table table-striped table-responsive">
+							<thead>
+								<th>Date</th>
+								<th>Amount</th>
+								<th>Method</th>
+							</thead>
+							<tbody>
+								@foreach ($invoice->payments as $payment)
+									<tr>
+										<td>{{ date_formatted($payment->created_at) }}</td>
+										<td>{{ currency($payment->amount) }}</td>
+										<td>{{ $payment->method->name }}</td>
+									</tr>
+								@endforeach
+								@foreach ($invoice->statement_payments as $payment)
+									<tr>
+										<td>{{ date_formatted($payment->created_at) }}</td>
+										<td>{{ currency($payment->amount) }}</td>
+										<td>Statement #{{ $payment->statement->id }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+
 				</div>
 			</div>
 

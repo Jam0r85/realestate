@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInvoiceGroupRequest;
 use App\Http\Requests\UpdateInvoiceGroupRequest;
 use App\InvoiceGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class InvoiceGroupController extends BaseController
 {
@@ -45,16 +46,21 @@ class InvoiceGroupController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\StoreInvoiceGroupRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreInvoiceGroupRequest $request)
     {
         $group = new InvoiceGroup();
-        $group->fill($request->input());
+        $group->name = $request->name;
+        $group->branch_id = $request->branch_id;
+        $group->next_number = $request->next_number;
+        $group->format = $request->format;
         $group->save();
 
-        $this->successMessage('The invoice group was created');
+        Cache::tags(['invoice_groups'])->flush();
+
+        $this->successMessage('The invoice group "' . $group->name . '" was created');
 
         return back();
     }
@@ -62,37 +68,36 @@ class InvoiceGroupController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\InvoiceGroup  $invoiceGroup
+     * @param integer $id
+     * @param string $section
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $section = 'layout')
     {
-        $invoice_group = $this->invoice_groups->find($id);
-        return view('invoice-groups.show', compact('invoice_group'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\InvoiceGroup  $invoiceGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $invoice_group = $this->invoice_groups->find($id);
-        return view('invoice-groups.edit', compact('invoice_group'));
+        $group = InvoiceGroup::findOrFail($id);        
+        return view('invoice-groups.show.' . $section, compact('group'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\InvoiceGroup  $invoiceGroup
+     * @param \App\Http\Requests\UpdateInvoiceGroupRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateInvoiceGroupRequest $request, $id)
     {
-        $this->invoice_groups->update($request->input(), $id);
+        $group = InvoiceGroup::findOrFail($id);
+        $group->name = $request->name;
+        $group->branch_id = $request->branch_id;
+        $group->next_number = $request->next_number;
+        $group->format = $request->format;
+        $group->save();
+
+        Cache::tags(['invoice_groups'])->flush();
+
+        $this->successMessage('The invoice group "' . $group->name . '" was updated');
+
         return back();
     }
 }
