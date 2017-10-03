@@ -18,6 +18,14 @@
 	<section class="section">
 		<div class="container">
 
+			@if ($invoice->trashed())
+
+				<div class="alert alert-secondary">
+					This invoice was <b>archived</b> on {{ date_formatted($invoice->deleted_at) }}
+				</div>
+
+			@endif
+
 			@if ($invoice->paid_at)
 
 				<div class="alert alert-success">

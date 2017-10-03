@@ -16,7 +16,7 @@
 				</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td>{{ $invoice->property ? $invoice->property->short_name : '-' }}</td>
-				<td>{{ currency($invoice->total) }}</td>
+				<td>{!! $invoice->trashed() ? '<span class="text-muted"><i class="fa fa-archive"></i> Archived</span>' : currency($invoice->total) !!}</td>
 				<td>
 					@foreach ($invoice->users as $user)
 						<a class="badge badge-primary" href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">

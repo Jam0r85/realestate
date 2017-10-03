@@ -33,7 +33,7 @@ class InvoiceController extends BaseController
      */
     public function index()
     {
-        $invoices = Invoice::whereNotNull('paid_at')->latest()->paginate();
+        $invoices = Invoice::withTrashed()->whereNotNull('paid_at')->orWhereNotNull('deleted_at')->latest()->paginate();
         $unpaid_invoices = Invoice::whereNull('paid_at')->latest()->get();
 
         $invoices->load('property','users','items','items.taxRate','payments','statement_payments');
