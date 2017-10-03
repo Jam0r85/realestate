@@ -67,7 +67,7 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					@include('statement-payments.partials.sent-payments-table')
+					@include('statement-payments.partials.sent-payments-table', ['payments' => $sent_payments])
 				</div>
 			</div>
 		</div>

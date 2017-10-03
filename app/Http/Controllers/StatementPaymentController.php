@@ -27,16 +27,16 @@ class StatementPaymentController extends BaseController
     public function index()
     {
         $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
-    	$payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
-
         $unsent_payments->load('statement','statement.tenancy.property','users','bank_account','parent');
-        $payments->load('statement','statement.tenancy','statement.tenancy.property','users','bank_account');
+
+    	$sent_payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
+        $sent_payments->load('statement','statement.tenancy','statement.tenancy.property','users','bank_account');
 
         if (count($unsent_payments)) {
             $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
         }
 
-    	return view('statement-payments.index', compact('unsent_payments','payments'));
+    	return view('statement-payments.index', compact('unsent_payments','sent_payments'));
     }
 
     /**
