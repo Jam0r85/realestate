@@ -43,7 +43,7 @@
 				<tr>
 					<td>
 						<h1 class="title">
-							Invoice {{ $invoice->number }}
+							Invoice {{ $invoice->name }}
 						</h1>
 						<h2 class="subtitle">
 							{{ longdate_formatted($invoice->created_at) }}
