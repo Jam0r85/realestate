@@ -7,7 +7,7 @@
 	<label for="format">Name Format</label>
 	<input class="form-control" type="text" name="format" value="{{ old('format') }}" />
 	<small class="form-text text-muted">
-		Use {{number}} to postion the invoice number.
+		Use ' to postion the invoice number.
 	</small>
 </div>
 
