@@ -28,7 +28,6 @@ class InvoiceGroupController extends BaseController
     public function index()
     {
         $invoice_groups = InvoiceGroup::latest()->paginate();
-        $invoice_groups->load('invoices','invoices.items','invoices.items.taxRate');
         
         return view('invoice-groups.index', compact('invoice_groups'));
     }
