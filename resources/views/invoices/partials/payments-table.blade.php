@@ -1,6 +1,6 @@
 <div class="card mb-3">
 	<div class="card-header">
-		Invoice Payments
+		<i class="fa fa-credit-card"></i> Invoice Payments
 	</div>
 	<table class="table table-striped table-responsive">
 		<thead>
