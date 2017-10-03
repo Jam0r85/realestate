@@ -6,9 +6,9 @@
 		<thead>
 			<th>Name</th>
 			<th>Amount</th>
-			<th>Quantity</th>
+			<th>#</th>
 			<th>Tax</th>
-			<th>Total</th>
+			<th class="text-right">Total</th>
 		</thead>
 		<tbody>
 			@foreach ($items as $invoice_item)
@@ -17,12 +17,12 @@
 						<a href="{{ route('invoices.edit-item', $invoice_item->id) }}" name="Edit Item">
 							<b>{{ $invoice_item->name }}</b>
 						</a>
-						<br />{{ $invoice_item->description }}
+						<br /><small>{{ $invoice_item->description }}</small>
 					</td>
 					<td>{{ currency($invoice_item->amount) }}</td>
 					<td>{{ $invoice_item->quantity }}</td>
 					<td>{{ $invoice_item->taxRate ? $invoice_item->taxRate->name : null }}</td>
-					<td>{{ currency($invoice_item->total) }}</td>
+					<td class="text-right">{{ currency($invoice_item->total) }}</td>
 				</tr>
 			@endforeach
 		</tbody>
