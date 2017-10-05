@@ -158,6 +158,8 @@ class PropertyController extends BaseController
         $property = Property::findOrFail($id);
         $property->delete();
 
+        Cache::tags('properties')->flush();
+
         $this->successMessage('The property was archived');
 
         return back();
@@ -174,6 +176,8 @@ class PropertyController extends BaseController
     {
         $property = Property::onlyTrashed()->findOrFail($id);
         $property->restore();
+
+        Cache::tags('properties')->flush();
 
         $this->successMessage('The property was restored');
 
