@@ -30,7 +30,7 @@
 				<td>{{ currency($expense->cost) }}</td>
 				<td>{{ date_formatted($expense->paid_at) }}</td>
 				<td>
-					@if ($expense->hasInvoice())
+					@if (count($expense->invoices))
 						<i class="fa fa-check"></i>
 					@endif
 				</td>

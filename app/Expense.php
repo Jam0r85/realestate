@@ -16,13 +16,8 @@ class Expense extends BaseModel
     public function toSearchableArray()
     {
         $array = $this->only('name','cost','created_at','paid_at');
-
-        // Get the property.
         $array['property'] = $this->property->name;
-
-        // Get the contractors
-        $array['contractors'] = count($this->contractors) ? $this->contractors->pluck('name')->toArray() : null;
-
+        $array['contractors'] = $this->contractors->pluck('name')->toArray();
         return $array;
     }
 
@@ -46,7 +41,7 @@ class Expense extends BaseModel
 	];
 
 	/**
-	 * An expense can belong to many contractors.
+	 * An expense can have many contractors.
 	 */
     public function contractors()
     {
@@ -54,7 +49,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * An expense can have an owner.
+     * An expense has one owner.
      */
     public function owner()
     {
@@ -62,7 +57,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * An expense can belong to a property.
+     * An expense belongs to one property.
      */
     public function property()
     {
@@ -70,7 +65,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * An expense can have many documents.
+     * An expense can have many invoices.
      */
     public function invoices()
     {
@@ -87,7 +82,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * An expense can have many payments.
+     * An expense can have many statement payments.
      */
     public function payments()
     {
@@ -102,38 +97,5 @@ class Expense extends BaseModel
     public function getBalanceAmountAttribute()
     {
         return $this->cost - $this->statements->sum('pivot.amount');
-    }
-
-    /**
-     * Get the expenses' statement name.
-     * 
-     * @return string
-     */
-    public function getStatementNameAttribute()
-    {
-        $name = '<b>' . $this->name . '</b>';
-
-        if (count($this->contractors)) {
-            $name .= '<br />';
-            foreach ($this->contractors as $user) {
-                $name .= $user->name;
-            }
-        }
-
-        return $name;
-    }
-
-    /**
-     * Does this expense have an invoice?
-     * 
-     * @return bool
-     */
-    public function hasInvoice()
-    {
-        if (count($this->invoices)) {
-            return true;
-        }
-
-        return false;
     }
 }

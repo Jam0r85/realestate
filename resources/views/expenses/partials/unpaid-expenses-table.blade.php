@@ -30,7 +30,7 @@
 				<td>{{ currency($expense->cost) }}</td>
 				<td>{{ currency($expense->balance_amount) }}</td>
 				<td>
-					@if ($expense->hasInvoice())
+					@if (count($expense->invoices))
 						<i class="fa fa-check"></i>
 					@endif
 				</td>

@@ -109,15 +109,11 @@ class StatementPayment extends BaseModel
      */
     public function getGroupAttribute()
     {
-        if ($this->parent_type == 'invoices') {
-            return 'invoice';
+        if (!$this->parent_type) {
+            $this->parent_type = 'landlord';
         }
 
-        if ($this->parent_type == 'expenses') {
-            return 'expense';
-        }
-
-        return 'landlord';
+        return str_singular($this->parent_type);
     }
 
     /**
