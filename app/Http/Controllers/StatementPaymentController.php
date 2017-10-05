@@ -27,7 +27,7 @@ class StatementPaymentController extends BaseController
     public function index()
     {
         $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
-        $unsent_payments->load('statement','statement.tenancy.property','users','bank_account','parent');
+        // $unsent_payments->load('statement','statement.tenancy.property','users','bank_account','parent');
 
     	$sent_payments = StatementPayment::whereNotNull('sent_at')->latest('sent_at')->paginate();
         $sent_payments->load('statement','statement.tenancy','statement.tenancy.property','users','bank_account');
