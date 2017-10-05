@@ -1,12 +1,16 @@
-<div class="card {{ count($property->owners) ? 'bg-success' : 'bg-danger' }} mb-3">
-	<div class="card-header text-white">
+<div class="card @if (!count($property->owners)) border-danger @else border-success @endif mb-3">
+	<div class="card-header text-white @if (!count($property->owners)) bg-danger @else bg-success @endif">
 		<i class="fa fa-users"></i> Owners
 	</div>
+
 	@if (!count($property->owners))
-		<div class="card-body text-white">
-			<b>No owners!</b><br />No users have been set as owners of this property yet.
+
+		<div class="card-body">
+			No users have been assigned as owners of this property yet.
 		</div>
+
 	@else
+
 		<ul class="list-group list-group-flush">
 			@foreach ($property->owners as $user)
 				<li class="list-group-item">
@@ -16,5 +20,7 @@
 				</li>
 			@endforeach
 		</ul>
+
 	@endif
+
 </div>

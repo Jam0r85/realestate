@@ -1,6 +1,6 @@
 <div class="card mb-3">
 	<div class="card-header">
-		<i class="fa fa-home"></i> Property's Information
+		<i class="fa fa-home"></i> Property Information
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')

@@ -28,7 +28,7 @@ class PropertyController extends BaseController
      */
     public function index()
     {
-        $properties = Property::with('owners')->latest()->paginate();
+        $properties = Property::withTrashed()->with('owners')->latest()->paginate();
         $title = 'Properties List';
 
         return view('properties.index', compact('properties','title'));
@@ -159,6 +159,23 @@ class PropertyController extends BaseController
         $property->delete();
 
         $this->successMessage('The property was archived');
+
+        return back();
+    }
+
+    /**
+     * Restore a property.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Request $request, $id)
+    {
+        $property = Property::onlyTrashed()->findOrFail($id);
+        $property->restore();
+
+        $this->successMessage('The property was restored');
 
         return back();
     }

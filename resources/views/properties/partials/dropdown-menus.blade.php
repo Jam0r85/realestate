@@ -3,24 +3,17 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="propertyOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}">
+		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}" title="Edit Property Details">
 			Edit Property Details
 		</a>
-		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-owners']) }}">
+		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-owners']) }}" title="Manage Owners">
 			Manage Owners
 		</a>
-		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}">
+		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}" title="Rental Statement Settings">
 			Rental Statement Settings
 		</a>
-	</div>
-</div>
-
-<div class="btn-group">
-	<button class="btn btn-danger dropdown-toggle" type="button" id="propertyActionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Actions
-	</button>
-	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="propertyActionsDropdown">
-		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'archive-property']) }}">
+		<div class="dropdown-divider"></div>
+		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'archive-property']) }}" title="Archive Property">
 			Archive property
 		</a>
 	</div>

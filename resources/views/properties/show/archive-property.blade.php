@@ -21,24 +21,50 @@
 
 			@if ($property->trashed())
 
-				<div class="alert alert-danger">
-					<b>This property has already been archived.</b> Would you like to restore it?
+				<div class="card mb-3">
+					<div class="card-body">
+						<h4 class="card-title">
+							Restore Property
+						</h4>
+						<p class="card-text">
+							You can restore this property and bring it back to life.
+						</p>
+
+						<form role="form" method="POST" action="{{ route('properties.restore', $property->id) }}">
+							{{ csrf_field() }}
+
+							<button type="submit" class="btn btn-secondary">
+								<i class="fa fa-save"></i> Restore Property
+							</button>
+
+						</form>
+					</div>
 				</div>
 
 			@else
 
-				<form role="form" method="POST" action="{{ route('properties.archive', $property->id) }}">
-					{{ csrf_field() }}
-					{{ method_field('DELETE') }}
+				<div class="card mb-3">
+					<div class="card-body">
+						<h4 class="card-title">
+							Archive Property
+						</h4>
+						<p class="card-text">
+							You can archive or 'soft delete' this property and hide it from public view. An archived property can be restored back as and when required.
+						</p>
 
-					<button type="submit" class="btn btn-danger">
-						<i class="fa fa-archive"></i> Archive Property
-					</button>
+						<form role="form" method="POST" action="{{ route('properties.archive', $property->id) }}">
+							{{ csrf_field() }}
 
-				</form>
+							<button type="submit" class="btn btn-secondary">
+								<i class="fa fa-archive"></i> Archive Property
+							</button>
+
+						</form>
+					</div>
+				</div>
 
 			@endif
-
+			
 		</div>
 	</section>
 

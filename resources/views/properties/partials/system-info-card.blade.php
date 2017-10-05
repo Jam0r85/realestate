@@ -10,7 +10,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $property->owner ? $property->owner->name : '' }}
+			<a href="{{ route('users.show', $property->owner->id) }}" title="{{ $property->owner->name }}">{{ $property->owner->name }}</a>
 			@slot('title')
 				Created By
 			@endslot

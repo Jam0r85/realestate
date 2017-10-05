@@ -12,6 +12,20 @@
 				<h1>{{ $property->short_name }}</h1>
 			</div>
 
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+
+			@if ($property->trashed())
+
+				<div class="alert alert-secondary">
+					This property was <b>archived</b> on {{ date_formatted($property->deleted_at) }}
+				</div>
+
+			@endif
+
 			<div class="row">
 				<div class="col col-5">
 

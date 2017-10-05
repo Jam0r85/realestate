@@ -17,8 +17,8 @@ class Property extends BaseModel
      */
     public function toSearchableArray()
     {
-    	$array = $this->toArray();
-
+    	$array = $this->only('name','created_at');
+    	$array['owners'] = $this->owners->pluck('name')->toArray();
     	return $array;
     }
 
@@ -58,6 +58,13 @@ class Property extends BaseModel
 		'postcode',
 		'country'
 	];
+
+    /**
+     * The attributes that should be mutated to dates.
+     * 
+     * @var array
+     */
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * A property can have invoices.
