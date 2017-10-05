@@ -1,5 +1,5 @@
-<div class="card text-white @if (count($expense->invoices)) bg-success @else bg-danger @endif mb-3">
-	<div class="card-header">
+<div class="card mb-3 @if (!count($expense->invoices)) border-danger @endif">
+	<div class="card-header text-white @if (count($expense->invoices)) bg-success @else bg-danger @endif">
 		<i class="fa fa-upload"></i> Invoices
 	</div>
 
@@ -16,9 +16,11 @@
 		</ul>
 
 	@else
+
 		<div class="card-body">
-			<b>No invoices uploaded!</b>
+			No invoices have been uploaded and added to this expense.
 		</div>
+
 	@endif
 
 </div>
