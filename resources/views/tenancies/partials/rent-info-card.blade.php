@@ -22,7 +22,7 @@
 				@slot('style')
 					@if ($tenancy->rent_balance < 0)
 						list-group-item-danger
-					@elseif ($tenancy->rent_balance >= $tenancy->current_rent->amount)
+					@elseif ($tenancy->rent_balance > 0)
 						list-group-item-success
 					@endif
 				@endslot
