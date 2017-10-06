@@ -75,7 +75,7 @@
 			<div class="tab-content">
 				<div class="tab-pane fade show active" id="payments" role="tabpanel">
 					
-					@include('tenancies.partials.payments-table')
+					@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(10)->get()])
 
 					<a href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="View All Rent Payments Received" class="btn btn-primary">
 						View All Rent Payments

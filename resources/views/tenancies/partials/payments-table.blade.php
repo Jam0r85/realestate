@@ -7,7 +7,7 @@
 		<th>Receipt</th>
 	</thead>
 	<tbody>
-		@foreach ($tenancy->rent_payments()->limit(10)->get() as $payment)
+		@foreach ($payments as $payment)
 			<tr>
 				<td>
 					<a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">
