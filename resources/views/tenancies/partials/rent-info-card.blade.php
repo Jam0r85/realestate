@@ -11,20 +11,26 @@
 	@else
 		<ul class="list-group list-group-flush">
 			@component('partials.bootstrap.list-group-item')
-				<span class="text-{{ $tenancy->rent_balance < 0 ? 'danger' : 'success' }}">
+				<span class="lead">
 					{{ currency($tenancy->rent_balance) }}
 				</span>
 				@slot('title')
-					Rent Balance
+					<span class="lead">
+						Rent Balance
+					</span>
+				@endslot
+				@slot('style')
+					@if ($tenancy->rent_balance < 0)
+						list-group-item-danger
+					@elseif ($tenancy->rent_balance >= $tenancy->current_rent)
+						list-group-item-success
+					@endif
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
 				{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : '' }}
 				@slot('title')
 					Current Rent
-				@endslot
-				@slot('style')
-					list-group-item-info
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')

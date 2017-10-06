@@ -9,20 +9,24 @@
 	@else
 		<ul class="list-group list-group-flush">
 			@component('partials.bootstrap.list-group-item')
-				{{ currency($tenancy->deposit->amount) }}
+				<span class="lead">
+					{{ currency($tenancy->deposit->balance) }}
+				</span>
 				@slot('title')
-					Amount
-				@endslot
-			@endcomponent
-			@component('partials.bootstrap.list-group-item')
-				{{ currency($tenancy->deposit->balance) }}
-				@slot('title')
-					Balance
+					<span class="lead">
+						Deposit Balance
+					</span>
 				@endslot
 				@slot('style')
 					@if ($tenancy->deposit->amount == $tenancy->deposit->balance)
 						list-group-item-success
 					@endif
+				@endslot
+			@endcomponent
+			@component('partials.bootstrap.list-group-item')
+				{{ currency($tenancy->deposit->amount) }}
+				@slot('title')
+					Amount
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
