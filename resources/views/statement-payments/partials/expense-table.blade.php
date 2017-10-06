@@ -11,7 +11,9 @@
 		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ $payment->statement->property->short_name }}</td>
-				<td>{{ $payment->parent->name }}</td>
+				<td>
+					@include('expenses.partials.name-for-statements', ['expense' => $payment->parent])
+				</td>
 				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
 					@include('statement-payments.partials.payment-checkbox')
