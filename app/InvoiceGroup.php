@@ -8,13 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class InvoiceGroup extends BaseModel
 {   
     Use SoftDeletes;
-
-    /**
-     * The attrbites that should be included in the collection.
-     * 
-     * @var array
-     */
-    protected $appends = ['invoices_total'];
     
 	/**
 	 * Indicates if the model should be timestamped.

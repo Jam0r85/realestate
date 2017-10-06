@@ -23,8 +23,7 @@ class StatementService
      */
     public function createStatement(array $data, $id)
     {
-        // Find the tenancy.
-        $tenancy = Tenancy::findOrFail($id);
+        $tenancy = Tenancy::withTrashed()->findOrFail($id);
 
         // Set the start date.
         if ($data['period_start']) {
@@ -233,7 +232,6 @@ class StatementService
      */
     public function createAutomaticServiceChargeInvoice($statement_id, $tenancy_id)
     {
-        // Find the tenancy
         $tenancy = Tenancy::findOrFail($tenancy_id);
 
         // Check whether there is actually a service charge amount
