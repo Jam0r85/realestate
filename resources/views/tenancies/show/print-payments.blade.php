@@ -20,7 +20,26 @@
 	<section class="section">
 		<div class="container">
 
-			@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments])
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                </thead>
+                <tbody>
+                    @foreach ($tenancy->rent_payments as $payment)
+                        <tr>
+                            <td>
+                                <a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">
+                                    {{ date_formatted($payment->created_at) }}
+                                </a>
+                            </td>
+                            <td>{{ currency($payment->amount) }}</td>
+                            <td>{{ $payment->method->name }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
 		</div>
 	</section>
