@@ -39,6 +39,12 @@
 					Date From
 				@endslot
 			@endcomponent
+			@component('partials.bootstrap.list-group-item')
+				{{ date_formatted($tenancy->lastRentPayment()->created_at) }}
+				@slot('title')
+					Last Payment
+				@endslot
+			@endcomponent
 		</ul>
 	@endif
 </div>

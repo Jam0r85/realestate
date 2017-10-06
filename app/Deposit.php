@@ -76,6 +76,15 @@ class Deposit extends BaseModel
     }
 
     /**
+     * A deposit can have a last payment.
+     */
+    public function lastPayment()
+    {
+        return $this->morphOne('App\Payment', 'parent')
+            ->latest();
+    }
+
+    /**
      * Get the balance of this deposit.
      * 
      * @return int

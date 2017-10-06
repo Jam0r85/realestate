@@ -35,6 +35,12 @@
 					ID
 				@endslot
 			@endcomponent
+			@component('partials.bootstrap.list-group-item')
+				{{ date_formatted($tenancy->deposit->lastPayment()->created_at) }}
+				@slot('title')
+					Last Payment
+				@endslot
+			@endcomponent
 		</ul>
 	@endif
 </div>
