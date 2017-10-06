@@ -13,10 +13,10 @@
 				<td>{{ $payment->statement->property->short_name }}</td>
 				<td>
 					{{ $payment->parent->name }}
-					@if (count($expense->contractors))
+					@if (count($payment->parent->contractors))
 						<br />
 						(
-							@foreach ($expense->contractors as $user)
+							@foreach ($payment->parent->contractors as $user)
 								{{ $user->name }}
 							@endforeach
 						)
