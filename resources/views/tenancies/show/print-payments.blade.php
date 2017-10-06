@@ -20,7 +20,7 @@
 	<section class="section">
 		<div class="container">
 
-            <table class="table table-striped table-responsive">
+            <table class="table table-striped">
                 <thead>
                     <th>Date</th>
                     <th>Amount</th>

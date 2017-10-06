@@ -7,7 +7,7 @@
 
 			<div class="page-title">
 				<div class="float-right">
-					<a href="{{ route('tenancies.show', [$tenancy->id, 'print-payments']) }}" title="Print Payments" class="btn btn-info">
+					<a href="{{ route('tenancies.show', [$tenancy->id, 'print-payments']) }}" title="Print Payments" class="btn btn-info" target="_blank">
 						<i class="fa fa-print"></i> Print
 					</a>
 					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary">
