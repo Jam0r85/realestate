@@ -12,7 +12,15 @@
 			<tr>
 				<td>{{ $payment->statement->property->short_name }}</td>
 				<td>
-					@include('expenses.partials.name-for-statements', ['expense' => $payment->parent])
+					{{ $payment->parent->name }}
+					@if (count($expense->contractors))
+						<br />
+						(
+							@foreach ($expense->contractors as $user)
+								{{ $user->name }}
+							@endforeach
+						)
+					@endif
 				</td>
 				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
