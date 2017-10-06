@@ -22,6 +22,7 @@
 
             <h1>Rent Payments Received</h1>
             <h3>{{ $tenancy->name }}</h3>
+            <h4>{{ $tenancy->property->name }}</h4>
 
             <table class="table table-striped">
                 <thead>
