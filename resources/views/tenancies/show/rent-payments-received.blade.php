@@ -6,9 +6,15 @@
 		<div class="container">
 
 			<div class="page-title">
-				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
-					Return
-				</a>
+				<div class="float-right">
+					<a href="{{ route('tenancies.show', [$tenancy->id, 'print.payments']) }}" title="Print Payments" class="btn btn-info">
+						<i class="fa fa-printer"></i> Print
+					</a>
+					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary">
+						Return
+					</a>
+				</div>
+
 				<h1>{{ $tenancy->name }}</h1>
 				<h3>Rent payments recorded to this tenancy.</h3>
 			</div>
