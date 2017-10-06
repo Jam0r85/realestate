@@ -20,6 +20,9 @@
 	<section class="section">
 		<div class="container">
 
+            <h1>Rent Payments Received</h1>
+            <h3>{{ $tenancy->name }}</h3>
+
             <table class="table table-striped">
                 <thead>
                     <th>Date</th>
