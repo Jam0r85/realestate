@@ -54,6 +54,8 @@ class DashboardController extends Controller
             ->get()
             ->sum('total');
 
+        $combined_income = $commission + $invoice_income;
+
         $gas_expired = Gas::isExpired()->count();
 
     	return view('dashboard.index', compact(
@@ -63,6 +65,7 @@ class DashboardController extends Controller
             'rent_received',
             'commission',
             'invoice_income',
+            'combined_income',
             'gas_expired'
         ));
     }

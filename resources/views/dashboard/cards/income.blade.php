@@ -22,6 +22,12 @@
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
+				{{ currency($combined_income) }}
+			</span>
+			Combined Income
+		</div>
+		<div class="list-group-item">
+			<span class="float-right">
 				{{ currency($rent_received) }}
 			</span>
 			Rent Received
