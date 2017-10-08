@@ -12,6 +12,11 @@
 					@include('dashboard.cards.tenancies-management')
 
 				</div>
+				<div class="col-sm-12 col-lg-6">
+
+					@include('dashboard.cards.income')
+
+				</div>
 			</div>
 
 		</div>

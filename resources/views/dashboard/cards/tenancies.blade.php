@@ -17,7 +17,7 @@
 		</a>
 		<a href="{{ route('tenancies.index') }}" class="list-group-item list-group-item-action">
 			<span class="float-right">
-				{{ $managed_tenancies }}
+				{{ count($managed_tenancies) }}
 			</span>
 			Managed tenancies
 		</a>
