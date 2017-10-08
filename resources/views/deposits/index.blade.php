@@ -11,6 +11,9 @@
 				</div>
 				<h1>
 					{{ $title }}
+					<span class="badge badge-info">
+						{{ currency($deposits->sum('amount')) }}
+					</span>
 					@if (isset($deposit_balance))
 						<span class="badge badge-success">
 							{{ currency($deposit_balance) }}
