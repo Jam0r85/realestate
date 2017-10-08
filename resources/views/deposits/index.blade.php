@@ -14,8 +14,8 @@
 			<button type="button" class="btn">
 				Total <span class="badge badge-secondary">{{ currency($deposits->sum('amount')) }}</span>
 			</button>
-			<button type="button" class="btn">
-				Balance <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
+			<button type="button" class="btn @if ($deposit_balance < $deposits->sum('amount')) btn-danger @elseif ($deposit_balance == $deposits->sum('amount')) btn-success @endif">
+				Current Held <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
 			</button>
 		</div>
 			
