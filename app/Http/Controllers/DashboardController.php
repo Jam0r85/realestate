@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gas;
+use App\Payment;
 use App\Service;
 use App\Tenancy;
 use Illuminate\Http\Request;
@@ -30,11 +31,9 @@ class DashboardController extends Controller
 
         $overdue_tenancies = Tenancy::isOverdue()->count();
         $active_tenancies = Tenancy::isActive()->count();
-        $managed_tenancies = Tenancy::isActive()->with('rent_payments')->whereIn('service_id', $managed_services)->get();
+        $managed_tenancies = Tenancy::isActive()->whereIn('service_id', $managed_services)->get();
 
-        return dd($managed_tenancies);
-
-        $rent_received = $managed_tenancies->sum('rent_payments.amount');
+        $rent_received = Payment::rentPayments()->get()->sum('amount');
 
         $gas_expired = Gas::isExpired()->count();
 
