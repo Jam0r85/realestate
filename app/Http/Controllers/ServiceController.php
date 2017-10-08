@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Service;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller
+class ServiceController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::get();
+        return view('services.index', compact('services'));     
     }
 
     /**
@@ -24,7 +25,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('services.create');
     }
 
     /**
@@ -35,7 +36,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $service = new Service();
+        $service->name = $request->name;
+        $service->description = $request->description;
+        $service->letting_fee = $request->letting_fee;
+        $service->re_letting_fee = $request->re_letting_fee;
+        $service->charge = $this->formatCharge($request->charge, $request->charge_type);
+        $service->tax_rate_id = $request->tax_rate_id;
+        $service->save();
+
+        $this->successMessage('The service "' . $service->name . '" was created');
+
+        return back();
     }
 
     /**
@@ -52,24 +64,36 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit($id)
     {
-        //
+        $service = Service::findOrFail($id);
+        return view('services.edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Service  $service
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        $service->name = $request->name;
+        $service->description = $request->description;
+        $service->letting_fee = $request->letting_fee;
+        $service->re_letting_fee = $request->re_letting_fee;
+        $service->charge = $this->formatCharge($request->charge, $request->charge_type);
+        $service->tax_rate_id = $request->tax_rate_id;
+        $service->save();
+
+        $this->successMessage('The service "' . $service->name . '" was updated');
+
+        return back();
     }
 
     /**
@@ -81,5 +105,21 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+    }
+
+    /**
+     * Format the charge based on the amount and type.
+     * 
+     * @param integer $amount
+     * @param string $type
+     * @return integer
+     */
+    private function formatCharge($amount, $type)
+    {
+        if ($type == 'percent') {
+            return $amount / 100;
+        }
+
+        return $amount;
     }
 }

@@ -32,6 +32,8 @@ class DashboardController extends Controller
         $active_tenancies = Tenancy::isActive()->count();
         $managed_tenancies = Tenancy::isActive()->with('rent_payments')->whereIn('service_id', $managed_services)->get();
 
+        return dd($managed_tenancies);
+
         $rent_received = $managed_tenancies->sum('rent_payments.amount');
 
         $gas_expired = Gas::isExpired()->count();

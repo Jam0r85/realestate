@@ -101,6 +101,8 @@ Route::prefix('tenancies')->group(function () {
 	Route::post('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 });
 
+Route::resource('services', 'ServiceController');
+
 Route::prefix('statements')->group(function () {
 	Route::get('/', 'StatementController@index')->name('statements.index');
 	Route::post('search', 'StatementController@search')->name('statements.search');

@@ -14,7 +14,7 @@
 		</a>
 		<div class="dropdown-divider"></div>
 		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'archive-property']) }}" title="Archive Property">
-			Archive property
+			{{ $property->trashed() ? 'Restore' : 'Archive' }} property
 		</a>
 	</div>
 </div>

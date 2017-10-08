@@ -111,8 +111,8 @@
                                 <a class="dropdown-item" href="{{ route('tenancies.overdue') }}" title="Overdue Tenancies List">
                                     Overdue Tenancies
                                 </a>
-                                <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
-                                    Deposits List
+                                <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
+                                    Services
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Rent Payments</h6>
@@ -129,6 +129,9 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Management</h6>
+                                <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
+                                    Deposits List
+                                </a>
                                 <a class="dropdown-item" href="{{ route('gas-safe.index') }}" title="Gas Safe Reminders">
                                     Gas Safe Reminders
                                 </a>
