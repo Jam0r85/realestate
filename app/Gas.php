@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Laravel\Scout\Searchable;
 
 class Gas extends BaseModel
@@ -48,7 +49,7 @@ class Gas extends BaseModel
     protected $fillable = ['property_id','expires_on','last_reminder','is_booked','is_completed'];
 
 	/**
-	 * Scope a query to only include popular users.
+	 * Scope a query to order results by the expiry date.
 	 * 
 	 * @param \Illuminate\Database\Eloquent\Builder $query
 	 * @return \Illuminate\Database\Eloquent\Builder
@@ -56,6 +57,17 @@ class Gas extends BaseModel
     public function scopeExpireDate($query)
     {
     	return $query->orderBy('expires_on', 'asc');
+    }
+
+    /**
+     * Scope a query to only include expired gas safe reminders.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsExpired($query)
+    {
+        return $query->where('expires_on', '<=', Carbon::now());
     }
 
     /**

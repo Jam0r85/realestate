@@ -9,6 +9,7 @@
 				<div class="col-sm-12 col-lg-6">
 
 					@include('dashboard.cards.tenancies')
+					@include('dashboard.cards.tenancies-management')
 
 				</div>
 			</div>

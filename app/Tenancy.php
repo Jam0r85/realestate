@@ -100,7 +100,8 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','current_rent','rent_payments','lastRentPayment','statements','last_statement')
-            ->where('vacated_on', '>', Carbon::now());
+            ->whereNull('vacated_on')
+            ->orWhere('vacated_on', '>', Carbon::now());
     }
 
 	/**
