@@ -1,6 +1,9 @@
 <div class="card mb-5">
 	<h4 class="card-header">
-		{{ \Carbon\Carbon::now()->format('F Y') }} Income
+		<span class="float-right text-muted">
+			{{ \Carbon\Carbon::now()->format('F Y') }}
+		</span>
+		Income
 	</h4>
 	<div class="list-group list-group-flush">
 		<div class="list-group-item">
