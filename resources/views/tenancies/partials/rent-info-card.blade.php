@@ -28,19 +28,19 @@
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : '' }}
+				{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : '-' }}
 				@slot('title')
 					Current Rent
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->current_rent ? date_formatted($tenancy->current_rent->starts_at) : '' }}
+				{{ $tenancy->current_rent ? date_formatted($tenancy->current_rent->starts_at) : '-' }}
 				@slot('title')
 					Date From
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ date_formatted($tenancy->lastRentPayment->created_at) }}
+				{{ $tenancy->lastRentPayment ? date_formatted($tenancy->lastRentPayment->created_at) : '-' }}
 				@slot('title')
 					Last Payment
 				@endslot
