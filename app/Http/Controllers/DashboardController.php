@@ -41,9 +41,18 @@ class DashboardController extends Controller
             ->sum('amount');
 
         $commission = Invoice::has('statements')
+            ->whereNotNull('paid_at')
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
             ->with('statements','items','items.taxRate')
+            ->get()
+            ->sum('total');
+
+        $invoice_income = Invoice::doesntHave('statements')
+            ->whereNotNull('paid_at')
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->with('items','items.taxRate')
             ->get()
             ->sum('total');
 
@@ -55,6 +64,7 @@ class DashboardController extends Controller
             'managed_tenancies',
             'rent_received',
             'commission',
+            'invoice_income',
             'gas_expired'
         ));
     }

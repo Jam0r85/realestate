@@ -11,6 +11,12 @@
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
+				{{ currency($invoice_income) }}
+			</span>
+			Invoices
+		</div>
+		<div class="list-group-item">
+			<span class="float-right">
 				{{ currency($rent_received) }}
 			</span>
 			Rent Received
