@@ -25,7 +25,8 @@ class DashboardController extends Controller
     public function index()
     {
         $overdue_tenancies = Tenancy::isOverdue()->count();
+        $active_tenancies = Tenancy::isActive()->count();
 
-    	return view('dashboard.index', compact('overdue_tenancies'));
+    	return view('dashboard.index', compact('overdue_tenancies','active_tenancies'));
     }
 }

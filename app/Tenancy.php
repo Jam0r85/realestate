@@ -90,6 +90,19 @@ class Tenancy extends BaseModel
             ->where('is_overdue', '1');
     }
 
+    /**
+     * Scope a query to only include tenancies which are active.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeIsActive($query)
+    {
+        return $query
+            ->with('property','tenants','current_rent','rent_payments','lastRentPayment','statements','last_statement')
+            ->where('vacated_on', '>', Carbon::now());
+    }
+
 	/**
 	 * A tenancy belongs to a single property.
 	 */
