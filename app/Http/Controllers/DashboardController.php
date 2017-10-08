@@ -41,7 +41,6 @@ class DashboardController extends Controller
             ->sum('amount');
 
         $commission = Invoice::has('statements')
-            ->whereNotNull('paid_at')
             ->whereYear('paid_at', date('Y'))
             ->whereMonth('paid_at', date('m'))
             ->with('statements','items','items.taxRate')
@@ -49,7 +48,6 @@ class DashboardController extends Controller
             ->sum('total');
 
         $invoice_income = Invoice::doesntHave('statements')
-            ->whereNotNull('paid_at')
             ->whereYear('paid_at', date('Y'))
             ->whereMonth('paid_at', date('m'))
             ->with('items','items.taxRate')

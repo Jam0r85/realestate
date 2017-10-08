@@ -134,6 +134,7 @@ class StatementService
 
         // Check whether we have any invoice items to add.
         if ($data['invoice_number']) {
+
             $total_invoice_items = count(array_where($data['item_name'], function ($value, $key) {
                 return !is_null($value);
             }));
@@ -174,7 +175,7 @@ class StatementService
                 $item['cost'] = $data['expense_cost'][$i];
                 $item['contractors'] = $data['expense_contractors'][$i];
 
-                $item['created_at'] = $data['created_at'];
+                $item['§d_at'] = $data['created_at'];
                 $item['paid_at'] = $data['created_at'];
 
                 $this->createExpenseItem($item, $statement->id);
@@ -290,7 +291,7 @@ class StatementService
 
         // Should we not have a valid invoice, we create one.
         if (!$invoice) {
-            $invoice = $this->createInvoice($statement_id, array_only($data, ['created_at','number','users']));
+            $invoice = $this->createInvoice($statement_id, array_only($data, ['created_at','number','users','paid_at']));
         }
 
         // Create and store the invoice item.

@@ -33,6 +33,13 @@
 					<input type="date" class="form-control" name="due_at" value="{{ $invoice->due_at ? $invoice->due_at->format('Y-m-d') : null }}" />
 				</div>
 
+				@if ($invoice->paid_at)
+					<div class="form-group">
+						<label for="paid_at">Date Paid</label>
+						<input type="date" class="form-control" name="paid_at" value="{{ $invoice->paid_at->format('Y-m-d') }}" />
+					</div>
+				@endif
+
 				<div class="form-group">
 					<label for="number">Number</label>
 					<input type="text" class="form-control" name="number" value="{{ $invoice->number }}" />
