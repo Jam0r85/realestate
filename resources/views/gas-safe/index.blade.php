@@ -43,7 +43,7 @@
 				</thead>
 				<tbody>
 					@foreach ($reminders as $reminder)
-						<tr>
+						<tr class="@if ($reminder->expires_on <= \Carbon\Carbon::now()) table-danger @endif">
 							<td>
 								<a href="{{ route('gas-safe.show', $reminder->id) }}">
 									{{ date_formatted($reminder->expires_on) }}
