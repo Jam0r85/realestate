@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
         $overdue_tenancies = Tenancy::isOverdue()->count();
         $active_tenancies = Tenancy::isActive()->count();
-        $managed_tenancies = Tenancy::whereIn('service_id', $managed_services)->count();
+        $managed_tenancies = Tenancy::isActive()->whereIn('service_id', $managed_services)->count();
 
         $gas_expired = Gas::isExpired()->count();
 
