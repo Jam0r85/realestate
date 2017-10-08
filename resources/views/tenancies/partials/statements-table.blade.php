@@ -25,7 +25,9 @@
 						</a>
 					@endif
 				</td>
-				<td></td>
+				<td>
+					@include('statements.format.status')
+				</td>
 			</tr>
 		@endforeach
 	</tbody>
