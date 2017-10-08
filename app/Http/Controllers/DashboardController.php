@@ -43,6 +43,7 @@ class DashboardController extends Controller
         $commission = Invoice::has('statements')
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
+            ->get()
             ->sum('total');
 
         $gas_expired = Gas::isExpired()->count();
