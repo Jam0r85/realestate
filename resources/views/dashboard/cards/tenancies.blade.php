@@ -15,5 +15,11 @@
 			</span>
 			Active tenancies
 		</a>
+		<a href="{{ route('tenancies.index') }}" class="list-group-item list-group-item-action">
+			<span class="float-right">
+				{{ $managed_tenancies }}
+			</span>
+			Managed tenancies
+		</a>
 	</div>
 </div>

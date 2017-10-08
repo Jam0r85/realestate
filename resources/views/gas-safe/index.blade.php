@@ -49,7 +49,7 @@
 									{{ date_formatted($reminder->expires_on) }}
 								</a>
 							</td>
-							<td>{{ $reminder->property->short_name }}</td>
+							<td>{!! truncate($reminder->property->short_name) !!}</td>
 							<td>
 								@foreach ($reminder->contractors as $user)
 									<a class="badge badge-primary" title="{{ $user->name }}" href="{{ route('users.show', $user->id) }}">
