@@ -5,6 +5,7 @@
 		<th>Property</th>
 		<th>Total</th>
 		<th>Users</th>
+		<th>Paid</th>
 	</thead>
 	<tbody>
 		@foreach ($invoices as $invoice)
@@ -24,6 +25,7 @@
 						</a>
 					@endforeach
 				</td>
+				<td>{{ date_formatted($invoice->paid_at) }}</td>
 			</tr>
 		@endforeach
 	</tbody>
