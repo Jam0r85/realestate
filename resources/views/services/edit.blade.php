@@ -61,7 +61,7 @@
 			</div>
 
 			@component('partials.bootstrap.save-submit-button')
-				Create Service
+				Update Service
 			@endcomponent
 
 		</form>

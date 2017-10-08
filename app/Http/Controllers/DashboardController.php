@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gas;
+use App\Invoice;
 use App\Payment;
 use App\Service;
 use App\Tenancy;
@@ -39,6 +40,18 @@ class DashboardController extends Controller
             ->get()
             ->sum('amount');
 
+        $invoices = Invoice::whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->get();
+
+        $commission = 0;
+
+        foreach ($invoices as $invoice) {
+            if ($invoice->statement) {
+                $commission =+ $invoice->total;
+            }
+        }
+
         $gas_expired = Gas::isExpired()->count();
 
     	return view('dashboard.index', compact(
@@ -46,6 +59,7 @@ class DashboardController extends Controller
             'active_tenancies',
             'managed_tenancies',
             'rent_received',
+            'commission',
             'gas_expired'
         ));
     }
