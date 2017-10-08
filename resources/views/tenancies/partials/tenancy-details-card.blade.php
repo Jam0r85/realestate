@@ -17,5 +17,11 @@
 				Started
 			@endslot
 		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->next_statement_start_date ? date_formatted($tenancy->next_statement_start_date) : '-' }}
+			@slot('title')
+				Next Statement Due
+			@endslot
+		@endcomponent
 	</ul>
 </div>
