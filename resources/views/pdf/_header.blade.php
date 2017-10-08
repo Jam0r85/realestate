@@ -18,6 +18,7 @@
 			}
 			header img {
 				padding: 1rem;
+				margin-right: 2rem;
 			}
 			header h1 {
 				font-size: 3rem;
