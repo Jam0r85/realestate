@@ -3,31 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Repositories\EloquentCalendarsRepository;
-use App\Repositories\EloquentEventsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class EventController extends Controller
+class EventController extends BaseController
 {
     /**
-     * @var  App\Repositories\EloquentCalendarsRepository
-     * @var  App\Repositories\EloquentEventsRepository
-     */
-    protected $calendars;
-    protected $events;
-
-    /**
      * Create a new controller instance.
-     * 
-     * @param   EloquentCalendarsRepository $calendars
-     * @param   EloquentCalendarsRepository $events
+     *
      * @return  void
      */
-    public function __construct(EloquentCalendarsRepository $calendars, EloquentEventsRepository $events)
+    public function __construct()
     {
-        $this->calendars = $calendars;
-        $this->events = $events;
         $this->middleware('auth');
     }
 
@@ -38,40 +26,49 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = $this->events->getAllPaged();
-        return view('events.index', compact('events'));
+        $events = Event::withTrashed()->latest()->paginate();
+        $title = 'Events List';
+
+        return view('events.index', compact('events','title'));
     }
 
     /**
-     * Display a listing of archived resources.
-     * 
-     * @param  [type] $calendar_id [description]
-     * @return \Illuminate\Http\Responce
-     */
-    public function archived($calendar_id = null)
-    {
-        $events = $this->events->getArchivedPaged();
-        if ($calendar_id) {
-            $calendar = $this->calendars->find($calendar_id);
-            return view('calendars.archived-events', compact('events','calendar'));
-        }
-    }
-
-    /**
-     * Return a JSON feed of events for the calendar.
+     * Get an array of archived events.
      *
-     * @param  $calendar_id  calendar_id 
-     * @return [type] [description]
+     * @param integer $id
+     * @return array
      */
-    public function feed($id = null)
+    public function archivedFeed($id)
     {
-        return $this->events->feed($id);
+        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'all_day')
+            ->onlyTrashed()
+            ->where('calendar_id', $id)
+            ->get()
+            ->toArray();
+
+        return $events;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Get an array of events.
      *
-     * @param  $id  calendar_id
+     * @param integer $id
+     * @return array
+     */
+    public function feed($id)
+    {
+        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'all_day')
+            ->where('calendar_id', $id)
+            ->get()
+            ->toArray();
+
+        return $events;
+    }
+
+    /**
+     * Show the modal form for creating a new event.
+     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -80,19 +77,28 @@ class EventController extends Controller
         $end = $request->end;
         $calendar_id = $request->calendar_id;
 
-        return view('events.create', compact('start','end','calendar_id'));
+        return view('events.modals.new-event', compact('start', 'end', 'calendar_id'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $this->events->createEvent($data);
+        $event = new Event();
+        $event->user_id = Auth::user()->id;
+        $event->calendar_id = $request->calendar_id;
+        $event->title = $request->title;
+        $event->body = $request->body;
+        $event->start = Carbon::parse($request->start);
+        $event->end = Carbon::parse($request->end);
+        $event->save();
+
+        $this->successMessage('The event "' . $event->title . '" was created');
+
         return back();
     }
 
@@ -108,39 +114,64 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the modal form for editing an event.
      *
-     * @param  \App\Event  $event
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id = null)
+    public function editByModal(Request $request)
     {
-        $event = $this->events->find($request->event_id);
-        if ($id) {
-            $event = $this->events->find($id);
-        }
+        $event = Event::withTrashed()->findOrFail($request->event_id);
+        return view('events.modals.edit-event', compact('event'));
+    }
 
+    /**
+     * Show the edit page for editing an event.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $event = Event::withTrashed()->findOrFail($id);
         return view('events.edit', compact('event'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
+     * @param \Illuminate\Http\Request  $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except('_token','_method');
-        $this->events->updateEvent($data, $id);
+        $event = Event::withTrashed()->findOrFail($id);
+
+        if ($request->has('delete_event') && ($request->delete_event == 'delete')) {
+            $event->delete();            
+            $this->successMessage('The event "' . $event->title . '" was deleted');
+        }
+
+        if ($request->has('restore_event') && ($request->restore_event == 'restore')) {
+            $event->restore();
+            $this->successMessage('The event "' . $event->title . '" was restored');
+        }
+
+        $event->title = $request->title;
+        $event->body = $request->body;
+        $event->start = Carbon::parse($request->start);
+        $event->end = Carbon::parse($request->end);
+        $event->save();
+
+        $this->successMessage('The event "' . $event->title . '" was updated');
 
         return back();
     }
 
     /**
      * Restore an archived event.
-     * 
+     *
      * @param  integer $id [description]
      * @return [type]     [description]
      */

@@ -221,7 +221,7 @@
 
     </div>
 
-    <div id="modal-container"></div>
+    <div id="modalContainer"></div>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>

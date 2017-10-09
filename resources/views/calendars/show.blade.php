@@ -43,7 +43,7 @@
 	    	minTime: '06:00',
 	    	maxTime: '20:00',
 	    	firstDay: '1',
-	    	columnFormat: 'dddd D MMMM',
+	    	columnFormat: 'ddd DD, YYYY',
 	    	events: '{{ route('events.feed', $calendar->id) }}',
 	    	hiddenDays: [ 0 ],
 	    	eventClick: function (event, jsEvent, view) {
@@ -51,11 +51,10 @@
 				$.ajax({
 				    type: 'POST',
 				   	data: { event_id: event.id },
-				    url: '{{ route('events.edit') }}',
+				    url: '{{ route('events.edit-modal') }}',
 				    success: function(data) {
-	                    $('.modal').addClass('is-active');
-	                    $('html').addClass('is-clipped');
-				        $('#modal-content').html(data);
+				    	$('#modalContainer').html(data);
+				    	$('#editEventModal').modal('show');
 				    },
 				    error: function(data) {
 				    	alert('Error accessing the Event Controller');
@@ -73,7 +72,8 @@
 				   	data: { calendar_id: '{{ $calendar->id }}', start: start, end: end },
 				    url: '{{ route('events.create') }}',
 				    success: function(data) {
-				        $('#modal-container').html(data);
+				    	$('#modalContainer').html(data);
+				    	$('#newEventModal').modal('show');
 				    },
 				    error: function(data) {
 				    	alert('Error accessing the Event Controller');

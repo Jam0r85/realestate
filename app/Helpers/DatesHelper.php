@@ -9,6 +9,15 @@ function date_formatted($date)
 	return $date->format('d M, Y');
 }
 
+function time_formatted($date)
+{
+	if (empty($date)) {
+		return null;
+	}
+
+	return $date->format('H:i');
+}
+
 function longdate_formatted($date)
 {
 	if (empty($date)) {

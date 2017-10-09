@@ -40,10 +40,10 @@ class Event extends BaseModel
     }
 
     /**
-     * An event belongs to the user who created it.
+     * An event has an owner.
      */
     public function owner()
     {
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('App\User', 'user_id');
     }
 }

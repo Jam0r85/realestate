@@ -19,11 +19,12 @@ Route::prefix('calendars')->group(function () {
 
 Route::prefix('events')->group(function () {
 	Route::get('/', 'EventController@index')->name('events.index');
-	Route::get('feed/{id?}', 'EventController@feed')->name('events.feed');
+	Route::get('feed/{id}', 'EventController@feed')->name('events.feed');
+	Route::get('feed/{id}/archived', 'EventController@archivedFeed')->name('events.feed-archived');
 	Route::post('create', 'EventController@create')->name('events.create');
 	Route::post('/', 'EventController@store')->name('events.store');
-	Route::post('edit', 'EventController@edit')->name('events.edit');
-	Route::get('{id}/edit', 'EventController@edit')->name('events.edit-link');
+	Route::post('edit', 'EventController@editByModal')->name('events.edit-modal');
+	Route::get('{id}/edit', 'EventController@edit')->name('events.edit');
 	Route::put('{id}', 'EventController@update')->name('events.update');
 	Route::get('{id}/restore', 'EventController@restore')->name('events.restore');
 	Route::delete('{id}', 'EventController@destroy')->name('events.delete');
