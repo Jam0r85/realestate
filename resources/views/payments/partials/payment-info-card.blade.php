@@ -15,5 +15,17 @@
 				Payment Method
 			@endslot
 		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $payment->parent->name }}
+			@slot('title')
+				Tenancy
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $payment->parent->property->short_name }}
+			@slot('title')
+				Property
+			@endslot
+		@endcomponent
 	</ul>
 </div>
