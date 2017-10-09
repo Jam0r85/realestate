@@ -90,6 +90,7 @@ class PaymentService
 
 		// Build the payment.
 		$payment = new Payment();
+		$payment->user_id = Auth::user()->id;
 		$payment->key = str_random(30);
 		$payment->fill($data);
 
