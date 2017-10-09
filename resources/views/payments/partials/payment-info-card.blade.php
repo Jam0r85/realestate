@@ -16,13 +16,17 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $payment->parent->name }}
+			<a href="{{ route('tenancies.show', $payment->parent->id) }}" title="{{ $payment->parent->name }}">
+				{{ $payment->parent->name }}
+			</a>
 			@slot('title')
 				Tenancy
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $payment->parent->property->short_name }}
+			<a href="{{ route('properties.show', $payment->parent->property->id) }}" title="{{ $payment->parent->property->short_name }}">
+				{{ $payment->parent->property->short_name }}
+			</a>
 			@slot('title')
 				Property
 			@endslot
