@@ -7,6 +7,7 @@ use App\Invoice;
 use App\Payment;
 use App\Tenancy;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentService
 {
@@ -22,6 +23,7 @@ class PaymentService
 		$invoice = Invoice::findOrFail($id);
 
 		$payment = new Payment();
+		$payment->user_id = Auth::user()->id;
 		$payment->key = str_random(30);
 		$payment->amount = $data['amount'];
 		$payment->payment_method_id = $data['payment_method_id'];
@@ -58,6 +60,7 @@ class PaymentService
 
 		// Build the payment.
 		$payment = new Payment();
+		$payment->user_id = Auth::user()->id;
 		$payment->key = str_random(30);
 		$payment->fill($data);
 
