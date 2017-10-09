@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyPaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Payment;
 use Illuminate\Http\Request;
@@ -83,6 +84,29 @@ class PaymentController extends BaseController
         $payment->save();
 
         $this->successMessage('The payment was updated');
+
+        return back();
+    }
+
+    /**
+     * Destroy the given payment.
+     * 
+     * @param \App\Http\Requests\DestroyPaymentRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DestroyPaymentRequest $request, $id)
+    {
+        $payment = Payment::findOrFail($id);
+
+        if ($request->confirmation != $payment->id) {
+            $this->errorMessage("The ID was incorrect");
+            return back();
+        }
+
+        $payment->destroy();
+
+        $this->successMessage('The payment ' . $payment->id . ' was deleted');
 
         return back();
     }
