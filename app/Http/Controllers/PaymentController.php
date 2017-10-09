@@ -104,7 +104,7 @@ class PaymentController extends BaseController
             return back();
         }
 
-        $payment->destroy();
+        $payment->delete();
 
         $this->successMessage('The payment ' . $payment->id . ' was deleted');
 
