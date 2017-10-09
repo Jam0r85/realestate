@@ -108,6 +108,6 @@ class PaymentController extends BaseController
 
         $this->successMessage('The payment ' . $payment->id . ' was deleted');
 
-        return back();
+        return redirect()->route('payments.rent');
     }
 }
