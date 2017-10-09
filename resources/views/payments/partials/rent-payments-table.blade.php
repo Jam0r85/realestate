@@ -31,7 +31,7 @@
 				</td>
 				<td class="text-right">
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download">
-						<i class="fa fa-pdf"></i> Receipt
+						<i class="fa fa-download"></i> Receipt
 					</a>
 				</td>
 			</tr>

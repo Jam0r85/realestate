@@ -60,6 +60,14 @@ class Payment extends BaseModel
         return $query->where('parent_type', 'tenancies');
     }
 
+    /**
+     * A payment can have an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
 	/**
 	 * A payment can belong to many users.
 	 */
