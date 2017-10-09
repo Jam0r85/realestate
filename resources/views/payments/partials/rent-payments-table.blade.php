@@ -5,7 +5,7 @@
 		<th>Amount</th>
 		<th>Method</th>
 		<th>Users</th>
-		<th class="text-right">Receipt</th>
+		<th></th>
 	</thead>
 	<tbody>
 		@foreach ($payments as $payment)
@@ -31,7 +31,7 @@
 				</td>
 				<td class="text-right">
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download">
-						<i class="fa fa-download"></i> Download
+						<i class="fa fa-pdf"></i> Receipt
 					</a>
 				</td>
 			</tr>
