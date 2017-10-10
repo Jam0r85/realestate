@@ -16,7 +16,7 @@ class BaseModel extends Model
 	/**
 	 * Model can have many settings.
 	 */
-	public function settings()
+	public function oldSettings()
 	{
 		return $this->morphMany('App\Setting', 'parent');
 	}
@@ -29,7 +29,7 @@ class BaseModel extends Model
 	 */
 	public function hasSetting($key)
 	{
-		return $this->settings()->where('key', $key)->whereNotNull('value')->first();
+		return $this->oldSettings()->where('key', $key)->whereNotNull('value')->first();
 	}
 
 	/**
@@ -41,12 +41,12 @@ class BaseModel extends Model
 	 */
 	public function storeSetting($key, $value = null)
 	{
-		$exists = $this->settings()->where('key', $key)->first();
+		$exists = $this->oldSettings()->where('key', $key)->first();
 
 		if ($exists) {
-			$this->settings()->where('key', $key)->update(['value' => $value]);
+			$this->oldSettings()->where('key', $key)->update(['value' => $value]);
 		} else {
-			$this->settings()->create(['key' => $key, 'value' => $value]);
+			$this->oldSettings()->create(['key' => $key, 'value' => $value]);
 		}
 	}
 }

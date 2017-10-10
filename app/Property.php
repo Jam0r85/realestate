@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Settings\PropertySettings;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -28,7 +29,7 @@ class Property extends BaseModel
      * @var array
      */
     protected $casts = [
-    	'data' => 'json'
+    	'settings' => 'array'
    ];
 
 	/**
@@ -56,7 +57,8 @@ class Property extends BaseModel
 		'town',
 		'county',
 		'postcode',
-		'country'
+		'country',
+		'settings'
 	];
 
     /**
@@ -142,6 +144,14 @@ class Property extends BaseModel
 	public function bank_account()
 	{
 		return $this->belongsTo('App\BankAccount');
+	}
+
+	/**
+	 * A property can have settings.
+	 */
+	public function settings()
+	{
+		return new PropertySettings($this);
 	}
 
 	/**

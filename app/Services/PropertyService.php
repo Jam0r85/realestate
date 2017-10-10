@@ -21,6 +21,8 @@ class PropertyService
         $property->fill($data);
         $property->save();
 
+        $property->settings()->storeDefault();
+
         if (isset($data['owners'])) {
             $property->owners()->attach($data['owners']);
         }
@@ -78,6 +80,13 @@ class PropertyService
     public function updateStatementSettings(array $data, $id)
     {
         $property = Property::findOrFail($id);
+
+        $store = [
+            'statement_bank_account_id' => $data['bank_account_id'],
+            'statement_send_method' => $data['sending_method']
+        ];
+
+        $property->settings()->merge($store);
 
         if ($data['sending_method'] == 'post') {
             $property->storeSetting('post_rental_statement', true);

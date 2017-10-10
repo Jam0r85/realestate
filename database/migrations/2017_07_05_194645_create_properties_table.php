@@ -27,7 +27,7 @@ class CreatePropertiesTable extends Migration
             $table->string('county')->nullable();
             $table->string('postcode')->nullable();
             $table->string('country')->nullable();
-            $table->text('data')->nullable();
+            $table->text('settings')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

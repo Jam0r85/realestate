@@ -51,11 +51,7 @@ class StatementService
             $statement->created_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
         }
 
-        if ($tenancy->property->hasSetting('post_rental_statement')) {
-            $statement->send_by = 'post';
-        } else {
-            $statement->send_by = 'email';
-        }
+        $statement->send_by = $tenancy->property->settings['statement_send_method'];
 
         // Store the statement
         $statement = $tenancy->statements()->save($statement);
