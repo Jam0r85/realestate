@@ -19,7 +19,7 @@ class TenanciesCheckOverdue extends Command
      *
      * @var string
      */
-    protected $description = 'Check for overdue tenancies';
+    protected $description = 'Searches through managed tenancies and marks them as overdue';
 
     /**
      * Create a new command instance.

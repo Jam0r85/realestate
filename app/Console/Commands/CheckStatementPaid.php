@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Statement;
-use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
