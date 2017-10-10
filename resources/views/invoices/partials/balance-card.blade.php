@@ -4,12 +4,6 @@
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($invoice->total) }}
-			@slot('title')
-				Invoice Total
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
 			{{ currency($invoice->total_net) }}
 			@slot('title')
 				Net Total
@@ -19,6 +13,12 @@
 			{{ currency($invoice->total_tax) }}
 			@slot('title')
 				Tax Total
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ currency($invoice->total) }}
+			@slot('title')
+				Invoice Total
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
