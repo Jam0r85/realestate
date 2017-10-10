@@ -38,7 +38,8 @@ class InvoiceItem extends BaseModel
      */
     public function taxRate()
     {
-    	return $this->belongsTo('App\TaxRate');
+    	return $this->belongsTo('App\TaxRate')
+            ->withTrashed();
     }
 
     /**

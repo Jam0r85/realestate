@@ -16,19 +16,9 @@ class TaxRate extends BaseModel
     public $timestamps = false;
 
     /**
-     * The attrbites that should be included in the collection.
+     * The attributes that should be mutated to dates.
      * 
      * @var array
      */
-    protected $appends = ['name_formatted'];
-
-	/**
-	 * Get the tax rate formatted name.
-	 * 
-	 * @return string
-	 */
-    public function getNameFormattedAttribute()
-    {
-    	return $this->name . ' (' . (float) $this->amount . '%)';
-    }
+    protected $dates = ['deleted_at'];
 }

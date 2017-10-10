@@ -16,9 +16,10 @@ class Service extends Model
 	/**
 	 * A service can have a tax rate.
 	 */
-    public function tax_rate()
+    public function taxRate()
     {
-    	return $this->belongsTo('App\TaxRate');
+    	return $this->belongsTo('App\TaxRate')
+            ->withTrashed();
     }
 
     /**

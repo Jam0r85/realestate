@@ -174,9 +174,9 @@
                                 @endslot
                             @endcomponent
 
-                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                                <a class="dropdown-item" href="{{ route('settings.index') }}">
-                                    Settings
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('settings.general') }}">
+                                    Application Settings
                                 </a>
                                 <a class="dropdown-item" href="{{ route('branches.index') }}">
                                     Branches

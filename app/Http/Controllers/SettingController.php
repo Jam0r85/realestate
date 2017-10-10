@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTaxRateRequest;
+use App\Http\Requests\RestoreTaxRateRequest;
+use App\Http\Requests\StoreTaxRateRequest;
+use App\Http\Requests\UpdateTaxRateRequest;
 use App\Setting;
+use App\TaxRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -21,27 +26,16 @@ class SettingController extends BaseController
     }
 
     /**
-     * Display the settings layout and different sections
-     *
-     * @param string $section
-     * @return \Illuminate\Http\Response
-     */
-    public function index($section = 'general')
-    {
-        $settings = Setting::all();
-        return view('settings.' . $section);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function updateGeneral(Request $request)
+    public function update(Request $request)
     {
         $values = $request->except('_token');
+
         $this->updateSettingsTable($values);
 
         $this->successMessage('Changes were saved');
@@ -87,6 +81,105 @@ class SettingController extends BaseController
         ];
 
         $this->settings->save($data);
+        return back();
+    }
+
+    /**
+     * Display the list of tax rates.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function taxRates()
+    {
+        $rates = TaxRate::withTrashed()->get();
+        return view('settings.tax-rates.list', compact('rates'));
+    }
+
+    /**
+     * Store a new tax rate.
+     * 
+     * @param \App\Http\Requests\StoreTaxRate $request]
+     * @return \Illuminate\Http\Response
+     */
+    public function storeTaxRate(StoreTaxRateRequest $request)
+    {
+        $rate = new TaxRate();
+        $rate->name = $request->name;
+        $rate->amount = $request->amount;
+        $rate->save();
+
+        Cache::tags('tax_rates')->flush();
+
+        $this->successMessage('The tax rate "' . $rate->name . '" was created');
+
+        return back();
+    }
+
+    /**
+     * Show the form for editing a tax rate.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editTaxRate($id)
+    {
+        $rate = TaxRate::withTrashed()->findOrFail($id);
+        return view('settings.tax-rates.edit', compact('rate'));
+    }
+
+    /**
+     * Update a tax rate.
+     * 
+     * @param \App\http\Requests\UpdateTaxRateRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Request
+     */
+    public function updateTaxRate(UpdateTaxRateRequest $request, $id)
+    {
+        $rate = TaxRate::withTrashed()->findOrFail($id);
+        $rate->name = $request->name;
+        $rate->save();
+
+        $this->successMessage('The changes were saved');
+
+        return back();
+    }
+
+    /**
+     * Destroy a tax rate.
+     * 
+     * @param \App\Http\Requests\DestroyTaxRateRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyTaxRate(DestroyTaxRateRequest $request, $id)
+    {
+        $rate = TaxRate::findOrFail($id);
+        $rate->delete();
+
+        Cache::tags('tax_rates')->flush();
+
+        $this->successMessage('The tax rate "' . $rate->name . '" was deleted');
+
+        return back();
+    }
+
+    /**
+     * Restore a tax rate.
+     * 
+     * @param \App\Http\Requests\RestoreTaxRateRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restoreTaxRate(RestoreTaxRateRequest $request, $id)
+    {
+        $rate = TaxRate::onlyTrashed()->findOrFail($id);
+        $rate->restore();
+
+        Cache::tags('tax_rates')->flush();
+
+        $this->successMessage('The tax rate "' . $rate->name . '" was restored');
+
         return back();
     }
 }

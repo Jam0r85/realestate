@@ -4,7 +4,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 		<div class="page-title">
-			<h1>Edit Service - {{ $service->name }}</h1>
+			<h1>Edit Service</h1>
+			<h3>{{ $service->name }}</h3>
 		</div>
 	@endcomponent
 

@@ -5,19 +5,28 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-3">
-				<nav class="nav nav-pills flex-column mt-3">
-					<a class="nav-link" href="{{ route('settings.index') }}" title="General Settings">
+			<div class="col-sm-12 col-lg-3 pr-lg-5">
+
+				<div class="nav flex-column nav-pills">
+					<a class="nav-link {{ Menu::activeRoute('settings.general', 'active') }}" href="{{ route('settings.general') }}" title="General Settings">
 						General Settings
 					</a>
-					<a class="nav-link" href="{{ route('settings.index', 'invoice') }}" title="Invoice Settings">
+					<a class="nav-link {{ Menu::activeRoute('settings.invoice', 'active') }}" href="{{ route('settings.invoice', 'invoice') }}" title="Invoice Settings">
 						Invoice Settings
 					</a>
+					<a class="nav-link {{ Menu::activeRoutes(['settings.tax-rates','settings.edit-tax-rate'], 'active') }}" href="{{ route('settings.tax-rates') }}" title="Tax Rates">
+						Tax Rates
+					</a>
 					<a class="nav-link" href="#">Logo Settings</a>
-				</nav>
+				</div>
+
 			</div>
-			<div class="col">
+			<div class="col-sm-12 col-lg-9">
+
+				<hr class="d-lg-none my-3" />
+
 				@yield('settings-content')
+
 			</div>
 		</div>
 

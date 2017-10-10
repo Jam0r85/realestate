@@ -189,8 +189,17 @@ Route::prefix('reports')->group(function () {
 	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
 });
 
-Route::get('settings/{section?}', 'SettingController@index')->name('settings.index');
-Route::post('settings', 'SettingController@updateGeneral')->name('settings.update-general');
+Route::prefix('settings')->group(function () {
+	Route::view('/', 'settings.general')->name('settings.general');
+	Route::view('invoice', 'settings.invoice')->name('settings.invoice');
+	Route::get('tax-rates', 'SettingController@taxRates')->name('settings.tax-rates');
+	Route::post('tax-rates', 'SettingController@storeTaxRate')->name('settings.store-tax-rate');
+	Route::get('tax-rates/{id}', 'SettingController@editTaxRate')->name('settings.edit-tax-rate');
+	Route::put('tax-rates/{id}', 'SettingController@updateTaxRate')->name('settings.update-tax-rate');
+	Route::delete('tax-rates/{id}', 'SettingController@destroyTaxRate')->name('settings.destroy-tax-rate');
+	Route::put('tax-rates/{id}/restore', 'SettingController@restoreTaxRate')->name('settings.restore-tax-rate');
+	Route::put('/', 'SettingController@update')->name('settings.update');
+});
 
 Route::prefix('gas-safe')->group(function () {
 	Route::get('/', 'GasController@index')->name('gas-safe.index');
