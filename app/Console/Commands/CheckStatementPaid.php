@@ -40,24 +40,15 @@ class CheckStatementPaid extends Command
      */
     public function handle()
     {
-        // Get all unpaid statements.
         $statements = Statement::whereNull('paid_at')->get();
 
         foreach ($statements as $statement) {
 
-            // Get all the sent statement payments.
-            $payments = StatementPayment::where('statement_id', $statement->id)->whereNotNull('sent_at')->get();
-            $payments_total = $payments->sum('amount');
+            $amount_paid = $statement->payments()->whereNotNull('sent_at')->sum('amount');
 
-            if (count($payments)) {
-                
-                // Calculate the statement total.
-                $statement_total = $statement->invoice_total_amount + $statement->landlord_balance_amount + $statement->expense_total_amount;
-
-                if ($payments_total == $statement_total) {
-                    $statement->paid_at = Carbon::now();
-                    $statement->save();
-                }
+            if ($amount_paid >= $statement->amount) {
+                $statement->paid_at = Carbon::now();
+                $statement->save();
             }
         }
 
