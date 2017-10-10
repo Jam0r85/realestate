@@ -53,7 +53,9 @@
 				<select name="tax_rate_id" class="form-control">
 					<option value="0">None</option>
 					@foreach (tax_rates() as $rate)
-						<option @if ($service->tax_rate_id == $rate->id) selected @endif value="{{ $rate->id }}">{{ $rate->name }}</option>
+						<option @if ($service->tax_rate_id == $rate->id) selected @endif value="{{ $rate->id }}">
+							{{ $rate->name }}
+						</option>
 					@endforeach
 				</select>
 				<small class="form-text text-muted">

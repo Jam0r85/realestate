@@ -47,7 +47,7 @@
 			<option 
 				@if (isset($item) && $item->tax_rate_id == $rate->id) selected @endif
 				@if (get_setting('default_tax_rate_id') == $rate->id) selected @endif
-				value="{{ $rate->id }}">{{ $rate->name_formatted }}
+				value="{{ $rate->id }}">{{ $rate->name }}
 			</option>
 		@endforeach
 	</select>
