@@ -38,12 +38,16 @@ class PropertySettings
 	 * @param array $attributes
 	 * @return 
 	 */
-	public function merge(array $attributes)
+	public function merge(array $attributes, $force = false)
 	{
-		$settings = array_merge(
-			$this->property->settings,
-			array_only($attributes, $this->allowed())
-		);
+		if ($force == true) {
+			$settings = $attributes;
+		} else {
+			$settings = array_merge(
+				$this->property->settings,
+				array_only($attributes, $this->allowed())
+			);
+		}
 
 		return $this->property->update(compact('settings'));
 	}
