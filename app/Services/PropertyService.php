@@ -82,18 +82,11 @@ class PropertyService
         $property = Property::findOrFail($id);
 
         $store = [
-            'statement_bank_account_id' => $data['bank_account_id'],
             'statement_send_method' => $data['sending_method']
         ];
 
         $property->settings()->merge($store);
-
-        if ($data['sending_method'] == 'post') {
-            $property->storeSetting('post_rental_statement', true);
-        } elseif ($data['sending_method'] == 'email') {
-            $property->storeSetting('post_rental_statement');
-        }
-
+        
         $property->bank_account_id = $data['bank_account_id'];
         $property->save();
 
