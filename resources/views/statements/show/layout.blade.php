@@ -76,6 +76,10 @@
 								<td class="has-text-right">{{ currency($statement->landlord_balance_amount) }}</td>
 							</tr>
 							<tr>
+								<td>Amount Paid</td>
+								<td>{{ currency($statement->payments->sum('amount')) }}</td>
+							</tr>
+							<tr>
 								<td class="has-text-grey">Date Paid</td>
 								<td class="has-text-right">
 									@if (is_null($statement->paid_at))

@@ -30,7 +30,16 @@ class User extends Authenticatable
      * 
      * @var integer
      */
-    protected $perPage = 20;
+    protected $perPage = 30;
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'array'
+   ];
 
     /**
      * The attrbites that should be included in the collection.

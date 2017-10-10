@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_number_other_label')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->text('settings')->nullable();
             $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
