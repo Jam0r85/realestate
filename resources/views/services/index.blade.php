@@ -42,7 +42,7 @@
 							<td>
 								@include('services.format.service-charge')
 							</td>
-							<td>{{ $service->tax_rate ? $service->tax_rate->name : '-' }}</td>
+							<td>{{ $service->taxRate ? $service->taxRate->name : '-' }}</td>
 						</tr>
 					@endforeach
 				</tbody>
