@@ -48,7 +48,7 @@ class CovertPropertySettings extends Command
                 $data['statement_send_method'] = 'email';
             }
 
-            $property->settings()->merge($data, true);
+            $property->settings()->merge($data, true); // Force the update
         }
 
         $this->info("Settings merged");

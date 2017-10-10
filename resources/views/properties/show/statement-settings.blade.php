@@ -39,8 +39,8 @@
 			<div class="form-group">
 				<label for="sending_method">Send Statement</label>
 				<select name="sending_method" class="form-control">
-					<option @if ($property->hasSetting('post_rental_statement')) selected @endif value="post">By Post</option>
-					<option @if (!$property->hasSetting('post_rental_statement')) selected @endif value="email">By E-Mail</option>
+					<option @if ($property->settings['statement_send_method'] == 'post') selected @endif value="post">By Post</option>
+					<option @if ($property->settings['statement_send_method'] == 'email') selected @endif value="email">By E-Mail</option>
 				</select>
 				<small class="form-text text-muted">
 					Select how the owners of this property wish to receive their rental statements.
