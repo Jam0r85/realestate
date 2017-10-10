@@ -102,9 +102,7 @@ if (!function_exists('properties')) {
 if (!function_exists('tax_rates')) {
 	function tax_rates()
 	{
-		return cache()->tags('tax_rates')->remember('tax_rates', 60, function () {
-			return \App\TaxRate::get();
-		});
+		return \App\TaxRate::get();
 	}
 }
 
