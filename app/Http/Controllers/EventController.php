@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Http\Requests\DestroyEventRequest;
+use App\Http\Requests\RestoreEventRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -170,26 +172,36 @@ class EventController extends BaseController
     }
 
     /**
-     * Restore an archived event.
+     * Restore an event.
      *
-     * @param  integer $id [description]
-     * @return [type]     [description]
+     * @param \App\Http\Requests\RestoreEventRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore(RestoreEventRequest $request, $id)
     {
-        $this->events->restore($id);
+        $event = Event::onlyTrashed()->findOrFail($id);
+        $event->restore();
+
+        $this->successMessage('The event "' . $event->title . '" was restored');
+
         return back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an event.
      *
-     * @param  integer $id
+     * @param \App\Http\Requests\DestroyEventRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyEventRequest $request, $id)
     {
-        $this->events->archive($id);
+        $event = Event::findOrFail($id);
+        $event->delete();
+
+        $this->successMessage('The event "' . $event->title . '" was deleted');
+
         return back();
     }
 }

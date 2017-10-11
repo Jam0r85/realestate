@@ -2,26 +2,24 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<div class="float-right">
-					@include('calendars.partials.dropdown-menu')
-				</div>
-				<h1>{{ $calendar->name }}</h1>
+		<div class="page-title">
+			<div class="float-right">
+				@include('calendars.partials.dropdown-menu')
 			</div>
-
+			<h1>{{ $calendar->name }}</h1>
 		</div>
-	</section>
 
-	<section class="section">
-		<div class="container">
+	@endcomponent
 
-			<div id="calendar"></div>
+	@component('partials.bootstrap.section-with-container')
 
-		</div>
-	</section>
+		@include('partials.errors-block')
+
+		<div id="calendar"></div>
+
+	@endcomponent
 
 @endsection
 

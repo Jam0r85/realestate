@@ -2,7 +2,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Edit Event</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Edit Event {{ $event->id }}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -12,6 +12,10 @@
 				{{ method_field('PUT') }}
 
 				<div class="modal-body">
+
+					<div class="alert alert-info">
+						Created by <b>{{ $event->owner->name }}</b>
+					</div>
 
 					<div class="form-group">
 						<label for="title">Title</label>
@@ -33,24 +37,37 @@
 						<input type="datetime-local" name="end" class="form-control" required value="{{ $event->end->format('Y-m-d\TH:i:s') }}" />
 					</div>
 
+					<button type="submit" class="btn btn-primary">Update Event</button>
+
+				</div>
+			</form>
+			<form role="form" method="POST" action="{{ route('events.destroy', $event->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('DELETE') }}
+
+				<div class="modal-body">
+
 					<div class="card border-danger">
 						<div class="card-body">
 							<h5 class="card-title">
-								Delete Event
+								Delete Event {{ $event->id }}
 							</h5>
+
 							<p class="card-text">
-								You can delete this event by entering the word 'delete' in the field below.
+								You can delete this event by entering the ID of the event into the field below. Events are 'soft deleted' and will still remain in the database but will be hidden from the calendar.
 							</p>
 
-							<input type="text" name="delete_event" class="form-control" />
+							<div class="form-group">
+								<input type="text" name="confirmation" class="form-control" />
+							</div>
+
+							<button type="submit" class="btn btn-danger">
+								Delete Event
+							</button>
 
 						</div>
 					</div>
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update Event</button>
 				</div>
 			</form>
 		</div>

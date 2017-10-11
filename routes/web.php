@@ -26,8 +26,8 @@ Route::prefix('events')->group(function () {
 	Route::post('edit', 'EventController@editByModal')->name('events.edit-modal');
 	Route::get('{id}/edit', 'EventController@edit')->name('events.edit');
 	Route::put('{id}', 'EventController@update')->name('events.update');
-	Route::get('{id}/restore', 'EventController@restore')->name('events.restore');
-	Route::delete('{id}', 'EventController@destroy')->name('events.delete');
+	Route::put('{id}/restore', 'EventController@restore')->name('events.restore');
+	Route::delete('{id}', 'EventController@destroy')->name('events.destroy');
 });
 
 Route::prefix('invoices')->group(function () {

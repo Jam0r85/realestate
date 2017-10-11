@@ -36,45 +36,71 @@
 				<input type="datetime-local" name="end" class="form-control" required value="{{ $event->end->format('Y-m-d\TH:i:s') }}" />
 			</div>
 
-			@if ($event->trashed())
-		
-				<div class="card border-info mb-3">
-					<div class="card-body">
-						<h5 class="card-title">
-							Restore Event
-						</h5>
-						<p class="card-text">
-							You can restore this event by entering the word 'restore' in the field below.
-						</p>
-
-						<input type="text" name="restore_event" class="form-control" />
-
-					</div>
-				</div>
-
-			@else
-
-				<div class="card border-danger mb-3">
-					<div class="card-body">
-						<h5 class="card-title">
-							Delete Event
-						</h5>
-						<p class="card-text">
-							You can delete this event by entering the word 'delete' in the field below.
-						</p>
-
-						<input type="text" name="delete_event" class="form-control" />
-
-					</div>
-				</div>
-
-			@endif
-
 			@component('partials.bootstrap.save-submit-button')
 				Update Event
 			@endcomponent
 
 		</form>
+
+		@if ($event->trashed())
+
+			<form role="form" method="POST" action="{{ route('events.restore', $event->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('PUT') }}
+	
+				<div class="card border-info my-3">
+					<div class="card-body">
+						<h5 class="card-title">
+							Restore Event {{ $event->id }}
+						</h5>
+
+						<p class="card-text">
+							You can restore this event by entering the event ID into the field below.
+						</p>
+
+						<div class="form-group">
+							<input type="text" name="confirmation" class="form-control" />
+						</div>
+
+						<button type="submit" class="btn btn-info">
+							<i class="fa fa-history"></i> Restore Event
+						</button>
+
+					</div>
+				</div>
+
+			</form>
+
+		@else
+
+			<form role="form" method="POST" action="{{ route('events.destroy', $event->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('DELETE') }}
+
+				<div class="card border-danger my-3">
+					<div class="card-body">
+						<h5 class="card-title">
+							Delete Event {{ $event->id }}
+						</h5>
+
+						<p class="card-text">
+							You can delete this event by entering the event ID into the field below.
+						</p>
+
+						<div class="form-group">
+							<input type="text" name="delete_event" class="form-control" />
+						</div>
+
+						<button type="submit" class="btn btn-danger">
+							<i class="fa fa-trash"></i> Delete Event
+						</button>
+
+					</div>
+				</div>
+
+			</form>
+
+		@endif
 
 	@endcomponent
 
