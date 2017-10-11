@@ -4,7 +4,15 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
+            <div class="col-sm-12 col-lg-6 ml-lg-auto mr-lg-auto">
+
+                @if (get_setting('company_logo'))
+                    <div class="row mb-5">
+                        <div class="col-sm-12 col-lg-6 ml-lg-auto mr-lg-auto">
+                            <img src="{{ Storage::url(get_setting('company_logo')) }}" class="img-fluid" />
+                        </div>
+                    </div>
+                @endif
 
                 <div class="card">
                     <div class="card-header">
