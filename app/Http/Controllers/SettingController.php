@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyLogoRequest;
 use App\Http\Requests\DestroyTaxRateRequest;
 use App\Http\Requests\RestoreTaxRateRequest;
 use App\Http\Requests\StoreTaxRateRequest;
+use App\Http\Requests\UpdateLogoRequest;
 use App\Http\Requests\UpdateTaxRateRequest;
 use App\Setting;
 use App\TaxRate;
@@ -66,21 +68,48 @@ class SettingController extends BaseController
     }
 
     /**
-     * Upload and update the company logo.
+     * Update the logo.
      *
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param \App\Http\Requests\UpdateLogoRequest $request
+     * @return \Illuminate\Http\Request
      */
-    public function updateLogo(Request $request)
+    public function updateLogo(UpdateLogoRequest $request)
     {
-        $path = Storage::putFile('logos', $request->file('company_logo'));
+        $path = Storage::putFile('logos', $request->file('image'));
 
-        $data[] = [
-            'key' => 'company_logo',
-            'value' => $path
-        ];
+        $setting = new Setting();
+        $setting->key = 'company_logo';
+        $setting->value = $path;
+        $setting->save();
 
-        $this->settings->save($data);
+        $this->successMessage('The new logo was uploaded and saved');
+
+        return back();
+    }
+
+    /**
+     * Destroy the logo.
+     * 
+     * @param \App\Http\Requests\DestroyLogoRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyLogo(DestroyLogoRequest $request)
+    {
+        if (Storage::exists(get_setting('company_logo'))) {
+            Storage::delete(get_setting('company_logo'));
+        } else {
+            $this->errorMessage('The logo file could not be found');
+        }
+
+        if (!Storage::exists(get_setting('company_logo'))) {
+            Setting::where('key', 'company_logo')
+                ->update(['value' => null]);
+
+            $this->successMessage('The logo was removed');
+        } else {
+            $this->errorMessage('The logo file still exists and the settings could not be updated');
+        }
+
         return back();
     }
 

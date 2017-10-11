@@ -17,7 +17,9 @@
 					<a class="nav-link {{ Menu::activeRoutes(['settings.tax-rates','settings.edit-tax-rate'], 'active') }}" href="{{ route('settings.tax-rates') }}" title="Tax Rates">
 						Tax Rates
 					</a>
-					<a class="nav-link" href="#">Logo Settings</a>
+					<a class="nav-link {{ Menu::activeRoute('settings.logo', 'active') }}" href="{{ route('settings.logo') }}" title="Business Logo">
+						Business Logo
+					</a>
 				</div>
 
 			</div>
