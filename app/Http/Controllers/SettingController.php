@@ -77,10 +77,14 @@ class SettingController extends BaseController
     {
         $path = Storage::putFile('logos', $request->file('image'));
 
-        $setting = new Setting();
-        $setting->key = 'company_logo';
-        $setting->value = $path;
-        $setting->save();
+        $exists = Setting::where('key', 'company_logo')->count();
+
+        if ($exists) {
+            Setting::where('key', 'company_logo')
+                ->update(['value' => $path]);
+        } else {
+            Setting::create(['key' => 'company_logo', 'value' => $path]);
+        }
 
         $this->successMessage('The new logo was uploaded and saved');
 

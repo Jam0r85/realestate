@@ -2,6 +2,8 @@
 
 @section('settings-content')
 
+	<p>The company logo is displayed both on the public website, invoices and rental statements.</p>
+
 	@if (get_setting('company_logo'))
 
 		<div class="card mb-3">
