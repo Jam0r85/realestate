@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends BaseController
 {
-
     /**
      * Create a new controller instance.
      *

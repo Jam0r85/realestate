@@ -189,7 +189,7 @@ Route::prefix('reports')->group(function () {
 	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
 });
 
-Route::prefix('settings')->group(function () {
+Route::middleware(['auth'])->prefix('settings')->group(function () {
 	Route::view('/', 'settings.general')->name('settings.general');
 	Route::view('invoice', 'settings.invoice')->name('settings.invoice');
 	Route::view('logo', 'settings.logo')->name('settings.logo');
