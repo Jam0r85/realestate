@@ -36,7 +36,7 @@
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ date_formatted($tenancy->deposit->lastPayment->created_at) }}
+				{{ $tenancy->deposit->lastPayment ? date_formatted($tenancy->deposit->lastPayment->created_at) : '-' }}
 				@slot('title')
 					Last Payment
 				@endslot
