@@ -571,9 +571,9 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByPostNotice(Statement $statement, User $users)
+    public function sendStatementByPostNotice(Statement $statement)
     {
-        Mail::to($users)->queue(new StatementByPost($statement));
+        Mail::to($statement->users)->queue(new StatementByPost($statement));
 
         return true;
     }
@@ -584,9 +584,9 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByEmail(Statement $statement, User $users)
+    public function sendStatementByEmail(Statement $statement)
     {
-        Mail::to($users)->queue(new StatementByEmail($statement));
+        Mail::to($statement->users)->queue(new StatementByEmail($statement));
 
         return true;
     }
