@@ -145,7 +145,9 @@ class StatementController extends BaseController
      */
     public function send(SendStatementsRequest $request)
     {
+        $service = new StatementService();
         $service->sendStatementToOwners($request->statements);
+
         $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
 
         return back();
