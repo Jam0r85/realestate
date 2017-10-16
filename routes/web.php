@@ -115,6 +115,7 @@ Route::prefix('statements')->group(function () {
 	Route::post('toggle-paid/{id?}', 'StatementController@togglePaid')->name('statements.toggle-paid');
 	Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
 	Route::post('send', 'StatementController@send')->name('statements.send');
+	Route::post('{id}/resend', 'StatementController@resend')->name('statements.resend');
 	Route::put('{id}', 'StatementController@update')->name('statements.update');
 	Route::post('{id}/archive', 'StatementController@archive')->name('statements.archive');
 	Route::post('{id}/restore', 'StatementController@restore')->name('statements.restore');

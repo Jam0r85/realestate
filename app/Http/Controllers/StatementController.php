@@ -6,9 +6,12 @@ use App\Http\Requests\SendStatementsRequest;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
+use App\Mail\StatementByEmail;
 use App\Services\StatementService;
 use App\Statement;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class StatementController extends BaseController
@@ -142,25 +145,28 @@ class StatementController extends BaseController
      */
     public function send(SendStatementsRequest $request)
     {
-        $service = new StatementService();
+        $service->sendStatementToOwners($request->statements);
+        $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
 
-        // Multiple statements to be sent
-        // App checks whether to send the statement by e-mail or just a notice that it has been posted.
-        if ($request->has('statements')) {
-            $service->sendStatementToOwners($request->statements);
-            $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
-        }
+        return back();
+    }
 
-        // Single statement to be sent
-        // This defaults to sending the statement by e-mail.
-        if ($request->has('statement_id')) {
-            $statement = Statement::findOrFail($request->statement_id);
-            if ($service->sendStatementByEmail($statement)) {
-                $this->successMessage('The statement was sent');
-            } else {
-                $this->warningMessage('The statement was not sent. Is there a valid e-mail address?');
-            }
-        }
+    /**
+     * Resend the statement to it's users.
+     * 
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function resend(Request $request, $id)
+    {
+        $statement = Statement::findOrFail($id);
+
+        $recipients = User::whereIn('id', $statement->users->pluck('id')->toArray())->whereNotNull('email')->get();
+
+        Mail::to($recipients)->send(new StatementByEmail($statement));
+
+        $this->successMessage('The statement was re-sent to the owners');
 
         return back();
     }

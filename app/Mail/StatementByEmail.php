@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Http\Controllers\DownloadController;
 use App\Statement;
+use Illuminate\Support\Facades\Storage;
 
 class StatementByEmail extends BaseMailer
 {
@@ -17,7 +18,6 @@ class StatementByEmail extends BaseMailer
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
-        parent::__construct();
     }
 
     /**
@@ -35,19 +35,20 @@ class StatementByEmail extends BaseMailer
         $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
         $this->markdown('email-templates.statement-by-email');
         
-        // // Check whether the statement has any expense payments
-        // if (count($this->statement->expenses)) {
-        //     // Loop through the expenses
-        //     foreach ($this->statement->expenses as $expense) {
-        //         // Check whether the expense has an invoice
-        //         if (count($expense->invoices)) {
-        //             foreach ($expense->invoices as $invoice) {
-        //                 // Attach the invoice to the email
-        //                 $this->attachData(get_file($invoice->path), $expense->name . '.' . $invoice->extension);
-        //             }
-        //         }
-        //     }
-        // }
+        if (count($this->statement->expenses)) {
+            // Loop through the expenses
+            foreach ($this->statement->expenses as $expense) {
+                // Check whether the expense has an invoice
+                if (count($expense->invoices)) {
+                    foreach ($expense->invoices as $invoice) {
+                        $this->attach(
+                            Storage::url($invoice->path), [
+                                'as' => $expense->name . '.' . $invoice->extension
+                            ]);
+                    }
+                }
+            }
+        }
 
         return $this;
     }

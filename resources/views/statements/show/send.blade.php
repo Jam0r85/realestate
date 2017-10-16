@@ -44,7 +44,7 @@
 				@endif
 			</div>
 
-			<form role="form" method="POST" action="{{ route('statements.send') }}">
+			<form role="form" method="POST" action="{{ route('statements.resend', $statement->id) }}">
 				{{ csrf_field() }}
 
 				<input type="hidden" name="statement_id" value="{{ $statement->id }}" />

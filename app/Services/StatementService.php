@@ -8,6 +8,7 @@ use App\Services\InvoiceService;
 use App\Statement;
 use App\StatementPayment;
 use App\Tenancy;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -541,23 +542,23 @@ class StatementService
     /**
      * Send the given statements to their owners.
      *
-     * @param array $statement_ids
+     * @param array $ids
      * @return bool
      */
-    public function sendStatementToOwners($statement_ids)
+    public function sendStatementToOwners($ids)
     {
-        foreach ($statement_ids as $statement_id) {
+        foreach ($ids as $id) {
 
-            $statement = Statement::find($statement_id);
+            $statement = Statement::find($id);
             $statement->sent_at = Carbon::now();
             $statement->save();
 
             if ($statement->sendByPost()) {
-                $this->sendStatementByPostNotice($statement);
+                $this->sendStatementByPostNotice($statement, $statement->users);
             }
 
             if ($statement->sendByEmail()) {
-                $this->sendStatementByEmail($statement);
+                $this->sendStatementByEmail($statement, $statement->users);
             }
         }
 
@@ -570,14 +571,9 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByPostNotice(Statement $statement)
+    public function sendStatementByPostNotice(Statement $statement, User $users)
     {
-        // No user e-mails present, do nothing.
-        if (!$emails = $statement->getUserEmails()) {
-            return false;
-        }
-
-        Mail::to($emails)->queue(new StatementByPost($statement));
+        Mail::to($users)->queue(new StatementByPost($statement));
 
         return true;
     }
@@ -588,13 +584,9 @@ class StatementService
      * @param \App\Statement $statement
      * @param \App\User $user
      */
-    public function sendStatementByEmail(Statement $statement)
+    public function sendStatementByEmail(Statement $statement, User $users)
     {
-        if (!$emails = $statement->getUserEmails()) {
-            return false;
-        }
-
-        Mail::to($emails)->queue(new StatementByEmail($statement));
+        Mail::to($users)->queue(new StatementByEmail($statement));
 
         return true;
     }

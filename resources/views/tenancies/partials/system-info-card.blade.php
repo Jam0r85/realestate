@@ -4,13 +4,13 @@
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->branch ? $tenancy->branch->name : '' }}
+			{{ $tenancy->property->branch->name }}
 			@slot('title')
 				Branch
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->owner ? $tenancy->owner->name : '' }}
+			{{ $tenancy->owner->name }}
 			@slot('title')
 				Created By
 			@endslot

@@ -16,7 +16,6 @@ class StatementByPost extends BaseMailer
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
-        parent::__construct();
     }
 
     /**

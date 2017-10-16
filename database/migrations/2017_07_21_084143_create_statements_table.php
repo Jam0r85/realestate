@@ -15,6 +15,7 @@ class CreateStatementsTable extends Migration
     {
         Schema::create('statements', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('tenancy_id')->unsigned();
             $table->string('key');
             $table->decimal('amount', 12, 2);

@@ -237,6 +237,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy has an owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    /**
      * A tenancy can belong to many discounts.
      */
     public function discounts()
@@ -250,14 +258,6 @@ class Tenancy extends BaseModel
     public function service_discounts()
     {
         return $this->belongsToMany('App\Discount')->wherePivot('for', 'service');
-    }
-
-    /**
-     * A tenancy can belong to a branch.
-     */
-    public function branch()
-    {
-        return $this->belongsTo('App\Branch');
     }
 
     /**

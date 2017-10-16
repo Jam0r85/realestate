@@ -22,7 +22,6 @@ class TenancyService
 		// Store the tenancy.
 		$tenancy = new Tenancy();
 		$tenancy->user_id = Auth::user()->id;
-		$tenancy->branch_id = 1;
 		$tenancy->service_id = $data['service_id'];
 		$tenancy->property_id = $data['property_id'];
 		$tenancy->save();
