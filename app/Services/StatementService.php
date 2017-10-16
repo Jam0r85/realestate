@@ -554,11 +554,11 @@ class StatementService
             $statement->save();
 
             if ($statement->sendByPost()) {
-                $this->sendStatementByPostNotice($statement, $statement->users);
+                $this->sendStatementByPostNotice($statement);
             }
 
             if ($statement->sendByEmail()) {
-                $this->sendStatementByEmail($statement, $statement->users);
+                $this->sendStatementByEmail($statement);
             }
         }
 
