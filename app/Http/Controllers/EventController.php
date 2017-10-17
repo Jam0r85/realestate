@@ -164,6 +164,7 @@ class EventController extends BaseController
         $event->body = $request->body;
         $event->start = Carbon::parse($request->start);
         $event->end = Carbon::parse($request->end);
+        $event->all_day = $request->has('all_day') ? '1' : null;
         $event->save();
 
         $this->successMessage('The event "' . $event->title . '" was updated');

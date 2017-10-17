@@ -37,6 +37,14 @@
 						<input type="datetime-local" name="end" class="form-control" required value="{{ $event->end->format('Y-m-d\TH:i:s') }}" />
 					</div>
 
+					<div class="form-group">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="all_day" value="1" @if ($event->all_day) checked @endif />
+							<span class="custom-control-indicator"></span>
+							<span class="custom-control-description">Is this an all day event?</span>
+						</label>
+					</div>
+
 					<button type="submit" class="btn btn-primary">
 						<i class="fa fa-save fa-fw"></i> Update Event
 					</button>
