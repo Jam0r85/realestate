@@ -11,6 +11,13 @@
 			<h1>{{ $calendar->name }}</h1>
 		</div>
 
+		<div id="alert" class="alert alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span id="alertMessage"></span>
+		</div>
+
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-fluid-container')
@@ -25,8 +32,8 @@
 
 @push('footer_scripts')
 <script>
+	$('#alert').hide();
 	$(document).ready(function() {
-
 	    $('#calendar').fullCalendar({
 	    	allDaySlot: true,
 	    	header: {
@@ -80,6 +87,10 @@
 
 	    	}
 	    });
+
+	    setInterval(function(){
+	    	$('#calendar').fullCalendar('refetchEvents')
+	    }, 30000);
 
 	});
 </script>

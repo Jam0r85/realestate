@@ -48,7 +48,7 @@ class EventController extends BaseController
             ->get()
             ->toArray();
 
-        return $events;
+        return $json;
     }
 
     /**
@@ -99,9 +99,12 @@ class EventController extends BaseController
         $event->end = Carbon::parse($request->end);
         $event->save();
 
-        $this->successMessage('The event "' . $event->title . '" was created');
+        $data['alert'] = [
+            'class' => 'alert-success',
+            'message' => 'The event "' . $event->title . '" was created'
+        ];
 
-        return back();
+        return $data;
     }
 
     /**
@@ -150,22 +153,21 @@ class EventController extends BaseController
     {
         $event = Event::withTrashed()->findOrFail($id);
 
-        if ($request->has('delete_event') && ($request->delete_event == 'delete')) {
-            $event->delete();            
-            $this->successMessage('The event "' . $event->title . '" was deleted');
-        }
-
-        if ($request->has('restore_event') && ($request->restore_event == 'restore')) {
-            $event->restore();
-            $this->successMessage('The event "' . $event->title . '" was restored');
-        }
-
         $event->title = $request->title;
         $event->body = $request->body;
         $event->start = Carbon::parse($request->start);
         $event->end = Carbon::parse($request->end);
         $event->allDay = $request->has('all_day') ? '1' : '0';
         $event->save();
+
+        if ($request->has('from_modal')) {
+            $data['alert'] = [
+                'class' => 'alert-success',
+                'message' => 'The event "' . $event->title . '" was updated'
+            ];
+
+            return $data;
+        }
 
         $this->successMessage('The event "' . $event->title . '" was updated');
 
@@ -200,6 +202,15 @@ class EventController extends BaseController
     {
         $event = Event::findOrFail($id);
         $event->delete();
+
+        if ($request->has('from_modal')) {
+            $data['alert'] = [
+                'class' => 'alert-success',
+                'message' => 'The event "' . $event->title . '" was deleted'
+            ];
+
+            return $data;
+        }
 
         $this->successMessage('The event "' . $event->title . '" was deleted');
 

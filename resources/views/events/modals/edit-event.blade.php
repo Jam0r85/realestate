@@ -7,7 +7,8 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form role="form" method="POST" action="{{ route('events.update', $event->id) }}">
+			<form id="updateEventForm" method="POST" action="{{ route('events.update', $event->id) }}">
+				<input type="hidden" name="from_modal" value="1" />
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
 
@@ -51,7 +52,8 @@
 
 				</div>
 			</form>
-			<form role="form" method="POST" action="{{ route('events.destroy', $event->id) }}">
+			<form id="deleteEventForm" method="POST" action="{{ route('events.destroy', $event->id) }}">
+				<input type="hidden" name="from_modal" value="1" />
 				{{ csrf_field() }}
 				{{ method_field('DELETE') }}
 
@@ -83,3 +85,57 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+	$( "#updateEventForm" ).submit(function( event ) {
+
+        // process the form
+        $.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: $(this).serializeArray(),
+			dataType: 'json',
+			encode: true
+        })
+        .done(function(data) {
+        	// close the modal window
+			$('#editEventModal').modal('hide');
+			// parse the data
+			var alert = data.alert;
+			// display the alert and the message
+        	$('#alert').show().addClass(alert.class);
+        	$('#alertMessage').html(alert.message);
+        	// refetch the events
+        	$('#calendar').fullCalendar('refetchEvents');
+        });
+
+		event.preventDefault();
+	});
+
+	$( "#deleteEventForm" ).submit(function( event ) {
+
+        // process the form
+        $.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: $(this).serializeArray(),
+			dataType: 'json',
+			encode: true
+        })
+        .done(function(data) {
+        	// close the modal window
+			$('#editEventModal').modal('hide');
+			// parse the data
+			var alert = data.alert;
+			// display the alert and the message
+        	$('#alert').show().addClass(alert.class);
+        	$('#alertMessage').html(alert.message);
+        	// refetch the events
+        	$('#calendar').fullCalendar('refetchEvents');
+        });
+
+		event.preventDefault();
+	});
+
+</script>

@@ -7,7 +7,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form role="form" method="POST" action="{{ route('events.store') }}">
+			<form id="saveEventForm" method="POST" action="{{ route('events.store') }}">
 				{{ csrf_field() }}
 				<input type="hidden" name="calendar_id" value="{{ $calendar_id }}" />
 				
@@ -33,9 +33,41 @@
 						<input type="datetime-local" name="end" class="form-control" required value="{{ $end }}" />
 					</div>
 
-					<button type="submit" class="btn btn-primary">Save Event</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-save fa-fw"></i> Save Event
+					</button>
+
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+	$( "#saveEventForm" ).submit(function( event ) {
+
+        // process the form
+        $.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: $(this).serializeArray(),
+			dataType: 'json',
+			encode: true
+        })
+        .done(function(data) {
+        	// close the modal window
+			$('#newEventModal').modal('hide');
+			// parse the data
+			var alert = data.alert;
+			// display the alert and the message
+        	$('#alert').show().addClass(alert.class);
+        	$('#alertMessage').html(alert.message);
+        	// refetch the events
+        	$('#calendar').fullCalendar('refetchEvents');
+        });
+
+		event.preventDefault();
+	});
+
+</script>
