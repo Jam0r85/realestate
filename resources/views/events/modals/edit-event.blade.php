@@ -24,7 +24,7 @@
 
 					<div class="form-group">
 						<label for="body">Message</label>
-						<textarea name="body" class="form-control" rows="6">{{ $event->body }}</textarea>
+						<textarea name="body" class="form-control" rows="8">{{ $event->body }}</textarea>
 					</div>
 
 					<div class="form-group">
@@ -37,7 +37,9 @@
 						<input type="datetime-local" name="end" class="form-control" required value="{{ $event->end->format('Y-m-d\TH:i:s') }}" />
 					</div>
 
-					<button type="submit" class="btn btn-primary">Update Event</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-save fa-fw"></i> Update Event
+					</button>
 
 				</div>
 			</form>
@@ -50,11 +52,11 @@
 					<div class="card border-danger">
 						<div class="card-body">
 							<h5 class="card-title">
-								Delete Event {{ $event->id }}
+								Delete Event
 							</h5>
 
 							<p class="card-text">
-								You can delete this event by entering the ID of the event into the field below. Events are 'soft deleted' and will still remain in the database but will be hidden from the calendar.
+								You can delete this event by entering the ID of the event into the field below.
 							</p>
 
 							<div class="form-group">
@@ -62,7 +64,7 @@
 							</div>
 
 							<button type="submit" class="btn btn-danger">
-								Delete Event
+								<i class="fa fa-trash fa-fw"></i> Delete Event
 							</button>
 
 						</div>
