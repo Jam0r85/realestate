@@ -28,7 +28,7 @@ class EventController extends BaseController
      */
     public function index()
     {
-        $events = Event::withTrashed()->latest()->paginate();
+        $events = Event::withTrashed()->with('owner','calendar')->latest()->paginate();
         $title = 'Events List';
 
         return view('events.index', compact('events','title'));
