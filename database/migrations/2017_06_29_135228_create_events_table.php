@@ -22,7 +22,7 @@ class CreateEventsTable extends Migration
             $table->string('class_name')->nullable();
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
-            $table->boolean('all_day')->default(false);
+            $table->boolean('allDay')->default(false);
             $table->text('url')->nullable();
             $table->timestamps();
             $table->softDeletes();

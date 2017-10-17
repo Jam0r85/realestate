@@ -59,7 +59,7 @@ class EventController extends BaseController
      */
     public function feed($id)
     {
-        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'all_day')
+        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'allDay')
             ->where('calendar_id', $id)
             ->get()
             ->toArray();
@@ -164,7 +164,7 @@ class EventController extends BaseController
         $event->body = $request->body;
         $event->start = Carbon::parse($request->start);
         $event->end = Carbon::parse($request->end);
-        $event->all_day = $request->has('all_day') ? '1' : null;
+        $event->allDay = $request->has('all_day') ? '1' : '0';
         $event->save();
 
         $this->successMessage('The event "' . $event->title . '" was updated');
