@@ -8,6 +8,7 @@ use App\Http\Requests\RestoreEventRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends BaseController
 {
@@ -50,7 +51,7 @@ class EventController extends BaseController
 
         Session::put('events_search_term', $request->search_term);
 
-        $events = User::search(Session::get('events_search_term'))->get();
+        $events = Event::search(Session::get('events_search_term'))->get();
         $title = 'Search Results';
 
         return view('events.index', compact('events', 'title'));

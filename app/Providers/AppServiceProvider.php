@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Deposit;
+use App\Event;
 use App\Expense;
 use App\Invoice;
+use App\Observers\EventObserver;
 use App\Property;
 use App\Tenancy;
 use App\User;
@@ -31,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
             User::class,
             Deposit::class
         ]);
+
+        Event::observe(EventObserver::class);
     }
 
     /**

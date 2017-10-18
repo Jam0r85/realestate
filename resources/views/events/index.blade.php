@@ -31,7 +31,7 @@
 				<th>Time</th>
 				<th>Title</th>
 				<th>Calendar</th>
-				<th>Creator</th>
+				<th class="text-right">Creator</th>
 			</thead>
 			<tbody>
 				@foreach ($events as $event)
@@ -49,7 +49,11 @@
 							</a>
 						</td>
 						<td>{{ $event->calendar->name }}</td>
-						<td>{{ $event->owner->name }}</td>
+						<td class="text-right">
+							<a href="{{ route('users.show', $event->owner->id) }}" title="{{ $event->owner->name }}">
+								{{ $event->owner->name }}
+							</a>
+						</td>
 					</tr>
 				@endforeach
 			</tbody>
