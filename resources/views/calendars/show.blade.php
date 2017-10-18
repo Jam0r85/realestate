@@ -35,7 +35,7 @@
 	$('#alert').hide();
 	$(document).ready(function() {
 	    $('#calendar').fullCalendar({
-	    	allDaySlot: true,
+	    	allDaySlot: false,
 	    	header: {
 	    		center: 'title',
 	    		right: 'month,agendaWeek,agendaDay,listDay',
