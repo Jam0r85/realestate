@@ -25,10 +25,10 @@
 			<div class="form-group">
 				<label for="calendar_event_color">Calendar Event Colour</label>
 				<select name="calendar_event_color" id="calendar_event_color" class="form-control">
-					<option value="">Default</option>
+					<option @if (!$user->settings['calendar_event_color']) selected @endif value="">Default</option>
 					<option @if ($user->settings['calendar_event_color'] == "red") selected @endif value="red">Red</option>
-					<option value="orange">Orange</option>
-					<option value="blue">Blue</option>
+					<option @if ($user->settings['calendar_event_color'] == "orange") selected @endif value="orange">Orange</option>
+					<option @if ($user->settings['calendar_event_color'] == "blue") selected @endif value="blue">Blue</option>
 				</select>
 				<small class="form-text text-muted">
 					Choose the colour for events created by this user.
