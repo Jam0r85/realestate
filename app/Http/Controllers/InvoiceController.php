@@ -46,13 +46,12 @@ class InvoiceController extends BaseController
 
         // filter by month
         if ($month = request('month')) {
-
-            $invoices = $invoices->whereMonth('paid_at', request($month));
+            $invoices->whereMonth('paid_at', request($month));
         }
 
         // filter by year
         if ($year = request('year')) {
-            $invoices = $invoices->whereYear('paid_at', request($year));
+            $invoices->whereYear('paid_at', request($year));
         }
 
         $invoices = $invoices->paginate();
