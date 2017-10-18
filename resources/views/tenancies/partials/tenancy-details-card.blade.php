@@ -12,6 +12,12 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
+			{{ implode(', ', $tenancy->property->owners->pluck('name')->toArray()) }}
+			@slot('title')
+				Landlord
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : '' }}
 			@slot('title')
 				Started
