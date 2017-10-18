@@ -31,4 +31,4 @@
 	</tbody>
 </table>
 
-@include('partials.pagination', ['collection' => $invoices])
+@include('partials.pagination', ['collection' => $invoices->appends(request()->input())])
