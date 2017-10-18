@@ -45,14 +45,14 @@ class InvoiceController extends BaseController
 
         // filter by month
         if ($month = request('month')) {
-            $invoices->whereMonth('paid_at', $month);
-            $unpaid_invoices->whereMonth('created_at', $month);
+            $invoices = $invoices->whereMonth('paid_at', $month);
+            $unpaid_invoices = $unpaid_invoices->whereMonth('created_at', $month);
         }
 
         // filter by year
         if ($year = request('year')) {
-            $invoices->whereYear('paid_at', $year);
-            $unpaid_invoices->whereYear('paid_at', $year);
+            $invoice = $invoices->whereYear('paid_at', $year);
+            $unpaid_invoices = $unpaid_invoices->whereYear('paid_at', $year);
         }
 
         $invoices = $invoices->paginate();
