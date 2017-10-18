@@ -59,7 +59,7 @@
 						{{ method_field('DELETE') }}
 
 						<p class="card-text">
-							To confirm that you want to archive this tenancy enter the ID of the tenancy into the field below.
+							To confirm that you want to archive this tenancy enter the tenancy ID ({{ $tenancy->id }}) into the field below.
 						</p>
 
 						<div class="form-group">
