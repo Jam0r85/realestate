@@ -7,6 +7,7 @@ use App\Event;
 use App\Expense;
 use App\Invoice;
 use App\Observers\EventObserver;
+use App\Observers\TenancyObserver;
 use App\Property;
 use App\Tenancy;
 use App\User;
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Event::observe(EventObserver::class);
+        Tenancy::observe(TenancyObserver::class);
     }
 
     /**
