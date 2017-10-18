@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class CalendarController extends BaseController
 {
@@ -18,7 +19,7 @@ class CalendarController extends BaseController
      */
     public function __construct()
     {
-         $this->middleware('auth');
+
     }
 
     /**
@@ -52,7 +53,9 @@ class CalendarController extends BaseController
     {
         $calendar = new Calendar();
         $calendar->user_id = Auth::user()->id;
-        $calendar->fill($request->input());
+        $calendar->name = $request->name;
+        $calendar->branch_id = $request->branch_id;
+        $calendar->is_private = $request->is_private;
         $calendar->save();
 
         $this->successMessage('The calendar ' . $calendar->name . ' was created');
@@ -70,6 +73,39 @@ class CalendarController extends BaseController
     {
         $calendar = Calendar::findOrFail($id);
         return view('calendars.' . $section, compact('calendar'));
+    }
+
+    /**
+     * Display the calendar and events in an iCal format for mobile devices.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function iCalFeed($id)
+    {
+        $calendar = Calendar::findOrFail($id);
+
+        // Build the calendar
+        $vCalendar = new \Eluceo\iCal\Component\Calendar(config('app.url'));
+
+        // Loop through the events and build a vEvent and add it to the vCalendar
+        foreach ($calendar->events as $event) {
+            $vEvent = new \Eluceo\iCal\Component\Event();
+            $vEvent
+                ->setUniqueId($event->id)
+                ->setDtStart($event->start)
+                ->setDtEnd($event->end)
+                ->setSummary($event->title)
+                ->setDescription($event->body);
+
+            $vCalendar->addComponent($vEvent);
+        }
+
+        $iCal = $vCalendar->render();
+
+        return Response::make($vCalendar->render(), '200')
+            ->header('Content-type', 'text/calendar; charset=utf-8')
+            ->header('Content-disposition', 'attachment; filename="cal.ics"');
     }
 
     /**

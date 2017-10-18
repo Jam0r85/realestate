@@ -11,6 +11,7 @@ Route::prefix('calendars')->group(function () {
 	Route::get('/', 'CalendarController@index')->name('calendars.index');
 	Route::get('create', 'CalendarController@create')->name('calendars.create');
 	Route::post('/', 'CalendarController@store')->name('calendars.store');
+	Route::get('{id}/iCal', 'CalendarController@iCalFeed')->name('calendars.feed');
 	Route::get('{id}/{section?}', 'CalendarController@show')->name('calendars.show');
 	Route::put('{id}', 'CalendarController@update')->name('calendars.update');
 	Route::post('{id}/archive', 'CalendarController@archive')->name('calendars.archive');

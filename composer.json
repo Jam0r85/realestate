@@ -9,6 +9,7 @@
         "algolia/algoliasearch-client-php": "^1.18",
         "barryvdh/laravel-debugbar": "^2.4",
         "dompdf/dompdf": "^0.8.0",
+        "eluceo/ical": "^0.12.1",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/flash": "^3.0",

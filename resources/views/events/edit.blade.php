@@ -25,16 +25,16 @@
 
 			<div class="form-group">
 				<label for="body">Message</label>
-				<textarea name="body" class="form-control" rows="6">{{ $event->body }}</textarea>
+				<textarea name="body" class="form-control" rows="12">{{ $event->body }}</textarea>
 			</div>
 
 			<div class="form-group">
-				<label for="title">Start Date</label>
+				<label for="title">Start Date &amp; Time</label>
 				<input type="datetime-local" name="start" class="form-control" required value="{{ $event->start->format('Y-m-d\TH:i:s') }}" />
 			</div>
 
 			<div class="form-group">
-				<label for="title">End Date</label>
+				<label for="title">End Date &amp; Time</label>
 				<input type="datetime-local" name="end" class="form-control" required value="{{ $event->end->format('Y-m-d\TH:i:s') }}" />
 			</div>
 
