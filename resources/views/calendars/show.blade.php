@@ -20,7 +20,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-fluid-container')
+	@component('partials.bootstrap.section-with-container')
 
 		@include('partials.errors-block')
 
