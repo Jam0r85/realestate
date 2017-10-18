@@ -19,9 +19,12 @@ class Tenancy extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
-
+        $array = $this->only('vacated_on','name');
         $array['property'] = $this->property->name;
+        $array['rent'] = $this->current_rent ? $this->current_rent->amount : null;
+        $array['started'] = $this->first_agreement ? $this->first_agreement->starts_at : null;
+        $array['landlords'] = $this->property->owners->pluck('name');
+        $array['service'] = $this->service->name;
 
         return $array;
     }
