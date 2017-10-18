@@ -4,9 +4,11 @@
 
 	@component('partials.bootstrap.section-with-container')
 		<div class="page-title">
-			<h1>
-				Edit Event - {{ $event->title }}
-			</h1>
+			<a href="{{ route('events.index') }}" class="btn btn-secondary float-right">
+				Return
+			</a>
+			<h1>Edit Event</h1>
+			<h2 class="text-muted">{{ $event->title }}</h2>
 		</div>
 	@endcomponent
 
