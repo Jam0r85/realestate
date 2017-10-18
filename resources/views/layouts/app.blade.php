@@ -175,6 +175,9 @@
                             @endcomponent
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="usersDropdown">
+                                <a class="dropdown-item" href="{{ route('users.show', Auth::user()->id) }}">
+                                    My Profile
+                                </a>
                                 <a class="dropdown-item" href="{{ route('settings.general') }}">
                                     Application Settings
                                 </a>
