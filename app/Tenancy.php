@@ -75,7 +75,7 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $dates = ['vacated_on'];
+    protected $dates = ['vacated_on','deleted_at'];
 
     /**
      * Scope a query to only include tenancies which are overdue.
@@ -85,9 +85,28 @@ class Tenancy extends BaseModel
      */
     public function scopeIsOverdue($query)
     {
-        return $query
-            ->with('property','tenants','current_rent','rent_payments','lastRentPayment','statements','last_statement')
-            ->where('is_overdue', '1');
+        return $query->where('is_overdue', '1');
+    }
+
+    /**
+     * Scope a query to load the relations required for lists.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeLoadList($query)
+    {
+        return $query->with(
+            'deposit',
+            'property',
+            'tenants',
+            'current_rent',
+            'rent_payments',
+            'lastRentPayment',
+            'statements',
+            'last_statement',
+            'service'
+        );
     }
 
     /**

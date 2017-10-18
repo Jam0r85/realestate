@@ -111,6 +111,9 @@
                                 <a class="dropdown-item" href="{{ route('tenancies.overdue') }}" title="Overdue Tenancies List">
                                     Overdue Tenancies
                                 </a>
+                                <a class="dropdown-item" href="{{ route('tenancies.archived') }}" title="Archived Tenancies List">
+                                    Archived Tenancies
+                                </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
                                     Services
                                 </a>

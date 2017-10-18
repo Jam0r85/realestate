@@ -7,6 +7,7 @@ use App\Http\Requests\StoreRentAmountRequest;
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\StoreTenancyRequest;
+use App\Http\Requests\TenancyArchiveRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Notifications\RentPaymentReceived;
 use App\Services\PaymentService;
@@ -38,8 +39,7 @@ class TenancyController extends BaseController
      */
     public function index()
     {
-        $tenancies = Tenancy::latest()->paginate();
-        $tenancies->load('property','current_rent','service','rent_payments','statements','tenants');
+        $tenancies = Tenancy::loadList()->latest()->paginate();
         $title = 'Tenancies List';
 
         return view('tenancies.index', compact('tenancies','title'));
@@ -52,10 +52,23 @@ class TenancyController extends BaseController
      */
     public function overdue()
     {
-        $tenancies = Tenancy::isOverdue()->get();
+        $tenancies = Tenancy::loadList()->isOverdue()->get();
         $tenancies = $tenancies->sortByDesc('days_overdue');
 
         return view('tenancies.overdue', compact('tenancies'));
+    }
+
+    /**
+     * Display a list of archived tenancies.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function archived()
+    {
+        $tenancies = Tenancy::loadList()->onlyTrashed()->paginate();
+        $title = 'Archived Tenancies';
+
+        return view('tenancies.index', compact('tenancies','title'));
     }
 
     /**
@@ -229,16 +242,16 @@ class TenancyController extends BaseController
     /**
      * Archive the tenancy.
      *
-     * @param  integer $id
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function archive($id)
+    public function archive(TenancyArchiveRequest $request, $id)
     {
         $tenancy = Tenancy::findOrFail($id);
-        $tenancy->deleted_at = Carbon::now();
-        $tenancy->save();
 
-        $this->successMessage('The tenancy was archived');
+        $tenancy->delete();
+
+        $this->successMessage('The tenancy "' . $tenancy->name . '" was archived');
 
         return back();
     }

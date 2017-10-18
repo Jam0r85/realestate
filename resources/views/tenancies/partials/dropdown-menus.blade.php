@@ -19,8 +19,8 @@
 			Record Old Statement
 		</a>
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenants-vacated']) }}" title="Tenants Vacting">
-			Tenants Vacated
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-status']) }}" title="Tenants Vacting">
+			Tenancy Status
 		</a>
 	</div>
 </div>

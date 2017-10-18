@@ -90,6 +90,7 @@ Route::prefix('payments')->group(function () {
 
 Route::prefix('tenancies')->group(function () {
 	Route::get('/', 'TenancyController@index')->name('tenancies.index');
+	Route::get('archived', 'TenancyController@archived')->name('tenancies.archived');
 	Route::get('with-rent-balance', 'TenancyController@withRentBalance')->name('tenancies.with-rent-balance');
 	Route::get('overdue', 'TenancyController@overdue')->name('tenancies.overdue');
 	Route::post('search', 'TenancyController@search')->name('tenancies.search');
@@ -102,7 +103,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 	Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 	Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
-	Route::post('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
+	Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 });
 
 Route::resource('services', 'ServiceController');

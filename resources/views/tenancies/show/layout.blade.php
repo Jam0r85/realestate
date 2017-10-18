@@ -18,6 +18,12 @@
 	<section class="section">
 		<div class="container">
 
+			@if ($tenancy->trashed())
+				<div class="alert alert-secondary">
+					This tenancy was <b>archived</b> on {{ date_formatted($tenancy->deleted_at) }}
+				</div>
+			@endif
+
 			@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
 				<div class="alert alert-danger">
 					The tenants are <b>vacating</b> this property on {{ date_formatted($tenancy->vacated_on) }}
