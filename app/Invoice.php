@@ -19,13 +19,7 @@ class Invoice extends BaseModel
     public function toSearchableArray()
     {
         // Filter the model.
-        $array = $this->only('number');
-
-        // Get the dates.
-        $array['dates'] = [
-            'created_at' => $this->created_at,
-            'paid' => $this->paid_at
-        ];
+        $array = $this->only('number','created_at','paid_at');
 
         // Get the property name.
         if ($this->property) {

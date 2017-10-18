@@ -36,7 +36,6 @@ class InvoiceController extends BaseController
         $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
             ->withTrashed()
             ->whereNotNull('paid_at')
-            ->orWhereNotNull('deleted_at')
             ->latest();
 
         $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
@@ -45,14 +44,14 @@ class InvoiceController extends BaseController
 
         // filter by month
         if ($month = request('month')) {
-            $invoices = $invoices->whereMonth('paid_at', $month);
-            $unpaid_invoices = $unpaid_invoices->whereMonth('created_at', $month);
+            $invoices->whereMonth('paid_at', $month);
+            $unpaid_invoices->whereMonth('created_at', $month);
         }
 
         // filter by year
         if ($year = request('year')) {
-            $invoice = $invoices->whereYear('paid_at', $year);
-            $unpaid_invoices = $unpaid_invoices->whereYear('paid_at', $year);
+            $invoices->whereYear('paid_at', $year);
+            $unpaid_invoices->whereYear('paid_at', $year);
         }
 
         $invoices = $invoices->paginate();
