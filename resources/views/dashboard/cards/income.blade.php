@@ -1,8 +1,10 @@
 <div class="card mb-5">
 	<h4 class="card-header">
-		<span class="float-right text-muted">
-			{{ \Carbon\Carbon::now()->format('F Y') }}
-		</span>
+		<a href="{{ route('invoices.index') }}?month={{ date('m') }}&year={{ date('Y') }}">
+			<span class="float-right text-muted">
+				{{ \Carbon\Carbon::now()->format('F Y') }}
+			</span>
+		</a>
 		Income
 	</h4>
 	<div class="list-group list-group-flush">

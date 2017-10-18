@@ -27,7 +27,7 @@ class InvoiceController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a list of invoices.
      *
      * @return \Illuminate\Http\Response
      */
@@ -41,20 +41,22 @@ class InvoiceController extends BaseController
 
         $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
             ->whereNull('paid_at')
-            ->latest()
-            ->get();
+            ->latest();
 
         // filter by month
         if ($month = request('month')) {
-            $invoices->whereMonth('paid_at', request($month));
+            $invoices->whereMonth('paid_at', $month);
+            $unpaid_invoices->whereMonth('created_at', $month);
         }
 
         // filter by year
         if ($year = request('year')) {
-            $invoices->whereYear('paid_at', request($year));
+            $invoices->whereYear('paid_at', $year);
+            $unpaid_invoices->whereYear('paid_at', $year);
         }
 
         $invoices = $invoices->paginate();
+        $unpaid_invoices = $unpaid_invoices->get();
 
         $title = 'Invoices List';
         return view('invoices.index', compact('invoices','unpaid_invoices','title'));
