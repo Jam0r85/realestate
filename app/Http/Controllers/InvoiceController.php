@@ -33,14 +33,31 @@ class InvoiceController extends BaseController
      */
     public function index()
     {
-        $invoices = Invoice::withTrashed()->whereNotNull('paid_at')->orWhereNotNull('deleted_at')->latest()->paginate();
-        $unpaid_invoices = Invoice::whereNull('paid_at')->latest()->get();
+        $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
+            ->withTrashed()
+            ->whereNotNull('paid_at')
+            ->orWhereNotNull('deleted_at')
+            ->latest();
 
-        $invoices->load('property','users','items','items.taxRate','payments','statement_payments');
-        $unpaid_invoices->load('property','users','items','items.taxRate','payments','statement_payments');
+        $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
+            ->whereNull('paid_at')
+            ->latest()
+            ->get();
+
+        // filter by month
+        if ($month = request('month')) {
+
+            $invoices = $invoices->whereMonth('paid_at', request($month));
+        }
+
+        // filter by year
+        if ($year = request('year')) {
+            $invoices = $invoices->whereYear('paid_at', request($year));
+        }
+
+        $invoices = $invoices->paginate();
 
         $title = 'Invoices List';
-
         return view('invoices.index', compact('invoices','unpaid_invoices','title'));
     }
 
