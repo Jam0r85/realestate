@@ -8,6 +8,19 @@
 				{{ $title }}
 			</h1>
 		</div>
+
+		{{-- Events Search --}}
+		@component('partials.bootstrap.page-search')
+			@slot('route')
+				{{ route('events.search') }}
+			@endslot
+			@if (session('events_search_term'))
+				@slot('search_term')
+					{{ session('events_search_term') }}
+				@endslot
+			@endif
+		@endcomponent
+		{{-- End of Events Search --}}
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')

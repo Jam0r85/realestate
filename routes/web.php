@@ -19,6 +19,7 @@ Route::prefix('calendars')->group(function () {
 
 Route::prefix('events')->group(function () {
 	Route::get('/', 'EventController@index')->name('events.index');
+	Route::post('search', 'EventController@search')->name('events.search');
 	Route::get('feed/{id}', 'EventController@feed')->name('events.feed');
 	Route::get('feed/{id}/archived', 'EventController@archivedFeed')->name('events.feed-archived');
 	Route::post('create', 'EventController@create')->name('events.create');

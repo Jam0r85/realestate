@@ -35,6 +35,28 @@ class EventController extends BaseController
     }
 
     /**
+     * Search the events.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('events_search_term');
+            return redirect()->route('events.index');
+        }
+
+        Session::put('events_search_term', $request->search_term);
+
+        $events = User::search(Session::get('events_search_term'))->get();
+        $title = 'Search Results';
+
+        return view('events.index', compact('events', 'title'));
+    }
+
+    /**
      * Get an array of archived events.
      *
      * @param integer $id
