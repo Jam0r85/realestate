@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Settings\UserSettings;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -62,7 +63,8 @@ class User extends Authenticatable
         'phone_number',
         'phone_number_other',
         'password',
-        'property_id'
+        'property_id',
+        'settings'
     ];
 
     /**
@@ -187,6 +189,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have settings.
+     */
+    public function settings()
+    {
+        return new UserSettings($this);
+    }
+
+    /**
      * A user's most recent logins.
      */
     public function recentLogins()
@@ -225,27 +235,5 @@ class User extends Authenticatable
         }
 
         return trim($this->first_name . ' ' . $this->last_name);
-    }
-
-    /**
-     * Check whether the user beongs to the corresponding group by it's id.
-     * 
-     * @param  integer $group_id
-     * @return bool
-     */
-    public function inGroup($group_id)
-    {
-        return (boolean) $this->groups->contains($group_id);
-    }
-
-    /**
-     * Check whether the user has the corresponding role by it's id.
-     * 
-     * @param  integer $role_id
-     * @return bool
-     */
-    public function hasRole($role_id)
-    {
-        return (boolean) $this->roles->contains($role_id);
     }
 }

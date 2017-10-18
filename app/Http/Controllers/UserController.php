@@ -142,6 +142,23 @@ class UserController extends BaseController
     }
 
     /**
+     * Update the user's settings.
+     * 
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function updateSettings(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->settings()->merge($request->input());
+
+        $this->successMessage('The users settings were updated');
+
+        return back();
+    }
+
+    /**
      * Update the user's email address in storage.
      *
      * @param  \App\Http\Requests\UpdateUserEmailRequest  $request
@@ -184,32 +201,6 @@ class UserController extends BaseController
 
         $this->successMessage('The users password was updated');
 
-        return back();
-    }
-
-    /**
-     * Update the user's password in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateGroups(Request $request, $id)
-    {
-        $user = $this->users->syncUserGroups($request->group_id, $id);
-        return back();
-    }
-
-    /**
-     * Update the user's roles in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateRoles(Request $request, $id)
-    {
-        $user = $this->users->syncUserRoles($request->role_id, $id);
         return back();
     }
 

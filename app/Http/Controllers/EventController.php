@@ -84,8 +84,9 @@ class EventController extends BaseController
     {
         $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'allDay')
             ->where('calendar_id', $id)
-            ->get()
-            ->toArray();
+            ->get();
+
+        $events = $events->toArray();
 
         return $events;
     }
