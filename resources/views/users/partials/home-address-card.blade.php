@@ -1,28 +1,33 @@
 <div class="card mb-3">
-	<div class="card-header">
+	<h5 class="card-header">
 		<i class="fa fa-home"></i> Home Address
-	</div>
+	</h5>
 	<div class="card-body">
 
 		@if (count($tenancy = $user->tenancies()->isActive()->first()))
 
-			<a href="{{ route('properties.show', $tenancy->property->id) }}">
-				{{ $tenancy->property->name }}
-			</a>
+			<p class="card-text">
+				<b>Tenants at:-</b><br />
+				<a href="{{ route('properties.show', $tenancy->property->id) }}">
+					{{ $tenancy->property->name }}
+				</a>
+			</p>
 
 		@else
 
-			@if ($user->home)
+			<p class="card-text">
 
-				<a href="{{ route('properties.show', $user->property_id) }}">
-					{{ $user->home->name }}
-				</a>
+				@if ($user->home)
 
-			@else
+					<a href="{{ route('properties.show', $user->property_id) }}">
+						{{ $user->home->name }}
+					</a>
 
-				<p class="card-text">User has not been assigned a home.</p>
+				@else
+					User has not been assigned a home.
+				@endif
 
-			@endif
+			</p>
 
 		@endif
 
