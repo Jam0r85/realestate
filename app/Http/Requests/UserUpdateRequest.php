@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Request;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -30,7 +31,7 @@ class UserUpdateRequest extends FormRequest
             'company_name' => [
                 'required_without_all:first_name,last_name',
                 'nullable',
-                'unique:users,company_name'
+                'unique:users,company_name,' . Request::segment(2)
             ],
             'phone_number' => [
                 'nullable',
