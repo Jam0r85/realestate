@@ -16,9 +16,9 @@ class PhoneNumber implements Rule
      */
     public function passes($attribute, $value)
     {
-        $formatted_phone = phone($value, 'GB');
+        $number = phone($value, 'GB');
 
-        if (count(User::where('phone_number', $formatted_phone)->exists())) {
+        if (User::where('phone_number', $number)->exists()) {
             return false;
         } else {
             return true;
