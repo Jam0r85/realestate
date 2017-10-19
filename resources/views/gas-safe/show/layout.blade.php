@@ -16,6 +16,20 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		<div class="row">
+			<div class="col col-5">
+
+				@include('gas-safe.partials.contractors-card')
+				@include('gas-safe.partials.system-info-card')
+
+			</div>
+			<div class="col col-7">
+
+				@include('gas-safe.partials.reminder-info-card')
+
+			</div>
+		</div>
+
 	@endcomponent
 
 @endsection

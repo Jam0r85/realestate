@@ -26,23 +26,37 @@
 			</h4>
 			<div class="card-body">
 
-				<p class="card-text">
-					You can delete this gas safe reminder by entering the ID ({{ $reminder->id }}) into the field below.
-				</p>
+				@if ($reminder->is_completed)
 
-				<form method="POST" action="{{ route('gas-safe.destroy', $reminder->id) }}">
-					{{ csrf_field() }}
-					{{ method_field('DELETE') }}
-
-					<div class="form-group">
-						<input type="text" name="confirmation" id="confirmation" class="form-control" required />
+					<div class="alert alert-warning">
+						This gas safe reminder has been marked as complete and cannot be deleted.
 					</div>
 
-					<button type="submit" class="btn btn-danger">
-						<i class="fa fa-trash fa-fw"></i> Delete Reminder
-					</button>
+				@else
 
-				</form>
+					<p class="card-text">
+						You can delete this gas safe reminder by entering the ID ({{ $reminder->id }}) into the field below.
+					</p>
+
+					<p class="card-text">
+						This is useful for example if we stop managing a tenancy and don't want any future reminders.
+					</p>
+
+					<form method="POST" action="{{ route('gas-safe.destroy', $reminder->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						<div class="form-group">
+							<input type="text" name="confirmation" id="confirmation" class="form-control" required />
+						</div>
+
+						<button type="submit" class="btn btn-danger">
+							<i class="fa fa-trash fa-fw"></i> Delete Reminder
+						</button>
+
+					</form>
+
+				@endif
 
 			</div>
 		</div>
