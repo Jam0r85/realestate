@@ -1,7 +1,7 @@
 <div class="card mb-3">
-	<div class="card-header">
+	<h5 class="card-header">
 		<i class="fa fa-home"></i> Property Information
-	</div>
+	</h5>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $property->house_name }}

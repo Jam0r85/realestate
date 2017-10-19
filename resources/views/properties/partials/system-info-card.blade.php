@@ -1,7 +1,7 @@
 <div class="card mb-3">
-	<div class="card-header">
+	<h5 class="card-header">
 		<i class="fa fa-cogs"></i> System Information
-	</div>
+	</h5>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $property->branch ? $property->branch->name : '' }}

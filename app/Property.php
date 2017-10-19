@@ -147,6 +147,15 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many gas reminders.
+	 */
+	public function gas()
+	{
+		return $this->hasMany('App\Gas')
+			->latest();
+	}
+
+	/**
 	 * A property can have settings.
 	 */
 	public function settings()

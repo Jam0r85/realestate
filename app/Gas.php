@@ -60,6 +60,17 @@ class Gas extends BaseModel
     }
 
     /**
+     * Scope a query to only include none completed gas reminders.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotComplete($query)
+    {
+        return $query->where('is_completed', false);
+    }
+
+    /**
      * Scope a query to only include expired gas safe reminders.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query

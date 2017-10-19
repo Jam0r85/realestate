@@ -1,7 +1,7 @@
 <div class="card @if (!count($property->owners)) border-danger @else border-success @endif mb-3">
-	<div class="card-header text-white @if (!count($property->owners)) bg-danger @else bg-success @endif">
+	<h5 class="card-header text-white @if (!count($property->owners)) bg-danger @else bg-success @endif">
 		<i class="fa fa-users"></i> Owners
-	</div>
+	</h5>
 
 	@if (!count($property->owners))
 
