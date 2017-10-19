@@ -7,7 +7,6 @@
 		@if (count($tenancy = $user->tenancies()->isActive()->first()))
 
 			<p class="card-text">
-				<b>Tenants at:-</b><br />
 				<a href="{{ route('properties.show', $tenancy->property->id) }}">
 					{{ $tenancy->property->name }}
 				</a>
