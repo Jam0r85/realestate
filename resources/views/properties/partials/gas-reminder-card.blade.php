@@ -6,9 +6,12 @@
 		</h5>
 		<div class="card-body">
 
-			<div class="alert alert-{{ $gas->expires_on > \Carbon\Carbon::now() ? 'info' : 'danger' }} text-center">
+			<p class="card-text">
+				<a href="{{ route('gas-safe.show', $gas->id) }}" class="float-right btn btn-sm btn-warning">
+					<i class="fa fa-pencil fa-fw"></i> Edit
+				</a>
 				Expires {{ date_formatted($gas->expires_on) }}
-			</div>
+			</p>
 
 		</div>
 		<div class="card-header">
