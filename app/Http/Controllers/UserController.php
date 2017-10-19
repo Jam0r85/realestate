@@ -6,8 +6,7 @@ use App\Http\Requests\SendUserEmailRequest;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\{UserStoreRequest, UserUpdateRequest};
 use App\Mail\SendUserEmail;
 use App\Services\UserService;
 use App\User;
@@ -132,17 +131,22 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateUserRequest  $request
-     * @param  \App\User  $id
+     * @param \App\Http\Requests\UserUpdateRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->fill($request->input());
+        $user->title = $request->title;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->company_name = $request->company_name;
+        $user->phone_number = $request->phone_number;
+        $user->phone_number_other = $request->phone_number_other;
         $user->save();
 
-        $this->successMessage('The user was updated');
+        $this->successMessage('The user "' . $user->name . '" was updated');
 
         Cache::tags('users')->flush();
 

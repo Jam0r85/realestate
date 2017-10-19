@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,17 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'required_without_all:first_name,last_name',
             'first_name' => 'required_without_all:company_name,last_name',
-            'last_name' => 'required_without_all:first_name,company_name'
+            'last_name' => 'required_without_all:company_name,first_name',
+            'company_name' => [
+                'required_without_all:first_name,last_name',
+                'nullable',
+                'unique:users,company_name'
+            ],
+            'phone_number' => [
+                'nullable',
+                new PhoneNumber
+            ]
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\User;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Request;
 
 class PhoneNumber implements Rule
 {
@@ -18,7 +19,7 @@ class PhoneNumber implements Rule
     {
         $number = phone($value, 'GB');
 
-        if (User::where('phone_number', $number)->exists()) {
+        if (User::where('phone_number', $number)->where('id', '!=', Request::segment(2))->exists()) {
             return false;
         } else {
             return true;
