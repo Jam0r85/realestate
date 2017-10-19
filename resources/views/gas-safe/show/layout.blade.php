@@ -2,23 +2,20 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<div class="float-right">
-					@include('gas-safe.partials.dropdown-menus')
-				</div>
-				<h1>{{ $reminder->property->short_name }} Gas Safe Reminder</h1>
+		<div class="page-title">
+			<div class="float-right">
+				@include('gas-safe.partials.dropdown-menus')
 			</div>
-
+			<h1>Gas Safe Reminder</h1>
+			<h3 class="text-muted">{{ $reminder->property->short_name }}</h3>
 		</div>
-	</section>
 
-	<section class="section">
-		<div class="container">
+	@endcomponent
 
-		</div>
-	</section>
+	@component('partials.bootstrap.section-with-container')
+
+	@endcomponent
 
 @endsection

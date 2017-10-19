@@ -2,71 +2,67 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>
-					{{ $title }}
-					<a href="{{ route('gas-safe.create') }}" class="btn btn-primary">
-						<i class="fa fa-plus"></i> New Gas Safe Reminder
-					</a>
-				</h1>
-			</div>
+		<div class="page-title">
+			<h1>
+				{{ $title }}
+				<a href="{{ route('gas-safe.create') }}" class="btn btn-primary">
+					<i class="fa fa-plus"></i> New Gas Safe gas
+				</a>
+			</h1>
+		</div>
 
-			{{-- Users Search --}}
-			@component('partials.bootstrap.page-search')
-				@slot('route')
-					{{ route('gas-safe.search') }}
+		{{-- Gas Search --}}
+		@component('partials.bootstrap.page-search')
+			@slot('route')
+				{{ route('gas-safe.search') }}
+			@endslot
+			@if (session('gas_search_term'))
+				@slot('search_term')
+					{{ session('gas_search_term') }}
 				@endslot
-				@if (session('gas_search_term'))
-					@slot('search_term')
-						{{ session('gas_search_term') }}
-					@endslot
-				@endif
-			@endcomponent
-			{{-- End of Users Search --}}
+			@endif
+		@endcomponent
+		{{-- End of Gas Search --}}
 
-		</div>
-	</section>
+	@endcomponent
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<table class="table table-striped table-responsive">
-				<thead>
-					<th>Expires</th>
-					<th>Property</th>
-					<th>Contractor</th>
-					<th>Last Reminder</th>
-					<th>Booked</th>
-				</thead>
-				<tbody>
-					@foreach ($reminders as $reminder)
-						<tr class="@if ($reminder->expires_on <= \Carbon\Carbon::now()) table-danger @endif">
-							<td>
-								<a href="{{ route('gas-safe.show', $reminder->id) }}">
-									{{ date_formatted($reminder->expires_on) }}
-								</a>
-							</td>
-							<td>{!! truncate($reminder->property->short_name) !!}</td>
-							<td>
-								@foreach ($reminder->contractors as $user)
-									<a class="badge badge-primary" title="{{ $user->name }}" href="{{ route('users.show', $user->id) }}">
-										{{ $user->name }}
-									</a>
-								@endforeach
-							</td>
-							<td>{{ $reminder->last_reminder ? date_formatted($reminder->last_reminder) : '-' }}</td>
-							<td><i class="fa fa-{{ $reminder->is_booked ? 'check' : 'times' }}"></i></td>
-						</tr>
-					@endforeach
-				</tbody>
-			</table>
+		<table class="table table-striped table-hover table-responsive">
+			<thead>
+				<th>Expires</th>
+				<th>Property</th>
+				<th>Contractor</th>
+				<th>Last Reminder</th>
+				<th>Booked</th>
+			</thead>
+			<tbody>
+				@foreach ($records as $gas)
+					<tr class="@if ($gas->expires_on <= \Carbon\Carbon::now()) table-danger @endif">
+						<td>
+							<a href="{{ route('gas-safe.show', $gas->id) }}">
+								{{ date_formatted($gas->expires_on) }}
+							</a>
+						</td>
+						<td>{!! truncate($gas->property->short_name) !!}</td>
+						<td>{{ implode(', ', $gas->contractors->pluck('name')->toArray()) }}</td>
+						<td>
+							@if ($reminder = $gas->reminders()->first())
+								{{ date_formatted($reminder->created_at) }}
+							@else
+								-
+							@endif							
+						</td>
+						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
 
-			@include('partials.pagination', ['collection' => $reminders])
+		@include('partials.pagination', ['collection' => $records])
 
-		</div>
-	</section>
+	@endcomponent
 
 @endsection

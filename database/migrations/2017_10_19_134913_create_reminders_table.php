@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGasTable extends Migration
+class CreateRemindersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateGasTable extends Migration
      */
     public function up()
     {
-        Schema::create('gas', function (Blueprint $table) {
+        Schema::create('reminders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('property_id')->unsigned();
-            $table->date('expires_on');
-            $table->boolean('is_booked')->default(0);
-            $table->boolean('is_completed')->default(0);
+            $table->integer('parent_id')->unsigned();
+            $table->string('parent_type');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateGasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gas');
+        Schema::dropIfExists('reminders');
     }
 }

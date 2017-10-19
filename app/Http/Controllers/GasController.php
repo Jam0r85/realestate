@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gas;
+use App\Http\Requests\GasDestroyRequest;
 use App\Http\Requests\StoreGasSafeReminderRequest;
 use App\Services\GasService;
 use Illuminate\Http\Request;
@@ -28,11 +29,13 @@ class GasController extends BaseController
      */
     public function index()
     {
-        $reminders = Gas::expireDate()->paginate();
-        $reminders->load('contractors','property');
+        $records = Gas::with('contractors','property','reminders')
+            ->orderByExpireDate()
+            ->paginate();
+
         $title = 'Gas Safe Reminders';
 
-        return view('gas-safe.index', compact('reminders','title'));
+        return view('gas-safe.index', compact('records','title'));
     }
 
     /**
@@ -121,9 +124,10 @@ class GasController extends BaseController
      * @param  \App\GasSafe  $gasSafe
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(GasDestroyRequest $request, $id)
     {
         $reminder = Gas::findOrFail($id);
+
         $reminder->delete();
 
         $this->successMessage('The reminder was deleted');

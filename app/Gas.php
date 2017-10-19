@@ -54,7 +54,7 @@ class Gas extends BaseModel
 	 * @param \Illuminate\Database\Eloquent\Builder $query
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-    public function scopeExpireDate($query)
+    public function scopeOrderByExpireDate($query)
     {
     	return $query->orderBy('expires_on', 'asc');
     }
@@ -87,10 +87,20 @@ class Gas extends BaseModel
     }
 
     /**
-     * An event belongs to the user who created it.
+     * A gas safe reminder has an owner.
      */
     public function owner()
     {
         return $this->belongsTo('App\User');
+    }
+
+
+    /**
+     * A gas safe reminder can have many reminders.
+     */
+    public function reminders()
+    {
+        return $this->morphMany('App\Reminder', 'parent')
+            ->latest();
     }
 }
