@@ -2,7 +2,7 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.bootstrap.section-with-fluid-container')
 
 		<div class="page-title">
 			<div class="float-right">
@@ -20,7 +20,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.bootstrap.section-with-fluid-container')
 
 		@include('partials.errors-block')
 
