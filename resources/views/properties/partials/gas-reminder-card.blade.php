@@ -2,16 +2,20 @@
 
 	<div class="card mb-3 border-primary">
 		<h5 class="card-header bg-primary text-white">
-			<i class="fa fa-calendar fa-fw"></i> Gas Safe Reminder
+			<i class="fa fa-calendar"></i> Gas Safe Reminder
 		</h5>
 		<div class="card-body">
 
 			<p class="card-text">
-				<a href="{{ route('gas-safe.show', $gas->id) }}" class="float-right btn btn-sm btn-warning">
-					<i class="fa fa-pencil fa-fw"></i> Edit
-				</a>
+				<span class="float-right badge badge-{{ $gas->expires_on <= \Carbon\Carbon::now() ? 'danger' : 'success' }}">
+					{{ $gas->expires_on <= \Carbon\Carbon::now() ? 'Expired' : 'In Date' }}
+				</span>
 				Expires {{ date_formatted($gas->expires_on) }}
 			</p>
+
+			<a href="{{ route('gas-safe.show', $gas->id) }}" class="btn btn-warning">
+				<i class="fa fa-pencil fa-fw"></i> Edit
+			</a>
 
 		</div>
 		<div class="card-header">
