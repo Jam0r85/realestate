@@ -21,8 +21,8 @@
 							{{ $user->name }}
 						</a>
 					</p>
-					{!! $user->email ? $user->email : '' !!}
-					{!! $user->phone_number ? $user->phone_number : '' !!}
+					{!! $user->email ? $user->email . '<br />' : '' !!}
+					{!! $user->phone_number ? $user->phone_number . '<br />' : '' !!}
 				</li>
 			@endforeach
 		</ul>
