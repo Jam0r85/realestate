@@ -6,7 +6,7 @@
 		<th>Balance</th>
 		<th>Date</th>
 		<th>Status</th>
-		<th><i class="fa fa-download"></i></th>
+		<th></th>
 	</thead>
 	<tbody>
 		@foreach ($user->invoices()->limit(15)->get() as $invoice)
@@ -20,8 +20,19 @@
 				<td>{{ currency($invoice->total) }}</td>
 				<td>{{ currency($invoice->total_balance) }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
-				<td></td>
 				<td>
+					@if ($invoice->total_balance <= 0)
+						<span class="badge badge-success">
+							Paid
+						</span>
+					@endif
+					@if ($invoice->total_balance > 0)
+						<span class="badge badge-danger">
+							Unpaid
+						</span>
+					@endif
+				</td>
+				<td class="text-right">
 					<a href="{{ route('downloads.invoice', $invoice->id) }}" title="Download invoice" target="_blank">
 						Download
 					</a>
