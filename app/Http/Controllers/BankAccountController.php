@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BankAccount;
-use App\Http\Requests\StoreBankAccountRequest;
+use App\Http\Requests\BankAccountStoreRequest;
 use App\Http\Requests\UpdateBankAccountRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,14 +69,17 @@ class BankAccountController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\BankAccountStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBankAccountRequest $request)
+    public function store(BankAccountStoreRequest $request)
     {
         $account = new BankAccount();
         $account->user_id = Auth::user()->id;
-        $account->fill($request->input());
+        $account->bank_name = $request->bank_name;
+        $account->account_name = $request->account_name;
+        $account->sort_code = $request->sort_code;
+        $account->account_number = $request->account_number;
         $account->save();
 
         if ($request->has('users')) {

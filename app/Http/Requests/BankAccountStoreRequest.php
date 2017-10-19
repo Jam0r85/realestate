@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BankAccountNumber;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreBankAccountRequest extends FormRequest
+class BankAccountStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +28,10 @@ class StoreBankAccountRequest extends FormRequest
         return [
             'bank_name' => 'required',
             'account_name' => 'required',
-            'account_number' => 'required',
+            'account_number' => [
+                'required',
+                new BankAccountNumber
+            ],
             'sort_code' => 'required'
         ];
     }
