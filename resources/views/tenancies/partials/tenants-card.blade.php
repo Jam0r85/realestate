@@ -1,12 +1,18 @@
-<div class="card {{ count($tenancy->tenants) ? 'bg-success' : 'bg-danger' }} mb-3">
-	<div class="card-header text-white">
+<div class="card mb-3">
+	<h5 class="card-header">
 		<i class="fa fa-users"></i> Tenants
-	</div>
+	</h5>
+
 	@if (!count($tenancy->tenants))
-		<div class="card-body text-white">
-			<b>No tenants!</b><br />No users have been added as tenants to this tenancy yet.
+
+		<div class="card-body">
+			<p class="card-text">
+				No users have been added as tenants to this tenancy.
+			</p>
 		</div>
+
 	@else
+
 		<ul class="list-group list-group-flush">
 			@foreach ($tenancy->tenants as $user)
 				<li class="list-group-item">
@@ -19,5 +25,7 @@
 				</li>
 			@endforeach
 		</ul>
+
 	@endif
+	
 </div>
