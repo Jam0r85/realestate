@@ -16,16 +16,17 @@
 		<ul class="list-group list-group-flush">
 			@foreach ($tenancy->tenants as $user)
 				<li class="list-group-item">
-					<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-						{{ $user->name }}
-						@if ($user->email)
-							({{ $user->email }})
-						@endif
-					</a>
+					<p class="lead mb-0">
+						<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
+							{{ $user->name }}
+						</a>
+					</p>
+					{!! $user->email ? $user->email : '' !!}
+					{!! $user->phone_number ? $user->phone_number : '' !!}
 				</li>
 			@endforeach
 		</ul>
 
 	@endif
-	
+
 </div>
