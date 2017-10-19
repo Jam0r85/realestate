@@ -82,9 +82,9 @@
 
 								<div class="form-group">
 									<label for="vat_number">VAT Number</label>
-									<input type="text" name="vat_number" class="form-control" required value="{{ old('vat_number') }}">
+									<input type="text" name="vat_number" class="form-control" value="{{ old('vat_number') }}">
 									<small class="form-text text-muted">
-										VAT registered? Enter your VAT number.
+										VAT registered? Enter your VAT number or leave it blank.
 									</small>
 								</div>
 

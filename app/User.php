@@ -21,9 +21,18 @@ class User extends Authenticatable
      */
     public function toSearchableArray()
     {
-        $array = $this->only('title','first_name','last_name','company_name','email','phone_number','phone_number_other','created_at','updated_at','home_inline');
-
-        return $array;
+        return $this->only(
+            'title',
+            'first_name',
+            'last_name',
+            'company_name',
+            'email',
+            'phone_number',
+            'phone_number_other',
+            'created_at',
+            'updated_at',
+            'home_inline'
+        );
     }
     
     /**
@@ -62,8 +71,6 @@ class User extends Authenticatable
         'email',
         'phone_number',
         'phone_number_other',
-        'password',
-        'property_id',
         'settings'
     ];
 
@@ -81,26 +88,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $dates = ['deleted_at','last_login_at'];
+    protected $dates = ['deleted_at'];
 
     /**
-     * A user can belong to many roles.
-     */
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
-
-    /**
-     * A user can belong to many user groups.
-     */
-    public function groups()
-    {
-        return $this->belongsToMany('App\UserGroup');
-    }
-
-    /**
-     * A user can belong to a home property.
+     * A user can have a home.
      */
     public function home()
     {
@@ -129,10 +120,7 @@ class User extends Authenticatable
     public function properties()
     {
         return $this->belongsToMany('App\Property')
-            ->withTrashed()
-            ->orderBy('address1')
-            ->orderBy('house_name')
-            ->orderBy('house_number');
+            ->withTrashed();
     }
 
     /**
@@ -141,16 +129,8 @@ class User extends Authenticatable
     public function tenancies()
     {
         return $this->belongsToMany('App\Tenancy')
-            ->with('property','current_rent','rent_payments','tenants');
-    }
-
-    /**
-     * A user can have many active tenancies.
-     */
-    public function activeTenancies()
-    {
-        return $this->belongsToMany('App\Tenancy')
-            ->whereNull('vacatedOn');
+            ->withTrashed()
+            ->latest();
     }
 
     /**
@@ -159,7 +139,6 @@ class User extends Authenticatable
     public function invoices()
     {
         return $this->belongsToMany('App\Invoice')
-            ->with('property','payments','statement_payments','items','items.taxRate')
             ->latest();
     }
 
@@ -169,7 +148,7 @@ class User extends Authenticatable
     public function expenses()
     {
         return $this->belongsToMany('App\Expense')
-            ->with('property','statements');
+            ->latest();
     }
 
     /**
@@ -185,23 +164,8 @@ class User extends Authenticatable
      */
     public function logins()
     {
-        return $this->hasMany('App\UserLogin')->latest();
-    }
-
-    /**
-     * A user can have settings.
-     */
-    public function settings()
-    {
-        return new UserSettings($this);
-    }
-
-    /**
-     * A user's most recent logins.
-     */
-    public function recentLogins()
-    {
-        return $this->hasMany('App\UserLogin')->latest()->limit(4);
+        return $this->hasMany('App\UserLogin')
+            ->latest();
     }
 
     /**
@@ -213,7 +177,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Set the user's phone number.
+     * A user can have settings.
+     */
+    public function settings()
+    {
+        return new UserSettings($this);
+    }
+
+    /**
+     * Set the users mobile phone number.
      * 
      * @param  string  $value
      * @return void
@@ -224,16 +196,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Get a user's name.
+     * Get the user's name.
      * 
      * @return string
      */
     public function getNameAttribute()
     {
-        if ($this->company_name) {
-            return $this->company_name;
-        }
-
-        return trim($this->first_name . ' ' . $this->last_name);
+        return $this->company_name ?? trim($this->first_name . ' ' . $this->last_name);
     }
 }

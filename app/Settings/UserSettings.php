@@ -14,6 +14,7 @@ class UserSettings
 	 * @var array
 	 */
 	protected $keysWithDefaultValues = [
+		'site_admin' => null,
 		'calendar_event_color' => 'post'
 	];
 
@@ -41,6 +42,7 @@ class UserSettings
 	public function merge(array $attributes, $force = false)
 	{
 		$current_settings = $this->user->settings;
+
 		if (!is_array($current_settings)) {
 			$current_settings = [];
 		}
@@ -59,11 +61,15 @@ class UserSettings
 
 	/**
 	 * Store the default settings.
+	 *
+	 * @param array $overwrite
 	 */
-	public function storeDefault()
+	public function storeDefault($overwrite = [])
 	{
+		$settings = array_merge($overwrite, $this->keysWithDefaultValues);
+
 		return $this->user->update([
-			'settings' => $this->keysWithDefaultValues
+			'settings' => $settings
 		]);
 	}
 }

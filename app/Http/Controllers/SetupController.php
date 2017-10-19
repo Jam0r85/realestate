@@ -64,12 +64,17 @@ class SetupController extends BaseController
 		$branch->phone_number = $request->branch_phone_number;
 		$branch->save();
 
+		$user_settings = [
+			'site_admin' => true
+		];
+
 		$user = new User();
 		$user->first_name = $request->first_name;
 		$user->last_name = $request->last_name;
 		$user->email = $request->email;
 		$user->password = bcrypt($request->password);
 		$user->branch_id = $branch->id;
+		$user->settings = $user_settings;
 		$user->save();
 
 		$this->successMessage('The user and application have been setup. Please proceed to login');

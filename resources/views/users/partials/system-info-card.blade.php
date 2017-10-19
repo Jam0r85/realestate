@@ -6,11 +6,11 @@
 		@component('partials.bootstrap.list-group-item')
 			{{ $user->branch ? $user->branch->name : '' }}
 			@slot('title')
-				Branch
+				Registered Branch
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $user->owner ? $user->owner->name : '' }}
+			{{ $user->owner ? $user->owner->name : '-' }}
 			@slot('title')
 				Created By
 			@endslot
@@ -25,6 +25,16 @@
 			{{ date_formatted($user->updated_at) }}
 			@slot('title')
 				Updated
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			@if (count($user->logins))
+				{{ datetime_formatted($user->logins()->first()->created_at) }}
+			@else
+				-
+			@endif
+			@slot('title')
+				Last Login
 			@endslot
 		@endcomponent
 	</ul>

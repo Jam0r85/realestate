@@ -15,7 +15,7 @@ class CreateTenanciesTable extends Migration
     {
         Schema::create('tenancies', function (Blueprint $table) {
             $table->increments('id');
-            $table->ingeter('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('property_id')->unsigned();
             $table->integer('service_id')->unsigned();
             $table->boolean('is_overdue')->default(false);

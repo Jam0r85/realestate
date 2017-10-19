@@ -92,6 +92,19 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Scope a query to only include tenancies which are active.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeIsActive($query)
+    {
+        return $query
+            ->whereNull('vacated_on')
+            ->orWhere('vacated_on', '>', Carbon::now());
+    }
+
+    /**
      * Scope a query to load the relations required for lists.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -110,19 +123,6 @@ class Tenancy extends BaseModel
             'last_statement',
             'service'
         );
-    }
-
-    /**
-     * Scope a query to only include tenancies which are active.
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function scopeIsActive($query)
-    {
-        return $query
-            ->whereNull('vacated_on')
-            ->orWhere('vacated_on', '>', Carbon::now());
     }
 
 	/**
