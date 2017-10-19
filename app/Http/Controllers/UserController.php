@@ -97,11 +97,19 @@ class UserController extends BaseController
     public function store(StoreUserRequest $request)
     {
         $user = new User();
-        $user->fill($request->input());
+        $user->title = $request->title;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->company_name = $request->company_name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->phone_number_other = $request->phone_number_other;
         $user->password = bcrypt(str_random(15));
         $user->save();
 
-        $this->successMessage('The user was created');
+        $user->settings()->storeDefault();
+
+        $this->successMessage('The user "' . $user->name . '" was created');
 
         Cache::tags('users')->flush();
 
