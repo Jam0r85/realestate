@@ -160,6 +160,14 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have many bank accounts.
+     */
+    public function bankAccounts()
+    {
+        return $this->belongsToMany('App\BankAccount');
+    }
+
+    /**
      * A user can have many logins.
      */
     public function logins()

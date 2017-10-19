@@ -44,7 +44,10 @@
 				<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses <small>(as contractor)</small></a>
+				<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#bank_accounts" role="tab">Bank Accounts</a>
 			</li>
 		</ul>
 
@@ -78,6 +81,34 @@
 			<div class="tab-pane" id="expenses" role="tabpanel">
 
 				@include('users.partials.expenses-table')
+
+			</div>
+			<div class="tab-pane" id="bank_accounts" role="tabpanel">
+
+				<table class="table table-striped table-hover table-responsive">
+					<thead>
+						<th>Bank</th>
+						<th>Account Name</th>
+						<th>Sort Code</th>
+						<th>Account Number</th>
+						<th></th>
+					</thead>
+					<tbody>
+						@foreach ($user->bankAccounts as $account)
+							<tr>
+								<td>{{ $account->bank_name }}</td>
+								<td>{{ $account->account_name }}</td>
+								<td>{{ $account->sort_code }}</td>
+								<td>{{ $account->account_number }}</td>
+								<td class="text-right">
+									<a href="{{ route('bank-accounts.show', $account->id) }}">
+										Edit
+									</a>
+								</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
 
 			</div>
 		</div>
