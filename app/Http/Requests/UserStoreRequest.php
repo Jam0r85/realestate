@@ -6,7 +6,7 @@ use App\Rules\PhoneNumber;
 use App\Rules\UniqueWithSoftDeletes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UserStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -41,6 +41,10 @@ class StoreUserRequest extends FormRequest
                 'nullable',
                 'unique:users,email',
                 'email'
+            ],
+            'password' => [
+                'nullable',
+                'confirmed'
             ]
         ];
     }

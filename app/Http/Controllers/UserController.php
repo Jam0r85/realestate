@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SendUserEmailRequest;
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserStoreRequest;
 use App\Mail\SendUserEmail;
 use App\Services\UserService;
 use App\User;
@@ -91,10 +91,10 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\UserStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function store(UserStoreRequest $request)
     {
         $user = new User();
         $user->title = $request->title;
@@ -104,7 +104,7 @@ class UserController extends BaseController
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
         $user->phone_number_other = $request->phone_number_other;
-        $user->password = bcrypt(str_random(15));
+        $user->password = bcrypt($request->password ?? str_random(10));
         $user->save();
 
         $user->settings()->storeDefault();

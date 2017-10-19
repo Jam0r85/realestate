@@ -2,27 +2,39 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>New User</h1>
+		<div class="page-title">
+			<h1>New User</h1>
+		</div>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
+
+		<form action="{{ route('users.store') }}" method="POST">
+			{{ csrf_field() }}
+
+			@include('users.partials.form')
+
+			<div class="form-group">
+				<label for="password">Password <small>(optional)</small></label>
+				<input type="password" name="password" id="password" class="form-control" />
 			</div>
 
-			@include('partials.errors-block')
+			<div class="form-group">
+				<label for="password_confirmation">Confirm Password</label>
+				<input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
+			</div>
 
-			<form action="{{ route('users.store') }}" method="POST">
-				{{ csrf_field() }}
+			@component('partials.bootstrap.save-submit-button')
+				Create User
+			@endcomponent
 
-				@include('users.partials.form')
+		</form>
 
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Create User
-				</button>
-
-			</form>
-
-		</div>
-	</section>
+	@endcomponent
 
 @endsection
