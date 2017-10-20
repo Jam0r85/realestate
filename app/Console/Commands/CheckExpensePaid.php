@@ -53,7 +53,7 @@ class CheckExpensePaid extends Command
         $expenses = Expense::whereNull('paid_at')->get();
 
         foreach ($expenses as $expense) {
-            if ($expense->balance_amount <= 0) {
+            if ($expense->remaining_balance <= 0) {
 
                 // We automatically set the statements as having been paid.
                 $statements_paid = true;
