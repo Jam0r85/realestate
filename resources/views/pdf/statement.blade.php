@@ -12,7 +12,7 @@
 					<td class="has-text-right">
 						<p>{{ get_setting('company_name') }}</p>
 						@if ($statement->tenancy->branch)
-							{!! $statement->tenancy->branch->address_formatted !!}
+							{!! $statement->tenancy->property->branch->address_formatted !!}
 						@endif
 					</td>
 				</tr>
