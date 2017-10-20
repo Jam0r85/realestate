@@ -10,10 +10,7 @@
 						<p>{!! $statement->recipient !!}</p>
 					</td>
 					<td class="has-text-right">
-						<p>{{ get_setting('company_name') }}</p>
-						@if ($statement->tenancy->branch)
-							{!! $statement->tenancy->property->branch->address_formatted !!}
-						@endif
+						{!! $statement->tenancy->property->branch->address_formatted !!}
 					</td>
 				</tr>
 			</table>
