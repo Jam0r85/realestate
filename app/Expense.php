@@ -15,16 +15,16 @@ class Expense extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('name','cost','created_at','paid_at');
+        $array = $this->only('name', 'cost', 'created_at', 'paid_at');
         $array['property'] = $this->property->name;
-        $array['contractors'] = $this->contractors->pluck('name')->toArray();
+        $array['contractor'] = $this->contractor->pluck('name')->toArray();
 
         return $array;
     }
 
     /**
      * The attributes that should be cast to native types.
-     * 
+     *
      * @var array
      */
     protected $casts = [
@@ -33,7 +33,7 @@ class Expense extends BaseModel
 
     /**
      * The attributes that should be mutated to dates.
-     * 
+     *
      * @var array
      */
     protected $dates = ['paid_at'];
@@ -43,19 +43,27 @@ class Expense extends BaseModel
      *
      * @var array
      */
-	protected $fillable = [
-		'property_id',
-		'name',
-		'cost',
-		'paid_at'
-	];
+    protected $fillable = [
+        'property_id',
+        'name',
+        'cost',
+        'paid_at'
+    ];
 
-	/**
-	 * An expense can have many contractors.
-	 */
+    /**
+     * An expense can have a contractors.
+     */
     public function contractors()
     {
-    	return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User');
+    }
+
+    /**
+     * An expense can have a contractor.
+     */
+    public function contractor()
+    {
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -63,7 +71,7 @@ class Expense extends BaseModel
      */
     public function owner()
     {
-    	return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -71,7 +79,7 @@ class Expense extends BaseModel
      */
     public function property()
     {
-    	return $this->belongsTo('App\Property');
+        return $this->belongsTo('App\Property');
     }
 
     /**
@@ -87,8 +95,8 @@ class Expense extends BaseModel
      */
     public function statements()
     {
-    	return $this->belongsToMany('App\Statement')
-    		->withPivot('amount');
+        return $this->belongsToMany('App\Statement')
+            ->withPivot('amount');
     }
 
     /**
@@ -101,7 +109,7 @@ class Expense extends BaseModel
 
     /**
      * Get the expense balance amount.
-     * 
+     *
      * @return int
      */
     public function getRemainingBalanceAttribute()

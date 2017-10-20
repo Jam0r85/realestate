@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Document;
 use App\Expense;
-use App\Http\Requests\StoreExpenseRequest;
+use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Services\DocumentService;
 use App\Services\ExpenseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,6 @@ class ExpenseController extends BaseController
     /**
      * Create a new controller instance.
      *
-     * @param   EloquentUsersRepository $users
      * @return  void
      */
     public function __construct()
@@ -64,7 +64,7 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new expense.
      *
      * @return \Illuminate\Http\Response
      */
@@ -74,20 +74,39 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created expense in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\ExpenseStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreExpenseRequest $request)
+    public function store(ExpenseStoreRequest $request)
     {
-        $data = $request->input();
-        $data['files'] = $request->file('files');
+        $expense = new Expense();
+        $expense->user_id = Auth::user()->id;
+        $expense->name = $request->name;
+        $expense->property_id = $request->property_id;
+        $expense->cost = $request->cost;
+        $expense->contractor_id = $request->contractor_id;
+        $expense->data = ['contractor_reference' => $request->contractor_reference];
+        $expense->save();
 
-        $service = new ExpenseService();
-        $service->createExpense($data);
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
 
-        $this->successMessage('The expense was created');
+                $path = Storage::putFile('documents/expenses', $file);
+
+                $invoice = new Document();
+                $invoice->user_id = Auth::user()->id;
+                $invoice->key = str_random(30);
+                $invoice->name = $expense->name . ' Invoice';
+                $invoice->path = $path;
+                $invoice->extension = $file->getClientOriginalExtension();
+
+                $expense->invoices()->save($invoice);
+            }
+        }
+
+        $this->successMessage('The expense "' . $expense->name . '" was created');
 
         return back();
     }

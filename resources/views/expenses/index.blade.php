@@ -45,13 +45,13 @@
 					<thead>
 						<th>Name</th>
 						<th>Property</th>
-						<th>Contractors</th>
+						<th>Contractor</th>
 						<th>Cost</th>
 						<th>Balance</th>
 						<th><i class="fa fa-upload"></i></th>
 					</thead>
 					<tbody>
-						@foreach ($expenses as $expense)
+						@foreach ($unpaid_expenses as $expense)
 							<tr>
 								<td>
 									<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
@@ -63,7 +63,7 @@
 										{!! truncate($expense->property->short_name) !!}
 									</a>
 								</td>
-								<td>{{ implode(', ', $expense->contractors->pluck('name')->toArray()) }}</td>
+								<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
 								<td>{{ currency($expense->cost) }}</td>
 								<td>{{ currency($expense->remaining_balance) }}</td>
 								<td>
@@ -114,7 +114,7 @@
 									{!! truncate($expense->property->short_name) !!}
 								</a>
 							</td>
-							<td>{{ implode(', ', $expense->contractors->pluck('name')->toArray()) }}</td>
+							<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
 							<td>{{ currency($expense->cost) }}</td>
 							<td>{{ date_formatted($expense->paid_at) }}</td>
 							<td>
@@ -126,6 +126,8 @@
 					@endforeach
 				</tbody>
 			</table>
+
+			@include('partials.pagination', ['collection' => $expenses])
 
 	@endcomponent
 

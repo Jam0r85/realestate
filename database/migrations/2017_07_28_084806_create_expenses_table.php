@@ -17,6 +17,7 @@ class CreateExpensesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('property_id')->unsigned();
+            $table->ineter('contractor_id')->unsigned();
             $table->string('name');
             $table->decimal('cost', 12, 2);
             $table->date('paid_at')->nullable();
