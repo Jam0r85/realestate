@@ -99,14 +99,14 @@
 				{{-- Invoice footer taken from it's group and branch --}}
 				@if (isset($statement))
 
-					@if ($statement->tenancy->branch)
+					@if ($statement->tenancy->property->branch)
 						<li>
 							<span class="footer-title">Phone</span>
-							{{ $statement->tenancy->branch->phone_number }}
+							{{ $statement->tenancy->property->branch->phone_number }}
 						</li>
 						<li>
 							<span class="footer-title">E-Mail</span>
-							{{ $statement->tenancy->branch->email }}
+							{{ $statement->tenancy->property->branch->email }}
 						</li>
 					@endif
 
