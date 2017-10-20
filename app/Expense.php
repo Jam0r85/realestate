@@ -18,8 +18,18 @@ class Expense extends BaseModel
         $array = $this->only('name','cost','created_at','paid_at');
         $array['property'] = $this->property->name;
         $array['contractors'] = $this->contractors->pluck('name')->toArray();
+
         return $array;
     }
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -92,9 +102,9 @@ class Expense extends BaseModel
     /**
      * Get the expense balance amount.
      * 
-     * @return integer
+     * @return int
      */
-    public function getBalanceAmountAttribute()
+    public function getRemainingBalanceAttribute()
     {
         return $this->cost - $this->statements->sum('pivot.amount');
     }

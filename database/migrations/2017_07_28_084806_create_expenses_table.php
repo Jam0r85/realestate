@@ -20,6 +20,7 @@ class CreateExpensesTable extends Migration
             $table->string('name');
             $table->decimal('cost', 12, 2);
             $table->date('paid_at')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
         });
     }
