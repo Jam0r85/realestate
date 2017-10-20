@@ -1,24 +1,30 @@
-<div class="card text-white @if (count($expense->contractors)) bg-success @else bg-danger @endif mb-3">
+<div class="card mb-3">
 	<div class="card-header">
-		<i class="fa fa-users"></i> Contractors
+		<i class="fa fa-user"></i> Contractor
 	</div>
 
-	@if (count($expense->contractors))
+	@if ($expense->contractor)
 
 		<ul class="list-group list-group-flush">
-			@foreach ($expense->contractors as $user)
-				@component('partials.bootstrap.list-group-item')
-					<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-						{{ $user->name }}
+			<li class="list-group-item">
+				<p class="lead mb-0">
+					<a href="{{ route('users.show', $expense->contractor->id) }}" title="{{ $expense->contractor->name }}">
+						{{ $expense->contractor->name }}
 					</a>
-				@endcomponent
-			@endforeach
+				</p>
+				{!! $expense->contractor->email ? $expense->contractor->email . '<br />' : '' !!}
+				{!! $expense->contractor->phone_number ? $expense->contractor->phone_number . '<br />' : '' !!}
+			</li>
 		</ul>
 
 	@else
+
 		<div class="card-body">
-			<b>No contractors linked!</b>
+			<p class="card-text">
+				No user has been added as a contractor to this expense.
+			</p>
 		</div>
+
 	@endif
 
 </div>

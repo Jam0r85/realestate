@@ -17,7 +17,7 @@ class Expense extends BaseModel
     {
         $array = $this->only('name', 'cost', 'created_at', 'paid_at');
         $array['property'] = $this->property->name;
-        $array['contractor'] = $this->contractor->pluck('name')->toArray();
+        $array['contractor'] = $this->contractor ? $this->contractor->name : '';
 
         return $array;
     }
@@ -63,7 +63,7 @@ class Expense extends BaseModel
      */
     public function contractor()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'contractor_id');
     }
 
     /**

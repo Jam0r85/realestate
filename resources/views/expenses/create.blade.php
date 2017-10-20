@@ -42,6 +42,7 @@
 			<div class="form-group">
 				<label for="contractor_id">Contractor</label>
 				<select name="contractor_id" id="contractor_id" class="form-control select2">
+					<option value="">Please select..</option>
 					@foreach (users() as $user)
 						<option @if (old('contractor_id') && old('contractor_id') == $user->id)) selected @endif value="{{ $user->id }}">
 							{{ $user->name }}
