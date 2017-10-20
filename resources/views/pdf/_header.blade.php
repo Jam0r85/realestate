@@ -129,11 +129,11 @@
 
 						<li>
 							<span class="footer-title">Phone</span>
-							{{ $payment->parent->branch->phone_number }}
+							{{ $payment->parent->property->branch->phone_number }}
 						</li>
 						<li>
 							<span class="footer-title">E-Mail</span>
-							{{ $payment->parent->branch->email }}
+							{{ $payment->parent->property->branch->email }}
 						</li>
 
 					@endif

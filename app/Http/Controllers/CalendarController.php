@@ -13,13 +13,12 @@ class CalendarController extends BaseController
 {
     /**
      * Create a new controller instance.
-     * 
-     * @param   EloquentUsersRepository $users
+     *
      * @return  void
      */
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
 
     /**
