@@ -27,17 +27,4 @@ class ExpenseStoreRequest extends FormRequest
             //
         ];
     }
-
-    /**
-     * Get the validation messages that apply to the request.
-     * 
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'property_id.required' => 'Please select a property for this expense',
-            'files.mimes' => 'The invoice(s) must be either .jpeg, .png or .pdf type'
-        ];
-    }
 }

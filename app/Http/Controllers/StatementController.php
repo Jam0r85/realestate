@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\SendStatementsRequest;
-use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
 use App\Mail\StatementByEmail;
@@ -197,7 +197,7 @@ class StatementController extends BaseController
     * @param integer $id
     * @return \Illuminate\Http\Response
     */
-    public function createExpenseItem(StoreExpenseRequest $request, $id)
+    public function createExpenseItem(ExpenseStoreRequest $request, $id)
     {
         $service = new StatementService();
         $service->createExpenseItem($request->input(), $id);
