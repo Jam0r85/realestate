@@ -18,30 +18,19 @@
 				Current Held <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
 			</button>
 		</div>
-			
-		<div class="page-search">
-			<form role="form" method="POST" action="{{ route('deposit.search') }}">
-				{{ csrf_field() }}
-				<div class="form-group">
-					<div class="input-group">
-						{{-- Clear Search Button --}}
-						@if (session('deposit_search_term'))
-							<span class="input-group-btn">
-								<button type="submit" class="btn btn-danger" name="clear_search" value="true">
-									<i class="fa fa-trash"></i> Clear
-								</button>
-							</span>
-						@endif
-						<input type="text" name="search_term" class="form-control" placeholder="Search for..." value="{{ session('deposit_search_term') }}" />
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-secondary">
-								<i class="fa fa-search"></i> Search
-							</button>
-						</span>
-					</div>
-				</div>
-			</form>
-		</div>
+
+		{{-- Deposits Search --}}
+		@component('partials.bootstrap.page-search')
+			@slot('route')
+				{{ route('deposit.search') }}
+			@endslot
+			@if (session('deposit_search_term'))
+				@slot('search_term')
+					{{ session('deposit_search_term') }}
+				@endslot
+			@endif
+		@endcomponent
+		{{-- End of Deposits Search --}}
 
 	@endcomponent
 
@@ -55,6 +44,7 @@
 				<th>Amount</th>
 				<th>Balance</th>
 				<th>ID</th>
+				<th></th>
 			</thead>
 			<tbody>
 				@foreach ($deposits as $deposit)
@@ -73,6 +63,13 @@
 							</span>
 						</td>
 						<td>{{ $deposit->unique_id }}</td>
+						<td class="text-right">
+							@if ($deposit->certificate)
+								<a href="{{ Storage::url($deposit->certificate->path) }}" target="_blank" title="Download">
+									<i class="fa fa-download"></i>
+								</a>
+							@endif
+						</td>
 					</tr>
 				@endforeach
 			</tbody>
