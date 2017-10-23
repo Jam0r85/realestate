@@ -76,30 +76,4 @@ class PaymentService
 
 		return $payment;
 	}
-
-	/**
-	 * Record a payment for a deposit.
-	 * 
-	 * @param array $data
-	 * @param integer $id
-	 * @return \App\Payment
-	 */
-	public function createDepositPayment(array $data, $id)
-	{
-		$deposit = Deposit::findOrFail($id);
-
-		// Build the payment.
-		$payment = new Payment();
-		$payment->user_id = Auth::user()->id;
-		$payment->key = str_random(30);
-		$payment->fill($data);
-
-		if (isset($data['created_at'])) {
-			$payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', $data['created_at']);
-		}
-
-		$payment = $deposit->payments()->save($payment);
-
-		return $payment;
-	}
 }

@@ -80,6 +80,11 @@
 								</div>
 
 								<div class="form-group">
+									<label for="note">Note</label>
+									<textarea name="note" class="form-control" rows="4"></textarea>
+								</div>
+
+								<div class="form-group">
 									<label class="custom-control custom-checkbox">
 										<input type="checkbox" class="custom-control-input" value="true" name="record_into_rent">
 										<span class="custom-control-indicator"></span>
@@ -87,11 +92,6 @@
 											Do you want to record a positive amount into this tenancy rent account?
 										</span>
 									</label>
-								</div>
-
-								<div class="form-group">
-									<label for="note">Note</label>
-									<textarea name="note" class="form-control" rows="4"></textarea>
 								</div>
 
 								@component('partials.bootstrap.save-submit-button')
