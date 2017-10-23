@@ -18,31 +18,40 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		@if ($tenancy->deposit)
-			<form method="POST" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}
-		@else
-			<form method="POST" action="{{ route('deposit.store') }}">
-				{{ csrf_field() }}
-				<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
-		@endif
+		<div class="card mb-3">
+			<h4 class="card-header">
+				Deposit Details
+			</h4>
+			<div class="card-body">
 
-			<div class="form-group">
-				<label for="amount">Deposit Amount</label>
-				<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+				@if ($tenancy->deposit)
+					<form method="POST" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
+				@else
+					<form method="POST" action="{{ route('deposit.store') }}">
+						{{ csrf_field() }}
+						<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
+				@endif
+
+					<div class="form-group">
+						<label for="amount">Deposit Amount</label>
+						<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+					</div>
+
+					<div class="form-group">
+						<label for="unique_id">Unique Reference (certificate number)</label>
+						<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
+					</div>
+
+					@component('partials.bootstrap.save-submit-button')
+						{{ $tenancy->deposit ? 'Update Deposit' : 'Record Deposit' }}
+					@endcomponent
+
+				</form>
+
 			</div>
-
-			<div class="form-group">
-				<label for="unique_id">Unique Reference (certificate number)</label>
-				<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
-			</div>
-
-			@component('partials.bootstrap.save-submit-button')
-				{{ $tenancy->deposit ? 'Update Deposit' : 'Record Deposit' }}
-			@endcomponent
-
-		</form>
+		</div>
 
 	@endcomponent
 
@@ -111,22 +120,27 @@
 
 				@if ($tenancy->deposit)
 
-					<table class="table table-striped table-responsive">
-						<thead>
-							<th>Date</th>
-							<th>Amount</th>
-							<th>Method</th>
-						</thead>
-						<tbody>
-							@foreach ($tenancy->deposit->payments as $payment)
-								<tr>
-									<td>{{ date_formatted($payment->created_at) }}</td>
-									<td>{{ currency($payment->amount) }}</td>
-									<td>{{ $payment->method->name }}</td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+					<div class="card mb-3">
+						<h4 class="card-header">
+							Deposit Payments
+						</h4>
+						<table class="table table-striped table-responsive">
+							<thead>
+								<th>Date</th>
+								<th>Amount</th>
+								<th>Method</th>
+							</thead>
+							<tbody>
+								@foreach ($tenancy->deposit->payments as $payment)
+									<tr>
+										<td>{{ date_formatted($payment->created_at) }}</td>
+										<td>{{ currency($payment->amount) }}</td>
+										<td>{{ $payment->method->name }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
 
 				@endif
 
