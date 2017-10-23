@@ -51,6 +51,7 @@
 			<thead>
 				<th>Date</th>
 				<th>Tenancy</th>
+				<th>Property</th>
 				<th>Amount</th>
 				<th>Balance</th>
 				<th>ID</th>
@@ -61,9 +62,10 @@
 						<td>{{ date_formatted($deposit->created_at) }}</td>
 						<td>
 							<a href="{{ route('tenancies.show', $deposit->tenancy->id) }}" title="{{ $deposit->tenancy->name }}">
-								{{ $deposit->tenancy->name }}
+								{!! truncate($deposit->tenancy->name) !!}
 							</a>
 						</td>
+						<td>{!! truncate($deposit->tenancy->property->short_name) !!}</td>
 						<td>{{ currency($deposit->amount) }}</td>
 						<td>
 							<span class="@if ($deposit->balance < $deposit->amount) text-danger @endif">
