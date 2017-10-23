@@ -83,7 +83,9 @@
 									<label class="custom-control custom-checkbox">
 										<input type="checkbox" class="custom-control-input" value="true" name="record_into_rent">
 										<span class="custom-control-indicator"></span>
-										<span class="custom-control-description">Record this amount into rent?</span>
+										<span class="custom-control-description">
+											Do you want to record a positive amount into this tenancy rent account?
+										</span>
 									</label>
 								</div>
 
