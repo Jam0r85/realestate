@@ -90,8 +90,7 @@ class Deposit extends BaseModel
      */
     public function certificate()
     {
-        return $this->morphOne('App\Document', 'parent')
-            ->where('data->certificate', $this->unique_id);
+        return $this->morphOne('App\Document', 'parent');
     }
 
     /**

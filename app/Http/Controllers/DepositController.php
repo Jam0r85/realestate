@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Deposit;
+use App\Document;
 use App\Http\Requests\DepositStorePaymentRequest;
 use App\Http\Requests\DepositUpdateRequest;
 use App\Http\Requests\StoreDepositRequest;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class DepositController extends BaseController
 {
@@ -92,11 +94,55 @@ class DepositController extends BaseController
         return back();
     }
 
+    /**
+     * Upload the certificate for a deposit.
+     * 
+     * @param \App\Http\Requests\ $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
     public function uploadCertificate(Request $request, $id)
     {
         $deposit = Deposit::findOrFail($id);
 
+        if ($deposit->certificate) {
+            $this->destroyCertificate($id);
+        }
+
+        if ($request->hasFile('certificate')) {
+
+            $folder = 'documents/tenancies/' . $deposit->tenancy_id . '/deposit';
+            $path = $request->file('certificate')->store($folder);
+
+            $file = new Document();
+            $file->user_id = Auth::user()->id;
+            $file->key = str_random(30);
+            $file->name = $deposit->unique_id ?? 'Deposit Certificate #' . $deposit->id;
+            $file->path = $path;
+            $file->extension = $request->file('certificate')->getClientOriginalExtension();
+
+            $deposit->certificate()->save($file);
+        }
+
         $this->successMessage('The certificate was uploaded');
+
+        return back();
+    }
+
+    /**
+     * Destroy the deposit certificate.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyCertificate($id)
+    {
+        $deposit = Deposit::findOrFail($id);
+
+        Storage::delete($deposit->certificate->path);
+        $deposit->certificate()->delete();
+
+        $this->successMessage('The deposit certificate was deleted');
 
         return back();
     }

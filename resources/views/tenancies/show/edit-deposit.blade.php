@@ -18,47 +18,135 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<div class="card mb-3">
-			<h4 class="card-header">
-				Deposit Details
-			</h4>
-			<div class="card-body">
-
-				@if ($tenancy->deposit)
-					<form method="POST" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
-						{{ csrf_field() }}
-						{{ method_field('PUT') }}
-				@else
-					<form method="POST" action="{{ route('deposit.store') }}">
-						{{ csrf_field() }}
-						<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
-				@endif
-
-					<div class="form-group">
-						<label for="amount">Deposit Amount</label>
-						<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
-					</div>
-
-					<div class="form-group">
-						<label for="unique_id">Unique Reference (certificate number)</label>
-						<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
-					</div>
-
-					@component('partials.bootstrap.save-submit-button')
-						{{ $tenancy->deposit ? 'Update Deposit' : 'Record Deposit' }}
-					@endcomponent
-
-				</form>
-
-			</div>
-		</div>
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
+		@include('partials.errors-block')
 
 		<div class="row">
-			<div class="col">
+			<div class="col-sm-12 col-lg-4">
+
+				@if ($tenancy->deposit)
+
+					<div class="card mb-3">
+						<h4 class="card-header">
+							Certificate
+						</h4>
+
+						@if ($tenancy->deposit->certificate)
+
+							<div class="card-body">
+
+								<a href="{{ Storage::url($tenancy->deposit->certificate->path) }}" class="btn btn-block btn-success mb-2" target="_blank">
+									<i class="fa fa-download"></i> Download Certificate
+								</a>
+
+								<form method="POST" action="{{ route('deposit.destroy-certificate', $tenancy->deposit->id) }}">
+									{{ csrf_field() }}
+									{{ method_field('DELETE') }}
+
+									<button type="submit" class="btn btn-block btn-danger">
+										<i class="fa fa-trash"></i> Delete Certificate
+									</button>
+								</form>
+
+							</div>
+
+						@endif
+
+						<div class="card-body">
+
+							@if (!$tenancy->deposit->certificate)
+
+								<div class="alert alert-warning">
+									No certificate has been uploaded for this deposit.
+								</div>
+
+							@endif
+
+							<form method="POST" action="{{ route('deposit.upload-certificate', $tenancy->deposit->id) }}" enctype="multipart/form-data">
+								{{ csrf_field() }}
+
+								<div class="form-group">
+									<label for="certificate">{{ $tenancy->deposit->certificate ? 'Replace' : 'Upload' }} Certificate</label>
+									<input type="file" class="form-control-file" id="certificate" name="certificate" required>
+								</div>
+
+								@component('partials.bootstrap.save-submit-button')
+									{{ $tenancy->deposit->certificate ? 'Replace' : 'Upload' }} Certificate
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+				@else
+
+					<div class="alert alert-danger">
+						This tenancy does not have a deposit recorded.
+					</div>
+
+				@endif
+
+			</div>
+			<div class="col-sm-12 col-lg-8">
+
+				<div class="card mb-3">
+					<h4 class="card-header">
+						Deposit Details
+					</h4>
+					<div class="card-body">
+
+						@if ($tenancy->deposit)
+							<form method="POST" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+						@else
+							<form method="POST" action="{{ route('deposit.store') }}">
+								{{ csrf_field() }}
+								<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
+						@endif
+
+							<div class="form-group">
+								<label for="amount">Deposit Amount</label>
+								<input type="number" step="any" name="amount" id="amount" class="form-control" required value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+							</div>
+
+							<div class="form-group">
+								<label for="unique_id">Unique Reference (certificate number)</label>
+								<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
+							</div>
+
+							@component('partials.bootstrap.save-submit-button')
+								{{ $tenancy->deposit ? 'Update Deposit' : 'Record Deposit' }}
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+				@if ($tenancy->deposit)
+
+					<div class="card mb-3">
+						<h4 class="card-header">
+							Deposit Payments
+						</h4>
+						<table class="table table-striped table-responsive">
+							<thead>
+								<th>Date</th>
+								<th>Amount</th>
+								<th>Method</th>
+							</thead>
+							<tbody>
+								@foreach ($tenancy->deposit->payments as $payment)
+									<tr>
+										<td>{{ date_formatted($payment->created_at) }}</td>
+										<td>{{ currency($payment->amount) }}</td>
+										<td>{{ $payment->method->name }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
 
 				<div class="card mb-3">
 					<h4 class="card-header">
@@ -78,12 +166,12 @@
 
 								<div class="form-group">
 									<label for="amount">Amount</label>
-									<input type="number" step="any" name="amount" class="form-control">
+									<input type="number" step="any" name="amount" class="form-control" required >
 								</div>
 
 								<div class="form-group">
 									<label for="payment_method_id">Payment Method</label>
-									<select name="payment_method_id" class="form-control">
+									<select name="payment_method_id" class="form-control" required >
 										@foreach (payment_methods() as $method)
 											<option value="{{ $method->id }}">{{ $method->name }}</option>
 										@endforeach
@@ -115,46 +203,10 @@
 					</div>
 				</div>
 
-			</div>
-			<div class="col">
+			@endif
 
-				@if ($tenancy->deposit)
-
-					<div class="card mb-3">
-						<h4 class="card-header">
-							Certificate
-						</h4>
-						<div class="card-body">
-
-						</div>
-					</div>
-
-					<div class="card mb-3">
-						<h4 class="card-header">
-							Deposit Payments
-						</h4>
-						<table class="table table-striped table-responsive">
-							<thead>
-								<th>Date</th>
-								<th>Amount</th>
-								<th>Method</th>
-							</thead>
-							<tbody>
-								@foreach ($tenancy->deposit->payments as $payment)
-									<tr>
-										<td>{{ date_formatted($payment->created_at) }}</td>
-										<td>{{ currency($payment->amount) }}</td>
-										<td>{{ $payment->method->name }}</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
-					</div>
-
-				@endif
-
-			</div>
 		</div>
+	</div>
 
 	@endcomponent
 

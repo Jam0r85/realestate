@@ -109,9 +109,7 @@ if (!function_exists('tax_rates')) {
 if (!function_exists('payment_methods')) {
 	function payment_methods()
 	{
-		return cache()->tags('payment_methods')->remember('payment_methods', 60, function () {
-			return \App\PaymentMethod::orderBy('name')->get();
-		});
+		return \App\PaymentMethod::orderBy('name')->get();
 	}
 }
 
@@ -136,8 +134,6 @@ if (!function_exists('bank_accounts')) {
 if (!function_exists('services')) {
 	function services()
 	{
-		return cache()->tags('services')->remember('services', 60, function () {
-			return \App\Service::orderBy('name')->get();
-		});
+		return \App\Service::orderBy('name')->get();
 	}
 }
