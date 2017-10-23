@@ -100,7 +100,7 @@
 										<input type="checkbox" class="custom-control-input" value="true" name="record_into_rent">
 										<span class="custom-control-indicator"></span>
 										<span class="custom-control-description">
-											Do you want to record a positive amount into this tenancy rent account?
+											Do you want to record a positive amount into this tenancy rent account? eg. when transferring rent from the held deposit.
 										</span>
 									</label>
 								</div>
@@ -119,6 +119,15 @@
 			<div class="col">
 
 				@if ($tenancy->deposit)
+
+					<div class="card mb-3">
+						<h4 class="card-header">
+							Certificate
+						</h4>
+						<div class="card-body">
+
+						</div>
+					</div>
 
 					<div class="card mb-3">
 						<h4 class="card-header">

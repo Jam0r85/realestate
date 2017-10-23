@@ -44,6 +44,15 @@ class Deposit extends BaseModel
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array'
+    ];
+
+    /**
      * The relations that should be eager leader.
      * 
      * @var array
@@ -74,6 +83,15 @@ class Deposit extends BaseModel
     {
     	return $this->morphMany('App\Payment', 'parent')
             ->latest();
+    }
+
+    /**
+     * A deposit can have a single certificate.
+     */
+    public function certificate()
+    {
+        return $this->morphOne('App\Document', 'parent')
+            ->where('data->certificate', $this->unique_id);
     }
 
     /**

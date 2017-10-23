@@ -92,6 +92,15 @@ class DepositController extends BaseController
         return back();
     }
 
+    public function uploadCertificate(Request $request, $id)
+    {
+        $deposit = Deposit::findOrFail($id);
+
+        $this->successMessage('The certificate was uploaded');
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

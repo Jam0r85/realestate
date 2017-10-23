@@ -22,6 +22,7 @@ class CreateDocumentsTable extends Migration
             $table->string('extension');
             $table->string('parent_type');
             $table->integer('parent_id');
+            $table->text('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
