@@ -19,21 +19,23 @@
 	@component('partials.bootstrap.section-with-container')
 
 		@if ($tenancy->deposit)
-			<form role="form" method="PUT" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
+			<form method="POST" action="{{ route('deposit.update', $tenancy->deposit->id) }}">
+				{{ csrf_field() }}
+				{{ method_field('PUT') }}
 		@else
-			<form role="form" method="POST" action="{{ route('deposit.store') }}">
-			<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
+			<form method="POST" action="{{ route('deposit.store') }}">
+				{{ csrf_field() }}
+				<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}">
 		@endif
-			{{ csrf_field() }}
 
 			<div class="form-group">
 				<label for="amount">Deposit Amount</label>
-				<input type="number" step="any" name="amount" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+				<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
 			</div>
 
 			<div class="form-group">
 				<label for="unique_id">Unique Reference (certificate number)</label>
-				<input type="text" name="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
+				<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
 			</div>
 
 			@component('partials.bootstrap.save-submit-button')

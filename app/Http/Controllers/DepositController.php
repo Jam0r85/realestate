@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Deposit;
 use App\Http\Requests\DepositStorePaymentRequest;
+use App\Http\Requests\DepositUpdateRequest;
 use App\Http\Requests\StoreDepositRequest;
 use App\Payment;
 use App\Services\PaymentService;
@@ -72,15 +73,23 @@ class DepositController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the deposit in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Deposit  $deposit
+     * @param \App\Http\Requests\DepositUpdateRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Deposit $deposit)
+    public function update(DepositUpdateRequest $request, $id)
     {
-        //
+        $deposit = Deposit::findOrFail($id);
+
+        $deposit->unique_id = $request->unique_id;
+        $deposit->amount = $request->amount;
+        $deposit->save();
+
+        $this->successMessage('The deposit was updated');
+
+        return back();
     }
 
     /**
