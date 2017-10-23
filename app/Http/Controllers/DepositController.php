@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Deposit;
-use App\Http\Requests\StoreDepositPaymentRequest;
+use App\Http\Requests\DepositStorePaymentRequest;
 use App\Http\Requests\StoreDepositRequest;
+use App\Payment;
 use App\Services\PaymentService;
+use App\Tenancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -13,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 class DepositController extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of deposits.
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,9 +30,9 @@ class DepositController extends BaseController
     }
 
     /**
-     * Search through the resource.
+     * Search through the deposits and display the results.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
@@ -49,19 +52,9 @@ class DepositController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly create deposit in storage.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\StoreDepositRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDepositRequest $request)
@@ -73,31 +66,9 @@ class DepositController extends BaseController
         $deposit->unique_id = $request->unique_id;
         $deposit->save();
 
-        $this->successMessage('The deposit was created');
+        $this->successMessage('The deposit of ' . $deposit->amount . ' was created');
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Deposit  $deposit
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Deposit $deposit)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Deposit  $deposit
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Deposit $deposit)
-    {
-        //
     }
 
     /**
@@ -126,16 +97,42 @@ class DepositController extends BaseController
     /**
      * Record a new deposit payment.
      * 
-     * @param \App\Http\Request\StoreDepositPaymentRequest $request
+     * @param \App\Http\Request\DepositStorePaymentRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function createDepositPayment(StoreDepositPaymentRequest $request, $id)
+    public function createDepositPayment(DepositStorePaymentRequest $request, $id)
     {
-        $service = new PaymentService();
-        $payment = $service->createDepositPayment($request->input(), $id);
+        $deposit = Deposit::findOrFail($id);
 
-        $this->successMessage('The deposit payment was recorded');
+        $payment = new Payment();
+        $payment->user_id = Auth::user()->id;
+        $payment->key = str_random(30);
+        $payment->amount = $request->amount;
+        $payment->method_id = $request->payment_method_id;
+        $payment->note = $request->note;
+
+        if ($request->created_at) {
+            $payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', $request->created_at);
+        }
+
+        $deposit->payments()->save($payment);
+
+        $this->successMessage('The deposit payment of ' . $payment->amount . ' was recorded');
+
+        if ($request->has('record_into_rent')) {
+            $tenancy = Tenancy::findOrFail($deposit->tenancy_id);
+
+            $rent_payment = new Payment();
+            $rent_payment->user_id = Auth::user()->id;
+            $rent_payment->amount = abs($request->amount);
+            $rent_payment->method_id = 9;
+            $rent_payment->note = 'Payment from the Deposit';
+        
+            $tenancy->rent_payments()->save($rent_payment);
+
+            $this->successMessage('The payment of ' . $rent_payment->amount . 'was recorded as rent for the tenancy ' . $tenancy->name);
+        }
 
         return back();
     }
