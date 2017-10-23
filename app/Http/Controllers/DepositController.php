@@ -109,7 +109,7 @@ class DepositController extends BaseController
         $payment->user_id = Auth::user()->id;
         $payment->key = str_random(30);
         $payment->amount = $request->amount;
-        $payment->method_id = $request->payment_method_id;
+        $payment->payment_method_id = $request->payment_method_id;
         $payment->note = $request->note;
 
         if ($request->created_at) {
@@ -126,7 +126,7 @@ class DepositController extends BaseController
             $rent_payment = new Payment();
             $rent_payment->user_id = Auth::user()->id;
             $rent_payment->amount = abs($request->amount);
-            $rent_payment->method_id = 9;
+            $rent_payment->payment_method_id = 9;
             $rent_payment->note = 'Payment from the Deposit';
         
             $tenancy->rent_payments()->save($rent_payment);
