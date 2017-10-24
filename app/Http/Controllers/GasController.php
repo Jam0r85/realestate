@@ -39,7 +39,7 @@ class GasController extends BaseController
             ->orderByExpireDate()
             ->paginate();
 
-        $title = 'Gas Safe Reminders';
+        $title = 'Gas Inspections';
 
         return view('gas-safe.index', compact('records','title'));
     }
@@ -56,7 +56,7 @@ class GasController extends BaseController
             ->latest('deleted_at')
             ->paginate();
 
-        $title = 'Archived Gas Safe Reminders';
+        $title = 'Completed Gas Inspections';
 
         return view('gas-safe.index', compact('records','title'));
     }
@@ -104,7 +104,7 @@ class GasController extends BaseController
         $service = new GasService();
         $service->createGasSafeReminder($request->input());
 
-        $this->successMessage('The gas safe reminder was created');
+        $this->successMessage('The gas safe inspection was created');
 
         return back();
     }
@@ -136,7 +136,7 @@ class GasController extends BaseController
 
         $reminder->contractors()->sync($request->contractors);
 
-        $this->successMessage('The reminder was updated');
+        $this->successMessage('The gas inspection was updated');
 
         return back();
     }
