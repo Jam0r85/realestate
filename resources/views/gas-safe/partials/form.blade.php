@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="expires_on">Date of Expiry</label>
-    <input type="date" name="expires_on" class="form-control" value="{{ isset($reminder) ? $reminder->expires_on->format('Y-m-d') : old('expires_on') }}" />
+    <input type="date" name="expires_on" class="form-control" value="{{ isset($gas) ? $gas->expires_on->format('Y-m-d') : old('expires_on') }}" />
     <small class="form-text text-muted">
         Format: YYYY-MM-DD
     </small>
@@ -12,7 +12,7 @@
         <option value="">Please select..</option>
         @foreach (properties() as $property)
             <option 
-                @if (isset($reminder) && ($reminder->property_id == $property->id)) selected @endif
+                @if (isset($gas) && ($gas->property_id == $property->id)) selected @endif
                 @if (old('property_id') == $property->id) selected @endif
                 value="{{ $property->id }}">
                 {{ $property->select_name }}
@@ -27,7 +27,7 @@
         <option value="">Please select..</option>
         @foreach (users() as $user)
             <option 
-                @if (isset($reminder) && ($reminder->contractors->contains($user->id))) selected @endif
+                @if (isset($gas) && ($gas->contractors->contains($user->id))) selected @endif
                 value="{{ $user->id }}">
                 {{ $user->name }}
             </option>

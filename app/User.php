@@ -91,6 +91,17 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
 
     /**
+     * Scope a query to filter results who have a valid email.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasEmail($query)
+    {
+        return $query->whereNotNull('email');
+    }
+
+    /**
      * A user can have a home.
      */
     public function home()
