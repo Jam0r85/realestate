@@ -3,11 +3,13 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Gas extends BaseModel
 {
     use Searchable;
+    use SoftDeletes;
 
     /**
      * Get the indexable data array for the model.

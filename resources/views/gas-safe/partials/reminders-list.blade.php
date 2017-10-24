@@ -95,9 +95,11 @@
 			<div class="form-group mt-3">
 				<label for="body">Message</label>
 				<textarea name="body" id="body" class="form-control" rows="12"></textarea>
-				<small class="form-text text-muted">
-					Leave the message blank to use the default 'Please arrange for this..' message to be used. When being sent to the contractor this will include the full property address as well as the tenants details.
-				</small>
+				@if (!count($gas->reminders))
+					<small class="form-text text-muted">
+						Leave the message blank to use the default 'Please arrange for this..' message to be used. When being sent to the contractor this will include the full property address as well as the tenants details.
+					</small>
+				@endif
 			</div>
 
 			@component('partials.save-button')

@@ -26,10 +26,42 @@
 
 		@include('partials.errors-block')
 
+		@if (!$gas->is_completed)
+
+			<div class="card mb-3 border-success">
+
+				@component('partials.card-header')
+					Complete Inspection
+					@slot('style')
+						bg-success text-white
+					@endslot
+				@endcomponent
+
+				<div class="card-body">
+
+					<form method="POST" action="{{ route('gas-safe.completed', $gas->id) }}">
+						{{ csrf_field() }}
+
+						<div class="form-group">
+							<label for="expires_on">Date Completed</label>
+							<input type="date" name="expires_on" id="expires_on" class="form-control" />
+						</div>
+
+						<button type="submit" class="btn btn-success">
+							<i class="fa fa-check fa-fw"></i> Inspection Completed
+						</button>
+
+					</form>
+
+				</div>
+			</div>
+
+		@endif
+
 		<div class="card mb-3 border-danger">
 
 			@component('partials.card-header')
-				Delete Reminder
+				Delete Inspection
 				@slot('style')
 					bg-danger text-white
 				@endslot
@@ -40,13 +72,13 @@
 				@if ($gas->is_completed)
 
 					<div class="alert alert-warning mb-0">
-						This gas safe reminder has been marked as complete and cannot be deleted.
+						This gas safe inspection has been marked as complete and cannot be deleted.
 					</div>
 
 				@else
 
 					<p class="card-text">
-						You can delete this gas safe reminder by entering the ID ({{ $gas->id }}) into the field below.
+						You can delete this gas safe inspection by entering the ID ({{ $gas->id }}) into the field below.
 					</p>
 
 					<p class="card-text">

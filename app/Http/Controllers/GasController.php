@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Gas;
 use App\Http\Requests\GasDestroyRequest;
 use App\Http\Requests\StoreGasSafeReminderRequest;
+use App\Mail\GasInspectionReminderEmail;
 use App\Reminder;
 use App\Services\GasService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class GasController extends BaseController
@@ -97,7 +99,7 @@ class GasController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $gas = Gas::findOrFail($id);
+        $gas = Gas::withTrashed()->findOrFail($id);
         return view('gas-safe.show.' . $section, compact('gas'));
     }
 
@@ -129,13 +131,43 @@ class GasController extends BaseController
      */
     public function destroy(GasDestroyRequest $request, $id)
     {
-        $reminder = Gas::findOrFail($id);
+        $gas = Gas::findOrFail($id);
 
-        $reminder->delete();
+        $gas->forceDelete();
 
-        $this->successMessage('The reminder was deleted');
+        $this->successMessage('The gas inspection for "' . $gas->property->short_name . '" was deleted');
 
         return redirect()->route('gas-safe.index');
+    }
+
+    /**
+     * Complete a gas inspection.
+     * 
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function complete(Request $request, $id)
+    {
+        $gas = Gas::findOrFail($id);
+
+        if ($request->expires_on) {
+            $new = $gas->replicate();
+            $new->expires_on = $request->expires_on;
+            $new->push();
+
+            foreach ($gas->contractors as $contractor) {
+                $new->contractors()->attach($contractor);
+            }
+        }
+
+        $gas->is_completed = true;
+        $gas->save();
+        $gas->delete();
+
+        $this->successMessage('The gas inspection has been marked as completed');
+
+        return back();
     }
 
     /**
@@ -192,9 +224,9 @@ class GasController extends BaseController
                 }
             }
 
-        if ($request->has('tenants') && $request->body) {
-            $reminder_body .= $tenants_body;
-        }
+            if ($request->has('tenants') && $request->body) {
+                $reminder_body .= $tenants_body;
+            }
 
             $reminder = new Reminder();
             $reminder->body = $reminder_body;
@@ -202,6 +234,9 @@ class GasController extends BaseController
             $reminder->recipient_id = $recipient;
 
             $gas->reminders()->save($reminder);
+
+            Mail::to($reminder->recipient)
+                ->send(new GasInspectionReminderEmail($gas, $reminder_body));
         }
 
         $this->successMessage('The ' . str_plural('reminder', count($request->recipients)) . ' was sent');

@@ -21,6 +21,7 @@ class CreateGasTable extends Migration
             $table->boolean('is_booked')->default(0);
             $table->boolean('is_completed')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

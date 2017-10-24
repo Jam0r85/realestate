@@ -5,12 +5,12 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			<h1>
+			<a href="{{ route('gas-safe.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-plus"></i> New Gas Safe gas
+			</a>
+			@component('partials.title')
 				{{ $title }}
-				<a href="{{ route('gas-safe.create') }}" class="btn btn-primary">
-					<i class="fa fa-plus"></i> New Gas Safe gas
-				</a>
-			</h1>
+			@endcomponent
 		</div>
 
 		{{-- Gas Search --}}

@@ -214,7 +214,8 @@ Route::prefix('gas-safe')->group(function () {
 	Route::get('{id}/{section?}', 'GasController@show')->name('gas-safe.show');
 	Route::put('{id}', 'GasController@update')->name('gas-safe.update');
 	Route::delete('{id}', 'GasController@destroy')->name('gas-safe.destroy');
-	Route::post('{id}/send-reminder', 'GasController@sendReminder')->name('gas-safe.send-reminder');	
+	Route::post('{id}/complete', 'GasController@complete')->name('gas-safe.completed');
+	Route::post('{id}/send-reminder', 'GasController@sendReminder')->name('gas-safe.send-reminder');
 });
 
 Route::prefix('deopsit')->group(function () {
