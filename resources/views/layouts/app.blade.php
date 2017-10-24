@@ -135,8 +135,11 @@
                                 <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
                                     Deposits List
                                 </a>
-                                <a class="dropdown-item" href="{{ route('gas-safe.index') }}" title="Gas Safe Reminders">
-                                    Gas Safe Reminders
+                                <a class="dropdown-item" href="{{ route('gas-safe.index') }}" title="Gas Inspections">
+                                    Gas Inspections
+                                </a>
+                                <a class="dropdown-item" href="{{ route('gas-safe.archived') }}" title="Completed Gas Inspections">
+                                    Completed Gas Inspections
                                 </a>
                             </div>
 

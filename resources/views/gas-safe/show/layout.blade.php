@@ -24,6 +24,14 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@if ($gas->is_completed)
+
+			<div class="alert alert-success">
+				This gas inspection has been marked as completed.
+			</div>
+
+		@endif
+
 		<div class="row">
 			<div class="col col-5">
 

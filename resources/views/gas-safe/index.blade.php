@@ -6,7 +6,7 @@
 
 		<div class="page-title">
 			<a href="{{ route('gas-safe.create') }}" class="btn btn-primary float-right">
-				<i class="fa fa-plus"></i> New Gas Safe gas
+				<i class="fa fa-plus"></i> New Gas Safe Inspection
 			</a>
 			@component('partials.title')
 				{{ $title }}
@@ -37,6 +37,7 @@
 				<th>Contractor</th>
 				<th>Last Reminder</th>
 				<th>Booked</th>
+				<th>Completed</th>
 			</thead>
 			<tbody>
 				@foreach ($records as $gas)
@@ -56,6 +57,7 @@
 							@endif							
 						</td>
 						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>
+						<td><i class="fa fa-{{ $gas->is_completed ? 'check' : 'times' }}"></i></td>
 					</tr>
 				@endforeach
 			</tbody>

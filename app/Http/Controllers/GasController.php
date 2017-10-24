@@ -45,6 +45,23 @@ class GasController extends BaseController
     }
 
     /**
+     * Display a listing of archived gas inspections.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function archived()
+    {
+        $records = Gas::onlyTrashed()->
+            with('contractors','property','reminders')
+            ->latest('deleted_at')
+            ->paginate();
+
+        $title = 'Archived Gas Safe Reminders';
+
+        return view('gas-safe.index', compact('records','title'));
+    }
+
+    /**
      * Search through the resource.
      *
      * @param \Illuminate\Http\Request  $request

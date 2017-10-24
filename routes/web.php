@@ -208,6 +208,7 @@ Route::middleware(['auth'])->prefix('settings')->group(function () {
 
 Route::prefix('gas-safe')->group(function () {
 	Route::get('/', 'GasController@index')->name('gas-safe.index');
+	Route::get('archived', 'GasController@archived')->name('gas-safe.archived');
 	Route::post('/search', 'GasController@search')->name('gas-safe.search');
 	Route::get('create', 'GasController@create')->name('gas-safe.create');
 	Route::post('/', 'GasController@store')->name('gas-safe.store');

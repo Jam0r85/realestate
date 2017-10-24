@@ -2,33 +2,31 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>New Gas Safe Reminder</h1>
-			</div>
-
+		<div class="page-title">
+			@component('partials.title')
+				Create Gas Safe Inspection
+			@endcomponent
 		</div>
-	</section>
 
-	<section class="section">
-		<div class="container">
+	@endcomponent
 
-			@include('partials.errors-block')
+	@component('partials.bootstrap.section-with-container')
 
-			<form action="{{ route('gas-safe.store') }}" method="POST">
-				{{ csrf_field() }}
+		@include('partials.errors-block')
 
-				@include('gas-safe.partials.form')
+		<form action="{{ route('gas-safe.store') }}" method="POST">
+			{{ csrf_field() }}
 
-				@component('partials.bootstrap.save-submit-button')
-					Create Gas Safe Reminder
-				@endcomponent
+			@include('gas-safe.partials.form')
 
-			</form>
+			@component('partials.bootstrap.save-submit-button')
+				Create Gas Safe Reminder
+			@endcomponent
 
-		</div>
-	</section>
+		</form>
+
+	@endcomponent
 
 @endsection
