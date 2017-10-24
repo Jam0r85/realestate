@@ -63,11 +63,6 @@
 			@endforeach
 		</div>
 
-		<div class="form-group">
-			<label for="body">Message</label>
-			<textarea name="body" id="body" class="form-control" rows="12"></textarea>
-		</div>
-
 		{{-- Check for any active tenancies and show the option to add their details to the reminder --}}
 		@if ($tenancies = $gas->property->tenancies()->isActive()->get())
 			<p>Include contact details for the tenants below?</p>
@@ -87,6 +82,11 @@
 				@endforeach
 			@endforeach
 		@endif
+
+		<div class="form-group mt-3">
+			<label for="body">Message</label>
+			<textarea name="body" id="body" class="form-control" rows="12" required></textarea>
+		</div>
 
 		@component('partials.save-button')
 			Send Reminder
