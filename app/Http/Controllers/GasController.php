@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Gas;
 use App\Http\Requests\GasDestroyRequest;
-use App\Http\Requests\StoreGasSafeReminderRequest;
+use App\Http\Requests\GasInspectionStoreRequest;
 use App\Mail\GasInspectionReminderEmail;
 use App\Reminder;
 use App\Services\GasService;
@@ -96,13 +96,20 @@ class GasController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\GasInspectionStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreGasSafeReminderRequest $request)
+    public function store(GasInspectionStoreRequest $request)
     {
-        $service = new GasService();
-        $service->createGasSafeReminder($request->input());
+        $reminder = new Gas();
+        $reminder->user_id = Auth::user()->id;
+        $reminder->property_id = $request->property_id;
+        $reminder->expires_on = $request->expires_on;
+        $reminder->save();
+
+        if ($request->has('contractors')) {
+            $reminder->contractors()->attach($request->contractors);
+        }
 
         $this->successMessage('The gas safe inspection was created');
 

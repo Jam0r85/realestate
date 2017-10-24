@@ -41,7 +41,7 @@
 			</thead>
 			<tbody>
 				@foreach ($records as $gas)
-					<tr class="@if ($gas->expires_on <= \Carbon\Carbon::now()) table-danger @endif">
+					<tr class="@if (!$gas->is_completed && $gas->expires_on <= \Carbon\Carbon::now()) table-danger @endif">
 						<td>
 							<a href="{{ route('gas-safe.show', $gas->id) }}">
 								{{ date_formatted($gas->expires_on) }}
