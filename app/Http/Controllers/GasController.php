@@ -154,7 +154,7 @@ class GasController extends BaseController
 
         if ($request->expires_on) {
             $new = $gas->replicate();
-            $new->expires_on = Carbon::createFromFormaty('Y-m-d', $request->expires_on)->addYear();
+            $new->expires_on = Carbon::createFromFormat('Y-m-d', $request->expires_on)->addYear();
             $new->push();
 
             foreach ($gas->contractors as $contractor) {
