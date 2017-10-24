@@ -9,6 +9,7 @@ use App\Mail\GasInspectionReminderEmail;
 use App\Reminder;
 use App\Services\GasService;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -153,7 +154,7 @@ class GasController extends BaseController
 
         if ($request->expires_on) {
             $new = $gas->replicate();
-            $new->expires_on = $request->expires_on;
+            $new->expires_on = Carbon::createFromFormaty('Y-m-d', $request->expires_on)->addYear();
             $new->push();
 
             foreach ($gas->contractors as $contractor) {
