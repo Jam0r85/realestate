@@ -94,8 +94,8 @@ class GasController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $reminder = Gas::findOrFail($id);
-        return view('gas-safe.show.' . $section, compact('reminder'));
+        $gas = Gas::findOrFail($id);
+        return view('gas-safe.show.' . $section, compact('gas'));
     }
 
     /**

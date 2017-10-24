@@ -3,11 +3,11 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="gasSafeptionsDropdown">
-		<a class="dropdown-item" href="{{ route('gas-safe.show', [$reminder->id, 'edit-details']) }}">
+		<a class="dropdown-item" href="{{ route('gas-safe.show', [$gas->id, 'edit-details']) }}">
 			Edit Reminder Details
 		</a>
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('gas-safe.show', [$reminder->id, 'reminder-status']) }}">
+		<a class="dropdown-item" href="{{ route('gas-safe.show', [$gas->id, 'reminder-status']) }}">
 			Reminder Status
 		</a>
 	</div>

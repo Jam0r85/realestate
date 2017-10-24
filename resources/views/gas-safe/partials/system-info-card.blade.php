@@ -1,22 +1,30 @@
 <div class="card mb-3">
-	<h5 class="card-header">
-		<i class="fa fa-cogs"></i> System Information
-	</h5>
+
+	@component('partials.bootstrap.card-header')
+		System Information
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $reminder->owner ? $reminder->owner->name : '-' }}
+			{{ $gas->property->branch->name }}
+			@slot('title')
+				Branch
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $gas->owner ? $gas->owner->name : '-' }}
 			@slot('title')
 				Created By
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($reminder->created_at) }}
+			{{ date_formatted($gas->created_at) }}
 			@slot('title')
 				Created
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($reminder->updated_at) }}
+			{{ date_formatted($gas->updated_at) }}
 			@slot('title')
 				Updated
 			@endslot

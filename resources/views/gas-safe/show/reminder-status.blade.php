@@ -5,13 +5,19 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			<a href="{{ route('gas-safe.show', $reminder->id) }}" class="btn btn-secondary float-right">
+
+			<a href="{{ route('gas-safe.show', $gas->id) }}" class="btn btn-secondary float-right">
 				Return
 			</a>
-			<h1>{{ $reminder->property->short_name }}</h1>
-			<h3 class="text-muted">
-				Gas Safe Reminder Status
-			</h3>
+
+			@component('partials.header')
+				{{ $gas->property->short_name }}
+			@endcomponent
+
+			@component('partials.sub-header')
+				Gas inspection status
+			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -21,28 +27,33 @@
 		@include('partials.errors-block')
 
 		<div class="card mb-3 border-danger">
-			<h4 class="card-header bg-danger text-white">
+
+			@component('partials.card-header')
 				Delete Reminder
-			</h4>
+				@slot('style')
+					bg-danger text-white
+				@endslot
+			@endcomponent
+
 			<div class="card-body">
 
-				@if ($reminder->is_completed)
+				@if ($gas->is_completed)
 
-					<div class="alert alert-warning">
+					<div class="alert alert-warning mb-0">
 						This gas safe reminder has been marked as complete and cannot be deleted.
 					</div>
 
 				@else
 
 					<p class="card-text">
-						You can delete this gas safe reminder by entering the ID ({{ $reminder->id }}) into the field below.
+						You can delete this gas safe reminder by entering the ID ({{ $gas->id }}) into the field below.
 					</p>
 
 					<p class="card-text">
 						This is useful for example if we stop managing a tenancy and don't want any future reminders.
 					</p>
 
-					<form method="POST" action="{{ route('gas-safe.destroy', $reminder->id) }}">
+					<form method="POST" action="{{ route('gas-safe.destroy', $gas->id) }}">
 						{{ csrf_field() }}
 						{{ method_field('DELETE') }}
 

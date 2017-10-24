@@ -18,8 +18,8 @@ class Gas extends BaseModel
     {
         $array = $this->only('expires_on');
         $array['property'] = $this->property->name;
-        $array['contractor_name'] = $this->contractors->pluck('name');
-        $array['contractor_email'] = $this->contractors->pluck('email');
+        $array['contractor_name'] = $this->contractors->pluck('name')->toArray();
+        $array['contractor_email'] = $this->contractors->pluck('email')->toArray();
 
         return $array;
     }
@@ -104,7 +104,6 @@ class Gas extends BaseModel
     {
         return $this->belongsTo('App\User', 'user_id');
     }
-
 
     /**
      * A gas safe reminder can have many reminders.

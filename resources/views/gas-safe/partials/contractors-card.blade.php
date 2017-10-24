@@ -1,17 +1,20 @@
 <div class="card mb-3">
-	<h5 class="card-header">
-		<i class="fa fa-users"></i> Contractors Card
-	</h5>
 
-	@if (count($reminder->contractors))
+	@component('partials.card-header')
+		Contractors
+	@endcomponent
+
+	@if (count($gas->contractors))
 
 		<ul class="list-group list-group-flush">
 
-			@foreach ($reminder->contractors as $user)
+			@foreach ($gas->contractors as $user)
 
 			<li class="list-group-item">
 				<p class="lead mb-0">
-					{{ $user->name }}
+					<a href="{{ route('users.show', $user->id) }}">
+						{{ $user->name }}
+					</a>
 				</p>
 				{!! $user->email ? $user->email : '' !!}
 				{!! $user->phone_number ? $user->phone_number : '' !!}

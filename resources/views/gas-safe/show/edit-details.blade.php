@@ -2,32 +2,40 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<a href="{{ route('gas-safe.show', $reminder->id) }}" class="btn btn-secondary float-right">
-					Return
-				</a>
-				<h1>{{ $reminder->property->short_name }} Gas Safe Reminder</h1>
-				<h3>Edit reminder details</h3>
-			</div>
+		<div class="page-title">
+			<a href="{{ route('gas-safe.show', $gas->id) }}" class="btn btn-secondary float-right">
+				Return
+			</a>
 
-			@include('partials.errors-block')
+			@component('partials.header')
+				{{ $gas->property->short_name }}
+			@endcomponent
 
-			<form role="form" method="POST" action="{{ route('gas-safe.update', $reminder->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}			
-
-				@include('gas-safe.partials.form')
-
-				@component('partials.bootstrap.save-submit-button')
-					Save Changes
-				@endcomponent
-
-			</form>
-
+			@component('partials.sub-header')
+				Edit gas inspection details
+			@endcomponent
 		</div>
-	</section>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
+
+		<form method="POST" action="{{ route('gas-safe.update', $gas->id) }}">
+			{{ csrf_field() }}
+			{{ method_field('PUT') }}			
+
+			@include('gas-safe.partials.form')
+
+			@component('partials.bootstrap.save-submit-button')
+				Save Changes
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection

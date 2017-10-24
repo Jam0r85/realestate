@@ -5,11 +5,19 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
+			
 			<div class="float-right">
 				@include('gas-safe.partials.dropdown-menus')
 			</div>
-			<h1>Gas Safe Reminder</h1>
-			<h3 class="text-muted">{{ $reminder->property->short_name }}</h3>
+
+			@component('partials.header')
+				{{ $gas->property->short_name }}
+			@endcomponent
+
+			@component('partials.sub-header')
+				Gas inspection reminder
+			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -25,7 +33,8 @@
 			</div>
 			<div class="col col-7">
 
-				@include('gas-safe.partials.reminder-info-card')
+				@include('gas-safe.partials.gas-info')
+				@include('gas-safe.partials.reminders-list')
 
 			</div>
 		</div>
