@@ -71,9 +71,9 @@
 		{{-- Check for any active tenancies and show the option to add their details to the reminder --}}
 		@if ($tenancies = $gas->property->tenancies()->isActive()->get())
 			<p>Include contact details for the tenants below?</p>
-			<div class="form-group">
-				@foreach ($tenancies as $tenancy)
-					@foreach ($tenancy->tenants as $user)
+			@foreach ($tenancies as $tenancy)
+				@foreach ($tenancy->tenants as $user)
+					<div class="form-group mb-0">
 						<label class="custom-control custom-checkbox">
 							<input type="checkbox" class="custom-control-input" name="tenants[]" value="{{ $user->id }}">
 							<span class="custom-control-indicator"></span>
@@ -83,9 +83,9 @@
 								{!! $user->phone_number ? '<i class="fa fa-phone pl-3 pr-2"></i>' . $user->phone_number : '' !!}
 							</span>
 						</label>
-					@endforeach
+					</div>
 				@endforeach
-			</div>
+			@endforeach
 		@endif
 
 		@component('partials.save-button')
