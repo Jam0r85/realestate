@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Gas;
 use App\Http\Requests\GasDestroyRequest;
 use App\Http\Requests\StoreGasSafeReminderRequest;
+use App\Reminder;
 use App\Services\GasService;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class GasController extends BaseController
@@ -133,5 +136,76 @@ class GasController extends BaseController
         $this->successMessage('The reminder was deleted');
 
         return redirect()->route('gas-safe.index');
+    }
+
+    /**
+     * Send a reminder for this gas inspection.
+     * 
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function sendReminder(Request $request, $id)
+    {
+        $gas = Gas::findOrFail($id);
+        $contractor_ids = $gas->contractors->pluck('id')->toArray();
+        $owner_ids = $gas->property->owners->pluck('id')->toArray();
+
+        // Set the default 1st reminder messages.
+        $contractor_default_body = '<p>Please can you arrange to carry out the annual landlords Gas Safe inspection at ' . $gas->property->name . '</p>';
+        $owner_default_body = '<p>Please can you arrange to have your contractor carry out the annual Gas Safe inspection at ' . $gas->property->name .'</p>';
+
+        // Overwrite the message if a body is present.
+        if ($request->body) {
+            $reminder_body = '<p>' . $request->body . '</p>';
+        }
+
+        // Get the tenant details if we tick the box.
+        if ($request->has('tenants')) {
+            $tenants_body = '';
+            foreach ($request->tenants as $tenant) {
+                $user = User::findOrFail($tenant);
+                $tenants_body .= '<p><b>' . $user->name . '</b></p>';
+                $tenants_body .= '<ul>';
+                $user->email ?  $tenants_body .= '<li>' . $user->email . '</li>' : '';
+                $user->phone_number ?  $tenants_body .= '<li>' . $user->phone_number . '</li>' : '';
+                $tenants_body .= '</ul>';
+            }
+        }
+
+        // Loop through the recipients
+        foreach ($request->recipients as $recipient) {
+
+            // Contractor message
+            if (in_array($recipient, $contractor_ids)) {
+                if (!$request->body) {
+                    $reminder_body = $contractor_default_body;
+                    $reminder_body .= '<p>The tenants details are as follows:-</p>';
+                    $reminder_body .= isset($tenants_body) ? $tenants_body : '';
+                }
+            }
+
+            // Owner message
+            if (in_array($recipient, $owner_ids)) {
+                if (!$request->body) {
+                    $reminder_body = $owner_default_body;
+                }
+            }
+
+        if ($request->has('tenants') && $request->body) {
+            $reminder_body .= $tenants_body;
+        }
+
+            $reminder = new Reminder();
+            $reminder->body = $reminder_body;
+            $reminder->user_id = Auth::user()->id;
+            $reminder->recipient_id = $recipient;
+
+            $gas->reminders()->save($reminder);
+        }
+
+        $this->successMessage('The ' . str_plural('reminder', count($request->recipients)) . ' was sent');
+
+        return back();
     }
 }

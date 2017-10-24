@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Deposit;
 use App\Event;
 use App\Expense;
+use App\Gas;
 use App\Invoice;
 use App\Property;
 use App\Tenancy;
@@ -30,7 +31,8 @@ class AppServiceProvider extends ServiceProvider
             Invoice::class,
             Expense::class,
             User::class,
-            Deposit::class
+            Deposit::class,
+            Gas::class
         ]);
     }
 
