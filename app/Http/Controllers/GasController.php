@@ -77,10 +77,10 @@ class GasController extends BaseController
 
         Session::put('gas_search_term', $request->search_term);
 
-        $reminders = Gas::search(Session::get('gas_search_term'))->get();
+        $records = Gas::search(Session::get('gas_search_term'))->get();
         $title = 'Search Results';
 
-        return view('gas-safe.index', compact('reminders', 'title'));
+        return view('gas-safe.index', compact('records', 'title'));
     }
 
     /**
