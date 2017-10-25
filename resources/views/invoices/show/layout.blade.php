@@ -20,17 +20,17 @@
 
 			@if ($invoice->trashed())
 
-				<div class="alert alert-secondary">
+				@component('partials.alerts.secondary')
 					This invoice was <b>archived</b> on {{ date_formatted($invoice->deleted_at) }}
-				</div>
+				@endcomponent
 
 			@endif
 
 			@if ($invoice->paid_at)
 
-				<div class="alert alert-success">
-					Invoice <b>Paid</b> on {{ date_formatted($invoice->paid_at) }}
-				</div>
+				@component('partials.alerts.success')
+					Invoice {{ $invoice->name }} was <b>Paid</b> on {{ date_formatted($invoice->paid_at) }}
+				@endcomponent
 
 			@endif
 

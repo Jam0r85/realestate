@@ -6,10 +6,11 @@
 
 @else
 
-	<div class="card-body">
-		<div class="alert alert-warning">
-			No users found.
-		</div>
-	</div>
+	@component('partials.alerts.warning')
+		No users found.
+		@slot('style')
+			border-0 rounded-0 mb-0
+		@endslot
+	@endcomponent
 
 @endif
