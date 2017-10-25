@@ -6,8 +6,10 @@
 
 @else
 
-	<div class="alert alert-warning">
-		No users found.
+	<div class="card-body">
+		<div class="alert alert-warning">
+			No users found.
+		</div>
 	</div>
 
 @endif
