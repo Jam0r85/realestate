@@ -12,19 +12,21 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $gas->owner ? $gas->owner->name : '-' }}
+			<a href="{{ route('users.show', $gas->owner->id) }}">
+				{{ $gas->owner->name }}
+			</a>
 			@slot('title')
 				Created By
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($gas->created_at) }}
+			{{ datetime_formatted($gas->created_at) }}
 			@slot('title')
 				Created
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($gas->updated_at) }}
+			{{ datetime_formatted($gas->updated_at) }}
 			@slot('title')
 				Updated
 			@endslot

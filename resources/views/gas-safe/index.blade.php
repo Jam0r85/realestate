@@ -46,7 +46,11 @@
 								{{ date_formatted($gas->expires_on) }}
 							</a>
 						</td>
-						<td>{!! truncate($gas->property->short_name) !!}</td>
+						<td>
+							<a href="{{ route('properties.show', $gas->property->id) }}">
+								{!! truncate($gas->property->short_name) !!}
+							</a>
+						</td>
 						<td>{{ implode(', ', $gas->contractors->pluck('name')->toArray()) }}</td>
 						<td>{{ $gas->latestReminder ? date_formatted($gas->latestReminder) : '-' }}</td>
 						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>

@@ -8,8 +8,7 @@
 
 <div class="form-group">
     <label for="property_id">Property</label>
-    <select name="property_id" class="form-control select2">
-        <option value="">Please select..</option>
+    <select name="property_id" id="property_id" class="form-control select2">
         @foreach (properties() as $property)
             <option 
                 @if (isset($gas) && ($gas->property_id == $property->id)) selected @endif
