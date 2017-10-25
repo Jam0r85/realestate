@@ -37,7 +37,6 @@
 				<th>Contractor</th>
 				<th>Last Reminder</th>
 				<th>Booked</th>
-				<th>Completed</th>
 			</thead>
 			<tbody>
 				@foreach ($records as $gas)
@@ -49,15 +48,8 @@
 						</td>
 						<td>{!! truncate($gas->property->short_name) !!}</td>
 						<td>{{ implode(', ', $gas->contractors->pluck('name')->toArray()) }}</td>
-						<td>
-							@if ($reminder = $gas->reminders()->first())
-								{{ date_formatted($reminder->created_at) }}
-							@else
-								-
-							@endif							
-						</td>
+						<td>{{ $gas->latestReminder ? date_formatted($gas->latestReminder) : '-' }}</td>
 						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>
-						<td><i class="fa fa-{{ $gas->is_completed ? 'check' : 'times' }}"></i></td>
 					</tr>
 				@endforeach
 			</tbody>

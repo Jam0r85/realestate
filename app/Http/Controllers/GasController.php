@@ -35,7 +35,7 @@ class GasController extends BaseController
      */
     public function index()
     {
-        $records = Gas::with('contractors','property','reminders')
+        $records = Gas::with('contractors','property','latestReminder')
             ->orderByExpireDate()
             ->paginate();
 

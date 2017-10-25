@@ -108,11 +108,20 @@ class Gas extends BaseModel
     }
 
     /**
-     * A gas safe reminder can have many reminders.
+     * A gas safe inspection can have many reminders.
      */
     public function reminders()
     {
         return $this->morphMany('App\Reminder', 'parent')
+            ->latest();
+    }
+
+    /**
+     * A gas safe inspection can have a latest reminder.
+     */
+    public function latestReminder()
+    {
+        return $this->morphOne('App\Reminder', 'parent')
             ->latest();
     }
 }
