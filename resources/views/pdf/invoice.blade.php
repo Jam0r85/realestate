@@ -19,15 +19,17 @@
 					</td>
 					<td class="has-text-right">
 						<p>{{ get_setting('company_name') }}</p>
+
 						@if (isset($statement))
-							@if ($statement->tenancy->branch)
-								{!! $statement->tenancy->branch->address_formatted !!}
-							@endif
+
+							{!! $statement->tenancy->property->branch->address_formatted !!}
+
 						@else
-							@if ($invoice->invoiceGroup && $invoice->invoiceGroup->branch)
-								{!! $invoice->invoiceGroup->branch->address_formatted !!}
-							@endif
+
+							{!! $invoice->property->branch->address_formatted !!}
+
 						@endif
+
 					</td>
 				</tr>
 			</table>
