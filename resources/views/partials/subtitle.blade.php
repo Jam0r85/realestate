@@ -1,1 +1,0 @@
-<h3 class="title is-5 is-subtitle">{{ $slot }}</h3>

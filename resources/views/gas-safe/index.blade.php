@@ -8,7 +8,7 @@
 			<a href="{{ route('gas-safe.create') }}" class="btn btn-primary float-right">
 				<i class="fa fa-plus"></i> New Gas Safe Inspection
 			</a>
-			@component('partials.title')
+			@component('partials.header')
 				{{ $title }}
 			@endcomponent
 		</div>
@@ -51,7 +51,9 @@
 								{!! truncate($gas->property->short_name) !!}
 							</a>
 						</td>
-						<td>{{ implode(', ', $gas->contractors->pluck('name')->toArray()) }}</td>
+						<td>
+							@include('partials.bootstrap.users-inline', ['users' => $gas->contractors])
+						</td>
 						<td>{{ $gas->latestReminder ? date_formatted($gas->latestReminder) : '-' }}</td>
 						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>
 					</tr>
