@@ -8,6 +8,7 @@
 			<table>
 				<tr>
 					<td>
+						
 						<p>{{ implode(' & ', $invoice->users->pluck('name')->toArray()) }}</p>
 						<p>
 							@if ($invoice->statement)
@@ -16,18 +17,16 @@
 								{!! $invoice->recipient_formatted !!}
 							@endif
 						</p>
+
 					</td>
 					<td class="has-text-right">
-						<p>{{ get_setting('company_name') }}</p>
 
 						@if (isset($statement))
-
 							{!! $statement->tenancy->property->branch->address_formatted !!}
+						@endif
 
-						@else
-
+						@if (isset($invoice))
 							{!! $invoice->property->branch->address_formatted !!}
-
 						@endif
 
 					</td>
