@@ -115,7 +115,7 @@ class Property extends BaseModel
 	}
 
 	/**
-	 * A property was created by a user who is the owner.
+	 * A property was created by an owner.
 	 */
 	public function owner()
 	{
@@ -128,6 +128,14 @@ class Property extends BaseModel
 	public function owners()
 	{
 		return $this->belongsToMany('App\User');
+	}
+
+	/**
+	 * A property can have many residents.
+	 */
+	public function residents()
+	{
+		return $this->hasMany('App\User');
 	}
 
 	/**
