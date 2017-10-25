@@ -1,6 +1,8 @@
 <?php
 
-function truncate($value, $width = '200px')
-{
-	return '<span class="d-inline-block text-truncate" style="max-width: '.$width.'">'.$value.'</span>';
+if (!function_exists('truncate')) {
+	function truncate($value, $characters = '25')
+	{
+		return str_limit($value, $characters);
+	}
 }
