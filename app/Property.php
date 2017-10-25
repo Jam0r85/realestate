@@ -87,6 +87,15 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have an active tenancy.
+	 */
+	public function activeTenancy()
+	{
+		return $this->hasOne('App\Tenancy')
+			->isActive();
+	}
+
+	/**
 	 * A property can have many expenses.
 	 */
 	public function expenses()
@@ -136,6 +145,25 @@ class Property extends BaseModel
 	public function residents()
 	{
 		return $this->hasMany('App\User');
+	}
+
+	/**
+	 * Get the current residents of this property which
+	 * could either by tenants living at the property
+	 * or the property owner who may be living there.
+	 * 
+	 * @return array
+	 */
+	public function currentResidents()
+	{
+		if ($this->activeTenancy) {
+			return $this->activeTenancy->tenants;
+		}
+		if ($this->residents) {
+			return $this->residents;
+		}
+
+		return null;
 	}
 
 	/**

@@ -20,6 +20,6 @@
 		Residents
 	@endcomponent
 
-	@include('partials.bootstrap.users-list-group', ['users' => $property->residents])
+	@include('partials.bootstrap.users-list-group', ['users' => $property->currentResidents()])
 
 </div>
