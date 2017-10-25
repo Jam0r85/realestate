@@ -102,7 +102,7 @@
 				<th>Property</th>
 				<th>Total</th>
 				<th>Users</th>
-				<th>Paid</th>
+				<th class="text-right">Paid</th>
 			</thead>
 			<tbody>
 				@foreach ($invoices as $invoice)
@@ -118,7 +118,7 @@
 						<td>
 							@include('partials.users-inline', ['users' => $invoice->users])
 						</td>
-						<td>{{ date_formatted($invoice->paid_at) }}</td>
+						<td class="text-right">{{ date_formatted($invoice->paid_at) }}</td>
 					</tr>
 				@endforeach
 			</tbody>
