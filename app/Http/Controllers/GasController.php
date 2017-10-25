@@ -84,7 +84,7 @@ class GasController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new gas inspection.
      *
      * @return \Illuminate\Http\Response
      */
@@ -94,7 +94,7 @@ class GasController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created gas inspection in storage.
      *
      * @param \App\Http\Requests\GasInspectionStoreRequest $request
      * @return \Illuminate\Http\Response
@@ -111,7 +111,7 @@ class GasController extends BaseController
             $reminder->contractors()->attach($request->contractors);
         }
 
-        $this->successMessage('The gas safe inspection was created');
+        $this->successMessage('The gas safe inspection for "' . $reminder->property->short_name . '" was created');
 
         return back();
     }
