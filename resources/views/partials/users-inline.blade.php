@@ -1,0 +1,1 @@
+@include('partials.bootstrap.users-inline', $users)
