@@ -160,11 +160,11 @@ class User extends Authenticatable
     public function currentLocation()
     {
         if ($this->activeTenancy()) {
-            return $this->activeTenancy()->property->name;
+            return $this->activeTenancy()->property;
         }
 
         if ($this->home) {
-            return $this->home->name;
+            return $this->home;
         }
 
         return null;

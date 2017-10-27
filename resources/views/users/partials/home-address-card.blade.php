@@ -6,7 +6,11 @@
 
 	<div class="card-body">
 
-		{{ $user->currentLocation() }}
+		@if ($user->currentLocation())
+			<a href="{{ route('properties.show', $user->currentLocation()->id) }}">
+				{{ $user->currentLocation()->name }}
+			</a>
+		@endif
 
 	</div>
 </div>
