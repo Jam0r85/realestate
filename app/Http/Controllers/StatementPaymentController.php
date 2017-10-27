@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StatementPaymentSentRequest;
+use App\Http\Requests\StatementPaymentUpdateRequest;
 use App\Services\StatementService;
 use App\StatementPayment;
 use Carbon\Carbon;
@@ -57,11 +58,11 @@ class StatementPaymentController extends BaseController
     /**
      * Update the statement payment in storage.
      * 
-     * @param  Request $request [description]
-     * @param  [type]  $id      [description]
-     * @return [type]           [description]
+     * @param \App\Http\Request\StatementPaymentUpdateRequest $request 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StatementPaymentUpdateRequest $request, $id)
     {
         $payment = StatementPayment::findOrFail($id);
         $payment->sent_at = $request->sent_at;
