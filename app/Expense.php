@@ -51,14 +51,6 @@ class Expense extends BaseModel
     ];
 
     /**
-     * An expense can have a contractors.
-     */
-    public function contractors()
-    {
-        return $this->belongsToMany('App\User');
-    }
-
-    /**
      * An expense can have a contractor.
      */
     public function contractor()

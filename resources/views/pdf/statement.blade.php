@@ -90,7 +90,19 @@
 
 					@foreach ($statement->expenses as $expense)
 						<tr>
-							<td>@include('expenses.partials.name-for-statements')</td>
+							<td>
+								
+								<b>{{ $expense->name }}</b>
+
+								@if ($expense->contractor)
+									<br />{{ $expense->contractor->name }}
+								@endif
+
+								@if ($expense->pivot->amount != $expense->cost)
+									<small>(Part Payment)</small>
+								@endif
+
+							</td>
 							<td class="">{{ currency($expense->pivot->amount) }}</td>
 							<td></td>
 							<td class="">{{ currency($expense->pivot->amount) }}</td>
