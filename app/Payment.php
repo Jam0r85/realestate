@@ -36,6 +36,12 @@ class Payment extends BaseModel
             }
         }
 
+        // Deposit Payments
+        if ($this->parent_type == 'deposits') {
+            $array['tenancy'] = $this->parent->tenancy->name;
+            $array['property'] = $this->parent->tenancy->property->name;
+        }
+
         // Get the users.
         $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
 
