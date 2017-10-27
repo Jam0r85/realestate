@@ -51,4 +51,28 @@ class DepositPaymentController extends Controller
         $title = 'Search Results';
         return view('payments.deposit', compact('payments','title'));
     }
+
+    /**
+     * Store a new payment for the given deposit.
+     * 
+     * @param \App\Http\Requests\DepositPaymentStoreRequest $request
+     * @param integer $id deposit_id
+     * @return \Illuminate\Http\Response
+     */
+    public function store(DepositPaymentStoreRequest $request, $id)
+    {
+        $deposit = Deposit::withTrashed()->findOrFail($id);
+
+        $payment = new Payment();
+        $payment->amount = $request->amount;
+        $payment->payment_method_id = $request->payment_method_id;
+        $payment->note = $request->note;
+
+        $deposit->payments()->save($payment);
+
+        $payment->users()->attach($deposit->tenancy->tenants);
+
+        $this->successMessage('The payment of ' . $payment->amount . ' was recorded for the deposit');
+        return back();
+    }
 }

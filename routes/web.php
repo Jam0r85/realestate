@@ -244,6 +244,6 @@ Route::prefix('deposit')->group(function () {
 	Route::post('/', 'DepositController@store')->name('deposit.store');
 	Route::put('{id}', 'DepositController@update')->name('deposit.update');
 	Route::post('{id}/upload-certificate', 'DepositController@uploadCertificate')->name('deposit.upload-certificate'); 
-	Route::post('{id}/record-payment', 'DepositController@createDepositPayment')->name('deposit.record-payment');
+	Route::post('{id}/record-payment', 'DepositPaymentController@store')->name('deposit.record-payment');
 	Route::delete('{id}/delete-certificate', 'DepositController@destroyCertificate')->name('deposit.destroy-certificate');
 });
