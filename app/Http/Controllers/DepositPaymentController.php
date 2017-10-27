@@ -35,7 +35,7 @@ class DepositPaymentController extends Controller
         // Clear the search term.
         if ($request && $request->has('clear_search')) {
             Session::forget('deposit_payments_search_term');
-            return redirect()->route('rent-payments.index');
+            return redirect()->route('deposit-payments.index');
         }
 
         Session::put('deposit_payments_search_term', $request->search_term);

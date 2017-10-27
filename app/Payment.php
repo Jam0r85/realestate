@@ -72,6 +72,17 @@ class Payment extends BaseModel
     }
 
     /**
+     * Scope a query to only include invoice payments.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeForInvoice($query)
+    {
+        return $query->where('parent_type', 'invoices');
+    }
+
+    /**
      * A payment can have an owner.
      */
     public function owner()
