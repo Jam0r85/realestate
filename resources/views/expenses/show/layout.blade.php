@@ -22,7 +22,6 @@
 				<div class="col col-5">
 
 					@include('expenses.partials.invoices-card')
-					@include('expenses.partials.contractors-card')
 					@include('expenses.partials.system-info-card')
 
 				</div>

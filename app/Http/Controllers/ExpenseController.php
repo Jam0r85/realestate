@@ -124,48 +124,6 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Update and upload invoices to the expense.
-     * 
-     * @param  Request $request [description]
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateInvoices(Request $request, $id)
-    {
-        $expense = Expense::findOrFail($id);
-        $service = new DocumentService();
-
-        for ($i = 0; $i < count($request->invoice_id); $i++) { 
-            if (!is_null($request->invoice_delete[$i])) {                
-                $service->deleteDocument($request->invoice_id[$i]);
-            } else {
-                $service->updateDocument([
-                    'name' => $request->invoice_name[$i]
-                ], $request->invoice_id[$i]);
-            }
-        }
-
-        // Attach new users to the account.
-        if ($request->has('new_invoices')) {
-            foreach ($request->file('new_invoices') as $invoice) {
-
-                $service = new DocumentService();
-                $document = $service->storeFile($invoice, 'expenses');
-                $document['name'] = $expense->name . ' Invoice';
-
-                $stored_invoice = $service->createDocument($document);
-
-                $expense->invoices()->save($stored_invoice);
-            }
-        }
-
-        $this->successMessage('The invoice(s) were updated');
-
-        return back();
-    }
-
-
-    /**
      * Update the contracrtors for the expense.
      * 
      * @param \Illuminate\Http\Request $request

@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-wrench"></i> Expense Information
-	</div>
+
+	@component('partials.bootstrap.card-header')
+		Expense Details
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $expense->name }}
@@ -19,6 +21,12 @@
 			{{ currency($expense->remaining_balance) }}
 			@slot('title')
 				Balance
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $expense->contractor ? $expense->contractor->name : '-' }}
+			@slot('title')
+				Contractor
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')

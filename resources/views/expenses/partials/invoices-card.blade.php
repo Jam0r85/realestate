@@ -11,6 +11,9 @@
 			@foreach ($expense->documents as $invoice)
 
 				<li class="list-group-item">
+					<a href="{{ route('documents.show', $invoice->id) }}" class="btn btn-warning btn-sm float-right">
+						<i class="fa fa-pencil"></i> Edit
+					</a>
 					<a href="{{ Storage::url($invoice->path) }}" target="_blank" title="{{ $invoice->name }}">
 						{{ $invoice->name }}
 					</a>

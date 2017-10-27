@@ -250,4 +250,5 @@ Route::prefix('deposit')->group(function () {
 
 Route::prefix('documents')->group(function () {
 	Route::post('/', 'DocumentController@store')->name('documents.store');
+	Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show');
 });
