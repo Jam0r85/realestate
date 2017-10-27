@@ -3,10 +3,13 @@
 @section('content')
 
 	@component('partials.bootstrap.section-with-container')
+
 		<div class="page-title">
-			<h1>
+
+			@component('partials.header')
 				{{ $title }}
-			</h1>
+			@endcomponent
+
 		</div>
 
 		{{-- Payments Search --}}
@@ -25,7 +28,9 @@
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
+
 		@include('payments.partials.rent-payments-table')
+		
 	@endcomponent
 
 @endsection

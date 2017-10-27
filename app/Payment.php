@@ -55,7 +55,7 @@ class Payment extends BaseModel
      * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent
      */
-    public function scopeRentPayments($query)
+    public function scopeForRent($query)
     {
         return $query->where('parent_type', 'tenancies');
     }
@@ -89,7 +89,8 @@ class Payment extends BaseModel
      */
     public function parent()
     {
-    	return $this->morphTo();
+    	return $this->morphTo()
+            ->withTrashed();
     }
 
     /**

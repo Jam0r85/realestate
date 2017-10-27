@@ -1,11 +1,13 @@
-<table class="table table-striped table-responsive">
+<table class="table table-striped table-hover table-responsive">
 	<thead>
 		<th>Date</th>
 		<th>Tenancy</th>
 		<th>Amount</th>
 		<th>Method</th>
 		<th>Users</th>
-		<th></th>
+		<th class="text-right">
+			Receipt
+		</th>
 	</thead>
 	<tbody>
 		@foreach ($payments as $payment)
@@ -23,15 +25,11 @@
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
 				<td>
-					@foreach ($payment->users as $user)
-						<a class="badge badge-primary" href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-							{{ $user->name }}
-						</a>
-					@endforeach
+					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 				</td>
 				<td class="text-right">
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download">
-						<i class="fa fa-download"></i> Receipt
+						Download
 					</a>
 				</td>
 			</tr>
