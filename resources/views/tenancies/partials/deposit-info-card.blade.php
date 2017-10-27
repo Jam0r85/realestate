@@ -14,7 +14,7 @@
 				</span>
 				@slot('title')
 					<span class="lead">
-						Deposit Balance
+						Balance
 					</span>
 				@endslot
 				@slot('style')

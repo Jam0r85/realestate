@@ -16,7 +16,7 @@
 				</span>
 				@slot('title')
 					<span class="lead">
-						Rent Balance
+						Balance
 					</span>
 				@endslot
 				@slot('style')
