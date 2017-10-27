@@ -18,16 +18,16 @@
     <style type="text/css">
         @auth
             body {
-                @if (array_has(Auth::user()->settings, 'font_override'))
-                    font-family: "{{ Auth::user()->settings['font_override'] }}" !important;
+                @if ($setting = user_setting(Auth::user(), 'font_override'))
+                    font-family: "{{ $setting }}" !important;
                 @endif
-                @if (array_has(Auth::user()->settings, 'font_override_size'))
-                    font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
+                @if ($setting = user_setting(Auth::user(), 'font_override_size'))
+                    font-size: {{ $setting }} !important;
                 @endif
             }
             input, textarea, select, button:not(.close), .dropdown-menu {
-                @if (array_has(Auth::user()->settings, 'font_override_size'))
-                    font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
+                @if ($setting = user_setting(Auth::user(), 'font_override_size'))
+                    font-size: {{ $setting }} !important;
                 @endif
             }
         @endauth
