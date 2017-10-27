@@ -28,6 +28,8 @@ class RentPaymentController extends BaseController
 
     	$tenancy->rent_payments()->save($payment);
 
+    	$payment->users()->attach($tenancy->tenants);
+
     	$this->successMessage('The payment of ' . $payment->amount . ' was recorded against ' . $tenancy->name);
     	return back();
     }
