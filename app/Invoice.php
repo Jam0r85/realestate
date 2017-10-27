@@ -268,6 +268,24 @@ class Invoice extends BaseModel
     }
 
     /**
+     * Check whether the invoice has been paid or not.
+     * 
+     * @return boolean
+     */
+    public function isPaid()
+    {
+        if ($this->paid_at) {
+            return true;
+        }
+
+        if ($this->total_balance <= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get the invoice's statement.
      * 
      * @return \App\Invoice

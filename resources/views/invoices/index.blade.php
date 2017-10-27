@@ -56,20 +56,22 @@
 					</thead>
 					<tbody>
 						@foreach ($unpaid_invoices as $invoice)
-							<tr>
-								<td>
-									<a href="{{ route('invoices.show', $invoice->id) }}" title="{{ $invoice->number }}">
-										{{ $invoice->name }}
-									</a>
-								</td>
-								<td>{{ date_formatted($invoice->created_at) }}</td>
-								<td>{!! $invoice->property ? truncate($invoice->property->short_name) : '-' !!}</td>
-								<td>{{ currency($invoice->total) }}</td>
-								<td>{{ count($invoice->items) ? currency($invoice->total_balance) : 'n/a' }}</td>
-								<td>
-									@include('partials.users-inline', ['users' => $invoice->users])
-								</td>
-							</tr>
+							@if (!$invoice-isPaid())
+								<tr>
+									<td>
+										<a href="{{ route('invoices.show', $invoice->id) }}" title="{{ $invoice->number }}">
+											{{ $invoice->name }}
+										</a>
+									</td>
+									<td>{{ date_formatted($invoice->created_at) }}</td>
+									<td>{!! $invoice->property ? truncate($invoice->property->short_name) : '-' !!}</td>
+									<td>{{ currency($invoice->total) }}</td>
+									<td>{{ count($invoice->items) ? currency($invoice->total_balance) : 'n/a' }}</td>
+									<td>
+										@include('partials.users-inline', ['users' => $invoice->users])
+									</td>
+								</tr>
+							@endif
 						@endforeach
 					</tbody>
 				</table>
