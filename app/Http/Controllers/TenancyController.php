@@ -128,6 +128,8 @@ class TenancyController extends BaseController
     public function show($id, $section = 'layout')
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
+        $tenancy->load('deposit.payments','deposit.payments.method');
+        
         return view('tenancies.show.' . $section, compact('tenancy'));
     }
 

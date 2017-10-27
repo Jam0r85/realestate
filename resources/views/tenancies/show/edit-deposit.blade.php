@@ -149,6 +149,9 @@
 							<th>Date</th>
 							<th>Amount</th>
 							<th>Method</th>
+							<th class="text-right">
+								Balance
+							</th>
 						</thead>
 						<tbody>
 							@foreach ($tenancy->deposit->payments as $payment)
@@ -156,6 +159,9 @@
 									<td>{{ date_formatted($payment->created_at) }}</td>
 									<td>{{ currency($payment->amount) }}</td>
 									<td>{{ $payment->method->name }}</td>
+									<td class="text-right">
+										
+									</td>
 								</tr>
 							@endforeach
 						</tbody>
