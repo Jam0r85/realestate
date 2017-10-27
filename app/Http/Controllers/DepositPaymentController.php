@@ -8,7 +8,7 @@ use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class DepositPaymentController extends Controller
+class DepositPaymentController extends BaseController
 {
     /**
      * Display a listing of deposit payments received.
