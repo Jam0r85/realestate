@@ -46,6 +46,8 @@ class RentPaymentController extends BaseController
         $payments = Payment::search(Session::get('rent_payments_search_term'))
             ->get();
 
+        $payments->load('users','method','parent');
+
         $title = 'Search Results';
         return view('payments.rent', compact('payments','title'));
     }

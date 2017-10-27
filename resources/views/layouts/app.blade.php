@@ -98,6 +98,23 @@
                         <li class="nav-item dropdown">
 
                             @component('partials.bootstrap.dropdown-toggle')
+                                Payments
+                                @slot('id')
+                                    paymentsDropdown
+                                @endslot
+                            @endcomponent
+
+                            <div class="dropdown-menu" aria-labelledby="paymentsDropdown">
+                                <a class="dropdown-item" href="{{ route('rent-payments.index') }}">
+                                    Rent Payments
+                                </a>
+                            </div>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            @component('partials.bootstrap.dropdown-toggle')
                                 Tenancies
                                 @slot('id')
                                     tenanciesDropdown
@@ -116,11 +133,6 @@
                                 </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
                                     Services
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Rent Payments</h6>
-                                <a class="dropdown-item" href="{{ route('rent-payments.index') }}">
-                                    Rent Payments List
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Statements</h6>
