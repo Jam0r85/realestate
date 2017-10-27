@@ -45,6 +45,8 @@ class DepositPaymentController extends Controller
 
         $payments->load('users','method','parent');
 
+        $payments = $payments->where('parent_type', 'deposits');
+
         $title = 'Search Results';
         return view('payments.deposit', compact('payments','title'));
     }
