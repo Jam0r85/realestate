@@ -88,8 +88,14 @@ class StatementController extends BaseController
      */
     public function update(UpdateStatementRequest $request, $id)
     {
-        $service = new StatementService();
-        $service->updateStatement($request->input(), $id);
+        $statement = Statement::withTrashed()->findOrFail($id);
+
+        $statement->created_at = $request->created_at;
+        $statement->period_start = $request->period_start;
+        $statement->period_end = $request->period_end;
+        $statement->amount = $request->amount;
+
+        $statement->save();
 
         $this->successMessage('The statement was updated');
 

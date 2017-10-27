@@ -24,8 +24,10 @@ class UpdateStatementRequest extends FormRequest
     public function rules()
     {
         return [
+            'created_at' => 'required',
             'period_start' => 'required',
-            'period_end' => 'required'
+            'period_end' => 'required',
+            'amount' => 'required'
         ];
     }
 }
