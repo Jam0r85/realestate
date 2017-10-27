@@ -25,7 +25,7 @@
                     font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
                 @endif
             }
-            input, textarea, select, button {
+            input, textarea, select, button, .dropdown-menu {
                 @if (array_has(Auth::user()->settings, 'font_override_size'))
                     font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
                 @endif
