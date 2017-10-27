@@ -165,7 +165,7 @@
 								<table class="table is-striped is-fullwidth">
 									<thead>
 										<th>Name</th>
-										<th>Contractors</th>
+										<th>Contractor</th>
 										<th>Expense Cost</th>
 										<th>Amount</th>
 									</thead>
@@ -173,13 +173,7 @@
 										@foreach ($statement->expenses as $expense)
 											<tr>
 												<td>{{ $expense->name }}</td>
-												<td>
-													@foreach ($expense->contractors as $user)
-														<span class="tag is-primary">
-															{{ $user->name }}
-														</span>
-													@endforeach
-												</td>
+												<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
 												<td>{{ currency($expense->cost) }}</td>
 												<td>{{ currency($expense->pivot->amount) }}</td>
 											</tr>
