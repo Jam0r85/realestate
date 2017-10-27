@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $active_tenancies = Tenancy::isActive()->count();
         $managed_tenancies = Tenancy::isActive()->whereIn('service_id', $managed_services)->get();
 
-        $rent_received = Payment::rentPayments()
+        $rent_received = Payment::forRent()
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
             ->get()
