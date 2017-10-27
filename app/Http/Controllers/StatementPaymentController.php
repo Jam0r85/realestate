@@ -57,17 +57,17 @@ class StatementPaymentController extends BaseController
     }
 
     /**
-     * Mark the provided statement payments as sent.
+     * Update the given statement payments as being sent.
      * 
      * @param \App\Http\Requests\StatementPaymentSentRequest $request
      * @return \Illuminate\Http\Response
      */
     public function markSent(StatementPaymentSentRequest $request)
     {
-        $service = new StatementService();
-        $service->setStatementPaymentsSent($request->payments);
+        StatementPayment::whereIn('id', $request->payments)
+            ->update(['sent_at' => Carbon::now());
 
-        $this->successMessage('The statement payments were marked as being sent');
+        $this->successMessage('The statement ' . str_plural('payment', count($request->payments) . ' ' . str_plural('was', count($request->payments) . ' marked as being sent');
 
         return back();
     }
