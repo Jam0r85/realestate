@@ -2,40 +2,62 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>
-					{{ $title }}
-					<a href="{{ route('users.create') }}" class="btn btn-primary">
-						<i class="fa fa-user-plus"></i> New User
-					</a>
-				</h1>
-			</div>
+		<div class="page-title">
 
-			{{-- Users Search --}}
-			@component('partials.bootstrap.page-search')
-				@slot('route')
-					{{ route('users.search') }}
-				@endslot
-				@if (session('users_search_term'))
-					@slot('search_term')
-						{{ session('users_search_term') }}
-					@endslot
-				@endif
+			<a href="{{ route('users.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-user-plus"></i> New User
+			</a>
+
+			@component('partials.header')
+				{{ $title }}
 			@endcomponent
-			{{-- End of Users Search --}}
 
 		</div>
-	</section>
 
-	<section class="section">
-		<div class="container">
+		{{-- Users Search --}}
+		@component('partials.bootstrap.page-search')
+			@slot('route')
+				{{ route('users.search') }}
+			@endslot
+			@if (session('users_search_term'))
+				@slot('search_term')
+					{{ session('users_search_term') }}
+				@endslot
+			@endif
+		@endcomponent
+		{{-- End of Users Search --}}
 
-			@include('users.partials.table', $users)
+	@endcomponent
 
-		</div>
-	</section>
+	@component('partials.bootstrap.section-with-container')
+
+		<table class="table table-striped table-hover table-responsive">
+			<thead>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Mobile Phone</th>
+				<th>Other Phone</th>
+			</thead>
+			<tbody>
+				@foreach ($users as $user)
+					<tr>
+						<td>
+							<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
+								{{ $user->name }}
+							</a>
+						</td>
+						<td>{{ $user->email }}</td>
+						<td>{{ $user->phone_number }}</td>
+						<td>{{ $user->phone_number_other }}</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+
+		@include('partials.pagination', ['collection' => $users])
+
+	@endcomponent
 
 @endsection

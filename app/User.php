@@ -145,6 +145,32 @@ class User extends Authenticatable
     }
 
     /**
+     * A user can have an active tenancy.
+     */
+    public function activeTenancy()
+    {
+        return $this->belongsToMany('App\Tenancy')
+            ->isActive()
+            ->first();
+    }
+
+    /**
+     * A user can have a current location.
+     */
+    public function currentLocation()
+    {
+        if ($this->activeTenancy()) {
+            return $this->activeTenancy()->property->name;
+        }
+
+        if ($this->home) {
+            return $this->home->name;
+        }
+
+        return null;
+    }
+
+    /**
      * A user can have many invoices.
      */
     public function invoices()

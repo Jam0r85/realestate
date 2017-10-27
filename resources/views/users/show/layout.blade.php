@@ -3,12 +3,19 @@
 @section('content')
 
 	@component('partials.bootstrap.section-with-container')
+
 		<div class="page-title">
+
 			<div class="float-right">
 				@include('users.partials.dropdown-menus')
 			</div>
-			<h1>{{ $user->name }}</h1>
+
+			@component('partials.header')
+				{{ $user->name }}
+			@endcomponent
+
 		</div>
+		
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')

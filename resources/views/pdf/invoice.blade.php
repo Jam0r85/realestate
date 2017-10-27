@@ -21,10 +21,6 @@
 					</td>
 					<td class="has-text-right">
 
-						@if (isset($statement))
-							{!! $statement->tenancy->property->branch->address_formatted !!}
-						@endif
-
 						@if (isset($invoice))
 							{!! $invoice->property->branch->address_formatted !!}
 						@endif
