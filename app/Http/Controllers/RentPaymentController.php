@@ -38,18 +38,16 @@ class RentPaymentController extends BaseController
         // Clear the search term.
         if ($request && $request->has('clear_search')) {
             Session::forget('rent_payments_search_term');
-            return redirect()->route('payments.rent');
+            return redirect()->route('rent-payments.index');
         }
 
         Session::put('rent_payments_search_term', $request->search_term);
 
-        $payments = Payment::with('users','method','parent')
-            ->ForRent()
-            ->search(Session::get('rent_payments_search_term'))
+        $payments = Payment::search(Session::get('rent_payments_search_term'))
             ->get();
 
         $title = 'Search Results';
-        return view('users.index', compact('payments','title'));
+        return view('payments.rent', compact('payments','title'));
     }
 
 	/**

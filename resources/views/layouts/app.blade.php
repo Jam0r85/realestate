@@ -119,7 +119,7 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Rent Payments</h6>
-                                <a class="dropdown-item" href="{{ route('payments.rent') }}">
+                                <a class="dropdown-item" href="{{ route('rent-payments.index') }}">
                                     Rent Payments List
                                 </a>
                                 <div class="dropdown-divider"></div>
