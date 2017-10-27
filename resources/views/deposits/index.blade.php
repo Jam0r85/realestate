@@ -5,19 +5,25 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			<h1>
+
+			@component('partials.header')
 				{{ $title }}
-			</h1>
+			@endcomponent
+
 		</div>
 
-		<div class="btn-group mb-3">
-			<button type="button" class="btn">
-				Total <span class="badge badge-secondary">{{ currency($deposits->sum('amount')) }}</span>
-			</button>
-			<button type="button" class="btn @if ($deposit_balance < $deposits->sum('amount')) btn-danger @elseif ($deposit_balance == $deposits->sum('amount')) btn-success @endif">
-				Current Held <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
-			</button>
-		</div>
+		@if (isset($deposit_balance))
+
+			<div class="btn-group mb-3">
+				<button type="button" class="btn">
+					Total <span class="badge badge-secondary">{{ currency($deposits->sum('amount')) }}</span>
+				</button>
+				<button type="button" class="btn @if ($deposit_balance < $deposits->sum('amount')) btn-danger @elseif ($deposit_balance == $deposits->sum('amount')) btn-success @endif">
+					Current Held <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
+				</button>
+			</div>
+
+		@endif
 
 		{{-- Deposits Search --}}
 		@component('partials.bootstrap.page-search')
@@ -36,14 +42,14 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-responsive">
+		<table class="table table-striped table-hover table-responsive">
 			<thead>
 				<th>Date</th>
 				<th>Tenancy</th>
 				<th>Property</th>
 				<th>Amount</th>
 				<th>Balance</th>
-				<th>ID</th>
+				<th>Ref</th>
 				<th></th>
 			</thead>
 			<tbody>

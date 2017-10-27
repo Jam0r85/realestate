@@ -44,6 +44,18 @@ class StatementPaymentController extends BaseController
     }
 
     /**
+     * Show the statement payment.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $payment = StatementPayment::findOrFail($id);
+        return view('statement-payments.show', compact('payment'));
+    }
+
+    /**
      * Show the form for editing a statement payment.
      * 
      * @param integer $id

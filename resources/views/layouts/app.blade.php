@@ -149,10 +149,15 @@
                                     Statement Payments List
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Management</h6>
+                                <h6 class="dropdown-header">Deposits</h6>
                                 <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
                                     Deposits List
                                 </a>
+                                <a class="dropdown-item" href="{{ route('deposit.archived') }}" title="Archived Deposits">
+                                    Archived Deposits
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Management</h6>
                                 <a class="dropdown-item" href="{{ route('gas-safe.index') }}" title="Gas Inspections">
                                     Gas Inspections
                                 </a>

@@ -248,8 +248,9 @@ class TenancyController extends BaseController
     public function archive(TenancyArchiveRequest $request, $id)
     {
         $tenancy = Tenancy::findOrFail($id);
-
         $tenancy->delete();
+
+        $tenancy->deposit->delete();
 
         $this->successMessage('The tenancy "' . $tenancy->name . '" was archived');
 

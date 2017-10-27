@@ -33,8 +33,23 @@ class DepositController extends BaseController
             ->sum('balance');
             
         $title = 'Deposits List';
-
         return view('deposits.index', compact('title','deposits','deposit_balance'));
+    }
+
+    /**
+     * Display a listing of archived deposits.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function archived()
+    {
+        $deposits = Deposit::with('payments','owner','tenancy','certificate','tenancy.property')
+            ->onlyTrashed()
+            ->latest()
+            ->paginate();
+            
+        $title = 'Archived Deposits List';
+        return view('deposits.index', compact('title','deposits'));
     }
 
     /**

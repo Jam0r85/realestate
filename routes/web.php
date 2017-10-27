@@ -143,6 +143,7 @@ Route::prefix('statement-payments')->group(function () {
 	Route::get('print', 'StatementPaymentController@print')->name('statement-payments.print');
 	Route::post('mark-sent', 'StatementPaymentController@markSent')->name('statement-payments.mark-sent');
 	Route::get('{id}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit');
+	Route::get('{id}', 'StatementPaymentController@show')->name('statement-payments.show');
 	Route::put('{id}', 'StatementPaymentController@update')->name('statement-payments.update');
 });
 
@@ -236,8 +237,9 @@ Route::prefix('gas-safe')->group(function () {
 	Route::post('{id}/send-reminder', 'GasController@sendReminder')->name('gas-safe.send-reminder');
 });
 
-Route::prefix('deopsit')->group(function () {
+Route::prefix('deposit')->group(function () {
 	Route::get('/', 'DepositController@index')->name('deposit.index');
+	Route::get('archived', 'DepositController@archived')->name('deposit.archived');
 	Route::post('/search', 'DepositController@search')->name('deposit.search');
 	Route::post('/', 'DepositController@store')->name('deposit.store');
 	Route::put('{id}', 'DepositController@update')->name('deposit.update');
