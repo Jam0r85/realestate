@@ -10,20 +10,15 @@
 				{{ $title }}
 			@endcomponent
 
+			@if (isset($deposit_balance))
+
+				@component('partials.sub-header')
+					Expected <b>{{ currency($deposits->sum('amount')) }}</b> / Held <b>{{ currency($deposit_balance) }}</b>
+				@endcomponent
+
+			@endif
+
 		</div>
-
-		@if (isset($deposit_balance))
-
-			<div class="btn-group mb-3">
-				<button type="button" class="btn">
-					Total <span class="badge badge-secondary">{{ currency($deposits->sum('amount')) }}</span>
-				</button>
-				<button type="button" class="btn @if ($deposit_balance < $deposits->sum('amount')) btn-danger @elseif ($deposit_balance == $deposits->sum('amount')) btn-success @endif">
-					Current Held <span class="badge badge-secondary">{{ currency($deposit_balance) }}</span>
-				</button>
-			</div>
-
-		@endif
 
 		{{-- Deposits Search --}}
 		@component('partials.bootstrap.page-search')
