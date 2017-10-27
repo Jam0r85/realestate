@@ -69,7 +69,7 @@ class StatementPaymentController extends BaseController
                 'sent_at' => Carbon::now()
             ]);
 
-        $this->successMessage('The statement ' . str_plural('payment', count($request->payments) . ' ' . str_plural('was', count($request->payments) . ' marked as being sent');
+        $this->successMessage('The statement ' . str_plural('payment', count($request->payments)) . ' ' . str_plural('was', count($request->payments)) . ' marked as being sent');
 
         return back();
     }

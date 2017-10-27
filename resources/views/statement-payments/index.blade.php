@@ -60,19 +60,18 @@
 
 	@endif
 
-	<section class="section">
-		<div class="container">
-			<div class="page-title">
-				<h3 class="text-success">
-					Sent Payments
-				</h3>
-			</div>
-			<div class="row">
-				<div class="col">
-					@include('statement-payments.partials.sent-payments-table', ['payments' => $sent_payments])
-				</div>
-			</div>
+	@component('partials.bootstrap.section-with-container')
+
+		<div class="page-title">
+
+			@component('partials.sub-header')
+				Sent Payments
+			@endcomponent
+
 		</div>
-	</section>
+
+		@include('statement-payments.partials.sent-payments-table', ['payments' => $sent_payments])
+
+	@endcomponent
 
 @endsection
