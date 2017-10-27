@@ -48,6 +48,9 @@ class RentPaymentController extends BaseController
 
         $payments->load('users','method','parent');
 
+        // Filter the payments for a parent_type of tenancy.
+        $payments = $payments->where('parent_type', 'tenancies');
+
         $title = 'Search Results';
         return view('payments.rent', compact('payments','title'));
     }

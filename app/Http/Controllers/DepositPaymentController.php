@@ -45,6 +45,7 @@ class DepositPaymentController extends Controller
 
         $payments->load('users','method','parent');
 
+        // Filter the payments for a parent_type of deposit.
         $payments = $payments->where('parent_type', 'deposits');
 
         $title = 'Search Results';
