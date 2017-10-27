@@ -171,7 +171,7 @@
 
 			@if ($tenancy->deposit)
 
-			<div class="col-sm-12 col-lg-8">
+			<div class="col-sm-12 col-lg-7">
 
 				<div class="card mb-3">
 
