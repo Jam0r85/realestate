@@ -46,8 +46,8 @@
 							</a>
 						</td>
 						<td>
-							<a href="{{ route('tenancies.show', $payment->parent_id) }}">
-								{!! truncate($payment->parent->name) !!}
+							<a href="{{ route('tenancies.show', $payment->parent->tenancy->id) }}">
+								{!! truncate($payment->parent->tenancy->name) !!}
 							</a>
 						</td>
 						<td>{{ currency($payment->amount) }}</td>
