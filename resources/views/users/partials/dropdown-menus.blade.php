@@ -4,16 +4,16 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-settings']) }}">
-			Update Settings
+			Settings
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">
-			Update Personal Details
+			Personal Details
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">
-			Update E-Mail Address
+			Change E-Mail Address
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'home-address']) }}">
-			Set Home Address
+			Current Location
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'change-password']) }}">
 			Change Password

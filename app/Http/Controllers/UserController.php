@@ -228,7 +228,7 @@ class UserController extends BaseController
         $user->property_id = $request->property_id;
         $user->save();
 
-        $this->successMessage('The users home address was updated');
+        $this->successMessage('The users location was updated');
 
         return back();
     }

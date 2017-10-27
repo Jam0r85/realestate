@@ -5,11 +5,19 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
+
 			<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
 				Return
 			</a>
-			<h1>{{ $user->name }}</h1>
-			<h3 class="text-muted">Set Home Address</h3>
+
+			@component('partials.header')
+				{{ $user->name }}
+			@endcomponent
+
+			@component('partials.sub-header')
+				Update this user's home address
+			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -21,7 +29,7 @@
 			{{ method_field('PUT') }}
 
 			<div class="form-group">
-				<label for="property_id">Search and choose the property to set as the home for this user.</label>
+				<label for="property_id">Properties</label>
 				<select name="property_id" id="property_id" class="form-control select2">
 					<option value="">None</option>
 					@foreach (properties() as $property)
@@ -30,8 +38,8 @@
 				</select>
 			</div>
 
-			@component('partials.bootstrap.save-submit-button')
-				Update Home
+			@component('partials.save-button')
+				Save Changes
 			@endcomponent
 
 		</form>

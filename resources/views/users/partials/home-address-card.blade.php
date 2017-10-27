@@ -1,6 +1,9 @@
 <div class="card mb-3">
 
 	@component('partials.bootstrap.card-header')
+		<small class="text-muted float-right">
+			Where the user currently lives.
+		</small>
 		Current Location
 	@endcomponent
 

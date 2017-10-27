@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<h5 class="card-header">
-		<i class="fa fa-user"></i> User's Information
-	</h5>
+
+	@component('partials.bootstrap.card-header')
+		User's Information
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		<li class="list-group-item flex-column">
 			<div class="d-flex justify-content-between">
