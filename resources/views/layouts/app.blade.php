@@ -108,6 +108,12 @@
                                 <a class="dropdown-item" href="{{ route('rent-payments.index') }}">
                                     Rent Payments
                                 </a>
+                                <a class="dropdown-item" href="{{ route('deposit-payments.index') }}">
+                                    Deposit Payments
+                                </a>
+                                <a class="dropdown-item" href="{{ route('invoice-payments.index') }}">
+                                    Invoice Payments
+                                </a>
                             </div>
 
                         </li>

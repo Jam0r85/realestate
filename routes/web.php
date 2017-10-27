@@ -85,6 +85,16 @@ Route::prefix('rent-payments')->group(function () {
 	Route::post('search', 'RentPaymentController@search')->name('rent-payments.search');
 });
 
+Route::prefix('deposit-payments')->group(function () {
+	Route::get('/', 'InvoicePaymentController@index')->name('deposit-payments.index');
+	Route::post('search', 'InvoicePaymentController@search')->name('deposit-payments.search');
+});
+
+Route::prefix('invoice-payments')->group(function () {
+	Route::get('/', 'DepositPaymentController@index')->name('invoice-payments.index');
+	Route::post('search', 'DepositPaymentController@search')->name('invoice-payments.search');
+});
+
 Route::prefix('payments')->group(function () {
 	Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
 	Route::put('{id}', 'PaymentController@update')->name('payments.update');
