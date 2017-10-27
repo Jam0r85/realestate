@@ -29,8 +29,7 @@ class DepositController extends BaseController
             ->latest()
             ->paginate();
 
-        $deposit_balance = Deposit::all()
-            ->sum('balance');
+        $deposit_balance = Deposit::with('payments')->get()->sum('balance');
             
         $title = 'Deposits List';
         return view('deposits.index', compact('title','deposits','deposit_balance'));
