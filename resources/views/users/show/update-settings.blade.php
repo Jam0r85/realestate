@@ -39,11 +39,16 @@
 			</div>
 
 			<div class="form-group">
-				<label for="font_override">Override Font</label>
+				<label for="font_override">Font Override Family</label>
 				<input type="text" name="font_override" class="form-control" value="{{ array_has($user->settings, 'font_override') ? $user->settings['font_override'] : '' }}" />
 				<small class="form-text text-muted">
 					Override the font for this site. Note that the font you enter must be installed onto the system you are using for it to work.
 				</small>
+			</div>
+
+			<div class="form-group">
+				<label for="font_override_size">Font Override Size</label>
+				<input type="text" name="font_override_size" id="font_override_size" class="form-control" value="{{ array_has($user->settings, 'font_override_size') ? $user->settings['font_override_size'] : '' }}" />
 			</div>
 
 			@component('partials.save-button')

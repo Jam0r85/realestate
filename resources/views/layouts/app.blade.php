@@ -17,11 +17,14 @@
 
     <style type="text/css">
         @auth
-            @if (array_has(Auth::user()->settings, 'font_override'))
-                body {
+            body {
+                @if (array_has(Auth::user()->settings, 'font_override'))
                     font-family: {{ Auth::user()->settings['font_override'] }} !important;
-                }
-            @endif
+                @endif
+                @if (array_has(Auth::user()->settings, 'font_override_size'))
+                    font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
+                @endif
+            }
         @endauth
     </style>
 </head>

@@ -16,7 +16,8 @@ class UserSettings
 	protected $keysWithDefaultValues = [
 		'site_admin' => null,
 		'calendar_event_color' => null,
-		'font_override' => null
+		'font_override' => null,
+		'font_override_size' => null
 	];
 
 	public function __construct(User $user)
