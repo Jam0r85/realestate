@@ -2,8 +2,11 @@
 	{{ csrf_field() }}
 
 	<div class="form-group">
-		<label for="created_at">Date</label>
-		<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" required />
+		<label for="created_at">Date (optional)</label>
+		<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" />
+		<small class="form-text text-muted">
+			Leave this blank to use the current date and time.
+		</small>
 	</div>
 
 	<div class="form-group">

@@ -7,6 +7,8 @@ use App\Event;
 use App\Expense;
 use App\Gas;
 use App\Invoice;
+use App\Observers\PaymentObserver;
+use App\Payment;
 use App\Property;
 use App\Tenancy;
 use App\User;
@@ -34,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
             Deposit::class,
             Gas::class
         ]);
+
+        Payment::observe(PaymentObserver::class);
     }
 
     /**

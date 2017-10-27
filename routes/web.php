@@ -97,7 +97,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('create', 'TenancyController@create')->name('tenancies.create');
 	Route::post('/', 'TenancyController@store')->name('tenancies.store');
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
-	Route::post('{id}/create-rent-payment', 'TenancyController@createRentPayment')->name('tenancies.create-rent-payment');
+	Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 	Route::post('{id}/create-old-rental-statement', 'TenancyController@createOldRentalStatement')->name('tenancies.create-old-rental-statement');
 	Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
