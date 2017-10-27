@@ -25,7 +25,7 @@
 
 <div class="form-group">
 	<label for="town">Town</label>
-	<input type="text" name="town" class="form-control" value="{{ isset($property) ? $property->town : old('town') }}" />
+	<input type="text" name="town" class="form-control" value="{{ isset($property) ? $property->town : old('town') }}" required />
 </div>
 
 <div class="form-group">
@@ -35,5 +35,5 @@
 
 <div class="form-group">
 	<label for="postcode">Post Code</label>
-	<input type="text" name="postcode" class="form-control" value="{{ isset($property) ? $property->postcode : old('postcode') }}" />
+	<input type="text" name="postcode" class="form-control" value="{{ isset($property) ? $property->postcode : old('postcode') }}" required />
 </div>

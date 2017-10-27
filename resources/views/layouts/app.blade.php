@@ -19,7 +19,7 @@
         @auth
             body {
                 @if (array_has(Auth::user()->settings, 'font_override'))
-                    font-family: {{ Auth::user()->settings['font_override'] }} !important;
+                    font-family: "{{ Auth::user()->settings['font_override'] }}" !important;
                 @endif
                 @if (array_has(Auth::user()->settings, 'font_override_size'))
                     font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
