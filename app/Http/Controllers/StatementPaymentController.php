@@ -51,7 +51,7 @@ class StatementPaymentController extends BaseController
     public function edit($id)
     {
         $payment = StatementPayment::findOrFail($id);
-        return view('statement-payments.edit', component('payment'));
+        return view('statement-payments.edit', compact('payment'));
     }
 
     /**
