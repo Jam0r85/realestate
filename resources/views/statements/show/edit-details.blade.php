@@ -32,36 +32,39 @@
 				Statement Details
 			@endcomponent
 
-			<form method="POST" action="{{ route('statements.update', $statement->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}
+			<div class="card-body">
 
-				<div class="form-group">
-					<label for="created_at">Created</label>
-					<input type="date" name="created_at" id="created_at" class="form-control" value="{{ $statement->created_at->format('Y-m-d') }}" />
-				</div>
+				<form method="POST" action="{{ route('statements.update', $statement->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-				<div class="form-group">
-					<label for="period_start">Date From</label>
-					<input type="date" name="period_start" id="period_start" class="form-control" value="{{ $statement->period_start->format('Y-m-d') }}" />
-				</div>
+					<div class="form-group">
+						<label for="created_at">Created</label>
+						<input type="date" name="created_at" id="created_at" class="form-control" value="{{ $statement->created_at->format('Y-m-d') }}" />
+					</div>
 
-				<div class="form-group">
-					<label for="period_end">Date End</label>
-					<input type="date" name="period_end" id="period_end" class="form-control" value="{{ $statement->period_end->format('Y-m-d') }}" />
-				</div>
+					<div class="form-group">
+						<label for="period_start">Date From</label>
+						<input type="date" name="period_start" id="period_start" class="form-control" value="{{ $statement->period_start->format('Y-m-d') }}" />
+					</div>
 
-				<div class="form-group">
-					<label for="amount">Statement Amount</label>
-					<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $statement->amount }}" />
-				</div>
+					<div class="form-group">
+						<label for="period_end">Date End</label>
+						<input type="date" name="period_end" id="period_end" class="form-control" value="{{ $statement->period_end->format('Y-m-d') }}" />
+					</div>
 
-				@component('partials.save-button')
-					Save Changes
-				@endcomponent
+					<div class="form-group">
+						<label for="amount">Statement Amount</label>
+						<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $statement->amount }}" />
+					</div>
 
-			</form>
+					@component('partials.save-button')
+						Save Changes
+					@endcomponent
 
+				</form>
+
+			</div>
 		</div>
 
 		<div class="card mb-3">
@@ -70,16 +73,19 @@
 				Change Bank Account
 			@endcomponent
 
-			<div class="form-group">
-				<label for="bank_account_id">Bank Account</label>
-				<select name="bank_account_id" id="bank_account_id" class="form-control">
-					<option value="0">None</option>
-					@foreach (bank_accounts($statement->property->owners->pluck('id')->toArray()) as $account)
-						<option @if ($statement->property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">{{ $account->name }}</option>
-					@endforeach
-				</select>
-			</div>
+			<div class="card-body">
 
+				<div class="form-group">
+					<label for="bank_account_id">Bank Account</label>
+					<select name="bank_account_id" id="bank_account_id" class="form-control">
+						<option value="0">None</option>
+						@foreach (bank_accounts($statement->property->owners->pluck('id')->toArray()) as $account)
+							<option @if ($statement->property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">{{ $account->name }}</option>
+						@endforeach
+					</select>
+				</div>
+
+			</div>
 		</div>
 
 		<div class="card mb-3">
@@ -88,14 +94,17 @@
 				Change Method of Sending
 			@endcomponent
 
-			<div class="form-control">
-				<label for="sending_method">Sending Method</label>
-				<select name="sending_method" id="sending_method" class="form-control">
-					<option @if ($statement->property->hasSetting('post_rental_statement')) selected @endif value="post">By Post</option>
-					<option @if (!$statement->property->hasSetting('post_rental_statement')) selected @endif value="email">By E-Mail</option>
-				</select>
-			</div>
+			<div class="card-body">
 
+				<div class="form-control">
+					<label for="sending_method">Sending Method</label>
+					<select name="sending_method" id="sending_method" class="form-control">
+						<option @if ($statement->property->hasSetting('post_rental_statement')) selected @endif value="post">By Post</option>
+						<option @if (!$statement->property->hasSetting('post_rental_statement')) selected @endif value="email">By E-Mail</option>
+					</select>
+				</div>
+
+			</div>
 		</div>
 
 	@endcomponent
