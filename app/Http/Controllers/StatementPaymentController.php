@@ -65,7 +65,9 @@ class StatementPaymentController extends BaseController
     public function markSent(StatementPaymentSentRequest $request)
     {
         StatementPayment::whereIn('id', $request->payments)
-            ->update(['sent_at' => Carbon::now());
+            ->update([
+                'sent_at' => Carbon::now()
+            ]);
 
         $this->successMessage('The statement ' . str_plural('payment', count($request->payments) . ' ' . str_plural('was', count($request->payments) . ' marked as being sent');
 
