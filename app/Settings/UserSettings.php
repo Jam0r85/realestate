@@ -17,7 +17,10 @@ class UserSettings
 		'site_admin' => null,
 		'calendar_event_color' => null,
 		'font_override' => null,
-		'font_override_size' => null
+		'font_override_size' => null,
+		'tenancy_service_management_discount' => null,
+		'tenancy_service_letting_discount' => null,
+		'tenancy_service_re_letting_discount' => null
 	];
 
 	public function __construct(User $user)

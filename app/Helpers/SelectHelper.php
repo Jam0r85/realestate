@@ -116,9 +116,7 @@ if (!function_exists('payment_methods')) {
 if (!function_exists('discounts')) {
 	function discounts()
 	{
-		return cache()->tags('discounts')->remember('discounts', 60, function () {
-			return \App\Discount::orderBy('name')->get();
-		});
+		return \App\Discount::orderBy('name')->get();
 	}
 }
 

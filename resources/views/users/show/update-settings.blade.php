@@ -62,6 +62,30 @@
 				</div>
 			</div>
 
+			<div class="card mb-3">
+
+				@component('partials.bootstrap.card-header')
+					Tenancy Discount Settings
+				@endcomponent
+
+				<div class="card-body">
+
+					<div class="form-group">
+						<label for="tenancy_service_management_discount">Tenancy Management Discount</label>
+						<select name="tenancy_service_management_discount" id="tenancy_service_management_discount" class="form-control">
+							<option value="">None</option>
+							@foreach (discounts() as $discount)
+								<option value="{{ $discount->id }}">{{ $discount->name }}</option>
+							@endforeach
+						</select>
+						<small class="form-text text-muted">
+							Set a discount to be applied to the management fee of all new tenancies.
+						</small>
+					</div>
+
+				</div>
+			</div>
+
 			@component('partials.save-button')
 				Save Changes
 			@endcomponent
