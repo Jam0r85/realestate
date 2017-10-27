@@ -43,6 +43,35 @@ class StatementPaymentController extends BaseController
     }
 
     /**
+     * Show the form for editing a statement payment.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $payment = StatementPayment::findOrFail($id);
+        return view('statement-payments.edit', component('payment'));
+    }
+
+    /**
+     * Update the statement payment in storage.
+     * 
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function update(Request $request, $id)
+    {
+        $payment = StatementPayment::findOrFail($id);
+        $payment->sent_at = $request->sent_at;
+        $payment->save();
+
+        $this->successMessage('The changes were saved for the payment');
+        return back();
+    }
+
+    /**
      * Download the statement payments as a PDF.
      * 
      * @return \Illuminate\Http\Response

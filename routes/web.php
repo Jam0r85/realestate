@@ -138,9 +138,13 @@ Route::prefix('statements')->group(function () {
 	Route::post('{id}/destroy', 'StatementController@destroy')->name('statements.destroy');
 });
 
-Route::get('statement-payments', 'StatementPaymentController@index')->name('statement-payments.index');
-Route::get('statement-payments/print', 'StatementPaymentController@print')->name('statement-payments.print');
-Route::post('statement-payments/mark-sent', 'StatementPaymentController@markSent')->name('statement-payments.mark-sent');
+Route::prefix('statement-payments')->group(function () {
+	Route::get('/', 'StatementPaymentController@index')->name('statement-payments.index');
+	Route::get('print', 'StatementPaymentController@print')->name('statement-payments.print');
+	Route::post('mark-sent', 'StatementPaymentController@markSent')->name('statement-payments.mark-sent');
+	Route::get('{id}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit');
+	Route::put('{id}', 'StatementPaymentController@update')->name('statement-payments.update');
+});
 
 Route::prefix('users')->group(function () {
 	Route::get('/', 'UserController@index')->name('users.index');

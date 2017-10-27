@@ -78,6 +78,7 @@
 				<th>Method</th>
 				<th>Amount</th>
 				<th>Sent</th>
+				<th></th>
 			</thead>
 			<tbody>
 				@foreach ($sent_payments as $payment)
@@ -92,6 +93,11 @@
 						<td>{{ $payment->bank_account ? 'Bank' : 'Cheque' }}</td>
 						<td>{{ currency($payment->amount) }}</td>
 						<td>{{ date_formatted($payment->sent_at) }}</td>
+						<td class="text-right">
+							<a href="{{ route('statement-payments.edit', $payment->id) }}">
+								Edit
+							</a>
+						</td>
 					</tr>
 				@endforeach
 			</tbody>
