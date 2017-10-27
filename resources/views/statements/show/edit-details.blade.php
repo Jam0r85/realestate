@@ -96,7 +96,7 @@
 
 			<div class="card-body">
 
-				<div class="form-control">
+				<div class="form-group">
 					<label for="sending_method">Sending Method</label>
 					<select name="sending_method" id="sending_method" class="form-control">
 						<option @if ($statement->property->hasSetting('post_rental_statement')) selected @endif value="post">By Post</option>

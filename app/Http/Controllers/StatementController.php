@@ -111,7 +111,7 @@ class StatementController extends BaseController
 
         $statement->save();
 
-        $this->successMessage('The statement was updated');
+        $this->successMessage('The statement\'s paid date was updated');
 
         return back();
     }

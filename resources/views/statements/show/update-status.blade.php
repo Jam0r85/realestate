@@ -30,20 +30,23 @@
 				Statement Paid
 			@endcomponent
 
-			<form method="POST" action="{{ route('statements.update-paid', $statement->id) }}">
-				{{ csrf_field() }}
+			<div class="card-body">
 
-				<div class="from-control">
-					<label for="paid_at">Date Paid</label>
-					<input type="date" name="paid_at" id="paid_at" class="form-control" value="{{ $statement->paid_at ? $statement->paid_at->format('Y-m-d') : '' }}" />
-				</div>
+				<form method="POST" action="{{ route('statements.update-paid', $statement->id) }}">
+					{{ csrf_field() }}
 
-				@component('partials.save-button')
-					Save Changes
-				@endcomponent
+					<div class="from-control">
+						<label for="paid_at">Date Paid</label>
+						<input type="date" name="paid_at" id="paid_at" class="form-control" value="{{ $statement->paid_at ? $statement->paid_at->format('Y-m-d') : '' }}" />
+					</div>
 
-			</form>
+					@component('partials.save-button')
+						Save Changes
+					@endcomponent
 
+				</form>
+
+			</div>
 		</div>
 
 	@endcomponent
