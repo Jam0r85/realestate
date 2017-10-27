@@ -20,6 +20,7 @@ class CreateDepositsTable extends Migration
             $table->decimal('amount', 12, 3);
             $table->string('unique_id')->nullable();
             $table->timestamps();
+            $table->softdeletes();
         });
     }
 

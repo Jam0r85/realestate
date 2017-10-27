@@ -61,6 +61,17 @@ class Payment extends BaseModel
     }
 
     /**
+     * Scope a query to only include deposit payments.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeForDeposit($query)
+    {
+        return $query->where('parent_type', 'deposits');
+    }
+
+    /**
      * A payment can have an owner.
      */
     public function owner()

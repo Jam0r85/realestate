@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Deposit extends BaseModel
 {
     use Searchable;
+    use SoftDeletes;
 
     /**
      * Get the indexable data array for the model.

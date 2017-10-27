@@ -15,11 +15,11 @@
 		{{-- Payments Search --}}
 		@component('partials.bootstrap.page-search')
 			@slot('route')
-				{{ route('rent-payments.search') }}
+				{{ route('deposit-payments.search') }}
 			@endslot
-			@if (session('rent_payments_search_term'))
+			@if (session('deposit_payments_search_term'))
 				@slot('search_term')
-					{{ session('rent_payments_search_term') }}
+					{{ session('deposit_payments_search_term') }}
 				@endslot
 			@endif
 		@endcomponent
@@ -36,9 +36,6 @@
 				<th>Amount</th>
 				<th>Method</th>
 				<th>Users</th>
-				<th class="text-right">
-					Receipt
-				</th>
 			</thead>
 			<tbody>
 				@foreach ($payments as $payment)
@@ -57,11 +54,6 @@
 						<td>{{ $payment->method->name }}</td>
 						<td>
 							@include('partials.bootstrap.users-inline', ['users' => $payment->users])
-						</td>
-						<td class="text-right">
-							<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download">
-								Download
-							</a>
 						</td>
 					</tr>
 				@endforeach
