@@ -97,26 +97,21 @@ class StatementController extends BaseController
     }
 
     /**
-     * Toggle a statement as being paid or unpaid.
+     * Update whether a statement is paid or not.
      *
      * @param [type] $[name] [<description>]
      * @param  \App\Repositories\EloquentStatementsRepository $id
      * @return Illuminate\Http\Response
      */
-    public function togglePaid(Request $request, $id = null)
+    public function updatePaid(Request $request, $id)
     {
-        // Build a statements array.
-        $statements = [];
+        $statement = Statement::withTrashed()->findOrFail($id);
 
-        // Should the ID be provided, we add it to the array.
-        if (!is_null($id)) {
-            $statements[] = $id;
-        }
+        $statement->paid_at = $request->paid_at;
 
-        $service = new StatementService();
-        $result = $service->toggleStatementsPaid($statements);
+        $statement->save();
 
-        $this->successMessage('The statement(s) were ' . $result);
+        $this->successMessage('The statement was updated');
 
         return back();
     }

@@ -115,7 +115,7 @@ Route::prefix('statements')->group(function () {
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 	Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 	Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
-	Route::post('toggle-paid/{id?}', 'StatementController@togglePaid')->name('statements.toggle-paid');
+	Route::post('toggle-paid/{id?}', 'StatementController@updatePaid')->name('statements.update-paid');
 	Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
 	Route::post('send', 'StatementController@send')->name('statements.send');
 	Route::post('{id}/resend', 'StatementController@resend')->name('statements.resend');
