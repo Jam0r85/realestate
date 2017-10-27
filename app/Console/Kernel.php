@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('statement:check-paid')->everyThirtyMinutes();
         $schedule->command('invoice:check-paid')->everyThirtyMinutes();
         $schedule->command('expense:check-paid')->everyThirtyMinutes();
+        $schedule->command('deposit:archive')->daily();
     }
 
     /**
