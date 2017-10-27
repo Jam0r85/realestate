@@ -25,6 +25,11 @@
                     font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
                 @endif
             }
+            input, textarea, select, button {
+                @if (array_has(Auth::user()->settings, 'font_override_size'))
+                    font-size: {{ Auth::user()->settings['font_override_size'] }} !important;
+                @endif
+            }
         @endauth
     </style>
 </head>
