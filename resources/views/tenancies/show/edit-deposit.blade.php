@@ -27,7 +27,7 @@
 		@include('partials.errors-block')
 
 		<div class="row">
-			<div class="col-sm-12 col-lg-4">
+			<div class="col">
 
 				@if ($tenancy->deposit)
 
@@ -85,16 +85,7 @@
 						</div>
 					</div>
 
-				@else
-
-					<div class="alert alert-danger">
-						This tenancy does not have a deposit recorded.
-					</div>
-
 				@endif
-
-			</div>
-			<div class="col-sm-12 col-lg-8">
 
 				<div class="card mb-3">
 
@@ -116,12 +107,20 @@
 
 							<div class="form-group">
 								<label for="amount">Deposit Amount</label>
-								<input type="number" step="any" name="amount" id="amount" class="form-control" required value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="fa fa-gbp"></i>
+									</span>
+									<input type="number" step="any" name="amount" id="amount" class="form-control" required value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
+								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="unique_id">Unique Reference (certificate number)</label>
+								<label for="unique_id">Unique Reference</label>
 								<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
+								<small class="form-text text-muted">
+									Enter the unique reference number for this deposit.
+								</small>
 							</div>
 
 							@component('partials.save-button')
@@ -133,31 +132,35 @@
 					</div>
 				</div>
 
-				@if ($tenancy->deposit)
+			</div>
 
-					<div class="card mb-3">
+			@if ($tenancy->deposit)
 
-						@component('partials.bootstrap.card-header')
-							Deposit Payments
-						@endcomponent
+			<div class="col-sm-12 col-lg-8">
 
-						<table class="table table-striped table-hover table-responsive">
-							<thead>
-								<th>Date</th>
-								<th>Amount</th>
-								<th>Method</th>
-							</thead>
-							<tbody>
-								@foreach ($tenancy->deposit->payments as $payment)
-									<tr>
-										<td>{{ date_formatted($payment->created_at) }}</td>
-										<td>{{ currency($payment->amount) }}</td>
-										<td>{{ $payment->method->name }}</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
-					</div>
+				<div class="card mb-3">
+
+					@component('partials.bootstrap.card-header')
+						Deposit Payments
+					@endcomponent
+
+					<table class="table table-striped table-hover table-responsive">
+						<thead>
+							<th>Date</th>
+							<th>Amount</th>
+							<th>Method</th>
+						</thead>
+						<tbody>
+							@foreach ($tenancy->deposit->payments as $payment)
+								<tr>
+									<td>{{ date_formatted($payment->created_at) }}</td>
+									<td>{{ currency($payment->amount) }}</td>
+									<td>{{ $payment->method->name }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
 
 				<div class="card mb-3">
 
@@ -167,7 +170,13 @@
 
 					<div class="card-body">
 
-						@if ($tenancy->deposit)
+						@if ($tenancy->deposit->trashed())
+
+							@component('partials.alerts.warning')
+								This deposit has been archived, no payments can be recorded.
+							@endcomponent
+
+						@else
 
 							<form method="POST" action="{{ route('deposit.record-payment', $tenancy->deposit->id) }}">
 								{{ csrf_field() }}
@@ -213,9 +222,10 @@
 					</div>
 				</div>
 
-			@endif
+			</div>
 
-		</div>
+		@endif
+
 	</div>
 
 	@endcomponent
