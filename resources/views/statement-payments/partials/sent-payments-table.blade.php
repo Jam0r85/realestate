@@ -1,8 +1,7 @@
 <table class="table table-striped table-responsive">
 	<thead>
 		<th>Property</th>
-		<th>Start</th>
-		<th>End</th>
+		<th>Statement</th>
 		<th>Name</th>
 		<th>Method</th>
 		<th>Amount</th>
@@ -13,13 +12,12 @@
 			<tr>
 				<td>{!! truncate($payment->statement->tenancy->property->short_name) !!}</td>
 				<td>
-					<a href="{{ route('statements.show', $payment->statement_id) }}">
-						{{ date_formatted($payment->statement->period_start) }}
+					<a href="{{ route('statements.show', $payment->statement->id) }}">
+						{{ $payment->statement->id}}
 					</a>
 				</td>
-				<td>{{ date_formatted($payment->statement->period_end) }}</td>
 				<td>{{ $payment->name_formatted }}</td>
-				<td>@if ($payment->bank_account) Bank @else Cash or Cheque @endif</td>
+				<td>{{ $payment->bank_account ? 'Bank' : 'Cash or Cheque' }}</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ date_formatted($payment->sent_at) }}</td>
 			</tr>
