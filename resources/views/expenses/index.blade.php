@@ -73,7 +73,7 @@
 									<td>{{ currency($expense->cost) }}</td>
 									<td>{{ currency($expense->remaining_balance) }}</td>
 									<td>
-										@if (count($expense->invoices))
+										@if (count($expense->documents))
 											<i class="fa fa-check"></i>
 										@endif
 									</td>
@@ -127,7 +127,7 @@
 							<td>{{ currency($expense->cost) }}</td>
 							<td>{{ date_formatted($expense->paid_at) }}</td>
 							<td>
-								@if (count($expense->invoices))
+								@if (count($expense->documents))
 									<i class="fa fa-check"></i>
 								@endif
 							</td>

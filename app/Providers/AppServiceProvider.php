@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Deposit;
+use App\Document;
 use App\Event;
 use App\Expense;
 use App\Gas;
 use App\Invoice;
+use App\Observers\DocumentObserver;
 use App\Observers\PaymentObserver;
 use App\Observers\UserObserver;
 use App\Payment;
@@ -40,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
 
         Payment::observe(PaymentObserver::class);
         User::observe(UserObserver::class);
+        Document::observe(DocumentObserver::class);
     }
 
     /**

@@ -247,3 +247,7 @@ Route::prefix('deposit')->group(function () {
 	Route::post('{id}/record-payment', 'DepositPaymentController@store')->name('deposit.record-payment');
 	Route::delete('{id}/delete-certificate', 'DepositController@destroyCertificate')->name('deposit.destroy-certificate');
 });
+
+Route::prefix('documents')->group(function () {
+	Route::post('/', 'DocumentController@store')->name('documents.store');
+});

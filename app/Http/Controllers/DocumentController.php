@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Document;
+use App\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
-class DocumentController extends Controller
+class DocumentController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +38,24 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->has('expense_id')) {
+            $parent = Expense::findOrFail($request->expense_id);
+        }
+
+        foreach ($request->file('files') as $file) {
+            $path = Storage::putFile($parent->getDocumentPath(), $file);
+
+            if (Storage::exists($path)) {
+                $document = new Document();
+                $document->path = $path;
+                $document->name = $parent->name ?? File::name($path);
+
+                $parent->documents()->save($document);
+            }
+        }
+
+        $this->successMessage('The ' . str_plural($parent->getDocumentNameType(), count($request->files)) . ' ' . str_plural('was', count($request->files)) . ' uploaded');
+        return back();
     }
 
     /**

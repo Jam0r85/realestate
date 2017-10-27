@@ -2,11 +2,36 @@
 
 namespace App;
 
+use App\Document;
 use Laravel\Scout\Searchable;
 
 class Expense extends BaseModel
 {
     use Searchable;
+
+    protected $documentNameType = 'invoice';
+
+    protected $documentPath = 'documents/expenses/';
+
+    /**
+     * Get the document path for this expense.
+     * 
+     * @return string
+     */
+    public function getDocumentPath()
+    {
+        return $this->documentPath ?? 'documents/' . $this->id;
+    }
+
+    /**
+     * Get the document name type.
+     * 
+     * @return  string
+     */
+    public function getDocumentNameType()
+    {
+        return $this->documentNameType ?? 'document';
+    }
 
     /**
      * Get the indexable data array for the model.
@@ -44,7 +69,6 @@ class Expense extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'property_id',
         'name',
         'cost',
         'paid_at'
@@ -77,9 +101,10 @@ class Expense extends BaseModel
     /**
      * An expense can have many invoices.
      */
-    public function invoices()
+    public function documents()
     {
-        return $this->morphMany('App\Document', 'parent');
+        return $this->morphMany('App\Document', 'parent')
+            ->latest();
     }
 
     /**

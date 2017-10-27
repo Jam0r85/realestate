@@ -39,11 +39,11 @@ class StatementByEmail extends BaseMailer
             // Loop through the expenses
             foreach ($this->statement->expenses as $expense) {
                 // Check whether the expense has an invoice
-                if (count($expense->invoices)) {
-                    foreach ($expense->invoices as $invoice) {
+                if (count($expense->documents)) {
+                    foreach ($expense->documents as $invoice) {
                         $this->attach(
                             Storage::url($invoice->path), [
-                                'as' => $expense->name . '.' . $invoice->extension
+                                'as' => $invoice->name . '.' . $invoice->extension
                             ]);
                     }
                 }
