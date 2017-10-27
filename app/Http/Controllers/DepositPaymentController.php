@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Deposit;
+use App\Http\Requests\DepositPaymentStoreRequest;
 use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;

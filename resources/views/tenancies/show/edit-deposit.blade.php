@@ -5,13 +5,19 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
+
 			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
 				Return
 			</a>
-			<h1>{{ $tenancy->name }}</h1>
-			<h3 class="text-muted">
+
+			@component('partials.header')
+				{{ $tenancy->name }}
+			@endcomponent
+
+			@component('partials.sub-header')
 				{{ $tenancy->deposit ? 'Manage the deposit' : 'Record a deposit ' }}
-			</h3>
+			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -26,9 +32,10 @@
 				@if ($tenancy->deposit)
 
 					<div class="card mb-3">
-						<h4 class="card-header">
+
+						@component('partials.bootstrap.card-header')
 							Certificate
-						</h4>
+						@endcomponent
 
 						@if ($tenancy->deposit->certificate)
 
@@ -69,7 +76,7 @@
 									<input type="file" class="form-control-file" id="certificate" name="certificate" required>
 								</div>
 
-								@component('partials.bootstrap.save-submit-button')
+								@component('partials.save-button')
 									{{ $tenancy->deposit->certificate ? 'Replace' : 'Upload' }} Certificate
 								@endcomponent
 
@@ -90,9 +97,11 @@
 			<div class="col-sm-12 col-lg-8">
 
 				<div class="card mb-3">
-					<h4 class="card-header">
+
+					@component('partials.bootstrap.card-header')
 						Deposit Details
-					</h4>
+					@endcomponent
+
 					<div class="card-body">
 
 						@if ($tenancy->deposit)
@@ -115,7 +124,7 @@
 								<input type="text" name="unique_id" id="unique_id" class="form-control" value="{{ $tenancy->deposit ? $tenancy->deposit->unique_id : old('unique_id') }}" />
 							</div>
 
-							@component('partials.bootstrap.save-submit-button')
+							@component('partials.save-button')
 								{{ $tenancy->deposit ? 'Update Deposit' : 'Record Deposit' }}
 							@endcomponent
 
@@ -127,10 +136,12 @@
 				@if ($tenancy->deposit)
 
 					<div class="card mb-3">
-						<h4 class="card-header">
+
+						@component('partials.bootstrap.card-header')
 							Deposit Payments
-						</h4>
-						<table class="table table-striped table-responsive">
+						@endcomponent
+
+						<table class="table table-striped table-hover table-responsive">
 							<thead>
 								<th>Date</th>
 								<th>Amount</th>
@@ -149,29 +160,37 @@
 					</div>
 
 				<div class="card mb-3">
-					<h4 class="card-header">
+
+					@component('partials.bootstrap.card-header')
 						Record Deposit Payment
-					</h4>
+					@endcomponent
+
 					<div class="card-body">
 
 						@if ($tenancy->deposit)
 
-							<form role="form" method="POST" action="{{ route('deposit.record-payment', $tenancy->deposit->id) }}">
+							<form method="POST" action="{{ route('deposit.record-payment', $tenancy->deposit->id) }}">
 								{{ csrf_field() }}
 
 								<div class="form-group">
-									<label for="created_at">Date</label>
-									<input type="date" name="created_at" class="form-control">
+									<label for="created_at">Date (optional)</label>
+									<input type="date" name="created_at" class="form-control" />
+									<small class="form-text text-muted">
+										Leave blank to use the current date and time.
+									</small>
 								</div>
 
 								<div class="form-group">
 									<label for="amount">Amount</label>
-									<input type="number" step="any" name="amount" class="form-control" required >
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-gbp"></i></span>
+										<input type="number" step="any" name="amount" class="form-control" required />
+									</div>
 								</div>
 
 								<div class="form-group">
 									<label for="payment_method_id">Payment Method</label>
-									<select name="payment_method_id" class="form-control" required >
+									<select name="payment_method_id" class="form-control" required />
 										@foreach (payment_methods() as $method)
 											<option value="{{ $method->id }}">{{ $method->name }}</option>
 										@endforeach
@@ -179,23 +198,14 @@
 								</div>
 
 								<div class="form-group">
-									<label for="note">Note</label>
+									<label for="note">Note (optional)</label>
 									<textarea name="note" class="form-control" rows="4"></textarea>
 								</div>
 
-								<div class="form-group">
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" value="true" name="record_into_rent">
-										<span class="custom-control-indicator"></span>
-										<span class="custom-control-description">
-											Do you want to record a positive amount into this tenancy rent account? eg. when transferring rent from the held deposit.
-										</span>
-									</label>
-								</div>
-
-								@component('partials.bootstrap.save-submit-button')
+								@component('partials.save-button')
 									Record Payment
 								@endcomponent
+
 							</form>
 
 						@endif

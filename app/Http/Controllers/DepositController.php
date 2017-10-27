@@ -176,47 +176,4 @@ class DepositController extends BaseController
     {
         //
     }
-
-    /**
-     * Record a new deposit payment.
-     * 
-     * @param \App\Http\Request\DepositStorePaymentRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createDepositPayment(DepositStorePaymentRequest $request, $id)
-    {
-        $deposit = Deposit::findOrFail($id);
-
-        $payment = new Payment();
-        $payment->user_id = Auth::user()->id;
-        $payment->key = str_random(30);
-        $payment->amount = $request->amount;
-        $payment->payment_method_id = $request->payment_method_id;
-        $payment->note = $request->note;
-
-        if ($request->created_at) {
-            $payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', $request->created_at);
-        }
-
-        $deposit->payments()->save($payment);
-
-        $this->successMessage('The deposit payment of ' . $payment->amount . ' was recorded');
-
-        if ($request->has('record_into_rent')) {
-            $tenancy = Tenancy::findOrFail($deposit->tenancy_id);
-
-            $rent_payment = new Payment();
-            $rent_payment->user_id = Auth::user()->id;
-            $rent_payment->amount = abs($request->amount);
-            $rent_payment->payment_method_id = 9;
-            $rent_payment->note = 'Payment from the Deposit';
-        
-            $tenancy->rent_payments()->save($rent_payment);
-
-            $this->successMessage('The payment of ' . $rent_payment->amount . 'was recorded as rent for the tenancy ' . $tenancy->name);
-        }
-
-        return back();
-    }
 }
