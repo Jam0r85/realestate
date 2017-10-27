@@ -2,18 +2,21 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<div class="float-right">
-					@include('invoices.partials.dropdown-menu')
-				</div>
-				<h1>Invoice {{ $invoice->name }}</h1>
+		<div class="page-title">
+
+			<div class="float-right">
+				@include('invoices.partials.dropdown-menu')
 			</div>
 
+			@component('partials.header')
+				Invoice {{ $invoice->name }}
+			@endcomponent
+
 		</div>
-	</section>
+
+	@endcomponent
 
 	<section class="section">
 		<div class="container">
@@ -26,7 +29,7 @@
 
 			@endif
 
-			@if ($invoice->paid_at)
+			@if ($invoice->isPaid())
 
 				@component('partials.alerts.success')
 					Invoice {{ $invoice->name }} was <b>Paid</b> on {{ date_formatted($invoice->paid_at) }}

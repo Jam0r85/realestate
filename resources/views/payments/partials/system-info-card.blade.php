@@ -4,7 +4,7 @@
 	</div>
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $payment->owner ? $payment->owner->name : '' }}
+			{{ $payment->owner->name }}
 			@slot('title')
 				Created By
 			@endslot

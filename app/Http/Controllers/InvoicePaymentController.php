@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoicePaymentStoreRequest;
+use App\Invoice;
 use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class InvoicePaymentController extends Controller
+class InvoicePaymentController extends BaseController
 {
     /**
      * Display a listing of invoice payments received.
@@ -47,5 +49,29 @@ class InvoicePaymentController extends Controller
 
         $title = 'Search Results';
         return view('payments.invoice', compact('payments','title'));
+    }
+
+    /**
+     * Store a new invoice payment in storage.
+     * 
+     * @param \App\Http\Requests\InvoicePaymentStoreRequest $request
+     * @param integer $id invoice_id
+     * @return \Illuminate\Http\Response
+     */
+    public function store(InvoicePaymentStoreRequest $request, $id)
+    {
+    	$invoice = Invoice::withTrashed()->findOrFail($id);
+
+    	$payment = new Payment();
+    	$payment->amount = $request->amount;
+    	$payment->payment_method_id = $request->payment_method_id;
+    	$payment->note = $request->note;
+
+    	$invoice->payments()->save($payment);
+
+    	$payment->users()->attach($invoice->users);
+
+    	$this->successMessage('The payment of ' . $payment->amount . ' was recorded for Invoice ' . $invoice->name);
+    	return back();
     }
 }

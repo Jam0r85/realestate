@@ -164,23 +164,6 @@ class InvoiceController extends BaseController
     }
 
     /**
-     * Store a new payment for the invoice.
-     * 
-     * @param \App\Http\Requests\StoreInvoicePaymentRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Responce
-     */
-    public function createPayment(StoreInvoicePaymentRequest $request, $id)
-    {
-        $service = new PaymentService();
-        $service->createInvoicePayment($request->input(), $id);
-
-        $this->successMessage('Payment was recorded');
-
-        return back();
-    }
-
-    /**
      * Archive an invoice in storage.
      *
      * @param integer $id
