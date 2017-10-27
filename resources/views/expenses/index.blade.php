@@ -5,12 +5,15 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			<h1>
+
+			<a href="{{ route('expenses.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-plus"></i> New Expense
+			</a>
+
+			@component('partials.header')
 				Expenses List
-				<a href="{{ route('expenses.create') }}" class="btn btn-primary">
-					<i class="fa fa-plus"></i> New Expense
-				</a>
-			</h1>
+			@endcomponent
+
 		</div>
 
 		{{-- Expenses Search --}}
@@ -36,9 +39,11 @@
 			@component('partials.bootstrap.section-with-container')
 
 				<div class="page-title">
-					<h2 class="text-danger">
+
+					@component('partials.sub-header')
 						Unpaid Expenses
-					</h2>
+					@endcomponent
+
 				</div>
 
 				<table class="table table-striped table-hover table-responsive">
@@ -52,26 +57,28 @@
 					</thead>
 					<tbody>
 						@foreach ($unpaid_expenses as $expense)
-							<tr>
-								<td>
-									<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
-										{!! truncate($expense->name) !!}
-									</a>
-								</td>
-								<td>
-									<a href="{{ route('properties.show', $expense->property->id) }}" title="{{ $expense->property->short_name }}">
-										{!! truncate($expense->property->short_name) !!}
-									</a>
-								</td>
-								<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
-								<td>{{ currency($expense->cost) }}</td>
-								<td>{{ currency($expense->remaining_balance) }}</td>
-								<td>
-									@if (count($expense->invoices))
-										<i class="fa fa-check"></i>
-									@endif
-								</td>
-							</tr>
+							@if (!$expense->isPaid())
+								<tr>
+									<td>
+										<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
+											{!! truncate($expense->name) !!}
+										</a>
+									</td>
+									<td>
+										<a href="{{ route('properties.show', $expense->property->id) }}" title="{{ $expense->property->short_name }}">
+											{!! truncate($expense->property->short_name) !!}
+										</a>
+									</td>
+									<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
+									<td>{{ currency($expense->cost) }}</td>
+									<td>{{ currency($expense->remaining_balance) }}</td>
+									<td>
+										@if (count($expense->invoices))
+											<i class="fa fa-check"></i>
+										@endif
+									</td>
+								</tr>
+							@endif
 						@endforeach
 					</tbody>
 				</table>
@@ -86,9 +93,11 @@
 
 			@if (!session('expenses_search_term'))
 				<div class="page-title">
-					<h2 class="text-success">
+
+					@component('partials.sub-header')
 						Paid Expenses
-					</h2>
+					@endcomponent
+
 				</div>
 			@endif
 

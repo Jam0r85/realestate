@@ -108,4 +108,22 @@ class Expense extends BaseModel
     {
         return $this->cost - $this->statements->sum('pivot.amount');
     }
+
+    /**
+     * Has this expense been paid?
+     * 
+     * @return boolean
+     */
+    public function isPaid()
+    {
+        if ($this->paid_at) {
+            return true;
+        }
+
+        if ($this->remaining_balance == 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
