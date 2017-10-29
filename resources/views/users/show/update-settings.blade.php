@@ -66,6 +66,9 @@
 
 				@component('partials.bootstrap.card-header')
 					Tenancy Discount Settings
+					<small class="text-muted d-block">
+						Set discounts for new tenancies created for properties owned by this user.
+					</small>
 				@endcomponent
 
 				<div class="card-body">

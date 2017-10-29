@@ -20,7 +20,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ datetime_formatted($user->created_at) }}
+			{{ date_formatted($user->created_at) }}
 			@slot('title')
 				Registered
 			@endslot

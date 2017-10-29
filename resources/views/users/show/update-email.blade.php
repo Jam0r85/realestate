@@ -2,53 +2,65 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-					Return
-				</a>
-				<h1>{{ $user->name }}</h1>
-				<h2>Update E-Mail</h2>
-			</div>
+		<div class="page-title">
 
-			<hr />
+			<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
+				Return
+			</a>
 
-			<form role="form" method="POST" action="{{ route('users.update-email', $user->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}
+			@component('partials.header')
+				{{ $user->name }}
+			@endcomponent
 
-				@include('partials.errors-block')
+			@component('partials.sub-header')
+				Update user e-mail
+			@endcomponent
 
-				<div class="form-group">
-					<label for="email">New E-Mail</label>
-					<input type="email" name="email" class="form-control" value="{{ old('email') }}" />
-				</div>
+		</div>
 
-				<div class="form-group">
-					<label for="email_confirmation">Confirm New E-Mail</label>
-					<input type="email" name="email_confirmation" class="form-control" />
-				</div>
+	@endcomponent
 
-				@component('partials.bootstrap.save-submit-button')
-					Update E-Mail
-				@endcomponent
+	@component('partials.bootstrap.section-with-container')
 
-				@if ($user->email)
+		<form method="POST" action="{{ route('users.update-email', $user->id) }}">
+			{{ csrf_field() }}
+			{{ method_field('PUT') }}
+
+			@include('partials.errors-block')
+
+			@if ($user->email)
+
+				<div class="mb-4">
+					<div class="form-group">
+						<label for="current_email">Current E-Mail</label>
+						<input type="text" name="current_email" id="current_email" class="form-control" value="{{ $user->email }}" disabled />
+					</div>
+
 					<button type="submit" class="btn btn-danger" name="remove_email" value="true">
 						<i class="fa fa-times"></i> Remove E-Mail
 					</button>
+				</div>
 
-					<div class="alert alert-danger mt-3">
-						<strong>Important!</strong>
-						Removing this user's e-mail address would prevent them from logging in.
-					</div>
-				@endif
+			@endif
 
-			</form>
+			<div class="form-group">
+				<label for="email">New E-Mail</label>
+				<input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" />
+			</div>
 
-		</div>
-	</section>
+			<div class="form-group">
+				<label for="email_confirmation">Confirm New E-Mail</label>
+				<input type="email" name="email_confirmation" id="email_confirmation" class="form-control" />
+			</div>
+
+			@component('partials.save-button')
+				Update E-Mail
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection

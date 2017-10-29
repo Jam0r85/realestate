@@ -9,7 +9,7 @@
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">
 			Personal Details
 		</a>
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'archive-user']) }}">
+		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-status']) }}">
 			User Status
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">
