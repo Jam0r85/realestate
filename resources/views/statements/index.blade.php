@@ -35,7 +35,7 @@
 				<div class="page-title">
 
 					@component('partials.sub-header')
-						Unsent ando/or Unpaid Statements
+						Unsent and/or Unpaid Statements
 					@endcomponent
 
 				</div>
