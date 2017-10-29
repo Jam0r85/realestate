@@ -8,19 +8,19 @@
 		@component('partials.bootstrap.list-group-item')
 			{{ currency($invoice->total_net) }}
 			@slot('title')
-				Net Total
+				Net
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
 			{{ currency($invoice->total_tax) }}
 			@slot('title')
-				Tax Total
+				Tax
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
 			{{ currency($invoice->total) }}
 			@slot('title')
-				Invoice Total
+				Total
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
