@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-info-circle"></i> Tenancy Details
-	</div>
+
+	@component('partials.bootstrap.card-header')
+		Tenancy Details
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			<a href="{{ route('properties.show', $tenancy->property_id) }}" title="{{ $tenancy->property->name }}">
@@ -12,9 +14,19 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ implode(', ', $tenancy->property->owners->pluck('name')->toArray()) }}
+			@if (count($tenancy->property->owners))
+				<ul class="list-unstyled">
+					@foreach ($tenancy->property->owners as $user)
+						<li>
+							<a href="{{ route('users.show', $user->id) }}">
+								{{ $user->name }}
+							</a>
+						</li>
+					@endforeach
+				</ul>
+			@endif
 			@slot('title')
-				Landlord
+				{{ str_plural('Landlord', count($tenancy->property->owners)) }}
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
