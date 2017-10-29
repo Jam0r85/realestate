@@ -555,4 +555,61 @@ class Tenancy extends BaseModel
         $this->is_overdue = $this->checkWhetherOverdue();
         $this->save();
     }
+
+    /**
+     * Check whether this tenancy has a custom re-letting fee by looking
+     * for the setting in the property owners.
+     * 
+     * @return boolean
+     */
+    public function hasCustomUserLettingFee()
+    {
+        if (count($this->getCustomUserLettingFees())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the custom letting fees for this tenancy from it's owners.
+     * 
+     * @return array
+     */
+    public function getCustomUserLettingFees()
+    {
+        $fees = [];
+
+        foreach ($this->property->owners as $user) {
+            if ($amount = user_setting($user, 'tenancy_service_letting_fee')) {
+                $fees[] = [
+                    'user_name' => $user->name,
+                    'user_id' => $user->id,
+                    'amount' => $amount
+                ];
+            }
+        }
+
+        return $fees;
+    }
+
+    /**
+     * Get this tenancy's letting fee.
+     * 
+     * @return integer
+     */
+    public function getLettingFee()
+    {
+        return $this->service->letting_fee;
+    }
+
+    /**
+     * Get this tenancy's re-letting fee.
+     * 
+     * @return integer
+     */
+    public function getReLettingFee()
+    {
+        return $this->service->re_letting_fee;
+    }
 }

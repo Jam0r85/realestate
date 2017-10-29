@@ -9,4 +9,10 @@
 			{{ $slot }}
 		</span>
 	</div>
+
+	@if (isset($extra))
+		<div class="mt-2">
+			{{ $extra }}
+		</div>
+	@endif
 </li>
