@@ -1,10 +1,14 @@
-<div class="card mb-3 @if (!$tenancy->deposit) bg-danger text-white @endif">
-	<div class="card-header">
-		<i class="fa fa-gbp"></i> Deposit
-	</div>
+<div class="card mb-3">
+
+	@component('partials.bootstrap.card-header')
+		Deposit
+	@endcomponent
+
 	@if (!$tenancy->deposit)
 		<div class="card-body">
-			No deposit has been recorded for this tenancy.
+			<p class="card-text">
+				No deposit has been recorded for this tenancy.
+			</p>
 		</div>
 	@else
 		<ul class="list-group list-group-flush">

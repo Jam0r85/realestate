@@ -1,9 +1,9 @@
 <li class="list-group-item">
 
 	{{-- User Name --}}
-	<p class="lead mb-0">
+	<p class="mb-0">
 		<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
-			{{ $user->name }}
+			<b>{{ $user->name }}</b>
 		</a>
 	</p>
 	{{-- End User Name --}}

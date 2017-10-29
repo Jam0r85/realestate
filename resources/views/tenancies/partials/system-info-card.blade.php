@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-cogs"></i> System Information
-	</div>
+
+	@component('partials.bootstrap.card-header')
+		System Information
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->property->branch->name }}
@@ -10,7 +12,9 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->owner->name }}
+			<a href="{{ route('users.show', $tenancy->owner->id) }}">
+				{{ $tenancy->owner->name }}
+			</a>
 			@slot('title')
 				Created By
 			@endslot
@@ -22,7 +26,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($tenancy->updated_at) }}
+			{{ datetime_formatted($tenancy->updated_at) }}
 			@slot('title')
 				Updated
 			@endslot

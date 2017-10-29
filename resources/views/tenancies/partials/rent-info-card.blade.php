@@ -1,12 +1,14 @@
-<div class="card mb-3 @if (!$tenancy->current_rent) bg-danger text-white @endif">
-	<div class="card-header">
-		<i class="fa fa-gbp"></i> Rent
-	</div>
+<div class="card mb-3">
+
+	@component('partials.bootstrap.card-header')
+		Rent
+	@endcomponent
+
 	@if (!$tenancy->current_rent)
 		<div class="card-body">
-			<b>
-				No current rent amount set.
-			</b><br />You can set one under the options dropdown.
+			<p class="card-text">
+				No rent amount has been set for this tenancy.
+			</p>
 		</div>
 	@else
 		<ul class="list-group list-group-flush">
