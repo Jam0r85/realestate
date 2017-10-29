@@ -4,10 +4,13 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-settings']) }}">
-			Settings
+			User Settings
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">
 			Personal Details
+		</a>
+		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'archive-user']) }}">
+			User Status
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">
 			Change E-Mail Address
@@ -20,10 +23,6 @@
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'send-email']) }}">
 			Send E-Mail
-		</a>
-		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'archive-user']) }}">
-			Archive User
 		</a>
 	</div>
 </div>
