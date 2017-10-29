@@ -38,6 +38,15 @@ section.section {
 	color: #ffffff;
 }
 
+.card {
+	box-shadow: 0 2px 3px rgba(0,0,0,.16);
+}
+.card .card-header {
+	background-color: #ffffff;
+	font-size: 1.6rem;
+	font-weight: normal;
+	border-bottom: 0;
+}
 .card .table {
 	margin-bottom: 0;
 }
