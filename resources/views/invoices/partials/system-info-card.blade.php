@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-cogs"></i> System Information
-	</div>
+
+	@component('partials.bootstrap.card-header')
+		System Information
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $invoice->invoiceGroup->branch->name }}
@@ -10,11 +12,9 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			@if ($invoice->owner)
-				<a href="{{ route('users.show', $invoice->owner->id) }}" title="{{ $invoice->owner->name }}">
-					{{ $invoice->owner->name }}
-				</a>
-			@endif
+			<a href="{{ route('users.show', $invoice->owner->id) }}" title="{{ $invoice->owner->name }}">
+				{{ $invoice->owner->name }}
+			</a>
 			@slot('title')
 				Created By
 			@endslot

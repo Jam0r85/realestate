@@ -4,7 +4,10 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoiceOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'edit-details']) }}">
-			Edit Invoice Details
+			Invoice Details
+		</a>
+		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'archive-invoice']) }}">
+			Invoice Status
 		</a>
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'new-invoice-item']) }}" title="New Invoice Item">
 			New Invoice Item
@@ -16,8 +19,5 @@
 			Download as PDF
 		</a>
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'archive-invoice']) }}">
-			{{ $invoice->trashed() ? 'Restore' : 'Archive' }} or Delete Invoice
-		</a>
 	</div>
 </div>

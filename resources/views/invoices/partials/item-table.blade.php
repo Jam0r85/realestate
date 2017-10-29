@@ -1,8 +1,10 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-list"></i> Invoice Items
-	</div>
-	<table class="table table-striped table-responsive">
+
+	@component('partials.bootstrap.card-header')
+		Invoice Items
+	@endcomponent
+
+	<table class="table table-striped table-hover table-responsive">
 		<thead>
 			<th>Name</th>
 			<th>Amount</th>

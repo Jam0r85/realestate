@@ -1,8 +1,10 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-credit-card"></i> Invoice Payments
-	</div>
-	<table class="table table-striped table-responsive">
+
+	@component('partials.bootstrap.card-header')
+		Invoice Payments
+	@endcomponent
+
+	<table class="table table-striped table-hover table-responsive">
 		<thead>
 			<th>Date</th>
 			<th>Amount</th>
@@ -10,6 +12,8 @@
 			<th>Users</th>
 		</thead>
 		<tbody>
+			
+			{{-- Direct invoice payments --}}
 			@foreach ($invoice->payments as $payment)
 				<tr>
 					<td>
@@ -20,14 +24,13 @@
 					<td>{{ currency($payment->amount) }}</td>
 					<td>{{ $payment->method->name }}</td>
 					<td>
-						@foreach ($payment->users as $user)
-							<a class="badge badge-primary" href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-								{{ $user->name }}
-							</a>
-						@endforeach
+						@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 					</td>
 				</tr>
 			@endforeach
+			{{-- End direct invoice payments --}}
+
+			{{-- Statement invoice payments --}}
 			@foreach ($invoice->statement_payments as $payment)
 				<tr>
 					<td>
@@ -42,14 +45,12 @@
 						</a>
 					</td>
 					<td>
-						@foreach ($payment->users as $user)
-							<a class="badge badge-primary" href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}">
-								{{ $user->name }}
-							</a>
-						@endforeach
+						@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 					</td>
 				</tr>
 			@endforeach
+			{{-- End statement invoice payments --}}
+
 		</tbody>
 	</table>
 </div>

@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-gbp"></i> Balances
-	</div>
+
+	@component('partials.bootstrap.card-header')
+		Invoice Amounts
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ currency($invoice->total_net) }}
