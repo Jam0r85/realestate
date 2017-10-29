@@ -18,6 +18,5 @@
 		<a class="dropdown-item" href="{{ route('downloads.invoice', $invoice->id) }}" title="Download Invoice" target="_blank">
 			Download as PDF
 		</a>
-		<div class="dropdown-divider"></div>
 	</div>
 </div>
