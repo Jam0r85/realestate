@@ -6,7 +6,9 @@
 
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service->name }}
+			<a href="{{ route('services.show', $tenancy->service->id) }}">
+				{{ $tenancy->service->name }}
+			</a>
 			@slot('title')
 				Service
 			@endslot
