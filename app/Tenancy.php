@@ -557,7 +557,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Check whether this tenancy has a custom re-letting fee by looking
+     * Check whether this tenancy has a custom letting fee by looking
      * for the setting in the property owners.
      * 
      * @return boolean
@@ -582,6 +582,43 @@ class Tenancy extends BaseModel
 
         foreach ($this->property->owners as $user) {
             if ($amount = user_setting($user, 'tenancy_service_letting_fee')) {
+                $fees[] = [
+                    'user_name' => $user->name,
+                    'user_id' => $user->id,
+                    'amount' => $amount
+                ];
+            }
+        }
+
+        return $fees;
+    }
+
+    /**
+     * Check whether this tenancy has a custom re-letting fee by looking
+     * for the setting in the property owners.
+     * 
+     * @return boolean
+     */
+    public function hasCustomUserReLettingFee()
+    {
+        if (count($this->getCustomUserReLettingFees())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the custom re-letting fees for this tenancy from it's owners.
+     * 
+     * @return array
+     */
+    public function getCustomUserReLettingFees()
+    {
+        $fees = [];
+
+        foreach ($this->property->owners as $user) {
+            if ($amount = user_setting($user, 'tenancy_service_re_letting_fee')) {
                 $fees[] = [
                     'user_name' => $user->name,
                     'user_id' => $user->id,

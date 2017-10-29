@@ -30,15 +30,13 @@
 			@slot('title')
 				Letting Fee
 			@endslot
-			@slot('extra')
-				@if ($tenancy->hasCustomUserLettingFee())
+			@if ($tenancy->hasCustomUserLettingFee())
+				@slot('extra')
 					<span class="text-danger">
 						<strong>
 							Custom Letting Fee
 						</strong>
 					</span>
-				@endif
-				@if ($tenancy->hasCustomUserLettingFee())
 					<ul class="list-unstyled float-right">
 						@foreach ($tenancy->getCustomUserLettingFees() as $fee => $value)
 							<li class="text-right">
@@ -48,14 +46,34 @@
 							</li>
 						@endforeach
 					</ul>
-				@endif
-			@endslot
+				@endslot
+			@endif
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($tenancy->getReLettingFee()) }}
+			{!! $tenancy->hasCustomUserLettingFee() ? '<s>' : '' !!}
+				{{ currency($tenancy->getReLettingFee()) }}
+			{!! $tenancy->hasCustomUserLettingFee() ? '</s>' : '' !!}
 			@slot('title')
 				Re-Letting Fee
 			@endslot
+			@if ($tenancy->hasCustomUserReLettingFee())
+				@slot('extra')
+					<span class="text-danger">
+						<strong>
+							Custom Re-Letting Fee
+						</strong>
+					</span>
+					<ul class="list-unstyled float-right">
+						@foreach ($tenancy->getCustomUserReLettingFees() as $fee => $value)
+							<li class="text-right">
+								<span class="text-muted">
+									{{ $value['user_name'] }}
+								</span> - {{ currency($value['amount']) }}
+							</li>
+						@endforeach
+					</ul>
+				@endslot
+			@endif
 		@endcomponent
 	</ul>
 </div>
