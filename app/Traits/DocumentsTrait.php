@@ -10,6 +10,7 @@ trait DocumentsTrait
 {
     /**
      * Get the document path for this expense.
+     * We add the ID of the model to the path.
      * 
      * @return string
      */
@@ -21,7 +22,7 @@ trait DocumentsTrait
     /**
      * Get the document name type.
      * 
-     * @return  string
+     * @return string
      */
     public function getDocumentNameType()
     {

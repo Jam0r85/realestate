@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Document;
 use App\Expense;
+use App\Http\Requests\ExpenseDeleteRequest;
 use App\Http\Requests\ExpenseStoreRequest;
-use App\Http\Requests\UpdateExpenseRequest;
-use App\Services\DocumentService;
-use App\Services\ExpenseService;
+use App\Http\Requests\ExpenseUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -82,7 +80,6 @@ class ExpenseController extends BaseController
     public function store(ExpenseStoreRequest $request)
     {
         $expense = new Expense();
-        $expense->user_id = Auth::user()->id;
         $expense->name = $request->name;
         $expense->property_id = $request->property_id;
         $expense->cost = $request->cost;
@@ -114,57 +111,38 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Update the contracrtors for the expense.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateContractors(Request $request, $id)
-    {
-        $expense = Expense::findOrFail($id);
-
-        if ($request->has('remove')) {
-            $expense->contractors()->detach($request->remove);
-        }
-
-        if ($request->has('new_contractors')) {
-            $expense->contractors()->attach($request->new_contractors);
-        }
-
-        $this->successMessage('The contractors were updated');
-
-        return back();
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param
+     * @param \App\Http\Requests\ExpenseUpdateRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateExpenseRequest $request, $id)
+    public function update(ExpenseUpdateRequest $request, $id)
     {
         $expense = Expense::findOrFail($id);
-        $expense->fill($request->input());
+        $expense->name = $request->name;
+        $expense->cost = $request->cost;
+        $expense->contractor_id = $request->contractor_id;
+        $expense->property_id = $request->property_id;
         $expense->save();
 
-        $expense->contractors()->sync($request->contractors);
-
-        $this->successMessage('The expense was updated');
-
+        $this->successMessage('The expense "' . $expense->name . '" was updated');
         return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Expense  $expense
+     * @param \App\Http\Requests\ExpenseDeleteRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expense $expense)
+    public function destroy(ExpenseDeleteRequest $request, $id)
     {
-        //
+        $expense = Expense::findOrFail($id);
+        $expense->delete();
+
+        $this->successMessage('The expense "' . $expense->name . '" was deleted');
+        return redirect()->route('expenses.index');
     }
 }

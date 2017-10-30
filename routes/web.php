@@ -73,11 +73,10 @@ Route::prefix('expenses')->group(function () {
 	Route::get('/', 'ExpenseController@index')->name('expenses.index');
 	Route::post('search', 'ExpenseController@search')->name('expenses.search');
 	Route::get('create', 'ExpenseController@create')->name('expenses.create');
+	Route::post('/', 'ExpenseController@store')->name('expenses.store');
 	Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
 	Route::put('{id}', 'ExpenseController@update')->name('expenses.update');
-	Route::post('{id}/update-invoices', 'ExpenseController@updateInvoices')->name('expenses.update-invoices');
-	Route::post('{id}/update-contractors', 'ExpenseController@updateContractors')->name('expenses.update-contractors');
-	Route::post('/', 'ExpenseController@store')->name('expenses.store');
+	Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy');
 });
 
 Route::prefix('rent-payments')->group(function () {

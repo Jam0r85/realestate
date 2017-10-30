@@ -4,24 +4,10 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="expenseOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit-details']) }}">
-			Edit Expense Details
+			Expense Details
 		</a>
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'manage-invoices']) }}">
-			Manage Invoices
-		</a>
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit-contractors']) }}">
-			Edit Contractors
-		</a>
-	</div>
-</div>
-
-<div class="btn-group">
-	<button class="btn btn-danger dropdown-toggle" type="button" id="expenseActionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Actions
-	</button>
-	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="expenseActionsDropdown">
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'delete-expense']) }}">
-			Delete Expense
+		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'expense-status']) }}">
+			Expense Status
 		</a>
 	</div>
 </div>

@@ -1,30 +1,19 @@
 <div class="form-group">
-	<label for="{{ isset($array) ? 'expense_name' : 'name' }}">Name</label>
-	<input class="form-control" type="text" name="{{ isset($array) ? 'expense_name[]' : 'name' }}"  
-		@if (!isset($array))
-			value="{{ isset($expense) ? $expense->name : old('name') }}"
-		@endif
-	/>
+	<label for="name">Name</label>
+	<input class="form-control" type="text" name="name" id="nane" value="{{ $expense->name }}" />
 </div>
 
 <div class="form-group">
-	<label for="{{ isset($array) ? 'expense_cost' : 'cost' }}">Cost</label>
-	<input class="form-control" type="number" step="any" name="{{ isset($array) ? 'expense_cost[]' : 'cost' }}" 
-		@if (!isset($array))
-			value="{{ isset($expense) ? $expense->cost : old('cost') }}"
-		@endif
-	/>
+	<label for="cost">Cost</label>
+	<input class="form-control" type="number" step="any" name="cost" id="cost" value="{{ $expense->cost }}" />
 </div>
 
 <div class="form-group">
-	<label for="{{ isset($array) ? 'expense_contractors' : 'contractors' }}">Contractors</label>
-	<select name="{{ isset($array) ? 'expense_contractors[]' : 'contractors[]' }}" class="form-control select2" multiple>
+	<label for="contractor_id">Contractor</label>
+	<select name="contractor_id" id="contractor_id" class="form-control select2">
 		@foreach (users() as $user)
-			<option 
-				@if (old('contractors') && in_array($user->id, old('contractors'))) selected @endif
-				@if (isset($expense) && ($expense->contractors->contains($user->id))) selected @endif
-				value="{{ $user->id }}">
-					{{ $user->name }}
+			<option @if ($expense->contractor_id == $user->id) selected @endif value="{{ $user->id }}">
+				{{ $user->name }}
 			</option>
 		@endforeach
 	</select>

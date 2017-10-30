@@ -11,8 +11,18 @@ class Expense extends BaseModel
     use Searchable;
     use DocumentsTrait;
 
+    /**
+     * The document name type.
+     * 
+     * @var string
+     */
     protected $documentNameType = 'invoice';
 
+    /**
+     * The base path to the document storage for this model.
+     * 
+     * @var string
+     */
     protected $documentPath = 'documents/expenses/';
 
     /**

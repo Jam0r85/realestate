@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Expense;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Request;
 
-class UpdateExpenseRequest extends FormRequest
+class ExpenseDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +25,10 @@ class UpdateExpenseRequest extends FormRequest
      */
     public function rules()
     {
+        $name = Expense::find(Request::segment(2))->name;
+
         return [
-            'name' => 'required',
-            'cost' =>'required|numeric'
+            'confirmation' => 'required|in:' . $name
         ];
     }
 }
