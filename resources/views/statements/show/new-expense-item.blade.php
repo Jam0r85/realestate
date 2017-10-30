@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-			@component('partials.save-submit')
+			@component('partials.save-button')
 				Save Changes
 			@endcomponent
 
