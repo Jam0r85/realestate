@@ -50,7 +50,7 @@
 								<td>{{ $unpaid_expense->name }}</td>
 								<td>{{ $unpaid_expense->contractor ? $unpaid_expense->contractor->name : '' }}</td>
 								<td>{{ currency($unpaid_expense->cost) }}</td>
-								<td>{{ currency($unpaid_expense->balance_amount) }}</td>
+								<td>{{ currency($unpaid_expense->remaining_balance) }}</td>
 							</tr>
 						@endforeach
 					</tbody>
