@@ -56,7 +56,7 @@
 					</thead>
 					<tbody>
 						@foreach ($unpaid_invoices as $invoice)
-							@if (!$invoice-isPaid())
+							@if (!$invoice->isPaid())
 								<tr>
 									<td>
 										<a href="{{ route('invoices.show', $invoice->id) }}" title="{{ $invoice->number }}">
