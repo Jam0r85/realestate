@@ -50,9 +50,7 @@
 										<input type="hidden" name="expense_id[]" value="{{ $unpaid_expense->id }}" />
 									</td>
 									<td>{{ $unpaid_expense->name }}</td>
-									<td>
-										@include('partials.bootstrap.users-inline', ['users' => $unpaid_expense->contractors])
-									</td>
+									<td>{{ $unpaid_expense->contractor ? $unpaid_expense->contractor->name : '' }}</td>
 									<td>{{ currency($unpaid_expense->cost) }}</td>
 									<td>{{ currency($unpaid_expense->balance_amount) }}</td>
 								</tr>
@@ -66,7 +64,7 @@
 			@component('partials.save-submit')
 				Save Changes
 			@endcomponent
-			
+
 		</form>
 
 	@endcomponent
