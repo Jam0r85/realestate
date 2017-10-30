@@ -25,13 +25,13 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="row">
-			<div class="col-sm-12 col-md-6">
+			<div class="col-sm-12 col-md-5">
 
 				@include('partials.errors-block')
 
 				<div class="card mb-3">
 
-					@component('partials.bootstrap.card-header')
+					@component('partials.card-header')
 						Record Payment
 					@endcomponent
 
@@ -95,11 +95,11 @@
 				</div>
 
 			</div>
-			<div class="col-sm-12 col-md-6">
+			<div class="col-sm-12 col-md-7">
 
 				<div class="card mb-3">
 
-					@component('partials.bootstrap.card-header')
+					@component('partials.card-header')
 						Invoice Balance
 					@endcomponent
 
@@ -130,6 +130,7 @@
 							<th>Date</th>
 							<th>Amount</th>
 							<th>Method</th>
+							<th>User(s)</th>
 						</thead>
 						<tbody>
 							@foreach ($invoice->payments as $payment)
@@ -137,6 +138,9 @@
 									<td>{{ date_formatted($payment->created_at) }}</td>
 									<td>{{ currency($payment->amount) }}</td>
 									<td>{{ $payment->method->name }}</td>
+									<td>
+										@include('partials.bootstrap.users-inline', ['users' => $payment->users])
+									</td>
 								</tr>
 							@endforeach
 							@foreach ($invoice->statement_payments as $payment)
@@ -144,6 +148,9 @@
 									<td>{{ date_formatted($payment->created_at) }}</td>
 									<td>{{ currency($payment->amount) }}</td>
 									<td>Statement #{{ $payment->statement->id }}</td>
+									<td>
+										@include('partials.bootstrap.users-inline', ['users' => $payment->users])
+									</td>
 								</tr>
 							@endforeach
 						</tbody>
