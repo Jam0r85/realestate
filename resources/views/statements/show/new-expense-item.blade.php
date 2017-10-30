@@ -4,7 +4,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<a href="{{ route('statements.show', $statement->id) }}" class="button is-pulled-right">
+		<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-secondary float-right">
 			Return
 		</a>
 
@@ -32,33 +32,30 @@
 					Unpaid Expenses
 				@endcomponent
 
-				<div class="card-body">
+				<table class="table table-striped table-hover table-responsive">
+					<thead>
+						<th></th>
+						<th>Name</th>
+						<th>Contractors</th>
+						<th>Cost</th>
+						<th>Balance</th>
+					</thead>
+					<tbody>
+						@foreach ($statement->property->unpaid_expenses as $unpaid_expense)
+							<tr>
+								<td>
+									<input type="number" step="any" name="expense_amount[]" class="form-control" />
+									<input type="hidden" name="expense_id[]" value="{{ $unpaid_expense->id }}" />
+								</td>
+								<td>{{ $unpaid_expense->name }}</td>
+								<td>{{ $unpaid_expense->contractor ? $unpaid_expense->contractor->name : '' }}</td>
+								<td>{{ currency($unpaid_expense->cost) }}</td>
+								<td>{{ currency($unpaid_expense->balance_amount) }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
 
-					<table class="table table-striped table-hover table-responsive">
-						<thead>
-							<th></th>
-							<th>Name</th>
-							<th>Contractors</th>
-							<th>Cost</th>
-							<th>Balance</th>
-						</thead>
-						<tbody>
-							@foreach ($statement->property->unpaid_expenses as $unpaid_expense)
-								<tr>
-									<td>
-										<input type="number" step="any" name="expense_amount[]" class="form-control" />
-										<input type="hidden" name="expense_id[]" value="{{ $unpaid_expense->id }}" />
-									</td>
-									<td>{{ $unpaid_expense->name }}</td>
-									<td>{{ $unpaid_expense->contractor ? $unpaid_expense->contractor->name : '' }}</td>
-									<td>{{ currency($unpaid_expense->cost) }}</td>
-									<td>{{ currency($unpaid_expense->balance_amount) }}</td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
-
-				</div>
 			</div>
 
 			@component('partials.save-button')
