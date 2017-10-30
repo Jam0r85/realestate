@@ -16,7 +16,8 @@ trait DocumentsTrait
      */
     public function getDocumentPath()
     {
-        return $this->documentPath ?? 'documents/' . $this->id;
+        $path = $this->documentPath ?? 'documents/';
+        return $path . $this->id;
     }
 
     /**

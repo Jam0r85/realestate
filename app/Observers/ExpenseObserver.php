@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Expense;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ExpenseObserver
 {
@@ -26,6 +27,9 @@ class ExpenseObserver
 	 */
 	public function deleted(Expense $expense)
 	{
-		$expense->documents()->delete();
+		foreach ($expense->documents as $document) {
+			Storage::delete($document->path);
+			$document->forceDelete();
+		}
 	}
 }
