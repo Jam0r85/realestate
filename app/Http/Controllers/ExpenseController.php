@@ -92,17 +92,7 @@ class ExpenseController extends BaseController
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-
-                $path = Storage::putFile('documents/expenses', $file);
-
-                $invoice = new Document();
-                $invoice->user_id = Auth::user()->id;
-                $invoice->key = str_random(30);
-                $invoice->name = $expense->name . ' Invoice';
-                $invoice->path = $path;
-                $invoice->extension = $file->getClientOriginalExtension();
-
-                $expense->invoices()->save($invoice);
+                $expense->storeDocument($file);
             }
         }
 
