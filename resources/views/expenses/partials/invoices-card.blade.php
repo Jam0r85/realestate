@@ -11,13 +11,20 @@
 			@foreach ($expense->documents as $invoice)
 
 				<li class="list-group-item">
-					<a href="{{ route('documents.show', $invoice->id) }}" class="btn btn-warning btn-sm float-right">
-						<i class="fa fa-pencil"></i> Edit
-					</a>
 					<a href="{{ Storage::url($invoice->path) }}" target="_blank" title="{{ $invoice->name }}">
 						{{ $invoice->name }}
 					</a>
-					<small class="d-block">Uploaded {{ date_formatted($invoice->created_at) }}</small>
+					<small class="d-block mb-2">
+						Uploaded {{ date_formatted($invoice->created_at) }}
+					</small>
+					<div class="btn-group" role="group" aria-label="Invoice Options">
+						<a href="{{ route('documents.show', [$invoice->id, 'edit-details']) }}" class="btn btn-warning btn-sm">
+							Edit
+						</a>
+						<a href="{{ route('documents.show', $invoice->id) }}" class="btn btn-primary btn-sm">
+							View
+						</a>
+					</div>
 				</li>
 
 			@endforeach

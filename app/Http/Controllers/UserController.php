@@ -124,7 +124,6 @@ class UserController extends BaseController
     public function show($id, $section = 'layout')
     {
         $user = User::withTrashed()->findOrFail($id);
-
         return view('users.show.' . $section, compact('user'));
     }
 

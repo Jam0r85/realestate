@@ -43,15 +43,7 @@ class DocumentController extends BaseController
         }
 
         foreach ($request->file('files') as $file) {
-            $path = Storage::putFile($parent->getDocumentPath(), $file);
-
-            if (Storage::exists($path)) {
-                $document = new Document();
-                $document->path = $path;
-                $document->name = $parent->name ?? File::name($path);
-
-                $parent->documents()->save($document);
-            }
+            $parent->storeDocument($file);
         }
 
         $this->successMessage('The ' . str_plural($parent->getDocumentNameType(), count($request->files)) . ' ' . str_plural('was', count($request->files)) . ' uploaded');
@@ -64,9 +56,10 @@ class DocumentController extends BaseController
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function show(Document $document)
+    public function show($id, $section = 'layout')
     {
-        //
+        $document = Document::findOrFail($id);
+        return view('documents.show.' . $section, compact('document'));        
     }
 
     /**
@@ -87,9 +80,15 @@ class DocumentController extends BaseController
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Document $document)
+    public function update(Request $request, $id)
     {
-        //
+        $document = Document::findOrFail($id);
+
+        $document->name = $request->name;
+        $document->save();
+
+        $this->successMessage('The document "' . $document->name . '" was updated');
+        return back();
     }
 
     /**
