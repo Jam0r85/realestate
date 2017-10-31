@@ -35,55 +35,76 @@
 
 			<div class="card-body">
 
-				@include('partials.errors-block')
+				@if ($invoice->recur)
 
-				<form method="POST" action="{{ route('invoices.create-recurring', $invoice->id) }}">
-					{{ csrf_field() }}
+					<p class="card-text">
+						This invoice was created automatically based on the recurring settings of <a href="{{ route('invoices.show', $invoice->recur->invoice->id) }}">Invoice {{ $invoice->recur->invoice->name }}</a>.
+					</p>
 
-					<div class="form-group">
-						<label for="next_invoice">Next Invoice Date</label>
-						<input type="date" name="next_invoice" id="next_invoice" class="form-control" />
-						<small class="form-text text-muted">
-							Enter the date that you want the next invoice to be created.
-						</small>
-					</div>
+					<a href="{{ route('invoices.show', [$invoice->recur->invoice->id, 'invoice-options']) }}" class="btn btn-primary">
+						Edit Settings
+					</a>
 
-					<div class="form-row">
-						<div class="col">
-							<div class="form-group">
-								<label for="interval">Interval</label>
-								<input type="number" step="any" name="interval" id="interval" class="form-control" />
+				@else
+
+					@include('partials.errors-block')
+
+					<form method="POST" action="{{ route('invoices.create-recurring', $invoice->id) }}">
+						{{ csrf_field() }}
+
+						<div class="form-group">
+							<label for="next_invoice">Next Invoice Date</label>
+							<input type="date" name="next_invoice" id="next_invoice" class="form-control" value="{{ $invoice->recurring ? $invoice->recurring->next_invoice->format('Y-m-d') : '' }}" />
+							<small class="form-text text-muted">
+								Enter the date that you want the next invoice to be created.
+							</small>
+						</div>
+
+						<div class="form-row">
+							<div class="col">
+								<div class="form-group">
+									<label for="interval">Interval</label>
+									<input type="number" step="any" name="interval" id="interval" class="form-control" />
+									<small class="form-text text-muted">
+										Enter the numeric interval between invoices.
+									</small>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label for="interval_type">Interval Type</label>
+									<select name="interval_type" id="interval_type" class="form-control">
+										<option>Days</option>
+										<option>Weekdays</option>
+										<option>Weeks</option>
+										<option>Months</option>
+										<option>Years</option>
+									</select>
+									<small class="form-text text-muted">
+										Select the interval type relating to the numeric interval.
+									</small>
+								</div>
 							</div>
 						</div>
-						<div class="col">
-							<div class="form-group">
-								<label for="interval_type">Interval Type</label>
-								<select name="interval_type" id="interval_type" class="form-control">
-									<option>Days</option>
-									<option>Weekdays</option>
-									<option>Weeks</option>
-									<option>Months</option>
-									<option>Years</option>
-								</select>
-							</div>
+
+						<div class="form-group">
+							<label for="ends_at">End Date (optional)</label>
+							<input type="date" name="ends_at" id="ends_at" class="form-control" />
+							<small class="form-text text-muted">
+								Enter the date when you want to stop creating new invoices or leave blank to continue indefinately.
+							</small>
 						</div>
-					</div>
 
-					<div class="form-group">
-						<label for="ends_at">End Date (optional)</label>
-						<input type="date" name="ends_at" id="ends_at" class="form-control" />
-						<small class="form-text text-muted">
-							Enter the date when you want to stop creating new invoices or leave blank to continue indefinately.
-						</small>
-					</div>
+						@component('partials.save-button')
+							Save Changes
+						@endcomponent
 
-					@component('partials.save-button')
-						Save Changes
-					@endcomponent
+					</form>
 
-				</form>
+				@endif
 
 			</div>
+
 		</div>
 
 	@endcomponent
