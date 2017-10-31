@@ -75,9 +75,7 @@ if (!function_exists('invoiceGroups')) {
 if (!function_exists('invoiceGroupsCount')) {
 	function invoiceGroupsCount()
 	{
-		return cache()->tags('invoice_groups')->remember('invoiceGroupsCount', 60, function () {
-			return \App\InvoiceGroup::count();
-		});
+		return \App\InvoiceGroup::count();
 	}
 }
 
