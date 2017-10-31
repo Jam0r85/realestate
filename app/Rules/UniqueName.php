@@ -3,7 +3,6 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use DB;
 
 class UniqueName implements Rule
 {
@@ -34,7 +33,9 @@ class UniqueName implements Rule
             return true;
         }
         
-        $query = DB::table($this->table)->whereNull('deleted_at')->where($this->field, $value)->first();
+        $query = DB::table($this->table)
+            ->whereNull('deleted_at')
+            ->where($this->field, 'like', $value)->get();
 
         if (count($query)) {
             return false;
