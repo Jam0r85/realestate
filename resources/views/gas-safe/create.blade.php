@@ -5,9 +5,11 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			@component('partials.title')
+
+			@component('partials.header')
 				Create Gas Safe Inspection
 			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -21,7 +23,7 @@
 
 			@include('gas-safe.partials.form')
 
-			@component('partials.bootstrap.save-submit-button')
+			@component('partials.save-button')
 				Create Gas Safe Reminder
 			@endcomponent
 

@@ -5,12 +5,15 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
+
 			<a href="{{ route('gas-safe.create') }}" class="btn btn-primary float-right">
 				<i class="fa fa-plus"></i> New Gas Safe Inspection
 			</a>
+
 			@component('partials.header')
 				{{ $title }}
 			@endcomponent
+
 		</div>
 
 		{{-- Gas Search --}}
@@ -46,11 +49,7 @@
 								{{ date_formatted($gas->expires_on) }}
 							</a>
 						</td>
-						<td>
-							<a href="{{ route('properties.show', $gas->property->id) }}">
-								{!! truncate($gas->property->short_name) !!}
-							</a>
-						</td>
+						<td>{!! truncate($gas->property->short_name) !!}</td>
 						<td>
 							@include('partials.bootstrap.users-inline', ['users' => $gas->contractors])
 						</td>
