@@ -2,63 +2,72 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>New Invoice</h1>
-			</div>
+		<div class="page-title">
 
-			@include('partials.errors-block')
-
-			<form role="form" method="POST" action="{{ route('invoices.store') }}">
-				{{ csrf_field() }}					
-
-				<div class="form-group">
-					<label for="invoice_group_id">Invoice Group</label>
-					<select name="invoice_group_id" class="form-control">
-						@foreach (invoiceGroups() as $invoice_group)
-							<option value="{{ $invoice_group->id }}">{{ $invoice_group->name }}</option>
-						@endforeach
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="property_id">Property</label>
-					<select name="property_id" class="form-control select2">
-						<option value="" disabled selected></option>
-						@foreach (properties() as $property)
-							<option value="{{ $property->id }}">{{ $property->name }}</option>
-						@endforeach
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="users">Users</label>
-					<select name="users[]" class="form-control select2" multiple>
-						@foreach (users() as $user)
-							<option value="{{ $user->id }}">{{ $user->name }}</option>
-						@endforeach
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="number">Overwrite Invoice Number</label>
-					<input type="text" name="number" class="form-control" />
-				</div>
-
-				<div class="form-group">
-					<label for="terms">Terms</label>
-					<textarea name="terms" class="form-control">{{ get_setting('invoice_default_terms') }}</textarea>
-				</div>
-
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Create Invoice
-				</button>
-
-			</form>
+			@component('partials.header')
+				New Invoice
+			@endcomponent
 
 		</div>
-	</section>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
+
+		<form method="POST" action="{{ route('invoices.store') }}">
+			{{ csrf_field() }}					
+
+			<div class="form-group">
+				<label for="invoice_group_id">Invoice Group</label>
+				<select name="invoice_group_id" class="form-control">
+					@foreach (invoiceGroups() as $invoice_group)
+						<option value="{{ $invoice_group->id }}">{{ $invoice_group->name }}</option>
+					@endforeach
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="property_id">Property</label>
+				<select name="property_id" class="form-control select2">
+					<option value="" disabled selected></option>
+					@foreach (properties() as $property)
+						<option value="{{ $property->id }}">{{ $property->name }}</option>
+					@endforeach
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="users">Users</label>
+				<select name="users[]" class="form-control select2" multiple>
+					@foreach (users() as $user)
+						<option value="{{ $user->id }}">{{ $user->name }}</option>
+					@endforeach
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="number">Invoice Number (optional)</label>
+				<input type="text" name="number" class="form-control" />
+				<small class="form-text text-muted">
+					Enter a number to use for this invoice instead of using the next avaliable number.
+				</small>
+			</div>
+
+			<div class="form-group">
+				<label for="terms">Terms</label>
+				<textarea name="terms" id="terms" class="form-control" rows="7">{{ get_setting('invoice_default_terms') }}</textarea>
+			</div>
+
+			<button type="submit" class="btn btn-primary">
+				<i class="fa fa-save"></i> Create Invoice
+			</button>
+
+		</form>
+
+	@endcomponent
 
 @endsection
