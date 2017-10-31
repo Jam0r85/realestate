@@ -267,10 +267,6 @@
             </div>
         </nav>
 
-        <div class="container">            
-            @include('flash::message')
-        </div>
-
         <div class="mb-5">
             @yield('content')
         </div>
@@ -284,6 +280,8 @@
     <script>
         $('.select2').select2();
     </script>
+
+    @include('flashy::message')
 
     @stack('footer_scripts')
 </body>

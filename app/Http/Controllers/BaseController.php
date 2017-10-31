@@ -14,7 +14,7 @@ class BaseController extends Controller
 	 */
 	protected function successMessage($message)
 	{
-		flash($message)->success();
+		flashy()->success($message);
 	}
 
 	/**
@@ -25,6 +25,6 @@ class BaseController extends Controller
 	 */
 	protected function errorMessage($message)
 	{
-		flash($message)->error();
+		flashy()->error($message);
 	}
 }
