@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SendUserEmailRequest;
 use App\Http\Requests\UpdateUserEmailRequest;
-use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\{UserStoreRequest, UserUpdateRequest};
 use App\Mail\SendUserEmail;
@@ -193,24 +192,6 @@ class UserController extends BaseController
         $user->save();
 
         $this->successMessage('The users e-mail was updated');
-
-        return back();
-    }
-
-    /**
-     * Update the user's password in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserPasswordRequest  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updatePassword(UpdateUserPasswordRequest $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        $this->successMessage('The users password was updated');
 
         return back();
     }

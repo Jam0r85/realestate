@@ -2,31 +2,47 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<div class="page-title">
-				<h1>
-					Invoice Groups List
-					<a href="{{ route('invoice-groups.create') }}" class="btn btn-primary">
-						<i class="fa fa-plus"></i> New Invoice Group
-					</a>
-				</h1>
-			</div>
+		<div class="page-title">
 
-		</div>
-	</section>
+			<a href="{{ route('invoice-groups.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-plus"></i> New Invoice Group
+			</a>
 
-	<section class="section">
-		<div class="container">
-
-			<div class="row">
-				<div class="col">
-					@include('invoice-groups.partials.table', ['invoice_groups' => $invoice_groups])
-				</div>
-			</div>
+			@component('partials.header')
+				Invoice Groups List
+			@endcomponent
 
 		</div>
-	</section>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		<table class="table table-striped table-hover table-responsive">
+			<thead>
+				<th>Name</th>
+				<th>Next Number</th>
+				<th>Unpaid</th>
+				<th>Format</th>
+			</thead>
+			<tbody>
+				@foreach ($invoice_groups as $group)
+					<tr>
+						<td>
+							<a href="{{ route('invoice-groups.show', $group->id) }}" title="{{ $group->name}} ">
+								{{ $group->name }}
+							</a>
+						</td>
+						<td>{{ $group->next_number }}</td>
+						<td>{{ count($group->unpaidInvoices) }}</td>
+						<td>{{ $group->format }}</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+
+	@endcomponent
 
 @endsection

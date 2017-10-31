@@ -156,7 +156,7 @@ Route::prefix('users')->group(function () {
 	Route::get('{id}/{section?}', 'UserController@show')->name('users.show');
 	Route::put('{id}/update-settings', 'UserController@updateSettings')->name('users.update-settings');
 	Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email');
-	Route::put('{id}/update-password', 'UserController@updatePassword')->name('users.update-password');
+	Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password');
 	Route::put('{id}/update-home-address', 'UserController@updateHomeAddress')->name('users.update-home-address');
 	Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
 	Route::put('{id}', 'UserController@update')->name('users.update');
