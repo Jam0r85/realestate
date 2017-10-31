@@ -44,7 +44,7 @@ class InvoiceController extends BaseController
             ->latest();
 
         // filter by group
-        if ($group_name) {
+        if ($group_name = request('group')) {
             $group = InvoiceGroup::where('slug', $group_name)->first();
 
             if ($group) {

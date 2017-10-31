@@ -33,6 +33,7 @@ Route::prefix('events')->group(function () {
 });
 
 Route::prefix('invoices')->group(function () {
+	Route::get('/', 'InvoiceController@index')->name('invoices.index');
 	Route::get('create', 'InvoiceController@create')->name('invoices.create');
 	Route::post('/', 'InvoiceController@store')->name('invoices.store');	
 	Route::post('search', 'InvoiceController@search')->name('invoices.search');
@@ -45,7 +46,6 @@ Route::prefix('invoices')->group(function () {
 	Route::post('{id}/archive', 'InvoiceController@archive')->name('invoices.archive');
 	Route::post('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
 	Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
-	Route::get('/{group_name?}', 'InvoiceController@index')->name('invoices.index');
 });
 
 Route::prefix('invoice-groups')->group(function () {

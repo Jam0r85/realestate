@@ -200,7 +200,7 @@
                                     All Invoices
                                 </a>
                                 @foreach (invoiceGroups() as $group)
-                                    <a class="dropdown-item" href="{{ route('invoices.index', str_slug($group->name)) }}">
+                                    <a class="dropdown-item" href="{{ route('invoices.index', ['group' => str_slug($group->name)]) }}">
                                         {{ $group->name }} Invoices
                                     </a>
                                 @endforeach
