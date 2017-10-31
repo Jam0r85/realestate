@@ -6,23 +6,7 @@
 
 	@if (count($gas->contractors))
 
-		<ul class="list-group list-group-flush">
-
-			@foreach ($gas->contractors as $user)
-
-			<li class="list-group-item">
-				<p class="lead mb-0">
-					<a href="{{ route('users.show', $user->id) }}">
-						{{ $user->name }}
-					</a>
-				</p>
-				{!! $user->email ? $user->email : '' !!}
-				{!! $user->phone_number ? $user->phone_number : '' !!}
-			</li>
-
-			@endforeach
-
-		</ul>
+		@include('partials.bootstrap.users-list-group', ['users' => $gas->contractors])
 
 	@else
 
