@@ -174,6 +174,14 @@ class Invoice extends BaseModel
     }
 
     /**
+     * An invoice can be created by the recurring generator.
+     */
+    public function recur()
+    {
+        return $this->belongsTo('App\InvoiceRecurring', 'recur_id');
+    }
+
+    /**
      * Get the name of this invoice.
      * 
      * @return string
