@@ -17,6 +17,7 @@ class CreateInvoiceGroupsTable extends Migration
             $table->increments('id');
             $table->integer('branch_id')->unsigned();
             $table->string('name');
+            $table->string('slug');
             $table->integer('next_number')->default(0);
             $table->string('format');
             $table->timestamps();

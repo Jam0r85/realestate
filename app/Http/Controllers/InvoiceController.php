@@ -8,6 +8,7 @@ use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Invoice;
+use App\InvoiceGroup;
 use App\Services\InvoiceService;
 use App\Services\PaymentService;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class InvoiceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($group_name = null)
     {
         $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
             ->withTrashed()
@@ -41,6 +42,16 @@ class InvoiceController extends BaseController
         $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
             ->whereNull('paid_at')
             ->latest();
+
+        // filter by group
+        if ($group_name) {
+            $group = InvoiceGroup::where('slug', $group_name)->first();
+
+            if ($group) {
+                $invoices->where('invoice_group_id', $group->id);
+                $unpaid_invoices->where('invoice_group_id', $group->id);
+            }
+        }
 
         // filter by month
         if ($month = request('month')) {
