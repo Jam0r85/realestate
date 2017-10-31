@@ -8,8 +8,10 @@ use App\Event;
 use App\Expense;
 use App\Gas;
 use App\Invoice;
+use App\InvoiceGroup;
 use App\Observers\DocumentObserver;
 use App\Observers\ExpenseObserver;
+use App\Observers\InvoiceGroupObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PaymentObserver;
 use App\Observers\UserObserver;
@@ -47,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         Document::observe(DocumentObserver::class);
         Expense::observe(ExpenseObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        InvoiceGroup::observe(InvoiceGroupObserver::class);
     }
 
     /**

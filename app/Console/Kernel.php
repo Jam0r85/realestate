@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\GenerateRecurringInvoices;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,6 +30,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('invoice:check-paid')->everyThirtyMinutes();
         $schedule->command('expense:check-paid')->everyThirtyMinutes();
         $schedule->command('deposit:archive')->daily();
+
+        $schedule->job(new GenerateRecurringInvoices)->daily();
     }
 
     /**

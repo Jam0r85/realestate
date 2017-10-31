@@ -166,6 +166,14 @@ class Invoice extends BaseModel
     }
 
     /**
+     * An invoice may have one recurring.
+     */
+    public function recurring()
+    {
+        return $this->hasOne('App\InvoiceRecurring');
+    }
+
+    /**
      * Get the name of this invoice.
      * 
      * @return string
@@ -274,11 +282,13 @@ class Invoice extends BaseModel
      */
     public function isPaid()
     {
+        // invoice has a paid_at date
         if ($this->paid_at) {
             return true;
         }
 
-        if ($this->total_balance <= 0) {
+        // invoice balance is equal or less than 0 and has no items
+        if ($this->total_balance <= 0 && count($this->items)) {
             return true;
         }
 

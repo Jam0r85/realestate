@@ -112,11 +112,18 @@ class InvoiceController extends BaseController
      */
     public function store(StoreInvoiceRequest $request)
     {
-        $service = new InvoiceService();
-        $invoice = $service->createInvoice($request->input());
+        $invoice = new Invoice();
+        $invoice->invoice_group_id = $request->invoice_group_id;
+        $invoice->property_id = $request->property_id;
+        $invoice->number = $request->number;
+        $invoice->terms = $request->terms;
+        $invoice->save();
 
-        $this->successMessage('The invoice was created');
+        if ($request->has('users')) {
+            $invoice->users()->attach($request->users);
+        }
 
+        $this->successMessage('The invoice ' . $invoice->name . ' was created');
         return redirect()->route('invoices.show', $invoice->id);
     }
 

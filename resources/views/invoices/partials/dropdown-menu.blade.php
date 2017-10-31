@@ -6,6 +6,9 @@
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'edit-details']) }}">
 			Invoice Details
 		</a>
+		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'invoice-options']) }}">
+			Invoice Options
+		</a>
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'archive-invoice']) }}">
 			Invoice Status
 		</a>
