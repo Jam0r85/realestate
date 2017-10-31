@@ -47,6 +47,7 @@ Route::prefix('invoices')->group(function () {
 	Route::post('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
 	Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
 	Route::post('{id}/create-recurring', 'InvoiceRecurringController@store')->name('invoices.create-recurring');
+	Route::post('{id}/clone', 'InvoiceController@clone')->name('invoices.clone');
 });
 
 Route::prefix('invoice-groups')->group(function () {

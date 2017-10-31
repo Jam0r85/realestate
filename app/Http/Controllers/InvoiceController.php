@@ -235,4 +235,19 @@ class InvoiceController extends BaseController
         $this->successMessage('The invoice was destroyed');
         return redirect()->route('invoices.index');
     }
+
+    /**
+     * Clone the given invoice.
+     * 
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $invoice->clone();
+
+        $this->successMessage('The invoice was cloned');
+        return back();
+    }
 }

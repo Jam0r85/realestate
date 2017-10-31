@@ -27,6 +27,29 @@
 		<div class="card mb-3">
 
 			@component('partials.card-header')
+				Clone Invoice
+				@slot('small')
+					Clone this invoice and it's items but with a new number.
+				@endslot
+			@endcomponent
+
+			<div class="card-body">
+
+				<form method="POST" action="{{ route('invoices.clone', $invoice->id) }}">
+					{{ csrf_field() }}
+
+					@component('partials.save-button')
+						Clone Invoice
+					@endcomponent
+
+				</form>
+
+			</div>
+		</div>
+
+		<div class="card mb-3">
+
+			@component('partials.card-header')
 				Recurring Invoice
 				@slot('small')
 					Setup this invoice to recur as often as you want.

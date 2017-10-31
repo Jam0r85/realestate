@@ -336,4 +336,32 @@ class Invoice extends BaseModel
 
         return false;
     }
+
+    /**
+     * Clone this invoice and give it a new number.
+     * 
+     * @return \App\Invoice
+     */
+    public function clone($attributes = [])
+    {
+        $new = $this->replicate();
+        $new->paid_at = null;
+        $new->number = $this->invoiceGroup->next_number;
+
+        foreach ($attributes as $name => $value) {
+            $new->$name = $value;
+        }
+
+        $new->save();
+
+        $new->users()->sync($this->users);
+
+        foreach ($this->items as $item) {
+            $new_item = $item->replicate();
+            $new_item->invoice_id = $new->id;
+            $new_item->save();
+        }
+
+        return $new;
+    }
 }

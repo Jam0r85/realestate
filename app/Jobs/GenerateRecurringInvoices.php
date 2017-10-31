@@ -37,15 +37,16 @@ class GenerateRecurringInvoices implements ShouldQueue
 
             $invoice = $recur->invoice;
 
-            $new_invoice = $invoice->replicate();
-            $new_invoice->paid_at = null;
-            $new_invoice->number = $invoice->invoiceGroup->next_number;
-            $new_invoice->recur_id = $recur->id;
-            $new_invoice->save();
+            $new_invoice = $invoice->clone([
+                'recur_id' => $recur->id
+            ]);
 
-            $new_invoice->users()->sync($invoice->users);
-
-            $recur->next_invoice = date_modifier($recur->next_invoice, $recur->interval_type, $recur->interval);
+            $recur->next_invoice = date_modifier(
+                $recur->next_invoice,
+                $recur->interval_type,
+                $recur->interval
+            );
+            
             $recur->save();
         }
     }
