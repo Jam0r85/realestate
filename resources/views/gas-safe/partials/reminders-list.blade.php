@@ -1,6 +1,6 @@
 <div class="card mb-3 border-info">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials.card-header')
 		Reminders History
 		@slot('style')
 			bg-info text-white
@@ -11,7 +11,8 @@
 
 		@foreach ($gas->reminders as $reminder)
 
-			@component('partials.bootstrap.card-header')
+
+			@component('partials.card-header')
 				<span class="float-right text-muted">
 					{{ datetime_formatted($reminder->created_at) }}
 				</span>
@@ -75,7 +76,7 @@
 				</div>
 
 				{{-- Check for any active tenancies and show the option to add their details to the reminder --}}
-				@if ($tenancies = $gas->property->tenancies()->isActive()->get())
+				@if ($tenancies = $gas->property->activeTenancy)
 					<p>Include contact details for the tenants below?</p>
 					@foreach ($tenancies as $tenancy)
 						@foreach ($tenancy->tenants as $user)
@@ -93,6 +94,11 @@
 						@endforeach
 					@endforeach
 				@endif
+
+				<div class="form-group">
+					<label for="subject">Subject</label>
+					<input type="text" name="subject" id="subject" class="form-control" value="Gas Safe Inspection" />
+				</div>
 
 				<div class="form-group mt-3">
 					<label for="body">Message</label>

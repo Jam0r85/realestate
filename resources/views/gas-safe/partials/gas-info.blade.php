@@ -12,7 +12,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ implode(', ', $gas->property->owners->pluck('name')->toArray()) }}
+			@include('partials.bootstrap.users-inline', ['users' => $gas->property->owners])
 			@slot('title')
 				Property Owners
 			@endslot

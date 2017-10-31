@@ -53,7 +53,7 @@
 						<td>
 							@include('partials.bootstrap.users-inline', ['users' => $gas->contractors])
 						</td>
-						<td>{{ $gas->latestReminder ? date_formatted($gas->latestReminder) : '-' }}</td>
+						<td>{{ $gas->latestReminder ? date_formatted($gas->latestReminder->created_at) : '-' }}</td>
 						<td><i class="fa fa-{{ $gas->is_booked ? 'check' : 'times' }}"></i></td>
 					</tr>
 				@endforeach

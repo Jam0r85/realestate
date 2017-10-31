@@ -1,6 +1,6 @@
 <div class="card mb-3">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials.card-header')
 		System Information
 	@endcomponent
 
@@ -20,7 +20,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ datetime_formatted($gas->created_at) }}
+			{{ date_formatted($gas->created_at) }}
 			@slot('title')
 				Created
 			@endslot
