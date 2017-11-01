@@ -29,6 +29,20 @@
 			{{ method_field('PUT') }}
 
 			<div class="form-group">
+				<label for="property_id">Property</label>
+				<select name="property_id" id="property_id" class="form-control select2">
+					@foreach (properties() as $property)
+						<option @if ($invoice->property_id == $property->id) selected @endif value="{{ $property->id }}">
+							{{ $property->name }}
+							@if (count($property->owners))
+								({{ implode(', ', $property->owners->pluck('name')->toArray()) }})
+							@endif
+						</option>
+					@endforeach
+				</select>
+			</div>
+
+			<div class="form-group">
 				<label for="created_at">Date Created</label>
 				<input type="date" class="form-control" name="created_at" value="{{ $invoice->created_at->format('Y-m-d') }}" />
 			</div>

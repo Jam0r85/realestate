@@ -149,6 +149,8 @@ class InvoiceController extends BaseController
     public function update(UpdateInvoiceRequest $request, $id)
     {
         $invoice = Invoice::findOrFail($id);
+        
+        $invoice->property_id = $request->property_id;
         $invoice->created_at = $request->created_at;
         $invoice->due_at = $request->due_at;
         $invoice->paid_at = $request->has('paid_at') ? $request->paid_at : null;
