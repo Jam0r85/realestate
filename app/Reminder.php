@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reminder extends Model
 {
-    
 	/**
 	 * A reminder has a parent model.
 	 */

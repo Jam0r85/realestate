@@ -147,16 +147,22 @@
 
                             <div class="dropdown-menu" aria-labelledby="usersDropdown">
                                 <a class="dropdown-item" href="{{ route('tenancies.index') }}">
-                                    Tenancies List
+                                    All Tenancies
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    Has Rent
                                 </a>
                                 <a class="dropdown-item" href="{{ route('tenancies.overdue') }}" title="Overdue Tenancies List">
                                     Overdue Tenancies
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    Owes Rent
                                 </a>
                                 <a class="dropdown-item" href="{{ route('tenancies.archived') }}" title="Archived Tenancies List">
                                     Archived Tenancies
                                 </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
-                                    Services
+                                    Tenancy Services
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Statements</h6>

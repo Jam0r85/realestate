@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\RemindersTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -10,6 +11,7 @@ class Gas extends BaseModel
 {
     use Searchable;
     use SoftDeletes;
+    use RemindersTrait;
 
     /**
      * Get the indexable data array for the model.
@@ -105,23 +107,5 @@ class Gas extends BaseModel
     public function owner()
     {
         return $this->belongsTo('App\User', 'user_id');
-    }
-
-    /**
-     * A gas safe inspection can have many reminders.
-     */
-    public function reminders()
-    {
-        return $this->morphMany('App\Reminder', 'parent')
-            ->latest();
-    }
-
-    /**
-     * A gas safe inspection can have a latest reminder.
-     */
-    public function latestReminder()
-    {
-        return $this->morphOne('App\Reminder', 'parent')
-            ->latest();
     }
 }

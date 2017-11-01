@@ -11,15 +11,14 @@
 
 		@foreach ($gas->reminders as $reminder)
 
+			<div class="card-body border border-right-0 border-left-0 border-top-0 @if ($loop->last) border-bottom-0 @endif">
+				<div class="d-block mb-2 text-muted">
+					<span class="float-right">
+						{{ datetime_formatted($reminder->created_at) }}
+					</span>
+					{{ $reminder->recipient->name }}
+				</div>
 
-			@component('partials.card-header')
-				<span class="float-right text-muted">
-					{{ datetime_formatted($reminder->created_at) }}
-				</span>
-				{{ $reminder->recipient->name }}
-			@endcomponent
-
-			<div class="card-body">
 				{!! $reminder->body !!}
 			</div>
 
