@@ -17,8 +17,6 @@ class OldStatementController extends BaseController
         $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
         $property = $tenancy->property;
 
-        return dd($request->input());
-
         $statement = new Statement();
         $statement->period_start = $request->period_start ?? $tenancy->nextStatementDate();
         $statement->period_end = $request->period_end;
