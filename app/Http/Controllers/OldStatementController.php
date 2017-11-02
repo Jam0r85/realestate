@@ -17,6 +17,8 @@ class OldStatementController extends BaseController
         $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
         $property = $tenancy->property;
 
+        return dd($request->input());
+
         $statement = new Statement();
         $statement->period_start = $request->period_start ?? $tenancy->nextStatementDate();
         $statement->period_end = $request->period_end;
@@ -25,10 +27,10 @@ class OldStatementController extends BaseController
 
         $tenancy->statements()->save($statement);
 
-        if (count($request->users)) {
-        	$statement->users()->attach($request->users);
+        if ($request->has('users')) {
+        	$statement->users()->sync($request->users);
         } else {
-        	$statement->users()->attach($tenancy->property->owners);
+        	$statement->users()->sync($property->owners);
         }
 
         // Invoice
