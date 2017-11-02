@@ -25,7 +25,7 @@ class OldStatementController extends BaseController
 
         $tenancy->statements()->save($statement);
 
-        if ($request->has('users')) {
+        if (count($request->users)) {
         	$statement->users()->attach($request->users);
         } else {
         	$statement->users()->attach($tenancy->property->owners);
