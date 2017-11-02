@@ -172,7 +172,7 @@ class StatementService
                 $item['cost'] = $data['expense_cost'][$i];
                 $item['contractors'] = $data['expense_contractors'][$i];
 
-                $item['§d_at'] = $data['created_at'];
+                $item['created_at'] = $item['updated_at'] = $data['created_at'];
                 $item['paid_at'] = $data['created_at'];
 
                 $this->createExpenseItem($item, $statement->id);

@@ -153,13 +153,34 @@
 												Expense Item
 											</div>
 											<div class="card-body">
-												@include('expenses.partials.form', ['array' => true])
+
+												<div class="form-group">
+													<label for="expense_name">Name</label>
+													<input class="form-control" type="text" name="expense_name[]" id="expense_name" />
+												</div>
+
+												<div class="form-group">
+													<label for="expense_cost">Cost</label>
+													<input class="form-control" type="number" step="any" name="expese_cost[]" id="expense_cost" />
+												</div>
+
+												<div class="form-group">
+													<label for="expense_contractors">Contractor</label>
+													<select name="expense_contractors[]" id="expense_contractors" class="form-control select2">
+														@foreach (users() as $user)
+															<option @if ($expense->contractor_id == $user->id) selected @endif value="{{ $user->id }}">
+																{{ $user->name }}
+															</option>
+														@endforeach
+													</select>
+												</div>
+
 											</div>
 										</div>
 									</div>
 								</div>
 
-								@component('partials.bootstrap.save-submit-button')
+								@component('partials.save-button')
 									Record Old Statement
 								@endcomponent
 
