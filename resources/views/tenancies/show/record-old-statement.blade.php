@@ -168,7 +168,7 @@
 													<label for="expense_contractors">Contractor</label>
 													<select name="expense_contractors[]" id="expense_contractors" class="form-control select2">
 														@foreach (users() as $user)
-															<option @if ($expense->contractor_id == $user->id) selected @endif value="{{ $user->id }}">
+															<option value="{{ $user->id }}">
 																{{ $user->name }}
 															</option>
 														@endforeach
