@@ -1,5 +1,6 @@
-<form role="form" method="POST" action="{{ route('tenancies.create-rental-statement', $tenancy->id)}}">
+<form role="form" method="POST" action="{{ route('statements.store') }}">
 	{{ csrf_field() }}
+	<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}" />
 
 	<div class="form-group">
 		<label for="amount">Statement Amount</label>

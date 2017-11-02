@@ -69,7 +69,7 @@
 						</label>
 					</div>
 
-					@if ($statement->hasInvoice())
+					@if ($statement->invoice)
 						<div class="field">
 							<label class="checkbox">
 								<input type="checkbox" name="invoice" value="true" checked />

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\StatementCreating;
+use App\Invoice;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -281,20 +282,6 @@ class Statement extends BaseModel
     }
 
     /**
-     * Check whether a statement has an invoice.
-     * 
-     * @return bool
-     */
-    public function hasInvoice()
-    {
-        if (count($this->invoices)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Check whether a statement has unsent payments.
      * 
      * @return int
@@ -367,9 +354,20 @@ class Statement extends BaseModel
      */
     public static function createFromTenancy(array $data, $tenancy_id)
     {
-
         $statement = parent::create($data);
 
         return $statement;
+    }
+
+    /**
+     * Store an invoice to an expense.
+     * 
+     * @param \App\Invoice $invoice
+     * @return void
+     */
+    public function storeInvoice(Invoice $invoice)
+    {
+        $this->invoices()->save($invoice);
+        $invoice->users()->sync($this->users);
     }
 }

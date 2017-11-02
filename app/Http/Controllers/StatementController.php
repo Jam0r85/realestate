@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StatementCreated;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\SendStatementsRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
@@ -9,7 +10,9 @@ use App\Http\Requests\UpdateStatementRequest;
 use App\Mail\StatementByEmail;
 use App\Services\StatementService;
 use App\Statement;
+use App\Tenancy;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -65,6 +68,31 @@ class StatementController extends BaseController
         $title = 'Search Results';
 
         return view('statements.index', compact('statements','title'));
+    }
+
+    /**
+     * Store a new statement into storage.
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function store(Request $request)
+    {
+        $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
+
+        $statement = new Statement();
+        $statement->period_start = $request->period_start ?? $tenancy->nextStatementDate();
+        $statement->period_end = $request->period_end;
+        $statement->amount = $request->amount;
+
+        $tenancy->statements()->save($statement);
+
+        if (!$request->has('old_statement')) {
+            event(new StatementCreated($statement));
+        }
+
+        $this->successMessage('The statement was created');
+        return back();
     }
 
     /**
@@ -265,11 +293,19 @@ class StatementController extends BaseController
      */
     public function destroy(Request $request, $id)
     {
-        $service = new StatementService();
-        $service->destroyStatement($request->input(), $id);
+        $statement = Statement::withTrashed()->findOrFail($id);
+
+        if ($request->has('paid_payments')) {
+            $statement->payments()->whereNotNull('sent_at')->delete();
+        }
+
+        if ($request->has('unpaid_payments')) {
+            $statement->payments()->whereNull('sent_at')->delete();
+        }
+
+        $statement->forceDelete();
 
         $this->successMessage('The statement was destroyed');
-
         return redirect()->route('statements.index');
     }
 }

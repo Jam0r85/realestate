@@ -32,7 +32,7 @@
 			<div class="columns">
 				<div class="column is-4">
 
-					@if ($statement->hasInvoice())
+					@if ($statement->invoice)
 						<a href="{{ route('invoices.show', $statement->invoice->id) }}">
 							<div class="notification is-info has-text-centered mb-2">
 								Statement links to Invoice #{{ $statement->invoice->number }}
@@ -141,7 +141,7 @@
 							<h3 class="title">Invoice Items</h3>
 							<h5 class="subtitle">The invoice items which have been added to this statement.</h5>
 
-							@if ($statement->hasInvoice())
+							@if ($statement->invoice)
 								@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
 							@else
 								<div class="notification">

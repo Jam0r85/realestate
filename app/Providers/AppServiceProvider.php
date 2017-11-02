@@ -14,9 +14,11 @@ use App\Observers\ExpenseObserver;
 use App\Observers\InvoiceGroupObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PaymentObserver;
+use App\Observers\StatementObserver;
 use App\Observers\UserObserver;
 use App\Payment;
 use App\Property;
+use App\Statement;
 use App\Tenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -50,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
         Expense::observe(ExpenseObserver::class);
         Invoice::observe(InvoiceObserver::class);
         InvoiceGroup::observe(InvoiceGroupObserver::class);
+        Statement::observe(StatementObserver::class);
     }
 
     /**

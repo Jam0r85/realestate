@@ -83,6 +83,7 @@ class Property extends BaseModel
 	public function tenancies()
 	{
 		return $this->hasMany('App\Tenancy')
+			->withTrashed()
 			->latest();
 	}
 

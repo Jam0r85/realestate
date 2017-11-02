@@ -19,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
 
         'Illuminate\Mail\Events\MessageSending' => [
             'App\Listeners\LogSentEmail'
+        ],
+
+        'App\Events\StatementCreated' => [
+            'App\Listeners\Statements\CreateLettingFeeInvoiceItem',
+            'App\Listeners\Statements\CreateReLettingFeeInvoiceItem',
+            'App\Listeners\Statements\CreateManagementInvoiceItem'
         ]
     ];
 

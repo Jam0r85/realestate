@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\InvoiceItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -335,6 +336,17 @@ class Invoice extends BaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Store an invoice item to an invoice.
+     * 
+     * @param \App\InvoiceItem $item
+     * @return void
+     */
+    public function storeItem(InvoiceItem $item)
+    {
+        $this->items()->save($item);
     }
 
     /**

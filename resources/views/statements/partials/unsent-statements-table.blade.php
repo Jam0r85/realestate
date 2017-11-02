@@ -1,7 +1,7 @@
-<form role="form" method="POST" action="{{ route('statements.send') }}">
+<form method="POST" action="{{ route('statements.send') }}">
 	{{ csrf_field() }}
 
-	<table class="table table-striped table-responsive">
+	<table class="table table-striped table-hover table-responsive">
 		<thead>
 			<th>Status</th>
 			<th>Start</th>
@@ -43,15 +43,7 @@
 					</td>
 					<td>{{ $statement->sendByPost() ? 'Post' : 'E-Mail' }}</td>
 					<td>
-						@if (count($statement->users))
-							@foreach ($statement->users as $user)
-								@if ($user->email)
-									<span class="badge badge-primary">
-										{{ $user->email }}
-									</span>
-								@endif
-							@endforeach
-						@endif
+						@include('partials.bootstrap.users-inline', ['users' => $statement->users])
 					</td>
 				</tr>
 			@endforeach

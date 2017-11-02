@@ -132,13 +132,9 @@ class StatementService
         // Check whether we have any invoice items to add.
         if ($data['invoice_number']) {
 
-            $total_invoice_items = count(array_where($data['item_name'], function ($value, $key) {
-                return !is_null($value);
-            }));
-
             // Add the invoice items should there be any.
-            if (count($total_invoice_items)) {
-                for ($i = 0; $i < $total_invoice_items; $i++) {
+            if (count($data['item_name'])) {
+                for ($i = 0; $i < count($data['item_name']); $i++) {
                     $item['name'] = $data['item_name'][$i];
                     $item['description'] = $data['item_description'][$i];
                     $item['quantity'] = $data['item_quantity'][$i];

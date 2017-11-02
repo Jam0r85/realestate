@@ -334,17 +334,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the tenancy's next statement start date.
+     * Get the tenancy's next statement date.
      * 
      * @return Carbon\Carbon
      */
-    public function getNextStatementStartDateAttribute()
+    public function nextStatementDate()
     {
-        if ($this->last_statement) {
-            return $this->last_statement->period_end->addDay();
-        }
-
-        return $this->started_at;
+        return $this->last_statement ? $this->last_statement->period_end->addDay() : $this->started_at;
     }
 
     /**
@@ -374,15 +370,13 @@ class Tenancy extends BaseModel
      */
     public function hasServiceCharge()
     {
-        if (!$this->service) {
-            return false;
+        if ($this->service) {
+            if ($this->calculateServiceCharge() > 0) {
+                return true;
+            }
         }
 
-        if (empty($this->service->charge)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
