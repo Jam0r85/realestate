@@ -113,7 +113,6 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 	Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
-	Route::post('{id}/create-old-rental-statement', 'TenancyController@createOldRentalStatement')->name('tenancies.create-old-rental-statement');
 	Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 	Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 	Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
@@ -126,6 +125,7 @@ Route::prefix('statements')->group(function () {
 	Route::get('/', 'StatementController@index')->name('statements.index');
 	Route::post('search', 'StatementController@search')->name('statements.search');
 	Route::post('/', 'StatementController@store')->name('statements.store');
+	Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
 	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 	Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');

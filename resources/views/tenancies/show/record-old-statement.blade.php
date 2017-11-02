@@ -2,8 +2,9 @@
 
 @section('content')
 
-	<form method="POST" action="{{ route('tenancies.create-old-rental-statement', $tenancy->id) }}">
+	<form method="POST" action="{{ route('old-statement.store') }}">
 		{{ csrf_field() }}
+		<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}" />
 
 		@component('partials.bootstrap.section-with-container')
 
@@ -188,8 +189,8 @@
 											</div>
 
 											<div class="form-group">
-												<label for="expense_contractors">Contractor</label>
-												<select name="expense_contractors[]" id="expense_contractors" class="form-control select2">
+												<label for="expense_contractor">Contractor</label>
+												<select name="expense_contractor_id[]" id="expense_contractor_id" class="form-control select2">
 													@foreach (users() as $user)
 														<option value="{{ $user->id }}">
 															{{ $user->name }}

@@ -87,9 +87,7 @@ class StatementController extends BaseController
 
         $tenancy->statements()->save($statement);
 
-        if (!$request->has('old_statement')) {
-            event(new StatementCreated($statement));
-        }
+        event(new StatementCreated($statement));
 
         $this->successMessage('The statement was created');
         return back();
