@@ -193,17 +193,21 @@
 					</div>
 
 					<div class="card mb-2">
-						<div class="card-content">
 
-							<h3 class="title">Statement Payments</h3>
-							<h5 class="subtitle">List of individual payments to each of the statement recipients.</h5>
+						@component('partials.card-header')
+							Statement Payments
+						@endcomponent
 
 							@if (count($statement->payments))
+
 								@include('statement-payments.partials.small-table', ['payments' => $statement->payments])
+
 							@else
-								<div class="notification">
-									This statement has no payments generated.
-								</div>
+
+								@component('partials.alerts.primary')
+									No payments have been generated for this statement yet.
+								@endcomponent
+								
 							@endif
 
 						</div>
