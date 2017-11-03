@@ -406,7 +406,7 @@ class StatementService
      */
     public function createInvoicePayment(Statement $statement, $sent = null)
     {
-        if ($statement->hasInvoice()) {
+        if ($statement->invoice) {
             $payment = new StatementPayment();
             $payment->user_id = Auth::user()->id;
             $payment->statement_id = $statement->id;
