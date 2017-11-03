@@ -24,6 +24,11 @@ class OldStatementController extends BaseController
 	 */
 	public $tenancy;
 
+    /**
+     * @var \App\Invoice
+     */
+    public $invoice;
+
 	/**
 	 * Build the controller instance.
 	 * 
@@ -95,6 +100,8 @@ class OldStatementController extends BaseController
     		return;
     	}
 
+        $this->statement = $this->statement->fresh();
+
     	if ($request->has('invoice_number')) {
 
     		$total_items = count($request->item_name);
@@ -102,12 +109,12 @@ class OldStatementController extends BaseController
     		for ($i = 0; $i < $total_items; $i++) {
 		  		if ($request->item_amount[$i]) {
 
-	        		if (!$this->statement->invoice) {
-	        			$invoice = new Invoice();
-	        			$invoice->created_at = $invoice->updated_at = $invoice->sent_at = $this->statement->created_at;
-	        			$invoice->property_id = $this->tenancy->property->id;
-	        			$invoice->number = $request->invoice_number;
-	        			$this->statement->storeInvoice($invoice);
+	        		if (!$this->invoice) {
+                        $this->invoice = new Invoice();
+	        			$this->invoice->created_at = $this->invoice->updated_at = $this->invoice->sent_at = $this->statement->created_at;
+	        			$this->invoice->property_id = $this->tenancy->property->id;
+	        			$this->invoice->number = $request->invoice_number;
+	        			$this->statement->storeInvoice($this->invoice);
 	        		}
 
 	        		$item = new InvoiceItem();
@@ -117,18 +124,20 @@ class OldStatementController extends BaseController
 	        		$item->quantity = $request->item_quantity[$i];
 	        		$item->tax_rate_id = $request->item_tax_rate_id[$i];
 
-	        		$invoice->storeItem($item);
+	        		$this->invoice->storeItem($item);
 	        	}
     		}
 
-    		if ($invoice) {
+    		if ($this->invoice) {
+                $this->invoice->fresh();
+
 	            $payment = new StatementPayment();
 	            $payment->statement_id = $this->statement->id;
-	            $payment->amount = $invoice->total;
+	            $payment->amount = $this->invoice->total;
 	            $payment->sent_at = $this->statement->created_at;
 	            $payment->bank_account_id = get_setting('company_bank_account_id', null);
 
-	            $invoice->storeStatementPayment($payment);
+	            $this->invoice->storeStatementPayment($payment);
     		}
     	}
     }
@@ -143,6 +152,8 @@ class OldStatementController extends BaseController
     	if (!$this->statement) {
     		return;
     	}
+
+        $this->statement->fresh();
 
     	$total_expenses = count($request->expense_name);
 
