@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Events\StatementCreating;
+use App\Expense;
 use App\Invoice;
+use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -368,6 +370,22 @@ class Statement extends BaseModel
     public function storeInvoice(Invoice $invoice)
     {
         $this->invoices()->save($invoice);
-        $invoice->users()->sync($this->users);
+        $invoice->users()->sync($this->tenancy->property->owners);
+    }
+
+    /**
+     * Attach an expense to a rental statement.
+     * 
+     * @param \App\Expense $expense
+     * @param integer $amount
+     * @return void
+     */
+    public function attachExpense(Expense $expense, $amount = null)
+    {
+        if (is_null($amount)) {
+            $amount = $expense->cost;
+        }
+
+        $this->expenses()->attach($expense, ['amount' => $amount]);
     }
 }

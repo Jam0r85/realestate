@@ -43,7 +43,7 @@
 
 							<div class="form-group">
 								<label for="created_at">Date Created</label>
-								<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" required />
+								<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" />
 								<small class="form-text text-muted">
 									The date of the statement when it was originally created.
 								</small>
@@ -51,7 +51,7 @@
 
 							<div class="form-group">
 								<label for="period_start">Date Start</label>
-								<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" required />
+								<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" />
 								<small class="form-text text-muted">
 									The start date of the statement.
 								</small>
@@ -59,7 +59,7 @@
 
 							<div class="form-group">
 								<label for="period_end">Date End</label>
-								<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" required />
+								<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" />
 								<small class="form-text text-muted">
 									The end date of the statement.
 								</small>
@@ -67,7 +67,7 @@
 
 							<div class="form-group">
 								<label for="amount">Amount</label>
-								<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" required />
+								<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" />
 								<small class="form-text text-muted">
 									Enter the rent amount of the statement.
 								</small>
@@ -107,7 +107,7 @@
 								<label for="invoice_number">Invoice Number</label>
 								<input type="number" step="any" name="invoice_number" id="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
 								<small class="form-text text-muted">
-									Invoice number is required when adding invoice items.
+									Invoice number is when adding invoice items.
 								</small>
 							</div>
 
@@ -120,7 +120,7 @@
 
 								<div class="form-group">
 									<label for="item_name">Name</label>
-									<input type="text" name="item_name[]" class="form-control" required value="{{ $tenancy->service ? $tenancy->service->name : '' }}" />
+									<input type="text" name="item_name[]" class="form-control" value="{{ $tenancy->service ? $tenancy->service->name : '' }}" />
 								</div>
 
 								<div class="form-group">
@@ -130,17 +130,17 @@
 
 								<div class="form-group">
 									<label for="item_amount">Amount Per Item</label>
-									<input type="number" step="any" name="item_amount[]" class="form-control" required />
+									<input type="number" step="any" name="item_amount[]" class="form-control" />
 								</div>
 
 								<div class="form-group">
 									<label for="item_quantity">Quantity</label>
-									<input type="number" name="item_quantity[]" class="form-control" required value="1" />
+									<input type="number" name="item_quantity[]" class="form-control" value="1" />
 								</div>
 
 								<div class="form-group">
 									<label for="item_tax_rate_id">Tax Rate</label>
-									<select name="item_tax_rate_id[]" class="form-control" required>
+									<select name="item_tax_rate_id[]" class="form-control">
 										<option value="0" selected>None</option>
 										@foreach (tax_rates() as $rate)
 											<option @if (get_setting('default_tax_rate_id') == $rate->id) selected @endif value="{{ $rate->id }}">

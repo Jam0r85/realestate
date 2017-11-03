@@ -16,6 +16,6 @@ class UserObserver
 	 */
 	public function creating(User $user)
 	{
-		$user->user_id = Auth::user()->id;
+		$user->user_id = $user->user_id ?? Auth::user()->id;
 	}
 }

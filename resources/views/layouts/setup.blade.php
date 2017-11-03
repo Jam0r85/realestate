@@ -17,8 +17,6 @@
 </head>
 <body>
     <div id="app">
-            
-        @include('flash::message')
 
         <div class="mb-5">
             @yield('content')

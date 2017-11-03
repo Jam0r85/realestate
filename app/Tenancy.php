@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Statement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -642,5 +643,16 @@ class Tenancy extends BaseModel
     public function getReLettingFee()
     {
         return $this->service->re_letting_fee;
+    }
+
+    /**
+     * Store a statement to this tenancy.
+     * 
+     * @param \App\Statement $statement
+     * @return void
+     */
+    public function storeStatement(Statement $statement)
+    {
+        $this->statements()->save($statement);
     }
 }

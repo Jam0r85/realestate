@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Document;
+use App\StatementPayment;
 use App\Traits\DocumentsTrait;
 use Laravel\Scout\Searchable;
 
@@ -133,5 +134,17 @@ class Expense extends BaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Store a payment against this expense.
+     * 
+     * @param \App\StatementPayment $payment
+     * @return void
+     */
+    public function storePayment(StatementPayment $payment)
+    {
+        $this->payments()->save($payment);
+        $payment->users()->attach($this->contractor);
     }
 }

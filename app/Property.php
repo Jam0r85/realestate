@@ -291,4 +291,9 @@ class Property extends BaseModel
 
     	return $name;
     }
+
+    public function storeExpense(Expense $expense)
+    {
+    	$this->expenses()->save($expense);
+    }
 }

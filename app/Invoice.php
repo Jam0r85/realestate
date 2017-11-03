@@ -3,6 +3,7 @@
 namespace App;
 
 use App\InvoiceItem;
+use App\StatementPayment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -360,8 +361,10 @@ class Invoice extends BaseModel
         $new->paid_at = null;
         $new->number = $this->invoiceGroup->next_number;
 
-        foreach ($attributes as $name => $value) {
-            $new->$name = $value;
+        if (count($attributes)) {
+            foreach ($attributes as $name => $value) {
+                $new->$name = $value;
+            }
         }
 
         $new->save();
@@ -375,5 +378,17 @@ class Invoice extends BaseModel
         }
 
         return $new;
+    }
+
+    /**
+     * Store an statement payment to this invoice.
+     * 
+     * @param \App\StatementPayment $payment
+     * @return void
+     */
+    public function storeStatementPayment(StatementPayment $payment)
+    {
+        $this->statement_payments()->save($payment);
+        $payment->users()->attach($this->property->owners);
     }
 }

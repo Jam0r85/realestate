@@ -69,6 +69,7 @@ class SetupController extends BaseController
 		];
 
 		$user = new User();
+		$user->user_id = 1;
 		$user->first_name = $request->first_name;
 		$user->last_name = $request->last_name;
 		$user->email = $request->email;

@@ -85,7 +85,7 @@ class StatementController extends BaseController
         $statement->period_end = $request->period_end;
         $statement->amount = $request->amount;
 
-        $tenancy->statements()->save($statement);
+        $tenancy->storeStatement($statement);
 
         event(new StatementCreated($statement));
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOldStatementRequest extends FormRequest
+class OldStatementStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,24 @@ class StoreOldStatementRequest extends FormRequest
             'created_at' => 'required|date_format:Y-m-d',
             'period_start' => 'required|date_format:Y-m-d',
             'period_end' => 'required|date_format:Y-m-d',
-            'amount',
-            'invoice_number' => 'required|unique:invoices,number'
+            'amount'
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     * 
+     * @param \Illuminate\Validator\Validator $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (!get_setting('invoice_default_group')) {
+                $validator
+                    ->errors()
+                    ->add('none', 'No default invoice group has been set, please do this in settings.');
+            }
+        });
     }
 }
