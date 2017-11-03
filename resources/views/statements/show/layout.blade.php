@@ -135,64 +135,75 @@
 				</div>
 				<div class="column is-8">
 
-					<div class="card mb-2">
-						<div class="card-content">
+					<div class="card mb-3">
 
-							<h3 class="title">Invoice Items</h3>
-							<h5 class="subtitle">The invoice items which have been added to this statement.</h5>
+						@component('partials.card-header')
+							Invoice Items
+						@endcomponent
 
-							@if ($statement->invoice)
-								@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
-							@else
-								<div class="notification">
-									This statement has no invoice items.
-								</div>
-							@endif
+						@if ($statement->invoice)
 
-						</div>
+							@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
+
+						@else
+
+							@component('partials.alerts.primary')
+								This statement has no invoice items.
+								@slot('style')
+									m-0 border-0 rounded-0
+								@endslot
+							@endcomponent
+
+						@endif
+
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">New Invoice Item</a>
 						</footer>
 					</div>
 
-					<div class="card mb-2">
-						<div class="card-content">
+					<div class="card mb-3">
 
-							<h3 class="title">Expense Items</h3>
-							<h5 class="subtitle">The expense items which have been added to this statement.</h5>
+						@component('partials.card-header')
+							Expense Items
+						@endcomponent
 
-							@if (count($statement->expenses))
-								<table class="table is-striped is-fullwidth">
-									<thead>
-										<th>Name</th>
-										<th>Contractor</th>
-										<th>Expense Cost</th>
-										<th>Amount</th>
-									</thead>
-									<tbody>
-										@foreach ($statement->expenses as $expense)
-											<tr>
-												<td>{{ $expense->name }}</td>
-												<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
-												<td>{{ currency($expense->cost) }}</td>
-												<td>{{ currency($expense->pivot->amount) }}</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							@else
-								<div class="notification">
-									This statement has no expense items.
-								</div>
-							@endif
+						@if (count($statement->expenses))
 
-						</div>
+							<table class="table is-striped is-fullwidth">
+								<thead>
+									<th>Name</th>
+									<th>Contractor</th>
+									<th>Expense Cost</th>
+									<th>Amount</th>
+								</thead>
+								<tbody>
+									@foreach ($statement->expenses as $expense)
+										<tr>
+											<td>{{ $expense->name }}</td>
+											<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
+											<td>{{ currency($expense->cost) }}</td>
+											<td>{{ currency($expense->pivot->amount) }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						@else
+
+							@component('partials.alerts.primary')
+								This statement has no expense items attached to it.
+								@slot('style')
+									m-0 border-0 rounded-0
+								@endslot
+							@endcomponent
+
+						@endif
+
 						<footer class="card-footer">
 							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-expense-item']) }}">New Expense Item</a>
 						</footer>
 					</div>
 
-					<div class="card mb-2">
+					<div class="card mb-3">
 
 						@component('partials.card-header')
 							Statement Payments
@@ -206,11 +217,13 @@
 
 								@component('partials.alerts.primary')
 									No payments have been generated for this statement yet.
+									@slot('style')
+										m-0 border-0 rounded-0
+									@endslot
 								@endcomponent
-								
+
 							@endif
 
-						</div>
 						<footer class="card-footer">
 							<a class="card-footer-item" href="javascript:document.getElementById('generatePaymentsForm').submit();">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
 							<form id="generatePaymentsForm" role="form" method="POST" action="{{ route('statements.create-payments', $statement->id) }}" style="display: hidden;">
