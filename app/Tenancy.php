@@ -322,16 +322,7 @@ class Tenancy extends BaseModel
      */
     public function getRentBalanceAttribute()
     {
-        $payments = $statements = 0;
-
-        if (count($this->rent_payments)) {
-            $payments = $this->rent_payments->sum('amount');
-        }
-
-        if (count($this->statements)) {
-            $statements = $this->statements->sum('amount');
-        }
-        return $payments - $statements;
+        return $this->rent_payments()->sum('amount') - $this->statements->sum('amount');
     }
 
     /**

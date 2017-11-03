@@ -44,7 +44,7 @@ class CreateManagementInvoiceItem
 
             $description = $service->name . ' service at ' . $service->charge_formatted;
             if ($service->taxRate) {
-                $description .= ' plus ' . $serivce->taxRate->name;
+                $description .= ' plus ' . $service->taxRate->name;
             }
 
             /**
