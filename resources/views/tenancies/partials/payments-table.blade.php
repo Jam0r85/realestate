@@ -1,4 +1,4 @@
-<table class="table table-striped table-responsive">
+<table class="table table-striped table-responsive-sm">
 	<thead>
 		<th>Date</th>
 		<th>Amount</th>
@@ -17,11 +17,7 @@
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
 				<td>
-					@foreach ($payment->users as $user)
-						<a href="{{ route('users.show', $user->id) }}" title="{{ $user->name }}" class="badge badge-primary">
-							{{ $user->name }}
-						</a>
-					@endforeach
+					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 				</td>
 				<td>
 					<a href="{{ route('downloads.payment', $payment->id) }}" title="Download" target="_blank">

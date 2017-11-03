@@ -1,4 +1,4 @@
-<table class="table table-striped table-responsive">
+<table class="table table-striped table-responsive-sm">
 	<thead>
 		<th>Created</th>
 		<th>Starts</th>
