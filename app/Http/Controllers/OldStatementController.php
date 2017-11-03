@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Expense;
 use App\Http\Requests\OldStatementStoreRequest;
 use App\Invoice;
 use App\InvoiceItem;
