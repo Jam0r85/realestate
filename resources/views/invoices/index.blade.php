@@ -45,7 +45,7 @@
 
 				</div>
 				
-				<table class="table table-striped table-responsive">
+				<table class="table table-striped table-responsive-sm">
 					<thead>
 						<th>Number</th>
 						<th>Date</th>
@@ -97,7 +97,7 @@
 
 		@endif
 
-		<table class="table table-striped table-responsive">
+		<table class="table table-striped table-responsive-sm">
 			<thead>
 				<th>Number</th>
 				<th>Date</th>
@@ -126,7 +126,9 @@
 			</tbody>
 		</table>
 
-		@include('partials.pagination', ['collection' => $invoices->appends(request()->input())])
+		@if (!request()->segment(2))
+			@include('partials.pagination', ['collection' => $invoices->appends(request()->input())])
+		@endif
 	
 	@endcomponent
 
