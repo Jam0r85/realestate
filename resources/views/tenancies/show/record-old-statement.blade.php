@@ -185,7 +185,7 @@
 
 											<div class="form-group">
 												<label for="expense_cost">Cost</label>
-												<input class="form-control" type="number" step="any" name="expese_cost[]" id="expense_cost" />
+												<input class="form-control" type="number" step="any" name="expense_cost[]" id="expense_cost" />
 											</div>
 
 											<div class="form-group">
