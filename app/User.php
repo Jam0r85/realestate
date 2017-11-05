@@ -185,7 +185,7 @@ class User extends Authenticatable
      */
     public function expenses()
     {
-        return $this->belongsToMany('App\Expense')
+        return $this->hasManyThrough('App\Expense', 'App\Property')
             ->latest();
     }
 

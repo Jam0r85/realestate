@@ -64,25 +64,45 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="properties" role="tabpanel">
 
+					<div class="p-2 text-muted text-center">
+						Properties that this user is the owner of.
+					</div>
+
 					@include('properties.partials.properties-table', ['properties' => $user->properties])
 
 				</div>
 				<div class="tab-pane" id="tenancies" role="tabpanel">
+
+					<div class="p-2 text-muted text-center">
+						Tenancies which are linked to properties that this user is the owner of.
+					</div>
 
 					@include('tenancies.partials.tenancies-table', ['tenancies' => $user->tenancies])
 
 				</div>
 				<div class="tab-pane" id="invoices" role="tabpanel">
 
+					<div class="p-2 text-muted text-center">
+						Invoices that are linked to this user and need to be paid or have been paid.
+					</div>
+
 					@include('invoices.partials.invoices-table', ['invoices' => $user->invoices()->limit(10)->get()])
 
 				</div>
 				<div class="tab-pane" id="expenses" role="tabpanel">
 
+					<div class="p-2 text-muted text-center">
+						Expenses which are linked to properties that this user is the owner of and needs to pay or has paid.
+					</div>
+
 					@include('expenses.partials.expenses-table', ['expenses' => $user->expenses()->limit(10)->get()])
 
 				</div>
 				<div class="tab-pane" id="bank_accounts" role="tabpanel">
+
+					<div class="p-2 text-muted text-center">
+						Bank Accounts which are linked to this user.
+					</div>
 
 					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $user->bankAccounts])
 
