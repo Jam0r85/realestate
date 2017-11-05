@@ -4,6 +4,6 @@
 		Linked Users
 	@endcomponent
 
-	@component('partials.bootstrap.users-list-group', ['users' => $account->users])
+	@include('partials.bootstrap.users-list-group', ['users' => $account->users])
 
 </div>

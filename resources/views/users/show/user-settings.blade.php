@@ -40,7 +40,7 @@
 
 					<div class="form-group">
 						<label class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" name="dark_mode" value="true" @if (user_setting($user, 'dark_mode')) checked @endif />
+							<input type="checkbox" class="custom-control-input" name="dark_mode" value="true" @if (user_setting('dark_mode', $user)) checked @endif />
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">Enable Dark Mode</span>
 						</label>
@@ -51,7 +51,7 @@
 
 					<div class="form-group">
 						<label for="calendar_event_color">Calendar Event Colour</label>
-						<input type="text" name="calendar_event_color" class="form-control" value="{{ array_has($user->settings, 'calendar_event_color') ? $user->settings['calendar_event_color'] : '' }}" />
+						<input type="text" name="calendar_event_color" class="form-control" value="{{ user_setting('calendar_event_color', $user) ? user_setting('calendar_event_color', $user) : '' }}" />
 						<small class="form-text text-muted">
 							Choose the colour for events created by this user.
 						</small>
@@ -59,7 +59,7 @@
 
 					<div class="form-group">
 						<label for="font_override">Font Override Family</label>
-						<input type="text" name="font_override" class="form-control" value="{{ array_has($user->settings, 'font_override') ? $user->settings['font_override'] : '' }}" />
+						<input type="text" name="font_override" class="form-control" value="{{ user_setting('font_override', $user) ? user_setting('font_override', $user) : '' }}" />
 						<small class="form-text text-muted">
 							Override the font for this site. Note that the font you enter must be installed onto the system you are using for it to work.
 						</small>
@@ -67,7 +67,7 @@
 
 					<div class="form-group">
 						<label for="font_override_size">Font Override Size</label>
-						<input type="text" name="font_override_size" id="font_override_size" class="form-control" value="{{ array_has($user->settings, 'font_override_size') ? $user->settings['font_override_size'] : '' }}" />
+						<input type="text" name="font_override_size" id="font_override_size" class="form-control" value="{{ user_setting('font_override_size', $user) ? user_setting('font_override_size', $user) : '' }}" />
 					</div>
 
 				</div>

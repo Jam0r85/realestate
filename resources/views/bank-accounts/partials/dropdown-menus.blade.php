@@ -10,7 +10,7 @@
 			Update Linked Users
 		</a>
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'archive-bank-account']) }}">
+		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'bank-account-status']) }}">
 			Bank Account Status
 		</a>
 	</div>

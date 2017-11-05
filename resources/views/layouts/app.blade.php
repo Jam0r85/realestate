@@ -18,15 +18,15 @@
     <style type="text/css">
         @auth
             body {
-                @if ($setting = user_setting(Auth::user(), 'font_override'))
+                @if ($setting = user_setting('font_override'))
                     font-family: "{{ $setting }}" !important;
                 @endif
-                @if ($setting = user_setting(Auth::user(), 'font_override_size'))
+                @if ($setting = user_setting('font_override_size'))
                     font-size: {{ $setting }} !important;
                 @endif
             }
             input, textarea, select, button:not(.close), .dropdown-menu {
-                @if ($setting = user_setting(Auth::user(), 'font_override_size'))
+                @if ($setting = user_setting('font_override_size'))
                     font-size: {{ $setting }} !important;
                 @endif
             }
@@ -36,7 +36,7 @@
 <body>
     <div id="app">
 
-        <nav class="navbar navbar-expand-lg {{ user_setting(Auth::user(), 'dark_mode') ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }} mb-5">
+        <nav class="navbar navbar-expand-lg {{ user_setting('dark_mode') ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }} mb-5">
 
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 {{ get_setting('company_name', config('app.name', 'Laravel')) }}

@@ -2,9 +2,8 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
-
+	@component('partials.bootstrap.section-with-container')
+	
 			<div class="page-title">
 				<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-secondary float-right">
 					Return

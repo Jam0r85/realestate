@@ -1,6 +1,6 @@
 <div class="card mb-3">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials.card-header')
 		<small class="text-muted float-right">
 			Users who own this property
 		</small>

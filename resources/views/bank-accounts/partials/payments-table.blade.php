@@ -1,12 +1,12 @@
-<table class="table table-striped table-responsive">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Sent</th>
 		<th>Tenancy</th>
 		<th>Name</th>
 		<th>Amount</th>
 		<th></th>
-	</thead>
-	<tbody>
+	@endslot
+	@slot('body')
 		@foreach ($account->recent_statement_payments as $payment)
 			<tr>
 				<td>{{ $payment->sent_at ? date_formatted($payment->sent_at) : 'Not Sent' }}</td>
@@ -16,5 +16,5 @@
 				<td><a href="{{ route('statements.show', $payment->statement->id) }}">Statement</a></td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent
