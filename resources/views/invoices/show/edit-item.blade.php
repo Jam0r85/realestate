@@ -7,7 +7,13 @@
 		<div class="page-title">
 
 			@component('partials.return-button')
-				Return
+				@slot('url')
+					@if ($item->invoice->statement)
+						{{ route('statements.show', $item->invoice->statement->id) }}
+					@else
+						{{ route('invoices.show', $item->invoice->id) }}
+					@endif
+				@endslot
 			@endcomponent
 
 			@component('partials.header')
