@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover table-responsive-sm {{ user_setting(Auth::user(), 'dark_mode') ? 'table-dark' : '' }}">
+<table class="table table-striped table-hover table-responsive-sm {{ user_setting('dark_mode') ? 'table-dark' : '' }}">
 	@if (isset($header))
 		<thead>
 			{{ $header }}
