@@ -33,7 +33,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		@include('bank-accounts.partials.table')
+		@include('bank-accounts.partials.bank-accounts-table')
 
 	@endcomponent
 

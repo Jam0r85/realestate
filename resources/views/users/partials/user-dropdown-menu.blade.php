@@ -6,7 +6,7 @@
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-settings']) }}">
 			User Settings
 		</a>
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">
+		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-details']) }}">
 			Personal Details
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-status']) }}">
