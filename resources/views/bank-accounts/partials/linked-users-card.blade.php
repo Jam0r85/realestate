@@ -1,6 +1,6 @@
 <div class="card mb-3">
 
-	@component('partials-header')
+	@component('partials.card-header')
 		Linked Users
 	@endcomponent
 
