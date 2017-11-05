@@ -18,7 +18,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstap.section-with-container')
+	@component('partials.bootstrap.section-with-container')
 
 		<div class="row">
 			<div class="col col-5">
@@ -36,7 +36,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstap.section-with-container')
+	@component('partials.bootstrap.section-with-container')
 
 		<div class="card">
 
