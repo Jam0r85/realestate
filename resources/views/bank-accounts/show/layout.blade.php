@@ -2,7 +2,7 @@
 
 @section('content')
 
-	@component('prtials.bootstrap.section-with-container')
+	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
 
