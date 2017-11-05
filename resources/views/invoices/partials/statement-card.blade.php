@@ -1,17 +1,19 @@
 @if ($invoice->statement)
-	<div class="card bg-info text-white mb-3">
+	<div class="card mb-3">
+
+		@component('partials.card-header')
+			Linked to Statement {{ $invoice->statement->id }}
+		@endcomponent
+
 		<div class="card-body">
-			<h4 class="card-title">
-				Rental Statement
-			</h4>
 			<p class="card-text">
 				This invoice is attached to a rental statement.
 			</p>
-		</div>
-		<div class="card-footer">
-			<a href="{{ route('statements.show', $invoice->statement->id) }}" title="Statement #{{ $invoice->statement->id }}">
-				View Statement #{{ $invoice->statement->id }}
+
+			<a href="{{ route('statements.show', $invoice->statement->id) }}" class="btn btn-primary">
+				View Statement
 			</a>
 		</div>
+		
 	</div>
 @endif
