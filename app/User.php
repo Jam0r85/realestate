@@ -181,7 +181,7 @@ class User extends Authenticatable
     }
 
     /**
-     * A user can have many expenses.
+     * A user can be the contractor of many expenses.
      */
     public function expenses()
     {

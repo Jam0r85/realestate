@@ -101,7 +101,7 @@ class Property extends BaseModel
 	 */
 	public function expenses()
 	{
-		return $this->hasMany('App\Expense')
+		return $this->hasManyThrough('App\Expense', 'App\Property')
 			->latest();
 	}
 
