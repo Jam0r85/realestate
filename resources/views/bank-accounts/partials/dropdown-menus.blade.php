@@ -9,16 +9,9 @@
 		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'edit-users']) }}">
 			Update Linked Users
 		</a>
-	</div>
-</div>
-
-<div class="btn-group">
-	<button class="btn btn-danger dropdown-toggle" type="button" id="bankAccountActionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Actions
-	</button>
-	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bankAccountActionsDropdown">
+		<div class="dropdown-divider"></div>
 		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'archive-bank-account']) }}">
-			Archive Bank Account
+			Bank Account Status
 		</a>
 	</div>
 </div>

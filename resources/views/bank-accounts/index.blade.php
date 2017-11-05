@@ -6,7 +6,7 @@
 
 		<div class="page-title">
 
-			<a href="{{ route('bank-accounts.create') }}" class="btn btn-primary flaot-right">
+			<a href="{{ route('bank-accounts.create') }}" class="btn btn-primary float-right">
 				<i class="fa fa-plus"></i> New Account
 			</a>
 

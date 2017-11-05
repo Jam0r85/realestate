@@ -1,7 +1,9 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-cogs"></i> Bank Account Information
-	</div>
+
+	@component('partials.card-header')
+		Bank Account Information
+	@endcomponent
+
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $account->bank_name }}
