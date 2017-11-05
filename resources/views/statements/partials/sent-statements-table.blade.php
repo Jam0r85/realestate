@@ -1,13 +1,13 @@
-<table class="table table-striped table-hover table-responsive">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Starts</th>
 		<th>Ends</th>
 		<th>Tenancy</th>
 		<th>Property</th>
 		<th>Amount</th>
 		<th>Sent</th>
-	</thead>
-	<tbody>
+	@endslot
+	@slot('body')
 		@foreach ($statements as $statement)
 			<tr>
 				<td>
@@ -27,7 +27,7 @@
 				<td>{{ date_formatted($statement->sent_at) }}</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent
 
 @include('partials.pagination', ['collection' => $statements])

@@ -3,7 +3,7 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-settings']) }}">
+		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-settings']) }}">
 			User Settings
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'edit-details']) }}">

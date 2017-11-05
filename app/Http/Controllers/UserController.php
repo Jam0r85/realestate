@@ -160,6 +160,10 @@ class UserController extends BaseController
      */
     public function updateSettings(Request $request, $id)
     {
+        if (!$request->has('dark_mode')) {
+            $request->request->add(['dark_mode' => null]);
+        }
+
         $user = User::findOrFail($id);
         $user->settings()->merge($request->input());
 

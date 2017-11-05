@@ -46,16 +46,16 @@
 
 				</div>
 
-				<table class="table table-striped table-hover table-responsive">
-					<thead>
+				@component('partials.table')
+					@slot('header')
 						<th>Name</th>
 						<th>Property</th>
 						<th>Contractor</th>
 						<th>Cost</th>
 						<th>Balance</th>
 						<th><i class="fa fa-upload"></i></th>
-					</thead>
-					<tbody>
+					@endslot
+					@slot('body')
 						@foreach ($unpaid_expenses as $expense)
 							@if (!$expense->isPaid())
 								<tr>
@@ -80,8 +80,8 @@
 								</tr>
 							@endif
 						@endforeach
-					</tbody>
-				</table>
+					@endslot
+				@endcomponent
 
 			@endcomponent
 
@@ -101,16 +101,16 @@
 				</div>
 			@endif
 
-			<table class="table table-striped table-hover table-responsive">
-				<thead>
+			@component('partials.table')
+				@slot('header')
 					<th>Name</th>
 					<th>Property</th>
 					<th>Contractors</th>
 					<th>Cost</th>
 					<th>Paid</th>
 					<th><i class="fa fa-upload"></i></th>
-				</thead>
-				<tbody>
+				@endslot
+				@slot('body')
 					@foreach ($expenses as $expense)
 						<tr>
 							<td>
@@ -133,8 +133,8 @@
 							</td>
 						</tr>
 					@endforeach
-				</tbody>
-			</table>
+				@endslot
+			@endcomponent
 
 			@include('partials.pagination', ['collection' => $expenses])
 

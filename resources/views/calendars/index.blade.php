@@ -20,14 +20,14 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Name</th>
 				<th>Events</th>
 				<th>Archived Events</th>
 				<th>Access</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($calendars as $calendar)
 					<tr>
 						<td>
@@ -40,8 +40,8 @@
 						<td></td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 	@endcomponent
 

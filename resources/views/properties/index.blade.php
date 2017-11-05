@@ -33,13 +33,12 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Name</th>
-				<th></th>
 				<th class="text-right">Owners</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($properties as $property)
 					<tr>
 						<td>
@@ -47,18 +46,13 @@
 								{{ $property->name }}
 							</a>
 						</td>
-						<td>
-							@if ($property->trashed())
-								<span class="text-muted"><i class="fa fa-archive"></i> Archived</span>
-							@endif
-						</td>
 						<td class="text-right">
 							@include('partials.bootstrap.users-inline', ['users' => $property->owners])
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $properties])
 

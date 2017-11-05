@@ -33,14 +33,14 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Name</th>
 				<th>Email</th>
 				<th>Mobile Phone</th>
 				<th>Other Phone</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($users as $user)
 					<tr>
 						<td>
@@ -53,8 +53,8 @@
 						<td>{{ $user->phone_number_other }}</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $users])
 

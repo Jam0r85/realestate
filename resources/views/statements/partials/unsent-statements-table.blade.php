@@ -1,16 +1,13 @@
-<form method="POST" action="{{ route('statements.send') }}">
-	{{ csrf_field() }}
-
-	<table class="table table-striped table-hover table-responsive">
-		<thead>
+	@component('partials.table')
+		@slot('header')
 			<th>Status</th>
 			<th>Start</th>
 			<th>End</th>
 			<th>Tenancy &amp; Property</th>
 			<th>Send By</th>
 			<th>Recipients</th>
-		</thead>
-		<tbody>
+		@endslot
+		@slot('body')
 			@foreach ($statements as $statement)
 				<tr>
 					<td>
@@ -47,11 +44,5 @@
 					</td>
 				</tr>
 			@endforeach
-		</tbody>
-	</table>
-
-	<button type="submit" class="btn btn-primary">
-		<i class="fa fa-envelope-open"></i> Send Statements
-	</button>
-
-</form>
+		@endslot
+	@endcomponent

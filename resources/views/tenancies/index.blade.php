@@ -5,12 +5,15 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
-			<h1>
+
+			<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-plus"></i> New Tenancy
+			</a>
+
+			@component('partials.header')
 				{{ $title }}
-				<a href="{{ route('tenancies.create') }}" class="btn btn-primary">
-					<i class="fa fa-plus"></i> New Tenancy
-				</a>
-			</h1>
+			@endcomponent
+
 		</div>
 
 		{{-- Tenancies Search --}}
@@ -30,16 +33,16 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Name</th>
 				<th>Property</th>
 				<th>Rent</th>
 				<th>Balance</th>
 				<th>Service</th>
 				<th>Status</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($tenancies as $tenancy)
 					<tr>
 						<td>
@@ -53,11 +56,13 @@
 							@include('tenancies.format.rent-balance')
 						</td>
 						<td>{{ $tenancy->service->name }}</td>
-						<td>@include('tenancies.partials.table-status-label')</td>
+						<td>
+							@include('tenancies.partials.table-status-label')
+						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $tenancies])
 

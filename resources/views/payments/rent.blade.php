@@ -29,18 +29,16 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Date</th>
 				<th>Tenancy</th>
 				<th>Amount</th>
 				<th>Method</th>
 				<th>Users</th>
-				<th class="text-right">
-					Receipt
-				</th>
-			</thead>
-			<tbody>
+				<th class="text-right">Receipt</th>
+			@endslot
+			@slot('body')
 				@foreach ($payments as $payment)
 					<tr>
 						<td>
@@ -65,8 +63,8 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $payments])
 

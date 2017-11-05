@@ -19,7 +19,8 @@ class UserSettings
 		'font_override_size' => null,
 		'tenancy_service_management_discount' => null,
 		'tenancy_service_letting_fee' => null,
-		'tenancy_service_re_letting_fee' => null
+		'tenancy_service_re_letting_fee' => null,
+		'dark_mode' => null
 	];
 
 	public function __construct(User $user)

@@ -32,11 +32,22 @@
 
 			<div class="card mb-3">
 
-				@component('partials.bootstrap.card-header')
+				@component('partials.card-header')
 					Site Settings
 				@endcomponent
 
 				<div class="card-body">
+
+					<div class="form-group">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="dark_mode" value="true" @if (user_setting($user, 'dark_mode')) checked @endif />
+							<span class="custom-control-indicator"></span>
+							<span class="custom-control-description">Enable Dark Mode</span>
+						</label>
+						<small class="form-text text-muted">
+							Enable site wide 'Dark Mode' which will change the colours and style.
+						</small>
+					</div>
 
 					<div class="form-group">
 						<label for="calendar_event_color">Calendar Event Colour</label>

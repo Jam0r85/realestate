@@ -45,16 +45,16 @@
 
 				</div>
 				
-				<table class="table table-striped table-responsive-sm">
-					<thead>
+				@component('partials.table')
+					@slot('header')
 						<th>Number</th>
 						<th>Date</th>
 						<th>Property</th>
 						<th>Total</th>
 						<th>Balance</th>
 						<th>Users</th>
-					</thead>
-					<tbody>
+					@endslot
+					@slot('body')
 						@foreach ($unpaid_invoices as $invoice)
 							@if (!$invoice->isPaid())
 								<tr>
@@ -73,8 +73,8 @@
 								</tr>
 							@endif
 						@endforeach
-					</tbody>
-				</table>
+					@endslot
+				@endcomponent
 
 				@include('partials.pagination', ['collection' => $unpaid_invoices])
 
@@ -97,16 +97,16 @@
 
 		@endif
 
-		<table class="table table-striped table-responsive-sm">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Number</th>
 				<th>Date</th>
 				<th>Property</th>
 				<th>Total</th>
 				<th>Users</th>
 				<th class="text-right">Paid</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($invoices as $invoice)
 					<tr>
 						<td>
@@ -123,8 +123,8 @@
 						<td class="text-right">{{ date_formatted($invoice->paid_at) }}</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@if (!request()->segment(2))
 			@include('partials.pagination', ['collection' => $invoices->appends(request()->input())])

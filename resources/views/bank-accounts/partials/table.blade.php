@@ -1,11 +1,11 @@
-<table class="table table-striped table-responsive">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Account Name</th>
 		<th>Account Number</th>
 		<th>Sort Code</th>
 		<th>Bank Name</th>
-	</thead>
-	<tbody>
+	@endslot
+	@slot('body')
 		@foreach ($accounts as $account)
 			<tr>
 				<td><a href="{{ route('bank-accounts.show', $account->id) }}">{{ $account->account_name }}</a></td>
@@ -14,7 +14,7 @@
 				<td>{{ $account->bank_name }}</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent
 
 @include('partials.pagination', ['collection' => $accounts])

@@ -3,10 +3,13 @@
 @section('content')
 
 	@component('partials.bootstrap.section-with-container')
+
 		<div class="page-title">
-			<h1>
+
+			@component('partials.header')
 				{{ $title }}
-			</h1>
+			@endcomponent
+
 		</div>
 
 		{{-- Events Search --}}
@@ -25,15 +28,15 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Date</th>
 				<th>Time</th>
 				<th>Title</th>
 				<th>Calendar</th>
 				<th class="text-right">Creator</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($events as $event)
 					<tr>
 						<td>{{ date_formatted($event->start) }}</td>
@@ -56,8 +59,8 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $events])
 

@@ -53,3 +53,16 @@ section.section {
 .card .table {
 	margin-bottom: 0;
 }
+
+/**
+ * Tables
+ */
+.table-dark td {
+	color: rgba(255,255,255,0.7);
+}
+.table-dark a {
+	color: white;
+}
+.table-dark a:hover {
+	color: rgba(255,255,255,0.8);
+}

@@ -20,14 +20,14 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Name</th>
 				<th>Next Number</th>
 				<th>Unpaid</th>
 				<th>Format</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($invoice_groups as $group)
 					<tr>
 						<td>
@@ -40,8 +40,8 @@
 						<td>{{ $group->format }}</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 	@endcomponent
 
