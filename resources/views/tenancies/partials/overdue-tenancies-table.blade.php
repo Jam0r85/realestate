@@ -4,8 +4,7 @@
 		<th>Property</th>
 		<th>Rent</th>
 		<th>Balance</th>
-		<th>Service</th>
-		<th>Status</th>
+		<th>Next Statement Due</th>
 	@endslot
 	@slot('body')
 		@foreach ($tenancies as $tenancy)
@@ -20,10 +19,7 @@
 				<td>
 					@include('tenancies.format.rent-balance')
 				</td>
-				<td>{{ $tenancy->service->name }}</td>
-				<td>
-					@include('tenancies.partials.table-status-label')
-				</td>
+				<td>{{ $tenancy->nextStatementDate() }}</td>
 			</tr>
 		@endforeach
 	@endslot

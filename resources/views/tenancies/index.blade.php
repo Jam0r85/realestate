@@ -25,16 +25,16 @@
 					</span>
 				</a>
 				<a href="{{ route('tenancies-list.index', 'has-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'has-rent' ? 'btn-primary' : 'btn-secondary' }}">
+					Has Rent
 					<span class="badge badge-light">
 						{{ App\Tenancy::hasRent()->count() }}
 					</span>
-					Has Rent
 				</a>
 				<a href="{{ route('tenancies-list.index', 'owes-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-rent' ? 'btn-primary' : 'btn-secondary' }}">
+					Owes Rent
 					<span class="badge badge-light">
 						{{ App\Tenancy::owesRent()->count() }}
 					</span>
-					Owes Rent
 				</a>
 			</div>
 
