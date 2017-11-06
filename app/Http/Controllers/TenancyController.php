@@ -48,7 +48,6 @@ class TenancyController extends BaseController
 
         if ($section == 'has-rent') {
             $tenancies = $tenancies->get()->where('get_rent_balance', '>', 0);
-            return dd($tenancies);
             $title = 'Tenancies With Rent';
         }
 
