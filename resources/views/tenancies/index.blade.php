@@ -36,6 +36,12 @@
 						{{ App\Tenancy::owesRent()->count() }}
 					</span>
 				</a>
+				<a href="{{ route('tenancies-list.index', 'owes-deposit') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-deposit' ? 'btn-primary' : 'btn-secondary' }}">
+					Owes Deposit
+					<span class="badge badge-light">
+						{{ App\Tenancy::owesDeposit()->count() }}
+					</span>
+				</a>
 			</div>
 
 		</div>

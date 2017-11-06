@@ -120,6 +120,19 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Scope a query to only include tenancies which have a negative rent amount.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeOwesDeposit($query)
+    {
+        return $query->whereHas('deposit', function ($query) {
+            $query->where('balance', '!=', 'amount');
+        });
+    }
+
+    /**
      * Scope a query to only include tenancies which are active.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query

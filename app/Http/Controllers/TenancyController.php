@@ -61,6 +61,11 @@ class TenancyController extends BaseController
             $title = 'Overdue Tenancies';
         }
 
+        if ($section == 'owes-deposit') {
+            $tenancies->owesDeposit()->paginate();
+            $title = 'Tenancies Owing Deposit';
+        }
+
         return view('tenancies.' . $view, compact('tenancies','title'));
     }
 
