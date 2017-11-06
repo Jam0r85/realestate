@@ -3,19 +3,19 @@
 		Tenancies
 	</h4>
 	<div class="list-group list-group-flush">
-		<a href="{{ route('tenancies.overdue') }}" class="list-group-item list-group-item-action">
+		<a href="{{ route('tenancies-list.index', 'overdue') }}" class="list-group-item list-group-item-action">
 			<span class="float-right">
 				{{ $overdue_tenancies }}
 			</span>
 			Tenancies in arrears
 		</a>
-		<a href="{{ route('tenancies.index') }}" class="list-group-item list-group-item-action">
+		<a href="{{ route('tenancies-list.index') }}" class="list-group-item list-group-item-action">
 			<span class="float-right">
 				{{ $active_tenancies }}
 			</span>
 			Active tenancies
 		</a>
-		<a href="{{ route('tenancies.index') }}" class="list-group-item list-group-item-action">
+		<a href="{{ route('tenancies-list.index') }}" class="list-group-item list-group-item-action">
 			<span class="float-right">
 				{{ count($managed_tenancies) }}
 			</span>

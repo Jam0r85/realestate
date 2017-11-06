@@ -37,25 +37,27 @@ class TenancyController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($section = 'index')
     {
-        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit')->latest()->paginate();
-        $title = 'Tenancies List';
+        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit')->latest();
+
+        if ($section == 'index') {
+            $tenancies = $tenancies->paginate();            
+            $title = 'Tenancies List';
+        }
+
+        if ($section == 'has-rent') {
+            $tenancies = $tenancies->get()->where('get_rent_balance', '>', 0);
+            return dd($tenancies);
+            $title = 'Tenancies With Rent';
+        }
+
+        if ($section == 'overdue') {
+            $tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
+            $title = 'Overdue Tenancies';
+        }
 
         return view('tenancies.index', compact('tenancies','title'));
-    }
-
-    /**
-     * Display a listing of overdue tenancies.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function overdue()
-    {
-        $tenancies = Tenancy::loadList()->isOverdue()->get();
-        $tenancies = $tenancies->sortByDesc('days_overdue');
-
-        return view('tenancies.overdue', compact('tenancies'));
     }
 
     /**

@@ -309,6 +309,14 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * @return [type] [description]
+     */
+    public function getRentBalanceAttribute()
+    {
+        return $this->getRentBalance();
+    }
+
+    /**
      * Get the tenancy's next statement date.
      * 
      * @return Carbon\Carbon

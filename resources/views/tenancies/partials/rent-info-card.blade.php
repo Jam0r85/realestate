@@ -39,7 +39,7 @@
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->currentRent() ? date_formatted($tenancy->currentRent()->starts_at) : '-' }}
+				{{ $tenancy->currentRent ? date_formatted($tenancy->currentRent->starts_at) : '-' }}
 				@slot('title')
 					Date From
 				@endslot

@@ -146,13 +146,13 @@
                             @endcomponent
 
                             <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                                <a class="dropdown-item" href="{{ route('tenancies.index') }}">
+                                <a class="dropdown-item" href="{{ route('tenancies-list.index') }}">
                                     All Tenancies
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('tenancies-list.index', 'has-rent') }}">
                                     Has Rent
                                 </a>
-                                <a class="dropdown-item" href="{{ route('tenancies.overdue') }}" title="Overdue Tenancies List">
+                                <a class="dropdown-item" href="{{ route('tenancies-list.index', 'overdue') }}" title="Overdue Tenancies List">
                                     Overdue Tenancies
                                 </a>
                                 <a class="dropdown-item" href="#">
