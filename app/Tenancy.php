@@ -118,7 +118,6 @@ class Tenancy extends BaseModel
             'tenants',
             'current_rent',
             'rent_payments',
-            'lastRentPayment',
             'statements',
             'service'
         );
@@ -178,12 +177,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a last rent payment based on the date it was created.
+     * A tenancy can have a last rent payment.
      */
     public function lastRentPayment()
     {
-        return $this->morphOne('App\Payment', 'parent')
-            ->latest();
+        return $this->rent_payments()
+            ->latest()
+            ->first();
     }
 
     /**
