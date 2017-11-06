@@ -109,23 +109,6 @@ class Tenancy extends BaseModel
             ->orWhere('vacated_on', '>', Carbon::now());
     }
 
-    /**
-     * Scope a query to load the relations required for lists.
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function scopeLoadList($query)
-    {
-        return $query->with(
-            'deposit',
-            'property',
-            'tenants',
-            'rent_payments',
-            'service'
-        );
-    }
-
 	/**
 	 * A tenancy belongs to a single property.
 	 */

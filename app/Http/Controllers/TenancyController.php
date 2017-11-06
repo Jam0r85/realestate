@@ -39,7 +39,7 @@ class TenancyController extends BaseController
      */
     public function index()
     {
-        $tenancies = Tenancy::loadList()->latest()->paginate();
+        $tenancies = Tenancy::with('property','tenants','currentRent')->latest()->paginate();
         $title = 'Tenancies List';
 
         return view('tenancies.index', compact('tenancies','title'));
