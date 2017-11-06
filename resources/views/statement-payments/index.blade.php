@@ -70,8 +70,8 @@
 
 		</div>
 
-		<table class="table table-striped table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Property</th>
 				<th>Statement</th>
 				<th>Name</th>
@@ -79,8 +79,8 @@
 				<th>Amount</th>
 				<th>Sent</th>
 				<th></th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($sent_payments as $payment)
 					<tr>
 						<td>{!! truncate($payment->statement->tenancy->property->short_name) !!}</td>
@@ -100,8 +100,8 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $sent_payments])
 

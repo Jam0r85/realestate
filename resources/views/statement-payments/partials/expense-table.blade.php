@@ -1,13 +1,11 @@
-<table class="table table-striped table-responsive">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Property</th>
 		<th>Expense</th>
 		<th class="text-right">Amount</th>
-		<th>
-
-		</th>
-	</thead>
-	<tbody>
+		<th></th>
+	@endslot
+	@slot('body')
 		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ $payment->statement->property->short_name }}</td>
@@ -23,5 +21,5 @@
 				</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent

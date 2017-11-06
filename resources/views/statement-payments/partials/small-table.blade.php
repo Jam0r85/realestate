@@ -1,12 +1,12 @@
-<table class="table table-striped table-hover table-responsive-sm">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Name</th>
 		<th>Method</th>
 		<th>Amount</th>
 		<th>Sent</th>
 		<th>Users</th>
-	</thead>
-	<tbody>
+	@endslot
+	@slot('body')
 		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ $payment->name_formatted }}</td>
@@ -18,7 +18,7 @@
 				</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent
 
 @include('partials.pagination', ['collection' => $payments])
