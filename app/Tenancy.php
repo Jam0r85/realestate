@@ -140,7 +140,8 @@ class Tenancy extends BaseModel
      */
     public function rents()
     {
-    	return $this->hasMany('App\TenancyRent')->latest('starts_at');
+    	return $this->hasMany('App\TenancyRent')
+            ->latest('starts_at');
     }
 
     /**
@@ -148,10 +149,9 @@ class Tenancy extends BaseModel
      */
     public function currentRent()
     {
-        return $this->rents()
+        return $this->hasOne('App\TenancyRent')
             ->where('starts_at', '<=', Carbon::now())
-            ->latest('starts_at')
-            ->first();
+            ->latest('starts_at');
     }
 
     /**
@@ -161,7 +161,7 @@ class Tenancy extends BaseModel
      */
     public function getCurrentRentAmount()
     {
-        return $this->currentRent()->amount ?? 0;
+        return $this->currentRent->amount ?? 0;
     }
 
     /**
