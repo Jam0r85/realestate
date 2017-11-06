@@ -37,7 +37,7 @@ class TenancyController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($section = 'index')
+    public function index($section = 'index', $view = 'index')
     {
         $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit')->latest();
 
@@ -53,10 +53,11 @@ class TenancyController extends BaseController
 
         if ($section == 'overdue') {
             $tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
+            $view = 'overdue';
             $title = 'Overdue Tenancies';
         }
 
-        return view('tenancies.index', compact('tenancies','title'));
+        return view('tenancies.' . $view, compact('tenancies','title'));
     }
 
     /**
