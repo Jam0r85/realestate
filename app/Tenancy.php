@@ -212,7 +212,7 @@ class Tenancy extends BaseModel
     public function statements()
     {
         return $this->hasMany('App\Statement')
-            ->with('invoices','invoiceGroup')
+            ->with('invoices','invoices.invoiceGroup')
             ->latest('period_start');
     }
 
@@ -222,7 +222,6 @@ class Tenancy extends BaseModel
     public function latestStatement()
     {
         return $this->statements
-            ->latest('period_start')
             ->first();
     }
 
