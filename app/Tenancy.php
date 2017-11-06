@@ -295,7 +295,7 @@ class Tenancy extends BaseModel
      */
     public function getRentAmountAttribute()
     {
-    	return $this->current_rent ? $this->current_rent->amount : null;
+    	return $this->currentRent ? $this->currentRent->amount : 0;
     }
 
     /**

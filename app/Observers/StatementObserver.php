@@ -20,7 +20,7 @@ class StatementObserver
 		$statement->key = str_random(30);
 		$statement->send_by = $statement->tenancy->property->settings['statement_send_method'];
 		$statement->period_end = $statement->period_end ?? $statement->period_start->addMonth()->subDay();
-		$statement->amount = $statement->amount ?? $statement->tenancy->current_rent->amount;
+		$statement->amount = $statement->amount ?? $statement->tenancy->rent_amount;
 	}
 
 	/**

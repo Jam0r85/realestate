@@ -23,8 +23,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Date</th>
 				<th>Start</th>
 				<th>End</th>
@@ -33,8 +33,8 @@
 				<th>Invoice</th>
 				<th>Status</th>
 				<th>PDF</th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($tenancy->statements()->paginate() as $statement)
 					<tr>
 						<td>
@@ -71,8 +71,8 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $tenancy->statements()->paginate()])
 
