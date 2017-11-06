@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\UpdateTenancyRentBalances;
 use App\Statement;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -24,15 +25,28 @@ class StatementObserver
 	}
 
 	/**
-	 * Listen to the Statement created event.
+	 * Listen to the Statement saved event.
 	 * 
 	 * @param App\Statement $statement
 	 * @return void
 	 */
-	public function created(Statement $statement)
+	public function saved(Statement $statement)
 	{
 		if (!count($statement->users)) {
 			$statement->users()->sync($statement->tenancy->property->owners);
 		}
+
+		UpdateTenancyRentBalances::dispatch($statement->tenancy_id);
+	}
+
+	/**
+	 * Listen to the Statement deleted event.
+	 * 
+	 * @param App\Statement $statement
+	 * @return void
+	 */
+	public function deleted(Statement $statement)
+	{
+		UpdateTenancyRentBalances::dispatch($statement->tenancy_id);
 	}
 }

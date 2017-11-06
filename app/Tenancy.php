@@ -75,7 +75,8 @@ class Tenancy extends BaseModel
 		'property_id',
 		'service_id',
         'is_overdue',
-		'vacated_on'
+		'vacated_on',
+        'rent_balance'
 	];
 
     /**
@@ -306,14 +307,6 @@ class Tenancy extends BaseModel
     public function getRentBalance()
     {
         return $this->rent_payments->sum('amount') - $this->statements->sum('amount');
-    }
-
-    /**
-     * @return [type] [description]
-     */
-    public function getRentBalanceAttribute()
-    {
-        return $this->getRentBalance();
     }
 
     /**
