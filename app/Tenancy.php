@@ -120,7 +120,6 @@ class Tenancy extends BaseModel
             'rent_payments',
             'lastRentPayment',
             'statements',
-            'last_statement',
             'service'
         );
     }
@@ -198,25 +197,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the old statements list.
-     * 
-     */
-    public function oldStatementsList()
-    {
-        return $this->hasMany('App\Statement')
-            ->with('invoices','invoices.items','invoices.items.taxRate','expenses')
-            ->latest('id')
-            ->limit(10)
-            ->get();
-    }
-
-    /**
      * A tenancy can have a last rental statement.
      */
     public function last_statement()
     {
-        return $this->hasOne('App\Statement')
-            ->latest('period_start');
+        return $this->statements()
+            ->latest('period_start')
+            ->first();
     }
 
     /**
