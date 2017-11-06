@@ -16,7 +16,7 @@
 					</a>
 				</td>
 				<td>{!! truncate($tenancy->property->short_name) !!}</td>
-				<td>{{ currency($tenancy->rent_amount) }}</td>
+				<td>{{ currency($tenancy->getCurrentRentAmount()) }}</td>
 				<td>
 					@include('tenancies.format.rent-balance')
 				</td>

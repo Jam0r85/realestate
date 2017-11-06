@@ -4,13 +4,16 @@
 		Rent
 	@endcomponent
 
-	@if (!$tenancy->current_rent)
+	@if (!$tenancy->currentRent())
+
 		<div class="card-body">
 			<p class="card-text">
 				No rent amount has been set for this tenancy.
 			</p>
 		</div>
+
 	@else
+
 		<ul class="list-group list-group-flush">
 			@component('partials.bootstrap.list-group-item')
 				<span class="lead">
@@ -30,23 +33,25 @@
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->current_rent ? currency($tenancy->current_rent->amount) : '-' }}
+				{{ $tenancy->getCurrentRentAmount() }}
 				@slot('title')
 					Current Rent
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->current_rent ? date_formatted($tenancy->current_rent->starts_at) : '-' }}
+				{{ $tenancy->currentRent() ? date_formatted($tenancy->currentRent()->starts_at) : '-' }}
 				@slot('title')
 					Date From
 				@endslot
 			@endcomponent
 			@component('partials.bootstrap.list-group-item')
-				{{ $tenancy->lastRentPayment ? date_formatted($tenancy->lastRentPayment->created_at) : '-' }}
+				{{ $tenancy->latestRentPayment() ? date_formatted($tenancy->latestRentPayment()->created_at) : '-' }}
 				@slot('title')
 					Last Payment
 				@endslot
 			@endcomponent
 		</ul>
+
 	@endif
+
 </div>

@@ -50,7 +50,12 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['tenants','rent_payments'];
+    protected $with = [
+        'tenants',
+        'rent_payments',
+        'statements',
+        'rents'
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -116,9 +121,7 @@ class Tenancy extends BaseModel
             'deposit',
             'property',
             'tenants',
-            'current_rent',
             'rent_payments',
-            'statements',
             'service'
         );
     }
@@ -143,11 +146,22 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have a current rent amount based on it starting before today.
      */
-    public function current_rent()
+    public function currentRent()
     {
-        return $this->hasOne('App\TenancyRent')
+        return $this->rents()
             ->where('starts_at', '<=', Carbon::now())
-            ->latest('starts_at');
+            ->latest('starts_at')
+            ->first();
+    }
+
+    /**
+     * Get the current rent for this tenancy.
+     * 
+     * @return integer
+     */
+    public function getCurrentRentAmount()
+    {
+        return $this->currentRent()->amount ?? 0;
     }
 
     /**
@@ -179,7 +193,7 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have a last rent payment.
      */
-    public function lastRentPayment()
+    public function latestRentPayment()
     {
         return $this->rent_payments()
             ->latest()
@@ -308,7 +322,7 @@ class Tenancy extends BaseModel
      */
     public function getRentBalance()
     {
-        return $this->rent_payments()->sum('amount') - $this->statements->sum('amount');
+        return $this->rent_payments->sum('amount') - $this->statements->sum('amount');
     }
 
     /**
