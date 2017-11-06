@@ -98,6 +98,28 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Scope a query to only include tenancies which have a positive rent amount.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeHasRent($query)
+    {
+        return $query->where('rent_balance', '>', 0);
+    }
+
+    /**
+     * Scope a query to only include tenancies which have a negative rent amount.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function scopeOwesRent($query)
+    {
+        return $query->where('rent_balance', '<', 0);
+    }
+
+    /**
      * Scope a query to only include tenancies which are active.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query

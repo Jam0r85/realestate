@@ -14,6 +14,30 @@
 				{{ $title }}
 			@endcomponent
 
+			<div class="btn-group" role="group">
+				<a href="{{ route('tenancies-list.index') }}" class="btn btn-sm {{ !Request::segment('2') ? 'btn-primary' : 'btn-secondary' }}">
+					All Tenancies
+				</a>
+				<a href="{{ route('tenancies-list.index', 'overdue') }}" class="btn btn-sm {{ Request::segment('2') == 'overdue' ? 'btn-primary' : 'btn-secondary' }}">
+					Overdue
+					<span class="badge badge-light">
+						{{ App\Tenancy::isOverdue()->count() }}
+					</span>
+				</a>
+				<a href="{{ route('tenancies-list.index', 'has-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'has-rent' ? 'btn-primary' : 'btn-secondary' }}">
+					<span class="badge badge-light">
+						{{ App\Tenancy::hasRent()->count() }}
+					</span>
+					Has Rent
+				</a>
+				<a href="{{ route('tenancies-list.index', 'owes-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-rent' ? 'btn-primary' : 'btn-secondary' }}">
+					<span class="badge badge-light">
+						{{ App\Tenancy::owesRent()->count() }}
+					</span>
+					Owes Rent
+				</a>
+			</div>
+
 		</div>
 
 		{{-- Tenancies Search --}}
@@ -33,7 +57,11 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		@include('tenancies.partials.tenancies-table')
+		@if (Request::segment(2) == 'overdue')
+			@include('tenancies.partials.overdue-tenancies-table')
+		@else
+			@include('tenancies.partials.tenancies-table')
+		@endif
 
 		@include('partials.pagination', ['collection' => $tenancies])
 

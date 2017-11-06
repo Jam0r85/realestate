@@ -47,18 +47,17 @@ class TenancyController extends BaseController
         }
 
         if ($section == 'has-rent') {
-            $tenancies = $tenancies->where('rent_balance', '>', 0)->paginate();
+            $tenancies = $tenancies->hasRent()->paginate();
             $title = 'Tenancies With Rent';
         }
 
         if ($section == 'owes-rent') {
-            $tenancies = $tenancies->where('rent_balance', '<', 0)->paginate();
+            $tenancies = $tenancies->owesRent()->paginate();
             $title = 'Tenancies Owing Rent';
         }
 
         if ($section == 'overdue') {
             $tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
-            $view = 'overdue';
             $title = 'Overdue Tenancies';
         }
 

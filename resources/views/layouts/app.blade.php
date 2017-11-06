@@ -149,15 +149,6 @@
                                 <a class="dropdown-item" href="{{ route('tenancies-list.index') }}">
                                     All Tenancies
                                 </a>
-                                <a class="dropdown-item" href="{{ route('tenancies-list.index', 'has-rent') }}">
-                                    Has Rent
-                                </a>
-                                <a class="dropdown-item" href="{{ route('tenancies-list.index', 'overdue') }}" title="Overdue Tenancies List">
-                                    Overdue Tenancies
-                                </a>
-                                <a class="dropdown-item" href="{{ route('tenancies-list.index', 'owes-rent') }}">
-                                    Owes Rent
-                                </a>
                                 <a class="dropdown-item" href="{{ route('tenancies.archived') }}" title="Archived Tenancies List">
                                     Archived Tenancies
                                 </a>
