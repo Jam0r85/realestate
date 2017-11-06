@@ -3,7 +3,7 @@
 		<th>Property</th>
 		<th>Number</th>
 		<th class="text-right">Amount</th>
-		<td></td>
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
