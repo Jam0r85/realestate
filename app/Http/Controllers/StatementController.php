@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\StatementCreated;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\SendStatementsRequest;
+use App\Http\Requests\StatementStoreRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
 use App\Mail\StatementByEmail;
@@ -76,7 +77,7 @@ class StatementController extends BaseController
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function store(Request $request)
+    public function store(StatementStoreRequest $request)
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
 
