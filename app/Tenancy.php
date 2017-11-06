@@ -196,7 +196,7 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have a last rental statement.
      */
-    public function last_statement()
+    public function latestStatement()
     {
         return $this->statements()
             ->latest('period_start')
@@ -323,7 +323,7 @@ class Tenancy extends BaseModel
      */
     public function nextStatementDate()
     {
-        return $this->last_statement ? $this->last_statement->period_end->addDay() : $this->started_at;
+        return $this->latestStatement() ? $this->latestStatement()->period_end->addDay() : $this->started_at;
     }
 
     /**
@@ -333,7 +333,7 @@ class Tenancy extends BaseModel
      */
     public function getServiceChargeAmountAttribute()
     {
-        return ($this->rent_amount * $this->calculateServiceCharge());
+        return ($this->getCurrentRentAmount() * $this->calculateServiceCharge());
     }
 
     /**
@@ -387,8 +387,8 @@ class Tenancy extends BaseModel
             return null;
         }
         
-        if ($this->next_statement_start_date < Carbon::now()) {
-            return $this->next_statement_start_date->diffInDays(Carbon::now(), false);
+        if ($this->nextStatementDate() < Carbon::now()) {
+            return $this->nextStatementDate()->diffInDays(Carbon::now(), false);
         } else {
             return 0;
         }
@@ -506,7 +506,7 @@ class Tenancy extends BaseModel
             if (count($this->statements)) {
 
                 // Create a next statement date variable and add 3 days
-                $next_statement_date = $this->next_statement_start_date;
+                $next_statement_date = $this->nextStatementDate();
                 $next_statement_date->addDays(3);
 
                 // Check whether the next statement date has been passed.
