@@ -19,7 +19,7 @@
 				<td>
 					@include('tenancies.format.rent-balance')
 				</td>
-				<td>{{ $tenancy->nextStatementDate() }}</td>
+				<td>{{ date_formatted($tenancy->nextStatementDate()) }}</td>
 			</tr>
 		@endforeach
 	@endslot
