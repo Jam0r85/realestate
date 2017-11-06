@@ -38,11 +38,11 @@ class Tenancy extends BaseModel
 	protected $appends = [
         'name',
         'rent_amount',
-        'next_statement_start_date',
         'service_charge_amount',
         'service_charge_formatted',
         'days_overdue',
-        'started_at'
+        'started_at',
+        'rent_balance'
     ];
 
     /**

@@ -1,6 +1,6 @@
 <div class="card mb-3">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials..card-header')
 		Tenancy Details
 	@endcomponent
 
@@ -36,7 +36,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->next_statement_start_date ? date_formatted($tenancy->next_statement_start_date) : '-' }}
+			{{ date_formatted($tenancy->nextStatementDate()) }}
 			@slot('title')
 				Next Statement Due
 			@endslot

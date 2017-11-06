@@ -47,7 +47,7 @@ class TenancyController extends BaseController
         }
 
         if ($section == 'has-rent') {
-            $tenancies = $tenancies->get()->where('get_rent_balance', '>', 0);
+            $tenancies = $tenancies->get();
             $title = 'Tenancies With Rent';
         }
 
@@ -67,7 +67,7 @@ class TenancyController extends BaseController
      */
     public function archived()
     {
-        $tenancies = Tenancy::loadList()->onlyTrashed()->paginate();
+        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit')->onlyTrashed()->paginate();
         $title = 'Archived Tenancies';
 
         return view('tenancies.index', compact('tenancies','title'));
