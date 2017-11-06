@@ -14,7 +14,7 @@
 		<ul class="list-group list-group-flush">
 			@component('partials.bootstrap.list-group-item')
 				<span class="lead">
-					{{ currency($tenancy->rent_balance) }}
+					{{ currency($tenancy->getRentBalance()) }}
 				</span>
 				@slot('title')
 					<span class="lead">
@@ -22,9 +22,9 @@
 					</span>
 				@endslot
 				@slot('style')
-					@if ($tenancy->rent_balance < 0)
+					@if ($tenancy->getRentBalance() < 0)
 						list-group-item-danger
-					@elseif ($tenancy->rent_balance > 0)
+					@elseif ($tenancy->getRentBalance() > 0)
 						list-group-item-success
 					@endif
 				@endslot

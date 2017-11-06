@@ -320,7 +320,7 @@ class Tenancy extends BaseModel
      * 
      * @return integer
      */
-    public function getRentBalanceAttribute()
+    public function getRentBalance()
     {
         return $this->rent_payments()->sum('amount') - $this->statements->sum('amount');
     }
@@ -567,7 +567,7 @@ class Tenancy extends BaseModel
         $fees = [];
 
         foreach ($this->property->owners as $user) {
-            if ($amount = user_setting($user, 'tenancy_service_letting_fee')) {
+            if ($amount = user_setting('tenancy_service_letting_fee', $user)) {
                 $fees[] = [
                     'user_name' => $user->name,
                     'user_id' => $user->id,
@@ -604,7 +604,7 @@ class Tenancy extends BaseModel
         $fees = [];
 
         foreach ($this->property->owners as $user) {
-            if ($amount = user_setting($user, 'tenancy_service_re_letting_fee')) {
+            if ($amount = user_setting('tenancy_service_re_letting_fee', $user)) {
                 $fees[] = [
                     'user_name' => $user->name,
                     'user_id' => $user->id,
