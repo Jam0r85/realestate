@@ -38,7 +38,6 @@ class Tenancy extends BaseModel
 	protected $appends = [
         'name',
         'rent_amount',
-        'rent_balance',
         'next_statement_start_date',
         'service_charge_amount',
         'service_charge_formatted',
@@ -51,7 +50,7 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $with = ['tenants'];
+    protected $with = ['tenants','rent_payments'];
 
     /**
      * The attributes that should be cast to native types.
