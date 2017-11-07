@@ -5,10 +5,15 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="page-title">
+
 			<div class="float-right">
 				@include('properties.partials.dropdown-menus')
 			</div>
-			<h1>{{ $property->short_name }}</h1>
+
+			@component('partials.header')
+				{{ $property->short_name }}
+			@endcomponent
+
 		</div>
 
 	@endcomponent
@@ -17,63 +22,72 @@
 
 		@if ($property->trashed())
 
-			<div class="alert alert-secondary">
+			@component('partials.alerts.secondary')
 				This property was <b>archived</b> on {{ date_formatted($property->deleted_at) }}
-			</div>
+			@endcomponent
 
 		@endif
 
 		<div class="row">
-			<div class="col col-5">
+			<div class="col-sm-12 col-lg-5">
 
 				@include('properties.partials.owners-card')
 				@include('properties.partials.gas-reminder-card')
 				@include('properties.partials.system-info-card')
 
 			</div>
-			<div class="col col-7">
+			<div class="col-sm-12 col-lg-7">
 
 				@include('properties.partials.property-info-card')
 
 			</div>
 		</div>
 
-		<hr />
+	@endcomponent
 
-		<ul class="nav nav-tabs" id="userTabs" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#tenancies" role="tab">Tenancies</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#statements" role="tab">Statements</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
-			</li>
-		</ul>
+	@component('partials.bootstrap.section-with-container')
 
-		<div class="tab-content">
-			<div class="tab-pane active" id="tenancies" role="tabpanel">
+		<div class="card mb-3">
+			<div class="card-body">
 
-				@include('properties.partials.tenancies-table')
-
-			</div>
-			<div class="tab-pane" id="invoices" role="tabpanel">
-
-				@include('properties.partials.invoices-table')
+				<ul class="nav nav-pills nav-justified" id="userTabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#tenancies" role="tab">Tenancies</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#statements" role="tab">Statements</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
+					</li>
+				</ul>
 
 			</div>
-			<div class="tab-pane" id="statements" role="tabpanel">
 
-				@include('properties.partials.statements-table')
+			<div class="tab-content">
+				<div class="tab-pane active" id="tenancies" role="tabpanel">
 
+					@include('tenancies.partials.tenancies-table', ['tenancies' => $property->tenancies])
+
+				</div>
+				<div class="tab-pane" id="invoices" role="tabpanel">
+
+					@include('invoices.partials.invoices-table', ['invoices' => $property->invoices()->limit(10)->get()])
+
+				</div>
+				<div class="tab-pane" id="statements" role="tabpanel">
+
+					
+
+				</div>
+				<div class="tab-pane" id="expenses" role="tabpanel">
+
+				</div>
 			</div>
-			<div class="tab-pane" id="expenses" role="tabpanel">
 
-			</div>
 		</div>
 		
 	@endcomponent
