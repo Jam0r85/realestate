@@ -2,37 +2,41 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<a href="{{ route('statements.show', $statement->id) }}" class="button is-pulled-right">
+		<div class="page-title">
+
+			<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-secondary float-right">
 				Return
 			</a>
 
-			<h1 class="title">Statement #{{ $statement->id}}</h1>
-			<h2 class="subtitle">New invoice item</h2>
+			@component('partials.header')
+				Statement #{{ $statement->id }}
+			@endcomponent
 
-			<hr />
-
-			@include('partials.errors-block')
-
-			<form role="form" method="POST" action="{{ route('statements.create-invoice-item', $statement->id) }}">
-				{{ csrf_field() }}
-
-				@include('invoices.partials.item-form')
-
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
-					</span>
-					<span>
-						Create Item
-					</span>
-				</button>
-
-			</form>
+			@component('partials.sub-header')
+				Create Invoice Item
+			@endcomponent
 
 		</div>
-	</section>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
+
+		<form role="form" method="POST" action="{{ route('statements.create-invoice-item', $statement->id) }}">
+			{{ csrf_field() }}
+
+			@include('invoice-items.form', ['invoice' => $statement->invoice])
+
+			@component('partials.save-button')
+				Save Item
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection

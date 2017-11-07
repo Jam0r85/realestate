@@ -102,7 +102,7 @@ class StatementController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $statement = Statement::findOrFail($id);
+        $statement = Statement::withTrashed()->findOrFail($id);
         return view('statements.show.' . $section, compact('statement'));
     }
 

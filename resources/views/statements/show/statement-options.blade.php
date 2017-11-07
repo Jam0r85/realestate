@@ -35,12 +35,19 @@
 			<div class="card-body">
 
 				<p class="card-text">
-					Send this statement, invoice and any expenses by e-mail to the landlords of this property.
+					Send this statement to the landlords of this property. You can force this statement to be sent by e-mail where a PDF version of the statement, invoice and any expenses will be attached.
 				</p>
 
 				<form method="POST" action="{{ route('statements.send', $statement->id) }}">
 					{{ csrf_field() }}
-					<input type="hidden" name="by_email" value="true" />
+
+					<div class="form-group">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="by_email" value="true">
+							<span class="custom-control-indicator"></span>
+							<span class="custom-control-description">Force by E-Mail</span>
+						</label>
+					</div>
 
 					@component('partials.save-button')
 						Send Statement

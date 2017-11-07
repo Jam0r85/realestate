@@ -2,6 +2,22 @@
 
 @section('content')
 
+	@component('partials.bootstrap.section-with-container')
+
+		<div class="page-title">
+
+			<div class="float-right">
+				@include('statements.partials.statement-dropdown-menu')
+			</div>
+
+			@component('partials.header')
+				Statement #{{ $statement->id }}
+			@endcomponent
+
+		</div>
+		
+	@endcomponent
+
 	<section class="section">
 		<div class="container">
 
@@ -156,9 +172,6 @@
 
 						@endif
 
-						<footer class="card-footer">
-							<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">New Invoice Item</a>
-						</footer>
 					</div>
 
 					<div class="card mb-3">
