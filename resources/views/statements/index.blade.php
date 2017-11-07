@@ -37,7 +37,7 @@
 					@component('partials.card-header')
 						Unsent and/or Unpaid Statements
 						@slot('small')
-							Ready statements are sent every day at {!! get_setting('statements_send_time', '<span class="text-warning"><b>Never! Update application settings.</b></span>') !!}
+							Ready statements are sent every day at {!! get_setting('statement_send_time', '<span class="text-warning"><b>Never! Update application settings.</b></span>') !!}
 						@endslot
 					@endcomponent
 
