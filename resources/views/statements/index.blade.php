@@ -32,15 +32,18 @@
 
 			@component('partials.bootstrap.section-with-container')
 
-				<div class="page-title">
+				<div class="card mb-3">
 
-					@component('partials.sub-header')
+					@component('partials.card-header')
 						Unsent and/or Unpaid Statements
+						@slot('small')
+							Ready statements are sent every day at {!! get_setting('statements_send_time', '<span class="text-warning"><b>Never! Update application settings.</b></span>') !!}
+						@endslot
 					@endcomponent
 
-				</div>
+					@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
 
-				@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
+				</div>
 
 			@endcomponent
 
