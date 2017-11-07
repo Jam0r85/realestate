@@ -8,7 +8,26 @@ use Illuminate\Support\Facades\Storage;
 
 class StatementByEmail extends BaseMailer
 {
+    /**
+     * The statement we are sending.
+     * 
+     * @var \App\Statement
+     */
     public $statement;
+
+    /**
+     * The default email blade template to used when sending the email.
+     * 
+     * @var string
+     */
+    public $template = 'email-templates.statement-by-email';
+
+    /**
+     * The email blade template to be used if the statement has not been sent before.
+     * 
+     * @var string
+     */
+    public $first_template = 'email-templates.statement-by-email-first';
 
     /**
      * Create a new message instance.
@@ -18,6 +37,11 @@ class StatementByEmail extends BaseMailer
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
+
+        // Overwrite the template if the statement has not been sent before.
+        if (is_null($this->statement->sent_at)) {
+            $this->template = $this->first_template;
+        }
     }
 
     /**
@@ -33,7 +57,7 @@ class StatementByEmail extends BaseMailer
 
         $this->subject('Rental Statement: ' . $this->statement->property->short_name);
         $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
-        $this->markdown('email-templates.statement-by-email');
+        $this->markdown($this->template);
         
         if (count($this->statement->expenses)) {
             // Loop through the expenses

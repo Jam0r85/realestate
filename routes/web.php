@@ -110,6 +110,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::get('create', 'TenancyController@create')->name('tenancies.create');
 	Route::post('/', 'TenancyController@store')->name('tenancies.store');
 	Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
+	Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
 	Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 	Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 	Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
@@ -124,15 +125,13 @@ Route::prefix('statements')->group(function () {
 	Route::get('/', 'StatementController@index')->name('statements.index');
 	Route::post('search', 'StatementController@search')->name('statements.search');
 	Route::post('/', 'StatementController@store')->name('statements.store');
-	Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
 	Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 	Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 	Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 	Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 	Route::post('toggle-paid/{id?}', 'StatementController@updatePaid')->name('statements.update-paid');
 	Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
-	Route::post('send', 'StatementController@send')->name('statements.send');
-	Route::post('{id}/resend', 'StatementController@resend')->name('statements.resend');
+	Route::post('{id}/send', 'StatementController@send')->name('statements.send');
 	Route::put('{id}', 'StatementController@update')->name('statements.update');
 	Route::post('{id}/archive', 'StatementController@archive')->name('statements.archive');
 	Route::post('{id}/restore', 'StatementController@restore')->name('statements.restore');

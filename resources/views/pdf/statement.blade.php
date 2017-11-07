@@ -135,7 +135,7 @@
 						@else
 							<p>Cheque or Cash</p>
 						@endif
-						@if ($statement->sendByEmail())
+						@if ($statement->send_by == 'email')
 							<p>Send by E-Mail</p>
 						@endif
 					</td>

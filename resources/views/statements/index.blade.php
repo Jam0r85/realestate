@@ -40,16 +40,7 @@
 
 				</div>
 
-				<form method="POST" action="{{ route('statements.send') }}">
-					{{ csrf_field() }}
-
-					@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
-
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-envelope-open"></i> Send Statements
-					</button>
-
-				</form>
+				@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
 
 			@endcomponent
 

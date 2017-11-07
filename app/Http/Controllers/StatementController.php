@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\StatementCreated;
 use App\Http\Requests\ExpenseStoreRequest;
-use App\Http\Requests\SendStatementsRequest;
+use App\Http\Requests\StatementSendRequest;
 use App\Http\Requests\StatementStoreRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
@@ -168,36 +168,22 @@ class StatementController extends BaseController
     /**
      * Send the statements to the owners.
      * 
-     * @param \App\Http\Requests\SendStatementsRequest $request
+     * @param \App\Http\Requests\StatementSendRequest $request
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function send(SendStatementsRequest $request)
-    {
-        $service = new StatementService();
-        $service->sendStatementToOwners($request->statements);
-
-        $this->successMessage('The ' . str_plural('statement', count($request->statements)) . ' were queued to be sent');
-
-        return back();
-    }
-
-    /**
-     * Resend the statement to it's users.
-     * 
-     * @param  Request $request [description]
-     * @param  [type]  $id      [description]
-     * @return [type]           [description]
-     */
-    public function resend(Request $request, $id)
+    public function send(StatementSendRequest $request, $id)
     {
         $statement = Statement::findOrFail($id);
 
-        $recipients = User::whereIn('id', $statement->users->pluck('id')->toArray())->whereNotNull('email')->get();
+        // Overwrite the send_by attribute to email
+        if ($request->has('by_email')) {
+            $statement->send_by = 'email';
+        }
 
-        Mail::to($recipients)->send(new StatementByEmail($statement));
+        $statement->send();
 
-        $this->successMessage('The statement was re-sent to the owners');
-
+        $this->successMessage('The statement was sent to the landlords');
         return back();
     }
 

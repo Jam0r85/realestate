@@ -215,6 +215,16 @@
                 <ul class="navbar-nav">
 
                     @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.show', [Auth::user()->id, 'user-notifications']) }}">
+                                @if (count(Auth::user()->unreadNotifications))
+                                    <span class="badge badge-danger">
+                                        1
+                                    </span>
+                                @endif
+                                <i class="fa fa-fw fa-bell"></i>
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
 
                             @component('partials.bootstrap.dropdown-toggle')

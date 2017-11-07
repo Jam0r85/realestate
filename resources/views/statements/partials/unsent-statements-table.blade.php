@@ -12,11 +12,9 @@
 				<tr>
 					<td>
 						@if ($statement->paid_at)
-							<label class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" name="statements[]" value="{{ $statement->id }}" />
-								<span class="custom-control-indicator"></span>
-								<span class=-"custom-control-description">Send</span>
-							</label>
+							<span class="badge badge-success">
+								Ready
+							</span>
 						@else
 							<span class="badge badge-danger">
 								Unpaid
@@ -38,7 +36,7 @@
 							</span>
 						</a>
 					</td>
-					<td>{{ $statement->sendByPost() ? 'Post' : 'E-Mail' }}</td>
+					<td>{{ ucwords($statement->send_by) }}</td>
 					<td>
 						@include('partials.bootstrap.users-inline', ['users' => $statement->users])
 					</td>

@@ -6,11 +6,17 @@ use App\Statement;
 
 class StatementByPost extends BaseMailer
 {
+    /**
+     * The statement we are sending.
+     * 
+     * @var \App\Statement
+     */
     public $statement;
 
     /**
      * Create a new message instance.
      *
+     * @param \App\Statement $statement
      * @return void
      */
     public function __construct(Statement $statement)

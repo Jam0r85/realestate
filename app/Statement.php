@@ -5,10 +5,13 @@ namespace App;
 use App\Events\StatementCreating;
 use App\Expense;
 use App\Invoice;
+use App\Jobs\SendStatementToOwners;
+use App\Notifications\StatementSentNotification;
 use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Scout\Searchable;
 
 class Statement extends BaseModel
@@ -308,30 +311,6 @@ class Statement extends BaseModel
     }
 
     /**
-     * Send this statement by post?
-     * 
-     * @return bool
-     */
-    public function sendByPost()
-    {
-        if ($this->send_by == 'post') {
-            return true;
-        }
-    }
-
-    /**
-     * Send this statement by email?
-     * 
-     * @return bool
-     */
-    public function sendByEmail()
-    {
-        if ($this->send_by == 'email') {
-            return true;
-        }
-    }
-
-    /**
      * Check whether the statement has user's with an email address.
      * 
      * @return mixed
@@ -387,5 +366,42 @@ class Statement extends BaseModel
         }
 
         $this->expenses()->attach($expense, ['amount' => $amount]);
+    }
+
+    /**
+     * Check whether we can send this statement.
+     * 
+     * @return bool
+     */
+    public function canBeSent()
+    {
+        // Statement has already been sent.
+        if ($this->sent_at) {
+            return false;
+        }
+
+        // Statement has not been marked as paid.
+        if (is_null($this->paid_at)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Send this statement to it's owners by running the SendStatementToOwners job.
+     * 
+     * @return void
+     */
+    public function send()
+    {
+        // Send this statement to it's owners.
+        SendStatementToOwners::dispatch($this);
+
+        // Update this statement sent_at date.
+        $this->update([
+            'sent_at' => Carbon::now(),
+            'send_by' => $this->getOriginal('send_by')
+        ]);
     }
 }
