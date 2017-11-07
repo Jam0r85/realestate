@@ -49,7 +49,7 @@ class StatementSentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -82,8 +82,7 @@ class StatementSentNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'statement_id' => $this->statement->id,
-            'send_by' => $this->statement->send_by
+            //
         ];
     }
 }
