@@ -14,6 +14,9 @@
 					<a class="nav-link {{ Menu::activeRoute('settings.invoice', 'active') }}" href="{{ route('settings.invoice', 'invoice') }}" title="Invoice Settings">
 						Invoice Settings
 					</a>
+					<a class="nav-link {{ Menu::activeRoute('settings.statement', 'active') }}" href="{{ route('settings.statement', 'statement') }}" title="Statement Settings">
+						Statement Settings
+					</a>
 					<a class="nav-link {{ Menu::activeRoutes(['settings.tax-rates','settings.edit-tax-rate'], 'active') }}" href="{{ route('settings.tax-rates') }}" title="Tax Rates">
 						Tax Rates
 					</a>

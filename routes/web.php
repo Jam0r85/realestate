@@ -212,6 +212,7 @@ Route::prefix('reports')->group(function () {
 Route::middleware(['auth'])->prefix('settings')->group(function () {
 	Route::view('/', 'settings.general')->name('settings.general');
 	Route::view('invoice', 'settings.invoice')->name('settings.invoice');
+	Route::view('statement', 'settings.statement-settings')->name('settings.statement');
 	Route::view('logo', 'settings.logo')->name('settings.logo');
 	Route::post('logo', 'SettingController@updateLogo')->name('settings.update-logo');
 	Route::delete('logo', 'SettingController@destroyLogo')->name('settings.destroy-logo');
