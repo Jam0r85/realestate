@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\GenerateRecurringInvoices;
 use App\Jobs\UpdateTenancyRentBalances;
+use App\Jobs\UpdateTenancyDepositBalances;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->job(new GenerateRecurringInvoices)->daily();
         $schedule->job(new UpdateTenancyRentBalances)->daily();
+        $schedule->job(new UpdateTenancyDepositBalances)->daily();
     }
 
     /**

@@ -105,7 +105,7 @@
 
 							<div class="form-group">
 								<label for="invoice_number">Invoice Number</label>
-								<input type="number" step="any" name="invoice_number" id="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
+								<input type="text" name="invoice_number" id="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
 								<small class="form-text text-muted">
 									Invoice number is when adding invoice items.
 								</small>
