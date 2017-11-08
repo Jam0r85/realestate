@@ -3,31 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
-use App\Repositories\EloquentInvoicesRepository;
-use App\Repositories\EloquentPaymentsRepository;
-use App\Repositories\EloquentStatementsRepository;
+use App\Statement;
+use App\Payment;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class DownloadController extends Controller
 {
-    /**
-     * @var  App\Repositories\EloquentStatementsRepository
-     */
-    protected $statements;
-
-    /**
-     * @var  App\Repositories\EloquentInvoicesRepository
-     */
-    protected $invoices;
-
-    /**
-     * @var  App\Repositories\EloquentPaymentsRepository
-     */
-    protected $payments;
-
     /**
      * @var  Dompdf\Dompdf
      */
@@ -41,20 +24,14 @@ class DownloadController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param   Dompdf\Options                $options
-     * @param   EloquentStatementsRepository  $statements
-     * @param   EloquentInvoicesRepository    $invoices
-     * @param   EloquentPaymentsRepository    $payments
+     * @param Dompdf\Options $options
      * @return  void
      */
-    public function __construct(Options $options, EloquentStatementsRepository $statements, EloquentInvoicesRepository $invoices, EloquentPaymentsRepository $payments)
+    public function __construct(Options $options)
     {
         $this->middleware('auth');
 
         $this->options = $options;
-        $this->statements = $statements;
-        $this->invoices = $invoices;
-        $this->payments = $payments;
 
         $this->options->set('isRemoteEnabled', true);
         $this->options->set('isHtml5ParserEnabled', true);
@@ -123,31 +100,39 @@ class DownloadController extends Controller
     /**
      * Download a rental statement.
      * 
-     * @param  \App\Statement $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @param string $return
+     * @return
      */
     public function statement($id, $return = 'stream')
     {
-        $statement = $this->statements->find($id);
-		$pdf_name = 'Statement ' . $statement->id;
-        $this->pdf->loadHtml($this->getView('pdf.statement', ['statement' => $statement, 'title' => $statement->property->short_name]));
+        $statement = Statement::withTrashed()->findOrFail($id);
+
+        $this->pdf->loadHtml(
+            $this->getView('pdf.statement', [
+                'statement' => $statement,
+                'title' => $statement->property->short_name
+            ]
+        ));
+
         return $this->$return();
     }
 
     /**
      * Download an invoice.
      * 
-     * @param  \App\Invoice $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @param string $return
+     * @return
      */
     public function invoice($id, $return = 'stream')
     {
         $invoice = Invoice::withTrashed()->findOrFail($id);
-        $pdf_name = 'Invoice ' . $invoice->name;
+
         $this->pdf->loadHtml(
             $this->getView('pdf.invoice', [
                 'invoice' => $invoice,
-                'title' => 'Invoice ' . $invoice->number
+                'title' => 'Invoice ' . $invoice->name
             ]
         ));
 
@@ -157,14 +142,21 @@ class DownloadController extends Controller
     /**
      * Download a payment receipt.
      * 
-     * @param  \App\Payment $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @param string $return
+     * @return
      */
     public function payment($id, $return = 'stream')
     {
-        $payment = $this->payments->find($id);
-        $pdf_name = 'Payment ' . $payment->id;
-        $this->pdf->loadHtml($this->getView('pdf.payment', ['payment' => $payment, 'title' => 'Payment ' . $payment->id]));
+        $payment = Payment::findOrFail($id);
+
+        $this->pdf->loadHtml(
+            $this->getView('pdf.payment', [
+                'payment' => $payment,
+                'title' => 'Payment ' . $payment->id
+            ]
+        ));
+
         return $this->$return();
     }
 }
