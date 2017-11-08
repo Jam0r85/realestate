@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Invoice;
 use App\Repositories\EloquentInvoicesRepository;
 use App\Repositories\EloquentPaymentsRepository;
 use App\Repositories\EloquentStatementsRepository;
@@ -139,12 +140,18 @@ class DownloadController extends Controller
      * @param  \App\Invoice $id
      * @return \Illuminate\Http\Response
      */
-    public function invoice($id)
+    public function invoice($id, $return = 'stream')
     {
-        $invoice = $this->invoices->find($id);
-        $pdf_name = 'Invoice ' . $invoice->number;
-        $this->pdf->loadHtml($this->getView('pdf.invoice', ['invoice' => $invoice, 'title' => 'Invoice ' . $invoice->number]));
-        return $this->stream();
+        $invoice = Invoice::withTrashed()->findOrFail($id);
+        $pdf_name = 'Invoice ' . $invoice->name;
+        $this->pdf->loadHtml(
+            $this->getView('pdf.invoice', [
+                'invoice' => $invoice,
+                'title' => 'Invoice ' . $invoice->number
+            ]
+        ));
+
+        return $this->$return();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Notifications\InvoiceSentNotification;
 use App\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -37,6 +38,8 @@ class SendInvoiceToUsers
      */
     public function handle()
     {
-        //
+        foreach ($this->invoice->users as $user) {
+            $user->notify(new InvoiceSentNotification($this->invoice, $user));
+        }
     }
 }
