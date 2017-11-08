@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
-use App\Statement;
 use App\Payment;
+use App\Statement;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DownloadController extends Controller
 {
