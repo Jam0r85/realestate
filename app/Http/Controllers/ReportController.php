@@ -14,7 +14,6 @@ class ReportController extends BaseController
     /**
      * Create a new controller instance.
      *
-     * @param   EloquentUsersRepository $users
      * @return  void
      */
     public function __construct()
@@ -30,6 +29,21 @@ class ReportController extends BaseController
     public function index()
     {
     	return view('reports.index');
+    }
+
+    public function landlordTaxReport(Request $request)
+    {
+        $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
+
+        $statements = $tenancy->statements()
+            ->where('period_start', '>=', $request->from)
+            ->where('period_start', '<=', $request->until)
+            ->whereNotNull('paid_at')
+            ->get();
+
+        return dd($statements);
+
+        return dd($request->input());
     }
 
     /**

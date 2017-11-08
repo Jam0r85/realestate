@@ -133,3 +133,10 @@ if (!function_exists('services')) {
 		return \App\Service::orderBy('name')->get();
 	}
 }
+
+if (!function_exists('tenancies')) {
+	function tenancies()
+	{
+		return \App\Tenancy::with('tenants','property')->get();
+	}
+}

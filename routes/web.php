@@ -206,7 +206,8 @@ Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.previ
 
 Route::prefix('reports')->group(function () {
 	Route::get('/', 'ReportController@index')->name('reports.index');
-	Route::post('landlords-income', 'ReportController@landlordsIncome')->name('reports.landlords-income');
+	Route::post('hmrc-landlords-income', 'ReportController@landlordsIncome')->name('reports.hmrc-landlords-income');
+	Route::post('landlord-tax-report', 'ReportController@landlordTaxReport')->name('reports.landlord-tax-report');
 });
 
 Route::middleware(['auth'])->prefix('settings')->group(function () {
