@@ -252,4 +252,20 @@ class InvoiceController extends BaseController
         $this->successMessage('The invoice was cloned');
         return back();
     }
+
+    /**
+     * Send this invoice to it's users.
+     * 
+     * @param  Request $request [description]
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function send(Request $request, $id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $invoice->send();
+
+        $this->successMessage('The invoice was sent');
+        return back();
+    }
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use App\InvoiceItem;
 use App\StatementPayment;
+use App\Jobs\SendInvoiceToUsers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -390,5 +391,20 @@ class Invoice extends BaseModel
     {
         $this->statement_payments()->save($payment);
         $payment->users()->attach($this->property->owners);
+    }
+
+    /**
+     * Send this invoice to it's users.
+     * 
+     * @return void
+     */
+    public function send()
+    {
+        SendInvoiceToUsers::dispatch($this);
+
+        // Update this statement sent_at date.
+        $this->update([
+            'sent_at' => Carbon::now()
+        ]);
     }
 }

@@ -24,13 +24,6 @@ class SendStatementToOwners implements ShouldQueue
     public $statement;
 
     /**
-     * Delay time in sending the notification
-     * 
-     * @var \Carbon\Caron
-     */
-    public $delay;
-
-    /**
      * Create a new job instance.
      *
      * @return void
@@ -38,7 +31,6 @@ class SendStatementToOwners implements ShouldQueue
     public function __construct(Statement $statement)
     {
         $this->statement = $statement;
-        $this->delay = Carbon::now()->addMinutes(30);
     }
 
     /**

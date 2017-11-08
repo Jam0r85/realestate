@@ -27,6 +27,33 @@
 		<div class="card mb-3">
 
 			@component('partials.card-header')
+				{{ $invoice->sent_at ? 'Re-Send' : 'Send' }} Invoice
+				@slot('small')
+					{{ $invoice->sent_at ? 'Re-Send' : 'Send' }} the invoice to the attached users.
+				@endslot
+			@endcomponent
+
+			<div class="card-body">
+
+				<p class="card-text">
+					Send this invoice by e-mail to the users it has been attached to.
+				</p>
+
+				<form method="POST" action="{{ route('invoices.send', $invoice->id) }}">
+					{{ csrf_field() }}
+
+					@component('partials.save-button')
+						Send Invoice
+					@endcomponent
+
+				</form> 
+
+			</div>
+		</div>
+
+		<div class="card mb-3">
+
+			@component('partials.card-header')
 				Clone Invoice
 				@slot('small')
 					Clone this invoice and it's items but with a new number.
