@@ -95,7 +95,8 @@ class DownloadController extends Controller
      */
     public function raw()
     {
-        //
+        $this->render();
+        return $this->pdf->output();
     }
 
     /**

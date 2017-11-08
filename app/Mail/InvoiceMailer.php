@@ -41,7 +41,7 @@ class InvoiceMailer extends BaseMailer
     {
         // Grab the invoice..
         // MUST BE A NICER WAY TO DO THIS!
-        $invoice = app('\App\Http\Controllers\DownloadController')->invoice($this->invoice->id);
+        $invoice = app('\App\Http\Controllers\DownloadController')->invoice($this->invoice->id, 'raw');
 
         $this->subject('Your Invoice');
         $this->attachData($invoice, $this->invoice->name . '.pdf');

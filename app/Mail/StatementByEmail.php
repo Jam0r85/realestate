@@ -53,7 +53,7 @@ class StatementByEmail extends BaseMailer
     {
         // Grab the statement..
         // MUST BE A NICER WAY TO DO THIS!
-        $statement = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id);
+        $statement = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id, 'raw');
 
         $this->subject('Rental Statement: ' . $this->statement->property->short_name);
         $this->attachData($statement, $this->statement->property->short_name . ' Statement.pdf');
