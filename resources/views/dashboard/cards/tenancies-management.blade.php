@@ -1,7 +1,9 @@
-<div class="card mb-5">
-	<h4 class="card-header">
+<div class="card mb-3">
+
+	@component('partials.card-header')
 		Tenancies Management
-	</h4>
+	@endcomponent
+
 	<div class="list-group list-group-flush">
 		<a href="{{ route('gas-safe.index') }}" class="list-group-item list-group-item-action">
 			<span class="float-right">

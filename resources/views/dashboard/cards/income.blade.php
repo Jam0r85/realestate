@@ -1,12 +1,14 @@
-<div class="card mb-5">
-	<h4 class="card-header">
+<div class="card mb-3">
+
+	@component('partials.card-header')
 		<a href="{{ route('invoices.index') }}?month={{ date('m') }}&year={{ date('Y') }}">
 			<span class="float-right text-muted">
 				{{ \Carbon\Carbon::now()->format('F Y') }}
 			</span>
 		</a>
 		Income
-	</h4>
+	@endcomponent
+	
 	<div class="list-group list-group-flush">
 		<div class="list-group-item">
 			<span class="float-right">
