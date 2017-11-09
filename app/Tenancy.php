@@ -51,10 +51,7 @@ class Tenancy extends BaseModel
      * @var array
      */
     protected $with = [
-        'tenants',
-        'rent_payments',
-        'statements',
-        'rents'
+        //
     ];
 
     /**
