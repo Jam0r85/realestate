@@ -43,7 +43,7 @@ class Payment extends BaseModel
         }
 
         // Get the users.
-        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
+        $array['users'] = $this->users->pluck('name')->toArray();
 
         return $array;
     }
