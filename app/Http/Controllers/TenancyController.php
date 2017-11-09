@@ -39,7 +39,7 @@ class TenancyController extends BaseController
      */
     public function index($section = 'index', $view = 'index')
     {
-        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments')->latest();
+        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments','statements')->latest();
 
         if ($section == 'index') {
             $tenancies = $tenancies->paginate();            
