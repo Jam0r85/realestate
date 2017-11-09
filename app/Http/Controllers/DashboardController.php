@@ -40,21 +40,20 @@ class DashboardController extends Controller
             ->get()
             ->sum('amount');
 
-        $commission = Invoice::has('statements')
+        $invoices = Invoice::with('statements','items','items.taxRate')
             ->whereYear('paid_at', date('Y'))
             ->whereMonth('paid_at', date('m'))
-            ->with('statements','items','items.taxRate')
-            ->get()
-            ->sum('total');
+            ->get();
 
-        $invoice_income = Invoice::doesntHave('statements')
-            ->whereYear('paid_at', date('Y'))
-            ->whereMonth('paid_at', date('m'))
-            ->with('items','items.taxRate')
-            ->get()
-            ->sum('total');
+        $invoice_total = $commission_total = 0;
 
-        $combined_income = $commission + $invoice_income;
+        foreach ($invoices as $invoice) {
+            if ($invoice->has('statements')) {
+                $commission_total += $invoice->total;
+            } else {
+                $invoice_total += $invoice->total;
+            }
+        }
 
         $gas_expired = Gas::isExpired()->count();
 
@@ -63,9 +62,8 @@ class DashboardController extends Controller
             'active_tenancies',
             'managed_tenancies',
             'rent_received',
-            'commission',
-            'invoice_income',
-            'combined_income',
+            'commission_total',
+            'invoice_total',
             'gas_expired'
         ));
     }

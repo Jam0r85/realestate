@@ -10,21 +10,21 @@
 	<div class="list-group list-group-flush">
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($commission) }}
+				{{ currency($commission_total) }}
 			</span>
 			Commission
 			<br /><small class="text-muted">Management, letting and re-letting fees</small>
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($invoice_income) }}
+				{{ currency($invoice_total) }}
 			</span>
 			Invoice Income
 			<br /><small class="text-muted">Application invoices, sale invoices, etc</small>
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($combined_income) }}
+				{{ currency($commission_total + $invoice_total) }}
 			</span>
 			Combined Income
 		</div>
