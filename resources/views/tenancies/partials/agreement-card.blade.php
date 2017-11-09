@@ -1,14 +1,19 @@
-<div class="card mb-3 @if (!$tenancy->current_agreement) bg-danger text-white @endif">
-	<div class="card-header">
-		<i class="fa fa-calendar"></i> Agreement
-	</div>
+<div class="card mb-3">
+
+	@component('partials.card-header')
+		Agreement Details
+	@endcomponent
+
 	@if (!$tenancy->current_agreement)
+
 		<div class="card-body">
-			<b>
-				No current tenancy agreement.
-			</b><br />You can create one under the options dropdown.
+			<p class="card-text">
+				No tenancy agreement found.
+			</p>
 		</div>
+
 	@else
+
 		<ul class="list-group list-group-flush">
 			@component('partials.bootstrap.list-group-item')
 				{{ date_formatted($tenancy->current_agreement->starts_at) }}
@@ -29,5 +34,7 @@
 				@endslot
 			@endcomponent
 		</ul>
+
 	@endif
+
 </div>

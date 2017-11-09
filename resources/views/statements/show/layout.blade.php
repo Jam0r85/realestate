@@ -21,6 +21,8 @@
 	<section class="section">
 		<div class="container">
 
+			@includeWhen($statement->canBeSent(), 'partials.alerts.primary', ['slot' => 'This statement has been paid and can be sent to the landlords.'])
+
 			<h1 class="title">Statement #{{ $statement->id }}</h1>
 			<h2><a href="{{ route('properties.show', $statement->property->id) }}">{{ $statement->property->name }}</a></h2>
 			<h2 class="subtitle"><a href="{{ route('tenancies.show', $statement->tenancy->id) }}">{{ $statement->tenancy->name }}</a></h2>
