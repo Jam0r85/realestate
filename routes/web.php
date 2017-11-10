@@ -2,6 +2,10 @@
 
 Auth::routes();
 
+Horizon::auth(function ($request) {
+    return true;
+});
+
 Route::get('/setup', 'SetupController@index')->name('setup');
 Route::post('/setup', 'SetupController@store')->name('setup.store');
 
