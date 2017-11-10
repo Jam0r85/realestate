@@ -41,13 +41,13 @@
 				<form method="POST" action="{{ route('statements.send', $statement->id) }}">
 					{{ csrf_field() }}
 
-					<div class="form-group">
-						<label class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" name="by_email" value="true" {{ $statement->sent_at ? 'checked' : '' }} />
-							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">Force by E-Mail</span>
-						</label>
-					</div>
+					@if ($statement->sent_at)
+
+						@component('partials.alerts.primary')
+							This statement has been sent previously and will be re-sent by email with the statement, invoice and expenses attached.
+						@endcomponent
+
+					@endif
 
 					@component('partials.save-button')
 						Send Statement
