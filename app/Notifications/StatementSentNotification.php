@@ -24,21 +24,13 @@ class StatementSentNotification extends Notification
     public $statement;
 
     /**
-     * The user we are sending the statement to.
-     * 
-     * @var \App\Statement
-     */
-    public $user;
-
-    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Statement $statement, User $user)
+    public function __construct(Statement $statement)
     {
         $this->statement = $statement;
-        $this->user = $user;
     }
 
     /**
@@ -60,16 +52,36 @@ class StatementSentNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        // Statement to be sent by post, send the basic e-mail.
         if ($this->statement->send_by == 'post') {
-            return (new StatementByPost($this->statement))
-                ->to($this->user->email);
+            return (new MailMessage)
+                ->subject('Your Rental Statement')
+                ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
         }
 
-        // Statement to be sent by email, send the email with statement, invoice and expenses attached.
         if ($this->statement->send_by == 'email') {
-            return (new StatementByEmail($this->statement))
-                ->to($this->user->email);
+            $statementToBeAttached = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id, 'raw');
+
+            $email = new MailMessage();
+            $email->subject('Your Rental Statement');
+            $email->markdown('email-templates.statement-by-email', ['statement' => $this->statement]);
+            $email->attachData($statementToBeAttached, $this->statement->property->short_name . ' Statement.pdf');
+
+            if (count($this->statement->expenses)) {
+                // Loop through the expenses
+                foreach ($this->statement->expenses as $expense) {
+                    // Check whether the expense has an invoice
+                    if (count($expense->documents)) {
+                        foreach ($expense->documents as $invoice) {
+                            $email->attach(
+                                Storage::url($invoice->path), [
+                                    'as' => $invoice->name . '.' . $invoice->extension
+                                ]);
+                        }
+                    }
+                }
+            }
+
+            return $email;
         }
     }
 
