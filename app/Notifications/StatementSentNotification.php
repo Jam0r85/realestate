@@ -53,12 +53,16 @@ class StatementSentNotification extends Notification
     public function toMail($notifiable)
     {
         if ($this->statement->send_by == 'post') {
-            return (new MailMessage)
-                ->subject('Your Rental Statement')
-                ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
+            $method = 'post';
+        } elseif ($this->statement->send_by == 'email') {
+            $method = 'email';
         }
 
-        if ($this->statement->send_by == 'email') {
+        if ($this->statement->sent_at) {
+            $method = 'email';
+        }
+
+        if ($method == 'email') {
             $statementToBeAttached = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id, 'raw');
 
             $email = new MailMessage();
@@ -82,6 +86,12 @@ class StatementSentNotification extends Notification
             }
 
             return $email;
+        }
+
+        if ($method == 'post') {
+            return (new MailMessage)
+                ->subject('Your Rental Statement')
+                ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
         }
     }
 

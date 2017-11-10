@@ -176,11 +176,6 @@ class StatementController extends BaseController
     {
         $statement = Statement::findOrFail($id);
 
-        // Overwrite the send_by attribute to email
-        if ($request->has('by_email')) {
-            $statement->send_by = 'email';
-        }
-
         $statement->send();
 
         $this->successMessage('The statement was sent to the landlords');
