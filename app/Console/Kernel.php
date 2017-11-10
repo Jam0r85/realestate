@@ -37,10 +37,6 @@ class Kernel extends ConsoleKernel
         $schedule->job(new GenerateRecurringInvoices)->daily();
         $schedule->job(new UpdateTenancyRentBalances)->daily();
         $schedule->job(new UpdateTenancyDepositBalances)->daily();
-
-        if ($time = get_setting('statement_send_time')) {
-            $schedule->job(new SendUnsentStatements)->dailyAt($time);
-        }
     }
 
     /**
