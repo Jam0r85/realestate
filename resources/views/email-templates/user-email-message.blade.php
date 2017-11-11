@@ -1,8 +1,8 @@
 @component('mail::message')
 # {{ $subject }}
 
-{{ $body }}
+{{ $message }}
 
-Thanks,<br>
+{{ Auth::check() ? Auth::user()->name : 'Thanks' }},<br>
 {{ get_setting('company_name', config('app.name')) }}
 @endcomponent

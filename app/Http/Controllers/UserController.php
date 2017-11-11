@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SendUserEmailRequest;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
-use App\Http\Requests\{UserStoreRequest, UserUpdateRequest};
-use App\Mail\SendUserEmail;
+use App\Http\Requests\{UserStoreRequest, UserUpdateRequest, UserSendEmailRequest};
+use App\Notifications\UserEmail;
 use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
@@ -221,24 +220,17 @@ class UserController extends BaseController
     /**
      * Send the user an email message.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\UserSendEmailRequest $request
      * @param  \App\User                $id
      * @return \Illuminate\Http\Response
      */
-    public function sendEmail(SendUserEmailRequest $request, $id)
+    public function sendEmail(UserSendEmailRequest $request, $id)
     {
         $user = User::findOrFail($id);
 
-        if (!$user->email) {
-            return back();
-        }
+        $user->notify(new UserEmail($request->subject, $request->message));
 
-        Mail::to($user)->send(
-            new SendUserEmail($request->subject, $request->message, $request->attachments)
-        );
-
-        $this->successMessage('The email was sent to the user');
-      
+        $this->successMessage('The email was sent to the user');      
         return back();
     }
 

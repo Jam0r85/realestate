@@ -41,6 +41,9 @@
 				<div class="form-group">
 					<label for="subject">Subject</label>
 					<input type="text" name="subject" id="subject" class="form-control" value="{{ old('subject') }}" />
+					<small class="form-text text-muted">
+						The subject of the e-mail and the e-mail header.
+					</small>
 				</div>	
 
 				<div class="form-group">
