@@ -216,10 +216,18 @@ class User extends Authenticatable
 
     /**
      * A user can belong to many emails.
+     *
+     * @param  integer $limit
      */
-    public function emails()
+    public function emails($limit = null)
     {
-        return $this->belongsToMany('App\Email');
+        $emails = Email::where('to', $this->email)->latest();
+
+        if ($limit) {
+            $emails = $emails->limit($limit);
+        }
+
+        return $emails->get();
     }
 
     /**

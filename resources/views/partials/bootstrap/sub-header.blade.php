@@ -1,3 +1,3 @@
-<h3 class="text-muted">
+<h5 class="text-muted">
 	{{ $slot }}
-</h3>
+</h5>

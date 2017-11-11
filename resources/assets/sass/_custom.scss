@@ -47,7 +47,6 @@ section.section {
 }
 .card .card-header {
 	background-color: #ffffff;
-	font-size: 1.4rem;
 	font-weight: normal;
 	border-bottom: 0;
 }
@@ -72,4 +71,11 @@ section.section {
 }
 .table-dark a:hover {
 	color: rgba(255,255,255,0.8);
+}
+
+/**
+ * List Groups
+ */
+.list-group-item {
+	background-color: #f8f8f8 !important;
 }

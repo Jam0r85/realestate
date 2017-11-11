@@ -1,4 +1,4 @@
-<div class="card-header {{ isset($style) ? $style : '' }} {{ user_setting('dark_mode') ? 'bg-dark' : '' }}">
+<h5 class="card-header {{ isset($style) ? $style : '' }} {{ user_setting('dark_mode') ? 'bg-dark' : 'text-primary' }}">
 	{{ $slot }}
 
 	@if (isset($small))
@@ -7,4 +7,4 @@
 		</small>
 	@endif
 
-</div>
+</h5>
