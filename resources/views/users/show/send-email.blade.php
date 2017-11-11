@@ -2,66 +2,60 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			<a href="{{ route('users.show', $user->id) }}" class="button is-pulled-right">
-				Return
-			</a>
+		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			<h1 class="title">{{ $user->name }}</h1>
-			<h2 class="subtitle">Edit Details</h2>
+		@component('partials.header')
+			{{ $user->name }}
+		@endcomponent
 
-			<hr />
+		@component('partials.sub-header')
+			Send an E-Mail
+		@endcomponent
 
-			@if (!$user->email)
+	@endcomponent
 
-				<div class="notification">
-					This user does not have a valid e-mail address.
+	@component('partials.bootstrap.section-with-container')
+
+		@if (!$user->email)
+
+			@component('partials.alerts.danger')
+				This user does not have a valid e-mail address.
+			@endcomponent
+
+		@else
+
+			<form method="POST" action="{{ route('users.send-email', $user->id) }}">
+				{{ csrf_field() }}
+
+				@include('partials.errors-block')
+
+				<div class="form-group">
+					<label for="email">E-Mail</label>
+					<input type="text" name="email" id="email" class="form-control" disabled value="{{ $user->email }}" />
+				</div>	
+
+				<div class="form-group">
+					<label for="subject">Subject</label>
+					<input type="text" name="subject" id="subject" class="form-control" value="{{ old('subject') }}" />
+				</div>	
+
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea name="message" id="message" rows="12" class="form-control">{{ old('message') }}</textarea>
 				</div>
 
-			@else
+				@component('partials.save-button')
+					Send E-Mail
+				@endcomponent
 
-				<form role="form" method="POST" action="{{ route('users.send-email', $user->id) }}">
-					{{ csrf_field() }}
+			</form>
 
-					@include('partials.errors-block')
+		@endif
 
-					<div class="field">
-						<label class="label" for="email">E-Mail</label>
-						<div class="control">
-							<input type="text" name="email" class="input" disabled value="{{ $user->email }}" />
-						</div>
-					</div>	
-
-					<div class="field">
-						<label class="label" for="subject">Subject</label>
-						<div class="control">
-							<input type="text" name="subject" class="input" value="{{ old('subject') }}" />
-						</div>
-					</div>	
-
-					<div class="field">
-						<label class="label" for="message">Message</label>
-						<div class="control">
-							<textarea name="message" rows="8" class="textarea">{{ old('message') }}</textarea>
-						</div>
-					</div>
-
-					<button type="submit" class="button is-primary">
-						<span class="icon is-small">
-							<i class="fa fa-envelope-open"></i>
-						</span>
-						<span>
-							Send E-Mail Message
-						</span>
-					</button>
-
-				</form>
-
-			@endif
-
-		</div>
-	</section>
+	@endcomponent
 
 @endsection
