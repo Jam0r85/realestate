@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Request;
 
 class UserSendEmailRequest extends FormRequest
 {
@@ -27,5 +29,20 @@ class UserSendEmailRequest extends FormRequest
             'subject' => 'required',
             'message' => 'required'
         ];
+    }
+
+    /**
+     * @param  \Illuminate\Validation\Validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $user = User::findOrFail(Request::segment(2));
+
+        $validator->after(function ($validator) use ($user) {
+            if (!$user->email) {
+                $validator->errors()->add('none', 'User does not have a valid e-mail address');
+            }
+        });
     }
 }
