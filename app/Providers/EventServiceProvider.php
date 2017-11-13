@@ -25,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Statements\CreateLettingFeeInvoiceItem',
             'App\Listeners\Statements\CreateReLettingFeeInvoiceItem',
             'App\Listeners\Statements\CreateManagementInvoiceItem'
-        ]
+        ],
     ];
 
     /**

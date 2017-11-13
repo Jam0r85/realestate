@@ -24,6 +24,7 @@ class CreateStatementsTable extends Migration
             $table->string('send_by');
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('sent_at')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

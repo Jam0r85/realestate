@@ -7,6 +7,7 @@ use App\Expense;
 use App\Invoice;
 use App\Jobs\SendStatementToOwners;
 use App\Notifications\StatementSentNotification;
+use App\Settings\StatementData;
 use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -90,8 +91,18 @@ class Statement extends BaseModel
 		'period_end',
 		'amount',
 		'paid_at',
-		'sent_at'
+		'sent_at',
+        'data'
 	];
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array'
+    ];
 
 	/**
 	 * A statement can belong to a tenancy.
@@ -389,6 +400,20 @@ class Statement extends BaseModel
     }
 
     /**
+     * Has this statement been queued to be sent?
+     * 
+     * @return boolean
+     */
+    public function hasBeenQueuedToSend()
+    {
+        if ($this->data['queued_to_be_sent_date']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Send this statement to it's owners by running the SendStatementToOwners job.
      * 
      * @return void
@@ -397,5 +422,13 @@ class Statement extends BaseModel
     {
         // Send this statement to it's owners.
         SendStatementToOwners::dispatch($this);
+    }
+
+    /**
+     * A statement can have data.
+     */
+    public function data()
+    {
+        return new StatementData($this);
     }
 }
