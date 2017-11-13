@@ -386,41 +386,14 @@ class Statement extends BaseModel
      */
     public function canBeSent()
     {
-        // Statement has already been sent.
-        if ($this->sent_at) {
-            return false;
-        }
-
-        // Statement has not been marked as paid.
-        if (is_null($this->paid_at)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Has this statement been queued to be sent?
-     * 
-     * @return boolean
-     */
-    public function hasBeenQueuedToSend()
-    {
-        if ($this->data['queued_to_be_sent_date']) {
-            return true;
-        }
-
         return false;
     }
 
     /**
      * Send this statement to it's owners by running the SendStatementToOwners job.
-     * 
-     * @return void
      */
     public function send()
     {
-        // Send this statement to it's owners.
         SendStatementToOwners::dispatch($this);
     }
 
@@ -430,5 +403,27 @@ class Statement extends BaseModel
     public function data()
     {
         return new StatementData($this);
+    }
+
+    /**
+     * Is this statement unpaid?
+     * 
+     * @return boolean
+     */
+    public function isUnpaid()
+    {
+        // Statement has no payments so it cannot be paid.
+        if (!count($this->payments)) {
+            return true;
+        }
+
+        // Loop through the payments and if any are not sent, then it's unpaid
+        foreach ($this->payments as $payment) {
+            if (is_null($payment->sent_at)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

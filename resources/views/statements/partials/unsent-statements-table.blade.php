@@ -11,18 +11,13 @@
 			@foreach ($statements as $statement)
 				<tr>
 					<td>
-						@if ($statement->hasBeenQueuedToSend())
-							<span class="badge badge-info">
-								Queued
-							</span>
-						@endif
-						@if ($statement->paid_at)
-							<span class="badge badge-success">
-								Ready
-							</span>
-						@else
+						@if ($statement->isUnpaid())
 							<span class="badge badge-danger">
 								Unpaid
+							</span>
+						@else
+							<span class="badge badge-success">
+								Ready
 							</span>
 						@endif
 					</td>
