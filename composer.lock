@@ -2232,16 +2232,16 @@
         },
         {
             "name": "nexmo/client",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Nexmo/nexmo-php.git",
-                "reference": "0a17af601a3249dfe78381e4d9684ad5ea844188"
+                "reference": "c9554dd236515c5de77658092c7185de78ee7d83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nexmo/nexmo-php/zipball/0a17af601a3249dfe78381e4d9684ad5ea844188",
-                "reference": "0a17af601a3249dfe78381e4d9684ad5ea844188",
+                "url": "https://api.github.com/repos/Nexmo/nexmo-php/zipball/c9554dd236515c5de77658092c7185de78ee7d83",
+                "reference": "c9554dd236515c5de77658092c7185de78ee7d83",
                 "shasum": ""
             },
             "require": {
@@ -2254,7 +2254,8 @@
             "require-dev": {
                 "estahn/phpunit-json-assertions": "@stable",
                 "php-http/mock-client": "^0.3.0",
-                "phpunit/phpunit": "^5.3"
+                "phpunit/phpunit": "^5.3",
+                "squizlabs/php_codesniffer": "^3.1"
             },
             "type": "library",
             "autoload": {
@@ -2275,7 +2276,7 @@
                 }
             ],
             "description": "PHP Client for using Nexmo's API.",
-            "time": "2017-10-17T11:40:41+00:00"
+            "time": "2017-11-12T10:05:55+00:00"
         },
         {
             "name": "nexmo/laravel",
@@ -3308,16 +3309,16 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.7.4",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "34457b9df3e02c43c30ce31386b4b11dab0a56b7"
+                "reference": "1b5695da55695f9db3f0374e2a60ccff2c8b4090"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/34457b9df3e02c43c30ce31386b4b11dab0a56b7",
-                "reference": "34457b9df3e02c43c30ce31386b4b11dab0a56b7",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/1b5695da55695f9db3f0374e2a60ccff2c8b4090",
+                "reference": "1b5695da55695f9db3f0374e2a60ccff2c8b4090",
                 "shasum": ""
             },
             "require": {
@@ -3354,7 +3355,7 @@
                 "mysqldump",
                 "spatie"
             ],
-            "time": "2017-11-07T08:01:38+00:00"
+            "time": "2017-11-13T10:16:26+00:00"
         },
         {
             "name": "spatie/laravel-backup",

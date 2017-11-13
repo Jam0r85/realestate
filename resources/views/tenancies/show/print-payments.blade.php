@@ -17,36 +17,52 @@
 </head>
 <body>
 
-	<section class="section">
-		<div class="container">
+    @component('partials.bootstrap.section-with-container')
 
-            <h1>Rent Payments Received</h1>
-            <h3>{{ $tenancy->name }}</h3>
-            <h4>{{ $tenancy->property->name }}</h4>
+        <div class="page-title">
 
-            <table class="table table-striped">
-                <thead>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Method</th>
-                </thead>
-                <tbody>
-                    @foreach ($tenancy->rent_payments as $payment)
-                        <tr>
-                            <td>
-                                <a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">
-                                    {{ date_formatted($payment->created_at) }}
-                                </a>
-                            </td>
-                            <td>{{ currency($payment->amount) }}</td>
-                            <td>{{ $payment->method->name }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @component('partials.header')
+                {{ $tenancy->name }}
+            @endcomponent
 
-		</div>
-	</section>
+            @component('partials.sub-header')
+                Rental Payments Received
+            @endcomponent
+
+        </div>
+
+    @endcomponent
+
+    @component('partials.bootstrap.section-with-container')
+
+        @component('partials.table')
+            @slot('header')
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Record By</th>
+                <th>Note</th>
+            @endslot
+            @slot('body')
+                @foreach ($tenancy->rent_payments as $payment)
+                    <tr>
+                        <td>
+                            <a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">
+                                {{ date_formatted($payment->created_at) }}
+                            </a>
+                        </td>
+                        <td>{{ currency($payment->amount) }}</td>
+                        <td>{{ $payment->method->name }}</td>
+                        <td>{{ $payment->owner->name }}</td>
+                        <td>
+                            <small>{{ $payment->note }}</small>
+                        </td>
+                    </tr>
+                @endforeach
+            @endslot
+        @endcomponent
+
+    @endcomponent
 
 </body>
 </html>
