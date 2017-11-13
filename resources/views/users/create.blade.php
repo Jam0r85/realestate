@@ -2,11 +2,11 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-			<h1>New User</h1>
-		</div>
+		@component('partials.header')
+			Register User
+		@endcomponent
 
 	@endcomponent
 

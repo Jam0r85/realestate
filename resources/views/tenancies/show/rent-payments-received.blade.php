@@ -7,12 +7,15 @@
 		<div class="page-title">
 
 			<div class="float-right">
+
 				<a href="{{ route('tenancies.show', [$tenancy->id, 'print-payments']) }}" title="Print Payments" class="btn btn-info" target="_blank">
 					<i class="fa fa-print"></i> Print
 				</a>
+
 				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary">
 					Return
 				</a>
+
 			</div>
 
 			@component('partials.header')
@@ -29,15 +32,16 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<table class="table table-striped table-responsive-sm">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Date</th>
 				<th>Amount</th>
 				<th>Method</th>
 				<th>User(s)</th>
-				<th>Receipt</th>
-			</thead>
-			<tbody>
+				<th>Recorded By</th>
+				<th class="text-right">Receipt</th>
+			@endslot
+			@slot('body')
 				@foreach ($tenancy->rent_payments()->paginate() as $payment)
 					<tr>
 						<td>
@@ -50,15 +54,16 @@
 						<td>
 							@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 						</td>
-						<td>
+						<td>{{ $payment->owner->name }}</td>
+						<td class="text-right">
 							<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" title="Download Receipt">
 								Download
 							</a>
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $tenancy->rent_payments()->paginate()])
 

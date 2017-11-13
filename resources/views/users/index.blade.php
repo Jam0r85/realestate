@@ -2,19 +2,19 @@
 
 @section('content')
 
+	@component('partials.page-header')
+
+		<a href="{{ route('users.create') }}" class="btn btn-primary float-right">
+			<i class="fa fa-user-plus"></i> Register User
+		</a>
+
+		@component('partials.header')
+			{{ $title }}
+		@endcomponent
+
+	@endcomponent
+
 	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			<a href="{{ route('users.create') }}" class="btn btn-primary float-right">
-				<i class="fa fa-user-plus"></i> New User
-			</a>
-
-			@component('partials.header')
-				{{ $title }}
-			@endcomponent
-
-		</div>
 
 		{{-- Users Search --}}
 		@component('partials.bootstrap.page-search')
