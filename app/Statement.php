@@ -397,11 +397,5 @@ class Statement extends BaseModel
     {
         // Send this statement to it's owners.
         SendStatementToOwners::dispatch($this);
-
-        // Update this statement sent_at date.
-        $this->update([
-            'sent_at' => Carbon::now(),
-            'send_by' => $this->getOriginal('send_by')
-        ]);
     }
 }

@@ -2,23 +2,19 @@
 
 namespace App\Jobs;
 
-use App\Jobs\UpdateStatementSent;
-use App\Notifications\StatementSentNotification;
 use App\Statement;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Notification;
 
-class SendStatementToOwners implements ShouldQueue
+class UpdateStatementSent implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The statement we are sending.
+     * The statement we are updating.
      * 
      * @var \App\Statement
      */
@@ -41,8 +37,6 @@ class SendStatementToOwners implements ShouldQueue
      */
     public function handle()
     {
-        Notification::send($this->statement->users, new StatementSentNotification($this->statement));
-        
-        UpdateStatementSent::dispatch($this->statement);
+        $this->statement->update(['sent_at' => Carbon::now()]);
     }
 }
