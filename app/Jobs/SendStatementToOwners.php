@@ -42,7 +42,5 @@ class SendStatementToOwners implements ShouldQueue
     public function handle()
     {
         Notification::send($this->statement->users, new StatementSentNotification($this->statement));
-        
-        UpdateStatementSent::dispatch($this->statement);
     }
 }

@@ -6,6 +6,7 @@ use App\Mail\StatementByEmail;
 use App\Mail\StatementByPost;
 use App\Statement;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -88,6 +89,10 @@ class StatementSentNotification extends Notification
             return (new MailMessage)
                 ->subject('Your Rental Statement')
                 ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
+        }
+
+        if (!$this->statement->sent_at) {
+            $this->statement->update(['sent_at' => Carbon::now()]);
         }
     }
 
