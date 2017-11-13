@@ -57,11 +57,7 @@ class StatementSentNotification extends Notification
         } elseif ($this->statement->send_by == 'email') {
             $method = 'email';
         }
-
-        if ($this->statement->sent_at) {
-            $method = 'email';
-        }
-
+        
         if ($method == 'email') {
             $statementToBeAttached = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id, 'raw');
 
