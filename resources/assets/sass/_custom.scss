@@ -59,6 +59,12 @@ section.section {
 .card .bg-dark {
 	color: white;
 }
+.card .bg-dark a {
+	color: #ddd;
+}
+.card .bg-dark a:hover {
+	color: white;
+}
 
 /**
  * Tables
