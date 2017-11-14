@@ -13,7 +13,12 @@
 
 					<div class="form-group">
 						<label for="created_at">Date (optional)</label>
-						<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') }}" />
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</span>
+							<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') }}" />
+						</div>
 						<small class="form-text text-muted">
 							Leave this blank to use the current date and time.
 						</small>
@@ -40,14 +45,14 @@
 
 					<div class="form-group">
 						<label for="note">Note</label>
-						<textarea name="note" id="note" class="form-control"></textarea>
+						<textarea name="note" id="note" class="form-control" rows="4"></textarea>
 					</div>
 
 					<div class="form-group">
 						<label class="custom-control custom-checkbox">
 							<input type="checkbox" class="custom-control-input" name="send_receipt_to_tenants" value="true">
 							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">Send a notification including receipt of this payment to the tenants?</span>
+							<span class="custom-control-description">Send a notification (including attached receipt) of this payment to the tenants?</span>
 						</label>
 					</div>
 

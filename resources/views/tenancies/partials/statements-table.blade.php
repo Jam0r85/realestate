@@ -8,7 +8,7 @@
 		<th class="text-right">Status</th>
 	@endslot
 	@slot('body')
-		@foreach ($tenancy->statements()->limit(10)->get() as $statement)
+		@foreach ($statements as $statement)
 			<tr>
 				<td>{{ date_formatted($statement->created_at) }}</td>
 				<td>

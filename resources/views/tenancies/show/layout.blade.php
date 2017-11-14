@@ -10,10 +10,10 @@
 
 		@component('partials.header')
 			{{ $tenancy->name }}
+		@endcomponent
 
-			<h4 class="text-muted">
-				{{ $tenancy->property->name }}
-			</h4>
+		@component('partials.sub-header')
+			{{ $tenancy->property->name }}
 		@endcomponent
 
 	@endcomponent
@@ -39,6 +39,40 @@
 		@endif
 
 		<div class="row">
+			<div class="col-sm-12">
+
+				<div class="row mb-3">
+					<div class="col">
+
+						<div class="card text-white text-center bg-primary">
+							<div class="card-body">
+								<h4 class="card-title">
+									{{ currency($tenancy->getRentBalance()) }}
+								</h4>
+								<p class="card-text">
+									Rent Balance
+								</p>
+							</div>
+						</div>
+
+					</div>
+					<div class="col">
+
+						<div class="card text-white text-center bg-primary">
+							<div class="card-body">
+								<h4 class="card-title">
+									{{ currency($tenancy->deposit ? currency($tenancy->deposit->amount) : 0) }}
+								</h4>
+								<p class="card-text">
+									Deposit Balance
+								</p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
 			<div class="col-sm-12 col-lg-3">
 
 				@include('tenancies.partials.tenants-card')
@@ -59,17 +93,13 @@
 
 						@component('partials.card-header')
 
-							<span class="float-right">
-								{{ currency($tenancy->getRentBalance()) }}
-							</span>
-
 							<a data-toggle="collapse" href="#latestRentPaymentsCollapse">
 								Latest Rent Payments
 							</a>
 
 						@endcomponent
 
-						<div id="latestRentPaymentsCollapse" class="collapse">
+						<div id="latestRentPaymentsCollapse" class="collapse show">
 
 							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(5)->get()])
 
@@ -83,7 +113,7 @@
 
 						@endcomponent
 
-						<div id="latestStatementsCollapse" class="collapse">
+						<div id="latestStatementsCollapse" class="collapse show">
 
 							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(5)->get()])
 
