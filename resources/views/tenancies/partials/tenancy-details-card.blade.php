@@ -6,14 +6,6 @@
 
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('properties.show', $tenancy->property_id) }}" title="{{ $tenancy->property->name }}">
-				{{ $tenancy->property->name }}
-			</a>
-			@slot('title')
-				Property
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
 			@if (count($tenancy->property->owners))
 				<ul class="list-unstyled">
 					@foreach ($tenancy->property->owners as $user)
@@ -36,9 +28,15 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($tenancy->nextStatementDate()) }}
+			{{ $tenancy->currentRent ? currency($tenancy->currentRent->amount) : 'None Set' }}
 			@slot('title')
-				Next Statement Due
+				Current Rent
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->deposit ? currency($tenancy->deposit->amount) : 'None Recorded' }}
+			@slot('title')
+				Deposit
 			@endslot
 		@endcomponent
 	</ul>

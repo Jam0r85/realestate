@@ -1,3 +1,11 @@
+<button type="button" class="btn btn-primary">
+	<i class="fa fa-plus"></i> Rent Payment
+</button>
+
+<button type="button" class="btn btn-info">
+	<i class="fa fa-plus"></i> Statement
+</button>
+
 <div class="btn-group">
 	<button class="btn btn-secondary dropdown-toggle" type="button" id="tenanciesOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		Options
@@ -13,14 +21,16 @@
 			{{ $tenancy->deposit ? 'Manage Deposit' : 'Record Deposit' }}
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-tenants']) }}" title="Manage Tenants">
-			Manage Tenants
+			Manage the Tenants
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'record-old-statement']) }}" title="Record Old Statement">
 			Record Old Statement
 		</a>
-		<div class="dropdown-divider"></div>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-status']) }}" title="Tenants Vacting">
-			Tenancy Status
+			Update Tenancy Status
+		</a>
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="Rent Payments History">
+			Rent Payments History
 		</a>
 	</div>
 </div>

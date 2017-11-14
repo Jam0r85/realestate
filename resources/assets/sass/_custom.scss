@@ -50,8 +50,8 @@ section.section {
 	font-weight: normal;
 	border-bottom: 0;
 }
-.card .card-header small {
-	font-size: 0.9rem;
+.card .card-header:not(:first-child) {
+	border-top: rgba(0,0,0,0.16);
 }
 .card .table {
 	margin-bottom: 0;

@@ -2,31 +2,27 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		<div class="float-right">
 
-			<div class="float-right">
+			<a href="{{ route('tenancies.show', [$tenancy->id, 'print-payments']) }}" title="Print Payments" class="btn btn-info" target="_blank">
+				<i class="fa fa-print"></i> Print
+			</a>
 
-				<a href="{{ route('tenancies.show', [$tenancy->id, 'print-payments']) }}" title="Print Payments" class="btn btn-info" target="_blank">
-					<i class="fa fa-print"></i> Print
-				</a>
-
-				<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary">
-					Return
-				</a>
-
-			</div>
-
-			@component('partials.header')
-				{{ $tenancy->name }}
-			@endcomponent
-
-			@component('partials.sub-header')
-				Rent payments received
-			@endcomponent
+			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary">
+				Return
+			</a>
 
 		</div>
+
+		@component('partials.header')
+			{{ $tenancy->name }}
+		@endcomponent
+
+		@component('partials.sub-header')
+			Rent payments received
+		@endcomponent
 
 	@endcomponent
 

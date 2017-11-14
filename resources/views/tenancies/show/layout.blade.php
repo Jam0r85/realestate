@@ -10,6 +10,10 @@
 
 		@component('partials.header')
 			{{ $tenancy->name }}
+
+			<h4 class="text-muted">
+				{{ $tenancy->property->name }}
+			</h4>
 		@endcomponent
 
 	@endcomponent
@@ -45,16 +49,6 @@
 			<div class="col-sm-12 col-lg-3">
 
 				@include('tenancies.partials.tenancy-details-card')
-
-				<div class="row">
-					<div class="col">
-						@include('tenancies.partials.rent-info-card')
-					</div>
-					<div class="col">
-						@include('tenancies.partials.deposit-info-card')
-					</div>
-				</div>
-
 				@include('tenancies.partials.service-card')
 				@include('tenancies.partials.agreement-card')
 
@@ -78,7 +72,7 @@
 
 						<div id="latestRentPaymentsCollapse" class="collapse show">
 
-							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(10)->get()])
+							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(8)->get()])
 
 						</div>
 
@@ -92,46 +86,12 @@
 
 						<div id="latestStatementsCollapse" class="collapse">
 
-							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(10)->get()])
+							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(8)->get()])
 
 						</div>
 
 					</div>
 				</div>
-
-			</div>
-		</div>
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
-
-		<ul class="nav nav-tabs" id="userTabs" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#payments" role="tab">Payments</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#statements" role="tab">Statements</a>
-			</li>
-		</ul>
-
-		<div class="tab-content">
-			<div class="tab-pane fade show active" id="payments" role="tabpanel">
-				
-				@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(10)->get()])
-
-				<a href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="View All Rent Payments Received" class="btn btn-primary">
-					View All Rent Payments
-				</a>
-
-			</div>
-			<div class="tab-pane fade" id="statements" role="tabpanel">
-
-				@include('tenancies.partials.statements-table')
-
-				<a href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" title="View All Statements" class="btn btn-primary">
-					View All Statements
-				</a>
 
 			</div>
 		</div>
