@@ -1,8 +1,8 @@
-<button type="button" class="btn btn-primary">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tenancyRentPaymentModal">
 	<i class="fa fa-plus"></i> Rent Payment
 </button>
 
-<button type="button" class="btn btn-info">
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#tenancyStatementModal">
 	<i class="fa fa-plus"></i> Statement
 </button>
 

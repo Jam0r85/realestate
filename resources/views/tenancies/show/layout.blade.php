@@ -42,7 +42,6 @@
 			<div class="col-sm-12 col-lg-3">
 
 				@include('tenancies.partials.tenants-card')
-				@include('tenancies.partials.tabs')
 				@include('tenancies.partials.system-info-card')
 
 			</div>
@@ -70,9 +69,9 @@
 
 						@endcomponent
 
-						<div id="latestRentPaymentsCollapse" class="collapse show">
+						<div id="latestRentPaymentsCollapse" class="collapse">
 
-							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(8)->get()])
+							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(5)->get()])
 
 						</div>
 
@@ -86,7 +85,7 @@
 
 						<div id="latestStatementsCollapse" class="collapse">
 
-							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(8)->get()])
+							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(5)->get()])
 
 						</div>
 
@@ -97,5 +96,8 @@
 		</div>
 
 	@endcomponent
+
+	@include('tenancies.modals.tenancy-rent-payment-modal')
+	@include('tenancies.modals.tenancy-statement-modal')
 
 @endsection
