@@ -2,22 +2,19 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
-				Return
-			</a>
+		<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			@component('partials.header')
-				{{ $tenancy->name }}
-			@endcomponent
+		@component('partials.header')
+			{{ $tenancy->name }}
+		@endcomponent
 
-			@component('partials.sub-header')
-				Statements list
-			@endcomponent
-
-		</div>
+		@component('partials.sub-header')
+			Statements list
+		@endcomponent
 
 	@endcomponent
 
