@@ -1,13 +1,13 @@
-<table class="table table-striped table-responsive-sm">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Created</th>
 		<th>Starts</th>
 		<th>Ends</th>
 		<th>Amount</th>
 		<th>Invoice</th>
-		<th>Status</th>
-	</thead>
-	<tbody>
+		<th class="text-right">Status</th>
+	@endslot
+	@slot('body')
 		@foreach ($tenancy->statements()->limit(10)->get() as $statement)
 			<tr>
 				<td>{{ date_formatted($statement->created_at) }}</td>
@@ -25,10 +25,10 @@
 						</a>
 					@endif
 				</td>
-				<td>
+				<td class="text-right">
 					@include('statements.format.status')
 				</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent

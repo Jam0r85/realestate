@@ -1,12 +1,12 @@
-<table class="table table-striped table-responsive-sm">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Date</th>
 		<th>Amount</th>
 		<th>Method</th>
 		<th>Users</th>
-		<th>Receipt</th>
-	</thead>
-	<tbody>
+		<th class="text-right"></th>
+	@endslot
+	@slot('body')
 		@foreach ($payments as $payment)
 			<tr>
 				<td>
@@ -19,12 +19,12 @@
 				<td>
 					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 				</td>
-				<td>
-					<a href="{{ route('downloads.payment', $payment->id) }}" title="Download" target="_blank">
-						Download
+				<td class="text-right">
+					<a href="{{ route('downloads.payment', $payment->id) }}" title="Download" target="_blank" class="btn btn-sm btn-primary">
+						Receipt
 					</a>
 				</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent

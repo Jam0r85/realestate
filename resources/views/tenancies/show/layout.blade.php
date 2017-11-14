@@ -64,17 +64,17 @@
 				<div role="tablist">
 					<div class="card">
 
-						<div class="card-header" role="tab" id="latestRentPayments">
+						@component('partials.card-header')
+
 							<span class="float-right">
 								{{ currency($tenancy->getRentBalance()) }}
-								<small class="text-muted">Balance</small>
 							</span>
-							<h5 class="mb-0">
-								<a data-toggle="collapse" href="#latestRentPaymentsCollapse">
-									Latest Rent Payments
-								</a>
-							</h5>
-						</div>
+
+							<a data-toggle="collapse" href="#latestRentPaymentsCollapse">
+								Latest Rent Payments
+							</a>
+
+						@endcomponent
 
 						<div id="latestRentPaymentsCollapse" class="collapse show">
 
@@ -82,15 +82,15 @@
 
 						</div>
 
-						<div class="card-header" role="tab" id="latestStatements">
-							<h5 class="mb-0">
-								<a data-toggle="collapse" href="#latestStatementsCollapse">
-									Latest Statements
-								</a>
-							</h5>
-						</div>
+						@component('partials.card-header')
 
-						<div id="latestStatementsCollapse" class="collapse show">
+							<a data-toggle="collapse" href="#latestStatementsCollapse">
+								Latest Statements
+							</a>
+
+						@endcomponent
+
+						<div id="latestStatementsCollapse" class="collapse">
 
 							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(10)->get()])
 
