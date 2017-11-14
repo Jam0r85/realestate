@@ -58,16 +58,7 @@
 					</div>
 					<div class="col">
 
-						<div class="card text-white text-center bg-primary">
-							<div class="card-body">
-								<h4 class="card-title">
-									{{ currency($tenancy->deposit ? $tenancy->deposit->balance : 0) }}
-								</h4>
-								<p class="card-text">
-									Deposit Balance
-								</p>
-							</div>
-						</div>
+						@include('tenancies.partials.tenancy-deposit-card')
 
 					</div>
 				</div>
