@@ -2,19 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('tenancies.partials.dropdown-menus')
-			</div>
-
-			@component('partials.header')
-				{{ $tenancy->name }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('tenancies.partials.dropdown-menus')
 		</div>
+
+		@component('partials.header')
+			{{ $tenancy->name }}
+		@endcomponent
 
 	@endcomponent
 
@@ -39,14 +35,14 @@
 		@endif
 
 		<div class="row">
-			<div class="col col-5">
+			<div class="col-sm-12 col-lg-3">
 
 				@include('tenancies.partials.tenants-card')
 				@include('tenancies.partials.tabs')
 				@include('tenancies.partials.system-info-card')
 
 			</div>
-			<div class="col">
+			<div class="col-sm-12 col-lg-3">
 
 				@include('tenancies.partials.tenancy-details-card')
 
@@ -61,6 +57,47 @@
 
 				@include('tenancies.partials.service-card')
 				@include('tenancies.partials.agreement-card')
+
+			</div>
+			<div class="col-sm-12 col-lg-6">
+
+				<div role="tablist">
+					<div class="card">
+
+						<div class="card-header" role="tab" id="latestRentPayments">
+							<span class="float-right">
+								{{ currency($tenancy->getRentBalance()) }}
+								<small class="text-muted">Balance</small>
+							</span>
+							<h5 class="mb-0">
+								<a data-toggle="collapse" href="#latestRentPaymentsCollapse">
+									Latest Rent Payments
+								</a>
+							</h5>
+						</div>
+
+						<div id="latestRentPaymentsCollapse" class="collapse show">
+
+							@include('tenancies.partials.payments-table', ['payments' => $tenancy->rent_payments()->limit(10)->get()])
+
+						</div>
+
+						<div class="card-header" role="tab" id="latestStatements">
+							<h5 class="mb-0">
+								<a data-toggle="collapse" href="#latestStatementsCollapse">
+									Latest Statements
+								</a>
+							</h5>
+						</div>
+
+						<div id="latestStatementsCollapse" class="collapse show">
+
+							@include('tenancies.partials.statements-table', ['statements' => $tenancy->statements()->limit(10)->get()])
+
+						</div>
+
+					</div>
+				</div>
 
 			</div>
 		</div>
