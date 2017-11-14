@@ -20,6 +20,7 @@ class CreateTenancyRentsTable extends Migration
             $table->decimal('amount', 12, 2);
             $table->date('starts_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

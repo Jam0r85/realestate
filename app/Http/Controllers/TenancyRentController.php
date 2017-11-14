@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TenancyRentStoreRequest;
+use App\Tenancy;
 use App\TenancyRent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TenancyRentController extends Controller
+class TenancyRentController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -33,9 +36,20 @@ class TenancyRentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TenancyRentStoreRequest $request)
     {
-        //
+        $tenancy = Tenancy::findOrFail($request->tenancy_id);
+
+        $rent = new TenancyRent();
+        $rent->user_id = Auth::user()->id;
+        $rent->amount = $request->amount;
+        $rent->starts_at = $request->starts_at;
+
+        $tenancy->rents()->save($rent);
+
+        $this->successMessage('The new rent amount of ' . $rent->amount . ' was stored for the tenancy ' . $tenancy->name);
+
+        return back();
     }
 
     /**

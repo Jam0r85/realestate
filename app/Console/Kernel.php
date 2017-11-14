@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\ArchivePastTenancyRents;
 use App\Jobs\GenerateRecurringInvoices;
 use App\Jobs\SendUnsentStatements;
 use App\Jobs\UpdateTenancyDepositBalances;
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new GenerateRecurringInvoices)->daily();
         $schedule->job(new UpdateTenancyRentBalances)->daily();
         $schedule->job(new UpdateTenancyDepositBalances)->daily();
+        $schedule->job(new ArchivePastTenancyRents)->daily();
 
         // Running backups
         $schedule->command('backup:clean')->daily()->at('01:00');

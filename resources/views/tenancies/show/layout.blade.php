@@ -44,16 +44,7 @@
 				<div class="row mb-3">
 					<div class="col">
 
-						<div class="card text-white text-center bg-primary">
-							<div class="card-body">
-								<h4 class="card-title">
-									{{ currency($tenancy->getRentBalance()) }}
-								</h4>
-								<p class="card-text">
-									Rent Balance
-								</p>
-							</div>
-						</div>
+						@include('tenancies.partials.tenancy-rent-card')
 
 					</div>
 					<div class="col">

@@ -13,7 +13,7 @@
 
 @else
 
-	<div class="card text-white text-center @if ($tenancy->getRentBalance() >= $tenancy->currentRent->amount) bg-success @elseif ($tenancy->getRentBalance() > 0 && $tenancy->getRentBalance() < $tenancy->currentRent->amount) bg-info @else bg-primary @endif">
+	<div class="card text-white text-center @if ($tenancy->getRentBalance() >= $tenancy->currentRent->amount) bg-success @elseif ($tenancy->getRentBalance() > 0 && $tenancy->getRentBalance() < $tenancy->currentRent->amount) bg-info @elseif ($tenancy->getRentBalance() < 0) bg-danger @else bg-primary @endif">
 		<div class="card-body">
 			<h4 class="card-title">
 				{{ currency($tenancy->getRentBalance()) }}

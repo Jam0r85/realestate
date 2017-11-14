@@ -157,6 +157,7 @@ class Tenancy extends BaseModel
     public function rents()
     {
     	return $this->hasMany('App\TenancyRent')
+            ->withTrashed()
             ->latest('starts_at');
     }
 

@@ -124,6 +124,7 @@ Route::prefix('tenancies')->group(function () {
 	Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 });
 
+Route::resource('tenancy-rents', 'TenancyRentController');
 Route::resource('services', 'ServiceController');
 
 Route::prefix('statements')->group(function () {

@@ -12,28 +12,28 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="tenanciesOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-tenancy-agreement']) }}" title="New Tenancy Agreement">
-			<i class="fa fa-plus"></i> New Tenancy Agreement
+			<i class="fa fa-fw fa-plus"></i> New Tenancy Agreement
 		</a>
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'new-rent-amount']) }}" title="Record New Rent Amount">
-			<i class="fa fa-plus"></i> Record New Rent Amount
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-rent-amount']) }}" title="Record New Rent Amount">
+			<i class="fa fa-fw fa-university"></i> Rent Amount
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-deposit']) }}" title="Manage Deposit">
-			{!! $tenancy->deposit ? '<i class="fa fa-edit"></i> Manage Deposit' : '<i class="fa fa-plus"></i> Record Deposit' !!}
+			{!! $tenancy->deposit ? '<i class="fa fa-fw fa-edit"></i> Manage Deposit' : '<i class="fa fa-fw fa-plus"></i> Record Deposit' !!}
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-tenants']) }}" title="Manage Tenants">
-			<i class="fa fa-users"></i> Manage the Tenants
+			<i class="fa fa-fw fa-users"></i> Manage the Tenants
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'record-old-statement']) }}" title="Record Old Statement">
-			<i class="fa fa-plus"></i> Record Old Statement
+			<i class="fa fa-fw fa-plus"></i> Record Old Statement
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-status']) }}" title="Tenants Vacting">
-			<i class="fa fa-edit"></i> Update Tenancy Status
+			<i class="fa fa-fw fa-edit"></i> Update Tenancy Status
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="Rent Payments History">
-			<i class="fa fa-history"></i> Rent Payments History
+			<i class="fa fa-fw fa-history"></i> Rent Payments History
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" title="Statements History">
-			<i class="fa fa-history"></i> Statements History
+			<i class="fa fa-fw fa-history"></i> Statements History
 		</a>
 	</div>
 </div>
