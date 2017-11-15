@@ -14,13 +14,16 @@
 					<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}" />
 
 					<div class="form-group">
-						<label for="amount">Statement Amount</label>
+						<label for="amount">Statement Amount (optional)</label>
 						<div class="input-group">
 							<span class="input-group-addon">
 								<i class="fa fa-gbp"></i>
 							</span>
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
 						</div>
+						<small class="form-text text-muted">
+							Leave this blank to use the current rent amount of {{ currency($tenancy->currentRent->amount) }}
+						</small>
 					</div>
 
 					<div class="form-group">
