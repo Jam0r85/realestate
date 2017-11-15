@@ -2,9 +2,7 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
+	@component('partials.page-header')
 
 			<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
 				<i class="fa fa-plus"></i> New Tenancy
@@ -45,6 +43,10 @@
 			</div>
 
 		</div>
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
 
 		{{-- Tenancies Search --}}
 		@component('partials.bootstrap.page-search')
