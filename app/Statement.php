@@ -141,9 +141,9 @@ class Statement extends BaseModel
     /**
      * A statement can belong to many invoices.
      */
-    public function invoices()
+    public function invoice()
     {
-        return $this->belongsToMany('App\Invoice');
+        return $this->belongsTo('App\Invoice');
     }
 
     /**
@@ -184,16 +184,6 @@ class Statement extends BaseModel
     }
 
     /**
-     * Get the statement's invoice.
-     * 
-     * @return \App\Invoice
-     */
-    public function getInvoiceAttribute()
-    {
-        return $this->invoices->first();
-    }
-
-    /**
      * Get the statement's invoice total.
      * 
      * @return int
@@ -230,7 +220,7 @@ class Statement extends BaseModel
      */
     public function getNetAmountAttribute()
     {
-        return $this->expense_total_amount + $this->invoices->sum('total_net');
+        return $this->expense_total_amount + $this->invoice ? $this->invoice->total_net : 0;
     }
 
     /**
@@ -240,7 +230,7 @@ class Statement extends BaseModel
      */
     public function getTaxAmountAttribute()
     {
-        return $this->invoices->sum('total_tax');
+        return $this->invoice ? $this->invoice->total_tax : 0;
     }
 
     /**

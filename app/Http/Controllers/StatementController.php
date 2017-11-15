@@ -41,8 +41,8 @@ class StatementController extends BaseController
         $statements = Statement::whereNotNull('sent_at')->latest()->paginate();
         $unsent_statements = Statement::where('sent_at', null)->orWhere('paid_at', null)->latest()->get();
 
-        $unsent_statements->load('tenancy','tenancy.property','tenancy.tenants','users');
-        $statements->load('tenancy','tenancy.property','tenancy.tenants');
+        $unsent_statements->load('tenancy','tenancy.property','tenancy.tenants','users','payments');
+        $statements->load('tenancy','tenancy.property','tenancy.tenants','payments');
 
         $title = 'Statements List';
 
