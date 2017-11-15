@@ -43,7 +43,6 @@ class SendStatementToOwners implements ShouldQueue
     public function handle()
     {
         Notification::send($this->statement->users, new StatementSentNotification($this->statement));
-
         $this->statement->update(['sent_at' => Carbon::now()]);
     }
 }

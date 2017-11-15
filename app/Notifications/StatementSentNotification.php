@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Mail;
 
 class StatementSentNotification extends Notification
 {
-    use Queueable;
-
     /**
      * The statement we are sending.
      * 
