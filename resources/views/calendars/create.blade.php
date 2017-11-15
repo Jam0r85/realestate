@@ -2,33 +2,29 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<div class="page-title">
-				<h1>New Calendar</h1>
-			</div>
+		@component('partials.header')
+			New Calendar
+		@endcomponent
 
-		</div>
-	</section>
+	@endcomponent
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
 
-			@include('partials.errors-block')
+		@include('partials.errors-block')
 
-			<form role="form" method="POST" action="{{ route('calendars.store') }}">
-				{{ csrf_field() }}
+		<form method="POST" action="{{ route('calendars.store') }}">
+			{{ csrf_field() }}
 
-				@include('calendars.partials.form')
+			@include('calendars.partials.form')
 
-				@component('partials.bootstrap.save-submit-button')
-					Create Calendar
-				@endcomponent
+			@component('partials.save-button')
+				Create Calendar
+			@endcomponent
 
-			</form>
+		</form>
 
-		</div>
-	</section>
+	@endcomponent
 
 @endsection

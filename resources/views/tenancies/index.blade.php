@@ -4,44 +4,42 @@
 
 	@component('partials.page-header')
 
-			<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
-				<i class="fa fa-plus"></i> New Tenancy
+		<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
+			<i class="fa fa-plus"></i> New Tenancy
+		</a>
+
+		@component('partials.header')
+			{{ $title }}
+		@endcomponent
+
+		<div class="btn-group" role="group">
+			<a href="{{ route('tenancies-list.index') }}" class="btn btn-sm {{ !Request::segment('2') ? 'btn-primary' : 'btn-secondary' }}">
+				All Tenancies
 			</a>
-
-			@component('partials.header')
-				{{ $title }}
-			@endcomponent
-
-			<div class="btn-group" role="group">
-				<a href="{{ route('tenancies-list.index') }}" class="btn btn-sm {{ !Request::segment('2') ? 'btn-primary' : 'btn-secondary' }}">
-					All Tenancies
-				</a>
-				<a href="{{ route('tenancies-list.index', 'overdue') }}" class="btn btn-sm {{ Request::segment('2') == 'overdue' ? 'btn-primary' : 'btn-secondary' }}">
-					Overdue
-					<span class="badge badge-light">
-						{{ App\Tenancy::isOverdue()->count() }}
-					</span>
-				</a>
-				<a href="{{ route('tenancies-list.index', 'has-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'has-rent' ? 'btn-primary' : 'btn-secondary' }}">
-					Has Rent
-					<span class="badge badge-light">
-						{{ App\Tenancy::hasRent()->count() }}
-					</span>
-				</a>
-				<a href="{{ route('tenancies-list.index', 'owes-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-rent' ? 'btn-primary' : 'btn-secondary' }}">
-					Owes Rent
-					<span class="badge badge-light">
-						{{ App\Tenancy::owesRent()->count() }}
-					</span>
-				</a>
-				<a href="{{ route('tenancies-list.index', 'owes-deposit') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-deposit' ? 'btn-primary' : 'btn-secondary' }}">
-					Owes Deposit
-					<span class="badge badge-light">
-						{{ App\Tenancy::owesDeposit()->count() }}
-					</span>
-				</a>
-			</div>
-
+			<a href="{{ route('tenancies-list.index', 'overdue') }}" class="btn btn-sm {{ Request::segment('2') == 'overdue' ? 'btn-primary' : 'btn-secondary' }}">
+				Overdue
+				<span class="badge badge-light">
+					{{ App\Tenancy::isOverdue()->count() }}
+				</span>
+			</a>
+			<a href="{{ route('tenancies-list.index', 'has-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'has-rent' ? 'btn-primary' : 'btn-secondary' }}">
+				Has Rent
+				<span class="badge badge-light">
+					{{ App\Tenancy::hasRent()->count() }}
+				</span>
+			</a>
+			<a href="{{ route('tenancies-list.index', 'owes-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-rent' ? 'btn-primary' : 'btn-secondary' }}">
+				Owes Rent
+				<span class="badge badge-light">
+					{{ App\Tenancy::owesRent()->count() }}
+				</span>
+			</a>
+			<a href="{{ route('tenancies-list.index', 'owes-deposit') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-deposit' ? 'btn-primary' : 'btn-secondary' }}">
+				Owes Deposit
+				<span class="badge badge-light">
+					{{ App\Tenancy::owesDeposit()->count() }}
+				</span>
+			</a>
 		</div>
 
 	@endcomponent
@@ -60,10 +58,6 @@
 			@endif
 		@endcomponent
 		{{-- End of Tenancies Search --}}
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
 
 		@if (Request::segment(2) == 'overdue')
 			@include('tenancies.partials.overdue-tenancies-table')

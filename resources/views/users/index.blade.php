@@ -29,10 +29,6 @@
 		@endcomponent
 		{{-- End of Users Search --}}
 
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
-
 		@component('partials.table')
 			@slot('header')
 				<th>Name</th>

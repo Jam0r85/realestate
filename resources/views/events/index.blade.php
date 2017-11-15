@@ -2,15 +2,15 @@
 
 @section('content')
 
+	@component('partials.page-header')
+
+		@component('partials.header')
+			{{ $title }}
+		@endcomponent
+
+	@endcomponent
+
 	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			@component('partials.header')
-				{{ $title }}
-			@endcomponent
-
-		</div>
 
 		{{-- Events Search --}}
 		@component('partials.bootstrap.page-search')
@@ -24,9 +24,6 @@
 			@endif
 		@endcomponent
 		{{-- End of Events Search --}}
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
 
 		@component('partials.table')
 			@slot('header')

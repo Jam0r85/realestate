@@ -2,19 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		<a href="{{ route('calendars.create') }}" class="btn btn-primary float-right" title="New Calendar">
+			<i class="fa fa-user-plus"></i> New Calendar
+		</a>
 
-			<a href="{{ route('calendars.create') }}" class="btn btn-primary float-right" title="New Calendar">
-				<i class="fa fa-user-plus"></i> New Calendar
-			</a>
-
-			@component('partials.header')
-				Calendars List
-			@endcomponent
-
-		</div>
+		@component('partials.header')
+			Calendars List
+		@endcomponent
 
 	@endcomponent
 
