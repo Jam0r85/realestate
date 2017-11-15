@@ -3,7 +3,8 @@
 		<th>Date</th>
 		<th>Amount</th>
 		<th>Method</th>
-		<th>Users</th>
+		<th>Recorded By</th>
+		<th>Note</th>
 		<th class="text-right"></th>
 	@endslot
 	@slot('body')
@@ -16,8 +17,9 @@
 				</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
+				<td>{{ $payment->owner->name }}</td>
 				<td>
-					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
+					<small>{{ $payment->note }}</small>
 				</td>
 				<td class="text-right">
 					<a href="{{ route('downloads.payment', $payment->id) }}" title="Download" target="_blank" class="btn btn-sm btn-primary">
