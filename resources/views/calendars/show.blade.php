@@ -2,25 +2,26 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-fluid-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-			<div class="float-right">
-				@include('calendars.partials.dropdown-menu')
-			</div>
-			<h1>{{ $calendar->name }}</h1>
+		<div class="float-right">
+			@include('calendars.partials.dropdown-menu')
 		</div>
+
+		@component('partials.header')
+			{{ $calendar->name }}
+		@endcomponent
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-fluid-container')
 
 		<div id="alert" class="alert alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<span id="alertMessage"></span>
-		</div>
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-fluid-container')
+		</div>	
 
 		@include('partials.errors-block')
 
@@ -48,6 +49,18 @@
 	    	minTime: '06:00',
 	    	maxTime: '20:00',
 	    	firstDay: '1',
+	    	businessHours: [
+	    		{
+	    			dow: [ 1, 2, 3, 4, 5 ],
+	    			start: '09:00',
+	    			end: '17:00'
+	    		},
+	    		{
+	    			dow: [ 6 ],
+	    			start: '09:00',
+	    			end: '16:00'
+	    		}
+	    	],
 	    	columnFormat: 'ddd DD, YYYY',
 	    	events: '{{ route('events.feed', $calendar->id) }}',
 	    	hiddenDays: [ 0 ],
