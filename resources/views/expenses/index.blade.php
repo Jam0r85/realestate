@@ -42,6 +42,7 @@
 
 					@component('partials.table')
 						@slot('header')
+							<th>Added</th>
 							<th>Name</th>
 							<th>Property</th>
 							<th>Contractor</th>
@@ -53,6 +54,7 @@
 							@foreach ($unpaid_expenses as $expense)
 								@if (!$expense->isPaid())
 									<tr>
+										<td>{{ date_formatted($expense->created_at) }}</td>
 										<td>
 											<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
 												{!! truncate($expense->name) !!}
