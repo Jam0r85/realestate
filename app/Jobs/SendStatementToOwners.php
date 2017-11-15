@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
-class SendStatementToOwners implements ShouldQueue
+class SendStatementToOwners
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
