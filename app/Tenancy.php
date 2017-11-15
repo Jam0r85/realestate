@@ -203,7 +203,7 @@ class Tenancy extends BaseModel
     public function rent_payments()
     {
     	return $this->morphMany('App\Payment', 'parent')
-            ->with('method','users')
+            ->with('method','users','owner')
             ->latest();
     }
 
@@ -223,7 +223,7 @@ class Tenancy extends BaseModel
     public function statements()
     {
         return $this->hasMany('App\Statement')
-            ->with('invoices','invoices.invoiceGroup')
+            ->with('invoices','invoices.invoiceGroup','invoices.items','expenses')
             ->latest('period_start');
     }
 

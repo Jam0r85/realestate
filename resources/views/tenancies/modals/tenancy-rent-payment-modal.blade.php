@@ -30,7 +30,7 @@
 							<span class="input-group-addon">
 								<i class="fa fa-gbp"></i>
 							</span>
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" required />
+							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
 						</div>
 						<small class="form-text text-muted">
 							Leave blank to use the current rent amount of {{ currency($tenancy->currentRent->amount) }} as the payment amount.
