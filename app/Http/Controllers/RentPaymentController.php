@@ -67,7 +67,7 @@ class RentPaymentController extends BaseController
     	$tenancy = Tenancy::withTrashed()->findOrFail($id);
 
     	$payment = new Payment();
-    	$payment->amount = $request->amount;
+    	$payment->amount = $request->amount ? $request->amount : $tenancy->currentRent->amount;
     	$payment->payment_method_id = $request->payment_method_id;
     	$payment->note = $request->note;
 
@@ -75,7 +75,7 @@ class RentPaymentController extends BaseController
 
     	$payment->users()->attach($tenancy->tenants);
 
-    	$this->successMessage('The payment of ' . $payment->amount . ' was recorded against ' . $tenancy->name);
+    	$this->successMessage('The payment of ' . currency($payment->amount) . ' was recorded for the tenancy ' . $tenancy->name);
     	return back();
     }
 }
