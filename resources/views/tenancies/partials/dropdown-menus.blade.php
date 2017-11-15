@@ -17,7 +17,7 @@
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-rent-amount']) }}" title="Record New Rent Amount">
 			<i class="fa fa-fw fa-university"></i> Rent Amount
 		</a>
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-deposit']) }}" title="Manage Deposit">
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-deposit']) }}" title="Manage Deposit">
 			{!! $tenancy->deposit ? '<i class="fa fa-fw fa-edit"></i> Manage Deposit' : '<i class="fa fa-fw fa-plus"></i> Record Deposit' !!}
 		</a>
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'edit-tenants']) }}" title="Manage Tenants">

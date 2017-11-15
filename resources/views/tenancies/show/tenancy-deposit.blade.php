@@ -2,23 +2,19 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-secondary float-right">
-				Return
-			</a>
+		@component('partials.header')
+			{{ $tenancy->name }}
+		@endcomponent
 
-			@component('partials.header')
-				{{ $tenancy->name }}
-			@endcomponent
-
-			@component('partials.sub-header')
-				{{ $tenancy->deposit ? 'Manage the deposit' : 'Record a deposit ' }}
-			@endcomponent
-
-		</div>
+		@component('partials.sub-header')
+			{{ $tenancy->deposit ? 'Manage the deposit' : 'Record a deposit ' }}
+		@endcomponent
 
 	@endcomponent
 
@@ -27,11 +23,11 @@
 		@include('partials.errors-block')
 
 		<div class="row">
-			<div class="col">
+			<div class="col-sm-12 {{ $tenancy->deposit ? 'col-lg-4' : '' }}">
 
 				<div class="card mb-3">
 
-					@component('partials.bootstrap.card-header')
+					@component('partials.card-header')
 						Deposit Details
 					@endcomponent
 
@@ -78,7 +74,7 @@
 
 					<div class="card mb-3">
 
-						@component('partials.bootstrap.card-header')
+						@component('partials.card-header')
 							Certificate
 						@endcomponent
 
@@ -132,7 +128,7 @@
 
 					<div class="card mb-3">
 
-						@component('partials.bootstrap.card-header')
+						@component('partials.card-header')
 							System Information
 						@endcomponent
 
@@ -150,7 +146,7 @@
 								@endslot
 							@endcomponent
 							@component('partials.bootstrap.list-group-item')
-								{{ datetime_formatted($tenancy->deposit->created_at) }}
+								{{ date_formatted($tenancy->deposit->created_at) }}
 								@slot('title')
 									Registered
 								@endslot
@@ -171,7 +167,7 @@
 
 			@if ($tenancy->deposit)
 
-			<div class="col-sm-12 col-lg-7">
+			<div class="col-sm-12 {{ $tenancy->deposit ? 'col-lg-8' : '' }}">
 
 				<div class="card mb-3">
 
@@ -179,27 +175,34 @@
 						Deposit Payments
 					@endcomponent
 
-					<table class="table table-striped table-hover table-responsive">
-						<thead>
+					@component('partials.table')
+						@slot('header')
 							<th>Date</th>
 							<th>Amount</th>
 							<th>Method</th>
-						</thead>
-						<tbody>
+							<th>Recorded By</th>
+							<th>Note</th>
+						@endslot
+						@slot('body')
 							@foreach ($tenancy->deposit->payments as $payment)
 								<tr>
 									<td>{{ date_formatted($payment->created_at) }}</td>
 									<td>{{ currency($payment->amount) }}</td>
 									<td>{{ $payment->method->name }}</td>
+									<td>{{ $payment->owner->name }}</td>
+									<td>
+										<small>{{ $payment->note }}</small>
+									</td>
 								</tr>
 							@endforeach
-						</tbody>
-					</table>
+						@endslot
+					@endcomponent
+
 				</div>
 
 				<div class="card mb-3">
 
-					@component('partials.bootstrap.card-header')
+					@component('partials.card-header')
 						Record Deposit Payment
 					@endcomponent
 
@@ -218,7 +221,12 @@
 
 								<div class="form-group">
 									<label for="created_at">Date (optional)</label>
-									<input type="date" name="created_at" class="form-control" />
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</span>
+										<input type="date" name="created_at" class="form-control" />
+									</div>
 									<small class="form-text text-muted">
 										Leave blank to use the current date and time.
 									</small>
