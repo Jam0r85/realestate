@@ -25,39 +25,27 @@
 		@endcomponent
 		{{-- End of Events Search --}}
 
-		@component('partials.table')
-			@slot('header')
-				<th>Date</th>
-				<th>Time</th>
-				<th>Title</th>
-				<th>Calendar</th>
-				<th class="text-right">Creator</th>
-			@endslot
-			@slot('body')
-				@foreach ($events as $event)
-					<tr>
-						<td>{{ date_formatted($event->start) }}</td>
-						<td>{{ time_formatted($event->start) }}</td>
-						<td>
-							@if ($event->trashed())
-								<span class="text-muted float-right">
-									<i class="fa fa-archive"></i> Archived
-								</span>
-							@endif
-							<a href="{{ route('events.edit', $event->id) }}" title="{{ $event->title }}">
-								{{ $event->title }}
-							</a>
-						</td>
-						<td>{{ $event->calendar->name }}</td>
-						<td class="text-right">
-							<a href="{{ route('users.show', $event->owner->id) }}" title="{{ $event->owner->name }}">
-								{{ $event->owner->name }}
-							</a>
-						</td>
-					</tr>
-				@endforeach
-			@endslot
-		@endcomponent
+		@foreach ($events as $event)
+
+			<div class="card mb-3">
+
+				@component('partials.card-header')
+					{{ $event->title }}
+				@endcomponent
+
+				<div class="card-body">
+					<p class="card-text">
+						<small class="text-muted">by {{ $event->owner->name }} for {{ datetime_formatted($event->start) }}</small>
+					</p>
+
+					<p class="card-text">
+						{{ $event->body }}
+					</p>
+				</div>
+
+			</div>
+
+		@endforeach
 
 		@include('partials.pagination', ['collection' => $events])
 

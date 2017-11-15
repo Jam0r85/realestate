@@ -5,7 +5,7 @@
 	@component('partials.page-header')
 
 		<a href="{{ route('calendars.create') }}" class="btn btn-primary float-right" title="New Calendar">
-			<i class="fa fa-user-plus"></i> New Calendar
+			<i class="fa fa-plus"></i> New Calendar
 		</a>
 
 		@component('partials.header')
