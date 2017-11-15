@@ -141,9 +141,17 @@ class Statement extends BaseModel
     /**
      * A statement can belong to many invoices.
      */
-    public function invoice()
+    public function invoices()
     {
-        return $this->belongsTo('App\Invoice');
+        return $this->belongsToMany('App\Invoice');
+    }
+
+    /**
+     * A statement can have one invoice.
+     */
+    public function getInvoiceAttribute()
+    {
+        return $this->invoices()->first();
     }
 
     /**
@@ -190,7 +198,7 @@ class Statement extends BaseModel
      */
     public function getInvoiceTotalAmountAttribute()
     {
-        return $this->invoice ? $this->invoice->total : 0;
+        return $this->invoices->sum('total');
     }
 
     /**
@@ -220,7 +228,7 @@ class Statement extends BaseModel
      */
     public function getNetAmountAttribute()
     {
-        return $this->expense_total_amount + $this->invoice ? $this->invoice->total_net : 0;
+        return $this->expense_total_amount + $this->invoices->sum('total_net');
     }
 
     /**
@@ -230,7 +238,7 @@ class Statement extends BaseModel
      */
     public function getTaxAmountAttribute()
     {
-        return $this->invoice ? $this->invoice->total_tax : 0;
+        return $this->invoices->sum('total_tax');
     }
 
     /**
@@ -337,7 +345,6 @@ class Statement extends BaseModel
     public static function createFromTenancy(array $data, $tenancy_id)
     {
         $statement = parent::create($data);
-
         return $statement;
     }
 
