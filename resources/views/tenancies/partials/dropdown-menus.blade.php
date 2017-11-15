@@ -29,10 +29,10 @@
 		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-status']) }}" title="Tenants Vacting">
 			<i class="fa fa-fw fa-edit"></i> Update Tenancy Status
 		</a>
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'rent-payments-received']) }}" title="Rent Payments History">
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-rent-payments-history']) }}" title="Rent Payments History">
 			<i class="fa fa-fw fa-history"></i> Rent Payments History
 		</a>
-		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}" title="Statements History">
+		<a class="dropdown-item" href="{{ route('tenancies.show', [$tenancy->id, 'tenancy-statements-history']) }}" title="Statements History">
 			<i class="fa fa-fw fa-history"></i> Statements History
 		</a>
 	</div>

@@ -34,6 +34,7 @@
 				<th>Amount</th>
 				<th>Method</th>
 				<th>User(s)</th>
+				<th>Note</th>
 				<th>Recorded By</th>
 				<th class="text-right">Receipt</th>
 			@endslot
@@ -49,6 +50,9 @@
 						<td>{{ $payment->method->name }}</td>
 						<td>
 							@include('partials.bootstrap.users-inline', ['users' => $payment->users])
+						</td>
+						<td>
+							<small>{{ $payment->note }}</small>
 						</td>
 						<td>{{ $payment->owner->name }}</td>
 						<td class="text-right">

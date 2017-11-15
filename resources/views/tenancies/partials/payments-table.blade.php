@@ -3,7 +3,6 @@
 		<th>Date</th>
 		<th>Amount</th>
 		<th>Method</th>
-		<th>Recorded By</th>
 		<th>Note</th>
 		<th class="text-right"></th>
 	@endslot
@@ -17,7 +16,6 @@
 				</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
-				<td>{{ $payment->owner->name }}</td>
 				<td>
 					<small>{{ $payment->note }}</small>
 				</td>
