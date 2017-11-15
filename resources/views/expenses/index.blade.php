@@ -2,19 +2,19 @@
 
 @section('content')
 
+	@component('partials.page-header')
+
+		<a href="{{ route('expenses.create') }}" class="btn btn-primary float-right">
+			<i class="fa fa-plus"></i> New Expense
+		</a>
+
+		@component('partials.header')
+			Expenses List
+		@endcomponent
+
+	@endcomponent
+
 	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			<a href="{{ route('expenses.create') }}" class="btn btn-primary float-right">
-				<i class="fa fa-plus"></i> New Expense
-			</a>
-
-			@component('partials.header')
-				Expenses List
-			@endcomponent
-
-		</div>
 
 		{{-- Expenses Search --}}
 		@component('partials.bootstrap.page-search')
@@ -29,81 +29,73 @@
 		@endcomponent
 		{{-- End of Expenses Search --}}
 
-	@endcomponent
+		@if (isset($unpaid_expenses))
 
-	@if (isset($unpaid_expenses))
+			{{-- We only show the unpaid expenses on the first page --}}
+			@if (count($unpaid_expenses) && $expenses->currentPage() == 1)
 
-		{{-- We only show the unpaid expenses on the first page --}}
-		@if (count($unpaid_expenses) && $expenses->currentPage() == 1)
+				<div class="card mb-3">
 
-			@component('partials.bootstrap.section-with-container')
-
-				<div class="page-title">
-
-					@component('partials.sub-header')
+					@component('partials.card-header')
 						Unpaid Expenses
 					@endcomponent
 
-				</div>
-
-				@component('partials.table')
-					@slot('header')
-						<th>Name</th>
-						<th>Property</th>
-						<th>Contractor</th>
-						<th>Cost</th>
-						<th>Balance</th>
-						<th><i class="fa fa-upload"></i></th>
-					@endslot
-					@slot('body')
-						@foreach ($unpaid_expenses as $expense)
-							@if (!$expense->isPaid())
-								<tr>
-									<td>
-										<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
-											{!! truncate($expense->name) !!}
-										</a>
-									</td>
-									<td>
-										<a href="{{ route('properties.show', $expense->property->id) }}" title="{{ $expense->property->short_name }}">
-											{!! truncate($expense->property->short_name) !!}
-										</a>
-									</td>
-									<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
-									<td>{{ currency($expense->cost) }}</td>
-									<td>{{ currency($expense->remaining_balance) }}</td>
-									<td>
-										@if (count($expense->documents))
-											<i class="fa fa-check"></i>
-										@endif
-									</td>
-								</tr>
-							@endif
-						@endforeach
-					@endslot
-				@endcomponent
-
-			@endcomponent
-
-		@endif
-
-	@endif
-
-	@component('partials.bootstrap.section-with-container')
-
-			@if (!session('expenses_search_term'))
-				<div class="page-title">
-
-					@component('partials.sub-header')
-						Paid Expenses
+					@component('partials.table')
+						@slot('header')
+							<th>Name</th>
+							<th>Property</th>
+							<th>Contractor</th>
+							<th>Cost</th>
+							<th>Balance</th>
+							<th><i class="fa fa-upload"></i></th>
+						@endslot
+						@slot('body')
+							@foreach ($unpaid_expenses as $expense)
+								@if (!$expense->isPaid())
+									<tr>
+										<td>
+											<a href="{{ route('expenses.show', $expense->id) }}" title="{{ $expense->name }}">
+												{!! truncate($expense->name) !!}
+											</a>
+										</td>
+										<td>
+											<a href="{{ route('properties.show', $expense->property->id) }}" title="{{ $expense->property->short_name }}">
+												{!! truncate($expense->property->short_name) !!}
+											</a>
+										</td>
+										<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
+										<td>{{ currency($expense->cost) }}</td>
+										<td>{{ currency($expense->remaining_balance) }}</td>
+										<td>
+											@if (count($expense->documents))
+												<i class="fa fa-check"></i>
+											@endif
+										</td>
+									</tr>
+								@endif
+							@endforeach
+						@endslot
 					@endcomponent
 
 				</div>
+
 			@endif
 
-			@include('expenses.partials.expenses-table')			
+		@endif
 
-			@include('partials.pagination', ['collection' => $expenses])
+		@if (!session('expenses_search_term'))
+			<div class="page-title">
+
+				@component('partials.sub-header')
+					Paid Expenses
+				@endcomponent
+
+			</div>
+		@endif
+
+		@include('expenses.partials.expenses-table')			
+
+		@include('partials.pagination', ['collection' => $expenses])
 
 	@endcomponent
 

@@ -2,15 +2,11 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			@component('partials.header')
-				Create Property
-			@endcomponent
-
-		</div>
+		@component('partials.header')
+			Create Property
+		@endcomponent
 
 	@endcomponent
 
