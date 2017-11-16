@@ -2,99 +2,90 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<h1 class="title">New Tenancy</h1>
+		@component('partials.header')
+			New Tenancy
+		@endcomponent
 
-			<hr />
+	@endcomponent
 
-			<form role="form" method="POST" action="{{ route('tenancies.store') }}">
-				{{ csrf_field() }}
+	@component('partials.bootstrap.section-with-container')
 
-				@include('partials.errors-block')
+		@include('partials.errors-block')
 
-				<div class="field">
-					<label class="label" for="service_id">Service</label>
-					<div class="control">
-						<span class="select is-fullwidth">
-							<select name="service_id">
-								<option value="">Please select..</option>
-								@foreach (services() as $service)
-									<option @if (old('service_id') == $service->id) selected @endif value="{{ $service->id }}">{{ $service->name }}</option>
-								@endforeach
-							</select>
-						</span>
-					</div>
-				</div>
+		<form method="POST" action="{{ route('tenancies.store') }}">
+			{{ csrf_field() }}
 
-				<div class="field">
-					<label class="label" for="property_id">Property</label>
-					<div class="control">
-						<select name="property_id" class="select2">
-							<option value="">Please select..</option>
-							@foreach (properties() as $property)
-								<option 
-									@if (old('property_id') == $property->id) selected @endif
-									value="{{ $property->id }}">
-									{{ $property->select_name }}
-								</option>
-							@endforeach
-						</select>
-					</div>
-				</div>
+			<div class="form-group">
+				<label for="service_id">Service</label>
+				<select name="service_id" id="service_id" class="form-control" required>
+					@foreach (services() as $service)
+						<option @if (old('service_id') == $service->id) selected @endif value="{{ $service->id }}">
+							{{ $service->name }}
+						</option>
+					@endforeach
+				</select>
+			</div>
 
-				<div class="field">
-					<label class="label" for="users">Tenants</label>
-					<div class="control">
-						<select name="users[]" class="select2" multiple>
-							<option value="">Please select..</option>
-							@foreach (users() as $user)
-								<option @if (old('users') && in_array($user->id, old('users'))) selected @endif value="{{ $user->id }}">{{ $user->name }}</option>
-							@endforeach
-						</select>
-					</div>
-				</div>
+			<div class="form-group">
+				<label for="property_id">Property</label>
+				<select name="property_id" id="property_id" class="form-control select2" required>
+					<option value="">Please select..</option>
+					@foreach (properties() as $property)
+						<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
+							{{ $property->present()->selectName }}
+						</option>
+					@endforeach
+				</select>
+			</div>
 
-				<div class="field">
-					<label class="label" for="start_date">Start Date</label>
-					<div class="control">
-						<input type="date" name="start_date" class="input" value="{{ old('start_date') }}" />
-					</div>
-				</div>
+			<div class="form-group">
+				<label for="tenants">Tenants</label>
+				<select name="tenants[]" class="form-control select2" multiple required>
+					@foreach (users() as $user)
+						<option @if (old('users') && in_array($user->id, old('users'))) selected @endif value="{{ $user->id }}">
+							{{ $user->present()->selectName }}
+						</option>
+					@endforeach
+				</select>
+			</div>
 
-				<div class="field">
-					<label class="label" for="length">Length</label>
-					<div class="control">
-						<span class="select is-fullwidth">
-							<select name="length">
-								<option value="3-months">3 Months</option>
-								<option value="6-months">6 Months</option>
-								<option value="12-months">12 Months</option>
-							</select>
-						</span>
-					</div>
-				</div>
-
-				<div class="field">
-					<label class="label" for="rent_amount">Rent Amount PCM</label>
-					<div class="control">
-						<input type="number" step="any" name="rent_amount" class="input" value="{{ old('rent_amount') }}" />
-					</div>
-				</div>
-
-				<button type="submit" class="button is-primary">
-					<span class="icon is-small">
-						<i class="fa fa-save"></i>
+			<div class="form-group">
+				<label for="start_date">Start Date</label>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-calendar"></i>
 					</span>
-					<span>
-						Create Tenancy
+					<input type="date" name="start_date" id="start_date" class="form-control" value="{{ old('start_date') }}" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="length">Length</label>
+				<select name="length" id="length" class="form-control" required>
+					<option value="3-months">3 Months</option>
+					<option value="6-months">6 Months</option>
+					<option value="12-months">12 Months</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="rent_amount">Rent Amount</label>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-gbp"></i>
 					</span>
-				</button>
+					<input type="number" step="any" name="rent_amount" id="rent_amount" class="form-control" value="{{ old('rent_amount') }}" required />
+				</div>
+			</div>
 
-			</form>
+			@component('partials.save-button')
+				Create Tenancy
+			@endcomponent
 
-		</div>
-	</section>
+		</form>
+
+	@endcomponent
 
 @endsection

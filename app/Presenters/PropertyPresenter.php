@@ -94,6 +94,16 @@ class PropertyPresenter extends Presenter
      */
     public function selectName()
     {
-        return $this->fullAddress;
+        $value = $this->fullAddress;
+
+        foreach ($this->owners as $user) {
+            $users[] = $user->present()->fullName;
+        }
+
+        if (isset($users) && count($users)) {
+            $value .= ' (' . implode(' & ', $users) . ')';
+        }
+
+        return $value;
     }
 }

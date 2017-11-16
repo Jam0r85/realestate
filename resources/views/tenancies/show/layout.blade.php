@@ -9,11 +9,11 @@
 		</div>
 
 		@component('partials.header')
-			{{ $tenancy->name }}
+			{{ $tenancy->present()->name }}
 		@endcomponent
 
 		@component('partials.sub-header')
-			{{ $tenancy->property->name }}
+			{{ $tenancy->property->present()->fullAddress }}
 		@endcomponent
 
 	@endcomponent

@@ -27,6 +27,12 @@ class UserPresenter extends Presenter
 	 */
 	public function selectName()
 	{
-		return $this->fullName;
+		$value = $this->fullName;
+
+		if ($this->email) {
+			$value .= ' (' . $this->email . ')';
+		}
+
+		return $value;
 	}
 }
