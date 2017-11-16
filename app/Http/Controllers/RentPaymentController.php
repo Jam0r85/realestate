@@ -30,7 +30,7 @@ class RentPaymentController extends BaseController
      */
     public function index()
     {
-        $payments = Payment::with('users','method','parent')
+        $payments = Payment::with('users','method','parent','parent.tenants')
             ->forRent()
             ->latest()
             ->paginate();

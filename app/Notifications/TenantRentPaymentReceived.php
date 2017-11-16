@@ -36,6 +36,8 @@ class TenantRentPaymentReceived extends Notification
      */
     public function via($notifiable)
     {
+        $via = [];
+        
         if (user_setting('rent_payment_received_notification_email', $notifiable)) {
             $via[] = 'mail';
         }
