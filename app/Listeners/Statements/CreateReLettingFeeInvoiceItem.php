@@ -35,25 +35,32 @@ class CreateReLettingFeeInvoiceItem
         $property = $tenancy->property;
         $invoice = $statement->invoice;
 
-        if (count($property->tenancies) > 1) {
-            if (count($tenancy->statements) <= 1) {
-                if ($service->re_letting_fee) {
+        if (count($property->tenancies) > 1 && count($tenancy->statements) <= 1) {
 
-                    if (!$invoice) {
-                        $invoice = new Invoice();
-                        $invoice->property_id = $tenancy->property->id;
-                        $statement->storeInvoice($invoice);
-                    }
+            $re_letting_fee = $service->re_letting_fee;
 
-                    $item = new InvoiceItem();
-                    $item->name = $service->name;
-                    $item->description = $service->name . ' Re-Letting Fee';
-                    $item->amount = $service->re_letting_fee;
-                    $item->quantity = 1;
-                    $item->tax_rate_id = $service->tax_rate_id;
-
-                    $invoice->storeItem($item);
+            foreach ($property->owners as $user) {
+                if ($fee = $user->settings['tenancy_service_re_letting_fee']) {
+                    $re_letting_fee = $fee;
                 }
+            }
+
+            if ($re_letting_fee > 0) {
+
+                if (!$invoice) {
+                    $invoice = new Invoice();
+                    $invoice->property_id = $tenancy->property->id;
+                    $statement->storeInvoice($invoice);
+                }
+
+                $item = new InvoiceItem();
+                $item->name = $service->name;
+                $item->description = $service->name . ' Re-Letting Fee';
+                $item->amount = $re_letting_fee;
+                $item->quantity = 1;
+                $item->tax_rate_id = $service->tax_rate_id;
+
+                $invoice->storeItem($item);
             }
         }
     }
