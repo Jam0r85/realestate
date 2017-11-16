@@ -26,7 +26,7 @@ class StatementPaymentPresenter extends Presenter
     public function method()
     {
         if ($this->bank_account) {
-            return $this->bank_account->account_name;
+            return 'Trans:' .  $this->bank_account->account_name;
         } elseif ($this->parent_type == 'invoices') {
             return 'n/a';
         } else {
