@@ -83,7 +83,7 @@ class PropertyPresenter extends Presenter
         }
 
         if (isset($names) && count($names)) {
-            return implode(', ', $names);
+            return implode(' & ', $names);
         } else {
             return null;
         }
