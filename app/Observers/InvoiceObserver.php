@@ -42,19 +42,4 @@ class InvoiceObserver
 			$group->increment('next_number');
 		}
 	}
-
-	/**
-	 * Listen to the Invoice deleted event.
-	 * 
-	 * @param \App\Invoice $invoice
-	 * @return void
-	 */
-	public function deleted(Invoice $invoice)
-	{
-		// $number = $invoice->number - 1;
-		
-		// if ($number == $invoice->invoiceGroup->next_number) {
-		// 	$invoice->invoiceGroup->decrement('next_number');
-		// }
-	}
 }
