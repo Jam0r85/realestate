@@ -12,9 +12,6 @@ use App\Http\Requests\TenancyStoreRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Notifications\RentPaymentReceived;
 use App\Property;
-use App\Services\PaymentService;
-use App\Services\StatementService;
-use App\Services\TenancyService;
 use App\Tenancy;
 use App\TenancyRent;
 use Carbon\Carbon;
@@ -164,101 +161,6 @@ class TenancyController extends BaseController
         $tenancy->load('deposit.payments','deposit.payments.method');
         
         return view('tenancies.show.' . $section, compact('tenancy'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tenancy  $tenancy
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tenancy $tenancy)
-    {
-        //
-    }
-
-    /**
-     * Store a new tenancy rent payment in storage.
-     * 
-     * @param  StoreTenancyRentPaymentRequest $request
-     * @param  \App\Tenancy                   $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createRentPayment(StoreTenancyRentPaymentRequest $request, $id)
-    {
-        $tenancy = Tenancy::findOrFail($id);
-
-        $service = new PaymentService();
-        $payment = $service->createTenancyRentPayment($request->input(), $id);
-        $message = 'The payment was recorded';
-
-        if ($request->has('send_receipt_to_tenants')) {
-            Notification::send($tenancy->tenants, new RentPaymentReceived($payment));
-            $message .= ' and the receipt was sent to the tenants';
-        }
-
-        $this->successMessage($message);
-
-        return back();
-    }
-
-    /**
-     * Store a new tenancy rent payment in storage.
-     * 
-     * @param  StoreTenancyRentPaymentRequest $request
-     * @param  \App\Tenancy                   $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createRentalStatement(StoreStatementRequest $request, $id)
-    {
-        $service = new StatementService();
-        $statement = $service->createStatement($request->input(), $id);
-
-        $this->successMessage('The statement was created');
-
-        return redirect()->route('statements.show', $statement);
-    }
-
-    /**
-     * Store an old tenancy rental statement in storage.
-     * 
-     * @param  StoreTenancyRentPaymentRequest $request
-     * @param  \App\Tenancy                   $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createOldRentalStatement(StoreOldStatementRequest $request, $id)
-    {
-        $service = new StatementService();
-        $service->createOldStatement($request->input(), $id);
-
-        $this->successMessage('The old statement was created');
-
-        return back();
-    }
-
-    /**
-     * Store a new rent amount in storage.
-     * 
-     * @param \App\Http\Requests\StoreRentAmountRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createRentAmount(StoreRentAmountRequest $request, $id)
-    {
-        $tenancy = Tenancy::findOrFail($id);
-        
-        $service = new TenancyService();
-        $service->createRentAmount($request->input(), $tenancy);
-
-        // Create an agreement at the same time?
-        if ($request->has('create_agreement')) {
-            $service->createTenancyAgreement($request->input(), $tenancy);
-        }
-
-        $this->successMessage('The rent amount was recorded');
-
-        return back();
     }
 
     /**
