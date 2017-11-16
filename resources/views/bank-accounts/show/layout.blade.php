@@ -26,7 +26,19 @@
 			<div class="col-12 col-lg-5">
 
 				@include('bank-accounts.partials.account-info-card')
-				@include('bank-accounts.partials.system-info-card')				
+				@include('bank-accounts.partials.system-info-card')
+
+				{{-- Similar Bank Accounts --}}
+				<div class="card mb-3">
+
+					@component('partials.card-header')
+						Similar Bank Accounts
+					@endcomponent
+
+					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $account->similarBankAccounts()])
+
+				</div>		
+				{{-- End Similar Bank Accounts --}}
 
 			</div>
 			<div class="col-12 col-lg-7">
@@ -63,16 +75,6 @@
 						</div>
 
 					</div>
-				</div>
-
-				<div class="card mb-3">
-
-					@component('partials.card-header')
-						Similar Bank Accounts
-					@endcomponent
-
-					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $account->similarBankAccounts()])
-
 				</div>
 
 			</div>
