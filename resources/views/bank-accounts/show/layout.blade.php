@@ -16,6 +16,12 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@if ($account->trashed())
+			@component('partials.alerts.secondary')
+				This bank account was archived {{ date_formatted($account->deleted_at) }}
+			@endcomponent
+		@endif
+
 		<div class="row">
 			<div class="col-12 col-lg-5">
 
@@ -26,7 +32,7 @@
 			<div class="col-12 col-lg-7">
 
 				<div role="tablist">
-					<div class="card">
+					<div class="card mb-3">
 
 						@component('partials.card-header')
 
@@ -57,6 +63,16 @@
 						</div>
 
 					</div>
+				</div>
+
+				<div class="card mb-3">
+
+					@component('partials.card-header')
+						Similar Bank Accounts
+					@endcomponent
+
+					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $account->similarBankAccounts()])
+
 				</div>
 
 			</div>

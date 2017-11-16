@@ -88,6 +88,30 @@ class BankAccount extends BaseModel
     }
 
     /**
+     * A bank account can have similar bank accounts.
+     * 
+     * @return \App\BankAccount
+     */
+    public function similarBankAccounts()
+    {
+        $searchTerm = $this->account_name;
+
+        foreach ($this->users as $user) {
+            $names[] = $user->present()->fullName;
+        }
+
+        if (isset($names) && count($names)) {
+            $searchTerm .= ',' . implode(',', $names);
+        }
+
+        $results = BankAccount::search($searchTerm)->get();
+
+        $filtered = $results->whereNotIn('id', $this->id);
+        
+        return $filtered;
+    }
+
+    /**
      * Set the bank account's account number.
      * 
      * @param   string

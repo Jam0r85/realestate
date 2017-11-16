@@ -33,7 +33,7 @@ class BankAccountController extends BaseController
         $accounts = BankAccount::latest()->paginate();
         $title = 'Bank Accounts List';
 
-        return view('bank-accounts.index', compact('accounts','title'));
+        return view('bank-accounts.index', compact('accounts','title'))->with(['full' => true]);
     }
 
     /**
