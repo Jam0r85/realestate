@@ -57,10 +57,6 @@
 
 		@endif
 
-		@component('partials.header')
-			Sent Payments
-		@endcomponent
-
 		@component('partials.table')
 			@slot('header')
 				<th>Property</th>

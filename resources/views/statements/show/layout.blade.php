@@ -224,20 +224,22 @@
 							Statement Payments
 						@endcomponent
 
-							@if (count($statement->payments))
-
-								@include('statement-payments.partials.small-table', ['payments' => $statement->payments])
-
-							@else
-
-								@component('partials.alerts.primary')
-									No payments have been generated for this statement yet.
-									@slot('style')
-										m-0 border-0 rounded-0
-									@endslot
-								@endcomponent
-
-							@endif
+							@component('partials.table')
+								@slot('header')
+									<th>Name</th>
+									<th>Amount</th>
+									<th>Method</th>
+								@endslot
+								@slot('body')
+									@foreach ($statement->payments as $payment)
+										<tr>
+											<td>{{ $payment->present()->name }}</td>
+											<td>{{ $payment->amount }}</td>
+											<td>{{ $payment->present()->method }}</td>
+										</tr>
+									@endforeach
+								@endslot
+							@endcomponent
 
 						<footer class="card-footer">
 							<a class="card-footer-item" href="javascript:document.getElementById('generatePaymentsForm').submit();">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
