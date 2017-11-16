@@ -82,15 +82,12 @@
 	</head>
 	<body>
 
-		<header>
 			@if (get_setting('company_logo'))
 				<img src="{{ get_file(get_setting('company_logo')) }}" />
 			@else
 				<h1>{{ get_setting('company_name') }}</h1>
 			@endif 
-		</header>
 
-		<footer>
 			<ul>
 
 				{{-- Invoice footer taken from it's group and branch --}}
@@ -145,4 +142,3 @@
 					</li>
 				@endif
 			</ul>
-		</footer>
