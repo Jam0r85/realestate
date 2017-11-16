@@ -52,7 +52,7 @@
 
 						<div id="linkedPaymentsCollapse" class="collapse">
 
-							@include('bank-accounts.partials.payments-table', ['payments' => $account->statement_payments()->limit(10)->get()])
+							@include('bank-accounts.partials.payments-table', ['payments' => $account->statement_payments()->with('statement','statement.tenancy','statement.tenancy.tenants')->limit(10)->get()])
 
 						</div>
 
