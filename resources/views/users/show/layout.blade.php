@@ -11,7 +11,7 @@
 			</div>
 
 			@component('partials.header')
-				{{ $user->name }}
+				{{ $user->present()->fullName }}
 			@endcomponent
 
 		</div>

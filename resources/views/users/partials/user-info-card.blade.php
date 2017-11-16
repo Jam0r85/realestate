@@ -1,6 +1,6 @@
 <div class="card mb-3">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials.card-header')
 		User's Information
 	@endcomponent
 

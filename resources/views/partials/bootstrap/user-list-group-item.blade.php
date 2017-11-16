@@ -2,8 +2,8 @@
 
 	{{-- User Name --}}
 	<p class="mb-0">
-		<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
-			<b>{{ $user->name }}</b>
+		<a href="{{ route('users.show', $user->id) }}">
+			<b>{{ $user->present()->fullName }}</b>
 		</a>
 	</p>
 	{{-- End User Name --}}

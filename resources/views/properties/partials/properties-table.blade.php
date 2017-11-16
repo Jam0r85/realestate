@@ -8,12 +8,10 @@
 			<tr>
 				<td>
 					<a href="{{ route('properties.show', $property->id) }}">
-						{{ $property->name }}
+						{{ $property->present()->fullAddress }}
 					</a>
 				</td>
-				<td class="text-right">
-					@include('partials.bootstrap.users-inline', ['users' => $property->owners])
-				</td>
+				<td class="text-right">{{ $property->present()->ownerNames }}</td>
 			</tr>
 		@endforeach
 	@endslot

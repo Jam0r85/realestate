@@ -11,16 +11,14 @@
 		@foreach ($tenancies as $tenancy)
 			<tr>
 				<td>
-					<a href="{{ route('tenancies.show', $tenancy->id) }}" title="{{ $tenancy->name }}">
-						{!! truncate($tenancy->name) !!}
+					<a href="{{ route('tenancies.show', $tenancy->id) }}">
+						{{ $tenancy->present()->name }}
 					</a>
 				</td>
-				<td>{!! truncate($tenancy->property->short_name) !!}</td>
-				<td>{{ currency($tenancy->getCurrentRentAmount()) }}</td>
-				<td>
-					@include('tenancies.format.rent-balance')
-				</td>
-				<td>{{ $tenancy->service->name }}</td>
+				<td>{{ $tenancy->property->present()->shortAddress }}</td>
+				<td>{{ currency($tenancy->present()->rentAmount) }}</td>
+				<td>@include('tenancies.format.rent-balance')</td>
+				<td>{{ $tenancy->present()->serviceName }}</td>
 				<td>
 					@include('tenancies.partials.table-status-label')
 				</td>

@@ -4,12 +4,21 @@ namespace App;
 
 use App\Settings\PropertySettings;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Property extends BaseModel
 {
 	use SoftDeletes;
 	use Searchable;
+	use PresentableTrait;
+
+	/**
+	 * The presenter for this model.
+	 * 
+	 * @var string
+	 */
+	protected $presenter = 'App\Presenters\PropertyPresenter';
 
     /**
      * Get the indexable data array for the model.
@@ -92,8 +101,7 @@ class Property extends BaseModel
 	 */
 	public function activeTenancy()
 	{
-		return $this->hasOne('App\Tenancy')
-			->isActive();
+		return $this->hasOne('App\Tenancy')->isActive();
 	}
 
 	/**
@@ -101,8 +109,7 @@ class Property extends BaseModel
 	 */
 	public function expenses()
 	{
-		return $this->hasMany('App\Expense')
-			->latest();
+		return $this->hasMany('App\Expense')->latest();
 	}
 
 	/**
@@ -110,9 +117,7 @@ class Property extends BaseModel
 	 */
 	public function unpaid_expenses()
 	{
-		return $this->hasMany('App\Expense')
-			->whereNull('paid_at')
-			->latest();
+		return $this->hasMany('App\Expense')->whereNull('paid_at')->latest();
 	}
 
 	/**
@@ -120,8 +125,7 @@ class Property extends BaseModel
 	 */
 	public function statements()
 	{
-		return $this->hasManyThrough('App\Statement', 'App\Tenancy')
-			->latest('period_start');
+		return $this->hasManyThrough('App\Statement', 'App\Tenancy')->latest('period_start');
 	}
 
 	/**
@@ -188,8 +192,7 @@ class Property extends BaseModel
 	 */
 	public function gas()
 	{
-		return $this->hasMany('App\Gas')
-			->latest();
+		return $this->hasMany('App\Gas')->latest();
 	}
 
 	/**
@@ -198,23 +201,6 @@ class Property extends BaseModel
 	public function settings()
 	{
 		return new PropertySettings($this);
-	}
-
-	/**
-	 * Get the property's name.
-	 * 
-	 * @return string
-	 */
-	public function getNameAttribute()
-	{
-		$name = $this->short_name;
-		$name .= $this->address2 ? ', ' . $this->address2 : null;
-		$name .= $this->address3 ? ', ' . $this->address3 : null;
-		$name .= $this->town ? ', ' . $this->town : null;
-		$name .= $this->county ? ', ' . $this->county : null;
-		$name .= $this->postcode ? ', ' . $this->postcode : null;
-
-		return $name;
 	}
 
 	/**
@@ -232,39 +218,6 @@ class Property extends BaseModel
 
 		return $name;
 	}
-	
-	/**
-	 * Get the property's short name.
-	 * 
-	 * @return string
-	 */
-    public function getShortNameAttribute()
-    {
-    	// House name is present, we return that.
-    	if ($this->house_name) {
-    		// Add the house name.
-    		$name = $this->house_name;
-
-    		// Add the house number if we have one.
-    		if ($this->house_number) {
-    			$name .= ', ' . $this->house_number;
-    		}
-
-    		// Add the address line 1 if we have one.
-    		if ($this->address1) {
-    			if ($this->house_number) {
-    				$name .= ' ' . $this->address1;
-    			} else {
-    				$name .= ', ' . $this->address1;
-    			}
-    		}
-
-    		return trim($name);
-    	}
-
-    	// Otherwise we return the house number and the first line of the address.
-    	return trim($this->house_number . ' ' . $this->address1 ?: '');
-    }
 
     /**
      * Get the property's name formatted (eg. for letters)

@@ -6,6 +6,7 @@ use App\Settings\UserSettings;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
@@ -13,6 +14,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use Searchable;
+    use PresentableTrait;
 
     /**
      * Get the indexable data array for the model.
@@ -34,6 +36,13 @@ class User extends Authenticatable
             'home_inline'
         );
     }
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\UserPresenter';
     
     /**
      * Set the page limit for pagination.
@@ -130,8 +139,7 @@ class User extends Authenticatable
      */
     public function properties()
     {
-        return $this->belongsToMany('App\Property')
-            ->withTrashed();
+        return $this->belongsToMany('App\Property')->withTrashed();
     }
 
     /**
@@ -139,35 +147,7 @@ class User extends Authenticatable
      */
     public function tenancies()
     {
-        return $this->belongsToMany('App\Tenancy')
-            ->withTrashed()
-            ->latest();
-    }
-
-    /**
-     * A user can have an active tenancy.
-     */
-    public function activeTenancy()
-    {
-        return $this->belongsToMany('App\Tenancy')
-            ->isActive()
-            ->first();
-    }
-
-    /**
-     * A user can have a current location.
-     */
-    public function currentLocation()
-    {
-        if ($this->activeTenancy()) {
-            return $this->activeTenancy()->property;
-        }
-
-        if ($this->home) {
-            return $this->home;
-        }
-
-        return null;
+        return $this->belongsToMany('App\Tenancy')->withTrashed()->latest();
     }
 
     /**
@@ -175,9 +155,7 @@ class User extends Authenticatable
      */
     public function invoices()
     {
-        return $this->belongsToMany('App\Invoice')
-            ->with('property','items','items.taxRate','payments','statement_payments')
-            ->latest();
+        return $this->belongsToMany('App\Invoice')->latest();
     }
 
     /**
@@ -185,8 +163,7 @@ class User extends Authenticatable
      */
     public function expenses()
     {
-        return $this->hasManyThrough('App\Expense', 'App\Property')
-            ->latest();
+        return $this->hasManyThrough('App\Expense', 'App\Property')->latest();
     }
 
     /**
@@ -210,8 +187,7 @@ class User extends Authenticatable
      */
     public function logins()
     {
-        return $this->hasMany('App\UserLogin')
-            ->latest();
+        return $this->hasMany('App\UserLogin')->latest();
     }
 
     /**
@@ -247,15 +223,5 @@ class User extends Authenticatable
     public function setPhoneNumberAttribute($value)
     {
         $this->attributes['phone_number'] = !empty($value) ? phone($value, 'GB') : $value;
-    }
-
-    /**
-     * Get the user's name.
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->company_name ?? trim($this->first_name . ' ' . $this->last_name);
     }
 }

@@ -41,7 +41,7 @@
 					<tr>
 						<td>
 							<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
-								{{ $user->name }}
+								{{ $user->present()->fullName }}
 							</a>
 						</td>
 						<td>{{ $user->email }}</td>

@@ -13,7 +13,7 @@
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
 			<a href="{{ route('users.show', $user->owner->id) }}">
-				{{ $user->owner->name }}
+				{{ $user->owner->present()->fullName }}
 			</a>
 			@slot('title')
 				Created By

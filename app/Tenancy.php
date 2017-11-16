@@ -6,12 +6,21 @@ use App\Statement;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Tenancy extends BaseModel
 {
 	use SoftDeletes;
 	use Searchable;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\TenancyPresenter';    
 
     /**
      * Get the indexable data array for the model.
