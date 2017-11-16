@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Agreement;
 use App\Http\Requests\StoreOldStatementRequest;
 use App\Http\Requests\StoreRentAmountRequest;
 use App\Http\Requests\StoreStatementRequest;
 use App\Http\Requests\StoreTenancyRentPaymentRequest;
-use App\Http\Requests\StoreTenancyRequest;
 use App\Http\Requests\TenancyArchiveRequest;
+use App\Http\Requests\TenancyStoreRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Notifications\RentPaymentReceived;
+use App\Property;
 use App\Services\PaymentService;
 use App\Services\StatementService;
 use App\Services\TenancyService;
 use App\Tenancy;
+use App\TenancyRent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,16 +120,35 @@ class TenancyController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\TenancyStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTenancyRequest $request)
+    public function store(TenancyStoreRequest $request)
     {
-        $service = new TenancyService();
-        $tenancy = $service->createTenancy($request->input());
+        $property = Property::findOrFail($request->property_id);
 
-        $this->successMessage('The tenancy was created');
+        $tenancy = new Tenancy();
+        $tenancy->user_id = Auth::user()->id;
+        $tenancy->service_id = $request->service_id;
 
+        $property->tenancies()->save($tenancy);
+
+        // Rent
+        $rent = new TenancyRent;
+        $rent->amount = $request->rent_amount;
+        $rent->starts_at = $request->start_date;
+        $tenancy->storeRentAmount($rent);
+
+        // Agreement
+        $agreement = new Agreement;
+        $agreement->starts_at = $request->start_date;
+        $agreement->length = $request->length;
+        $tenancy->storeAgreement($agreement);
+
+        // Attach the tenants
+        $tenancy->tenants()->attach($request->tenants);
+
+        $this->successMessage('The tenancy ' . $tenancy->present()->name . ' was created');
         return redirect()->route('tenancies.show', $tenancy->id);
     }
 

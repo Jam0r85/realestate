@@ -86,4 +86,15 @@ class Agreement extends BaseModel
 
     	return 'SPT';
     }
+    
+    /**
+     * Set the agreement's length.
+     * 
+     * @param string $value
+     * @return void
+     */
+    public function setLengthAttribute($value)
+    {
+        $this->attributes['length'] = str_slug($value);
+    }
 }

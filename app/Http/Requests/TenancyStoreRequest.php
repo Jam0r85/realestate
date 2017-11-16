@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTenancyRequest extends FormRequest
+class TenancyStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class StoreTenancyRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id' => 'required',
-            'property_id' => 'required',
-            'users' => 'required',
+            'service_id' => 'required|numeric',
+            'property_id' => 'required|numeric',
+            'tenants' => 'required',
             'start_date' => 'required',
-            'rent_amount' => 'required',
+            'rent_amount' => 'required|numeric',
             'length' => 'required'
         ];
     }

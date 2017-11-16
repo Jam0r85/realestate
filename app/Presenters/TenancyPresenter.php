@@ -63,4 +63,12 @@ class TenancyPresenter extends Presenter
 	{
 		return $this->service ? $this->service->name : 'None';
 	}
+
+	/**
+	 * @return string
+	 */
+	public function startDate()
+	{
+		return $this->first_agreement ? $this->first_agreement->starts_at : null;
+	}
 }

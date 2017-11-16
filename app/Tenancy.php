@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Agreement;
 use App\Statement;
+use App\TenancyRent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -165,9 +168,7 @@ class Tenancy extends BaseModel
      */
     public function rents()
     {
-    	return $this->hasMany('App\TenancyRent')
-            ->withTrashed()
-            ->latest('starts_at');
+    	return $this->hasMany('App\TenancyRent')->withTrashed()->latest('starts_at');
     }
 
     /**
@@ -175,9 +176,7 @@ class Tenancy extends BaseModel
      */
     public function currentRent()
     {
-        return $this->hasOne('App\TenancyRent')
-            ->where('starts_at', '<=', Carbon::now())
-            ->latest('starts_at');
+        return $this->hasOne('App\TenancyRent')->where('starts_at', '<=', Carbon::now())->latest('starts_at');
     }
 
     /**
@@ -670,5 +669,28 @@ class Tenancy extends BaseModel
     public function storeStatement(Statement $statement)
     {
         $this->statements()->save($statement);
+    }
+
+    /**
+     * Store a tenancy rent amount against this tenancy.
+     * 
+     * @param \App\TenancyRent $rent
+     * @return \App\TenancyRent
+     */
+    public function storeRentAmount(TenancyRent $rent)
+    {
+        $rent->user_id = Auth::user()->id;
+        return $this->rents()->save($rent);
+    }
+
+    /**
+     * Store a tenancy agreement against this tenancy.
+     * 
+     * @param \App\Agreement $agreement
+     * @return \App\Agreement
+     */
+    public function storeAgreement(Agreement $agreement)
+    {
+        return $this->agreements()->save($agreement);
     }
 }
