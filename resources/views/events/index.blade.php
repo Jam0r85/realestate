@@ -29,7 +29,7 @@
 
 			@foreach ($events as $event)
 
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-md-6 col-lg-4">
 
 					<div class="card mb-3 @if ($event->trashed()) border-warning @endif">
 
