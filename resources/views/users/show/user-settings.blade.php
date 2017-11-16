@@ -35,11 +35,12 @@
 				<div class="card-body">
 
 					<div class="form-group">
-						<label class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" name="dark_mode" value="true" @if (user_setting('dark_mode', $user)) checked @endif />
-							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">Enable Dark Mode</span>
-						</label>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" class="form-check-input" name="dark_mode" value="true" @if (user_setting('dark_mode', $user)) checked @endif />
+								Enable Dark Mode
+							</label>
+						</div>
 						<small class="form-text text-muted">
 							Enable site wide 'Dark Mode' which will change the colours and style.
 						</small>
@@ -131,7 +132,7 @@
 				<div class="card-body">
 
 					<div class="form-group">
-						<label for="expense_record_notifications">Recording Expenses</label>
+						<p class="lead mb-0">Recording Expenses</p>
 
 						<div class="d-block">
 							<div class="form-check form-check-inline">
