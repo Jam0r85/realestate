@@ -61,13 +61,6 @@ class User extends Authenticatable
    ];
 
     /**
-     * The attrbites that should be included in the collection.
-     * 
-     * @var array
-     */
-    protected $appends = ['name'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -197,13 +190,7 @@ class User extends Authenticatable
      */
     public function emails($limit = null)
     {
-        $emails = Email::where('to', $this->email)->latest();
-
-        if ($limit) {
-            $emails = $emails->limit($limit);
-        }
-
-        return $emails->get();
+        return Email::where('to', $this->email)->limit($limit)->latest()->get();
     }
 
     /**

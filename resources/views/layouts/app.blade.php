@@ -228,7 +228,7 @@
                         <li class="nav-item dropdown">
 
                             @component('partials.bootstrap.dropdown-toggle')
-                                {{ Auth::user()->name }}
+                                {{ Auth::user()->present()->fullName }}
                                 @slot('id')
                                     loginDropdown
                                 @endslot
