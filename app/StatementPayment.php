@@ -25,7 +25,7 @@ class StatementPayment extends BaseModel
     {
         $array = $this->only('sent_at','created_at','amount');
         $array['owner'] = $this->owner->present()->fullName;
-        $array['bank_account'] = $this->bank_account ? $this->bank_account->account_name : null;
+        $array['method'] = $this->present()->method;
 
         foreach ($this->users as $user) {
             $users[] = [
@@ -37,8 +37,8 @@ class StatementPayment extends BaseModel
             $array['users'] = $users;
         }
 
-        $array['tenancy'] = $this->statement->tenancy->present()->name;
-        $array['property'] = $this->statement->tenancy->property->present()->fullAddress;
+        $array['tenancy'] = $this->present()->tenancyName;
+        $array['property'] = $this->present()->propertyName;
 
         return $array;
     }
@@ -77,7 +77,7 @@ class StatementPayment extends BaseModel
      */
     public function bank_account()
     {
-        return $this->belongsTo('App\BankAccount');
+        return $this->belongsTo('App\BankAccount')->withTrashed();
     }
 
     /**
