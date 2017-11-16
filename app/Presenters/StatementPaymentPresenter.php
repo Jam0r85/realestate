@@ -87,6 +87,20 @@ class StatementPaymentPresenter extends Presenter
     /**
      * @return string
      */
+    public function recipientNames()
+    {
+        foreach ($this->users as $user) {
+            $names[] = $user->present()->fullName;
+        }
+
+        if (isset($names) && count($names)) {
+            return implode(' & ', $names);
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function status()
     {
         if ($this->sent_at) {

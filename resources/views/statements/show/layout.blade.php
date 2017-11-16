@@ -226,16 +226,20 @@
 
 							@component('partials.table')
 								@slot('header')
+									<th>Status</th>
 									<th>Name</th>
 									<th>Amount</th>
 									<th>Method</th>
+									<th>Recipients</th>
 								@endslot
 								@slot('body')
-									@foreach ($statement->payments as $payment)
+									@foreach ($statement->payments()->with('bank_account')->get() as $payment)
 										<tr>
+											<td>{{ $payment->present()->status }}</td>
 											<td>{{ $payment->present()->name }}</td>
 											<td>{{ $payment->amount }}</td>
 											<td>{{ $payment->present()->method }}</td>
+											<td>{{ $payment->present()->recipientNames }}</td>
 										</tr>
 									@endforeach
 								@endslot
