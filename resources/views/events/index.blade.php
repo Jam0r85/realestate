@@ -31,7 +31,7 @@
 
 				<div class="col-12 col-md-6 col-lg-4">
 
-					<div class="card mb-3 @if ($event->trashed()) border-warning @endif">
+					<div class="card mb-4 @if ($event->trashed()) border-warning @endif">
 
 						@component('partials.card-header')
 							{{ $event->title }}
