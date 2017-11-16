@@ -5,6 +5,7 @@
 		<th>Name</th>
 		<th>Amount</th>
 		<th></th>
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
@@ -19,7 +20,12 @@
 				<td>{{ currency($payment->amount) }}</td>
 				<td>
 					<a href="{{ route('statements.show', $payment->statement->id) }}">
-						Statement {{ $payment->statement->id }}
+						{{ $payment->present()->statementName }}
+					</a>
+				</td>
+				<td class="text-right">
+					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
+						Edit
 					</a>
 				</td>
 			</tr>
