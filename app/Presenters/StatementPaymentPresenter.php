@@ -13,7 +13,7 @@ class StatementPaymentPresenter extends Presenter
     {
         if ($this->parent_type == 'invoices') {
             return 'Invoice Payment';
-        } elsie ($this->parent_type == 'expenses') {
+        } elseif ($this->parent_type == 'expenses') {
             return 'Expense Payment';
         } else {
             return 'Landlord Payment';
