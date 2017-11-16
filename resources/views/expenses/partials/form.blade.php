@@ -13,7 +13,7 @@
 	<select name="contractor_id" id="contractor_id" class="form-control select2">
 		@foreach (users() as $user)
 			<option @if ($expense->contractor_id == $user->id) selected @endif value="{{ $user->id }}">
-				{{ $user->name }}
+				{{ $user->present()->selectName }}
 			</option>
 		@endforeach
 	</select>

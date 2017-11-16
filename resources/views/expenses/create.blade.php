@@ -23,7 +23,7 @@
 					<option value="">Please select..</option>
 					@foreach(properties() as $property)
 						<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
-							{{ $property->name }} {{ count($property->owners) ? '(' . implode(', ', $property->owners->pluck('name')->toArray()) . ')' : '' }}
+							{{ $property->present()->selectName }}
 						</option>
 					@endforeach
 				</select>
