@@ -2,14 +2,14 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
 		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
 			Return
 		</a>
 
 		@component('partials.header')
-			{{ $user->name }}
+			{{ $user->present()->fullName }}
 		@endcomponent
 
 		@component('partials.sub-header')

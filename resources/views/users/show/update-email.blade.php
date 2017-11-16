@@ -2,23 +2,19 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-				Return
-			</a>
+		@component('partials.header')
+			{{ $user->present()->fullName }}
+		@endcomponent
 
-			@component('partials.header')
-				{{ $user->name }}
-			@endcomponent
-
-			@component('partials.sub-header')
-				Update user e-mail
-			@endcomponent
-
-		</div>
+		@component('partials.sub-header')
+			Update user e-mail
+		@endcomponent
 
 	@endcomponent
 

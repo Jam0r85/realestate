@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\DestroyEventRequest;
+use App\Http\Requests\EventDestroyRequest;
+use App\Http\Requests\EventForceDestroyRequest;
 use App\Http\Requests\RestoreEventRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -218,11 +219,11 @@ class EventController extends BaseController
     /**
      * Delete an event.
      *
-     * @param \App\Http\Requests\DestroyEventRequest $request
+     * @param \App\Http\Requests\EventDestroyRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyEventRequest $request, $id)
+    public function destroy(EventDestroyRequest $request, $id)
     {
         $event = Event::findOrFail($id);
         $event->delete();
@@ -239,5 +240,22 @@ class EventController extends BaseController
         $this->successMessage('The event "' . $event->title . '" was deleted');
 
         return back();
+    }
+
+    /**
+     * Force destroy an event and remove it from storage.
+     *
+     * @param \App\Http\Requests\EventForceDestroyRequest $request
+     * @param integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDestroy(EventForceDestroyRequest $request, $id)
+    {
+        $event = Event::onlyTrashed()->findOrFail($id);
+
+        $event->forceDelete();
+
+        $this->successMessage('The event "' . $event->title . '" was removed completely');
+        return redirect()->route('events.index');
     }
 }

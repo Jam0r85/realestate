@@ -34,6 +34,7 @@ Route::prefix('events')->group(function () {
 	Route::put('{id}', 'EventController@update')->name('events.update');
 	Route::put('{id}/restore', 'EventController@restore')->name('events.restore');
 	Route::delete('{id}', 'EventController@destroy')->name('events.destroy');
+	Route::delete('{id}/force-destroy', 'EventController@forceDestroy')->name('events.force-destroy');
 });
 
 Route::prefix('invoices')->group(function () {
@@ -173,12 +174,14 @@ Route::prefix('users')->group(function () {
 
 Route::prefix('bank-accounts')->group(function () {
 	Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
+	Route::get('archived', 'BankAccountController@archived')->name('bank-accounts.archived');
 	Route::post('search', 'BankAccountController@search')->name('bank-accounts.search');
 	Route::get('create', 'BankAccountController@create')->name('bank-accounts.create');
 	Route::post('/', 'BankAccountController@store')->name('bank-accounts.store');
 	Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show');
 	Route::put('{id}', 'BankAccountController@update')->name('bank-accounts.update');
-	Route::post('{id}/update-users', 'BankAccountController@updateUsers')->name('bank-accounts.update-users');
+	Route::delete('{id}', 'BankAccountController@destroy')->name('bank-accounts.destroy');
+	Route::put('{id}/restore', 'BankAccountController@restore')->name('bank-accounts.restore');
 });
 
 Route::prefix('user-groups')->group(function () {

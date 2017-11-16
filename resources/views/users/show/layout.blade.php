@@ -2,19 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('users.partials.user-dropdown-menu')
-			</div>
-
-			@component('partials.header')
-				{{ $user->present()->fullName }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('users.partials.user-dropdown-menu')
 		</div>
+
+		@component('partials.header')
+			{{ $user->present()->fullName }}
+		@endcomponent
 		
 	@endcomponent
 

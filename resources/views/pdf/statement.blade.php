@@ -6,8 +6,7 @@
 			<table>
 				<tr>
 					<td>
-						<p>{{ implode(' & ', $statement->users->pluck('name')->toArray()) }}</p>
-						<p>{!! $statement->recipient !!}</p>
+						<p>{!! $statement->present()->recipient !!}</p>
 					</td>
 					<td class="has-text-right">
 						{!! $statement->tenancy->property->branch->address_formatted !!}
@@ -24,7 +23,7 @@
 				Rental Statement
 			</h1>
 			<h2 class="subtitle">
-				{{ longdate_formatted($statement->created_at) }}
+				{{ $statement->present()->fullDate }}
 			</h2>
 		</div>
 	</section>
@@ -33,9 +32,9 @@
 		<div class="container">
 
 			<ul class="list-unstyled">
-				<li><strong>Rental Period:</strong> {{ longdate_formatted($statement->period_start) }} - {{ longdate_formatted($statement->period_end) }}</li>
-				<li><strong>Property:</strong> {{ $statement->property->name }}</li>
-				<li><strong>{{ str_plural('Tenant', count($statement->tenancy->tenants)) }}:</strong> {{ $statement->tenancy->name }}</li>
+				<li><strong>Rental Period:</strong> {{ $statement->present()->period }}</li>
+				<li><strong>Property:</strong> {{ $statement->property->present()->fullAddress }}</li>
+				<li><strong>{{ str_plural('Tenant', count($statement->tenancy->tenants)) }}:</strong> {{ $statement->present()->tenants }}</li>
 			</ul>
 
 		</div>
@@ -52,7 +51,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{ currency($statement->amount) }}</td>
+						<td>{{ $statement->present()->formattedAmount }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -128,16 +127,8 @@
 			<table>
 				<tr>
 					<td width="50%">
-						@if ($statement->property->bank_account)
-							<p>
-								<b>BACS:</b> {{ $statement->property->bank_account->account_name }} / {{ $statement->property->bank_account->sort_code }} / {{ $statement->property->bank_account->account_number }}
-							</p>
-						@else
-							<p>Cheque or Cash</p>
-						@endif
-						@if ($statement->send_by == 'email')
-							<p>Send by E-Mail</p>
-						@endif
+						<p>{{ $statement->present()->paymentMethod }}</p>
+						{{ $statement->present()->sendBy }}
 					</td>
 					<td width="50%" class="has-text-right"
 						<b>{{ currency($statement->landlord_balance_amount) }}</b> balance to landlord

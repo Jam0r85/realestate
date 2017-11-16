@@ -2,19 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('bank-accounts.partials.dropdown-menus')
-			</div>
-
-			@component('partials.header')
-				{{ $account->account_name }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('bank-accounts.partials.dropdown-menus')
 		</div>
+
+		@component('partials.header')
+			{{ $account->account_name }}
+		@endcomponent
 
 	@endcomponent
 
@@ -23,7 +19,7 @@
 		<div class="row">
 			<div class="col-sm-12 col-lg-5">
 
-				@include('bank-accounts.partials.linked-users-card')
+
 				@include('bank-accounts.partials.system-info-card')
 
 			</div>

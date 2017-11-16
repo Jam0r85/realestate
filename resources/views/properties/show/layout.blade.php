@@ -2,19 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('properties.partials.dropdown-menus')
-			</div>
-
-			@component('partials.header')
-				{{ $property->short_name }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('properties.partials.dropdown-menus')
 		</div>
+
+		@component('partials.header')
+			{{ $property->present()->shortAddress }}
+		@endcomponent
 
 	@endcomponent
 

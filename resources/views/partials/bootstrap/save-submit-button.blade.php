@@ -1,3 +1,3 @@
-<button type="submit" class="btn btn-primary">
-	<i class="fa fa-save fa-fw"></i> {{ $slot }}
+<button type="submit" class="btn btn-primary @if (isset($disabled)) btn-danger @endif" @if (isset($disabled)) disabled @endif>
+	{{ isset($disabled) ? $disabled : $slot }}
 </button>

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Request;
 
-class DestroyEventRequest extends FormRequest
+class EventDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +26,7 @@ class DestroyEventRequest extends FormRequest
         return [
             'confirmation' => [
                 'required',
-                'in:' . Request::segment(2)
+                'in:' . $this->route()->parameter('id')
             ]
         ];
     }

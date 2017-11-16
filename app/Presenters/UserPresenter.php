@@ -21,4 +21,12 @@ class UserPresenter extends Presenter
 	{
 
 	}
+
+	/**
+	 * @return string
+	 */
+	public function selectName()
+	{
+		return $this->fullName;
+	}
 }

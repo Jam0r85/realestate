@@ -86,8 +86,15 @@
                                 <a class="dropdown-item" href="{{ route('users.archived') }}">
                                     Archived Users
                                 </a>
+                                <div class="dropdown-divider"></div>
+                                <h5 class="dropdown-header">
+                                    Bank Accounts
+                                </h5>
                                 <a class="dropdown-item" href="{{ route('bank-accounts.index') }}">
                                     Bank Accounts List
+                                </a>
+                                <a class="dropdown-item" href="{{ route('bank-accounts.archived') }}">
+                                    Archived Bank Accounts
                                 </a>
                             </div>
 

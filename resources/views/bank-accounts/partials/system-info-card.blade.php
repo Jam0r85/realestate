@@ -6,7 +6,7 @@
 
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $account->owner->name }}
+			{{ $account->owner->present()->fullName }}
 			@slot('title')
 				Created By
 			@endslot

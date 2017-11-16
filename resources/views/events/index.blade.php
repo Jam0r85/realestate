@@ -35,11 +35,17 @@
 
 				<div class="card-body">
 					<p class="card-text">
-						<small class="text-muted">by {{ $event->owner->name }} for {{ datetime_formatted($event->start) }}</small>
+						<small class="text-muted">by {{ $event->owner->present()->fullName }} for {{ datetime_formatted($event->start) }}</small>
 					</p>
 
 					<p class="card-text">
 						{{ $event->body }}
+					</p>
+
+					<p class="card-text text-right">
+						<a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary">
+							<i class="fa fa-edit"></i> Edit
+						</a>
 					</p>
 				</div>
 

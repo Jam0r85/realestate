@@ -4,12 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Crypt;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class BankAccount extends BaseModel
 {
     use SoftDeletes;
     use Searchable;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\BankAccountPresenter';
 
     /**
      * Get the indexable data array for the model.
@@ -33,18 +42,18 @@ class BankAccount extends BaseModel
     }
 
     /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = ['users'];
-
-    /**
      * The attributes that are mass assignable.
      * 
      * @var array
      */
     protected $fillable = ['bank_name','account_name','account_number','sort_code'];
+
+    /**
+     * The attributes that should be mutated to dates.
+     * 
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
 	/**
 	 * A bank account can belong to many users.
@@ -67,8 +76,7 @@ class BankAccount extends BaseModel
      */
     public function properties()
     {
-        return $this->hasMany('App\Property')
-            ->withTrashed();
+        return $this->hasMany('App\Property')->withTrashed();
     }
 
     /**
@@ -84,8 +92,7 @@ class BankAccount extends BaseModel
      */
     public function recent_statement_payments()
     {
-        return $this->hasMany('App\StatementPayment')
-            ->limit(10);
+        return $this->hasMany('App\StatementPayment')->limit(10);
     }
 
     /**
@@ -130,35 +137,5 @@ class BankAccount extends BaseModel
     public function getSortCodeAttribute($value)
     {
     	return Crypt::decryptString($value);
-    }
-
-    /**
-     * Get part of the account number for security purposes.
-     * 
-     * @return string
-     */
-    public function getAccountNumberSecureAttribute()
-    {
-        return substr($this->account_number, 0, 4);
-    }
-
-    /**
-     * Get the bank account's name.
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number . ' - ' . $this->sort_code;
-    }
-
-    /**
-     * Get the bank account's name.
-     * 
-     * @return string
-     */
-    public function getNameSecureAttribute()
-    {
-        return $this->account_name . ' - ' . $this->bank_name . ' - ' . $this->account_number_secure . ' - ' . $this->sort_code;
     }
 }

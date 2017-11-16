@@ -17,12 +17,11 @@
 				</td>
 				<td>{{ date_formatted($statement->period_end) }}</a>
 				<td>
-					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}" title="{{ $statement->tenancy->name }}">
-						{!! truncate($statement->tenancy->name) !!}
+					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
+						{{ $statement->tenancy->present()->name }}
 					</a>
 				</td>
-				<td>{!! truncate($statement->property->short_name) !!}</td>
-				</td>
+				<td>{{ $statement->tenancy->property->present()->shortAddress }}</td>
 				<td>{{ currency($statement->amount) }}</td>
 				<td>{{ date_formatted($statement->sent_at) }}</td>
 			</tr>

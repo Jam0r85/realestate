@@ -2,32 +2,38 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<div class="page-title">
-				<a href="{{ route('properties.show', $property->id) }}" class="btn btn-secondary float-right">
-					Return
-				</a>
-				<h1>{{ $property->short_name }}</h1>
-				<h2>Edit Details</h2>
-			</div>
+		<a href="{{ route('properties.show', $property->id) }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			@include('partials.errors-block')
+		@component('partials.header')
+			{{ $property->present()->shortAddress }}
+		@endcomponent
 
-			<form role="form" method="POST" action="{{ route('properties.update', $property->id) }}">
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}				
+		@component('partials.sub-header')
+			Edit Property Details
+		@endcomponent
 
-				@include('properties.partials.form')
+	@endcomponent
 
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Save Changes
-				</button>
+	@component('partials.bootstrap.section-with-container')
 
-			</form>
+		@include('partials.errors-block')
 
-		</div>
-	</section>
+		<form method="POST" action="{{ route('properties.update', $property->id) }}">
+			{{ csrf_field() }}
+			{{ method_field('PUT') }}				
+
+			@include('properties.partials.form')
+
+			@component('partials.save-button')
+				Save Changes
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection

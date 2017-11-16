@@ -22,21 +22,18 @@
 						@endif
 					</td>
 					<td>
-						<a href="{{ route('statements.show', $statement->id) }}" title="Statement #{{ $statement->id }}">
+						<a href="{{ route('statements.show', $statement->id) }}">
 							{{ date_formatted($statement->period_start) }}
 						</a>
 					</td>
 					<td>{{ date_formatted($statement->period_end) }}</td>
-					<td>
-						{!! truncate($statement->tenancy->name) !!}
+					<td>{{ $statement->tenancy->present()->name }}
 						<br />
 						<a href="{{ route('properties.show', $statement->property->id) }}">
-							<span class="tag is-light">
-								{!! truncate($statement->property->short_name) !!}
-							</span>
+							<small>{{ $statement->tenancy->property->present()->shortAddress }}</small>
 						</a>
 					</td>
-					<td>{{ ucwords($statement->send_by) }}</td>
+					<td>{{ $statement->present()->sendBy(null) }}</td>
 					<td>
 						@include('partials.bootstrap.users-inline', ['users' => $statement->users])
 					</td>

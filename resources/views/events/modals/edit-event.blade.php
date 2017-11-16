@@ -14,8 +14,9 @@
 
 				<div class="modal-body">
 
-					<div class="alert alert-info">
-						Created by <b>{{ $event->owner->name }}</b>
+					<div class="form-group">
+						<label for="created_by">Created By</label>
+						<input type="text" class="form-control" disabled name="created_at" value="{{ $event->owner->present()->fullName }}" />
 					</div>
 
 					<div class="form-group">

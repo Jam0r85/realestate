@@ -2,19 +2,19 @@
 
 @section('content')
 
+	@component('partials.page-header')
+
+		<a href="{{ route('bank-accounts.create') }}" class="btn btn-primary float-right">
+			<i class="fa fa-plus"></i> New Account
+		</a>
+
+		@component('partials.header')
+			Bank Accounts
+		@endcomponent
+
+	@endcomponent
+
 	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			<a href="{{ route('bank-accounts.create') }}" class="btn btn-primary float-right">
-				<i class="fa fa-plus"></i> New Account
-			</a>
-
-			@component('partials.header')
-				Bank Accounts
-			@endcomponent
-
-		</div>
 
 		{{-- Bank Accounts Search --}}
 		@component('partials.bootstrap.page-search')
@@ -28,10 +28,6 @@
 			@endif
 		@endcomponent
 		{{-- End of Bank Accounts Search --}}
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
 
 		@include('bank-accounts.partials.bank-accounts-table')
 

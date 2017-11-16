@@ -41,13 +41,6 @@ class Property extends BaseModel
     	'settings' => 'array'
    ];
 
-	/**
-	 * The attrbites that should be included in the collection.
-	 * 
-	 * @var array
-	 */
-	protected $appends = ['name','short_name','name_without_postcode'];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -82,8 +75,7 @@ class Property extends BaseModel
 	 */
 	public function invoices()
 	{
-		return $this->hasMany('App\Invoice')
-			->latest();
+		return $this->hasMany('App\Invoice')->latest();
 	}
 
 	/**
@@ -91,9 +83,7 @@ class Property extends BaseModel
 	 */
 	public function tenancies()
 	{
-		return $this->hasMany('App\Tenancy')
-			->withTrashed()
-			->latest();
+		return $this->hasMany('App\Tenancy')->withTrashed()->latest();
 	}
 
 	/**
@@ -204,49 +194,13 @@ class Property extends BaseModel
 	}
 
 	/**
-	 * Get the property's name without it's postcode.
+	 * Store an expense to this property.
 	 * 
-	 * @return string
+	 * @param \App\Expense $expense
+	 * @return \App\Expense
 	 */
-	public function getNameWithoutPostcodeAttribute()
-	{
-		$name = $this->short_name;
-		$name .= $this->address2 ? ', ' . $this->address2 : null;
-		$name .= $this->address3 ? ', ' . $this->address3 : null;
-		$name .= $this->town ? ', ' . $this->town : null;
-		$name .= $this->county ? ', ' . $this->county : null;
-
-		return $name;
-	}
-
-    /**
-     * Get the property's name formatted (eg. for letters)
-     * 
-     * @return string
-     */
-    public function getNameFormattedAttribute()
-    {
-    	return str_replace(', ', '<br />', $this->name);
-    }
-
-    /**
-     * Get the property's select name for drop down menus.
-     * 
-     * @return string
-     */
-    public function getSelectNameAttribute()
-    {
-    	$name = $this->name;
-
-    	if (count($this->owners)) {
-    		$name .= ' (' . implode(' & ', $this->owners->pluck('name')->toArray()) . ')';
-    	}
-
-    	return $name;
-    }
-
     public function storeExpense(Expense $expense)
     {
-    	$this->expenses()->save($expense);
+    	return $this->expenses()->save($expense);
     }
 }

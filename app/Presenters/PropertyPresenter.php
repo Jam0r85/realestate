@@ -9,14 +9,17 @@ class PropertyPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function fullAddress()
+	public function fullAddress($postcode = true)
 	{
 		$name = $this->shortAddress;
 		$name .= $this->address2 ? ', ' . $this->address2 : null;
 		$name .= $this->address3 ? ', ' . $this->address3 : null;
 		$name .= $this->town ? ', ' . $this->town : null;
 		$name .= $this->county ? ', ' . $this->county : null;
-		$name .= $this->postcode ? ', ' . $this->postcode : null;
+
+        if ($postcode == true) {
+		  $name .= $this->postcode ? ', ' . $this->postcode : null;
+        }
 
 		return $name;
 	}
@@ -55,6 +58,22 @@ class PropertyPresenter extends Presenter
     /**
      * @return string
      */
+    public function withoutPostcode()
+    {
+        return $this->fullAddress(false);
+    }
+
+    /**
+     * @return string
+     */
+    public function letter()
+    {
+        return str_replace(', ', '<br />', $this->fullAddress);
+    }
+
+    /**
+     * @return string
+     */
     public function ownerNames()
     {
         if (count($this->owners)) {
@@ -66,7 +85,7 @@ class PropertyPresenter extends Presenter
         if (isset($names) && count($names)) {
             return implode(', ', $names);
         } else {
-            return 'None';
+            return null;
         }
     }
 }

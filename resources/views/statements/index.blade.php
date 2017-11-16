@@ -2,15 +2,15 @@
 
 @section('content')
 
+	@component('partials.page-header')
+
+		@component('partials.header')
+			{{ $title }}
+		@endcomponent
+
+	@endcomponent
+
 	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			@component('partials.header')
-				{{ $title }}
-			@endcomponent
-
-		</div>
 
 		{{-- Statements search form --}}
 		@component('partials.bootstrap.page-search')
@@ -25,12 +25,8 @@
 		@endcomponent
 		{{-- End statements search form --}}
 
-	@endcomponent
-
-	@if (isset($unsent_statements))
-		@if (count($unsent_statements) && $statements->currentPage() == 1)
-
-			@component('partials.bootstrap.section-with-container')
+		@if (isset($unsent_statements))
+			@if (count($unsent_statements) && $statements->currentPage() == 1)			
 
 				<div class="card mb-3">
 
@@ -48,12 +44,8 @@
 
 				</div>
 
-			@endcomponent
-
+			@endif
 		@endif
-	@endif
-
-	@component('partials.bootstrap.section-with-container')
 
 		@if (!session('statements_search_term'))
 			<div class="page-title">

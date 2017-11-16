@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BankAccount;
+use App\Http\Requests\BankAccountDestroyRequest;
+use App\Http\Requests\BankAccountRestoreRequest;
 use App\Http\Requests\BankAccountStoreRequest;
 use App\Http\Requests\UpdateBankAccountRequest;
 use Illuminate\Http\Request;
@@ -32,6 +34,19 @@ class BankAccountController extends BaseController
         $title = 'Bank Accounts List';
 
         return view('bank-accounts.index', compact('accounts','title'));
+    }
+
+    /**
+     * Display a listing of archived bank accounts.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function archived()
+    {
+        $accounts = BankAccount::onlyTrashed()->latest()->paginate();
+        $title = 'Archived Bank Accounts';
+
+        return view('bank-accounts.index', compact('accounts','title'))->with(['archived' => true]);
     }
 
     /**
@@ -116,8 +131,9 @@ class BankAccountController extends BaseController
         $account->fill($request->input());
         $account->save();
 
-        $this->successMessage('The bank account was updated');
+        $account->users()->sync($request->users);
 
+        $this->successMessage('The bank account was updated and attached users were synced');
         return back();
     }
 
@@ -148,34 +164,34 @@ class BankAccountController extends BaseController
     }
 
     /**
-     * Archive the bank account.
+     * Destroy/archive the bank account.
      *
+     * @param \App\Http\Requests\BankAccountDestroyRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function archive($id)
+    public function destroy(BankAccountDestroyRequest $request, $id)
     {
         $account = BankAccount::findOrFail($id);
         $account->delete();
 
         $this->successMessage('The bank account was archived');
-
         return back();
     }
 
     /**
      * Restore the bank account.
      *
+     * @param \App\Http\Requests\BankAccountRestoreRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore(BankAccountRestoreRequest $request, $id)
     {
         $account = BankAccount::onlyTrashed()->findOrFail($id);
         $account->restore();
 
         $this->successMessage('The bank account was restored');
-
         return back();
     }
 }

@@ -12,7 +12,8 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('users.show', $property->owner->id) }}" title="{{ $property->owner->name }}">{{ $property->owner->name }}</a>
+			<a href="{{ route('users.show', $property->owner->id) }}">
+				{{ $property->owner->present()->fullName }}</a>
 			@slot('title')
 				Created By
 			@endslot

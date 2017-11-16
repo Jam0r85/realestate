@@ -4,14 +4,7 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bankAccountOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'edit-details']) }}">
-			Edit Bank Account Details
-		</a>
-		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'edit-users']) }}">
-			Update Linked Users
-		</a>
-		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="{{ route('bank-accounts.show', [$account->id, 'bank-account-status']) }}">
-			Bank Account Status
+			Edit Bank Account
 		</a>
 	</div>
 </div>

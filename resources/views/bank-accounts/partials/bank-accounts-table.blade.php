@@ -4,6 +4,9 @@
 		<th>Account Number</th>
 		<th>Sort Code</th>
 		<th>Bank Name</th>
+		@if (isset($archived))
+			<th class="text-right">Archived</th>
+		@endif
 	@endslot
 	@slot('body')
 		@foreach ($accounts as $account)
@@ -12,6 +15,11 @@
 				<td>{{ $account->account_number }}</td>
 				<td>{{ $account->sort_code }}</td>
 				<td>{{ $account->bank_name }}</td>
+				@if (isset($archived))
+					<td class="text-right">
+						{{ date_formatted($account->deleted_at) }}
+					</td>
+				@endif
 			</tr>
 		@endforeach
 	@endslot
