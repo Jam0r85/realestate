@@ -13,4 +13,12 @@ class BankAccountPresenter extends Presenter
 	{
         return $this->account_name . $separator . $this->bank_name . $separator . $this->account_number . $separator . $this->sort_code;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function inlineShort($separator = ' - ')
+	{
+        return $this->bank_name . $separator . $this->account_number . $separator . $this->sort_code;
+	}
 }

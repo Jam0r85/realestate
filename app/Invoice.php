@@ -3,16 +3,25 @@
 namespace App;
 
 use App\InvoiceItem;
-use App\StatementPayment;
 use App\Jobs\SendInvoiceToUsers;
+use App\StatementPayment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Invoice extends BaseModel
 {
     use SoftDeletes;
     use Searchable;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\InvoicePresenter';
 
     /**
      * Get the indexable data array for the model.

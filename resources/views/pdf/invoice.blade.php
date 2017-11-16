@@ -7,17 +7,8 @@
 
 			<table>
 				<tr>
-					<td>
-						
-						<p>{{ implode(' & ', $invoice->users->pluck('name')->toArray()) }}</p>
-						<p>
-							@if ($invoice->statement)
-								{!! $invoice->statement->recipient !!}
-							@else
-								{!! $invoice->recipient_formatted !!}
-							@endif
-						</p>
-
+					<td>						
+						<p>{!! $invoice->present()->recipient !!}</p>
 					</td>
 					<td class="has-text-right">
 
@@ -40,10 +31,10 @@
 				<tr>
 					<td>
 						<h1 class="title">
-							Invoice {{ $invoice->name }}
+							Invoice {{ $invoice->present()->name }}
 						</h1>
 						<h2 class="subtitle">
-							{{ longdate_formatted($invoice->created_at) }}
+							{{ $invoice->present()->fullDate }}
 						</h2>
 					</td>
 					<td class="has-text-right">
@@ -74,7 +65,7 @@
 		<div class="container">
 			<ul class="list-unstyled">
 				@if ($invoice->property)
-					<li><strong>Property:</strong> {{ $invoice->property->name }}</li>
+					<li><strong>Property:</strong> {{ $invoice->property->present()->fullAddress }}</li>
 				@endif
 			</ul>
 		</div>
@@ -122,12 +113,9 @@
 
 	<section class="section">
 		<div class="container">
-			@if ($invoice->terms)
-				<div class="invoice-terms">
-					<b>Invoice Terms</b>
-					<p>{!! nl2br($invoice->terms) !!}</p>
-				</div>
-			@endif
+			<div class="invoice-terms">
+				{{ $invoice->present()->paperTerms }}
+			</div>
 		</div>
 	</section>
 
