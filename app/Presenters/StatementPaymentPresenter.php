@@ -86,7 +86,13 @@ class StatementPaymentPresenter extends Presenter
     public function expenseName()
     {
         if ($this->parent_type == 'expenses') {
-            return $this->parent->name . '<br />' . $this->parent->contractor ? $this->parent->contractor->present()->fullName;
+            $name = $this->parent->name;
+
+            if ($this->parent->contractor) {
+                $name .= '<br />' . $this->parent->contractor->present()->fullName;
+            }
+
+            return $name;
         }
     }
 
