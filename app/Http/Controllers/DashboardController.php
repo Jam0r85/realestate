@@ -31,8 +31,8 @@ class DashboardController extends Controller
         $managed_services = Service::where('charge', '>', '0.00')->pluck('id')->toArray();
 
         $overdue_tenancies = Tenancy::isOverdue()->count();
-        $active_tenancies = Tenancy::isActive()->count();
-        $managed_tenancies = Tenancy::isActive()->whereIn('service_id', $managed_services)->get();
+        $active_tenancies = Tenancy::active()->count();
+        $managed_tenancies = Tenancy::active()->whereIn('service_id', $managed_services)->get();
 
         $rent_received = Payment::forRent()
             ->whereYear('created_at', date('Y'))

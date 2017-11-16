@@ -147,7 +147,7 @@ class Tenancy extends BaseModel
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent
      */
-    public function scopeIsActive($query)
+    public function scopeActive($query)
     {
         return $query
             ->whereNull('vacated_on')
