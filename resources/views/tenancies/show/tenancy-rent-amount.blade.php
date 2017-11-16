@@ -9,7 +9,7 @@
 		</a>
 
 		@component('partials.header')
-			{{ $tenancy->name }}
+			{{ $tenancy->present()->name }}
 		@endcomponent
 
 		@component('partials.sub-header')
@@ -94,8 +94,8 @@
 								<tr>
 									<td>{{ date_formatted($rent->starts_at) }}</td>
 									<td>{{ currency($rent->amount) }}</td>
-									<td>{{ $rent->owner->name }}</td>
-									<td>{{ $rent->getStatus() }}</td>
+									<td>{{ $rent->owner->present()->fullName }}</td>
+									<td>{{ $rent->present()->status }}</td>
 								</tr>
 							@endforeach
 						@endslot

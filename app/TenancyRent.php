@@ -2,13 +2,21 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class TenancyRent extends Model
 {
     use SoftDeletes;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\TenancyRentPresenter';
 
     /**
      * The attributes that are mass assignable.
@@ -33,20 +41,10 @@ class TenancyRent extends Model
     }
 
     /**
-     * Get the status of this rent amount.
-     * 
-     * @return string
+     * A tenancy rent belongs to a tenancy.
      */
-    public function getStatus()
+    public function tenancy()
     {
-        if ($this->starts_at > Carbon::now()) {
-            return 'Pending';
-        }
-
-        if ($this->trashed()) {
-            return 'Archived';
-        }
-
-        return 'Active';
+        return $this->belongsTo('App\Tenancy');
     }
 }

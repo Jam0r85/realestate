@@ -9,7 +9,7 @@
 		</a>
 
 		@component('partials.header')
-			{{ $tenancy->name }}
+			{{ $tenancy->present()->name }}
 		@endcomponent
 
 		@component('partials.sub-header')

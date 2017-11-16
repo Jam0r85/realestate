@@ -2,23 +2,23 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		@component('partials.header')
+			{{ $title }}
+		@endcomponent
 
-			@component('partials.header')
-				{{ $title }}
+		@if (isset($deposit_balance))
+
+			@component('partials.sub-header')
+				Expected <b>{{ currency($deposits->sum('amount')) }}</b> / Held <b>{{ currency($deposit_balance) }}</b>
 			@endcomponent
 
-			@if (isset($deposit_balance))
+		@endif
 
-				@component('partials.sub-header')
-					Expected <b>{{ currency($deposits->sum('amount')) }}</b> / Held <b>{{ currency($deposit_balance) }}</b>
-				@endcomponent
+	@endcomponent
 
-			@endif
-
-		</div>
+	@component('partials.bootstrap.section-with-container')
 
 		{{-- Deposits Search --}}
 		@component('partials.bootstrap.page-search')
@@ -33,12 +33,8 @@
 		@endcomponent
 		{{-- End of Deposits Search --}}
 
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
-
-		<table class="table table-striped table-hover table-responsive">
-			<thead>
+		@component('partials.table')
+			@slot('header')
 				<th>Date</th>
 				<th>Tenancy</th>
 				<th>Property</th>
@@ -46,17 +42,17 @@
 				<th>Balance</th>
 				<th>Ref</th>
 				<th></th>
-			</thead>
-			<tbody>
+			@endslot
+			@slot('body')
 				@foreach ($deposits as $deposit)
 					<tr>
 						<td>{{ date_formatted($deposit->created_at) }}</td>
 						<td>
-							<a href="{{ route('tenancies.show', $deposit->tenancy->id) }}" title="{{ $deposit->tenancy->name }}">
-								{!! truncate($deposit->tenancy->name) !!}
+							<a href="{{ route('tenancies.show', $deposit->tenancy->id) }}">
+								{{ $deposit->tenancy->present()->name }}
 							</a>
 						</td>
-						<td>{!! truncate($deposit->tenancy->property->short_name) !!}</td>
+						<td>{{ $deposit->tenancy->property->present()->shortAddress }}</td>
 						<td>{{ currency($deposit->amount) }}</td>
 						<td>
 							<span class="@if ($deposit->balance < $deposit->amount) text-danger @endif">
@@ -73,8 +69,8 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
+			@endslot
+		@endcomponent
 
 		@include('partials.pagination', ['collection' => $deposits])
 
