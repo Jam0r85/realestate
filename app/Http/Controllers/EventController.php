@@ -59,23 +59,6 @@ class EventController extends BaseController
     }
 
     /**
-     * Get an array of archived events.
-     *
-     * @param integer $id
-     * @return array
-     */
-    public function archivedFeed($id)
-    {
-        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'all_day')
-            ->onlyTrashed()
-            ->where('calendar_id', $id)
-            ->get()
-            ->toArray();
-
-        return $json;
-    }
-
-    /**
      * Get an array of events.
      *
      * @param integer $id
