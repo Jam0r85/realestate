@@ -2,27 +2,25 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
+		<a href="{{ route('statement-payments.index') }}" class="btn btn-secondary float-right">
+			Return
+		</a>
 
-			<a href="{{ route('statement-payments.index') }}" class="btn btn-secondary float-right">
-				Return
-			</a>
+		@component('partials.header')
+			Statement Payment #{{ $payment->id }}
+		@endcomponent
 
-			@component('partials.header')
-				Statement Payment {{ $payment->id }}
-			@endcomponent
-
-			@component('partials.sub-header')
-				Edit payment details
-			@endcomponent
-
-		</div>
+		@component('partials.sub-header')
+			Edit Payment Details
+		@endcomponent
 
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
 
 		<form method="POST" action="{{ route('statement-payments.update', $payment->id) }}">
 			{{ csrf_field() }}
@@ -30,7 +28,15 @@
 
 			<div class="form-group">
 				<label for="sent_at">Date Sent</label>
-				<input type="date" name="sent_at" id="sent_at" class="form-control" value="{{ $payment->sent_at->format('Y-m-d') }}" />
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</span>
+					<input type="date" name="sent_at" id="sent_at" class="form-control" value="{{ $payment->sent_at ? $payment->sent_at->format('Y-m-d') : '' }}" />
+				</div>
+				<small class="form-text text-muted">
+					Leave blank to mark this payment as having not been sent.
+				</small>
 			</div>
 
 			@component('partials.save-button')

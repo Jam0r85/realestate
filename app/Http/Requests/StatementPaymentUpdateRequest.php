@@ -24,7 +24,7 @@ class StatementPaymentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'sent_at' => 'required'
+            //
         ];
     }
 }

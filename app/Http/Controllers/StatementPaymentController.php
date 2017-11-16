@@ -29,7 +29,6 @@ class StatementPaymentController extends BaseController
     public function index()
     {
         $unsent_payments = StatementPayment::whereNull('sent_at')->latest()->get();
-        // $unsent_payments->load('statement','statement.tenancy.property','users','bank_account','parent');
 
         if (count($unsent_payments)) {
             $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
@@ -52,6 +51,7 @@ class StatementPaymentController extends BaseController
     public function show($id)
     {
         $payment = StatementPayment::findOrFail($id);
+
         return view('statement-payments.show', compact('payment'));
     }
 
@@ -64,6 +64,7 @@ class StatementPaymentController extends BaseController
     public function edit($id)
     {
         $payment = StatementPayment::findOrFail($id);
+
         return view('statement-payments.edit', compact('payment'));
     }
 

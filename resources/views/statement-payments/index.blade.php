@@ -12,6 +12,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@include('partials.errors-block')
+
 		@if (count($unsent_payments)  && $sent_payments->currentPage() == 1)
 
 			<form method="POST" action="{{ route('statement-payments.mark-sent') }}">
@@ -20,12 +22,15 @@
 				<div class="page-title">
 
 					<div class="float-right">
+
 						<a href="{{ route('statement-payments.print') }}" target="_blank" class="btn btn-secondary">
 							<i class="fa fa-print"></i> Print
 						</a>
+
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-check"></i> Mark as Sent
 						</button>
+
 					</div>
 
 					@component('partials.sub-header')
@@ -33,8 +38,6 @@
 					@endcomponent
 
 				</div>
-
-				@include('partials.errors-block')
 
 				@foreach ($unsent_payments as $name => $payments)
 
@@ -55,7 +58,7 @@
 		@endif
 
 		@component('partials.header')
-			Send Payments
+			Sent Payments
 		@endcomponent
 
 		@component('partials.table')

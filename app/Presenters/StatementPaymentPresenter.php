@@ -23,18 +23,6 @@ class StatementPaymentPresenter extends Presenter
     /**
      * @return string
      */
-    public function groupName()
-    {
-        if (!$this->parent_type) {
-            $this->parent_type = 'landlord';
-        }
-
-        return str_singular($this->parent_type);
-    }
-
-    /**
-     * @return string
-     */
     public function method()
     {
         if ($this->bank_account) {

@@ -103,4 +103,18 @@ class StatementPayment extends BaseModel
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    /**
+     * Get the group name for this payment.
+     * 
+     * @return string
+     */
+    public function getGroupAttribute()
+    {
+        if (!$this->parent_type) {
+            $this->parent_type = 'landlords';
+        }
+
+        return $this->parent_type;
+    }
 }
