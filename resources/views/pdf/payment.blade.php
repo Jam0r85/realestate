@@ -2,7 +2,6 @@
 
 @section('content')
 
-	{{-- Title --}}
 	<section class="section">
 		<div class="container">
 			<h1 class="title">
@@ -14,52 +13,36 @@
 		</div>
 	</section>
 
-	{{-- Items --}}
 	<section class="section">
 		<div class="container">
+
 			<table class="table is-striped is-bordered">
-				<tbody>
-					@if (!$payment->isRent())
-						<tr>
-							<th class="text-center">For Invoice</th>
-						</tr>
-						<tr>
-							<td class="text-center">{{ $payment->parent->number }}</td>
-						</tr>
-					@else
-						<tr>
-							<th class="text-center">Tenancy</th>
-						</tr>
-						<tr>
-							<td class="text-center">{{ $payment->parent->name }}</td>
-						</tr>
-					@endif
-					<tr>
-						<th class="text-center">Property</th>
-					</tr>
-					<tr>
-						<td class="text-center">{{ $payment->parent->property->name }}</td>
-					</tr>
-					<tr>
-						<th class="text-center">Date Recorded</th>
-					</tr>
-					<tr>
-						<td class="text-center">{{ datetime_formatted($payment->created_at) }}</td>
-					</tr>
-					<tr>
-						<th class="text-center">Amount</th>
-					</tr>
-					<tr>
-						<td class="text-center">{{ currency($payment->amount) }}</td>
-					</tr>
-					<tr>
-						<th class="text-center">Payment Method</th>
-					</tr>
-					<tr>
-						<td class="text-center">{{ $payment->method->name }}</td>
-					</tr>
-				</tbody>
+				<tr>
+					<th class="text-center">Property</th>
+				</tr>
+				<tr>
+					<td class="text-center">{{ $payment->present()->propertyName }}</td>
+				</tr>
+				<tr>
+					<th class="text-center">Date Recorded</th>
+				</tr>
+				<tr>
+					<td class="text-center">{{ datetime_formatted($payment->created_at) }}</td>
+				</tr>
+				<tr>
+					<th class="text-center">Amount</th>
+				</tr>
+				<tr>
+					<td class="text-center">{{ currency($payment->amount) }}</td>
+				</tr>
+				<tr>
+					<th class="text-center">Payment Method</th>
+				</tr>
+				<tr>
+					<td class="text-center">{{ $payment->method->name }}</td>
+				</tr>
 			</table>
+
 		</div>
 	</section>
 

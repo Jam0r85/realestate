@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\Payment;
 use App\Statement;
+use Barryvdh\DomPDF\Facade as PDF;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
@@ -152,13 +153,11 @@ class DownloadController extends Controller
     {
         $payment = Payment::findOrFail($id);
 
-        $this->pdf->loadHtml(
-            $this->getView('pdf.payment', [
-                'payment' => $payment,
-                'title' => 'Payment ' . $payment->id
-            ]
-        ));
+        $pdf = PDF::loadView('pdf.payment', [
+            'payment' => $payment,
+            'title' => 'Payment ' . $payment->id
+        ]);
 
-        return $this->$return();
+        return $pdf->$return();
     }
 }

@@ -36,13 +36,27 @@ class StatementPresenter extends Presenter
 	public function recipient()
 	{
 		foreach ($this->users as $user) {
+
 			$names[] = $user->present()->fullName;
+
 			if (!isset($home)) {
 				$home = $user->home->present()->letter;
 			}
 		}
 
-		return implode(' & ', $names) . '<br />' . $home;
+		if (isset($names) && count($names)) {
+			$names = implode(' & ', $names);
+		} else {
+			$names = null;
+		}
+
+		if (isset($home)) {
+			$home = '<br />' . $home;
+		} else {
+			$home = null;
+		}
+
+		return $names . $home;
 	}
 
 	/**

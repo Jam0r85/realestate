@@ -126,8 +126,7 @@ class Payment extends BaseModel
      */
     public function parent()
     {
-    	return $this->morphTo()
-            ->withTrashed();
+    	return $this->morphTo()->withTrashed();
     }
 
     /**

@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RentPaymentStoreRequest;
+use App\Notifications\TenantRentPaymentReceived;
 use App\Payment;
 use App\Tenancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 
 class RentPaymentController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     * 
+     * @return  void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of rent payments received.
      * 
@@ -74,6 +86,8 @@ class RentPaymentController extends BaseController
     	$tenancy->rent_payments()->save($payment);
 
     	$payment->users()->attach($tenancy->tenants);
+
+        Notification::send($payment->users, new TenantRentPaymentReceived($payment));
 
     	$this->successMessage('The payment of ' . currency($payment->amount) . ' was recorded for the tenancy ' . $tenancy->name);
     	return back();

@@ -3,15 +3,19 @@
 namespace App\Notifications;
 
 use App\Payment;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RentPaymentReceived extends Notification implements ShouldQueue
+class TenantRentPaymentReceived extends Notification
 {
-    use Queueable;
-
+    /**
+     * The payment we are sending.
+     * 
+     * @var \App\Payment
+     */
     public $payment;
 
     /**
@@ -32,7 +36,15 @@ class RentPaymentReceived extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        if (user_setting('rent_payment_received_notification_email', $notifiable)) {
+            $via[] = 'mail';
+        }
+
+        if (user_setting('rent_payment_received_notification_sms', $notifiable)) {
+            $via[] = 'nexmo';
+        }
+
+        return $via;
     }
 
     /**
@@ -46,24 +58,21 @@ class RentPaymentReceived extends Notification implements ShouldQueue
         $receipt = app('\App\Http\Controllers\DownloadController')->payment($this->payment->id);
 
         return (new MailMessage)
-            ->subject('Rent payment received')
-            ->markdown('notifications.rent-payment-received', ['payment' => $this->payment])
+            ->subject('Rent Payment Received')
+            ->markdown('email-templates.tenant-rent-payment-received', ['payment' => $this->payment])
             ->attachData($receipt, 'Receipt ' . $this->payment->id .'.pdf');
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the Nexmo / SMS representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return array
+     * @return NexmoMessage
      */
-    public function toArray($notifiable)
+    public function toNexmo($notifiable)
     {
-        return [
-            'payment_id' => $this->payment->id,
-            'amount' => $this->payment->amount,
-            'method' => $this->payment->method->name,
-            'note' => $this->payment->note
-        ];
+        return (new NexmoMessage)
+            ->content('Your SMS message content')
+            ->unicode();
     }
 }

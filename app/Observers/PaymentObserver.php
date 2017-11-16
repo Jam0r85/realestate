@@ -6,6 +6,7 @@ use App\Jobs\UpdateTenancyRentBalances;
 use App\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class PaymentObserver
 {

@@ -10,7 +10,7 @@ use App\Http\Requests\StoreTenancyRentPaymentRequest;
 use App\Http\Requests\TenancyArchiveRequest;
 use App\Http\Requests\TenancyStoreRequest;
 use App\Http\Requests\TenantsVacatedRequest;
-use App\Notifications\RentPaymentReceived;
+use App\Notifications\TenantRentPaymentReceived;
 use App\Property;
 use App\Tenancy;
 use App\TenancyRent;
