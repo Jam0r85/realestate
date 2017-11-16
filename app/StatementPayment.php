@@ -24,21 +24,21 @@ class StatementPayment extends BaseModel
     public function toSearchableArray()
     {
         $array = $this->only('sent_at','created_at','amount');
+        $array['owner'] = $this->owner->present()->fullName;
+        $array['bank_account'] = $this->bank_account ? $this->bank_account->account_name : null;
 
-        // Attach the owner.
-        $array['owner'] = $this->owner ? $this->owner->name : null;
+        foreach ($this->users as $user) {
+            $users[] = [
+                'name' => $user->present()->fullName,
+            ];
+        }
 
-        // Attach the bank account
-        $array['bank_account'] = $this->bank_account ? $this->bank_account->name_secure : null;
+        if (isset($users) && count($users)) {
+            $array['users'] = $users;
+        }
 
-        // Attach the payment users.
-        $array['users'] = $this->users ? $this->users->pluck('name','email','phone_number')->toArray() : null;
-
-        // Attach the tenancy.
-        $array['tenancy'] = $this->statement->tenancy->name;
-
-        // Attach the property.
-        $array['property'] = $this->statement->tenancy->property->name;
+        $array['tenancy'] = $this->statement->tenancy->present()->name;
+        $array['property'] = $this->statement->tenancy->property->present()->fullAddress;
 
         return $array;
     }
@@ -102,25 +102,5 @@ class StatementPayment extends BaseModel
     public function owner()
     {
         return $this->belongsTo('App\User', 'user_id');
-    }
-
-    /**
-     * Get the statement payment's method name formatted.
-     * 
-     * @return string
-     */
-    public function getMethodFormattedAttribute()
-    {
-        // We have a bank account, return the basic details.
-        if ($this->bank_account) {
-            return $this->bank_account->name;
-        }
-
-        if ($this->parent_type == 'invoices') {
-            return 'n/a';
-        }
-
-        // No bank account provided, just return Cash or Cheque.
-        return 'Cash or Cheque';
     }
 }
