@@ -7,7 +7,7 @@
 		<th></th>
 	@endslot
 	@slot('body')
-		@foreach ($account->recent_statement_payments as $payment)
+		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ $payment->sent_at ? date_formatted($payment->sent_at) : 'Not Sent' }}</td>
 				<td><a href="{{ route('tenancies.show', $payment->statement->tenancy->id) }}">{{ $payment->statement->tenancy->name }}</a></td>

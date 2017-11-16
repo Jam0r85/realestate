@@ -17,51 +17,49 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="row">
-			<div class="col-sm-12 col-lg-5">
-
-
-				@include('bank-accounts.partials.system-info-card')
-
-			</div>
-			<div class="col-sm-12 col-lg-7">
+			<div class="col-12 col-lg-5">
 
 				@include('bank-accounts.partials.account-info-card')
+				@include('bank-accounts.partials.system-info-card')				
 
 			</div>
-		</div>
+			<div class="col-12 col-lg-7">
 
-	@endcomponent
+				<div role="tablist">
+					<div class="card">
 
-	@component('partials.bootstrap.section-with-container')
+						@component('partials.card-header')
 
-		<div class="card">
+							<a data-toggle="collapse" href="#linkedPropertiesCollapse">
+								Linked Properties
+							</a>
 
-			<div class="card-body">
+						@endcomponent
 
-				<ul class="nav nav-pills nav-justified" id="bankAccountTabs" role="tablist">
-					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#properties" role="tab">Properties</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#payments" role="tab">Payments</a>
-					</li>
-				</ul>
+						<div id="linkedPropertiesCollapse" class="collapse show">
 
-			</div>
+							@include('properties.partials.properties-table', ['properties' => $account->properties])
 
-			<div class="tab-content">
-				<div class="tab-pane active" id="properties" role="tabpanel">
+						</div>
 
-					@include('properties.partials.properties-table', ['properties' => $account->properties])
+						@component('partials.card-header')
 
+							<a data-toggle="collapse" href="#linkedPaymentsCollapse">
+								Linked Payments
+							</a>
+
+						@endcomponent
+
+						<div id="linkedPaymentsCollapse" class="collapse show">
+
+							@include('bank-accounts.partials.payments-table', ['payments' => $account->statement_payments()->limit(10)->get()])
+
+						</div>
+
+					</div>
 				</div>
-				<div class="tab-pane" id="payments" role="tabpanel">
 
-					@include('bank-accounts.partials.payments-table')
-
-				</div>
 			</div>
-
 		</div>
 
 	@endcomponent
