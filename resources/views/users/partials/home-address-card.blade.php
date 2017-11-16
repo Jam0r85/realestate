@@ -9,7 +9,7 @@
 
 	<div class="card-body">
 
-		{{ $user->present()->location }}
+		{{ $user->present()->location('full') }}
 
 	</div>
 </div>
