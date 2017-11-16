@@ -51,14 +51,6 @@
 						<textarea name="note" id="note" class="form-control" rows="4"></textarea>
 					</div>
 
-					<div class="form-group">
-						<label class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" name="send_receipt_to_tenants" value="true">
-							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">Send a notification (including attached receipt) of this payment to the tenants?</span>
-						</label>
-					</div>
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

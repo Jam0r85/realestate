@@ -27,4 +27,14 @@ class PaymentPresenter extends Presenter
 			return $this->parent->property->present()->fullAddress;
 		}
 	}
+
+	/**
+	 * @return string
+	 */
+	public function tenancyName()
+	{
+		if ($this->parent_type == 'tenancies') {
+			return $this->parent->present()->name;
+		}
+	}
 }
