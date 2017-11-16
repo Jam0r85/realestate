@@ -22,7 +22,9 @@ class UserSettings
 		'tenancy_service_re_letting_fee' => null,
 		'dark_mode' => null,
 		'expense_record_notifications_email' => null,
-		'expense_record_notifications_sms' => null
+		'expense_record_notifications_sms' => null,
+		'rent_payment_received_notification_email' => null,
+		'rent_payment_received_notification_sms' => null
 	];
 
 	public function __construct(User $user)

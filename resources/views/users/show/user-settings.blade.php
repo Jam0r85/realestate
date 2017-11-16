@@ -132,7 +132,9 @@
 				<div class="card-body">
 
 					<div class="form-group">
-						<p class="lead mb-0">Recording Expenses</p>
+						<p class="lead mb-0">
+							Recording Expenses
+						</p>
 
 						<div class="d-block">
 							<div class="form-check form-check-inline">
@@ -150,7 +152,33 @@
 						</div>
 
 						<small class="form-text text-muted">
-							How does this user want to be notified when new expenses are recorded?
+							Does this user want to be notified when new expenses are recorded for their property or when they are listed as the contractor for the expense?
+						</small>
+
+					</div>
+
+					<div class="form-group">
+						<p class="lead mb-0">
+							Rent Payment Received
+						</p>
+
+						<div class="d-block">
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="rent_payment_received_notification_email" value="true" @if (user_setting('rent_payment_received_notification_email', $user)) checked @endif @if (!$user->email) disabled @endif />
+									By E-Mail
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="rent_payment_received_notification_sms" value="true" @if (user_setting('rent_payment_received_notification_sms', $user)) checked @endif @if (!$user->phone_number) disabled @endif />
+									By SMS
+								</label>
+							</div>
+						</div>
+
+						<small class="form-text text-muted">
+							Send this user a notification and the payment receipt for each rent payment recorded?
 						</small>
 
 					</div>

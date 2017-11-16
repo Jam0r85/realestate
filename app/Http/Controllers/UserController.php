@@ -173,6 +173,14 @@ class UserController extends BaseController
             $request->request->add(['expense_record_notifications_email' => null]);
         }
 
+        if (!$request->has('rent_payment_received_notification_email')) {
+            $request->request->add(['rent_payment_received_notification_email' => null]);
+        }
+
+        if (!$request->has('rent_payment_received_notification_sms')) {
+            $request->request->add(['rent_payment_received_notification_sms' => null]);
+        }
+
         $user = User::findOrFail($id);
         $user->settings()->merge($request->input());
 
