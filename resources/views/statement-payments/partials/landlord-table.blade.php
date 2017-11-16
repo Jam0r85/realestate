@@ -8,8 +8,8 @@
 	@slot('body')
 		@foreach ($payments as $payment)
 			<tr>
-				<td>{{ $payment->statement->property->short_name }}</td>
-				<td>{{ $payment->method_formatted }}</td>
+				<td>{{ $payment->present()->propertyName }}</td>
+				<td>{{ $payment->present()->method }}</td>
 				<td class="text-right">{{ currency($payment->amount) }}</td>
 				<td class="text-right">
 					@include('statement-payments.partials.payment-checkbox')

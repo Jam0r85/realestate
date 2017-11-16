@@ -2,21 +2,17 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			@component('partials.header')
-				Statement Payments List
-			@endcomponent
-
-		</div>
+		@component('partials.header')
+			Statement Payments List
+		@endcomponent
 
 	@endcomponent
 
-	@if (count($unsent_payments)  && $sent_payments->currentPage() == 1)
+	@component('partials.bootstrap.section-with-container')
 
-		@component('partials.bootstrap.section-with-container')
+		@if (count($unsent_payments)  && $sent_payments->currentPage() == 1)
 
 			<form method="POST" action="{{ route('statement-payments.mark-sent') }}">
 				{{ csrf_field() }}
@@ -56,19 +52,11 @@
 
 			</form>
 
+		@endif
+
+		@component('partials.header')
+			Send Payments
 		@endcomponent
-
-	@endif
-
-	@component('partials.bootstrap.section-with-container')
-
-		<div class="page-title">
-
-			@component('partials.sub-header')
-				Sent Payments
-			@endcomponent
-
-		</div>
 
 		@component('partials.table')
 			@slot('header')
@@ -83,18 +71,18 @@
 			@slot('body')
 				@foreach ($sent_payments as $payment)
 					<tr>
-						<td>{!! truncate($payment->statement->tenancy->property->short_name) !!}</td>
+						<td>{{ $payment->present()->propertyName }}</td>
 						<td>
 							<a href="{{ route('statements.show', $payment->statement->id) }}">
-								{{ $payment->statement->id }}
+								{{ $payment->present()->statementName }}
 							</a>
 						</td>
-						<td>{{ $payment->name_formatted }}</td>
-						<td>{{ $payment->bank_account ? 'Bank' : 'Cheque' }}</td>
+						<td>{{ $payment->present()->name }}</td>
+						<td>{{ $payment->present()->method }}</td>
 						<td>{{ currency($payment->amount) }}</td>
 						<td>{{ date_formatted($payment->sent_at) }}</td>
 						<td class="text-right">
-							<a href="{{ route('statement-payments.edit', $payment->id) }}">
+							<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
 								Edit
 							</a>
 						</td>

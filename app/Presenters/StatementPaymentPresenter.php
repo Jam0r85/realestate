@@ -54,6 +54,45 @@ class StatementPaymentPresenter extends Presenter
         return $this->statement->tenancy->present()->name;
     }
 
+    /**
+     * @return string
+     */
+    public function propertyName()
+    {
+        return $this->statement->tenancy->property->present()->shortAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function statementName()
+    {
+        return 'Statement #' . $this->statement_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function invoiceName()
+    {
+        if ($this->parent_type == 'invoices') {
+            return $this->parent->present()->name;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function expenseName()
+    {
+        if ($this->parent_type == 'expenses') {
+            return $this->parent->name . '<br />' . $this->parent->contractor ? $this->parent->contractor->present()->fullName;
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function status()
     {
         if ($this->sent_at) {
