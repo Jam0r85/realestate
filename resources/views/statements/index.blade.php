@@ -47,16 +47,6 @@
 			@endif
 		@endif
 
-		@if (!session('statements_search_term'))
-			<div class="page-title">
-
-				@component('partials.sub-header')
-					Sent Statements
-				@endcomponent
-
-			</div>
-		@endif
-
 		@include('statements.partials.sent-statements-table')
 
 	@endcomponent
