@@ -159,8 +159,18 @@ class UserController extends BaseController
      */
     public function updateSettings(Request $request, $id)
     {
+        // Dark Mode Toggle
         if (!$request->has('dark_mode')) {
             $request->request->add(['dark_mode' => null]);
+        }
+
+        // Notification Toggles
+        if (!$request->has('expense_record_notifications_sms')) {
+            $request->request->add(['expense_record_notifications_sms' => null]);
+        }
+
+        if (!$request->has('expense_record_notifications_email')) {
+            $request->request->add(['expense_record_notifications_email' => null]);
         }
 
         $user = User::findOrFail($id);

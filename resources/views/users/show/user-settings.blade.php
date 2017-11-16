@@ -71,11 +71,11 @@
 
 			<div class="card mb-3">
 
-				@component('partials.bootstrap.card-header')
+				@component('partials.card-header')
 					Tenancy Discount Settings
-					<small class="text-muted d-block">
+					@slot('small')
 						Set discounts for new tenancies created for properties owned by this user.
-					</small>
+					@endslot
 				@endcomponent
 
 				<div class="card-body">
@@ -117,6 +117,41 @@
 						<small class="form-text text-muted">
 							Enter the amount that we want to charge this landlord for re-letting their property.
 						</small>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="card mb-3">
+
+				@component('partials.card-header')
+					Notification Settings
+				@endcomponent
+
+				<div class="card-body">
+
+					<div class="form-group">
+						<label for="expense_record_notifications">Recording Expenses</label>
+
+						<div class="d-block">
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="expense_record_notifications_email" value="true" @if (user_setting('expense_record_notifications_email', $user)) checked @endif @if (!$user->email) disabled @endif />
+									By E-Mail
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="expense_record_notifications_sms" value="true" @if (user_setting('expense_record_notifications_sms', $user)) checked @endif @if (!$user->phone_number) disabled @endif />
+									By SMS
+								</label>
+							</div>
+						</div>
+
+						<small class="form-text text-muted">
+							How does this user want to be notified when new expenses are recorded?
+						</small>
+
 					</div>
 
 				</div>

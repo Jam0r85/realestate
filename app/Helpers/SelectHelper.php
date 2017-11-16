@@ -82,9 +82,7 @@ if (!function_exists('invoiceGroupsCount')) {
 if (!function_exists('users')) {
 	function users()
 	{
-		return cache()->tags('users')->remember('users', 60, function () {
-			return \App\User::latest()->get();
-		});
+		return \App\User::latest()->get();
 	}
 }
 
