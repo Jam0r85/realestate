@@ -33,7 +33,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::latest()->paginate();
+        $users = User::with('home','tenancies')->latest()->paginate();
         $title = 'Users List';
         
         return view('users.index', compact('users', 'title'));
