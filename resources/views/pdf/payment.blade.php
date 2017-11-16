@@ -2,19 +2,15 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+
+		
 			<h1 class="title">
 				Receipt #{{ $payment->id }}
 			</h1>
 			<h2 class="subtitle">
 				{{ date_formatted($payment->created_at) }}
 			</h2>
-		</div>
-	</section>
 
-	<section class="section">
-		<div class="container">
 
 			<table class="table is-striped is-bordered">
 				<tr>
@@ -43,7 +39,5 @@
 				</tr>
 			</table>
 
-		</div>
-	</section>
 
 @endsection
