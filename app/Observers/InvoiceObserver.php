@@ -51,8 +51,10 @@ class InvoiceObserver
 	 */
 	public function deleted(Invoice $invoice)
 	{
-		if ($invoice->number == $invoice->invoiceGroup->next_number) {
-			$invoice->invoiceGroup->decrement('next_number');
-		}
+		// $number = $invoice->number - 1;
+		
+		// if ($number == $invoice->invoiceGroup->next_number) {
+		// 	$invoice->invoiceGroup->decrement('next_number');
+		// }
 	}
 }
