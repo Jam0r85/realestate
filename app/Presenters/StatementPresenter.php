@@ -12,7 +12,7 @@ class StatementPresenter extends Presenter
 	public function paymentMethod()
 	{
 		if ($account = $this->tenancy->property->bank_account) {
-			return $account->present()->inline(' / ');
+			return $account->present()->inlineShort(' / ');
 		}
 
 		return 'Cash or Cheque';
