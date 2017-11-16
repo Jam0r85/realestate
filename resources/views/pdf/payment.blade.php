@@ -2,42 +2,28 @@
 
 @section('content')
 
+	<h1 class="mb-0">
+		Receipt #{{ $payment->id }}
+	</h1>
 
-		
-			<h1 class="title">
-				Receipt #{{ $payment->id }}
-			</h1>
-			<h2 class="subtitle">
-				{{ date_formatted($payment->created_at) }}
-			</h2>
+	<h2 class="text-muted">
+		{{ date_formatted($payment->created_at) }}
+	</h2>
 
+	<hr />
 
-			<table class="table is-striped is-bordered">
-				<tr>
-					<th class="text-center">Property</th>
-				</tr>
-				<tr>
-					<td class="text-center">{{ $payment->present()->propertyName }}</td>
-				</tr>
-				<tr>
-					<th class="text-center">Date Recorded</th>
-				</tr>
-				<tr>
-					<td class="text-center">{{ datetime_formatted($payment->created_at) }}</td>
-				</tr>
-				<tr>
-					<th class="text-center">Amount</th>
-				</tr>
-				<tr>
-					<td class="text-center">{{ currency($payment->amount) }}</td>
-				</tr>
-				<tr>
-					<th class="text-center">Payment Method</th>
-				</tr>
-				<tr>
-					<td class="text-center">{{ $payment->method->name }}</td>
-				</tr>
-			</table>
+	<div class="lead">
+		<p>Property - {{ $payment->present()->propertyName }}</p>
+		<p>Method - {{ $payment->method->name }}</p>
+		<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
+		<p><b>Amount - {{ currency($payment->amount) }}</b></p>
+	</div>
 
+	<hr />
+
+	<p class="lead">
+		Thanks,<br />
+		<b>{{ get_setting('company_name', config('app.name')) }}</b>
+	</p>
 
 @endsection

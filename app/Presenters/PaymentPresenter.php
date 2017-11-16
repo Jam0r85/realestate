@@ -24,7 +24,7 @@ class PaymentPresenter extends Presenter
 	public function propertyName()
 	{
 		if (method_exists($this->parent, 'property')) {
-			return $this->parent->property->fullAddress;
+			return $this->parent->property->present()->fullAddress;
 		}
 	}
 }

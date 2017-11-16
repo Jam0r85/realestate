@@ -6,98 +6,20 @@ use App\Invoice;
 use App\Payment;
 use App\Statement;
 use Barryvdh\DomPDF\Facade as PDF;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class DownloadController extends Controller
 {
     /**
-     * @var  Dompdf\Dompdf
-     */
-    protected $pdf;
-
-    /**
-     * @var Dompdf\Options
-     */
-    protected $options;
-
-    /**
      * Create a new controller instance.
      *
-     * @param Dompdf\Options $options
      * @return  void
      */
-    public function __construct(Options $options)
+    public function __construct()
     {
         $this->middleware('auth');
-
-        $this->options = $options;
-
-        $this->options->set('isRemoteEnabled', true);
-        $this->options->set('isHtml5ParserEnabled', true);
-
-        $this->pdf = new Dompdf($this->options);
-
-        $contxt = stream_context_create([ 
-            'ssl' => [ 
-                'verify_peer' => FALSE, 
-                'verify_peer_name' => FALSE,
-                'allow_self_signed'=> TRUE
-            ] 
-        ]);
-
-        $this->pdf->setHttpContext($contxt);
-    }
-
-    /**
-     * Get the view along with the data.
-     * 
-     * @param  $view
-     * @param  array  $data
-     * @return string
-     */
-    public function getView($view, $data = [])
-    {
-        return view($view, $data)->render();
-    }
-
-    /**
-     * Render the PDF.
-     * 
-     * @return Dompdf\Dompdf
-     */
-    public function render()
-    {
-        $this->pdf->render();
-    }
-
-    /**
-     * Stream the PDF.
-     * 
-     * @param  string $filename
-     * @return \Illuminate\Http\Response
-     */
-    public function stream($filename = 'document.pdf')
-    {
-        $this->render();
-        
-        return new Response($this->pdf->output(), 200, array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' =>  'inline; filename="' . $filename . '"',
-        ));
-    }
-
-    /**
-     * Return the PDF as a raw file.
-     * 
-     * @return mixed
-     */
-    public function raw()
-    {
-        $this->render();
-        return $this->pdf->output();
+        PDF::setOptions(['isHtml5ParserEnabled' => true]);
     }
 
     /**
@@ -109,16 +31,10 @@ class DownloadController extends Controller
      */
     public function statement($id, $return = 'stream')
     {
-        $statement = Statement::withTrashed()->findOrFail($id);
-
-        $this->pdf->loadHtml(
-            $this->getView('pdf.statement', [
-                'statement' => $statement,
-                'title' => $statement->property->short_name
-            ]
-        ));
-
-        return $this->$return();
+        return PDF::loadView('pdf.statement', [
+            'statement' => Statement::withTrashed()->findOrFail($id),
+            'title' => 'Statement ' . $id
+        ])->$return();
     }
 
     /**
@@ -130,16 +46,10 @@ class DownloadController extends Controller
      */
     public function invoice($id, $return = 'stream')
     {
-        $invoice = Invoice::withTrashed()->findOrFail($id);
-
-        $this->pdf->loadHtml(
-            $this->getView('pdf.invoice', [
-                'invoice' => $invoice,
-                'title' => 'Invoice ' . $invoice->name
-            ]
-        ));
-
-        return $this->$return();
+        return PDF::loadView('pdf.invoice', [
+            'invoice' => Invoice::withTrashed()->findOrFail($id),
+            'title' => 'Invoice ' . $id
+        ])->$return();
     }
 
     /**
@@ -151,13 +61,9 @@ class DownloadController extends Controller
      */
     public function payment($id, $return = 'stream')
     {
-        $payment = Payment::findOrFail($id);
-
-        $pdf = PDF::loadView('pdf.payment', [
-            'payment' => $payment,
-            'title' => 'Payment ' . $payment->id
-        ]);
-
-        return $pdf->$return();
+        return PDF::loadView('pdf.payment', [
+            'payment' => Payment::findOrFail($id),
+            'title' => 'Payment ' . $id
+        ])->$return();
     }
 }
