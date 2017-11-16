@@ -42,6 +42,9 @@ section.section {
  * Cards
  */
 
+.card {
+    flex: 1;
+}
 .card .card-header {
 	background-color: #ffffff;
 	font-weight: normal;
@@ -81,4 +84,16 @@ section.section {
  */
 .list-group-item {
 	background-color: #f8f8f8 !important;
+}
+
+/**
+ * Rows
+ */
+.row.equal-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row.equal-height > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
 }

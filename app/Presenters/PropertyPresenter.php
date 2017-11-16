@@ -88,4 +88,12 @@ class PropertyPresenter extends Presenter
             return null;
         }
     }
+
+    /**
+     * @return string
+     */
+    public function selectName()
+    {
+        return $this->fullAddress;
+    }
 }

@@ -25,9 +25,11 @@
 		@endcomponent
 		{{-- End of Events Search --}}
 
-		<div class="card-deck">
+		<div class="row equal-height">
 
 			@foreach ($events as $event)
+
+				<div class="col-sm-12 col-lh-6">
 
 				<div class="card mb-3 @if ($event->trashed()) border-warning @endif">
 
