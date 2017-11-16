@@ -38,7 +38,7 @@
 
 						<div id="linkedPropertiesCollapse" class="collapse show">
 
-							@include('properties.partials.properties-table', ['properties' => $account->properties])
+							@include('properties.partials.properties-table', ['properties' => $account->properties()->with('owners')->get()])
 
 						</div>
 
@@ -50,7 +50,7 @@
 
 						@endcomponent
 
-						<div id="linkedPaymentsCollapse" class="collapse show">
+						<div id="linkedPaymentsCollapse" class="collapse">
 
 							@include('bank-accounts.partials.payments-table', ['payments' => $account->statement_payments()->limit(10)->get()])
 

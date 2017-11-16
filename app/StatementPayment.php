@@ -2,10 +2,20 @@
 
 namespace App;
 
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class StatementPayment extends BaseModel
 {
+    use PresentableTrait;
+
+    /**
+     * The presented for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\StatementPaymentPresenter';
+
     /**
      * Get the indexable data array for the model.
      *
@@ -32,13 +42,6 @@ class StatementPayment extends BaseModel
 
         return $array;
     }
-
-    /**
-     * The attrbites that should be included in the collection.
-     * 
-     * @var array
-     */
-    protected $appends = ['group'];
     
     /**
      * The attributes that should be mutated to dates.
@@ -66,8 +69,7 @@ class StatementPayment extends BaseModel
 	 */
     public function statement()
     {
-    	return $this->belongsTo('App\Statement')
-            ->withTrashed();
+    	return $this->belongsTo('App\Statement')->withTrashed();
     }
 
     /**
@@ -100,41 +102,6 @@ class StatementPayment extends BaseModel
     public function owner()
     {
         return $this->belongsTo('App\User', 'user_id');
-    }
-
-    /**
-     * Get the statement payment group name.
-     * 
-     * @return string
-     */
-    public function getGroupAttribute()
-    {
-        if (!$this->parent_type) {
-            $this->parent_type = 'landlord';
-        }
-
-        return str_singular($this->parent_type);
-    }
-
-    /**
-     * Get the statement payment's name formatted.
-     * 
-     * @return string
-     */
-    public function getNameFormattedAttribute()
-    {
-        // Set the invoice name.
-        if ($this->parent_type == 'invoices') {
-            return 'Invoice Payment';
-        }
-
-        // Set the expense name.
-        if ($this->parent_type == 'expenses') {
-            return 'Expense Payment';
-        }
-
-        // Return the generic name of Landlord when no parent is supplied.
-        return 'Landlord Payment';
     }
 
     /**

@@ -2,11 +2,20 @@
 
 namespace App;
 
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Payment extends BaseModel
 {
     use Searchable;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\PaymentPresenter';
 
     /**
      * Get the indexable data array for the model.
