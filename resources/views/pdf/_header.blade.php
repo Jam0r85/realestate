@@ -45,7 +45,6 @@
 				font-weight: bold;
 				padding-right: 0.2rem;
 			}
-	    	main { margin-top: 150px; }
 	    	body {
 	    		line-height: 20px;
 	    		font-size: 15px;
@@ -148,5 +147,3 @@
 				@endif
 			</ul>
 		</footer>
-
-		<main>
