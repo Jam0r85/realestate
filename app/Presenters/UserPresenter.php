@@ -19,7 +19,15 @@ class UserPresenter extends Presenter
 	 */
 	public function location()
 	{
+		foreach ($this->tenancies as $tenancy) {
+			if ($tenancy->isActive()) {
+				return $tenancy->property->present()->shortAddress;
+			}
+		}
 
+		if ($this->home) {
+			return $this->home->present()->shortAddress;
+		}
 	}
 
 	/**
