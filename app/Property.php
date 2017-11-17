@@ -27,7 +27,7 @@ class Property extends BaseModel
      */
     public function toSearchableArray()
     {
-    	$array = $this->only('house_name','hosue_number','address1','address2','address3','county','town','postcode','country');
+    	$array = $this->only('house_name','house_number','address1','address2','address3','county','town','postcode','country');
     	$array['branch'] = $this->branch->name;
 
     	foreach ($this->owners as $owner) {
