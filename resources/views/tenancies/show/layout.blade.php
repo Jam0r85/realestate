@@ -13,7 +13,7 @@
 		@endcomponent
 
 		@component('partials.sub-header')
-			{{ $tenancy->property->present()->fullAddress }}
+			{{ $tenancy->present()->propertyAddress('full') }}
 		@endcomponent
 
 	@endcomponent

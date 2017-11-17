@@ -10,15 +10,13 @@
 		@foreach ($tenancies as $tenancy)
 			<tr>
 				<td>
-					<a href="{{ route('tenancies.show', $tenancy->id) }}" title="{{ $tenancy->name }}">
-						{!! truncate($tenancy->name) !!}
+					<a href="{{ route('tenancies.show', $tenancy->id) }}">
+						{{ $tenancy->present()->name }}
 					</a>
 				</td>
-				<td>{!! truncate($tenancy->property->short_name) !!}</td>
-				<td>{{ currency($tenancy->getCurrentRentAmount()) }}</td>
-				<td>
-					@include('tenancies.format.rent-balance')
-				</td>
+				<td>{{ $tenancy->present()->propertyAddress }}</td>
+				<td>{{ currency($tenancy->present()->rentAmount) }}</td>
+				<td>{{ currency($tenancy->present()->rentBalance) }}</td>
 				<td>{{ date_formatted($tenancy->nextStatementDate()) }}</td>
 			</tr>
 		@endforeach

@@ -75,8 +75,10 @@ class TenancyPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function propertyAddress()
+	public function propertyAddress($length = 'short')
 	{
-		return $this->property->present()->fullAddress();
+		$length = $length . 'Address';
+
+		return $this->property->present()->$length();
 	}
 }
