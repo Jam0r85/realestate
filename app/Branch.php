@@ -2,8 +2,19 @@
 
 namespace App;
 
+use Laracasts\Presenter\PresentableTrait;
+
 class Branch extends BaseModel
 {
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\BranchPresenter';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,10 +46,5 @@ class Branch extends BaseModel
     public function events()
     {
         return $this->hasManyThrough('App\Event', 'App\Calendar');
-    }
-
-    public function getAddressFormattedAttribute()
-    {
-        return nl2br($this->address);
     }
 }

@@ -4,6 +4,10 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	    <style type="text/css">
+	    	body {
+	    		line-height: 20px;
+	    		font-size: 16px;
+	    	}
 			.header {
 				text-align: right;
 				height: 150px;
@@ -37,10 +41,6 @@
 				font-weight: bold;
 				padding-right: 0.2rem;
 			}
-	    	body {
-	    		line-height: 20px;
-	    		font-size: 15px;
-	    	}
 			.page-break {
 			    page-break-after: always;
 			}
@@ -58,12 +58,30 @@
 			h1 {
 				font-size: 3rem;
 			}
+			h2 {
+				font-size: 2.6rem;
+			}
+			h3 {
+				font-size: 2.2rem;
+			}
+			h4 {
+				font-size: 1.8rem;
+			}
+			h5 {
+				font-size: 1.4rem;
+			}
+			h1, h2, h3, h4, h5 {
+				margin: 0 0 1rem 0;
+			}
 			.text-muted {
 				color: #aaa !important;
 			}
 			.lead {
 				font-size: 1.2rem;
 				line-height: 1.8rem;
+			}
+			.text-right {
+				text-align: right;
 			}
 			hr {
 			    border: 0;
@@ -72,6 +90,34 @@
 			}
 			.mb-0 {
 				margin-bottom: 0 !important;
+			}
+			table {
+				width: 100%;
+			}
+			table td {
+				vertical-align: top;
+			}
+			table.table-list {
+				border-spacing: 0;
+				border: 1px solid #999;
+				margin-bottom: 2rem;
+			}
+			table.table-list th {
+				font-weight: bold;
+				background-color: #f8f8f8;
+			}
+			table.table-list th, table.table-list td {
+				padding: 0.6rem;
+				border: 1px solid #999;
+				margin: 0;
+			}
+			ul.list-unstyled {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul.list-unstyled li {
+				margin-bottom: 0.2rem;
 			}
 	    </style>
 	</head>

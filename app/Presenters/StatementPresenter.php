@@ -94,4 +94,14 @@ class StatementPresenter extends Presenter
 	{
 		return currency($this->amount);
 	}
+
+	/**
+	 * @return string
+	 */
+	public function branchAddress()
+	{
+		if ($this->tenancy->property->branch->address) {
+			return $this->tenancy->property->branch->present()->address;
+		}		
+	}
 }

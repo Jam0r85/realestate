@@ -9,8 +9,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TenantRentPaymentReceived extends Notification
+class TenantRentPaymentReceived extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The payment we are sending.
      * 
@@ -73,8 +75,10 @@ class TenantRentPaymentReceived extends Notification
      */
     public function toNexmo($notifiable)
     {
+        $content = 'We have received your rent payment of ' . currency($this->payment->amount) . '. Thank you, ' . get_setting('company_name', config('app.name'));
+
         return (new NexmoMessage)
-            ->content('Your SMS message content')
+            ->content($content)
             ->unicode();
     }
 }

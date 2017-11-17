@@ -12,7 +12,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
 
-class StatementSentNotification extends Notification
+class StatementSentNotification extends Notification implements ShouldQueue
 {
     /**
      * The statement we are sending.
