@@ -4,22 +4,29 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	    <style type="text/css">
+	    	@page {
+	    		margin: 0;
+	    	}
 	    	body {
+	    		margin: 0;
 	    		line-height: 20px;
 	    		font-size: 16px;
 	    	}
+	    	.container {
+	    		margin: 2rem 3rem 3rem 3rem;
+	    	}
 			.header {
 				text-align: right;
-				height: 150px;
+				height: 80px;
 			}
 			.header img {
 				padding: 1rem;
 				margin-right: 2rem;
 			}
 			.header h1 {
+				margin: 0;
 				font-size: 1.6rem;
 				padding-bottom: 1rem;
-				border-bottom: 2px solid #bbb;
 			}
 			.footer {
 				font-size: 0.9rem;
@@ -83,6 +90,9 @@
 			.text-right {
 				text-align: right;
 			}
+			.text-success {
+				color: #28a745;
+			}
 			hr {
 			    border: 0;
 			    height: 2px;
@@ -119,18 +129,79 @@
 			ul.list-unstyled li {
 				margin-bottom: 0.2rem;
 			}
+			ul.list-inline {
+			    list-style-type: none;
+			    margin: 0;
+			    padding: 0;
+			}
+			ul.list-inline li {
+				color: #999;
+				font-size: 15px;
+			    float: left;
+			    display: block;
+			    margin-right: 1rem;
+			}
 	    </style>
 	</head>
 	<body>
 
-		<div class="header">
-			<div class="logo">
-				@if (get_setting('company_logo'))
-					<img src="{{ get_file(get_setting('company_logo')) }}" />
-				@else
-					<h1>{{ get_setting('company_name') }}</h1>
-				@endif
-			</div>
-		</div>
+		<div class="container">
 
-		<div class="content">
+			<div class="header">
+				<table>
+					<tr>
+						<td>
+
+							<ul class="list-inline">
+
+								@if (isset($statement))
+
+									<li>
+										<span class="footer-title">Phone</span>
+										{{ $statement->tenancy->property->branch->phone_number }}
+									</li>
+									<li>
+										<span class="footer-title">E-Mail</span>
+										{{ $statement->tenancy->property->branch->email }}
+									</li>
+
+								@elseif (isset($invoice))
+
+									<li>
+										<span class="footer-title">Phone</span>
+										{{ $invoice->invoiceGroup->branch->phone_number }}
+									</li>
+									<li>
+										<span class="footer-title">E-Mail</span>
+										{{ $invoice->invoiceGroup->branch->email }}
+									</li>
+
+								@elseif (isset($payment))
+
+									<li>
+										<span class="footer-title">Phone</span>
+										{{ $payment->parent->property->branch->phone_number }}
+									</li>
+									<li>
+										<span class="footer-title">E-Mail</span>
+										{{ $payment->parent->property->branch->email }}
+									</li>
+
+								@endif
+							</ul>
+
+						</td>
+						<td class="text-right" nowrap>
+
+							@if (get_setting('company_logo'))
+								<img src="{{ get_file(get_setting('company_logo')) }}" />
+							@else
+								<h1>{{ get_setting('company_name') }}</h1>
+							@endif
+
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>

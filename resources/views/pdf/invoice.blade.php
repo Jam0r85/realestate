@@ -1,122 +1,78 @@
 @extends('pdf._layout')
-
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	<div class="container">
+		<div class="content">
 
-			<table>
-				<tr>
-					<td>						
-						<p>{!! $invoice->present()->recipient !!}</p>
-					</td>
-					<td class="has-text-right">
-
-						@if (isset($invoice))
-							{!! $invoice->property->branch->address_formatted !!}
-						@endif
-
-					</td>
-				</tr>
-			</table>
-
-		</div>
-	</section>
-
-	{{-- Title --}}
-	<section class="section">
-		<div class="container">
-
-			<table>
-				<tr>
-					<td>
-						<h1 class="title">
-							Invoice {{ $invoice->present()->name }}
-						</h1>
-						<h2 class="subtitle">
-							{{ $invoice->present()->fullDate }}
-						</h2>
-					</td>
-					<td class="has-text-right">
-
-						@if ($invoice->statement)
-
-							@if ($invoice->statement->paid_at)
-								<h2 class="subtitle is-success">Paid {{ date_formatted($invoice->statement->paid_at) }}</h2>
-							@endif
-
-						@else
-
-							@if ($invoice->paid_at)
-								<h1 class="title is-success">Paid {{ date_formatted($invoice->paid_at) }}</h1>
-							@endif
-
-						@endif
-
-					</td>
-				</tr>
-			</table>
-
-		</div>
-	</section>
-
-	{{-- Details Listing --}}
-	<section class="section">
-		<div class="container">
-			<ul class="list-unstyled">
-				@if ($invoice->property)
-					<li><strong>Property:</strong> {{ $invoice->property->present()->fullAddress }}</li>
-				@endif
-			</ul>
-		</div>
-	</section>
-
-	{{-- Items --}}
-	<section class="section">
-		<div class="container">
-			<table class="table is-striped is-bordered">
-				<thead>
+			<div class="section">
+				<table>
 					<tr>
-						<th>Item</th>
-						<th class="">Net</th>
-						<th class="">VAT</th>
-						<th class="">Total</th>
+						<td>{!! $invoice->present()->recipient !!}</td>
+						<td class="text-right">{!! $invoice->present()->branchAddress !!}</td>
 					</tr>
-				</thead>
-				<tbody>
-					@foreach ($invoice->items as $item)
-						<tr>
-							<td>
-								<b>{{ $item->name }}</b>
-								@if ($item->quantity > 1)
-									({{ $item->quantity }}x {{ currency($item->amount) }})
-								@endif
-								{!! $item->description ? '<br />' . $item->description : '' !!}
-							</td>
-							<td class="">{{ currency($item->total_net) }}</td>
-							<td class="">{{ currency($item->total_tax) }}</td>
-							<td class="">{{ currency($item->total) }}</td>
-						</tr>
-					@endforeach
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>Totals</td>
-						<td class="">{{ currency($invoice->total_net) }}</td>
-						<td class="">{{ currency($invoice->total_tax) }}</td>
-						<td class="">{{ currency($invoice->total) }}</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
-			<div class="invoice-terms">
-				{{ $invoice->present()->paperTerms }}
+				</table>
 			</div>
+
+			<div class="section">
+				<h3 class="m-0 {{ $invoice->present()->status('class') }}">
+					Invoice {{ $invoice->present()->name }}
+				</h3>
+				<h5 class="m-0">
+					{{ $invoice->present()->fullDate }}
+				</h5>
+			</div>
+
+			<div class="section">
+				<ul class="list-unstyled">
+					<li><strong>Property:</strong> {{ $invoice->property->present()->fullAddress }}</li>
+				</ul>
+			</div>
+
+			<div class="section">
+				<table class="table-list">
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>Net</th>
+							<th>VAT</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($invoice->items as $item)
+							<tr>
+								<td>
+									<b>{{ $item->name }}</b>
+									@if ($item->quantity > 1)
+										({{ $item->quantity }}x {{ currency($item->amount) }})
+									@endif
+									{!! $item->description ? '<br />' . $item->description : '' !!}
+								</td>
+								<td>{{ currency($item->total_net) }}</td>
+								<td>{{ currency($item->total_tax) }}</td>
+								<td>{{ currency($item->total) }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>Totals</th>
+							<th>{{ currency($invoice->total_net) }}</th>
+							<th>{{ currency($invoice->total_tax) }}</th>
+							<th>{{ currency($invoice->total) }}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+
+			<section class="section">
+				@if ($invoice->present()->status == 'Paid')
+					<h5 class="text-success">Paid</h5>
+				@endif
+				{{ $invoice->present()->paperTerms }}
+			</section>
+
 		</div>
-	</section>
+	</div>
 
 @endsection

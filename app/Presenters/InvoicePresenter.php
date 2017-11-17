@@ -2,9 +2,7 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
-
-class InvoicePresenter extends Presenter
+class InvoicePresenter extends BasePresenter
 {
 	/**
 	 * @return string
@@ -47,5 +45,37 @@ class InvoicePresenter extends Presenter
 	public function paperTerms()
 	{
 		return $this->terms;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function branchAddress()
+	{
+		if ($this->property->branch->address) {
+			return $this->property->branch->present()->address;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function status($return = 'value')
+	{
+		if ($this->statement && $this->statement->paid_at) {
+			$data['value'] = 'Paid';
+			$data['class'] = 'text-success';
+		} elseif ($this->statement && !$this->statement->paid_at) {
+			$data['value'] = 'Unpaid';
+			$data['class'] = '';
+		} elseif ($this->paid_at) {
+			$data['value'] = 'Paid';
+			$data['class'] = 'text-success';
+		} else {
+			$data['value'] = 'Unpaid';
+			$data['class'] = '';
+		}
+
+		return $data[$return];
 	}
 }
