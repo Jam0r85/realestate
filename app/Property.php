@@ -91,7 +91,7 @@ class Property extends BaseModel
 	 */
 	public function activeTenancy()
 	{
-		return $this->hasOne('App\Tenancy')->isActive();
+		return $this->hasOne('App\Tenancy')->active();
 	}
 
 	/**

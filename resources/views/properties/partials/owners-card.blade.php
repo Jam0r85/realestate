@@ -1,10 +1,10 @@
 <div class="card mb-3">
 
 	@component('partials.card-header')
-		<small class="text-muted float-right">
-			Users who own this property
-		</small>
 		Owners
+		@slot('small')
+			Users who own this property
+		@endslot
 	@endcomponent
 
 	@include('partials.bootstrap.users-list-group', ['users' => $property->owners])
@@ -14,10 +14,10 @@
 <div class="card mb-3">
 
 	@component('partials.bootstrap.card-header')
-		<small class="text-muted float-right">
-			Users living at property
-		</small>
 		Residents
+		@slot('small')
+			Users living at property
+		@endslot
 	@endcomponent
 
 	@include('partials.bootstrap.users-list-group', ['users' => $property->currentResidents()])
