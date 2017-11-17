@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PropertyUpdateRequest;
 use App\Http\Requests\StorePropertyRequest;
-use App\Http\Requests\UpdatePropertyRequest;
 use App\Property;
-use App\Services\PropertyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -93,20 +92,19 @@ class PropertyController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\PropertyUpdateRequest $request
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePropertyRequest $request, $id)
+    public function update(PropertyUpdateRequest $request, $id)
     {
         $property = Property::findOrFail($id);
         $property->fill($request->input());
         $property->save();
 
-        $this->successMessage('The property was updated');
+        $property->owners()->sync($request->owners);
 
-        Cache::tags('properties')->flush();
-
+        $this->successMessage('The property ' . $property->present()->shortName . ' was updated');
         return back();
     }
 

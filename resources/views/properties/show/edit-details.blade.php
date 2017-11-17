@@ -22,17 +22,34 @@
 
 		@include('partials.errors-block')
 
-		<form method="POST" action="{{ route('properties.update', $property->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}				
+		<div class="row">
+			<div class="col-12 col-lg-6">
 
-			@include('properties.partials.form')
+				<div class="card mb-3">
 
-			@component('partials.save-button')
-				Save Changes
-			@endcomponent
+					@component('partials.card-header')
+						Property Details
+					@endcomponent
 
-		</form>
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('properties.update', $property->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}				
+
+							@include('properties.partials.form')
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 	@endcomponent
 

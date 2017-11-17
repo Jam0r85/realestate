@@ -4,10 +4,7 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="propertyOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-details']) }}" title="Edit Property Details">
-			Edit Property Details
-		</a>
-		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'edit-owners']) }}" title="Manage Owners">
-			Manage Owners
+			Edit Property
 		</a>
 		<a class="dropdown-item" href="{{ route('properties.show', [$property->id, 'statement-settings']) }}" title="Rental Statement Settings">
 			Rental Statement Settings
