@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover table-responsive-sm">
+<table class="table table-striped table-hover table-responsive-md">
 	@if (isset($header))
 		<thead class="{{ user_setting('dark_mode') ? 'thead-dark' : '' }}">
 			{{ $header }}
