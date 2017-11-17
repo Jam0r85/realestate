@@ -321,7 +321,7 @@ class Invoice extends BaseModel
      */
     public function getStatementAttribute()
     {
-        return $this->statements()->first();
+        return $this->statements->first();
     }
 
     /**
@@ -331,7 +331,7 @@ class Invoice extends BaseModel
      */
     public function hasStatement()
     {
-        return (boolean) $this->statements()->first();
+        return (boolean) $this->statements->first();
     }
 
     /**

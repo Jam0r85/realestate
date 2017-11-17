@@ -34,12 +34,12 @@ class InvoiceController extends BaseController
      */
     public function index($group_name = null)
     {
-        $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
+        $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments','statements')
             ->withTrashed()
             ->whereNotNull('paid_at')
             ->latest();
 
-        $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments')
+        $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments','statements')
             ->whereNull('paid_at')
             ->latest();
 
