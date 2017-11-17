@@ -9,7 +9,7 @@
 						<td>{!! $statement->present()->recipient !!}</td>
 						<td class="text-right">
 							{!! $statement->present()->branchAddress !!}
-							@if ($vat_number = $invoice->present()->branchVatNumber)
+							@if ($vat_number = $statement->present()->branchVatNumber)
 								<p>{{ $vat_number }}</p>
 							@endif
 						</td>
