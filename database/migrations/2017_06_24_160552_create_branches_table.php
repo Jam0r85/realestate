@@ -19,6 +19,7 @@ class CreateBranchesTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
             $table->text('address')->nullable();
+            $table->string('vat_number')->nullable();
             $table->timestamps();
         });
     }

@@ -124,6 +124,14 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
+	public function branchVatNumber()
+	{
+		return 'VAT No. ' . $this->tenancy->property->branch->vat_number;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function status()
 	{
 		if ($this->sent_at) {

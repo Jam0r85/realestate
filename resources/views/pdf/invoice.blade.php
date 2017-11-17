@@ -8,7 +8,12 @@
 				<table>
 					<tr>
 						<td>{!! $invoice->present()->letterRecipient !!}</td>
-						<td class="text-right">{!! $invoice->present()->branchAddress !!}</td>
+						<td class="text-right">
+							{!! $invoice->present()->branchAddress !!}
+							@if ($vat_number = $invoice->present()->branchVatNumber)
+								<p>{{ $vat_number }}</p>
+							@endif
+						</td>
 					</tr>
 				</table>
 			</div>

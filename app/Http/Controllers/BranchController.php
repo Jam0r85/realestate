@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Branch;
+use App\Http\Requests\BranchUpdateRequest;
 use App\Http\Requests\StoreBranchRequest;
-use App\Http\Requests\UpdateBranchRequest;
 use Illuminate\Http\Request;
 
 class BranchController extends BaseController
@@ -73,11 +73,11 @@ class BranchController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Request\UpdateBranchRequest $request
+     * @param \App\Http\Request\BranchUpdateRequest $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBranchRequest $request, $id)
+    public function update(BranchUpdateRequest $request, $id)
     {
         $branch = Branch::findOrFail($id);
         $branch->fill($request->input());

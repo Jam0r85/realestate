@@ -81,8 +81,18 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function branchAddress()
 	{
-		if ($this->property && $this->property->branch) {
+		if ($this->property) {
 			return $this->property->branch->present()->location;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function branchVatNumber()
+	{
+		if ($this->property) {
+			return 'VAT No. ' . $this->property->branch->vat_number;
 		}
 	}
 
