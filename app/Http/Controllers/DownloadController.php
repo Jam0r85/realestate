@@ -21,33 +21,6 @@ class DownloadController extends Controller
     }
 
     /**
-     * Check whether the file exists either locally or in the backup.
-     * 
-     * @param string $file
-     * @return void
-     */
-    public function checkFileExists($file, $exists = false)
-    {
-        if (Storage::exists($file)) {
-            $exists = true;
-        }
-
-        return $exists;
-    }
-
-    /**
-     * @param  [type]
-     * @param  [type]
-     * @return [type]
-     */
-    public function store($file, $pdf)
-    {
-        if (!$this->checkFileExists($file)) {
-            return Storage::put($file, $pdf->output());
-        }
-    }
-
-    /**
      * Download a rental statement.
      * 
      * @param integer $id
@@ -56,7 +29,7 @@ class DownloadController extends Controller
     public function statement($id)
     {
         $statement = Statement::withTrashed()->findOrFail($id);
-        return $statement->createPdf();
+        return $statement->streamPdf();
     }
 
     /**
@@ -68,7 +41,7 @@ class DownloadController extends Controller
     public function invoice($id)
     {
         $invoice = Invoice::withTrashed()->findOrFail($id);
-        return $invoice->createPdf();
+        return $invoice->streamPdf();
     }
 
     /**
@@ -81,6 +54,6 @@ class DownloadController extends Controller
     public function payment($id, $return = 'stream')
     {
         $payment = Payment::findOrFail($id);
-        return $payment->createPdf();
+        return $payment->streamPdf();
     }
 }

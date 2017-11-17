@@ -14,7 +14,7 @@ class FileModel extends BaseModel
 	public function storagePath()
 	{
 		if (!$this->storageFolder) {
-			$this->storageFolder = $this->classNamePlural();
+			$this->storageFolder = $this->classNamePlural() . '/' . $this->id . '/';
 		}
 
 		return $this->storageFolder;
@@ -29,7 +29,7 @@ class FileModel extends BaseModel
 	public function storageFileName($fileType = '.pdf')
 	{
 		if (!$this->fileName) {
-			$this->storageFileName = $this->id . '/' . $this->updated_at->toIso8601String() . $fileType;
+			$this->storageFileName = $this->updated_at->toIso8601String() . $fileType;
 		}
 
 		return $this->storageFileName;

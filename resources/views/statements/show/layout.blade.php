@@ -2,24 +2,33 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('statements.partials.statement-dropdown-menu')
-			</div>
-
-			@component('partials.header')
-				Statement #{{ $statement->id }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('statements.partials.statement-dropdown-menu')
 		</div>
+
+		@component('partials.header')
+			Statement #{{ $statement->id }}
+		@endcomponent
 		
 	@endcomponent
 
-	<section class="section">
-		<div class="container">
+	@component('partials.bootstrap.section-with-container')
+
+		<div class="row">
+			<div class="col-12 col-lg-3">
+
+
+
+			</div>
+			<div class="col-12 col-lg-3">
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+			</div>
+		</div>
 
 			@includeWhen($statement->canBeSent(), 'partials.alerts.primary', ['slot' => 'This statement has been paid and can be sent to the landlords.'])
 
@@ -259,7 +268,6 @@
 				</div>
 			</div>
 
-		</div>
-	</section>
+	@endcomponent
 
 @endsection

@@ -24,16 +24,38 @@ class PdfModel extends FileModel
 	}
 
 	/**
+	 * Stream the PDF to the browser.
+	 * 
+	 * @return \Illuminate\Http\Response
+	 */
+	public function streamPdf()
+	{
+		return $this->createPdf('stream');
+	}
+
+	/**
+	 * Download the PDF as a file.
+	 * 
+	 * @return \Illuminate\Http\Response
+	 */
+	public function downloadPdf()
+	{
+		return $this->createPdf('download');
+	}
+
+	/**
 	 * Create the PDF and return it.
 	 *
 	 * @param  string $return
 	 * @return [type]
 	 */
-	public function createPdf($return = 'stream')
+	public function createPdf($return, $fileName = null)
 	{
+		$title = $this->classNameSingular() . '-' . $this->id;
+
 		return PDF::loadView($this->viewName(), [
             $this->classNameSingular() => $this,
-            'title' => $this->classNameSingular() . '-' . $this->id
-        ])->$return();
+            'title' => $title
+        ])->$return($title);
 	}
 }
