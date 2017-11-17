@@ -56,7 +56,7 @@
 				margin: 0;
 			}
 			.section {
-				margin-bottom: 2rem;
+				margin-bottom: 1.8rem;
 			}
 			h1 {
 				font-size: 3rem;
@@ -106,7 +106,7 @@
 			table.table-list {
 				border-spacing: 0;
 				border: 1px solid #999;
-				margin-bottom: 2rem;
+				margin-bottom: 1rem;
 			}
 			table.table-list th {
 				font-weight: bold;
@@ -123,7 +123,7 @@
 				padding: 0;
 			}
 			ul.list-unstyled li {
-				margin-bottom: 0.2rem;
+				margin-bottom: 0.1rem;
 			}
 			ul.list-inline {
 			    list-style-type: none;
