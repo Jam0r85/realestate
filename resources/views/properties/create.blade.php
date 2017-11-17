@@ -14,34 +14,36 @@
 
 		@include('partials.errors-block')
 
-		<form method="POST" action="{{ route('properties.store') }}">
-			{{ csrf_field() }}
+		<div class="card mb-3">
 
-			<div class="form-group">
-				<label for="branch_id">Branch</label>
-				<select name="branch_id" class="form-control">
-					@foreach (branches() as $branch)
-						<option value="{{ $branch->id }}">{{ $branch->name }}</option>
-					@endforeach
-				</select>
-			</div>
-
-			@include('properties.partials.form')
-
-			<div class="form-group">
-				<label for="owners">Owners</label>
-				<select name="owners[]" class="form-control select2" multiple>
-					@foreach (users() as $user)
-						<option value="{{ $user->id }}">{{ $user->name }}</option>
-					@endforeach
-				</select>
-			</div>
-
-			@component('partials.save-button')
-				Create Property
+			@component('partials.card-header')
+				Property Details
 			@endcomponent
 
-		</form>
+			<div class="card-body">
+
+				<form method="POST" action="{{ route('properties.store') }}">
+					{{ csrf_field() }}
+
+					<div class="form-group">
+						<label for="branch_id">Branch</label>
+						<select name="branch_id" class="form-control">
+							@foreach (branches() as $branch)
+								<option value="{{ $branch->id }}">{{ $branch->name }}</option>
+							@endforeach
+						</select>
+					</div>
+
+					@include('properties.partials.form')
+
+					@component('partials.save-button')
+						Create Property
+					@endcomponent
+
+				</form>
+
+			</div>
+		</div>
 
 	@endcomponent
 

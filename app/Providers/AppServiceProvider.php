@@ -16,6 +16,7 @@ use App\Observers\ExpenseObserver;
 use App\Observers\InvoiceGroupObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PaymentObserver;
+use App\Observers\PropertyObserver;
 use App\Observers\StatementObserver;
 use App\Observers\StatementPaymentObserver;
 use App\Observers\UserObserver;
@@ -59,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         Statement::observe(StatementObserver::class);
         StatementPayment::observe(StatementPaymentObserver::class);
         Agreement::observe(AgreementObserver::class);
+        Property::observe(PropertyObserver::class);
     }
 
     /**

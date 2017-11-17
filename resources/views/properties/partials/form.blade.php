@@ -42,7 +42,7 @@
 	<label for="owners">Owners</label>
 	<select name="owners[]" id="owners" class="form-control select2" multiple>
 		@foreach (users() as $user)
-			<option @if ($property->owners->contains($user->id)) selected @endif value="{{ $user->id }}">
+			<option @if (isset($property) && $property->owners->contains($user->id)) selected @endif value="{{ $user->id }}">
 				{{ $user->present()->selectName }}
 			</option>
 		@endforeach

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PropertyStoreRequest;
 use App\Http\Requests\PropertyUpdateRequest;
-use App\Http\Requests\StorePropertyRequest;
 use App\Property;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class PropertyController extends BaseController
 {
@@ -62,18 +61,22 @@ class PropertyController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePropertyRequest  $request
+     * @param  \App\Http\Requests\PropertyStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePropertyRequest $request)
+    public function store(PropertyStoreRequest $request)
     {
-        $service = new PropertyService();
-        $property = $service->createProperty($request->input());
+        $property = new Property();
+        $property->fill($request->input());
+        $property->save();
 
-        $this->successMessage('The property was created');
+        $property->settings()->storeDefault();
 
-        Cache::tags('properties')->flush();
+        if ($request->has('owners')) {
+            $property->owners()->attach($request->owners);
+        }
 
+        $this->successMessage('The property ' . $property->present()->shortAddress . ' was created');
         return redirect()->route('properties.show', $property->id);
     }
 
@@ -122,8 +125,6 @@ class PropertyController extends BaseController
 
         $this->successMessage('Statement settings updated');
 
-        Cache::tags('properties')->flush();
-
         return back();
     }
 
@@ -156,8 +157,6 @@ class PropertyController extends BaseController
         $property = Property::findOrFail($id);
         $property->delete();
 
-        Cache::tags('properties')->flush();
-
         $this->successMessage('The property was archived');
 
         return back();
@@ -174,8 +173,6 @@ class PropertyController extends BaseController
     {
         $property = Property::onlyTrashed()->findOrFail($id);
         $property->restore();
-
-        Cache::tags('properties')->flush();
 
         $this->successMessage('The property was restored');
 
