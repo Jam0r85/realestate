@@ -32,22 +32,16 @@
 
 					@component('partials.card-header')
 						Unsent and/or Unpaid Statements
-						@slot('small')
-							Ready statements are sent every day at 
-							<span class="text-warning">
-								<b>{!! get_setting('statement_send_time', 'Not set, update application settings') !!}</b>
-							</span>
-						@endslot
 					@endcomponent
 
-					@include('statements.partials.unsent-statements-table', ['statements' => $unsent_statements])
+					@include('statements.partials.statements-table', ['statements' => $unsent_statements])
 
 				</div>
 
 			@endif
 		@endif
 
-		@include('statements.partials.sent-statements-table')
+		@include('statements.partials.statements-table')
 
 	@endcomponent
 

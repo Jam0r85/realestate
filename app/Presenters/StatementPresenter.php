@@ -90,6 +90,24 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
+	public function tenancyName()
+	{
+		return $this->tenancy->present()->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function propertyAddress($length = 'short')
+	{
+		$length = $length . 'Address';
+
+		return $this->tenancy->property->present()->$length;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function formattedAmount()
 	{
 		return currency($this->amount);
@@ -101,5 +119,33 @@ class StatementPresenter extends Presenter
 	public function branchAddress()
 	{
 		return $this->tenancy->property->branch->present()->location;	
+	}
+
+	/**
+	 * @return string
+	 */
+	public function status()
+	{
+		if ($this->sent_at) {
+			return 'Sent';
+		} elseif ($this->paid_at) {
+			return 'Paid';
+		} elseif (!count($this->payments)) {
+			return 'No Payments';
+		} else {
+			return 'Unpaid';
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function statusWithDate()
+	{
+		if ($this->status == 'Sent') {
+			return $this->status . ' ' . date_formatted($this->sent_at);
+		}
+		
+		return $this->status;
 	}
 }
