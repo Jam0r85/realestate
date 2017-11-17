@@ -51,6 +51,12 @@
 						<textarea name="note" id="note" class="form-control" rows="4"></textarea>
 					</div>
 
+					<div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="send_notifications" value="true" id="send_notifications" /> Send notification to tenants
+						</label>
+					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

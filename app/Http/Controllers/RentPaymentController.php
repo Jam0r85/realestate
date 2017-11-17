@@ -87,7 +87,9 @@ class RentPaymentController extends BaseController
 
     	$payment->users()->attach($tenancy->tenants);
 
-        Notification::send($payment->users, new TenantRentPaymentReceived($payment));
+        if ($request->has('send_notifications')) {
+            Notification::send($payment->users, new TenantRentPaymentReceived($payment));
+        }
 
     	$this->successMessage('The payment of ' . currency($payment->amount) . ' was recorded for the tenancy ' . $tenancy->name);
     	return back();
