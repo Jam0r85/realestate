@@ -105,7 +105,7 @@
 			}
 			table.table-list {
 				border-spacing: 0;
-				border: 1px solid #999;
+				border-collapse: collapse;
 				margin-bottom: 1rem;
 			}
 			table.table-list th {
