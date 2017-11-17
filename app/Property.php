@@ -27,8 +27,17 @@ class Property extends BaseModel
      */
     public function toSearchableArray()
     {
-    	$array = $this->only('name','created_at');
-    	$array['owners'] = $this->owners->pluck('name')->toArray();
+    	$array = $this->only('house_name','hosue_number','address1','address2','address3','county','town','postcode','country');
+    	$array['branch'] = $this->branch->name;
+
+    	foreach ($this->owners as $owner) {
+    		$names[] = $owner->present()->fullName;
+    	}
+
+    	if (isset($names) && count($names)) {
+    		$array['owners'] = $names;
+    	}
+
     	return $array;
     }
 
