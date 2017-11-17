@@ -10,10 +10,10 @@
 	    	body {
 	    		margin: 0;
 	    		line-height: 20px;
-	    		font-size: 16px;
+	    		font-size: 15px;
 	    	}
 	    	.container {
-	    		margin: 2rem 3rem 3rem 3rem;
+	    		margin: 2rem 5rem 3rem 5rem;
 	    	}
 			.header {
 				text-align: right;
