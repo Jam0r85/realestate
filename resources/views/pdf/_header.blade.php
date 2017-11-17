@@ -19,10 +19,6 @@
 				text-align: right;
 				height: 80px;
 			}
-			.header img {
-				padding: 1rem;
-				margin-right: 2rem;
-			}
 			.header h1 {
 				margin: 0;
 				font-size: 1.6rem;
