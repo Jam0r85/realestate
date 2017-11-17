@@ -13,7 +13,7 @@
 	    		font-size: 15px;
 	    	}
 	    	.container {
-	    		margin: 2rem 5rem 3rem 5rem;
+	    		margin: 2rem 5rem 1rem 5rem;
 	    	}
 			.header {
 				text-align: right;
