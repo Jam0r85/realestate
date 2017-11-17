@@ -2,15 +2,11 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			@component('partials.header')
-				New Invoice
-			@endcomponent
-
-		</div>
+		@component('partials.header')
+			New Invoice
+		@endcomponent
 
 	@endcomponent
 
@@ -62,9 +58,9 @@
 				<textarea name="terms" id="terms" class="form-control" rows="7">{{ get_setting('invoice_default_terms') }}</textarea>
 			</div>
 
-			<button type="submit" class="btn btn-primary">
-				<i class="fa fa-save"></i> Create Invoice
-			</button>
+			@component('partials.save-button')
+				Create Invoice
+			@endcomponent
 
 		</form>
 

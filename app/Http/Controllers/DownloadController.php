@@ -19,7 +19,6 @@ class DownloadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        PDF::setOptions(['isHtml5ParserEnabled' => true]);
     }
 
     /**

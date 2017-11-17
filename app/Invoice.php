@@ -125,8 +125,7 @@ class Invoice extends BaseModel
 	 */
     public function property()
     {
-    	return $this->belongsTo('App\Property')
-            ->withTrashed();
+    	return $this->belongsTo('App\Property')->withTrashed();
     }
 
     /**

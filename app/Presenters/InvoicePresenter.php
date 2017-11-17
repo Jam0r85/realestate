@@ -50,6 +50,16 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
+	public function propertyAddress()
+	{
+		if ($this->property) {
+			return $this->property->present()->shortAddress;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
 	public function branchAddress()
 	{
 		if ($this->property->branch->address) {
