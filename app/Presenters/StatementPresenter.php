@@ -138,6 +138,14 @@ class StatementPresenter extends Presenter
 			return 'Sent';
 		} elseif ($this->paid_at) {
 			return 'Paid';
+		} elseif (count($this->payments)) {
+			$return = 'Pending';
+			foreach ($this->payments as $payment) {
+				if (!$payment->sent_at) {
+					$return = 'Unpaid';
+				}
+			}
+			return $return;
 		} elseif (!count($this->payments)) {
 			return 'No Payments';
 		} else {
