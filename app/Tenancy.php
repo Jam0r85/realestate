@@ -33,8 +33,8 @@ class Tenancy extends BaseModel
     public function toSearchableArray()
     {
         $array = $this->only('vacated_on','name');
-        $array['property'] = $this->property->present()->fullAddress;
-        $array['rent'] = $this->currentRent ? $this->currentRent->amount : null;
+        $array['property'] = $this->present()->propertyAddress;
+        $array['rent'] = $this->present()->rentAmount;
         $array['started'] = $this->first_agreement ? $this->first_agreement->starts_at : null;
         $array['landlords'] = $this->property->owners->pluck('name');
         $array['service'] = $this->service->name;
@@ -48,22 +48,12 @@ class Tenancy extends BaseModel
 	 * @var array
 	 */
 	protected $appends = [
-        'name',
         'rent_amount',
         'service_charge_amount',
         'service_charge_formatted',
         'days_overdue',
         'started_at',
         'rent_balance'
-    ];
-
-    /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = [
-        //
     ];
 
     /**
@@ -312,20 +302,6 @@ class Tenancy extends BaseModel
     public function deposit()
     {
         return $this->hasOne('App\Deposit');
-    }
-
-    /**
-     * Get the tenancy's name.
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        if (count($this->tenants)) {
-            return implode(' & ', $this->tenants->pluck('name')->toArray());
-        }
-
-        return 'Tenancy #' . $this->id;
     }
 
     /**

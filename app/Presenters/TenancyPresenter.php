@@ -71,4 +71,12 @@ class TenancyPresenter extends Presenter
 	{
 		return $this->first_agreement ? $this->first_agreement->starts_at : null;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function propertyAddress()
+	{
+		return $this->property->present()->fullAddress();
+	}
 }
