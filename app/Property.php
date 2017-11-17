@@ -58,8 +58,6 @@ class Property extends BaseModel
 	protected $fillable = [
 		'branch_id',
 		'bank_account_id',
-		'display_name',
-		'name',
 		'house_name',
 		'house_number',
 		'address1',
