@@ -79,9 +79,11 @@ class StatementPaymentController extends BaseController
     {
         $payment = StatementPayment::findOrFail($id);
         $payment->sent_at = $request->sent_at;
+        $payment->amount = $request->amount;
+        $payment->bank_account_id = $request->bank_account_id;
         $payment->save();
 
-        $this->successMessage('The changes were saved for the payment');
+        $this->successMessage('The changes were saved for this payment');
         return back();
     }
 

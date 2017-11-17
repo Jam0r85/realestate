@@ -15,33 +15,6 @@ class StatementPayment extends BaseModel
      * @var string
      */
     protected $presenter = 'App\Presenters\StatementPaymentPresenter';
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->only('sent_at','created_at','amount');
-        $array['owner'] = $this->owner->present()->fullName;
-        $array['method'] = $this->present()->method;
-
-        foreach ($this->users as $user) {
-            $users[] = [
-                'name' => $user->present()->fullName,
-            ];
-        }
-
-        if (isset($users) && count($users)) {
-            $array['users'] = $users;
-        }
-
-        $array['tenancy'] = $this->present()->tenancyName;
-        $array['property'] = $this->present()->propertyName;
-
-        return $array;
-    }
     
     /**
      * The attributes that should be mutated to dates.
