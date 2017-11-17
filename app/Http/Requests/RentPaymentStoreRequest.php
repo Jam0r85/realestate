@@ -24,7 +24,6 @@ class RentPaymentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric',
             'payment_method_id' => 'required|numeric'
         ];
     }

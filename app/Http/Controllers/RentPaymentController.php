@@ -79,7 +79,7 @@ class RentPaymentController extends BaseController
     	$tenancy = Tenancy::withTrashed()->findOrFail($id);
 
     	$payment = new Payment();
-    	$payment->amount = $request->amount ? $request->amount : $tenancy->currentRent->amount;
+    	$payment->amount = $request->amount ?? $tenancy->currentRent->amount;
     	$payment->payment_method_id = $request->payment_method_id;
     	$payment->note = $request->note;
 
