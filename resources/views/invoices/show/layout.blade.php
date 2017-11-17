@@ -28,7 +28,7 @@
 
 		@endif
 
-		@if ($invoice->isPaid())
+		@if ($invoice->paid_at)
 
 			@component('partials.alerts.success')
 				Invoice {{ $invoice->name }} was <b>Paid</b> on {{ date_formatted($invoice->paid_at) }}

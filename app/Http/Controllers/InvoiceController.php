@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyInvoiceRequest;
+use App\Http\Requests\InvoiceStoreRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoicePaymentRequest;
-use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Invoice;
 use App\InvoiceGroup;
@@ -107,23 +107,26 @@ class InvoiceController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\InvoiceStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(InvoiceStoreRequest $request)
     {
+        $group = InvoiceGroup::findOrFail($request->invoice_group_id);
+
         $invoice = new Invoice();
-        $invoice->invoice_group_id = $request->invoice_group_id;
         $invoice->property_id = $request->property_id;
         $invoice->number = $request->number;
         $invoice->terms = $request->terms;
-        $invoice->save();
+
+        $group->invoices()->save($invoice);
 
         if ($request->has('users')) {
             $invoice->users()->attach($request->users);
         }
 
-        $this->successMessage('The invoice ' . $invoice->name . ' was created');
+        $this->successMessage('The invoice ' . $invoice->present()->name . ' was created');
+        
         return redirect()->route('invoices.show', $invoice->id);
     }
 
