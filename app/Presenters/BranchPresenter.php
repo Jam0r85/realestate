@@ -9,7 +9,7 @@ class BranchPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-    public function address($letter = true)
+    public function location($letter = true)
     {
     	if ($letter) {
     		return nl2br($this->address);

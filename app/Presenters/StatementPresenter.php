@@ -100,8 +100,6 @@ class StatementPresenter extends Presenter
 	 */
 	public function branchAddress()
 	{
-		if ($this->tenancy->property->branch->address) {
-			return $this->tenancy->property->branch->present()->address;
-		}		
+		return $this->tenancy->property->branch->present()->location;	
 	}
 }

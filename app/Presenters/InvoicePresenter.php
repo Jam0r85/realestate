@@ -53,7 +53,7 @@ class InvoicePresenter extends BasePresenter
 	public function branchAddress()
 	{
 		if ($this->property->branch->address) {
-			return $this->property->branch->present()->address;
+			return $this->property->branch->present()->location;
 		}
 	}
 
