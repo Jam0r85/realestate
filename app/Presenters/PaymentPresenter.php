@@ -37,4 +37,14 @@ class PaymentPresenter extends Presenter
 			return $this->parent->present()->name;
 		}
 	}
+
+	/**
+	 * @return string
+	 */
+	public function branchAddress()
+	{
+		if ($this->parent_type == 'tenancies') {
+			return $this->parent->property->branch->present()->location;
+		}
+	}
 }

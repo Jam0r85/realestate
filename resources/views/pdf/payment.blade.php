@@ -5,6 +5,14 @@
 		<div class="content">
 
 			<div class="section">
+				<table>
+					<tr>
+						<td class="text-right">{!! $payment->present()->branchAddress !!}</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="section">
 				<h2>
 					Receipt #{{ $payment->id }}
 				</h2>
