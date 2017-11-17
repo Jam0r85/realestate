@@ -34,6 +34,30 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
+	public function usersList()
+	{
+		foreach ($this->users as $user) {
+			$names[] = $user->present()->fullName;
+		}
+
+		if (isset($names) && count($names)) {
+			return implode(' & ', $names);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function trashedIcon()
+	{
+		if ($this->deleted_at) {
+			return '<i class="fa fa-trash"></i>';
+		}
+	}
+
+	/**
+	 * @return string
+	 */
 	public function fullDate($date = 'created_at')
 	{
 		return longdate_formatted($this->$date);

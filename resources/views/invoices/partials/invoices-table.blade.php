@@ -19,10 +19,8 @@
 				</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td>{{ $invoice->present()->propertyAddress }}</td>
-				<td>{!! $invoice->trashed() ? '<span class="text-muted"><i class="fa fa-archive"></i> Archived</span>' : currency($invoice->total) !!}</td>
-				<td>
-					@include('partials.users-inline', ['users' => $invoice->users])
-				</td>
+				<td>{{ currency($invoice->total) }}</td>
+				<td>{{ $invoice->present()->usersList }}</td>
 				<td class="text-right">
 					<a href="{{ route('downloads.invoice', $invoice->id) }}" class="btn btn-primary btn-sm" target="_blank">
 						Download
