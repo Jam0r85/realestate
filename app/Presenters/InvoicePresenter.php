@@ -21,7 +21,7 @@ class InvoicePresenter extends BasePresenter
 			return $this->statement->present()->recipient;
 		}
 
-		return $this->usersList . '<br />' . $this->recipient;
+		return $this->usersList . '<br />' . nl2br($this->recipient);
 	}
 
 	/**
