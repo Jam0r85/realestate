@@ -14,6 +14,36 @@ class BaseModel extends Model
 	protected $perPage = 30;
 
 	/**
+	 * Get the class name.
+	 * 
+	 * @return string
+	 */
+	public function className()
+	{
+		return strtolower(class_basename($this));
+	}
+
+	/**
+	 * Get the singular class name.
+	 * 
+	 * @return string
+	 */
+	public function classNameSingular()
+	{
+		return str_singular($this->className());
+	}
+
+	/**
+	 * Get the singular class name.
+	 * 
+	 * @return string
+	 */
+	public function classNamePlural()
+	{
+		return str_plural($this->className());
+	}
+
+	/**
 	 * Model can have many settings.
 	 */
 	public function oldSettings()

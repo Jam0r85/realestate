@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\Payment;
 use App\Statement;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,33 +21,54 @@ class DownloadController extends Controller
     }
 
     /**
+     * Check whether the file exists either locally or in the backup.
+     * 
+     * @param string $file
+     * @return void
+     */
+    public function checkFileExists($file, $exists = false)
+    {
+        if (Storage::exists($file)) {
+            $exists = true;
+        }
+
+        return $exists;
+    }
+
+    /**
+     * @param  [type]
+     * @param  [type]
+     * @return [type]
+     */
+    public function store($file, $pdf)
+    {
+        if (!$this->checkFileExists($file)) {
+            return Storage::put($file, $pdf->output());
+        }
+    }
+
+    /**
      * Download a rental statement.
      * 
      * @param integer $id
-     * @param string $return
      * @return
      */
-    public function statement($id, $return = 'stream')
+    public function statement($id)
     {
-        return PDF::loadView('pdf.statement', [
-            'statement' => Statement::withTrashed()->findOrFail($id),
-            'title' => 'Statement ' . $id
-        ])->$return();
+        $statement = Statement::withTrashed()->findOrFail($id);
+        return $statement->createPdf();
     }
 
     /**
      * Download an invoice.
      * 
      * @param integer $id
-     * @param string $return
      * @return
      */
-    public function invoice($id, $return = 'stream')
+    public function invoice($id)
     {
-        return PDF::loadView('pdf.invoice', [
-            'invoice' => Invoice::withTrashed()->findOrFail($id),
-            'title' => 'Invoice ' . $id
-        ])->$return();
+        $invoice = Invoice::withTrashed()->findOrFail($id);
+        return $invoice->createPdf();
     }
 
     /**
@@ -60,9 +80,7 @@ class DownloadController extends Controller
      */
     public function payment($id, $return = 'stream')
     {
-        return PDF::loadView('pdf.payment', [
-            'payment' => Payment::findOrFail($id),
-            'title' => 'Payment ' . $id
-        ])->$return();
+        $payment = Payment::findOrFail($id);
+        return $payment->createPdf();
     }
 }

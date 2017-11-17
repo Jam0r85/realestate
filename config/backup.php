@@ -63,7 +63,7 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'spaces'
+                'backup'
             ],
         ],
     ],
@@ -114,7 +114,7 @@ return [
     'monitorBackups' => [
         [
             'name' => env('APP_NAME'),
-            'disks' => ['spaces'],
+            'disks' => ['backup'],
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],

@@ -10,13 +10,12 @@ use App\Notifications\StatementSentNotification;
 use App\Settings\StatementData;
 use App\StatementPayment;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Notification;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
-class Statement extends BaseModel
+class Statement extends PdfModel
 {
     use Searchable;
     use SoftDeletes;

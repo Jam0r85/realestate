@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
-class Invoice extends BaseModel
+class Invoice extends PdfModel
 {
     use SoftDeletes;
     use Searchable;
