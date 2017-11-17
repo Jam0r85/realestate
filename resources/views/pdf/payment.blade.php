@@ -4,13 +4,14 @@
 	<div class="container">
 		<div class="content">
 
-			<h1 class="mb-0">
-				Receipt #{{ $payment->id }}
-			</h1>
-
-			<h2 class="text-muted">
-				{{ date_formatted($payment->created_at) }}
-			</h2>
+			<div class="section">
+				<h2>
+					Receipt #{{ $payment->id }}
+				</h2>
+				<h5>
+					{{ date_formatted($payment->created_at) }}
+				</h5>
+			</div>
 
 			<hr />
 
