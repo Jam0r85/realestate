@@ -7,7 +7,7 @@
 			<div class="section">
 				<table>
 					<tr>
-						<td>{!! $invoice->present()->recipient !!}</td>
+						<td>{!! $invoice->present()->letterRecipient !!}</td>
 						<td class="text-right">{!! $invoice->present()->branchAddress !!}</td>
 					</tr>
 				</table>
@@ -22,11 +22,13 @@
 				</h5>
 			</div>
 
+			@if ($address = $invoice->present()->propertyAddress('full'))
 			<div class="section">
 				<ul class="list-unstyled">
-					<li><strong>Property:</strong> {{ $invoice->property->present()->fullAddress }}</li>
+					<li><strong>Property:</strong> {{ $address }}</li>
 				</ul>
 			</div>
+			@endif
 
 			<div class="section">
 				<table class="table-list">

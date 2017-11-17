@@ -31,7 +31,9 @@
 				<select name="property_id" class="form-control select2">
 					<option value="" disabled selected></option>
 					@foreach (properties() as $property)
-						<option value="{{ $property->id }}">{{ $property->name }}</option>
+						<option value="{{ $property->id }}">
+							{{ $property->present()->selectName }}
+						</option>
 					@endforeach
 				</select>
 			</div>
@@ -40,7 +42,9 @@
 				<label for="users">Users</label>
 				<select name="users[]" class="form-control select2" multiple>
 					@foreach (users() as $user)
-						<option value="{{ $user->id }}">{{ $user->name }}</option>
+						<option value="{{ $user->id }}">
+							{{ $user->present()->selectName }}
+						</option>
 					@endforeach
 				</select>
 			</div>

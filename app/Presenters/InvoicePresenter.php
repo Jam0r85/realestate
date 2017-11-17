@@ -15,20 +15,13 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function recipient()
+	public function letterRecipient()
 	{
 		if ($this->statement) {
 			return $this->statement->present()->recipient;
 		}
 
-		foreach ($this->users as $user) {
-			$names[] = $user->present()->fullName;
-			if (!isset($home)) {
-				$home = $user->home->present()->letter;
-			}
-		}
-
-		return implode(' & ', $names) . '<br />' . $this->recipient;
+		return $this->usersList . '<br />' . $this->recipient;
 	}
 
 	/**
@@ -74,10 +67,12 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function propertyAddress()
+	public function propertyAddress($length = 'short')
 	{
+		$method = $length . 'Address';
+
 		if ($this->property) {
-			return $this->property->present()->shortAddress;
+			return $this->property->present()->$method;
 		}
 	}
 
@@ -86,7 +81,7 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function branchAddress()
 	{
-		if ($this->property->branch->address) {
+		if ($this->property && $this->property->branch) {
 			return $this->property->branch->present()->location;
 		}
 	}
