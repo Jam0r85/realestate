@@ -1,3 +1,7 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userSendSmsMessage">
+	<i class="fa fa-comment"></i> Send SMS
+</button>
+
 <div class="btn-group">
 	<button class="btn btn-secondary dropdown-toggle" type="button" id="userOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		Options

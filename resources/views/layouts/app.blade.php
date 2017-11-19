@@ -226,10 +226,10 @@
                             <a class="nav-link" href="{{ route('users.show', [Auth::user()->id, 'user-notifications']) }}">
                                 @if (count(Auth::user()->unreadNotifications))
                                     <span class="badge badge-danger">
-                                        1
+                                        {{ count(Auth::user()->unreadNotifications) }} Unread
                                     </span>
                                 @endif
-                                <i class="fa fa-fw fa-bell"></i>
+                                <i class="fa fa-fw fa-bell"></i> Notifications
                             </a>
                         </li>
                         <li class="nav-item dropdown">
@@ -256,6 +256,9 @@
                                 </a>
                                 <a class="dropdown-item" href="{{ route('emails.index') }}">
                                     Sent E-Mails
+                                </a>
+                                <a class="dropdown-item" href="{{ route('sms.index') }}">
+                                    Sent SMS Messages
                                 </a>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout

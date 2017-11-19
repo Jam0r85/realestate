@@ -3,22 +3,30 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\NexmoMessage;
+use Illuminate\Notifications\Notification;
 
-class UserPasswordChanged extends Notification
+class UserSmsMessage extends Notification
 {
     use Queueable;
+
+    /**
+     * The message we are sending to the user.
+     * 
+     * @var string
+     */
+    public $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -29,21 +37,20 @@ class UserPasswordChanged extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['nexmo'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the Nexmo / SMS representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return NexmoMessage
      */
-    public function toMail($notifiable)
+    public function toNexmo($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new NexmoMessage)
+            ->content($this->message)
+            ->unicode();
     }
 
     /**
@@ -55,7 +62,8 @@ class UserPasswordChanged extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'content' => $this->message,
+            'number' => $notifiable->phone_number
         ];
     }
 }

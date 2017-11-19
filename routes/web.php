@@ -169,6 +169,7 @@ Route::prefix('users')->group(function () {
 	Route::put('{id}', 'UserController@update')->name('users.update');
 	Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
 	Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
+	Route::post('{user}/send-sms', 'SmsController@toUser')->name('users.send-sms');
 });
 
 Route::prefix('bank-accounts')->group(function () {
@@ -263,3 +264,6 @@ Route::prefix('documents')->group(function () {
 	Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show');
 	Route::put('{id}', 'DocumentController@update')->name('documents.update');
 });
+
+Route::get('sms', 'SmsController@index')->name('sms.index');
+Route::get('sms/delivery-status', 'SmsController@deliveryStatus')->name('sms.delivery-status');

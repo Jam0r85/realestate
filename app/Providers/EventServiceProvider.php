@@ -26,6 +26,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Statements\CreateReLettingFeeInvoiceItem',
             'App\Listeners\Statements\CreateManagementInvoiceItem'
         ],
+
+        'Illuminate\Notifications\Events\NotificationSent' => [
+            'App\Listeners\LogSmsNotification',
+        ],
     ];
 
     /**

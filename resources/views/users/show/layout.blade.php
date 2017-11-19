@@ -109,4 +109,6 @@
 
 	@endcomponent
 
+	@include('users.modals.user-send-sms-modal')
+
 @endsection
