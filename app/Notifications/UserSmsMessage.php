@@ -51,18 +51,4 @@ class UserSmsMessage extends Notification
             ->content($this->message)
             ->unicode();
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'content' => $this->message,
-            'number' => $notifiable->phone_number
-        ];
-    }
 }

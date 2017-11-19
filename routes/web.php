@@ -266,4 +266,4 @@ Route::prefix('documents')->group(function () {
 });
 
 Route::get('sms', 'SmsController@index')->name('sms.index');
-Route::get('sms/delivery-status', 'SmsController@deliveryStatus')->name('sms.delivery-status');
+Route::post('sms/delivery-status', 'SmsController@deliveryStatus')->name('sms.delivery-status');
