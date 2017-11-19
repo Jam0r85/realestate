@@ -5,7 +5,7 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			Sent E-Mails History
+			SMS History
 		@endcomponent
 
 	@endcomponent
@@ -17,7 +17,12 @@
 			<div class="card mb-3">
 
 				@component('partials.card-header')
+					<span class="float-right text-muted">
+						<small>{{ $message->messageIds() }}</small>
+					</span>
+
 					{{ $message->recipient->present()->fullName }}
+
 					@slot('small')
 						{{ datetime_formatted($message->created_at) }}
 					@endslot

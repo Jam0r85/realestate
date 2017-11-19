@@ -7,6 +7,7 @@ use App\Notifications\UserSmsMessage;
 use App\SmsHistory;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SmsController extends BaseController
 {
@@ -44,6 +45,11 @@ class SmsController extends BaseController
      */
     public function deliveryStatus(Request $request)
     {
+		if (!isset($request->messageId) OR !isset($request->status)) {
+			Log::error('Not a valid delivery receipt');
+		    return;
+		}
+
     	// Loop for all main SMS messages with the given phone number.
 		$entries = SmsHistory::where('phone_number', $request->to)->get();
 

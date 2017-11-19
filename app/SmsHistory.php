@@ -124,6 +124,24 @@ class SmsHistory extends Model
     }
 
     /**
+     * Get the message IDs linked to this message.
+     * 
+     * @return string
+     */
+    public function messageIds()
+    {
+        foreach ($this->messages as $message) {
+            if (array_has($message, 'message-id')) {
+                $ids[] = $message['message-id'];
+            } elseif (array_has($message, 'messageId')) {
+                $ids[] = $message['messageId'];
+            }
+        }
+
+        return implode(', ', $ids);
+    }
+
+    /**
      * Get the status of the message.
      * 
      * @return string
