@@ -255,10 +255,10 @@
                                     Reports
                                 </a>
                                 <a class="dropdown-item" href="{{ route('emails.index') }}">
-                                    Sent E-Mails
+                                    E-Mail History
                                 </a>
                                 <a class="dropdown-item" href="{{ route('sms.index') }}">
-                                    Sent SMS Messages
+                                    SMS History
                                 </a>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout

@@ -54,7 +54,7 @@ class SmsHistory extends Model
      */
     protected $statusCodes = [
         '0' => [
-            'value' => 'Accepted, Sending..',
+            'value' => 'Sending..',
             'class' => 'info'
         ],
         '1' => [
