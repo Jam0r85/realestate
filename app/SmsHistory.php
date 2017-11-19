@@ -3,9 +3,29 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class SmsHistory extends Model
 {
+    use Searchable;
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('body');
+        $array['recipient'] = $this->recipient->present()->fullName;
+        $array['phone_number'] = [
+            $this->phone_number,
+            $this->recipient->phone_number
+        ];
+
+        return $array;
+    }
+
     /**
      * The table associated with the model.
      *
