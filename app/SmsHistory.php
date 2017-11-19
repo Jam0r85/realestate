@@ -48,19 +48,55 @@ class SmsHistory extends Model
     protected $casts = ['messages' => 'array'];
 
     /**
-     * The nexmo message statuses as taken from their API.
+     * The nexmo message status codes as taken from their API.
      * 
      * @var array
      */
-    protected $statuses = [
+    protected $statusCodes = [
         '0' => [
-            'value' => 'Sent',
-            'class' => 'success'
+            'value' => 'Accepted, Sending..',
+            'class' => 'info'
         ],
         '1' => [
             'value' => 'Throttled',
             'class' => 'warning'
         ],
+    ];
+
+    /**
+     * The nexmo message status messages as taken from their API.
+     * 
+     * @var array
+     */
+    protected $statusMessages = [
+        'delivered' => [
+            'value' => 'Delivered',
+            'class' => 'success'
+        ],
+        'expired' => [
+            'value' => 'Expired',
+            'class' => 'danger'
+        ],
+        'failed' => [
+            'value' => 'Failed',
+            'class' => 'danger'
+        ],
+        'rejected' => [
+            'value' => 'Rejected',
+            'class' => 'warning'
+        ],
+        'accepted' => [
+            'value' => 'Accepted',
+            'class' => 'info'
+        ],
+        'buffered' => [
+            'value' => 'Buffered',
+            'class' => 'info'
+        ],
+        'unknown' => [
+            'value' => 'Unknown',
+            'class' => 'warning'
+        ]
     ];
 
     /**
@@ -94,12 +130,15 @@ class SmsHistory extends Model
      */
     public function status($return = 'value')
     {
-        $status = $this->statuses[0];
-
+        // Loop through the messages
         foreach ($this->messages as $message) {
-            return $this->statuses[$message['status']][$return];
-        }
 
-        return $status[$return];
+            // Message has no 'status-message'
+            if (!array_has($message, 'status-message')) {
+                return $this->statusCodes[$message['status']][$return];
+            }
+
+            return $this->statusMessages[$message['status-message']][$return];
+        }
     }
 }
