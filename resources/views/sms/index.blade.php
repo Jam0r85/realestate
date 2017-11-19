@@ -24,10 +24,21 @@
 				@endcomponent
 
 				<div class="card-body">
-					{{ $message->body }}
+
 					<button type="button" class="float-right btn btn-sm btn-{{ $message->status('class') }}">
 						{{ $message->status() }}
 					</button>
+
+					<p class="card-text">
+						{{ $message->body }}
+					</p>
+
+					@if ($message->owner)
+						<p class="card-text text-muted">
+							<small>Sent by {{ $message->owner->present()->fullName }}</small>
+						</p>
+					@endif
+					
 				</div>
 
 			</div>
