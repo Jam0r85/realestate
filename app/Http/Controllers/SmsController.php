@@ -45,6 +45,6 @@ class SmsController extends BaseController
      */
     public function deliveryStatus(Request $request)
     {
-    	
-    }
+		//
+	}
 }
