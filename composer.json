@@ -22,6 +22,7 @@
         "maatwebsite/excel": "^2.1",
         "mercuryseries/flashy": "^1.0",
         "nexmo/client": "^1.1",
+        "nexmo/laravel": "^1.0",
         "pragmarx/countries": "^0.1.1",
         "predis/predis": "^1.1",
         "propaganistas/laravel-phone": "^2.8",

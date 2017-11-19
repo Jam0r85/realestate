@@ -2,9 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Notifications\Channels\CustomSmsChannel;
+use App\Notifications\Messages\SmsMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 
 class UserSmsMessage extends Notification
@@ -36,7 +37,8 @@ class UserSmsMessage extends Notification
      */
     public function via($notifiable)
     {
-        return ['nexmo'];
+        // return ['nexmo'];
+        return [CustomSmsChannel::class];
     }
 
     /**
@@ -45,9 +47,9 @@ class UserSmsMessage extends Notification
      * @param  mixed  $notifiable
      * @return NexmoMessage
      */
-    public function toNexmo($notifiable)
+    public function toCustomSms($notifiable)
     {
-        return (new NexmoMessage)
+        return (new SmsMessage)
             ->content($this->message)
             ->unicode();
     }

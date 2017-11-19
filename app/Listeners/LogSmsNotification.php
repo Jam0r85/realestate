@@ -33,7 +33,7 @@ class LogSmsNotification
         $response = $event->response;
         $notifiable = $event->notifiable;
 
-        if ($channel == 'nexmo') {
+        if ($channel == "App\Notifications\Channels\CustomSmsChannel") {
 
             $messages = $response['messages'];
             
