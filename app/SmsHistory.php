@@ -133,12 +133,11 @@ class SmsHistory extends Model
         // Loop through the messages
         foreach ($this->messages as $message) {
 
-            // Message has no 'status-message'
-            if (!array_has($message, 'status-message')) {
+            if (is_numeric($message['status'])) {
                 return $this->statusCodes[$message['status']][$return];
             }
 
-            return $this->statusMessages[$message['status-message']][$return];
+            return $this->statusMessages[$message['status']][$return];
         }
     }
 }
