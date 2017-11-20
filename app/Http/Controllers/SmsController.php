@@ -45,8 +45,10 @@ class SmsController extends BaseController
      */
     public function deliveryStatus(Request $request)
     {
+    	Log::info('SMS delivery receipt request..');
+
 		if (!isset($request->messageId) OR !isset($request->status)) {
-			Log::error('Not a valid SMS delivery receipt');
+			Log::error('Invalid delivery receipt');
 		    return;
 		}
 
@@ -86,7 +88,7 @@ class SmsController extends BaseController
 			if ($updated == true) {
 				// Save the changes
 				$item->update(['messages' => $messages]);
-				Log::info('Valid delivery receipt for SMS ' . $item->id);
+				Log::info('Successfuly delivery receipt for SMS ' . $item->id);
 			}
 		}
 
