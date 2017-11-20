@@ -18,6 +18,7 @@ class SmsHistory extends Model
     {
         $array = $this->only('body');
         $array['recipient'] = $this->recipient->present()->fullName;
+        $array['sender'] = $this->owner ? $this->owner->present()->fullName : null;
         $array['phone_number'] = [
             $this->phone_number,
             $this->recipient->phone_number

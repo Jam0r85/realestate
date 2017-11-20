@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 
 class StatementSentNotification extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The statement we are sending.
      * 
@@ -57,7 +59,7 @@ class StatementSentNotification extends Notification implements ShouldQueue
         }
         
         if ($method == 'email') {
-            $statementToBeAttached = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id, 'raw');
+            $statementToBeAttached = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id);
 
             $email = new MailMessage();
             $email->subject('Your Rental Statement');
