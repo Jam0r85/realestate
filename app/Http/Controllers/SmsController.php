@@ -117,7 +117,7 @@ class SmsController extends BaseController
 		$user = User::where('phone_number', $sender_number)->first();
 
 		$message = SmsHistory::create([
-			'recipient_id' => $user->id,
+			'user_id' => $user->id,
 			'phone_number' => $request->msisdn,
 			'body' => $request->text,
 			'inbound' => true
