@@ -23,8 +23,8 @@
 
 					{{ $message->phone_number }}
 
-					@if ($message->recipient)
-						({{ $message->recipient->present()->fullName }})
+					@if ($message->user)
+						({{ $message->user->present()->fullName }})
 					@endif
 
 					@slot('small')

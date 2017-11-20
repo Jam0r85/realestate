@@ -18,7 +18,7 @@ class SmsController extends BaseController
 	 */
 	public function index()
 	{
-		$messages = SmsHistory::with('recipient','owner')->latest()->paginate();
+		$messages = SmsHistory::with('user','owner')->latest()->paginate();
 		return view('sms.index', compact('messages'));
 	}
 

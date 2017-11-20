@@ -26,8 +26,8 @@ class SmsHistory extends Model
     public function toSearchableArray()
     {
         $array = $this->only('body');
-        $array['recipient'] = $this->recipient->present()->fullName;
-        $array['sender'] = $this->owner ? $this->owner->present()->fullName : null;
+        $array['user'] = $this->user->present()->fullName;
+        $array['owner'] = $this->owner ? $this->owner->present()->fullName : null;
         $array['phone_number'] = [
             $this->phone_number,
             $this->recipient->phone_number
@@ -48,7 +48,7 @@ class SmsHistory extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','recipient_id','phone_number','body','messages','inbound'];
+    protected $fillable = ['owner_id','user_id','phone_number','body','messages','inbound'];
 
     /**
      * The attributes that should be cast to native types.
@@ -122,9 +122,9 @@ class SmsHistory extends Model
     /**
      * The user that this SMS was sent to.
      */
-    public function recipient()
+    public function user()
     {
-    	return $this->belongsTo('App\User', 'recipient_id');
+    	return $this->belongsTo('App\User');
     }
 
     /**
@@ -132,7 +132,7 @@ class SmsHistory extends Model
      */
     public function owner()
     {
-    	return $this->belongsTo('App\User', 'user_id');
+    	return $this->belongsTo('App\User');
     }
 
     /**
@@ -192,7 +192,7 @@ class SmsHistory extends Model
             }
         }
 
-        if ($this->isInbound) {
+        if ($this->isInbound()) {
             return $this->inbound[$return];
         }
     }
