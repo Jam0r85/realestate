@@ -54,7 +54,7 @@ class SmsController extends BaseController
 		}
 
     	// Loop for all main SMS messages with the given phone number.
-		$entries = SmsHistory::where('phone_number', $request->msisdn)->get();
+		$entries = SmsHistory::where('phone_number', $request->msisdn)->where('inbound', '0')->get();
 
 		// Loop through each of the SMS message to that number.
 		foreach ($entries as $item) {
