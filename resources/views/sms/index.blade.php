@@ -14,14 +14,18 @@
 
 		@foreach ($messages as $message)
 
-			<div class="card mb-3">
+			<div class="card mb-3 border-{{ $message->status('class') }}">
 
 				@component('partials.card-header')
 					<span class="float-right text-muted">
 						<small>{{ $message->messageIds() }}</small>
 					</span>
 
-					{{ $message->recipient->present()->fullName }} ({{ $message->phone_number}})
+					{{ $message->phone_number }}
+
+					@if ($message->recipient)
+						({{ $message->recipient->present()->fullName }})
+					@endif
 
 					@slot('small')
 						{{ datetime_formatted($message->created_at) }}
@@ -30,17 +34,15 @@
 
 				<div class="card-body">
 
-					<button type="button" class="float-right btn btn-sm btn-{{ $message->status('class') }}">
-						{{ $message->status() }}
-					</button>
-
 					<p class="card-text">
 						{{ $message->body }}
 					</p>
 
 					@if ($message->owner)
 						<p class="card-text text-muted">
-							<small>Sent by {{ $message->owner->present()->fullName }}</small>
+							<small>
+								<b>{{ $message->status() }}</b> by {{ $message->owner->present()->fullName }}
+							</small>
 						</p>
 					@endif
 					

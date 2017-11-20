@@ -104,6 +104,22 @@ class SmsController extends BaseController
 	 */
 	public function incoming(Request $request)
 	{
+    	Log::info('SMS inbound request..');
+    	Log::info($request->input());
+
+		// Format the sender's phone number so that we can search the users against it.
+		$sender_number = phone($request->msisdn, 'GB');
+
+		// Using the formatted number, find a user if they exist with that number.
+		$user = User::where('phone_number', $sender_number)->first();
+
+		SMsHistory::create([
+			'recipient_id' => $user->id,
+			'phone_number' => $request->msisdn,
+			'body' => $request->text
+		]);
+
+		Log::info('Successful inbound SMS ' . $item->id);
 
 		return response($request->input(), 200);
 

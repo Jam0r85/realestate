@@ -23,7 +23,7 @@ class User extends Authenticatable
      */
     public function toSearchableArray()
     {
-        return $this->only(
+        $array = $this->only(
             'title',
             'first_name',
             'last_name',
