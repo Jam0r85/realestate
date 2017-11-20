@@ -21,7 +21,7 @@
 						<small>{{ $message->messageIds() }}</small>
 					</span>
 
-					{{ $message->recipient->present()->fullName }}
+					{{ $message->recipient->present()->fullName }} ({{ $message->phone_number}})
 
 					@slot('small')
 						{{ datetime_formatted($message->created_at) }}

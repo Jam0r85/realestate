@@ -2,15 +2,11 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			@component('partials.header')
-				Sent E-Mails History
-			@endcomponent
-
-		</div>
+		@component('partials.header')
+			Sent E-Mails History
+		@endcomponent
 
 	@endcomponent
 
