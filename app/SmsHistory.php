@@ -3,11 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class SmsHistory extends Model
 {
     use Searchable;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\SmsPresenter';
 
     /**
      * Get the indexable data array for the model.
@@ -129,17 +138,19 @@ class SmsHistory extends Model
      * 
      * @return string
      */
-    public function messageIds()
+    public function getMessageIds()
     {
-        foreach ($this->messages as $message) {
-            if (array_has($message, 'message-id')) {
-                $ids[] = $message['message-id'];
-            } elseif (array_has($message, 'messageId')) {
-                $ids[] = $message['messageId'];
+        if ($this->messages) {
+            foreach ($this->messages as $message) {
+                if (array_has($message, 'message-id')) {
+                    $ids[] = $message['message-id'];
+                } elseif (array_has($message, 'messageId')) {
+                    $ids[] = $message['messageId'];
+                }
             }
-        }
 
-        return implode(', ', $ids);
+            return $ids;
+        }
     }
 
     /**

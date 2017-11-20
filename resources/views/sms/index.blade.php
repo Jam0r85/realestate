@@ -18,7 +18,7 @@
 
 				@component('partials.card-header')
 					<span class="float-right text-muted">
-						<small>{{ $message->messageIds() }}</small>
+						<small></small>
 					</span>
 
 					{{ $message->phone_number }}
