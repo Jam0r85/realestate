@@ -1,3 +1,10 @@
 <div class="card-body">
-	The SMS message to {{ $notification->data['recipient'] }} was {{ $notification->data['status'] }}
+	<blockquote class="blockquote">
+		<p class="mb-0">
+			{{ $notification->data['text'] }}
+		</p>
+		<footer class="blockquote-footer">
+			SMS message to {{ $notification->data['recipient'] }} was {{ $notification->data['status'] }}
+		</footer>
+	</blockquote>
 </div>
