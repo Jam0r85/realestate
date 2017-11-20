@@ -138,3 +138,10 @@ if (!function_exists('tenancies')) {
 		return \App\Tenancy::with('tenants','property')->get();
 	}
 }
+
+if (!function_exists('staff')) {
+	function staff()
+	{
+		return \App\User::whereIn('id', config('system.staff'))->get();
+	}
+}

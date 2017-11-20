@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-sm-12 col-lg-6 ml-lg-auto mr-lg-auto">
 
@@ -56,6 +56,13 @@
 
                     </div>
                 </div>
+
+                <ul class="list-inline small text-muted mt-3">
+                    <li class="list-inline-item"><b>Staff:</b></li>
+                    @foreach (staff() as $user)
+                        <li class="list-inline-item">{{ $user->present()->fullName }}</li>
+                    @endforeach
+                </ul>
 
             </div>
         </div>
