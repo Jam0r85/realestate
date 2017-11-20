@@ -4,7 +4,7 @@
 			{{ $notification->data['text'] }}
 		</p>
 		<footer class="blockquote-footer">
-			SMS message sent by {{ $notification->data['recipient'] }}
+			SMS message sent by {{ $notification->data['user'] }}
 		</footer>
 	</blockquote>
 </div>
