@@ -150,7 +150,11 @@ class SmsHistory extends Model
      */
     public function isInbound()
     {
-        return $this->inbound;
+        if ($this->inbound) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -14,7 +14,7 @@
 
 		@foreach ($messages as $message)
 
-			<div class="card mb-3 border-{{ $message->status('class') }}">
+			<div class="card mb-3 {{ $message->isInbound() ? 'border' : 'text-white bg' }}-{{ $message->status('class') }}">
 
 				@component('partials.card-header')
 					<span class="float-right text-muted">
