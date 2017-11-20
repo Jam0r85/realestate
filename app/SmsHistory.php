@@ -149,14 +149,16 @@ class SmsHistory extends Model
      */
     public function status($return = 'value')
     {
-        // Loop through the messages
-        foreach ($this->messages as $message) {
+        if ($this->messages) {
+            // Loop through the messages
+            foreach ($this->messages as $message) {
 
-            if (is_numeric($message['status'])) {
-                return $this->statusCodes[$message['status']][$return];
+                if (is_numeric($message['status'])) {
+                    return $this->statusCodes[$message['status']][$return];
+                }
+
+                return $this->statusMessages[$message['status']][$return];
             }
-
-            return $this->statusMessages[$message['status']][$return];
         }
     }
 }
