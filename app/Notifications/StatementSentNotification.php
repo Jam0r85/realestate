@@ -12,10 +12,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
 
-class StatementSentNotification extends Notification implements ShouldQueue
+class StatementSentNotification extends Notification
 {
-    use Queueable;
-
     /**
      * The statement we are sending.
      * 

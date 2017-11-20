@@ -9,14 +9,14 @@ class PdfModel extends FileModel
 	/**
 	 * The view folder where the PDF templates are located.
 	 * 
-	 * @var string
+	 * @var  string
 	 */
 	protected $pdfTemplates = 'pdf';
 
 	/**
 	 * Get the view name for this PDF template.
 	 * 
-	 * @return string
+	 * @return  string
 	 */
 	public function viewName()
 	{
@@ -26,7 +26,7 @@ class PdfModel extends FileModel
 	/**
 	 * Stream the PDF to the browser.
 	 * 
-	 * @return \Illuminate\Http\Response
+	 * @return  \Illuminate\Http\Response
 	 */
 	public function streamPdf()
 	{
@@ -36,7 +36,7 @@ class PdfModel extends FileModel
 	/**
 	 * Download the PDF as a file.
 	 * 
-	 * @return \Illuminate\Http\Response
+	 * @return  \Illuminate\Http\Response
 	 */
 	public function downloadPdf()
 	{
@@ -46,7 +46,7 @@ class PdfModel extends FileModel
 	/**
 	 * Create the PDF and return it.
 	 *
-	 * @param  string $return
+	 * @param  string  $return
 	 * @return [type]
 	 */
 	public function createPdf($return, $fileName = null)
