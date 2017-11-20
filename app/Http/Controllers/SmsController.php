@@ -46,6 +46,7 @@ class SmsController extends BaseController
     public function deliveryStatus(Request $request)
     {
     	Log::info('SMS delivery receipt request..');
+    	Log::info($request->input());
 
 		if (!isset($request->messageId) OR !isset($request->status)) {
 			Log::error('Invalid delivery receipt');
