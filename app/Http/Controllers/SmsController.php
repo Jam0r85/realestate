@@ -56,6 +56,7 @@ class SmsController extends BaseController
 		// Loop through each of the SMS message to that number.
 		foreach ($entries as $item) {
 
+			$updated = false;
 			$messages = $item->messages;
 
 			// Loop through each of the message parts sent for the main message.
@@ -70,18 +71,23 @@ class SmsController extends BaseController
 
 				// Check whether the given messageID matches the one stored in the messages array field.
 				if ($messageId == $request->messageId) {
-					array_replace($messages, $request->input());
+
 					// Remove the current message
 					array_pull($messages, $key);
+
 					// Add the new message
 					$messages = array_add($messages, $key, $request->input());
+
+					// We have updated the message
+					$updated = true;
 				}
 			}
 
-			// Save the changes
-			$item->update(['messages' => $messages]);
-
-			Log::info('Valid delivery receipt for SMS ' . $item->id);
+			if ($updated == true) {
+				// Save the changes
+				$item->update(['messages' => $messages]);
+				Log::info('Valid delivery receipt for SMS ' . $item->id);
+			}
 		}
 
 		return response($request->input(), 200);
