@@ -59,37 +59,40 @@ class SmsController extends BaseController
 		// Loop through each of the SMS message to that number.
 		foreach ($entries as $item) {
 
-			$updated = false;
-			$messages = $item->messages;
+			if ($item->messages) {
 
-			// Loop through each of the message parts sent for the main message.
-			foreach ($messages as $key => $message) {
+				$updated = false;
+				$messages = $item->messages;
 
-				// Save the messageId to a variable
-				if (isset($message['message-id'])) {
-					$messageId = $message['message-id'];
-				} elseif (isset($message['messageId'])) {
-					$messageId = $message['messageId'];
+				// Loop through each of the message parts sent for the main message.
+				foreach ($messages as $key => $message) {
+
+					// Save the messageId to a variable
+					if (isset($message['message-id'])) {
+						$messageId = $message['message-id'];
+					} elseif (isset($message['messageId'])) {
+						$messageId = $message['messageId'];
+					}
+
+					// Check whether the given messageID matches the one stored in the messages array field.
+					if ($messageId == $request->messageId) {
+
+						// Remove the current message
+						array_pull($messages, $key);
+
+						// Add the new message
+						$messages = array_add($messages, $key, $request->input());
+
+						// We have updated the message
+						$updated = true;
+					}
 				}
 
-				// Check whether the given messageID matches the one stored in the messages array field.
-				if ($messageId == $request->messageId) {
-
-					// Remove the current message
-					array_pull($messages, $key);
-
-					// Add the new message
-					$messages = array_add($messages, $key, $request->input());
-
-					// We have updated the message
-					$updated = true;
+				if ($updated == true) {
+					// Save the changes
+					$item->update(['messages' => $messages]);
+					Log::info('Successfuly delivery receipt for SMS ' . $item->id);
 				}
-			}
-
-			if ($updated == true) {
-				// Save the changes
-				$item->update(['messages' => $messages]);
-				Log::info('Successfuly delivery receipt for SMS ' . $item->id);
 			}
 		}
 
