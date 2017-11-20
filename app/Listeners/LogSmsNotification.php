@@ -38,8 +38,8 @@ class LogSmsNotification
             $messages = $response['messages'];
             
             SmsHistory::create([
-                'user_id' => Auth::check() ? Auth::user()->id : null,
-                'recipient_id' => $notifiable->id,
+                'owner_id' => Auth::check() ? Auth::user()->id : null,
+                'user_id' => $notifiable->id,
                 'phone_number' => $response['to'],
                 'body' => $response['text'],
                 'messages' => $messages

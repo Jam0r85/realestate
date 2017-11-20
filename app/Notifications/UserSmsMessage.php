@@ -37,7 +37,6 @@ class UserSmsMessage extends Notification
      */
     public function via($notifiable)
     {
-        // return ['nexmo'];
         return [CustomSmsChannel::class];
     }
 
