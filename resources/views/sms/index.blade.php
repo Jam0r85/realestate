@@ -24,7 +24,10 @@
 					{{ $message->phone_number }}
 
 					@if ($message->user)
-						({{ $message->user->present()->fullName }})
+						- 
+						<a href="{{ route('users.show', $message->user_id) }}">
+							{{ $message->user->present()->fullName }}
+						</a>
 					@endif
 
 					@slot('small')

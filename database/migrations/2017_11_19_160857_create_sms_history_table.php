@@ -16,7 +16,7 @@ class CreateSmsHistoryTable extends Migration
         Schema::create('sms_history', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->integer('recipient_id')->unsigned();
+            $table->integer('owner_id')->unsigned()->nullable();
             $table->boolean('inbound')->default(0);
             $table->string('phone_number');
             $table->text('body');
