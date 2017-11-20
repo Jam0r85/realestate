@@ -17,7 +17,7 @@ class CreateSmsHistoryTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('recipient_id')->unsigned();
-            $table->string('parent_id')->nullable();
+            $table->boolean('inbound')->default(0);
             $table->string('phone_number');
             $table->text('body');
             $table->text('messages');

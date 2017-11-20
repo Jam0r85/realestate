@@ -116,7 +116,8 @@ class SmsController extends BaseController
 		$message = SmsHistory::create([
 			'recipient_id' => $user->id,
 			'phone_number' => $request->msisdn,
-			'body' => $request->text
+			'body' => $request->text,
+			'inbound' => true
 		]);
 
 		Log::info('Successful inbound SMS ' . $message->id);

@@ -48,14 +48,24 @@ class SmsHistory extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','recipient_id','phone_number','body','messages'];
+    protected $fillable = ['user_id','recipient_id','phone_number','body','messages','inbound'];
 
     /**
      * The attributes that should be cast to native types.
      * 
      * @var array
      */
-    protected $casts = ['messages' => 'array'];
+    protected $casts = ['messages' => 'array','inbound' => 'boolean'];
+
+    /**
+     * The inbound message values.
+     * 
+     * @var array
+     */
+    protected $inbound = [
+        'value' => 'Inbound',
+        'class' => 'dark'
+    ];
 
     /**
      * The nexmo message status codes as taken from their API.
@@ -134,6 +144,16 @@ class SmsHistory extends Model
     }
 
     /**
+     * Is this an inbound message?
+     * 
+     * @return boolean
+     */
+    public function isInbound()
+    {
+        return $this->inbound;
+    }
+
+    /**
      * Get the message IDs linked to this message.
      * 
      * @return string
@@ -170,6 +190,10 @@ class SmsHistory extends Model
 
                 return $this->statusMessages[$message['status']][$return];
             }
+        }
+
+        if ($this->isInbound) {
+            return $this->inbound[$return];
         }
     }
 }
