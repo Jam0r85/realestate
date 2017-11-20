@@ -23,7 +23,7 @@
 		@foreach ($user->notifications as $notification)
 
 			<div class="card mb-3">
-				@include('notifications.' . snake_case(class_basename($notification->type)))
+				@include('users.notifications.' . snake_case(class_basename($notification->type)))
 			</div>
 
 		@endforeach
