@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
     	'events/*',
-    	'sms/delivery-status'
+    	'sms/delivery-status',
+    	'sms/inbound'
     ];
 }
