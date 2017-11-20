@@ -13,6 +13,11 @@ class UpdateTenancyDepositBalances
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * The ID of the tenancy we are updating.
+     * 
+     * @var integer
+     */
     public $tenancy_id;
 
     /**
@@ -34,17 +39,22 @@ class UpdateTenancyDepositBalances
     {
         if ($this->tenancy_id) {
             $tenancy = Tenancy::findOrFail($this->tenancy_id);
-            $tenancy->deposit->update([
-                'balance' => $tenancy->deposit->balance
-            ]);
+
+            if ($tenancy->deposit) {
+                $tenancy->deposit->update([
+                    'balance' => $tenancy->deposit->balance
+                ]);
+            }
         }
 
         if (is_null($this->tenancy_id)) {
             $tenancies = Tenancy::get();
             foreach ($tenancies as $tenancy) {
-                $tenancy->deposit->update([
-                    'balance' => $tenancy->deposit->balance
-                ]);
+                if ($tenancy->deposit) {
+                    $tenancy->deposit->update([
+                        'balance' => $tenancy->deposit->balance
+                    ]);
+                }
             }
         }
     }
