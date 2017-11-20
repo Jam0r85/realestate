@@ -153,6 +153,20 @@ class SmsHistory extends Model
     }
 
     /**
+     * Has this message been delivered in full?
+     * 
+     * @return boolean
+     */
+    public function isDelivered()
+    {
+        if ($this->status() == 'delivered') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get the message IDs linked to this message.
      * 
      * @return string

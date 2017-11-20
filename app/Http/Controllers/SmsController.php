@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserSendSmsMessageRequest;
 use App\Notifications\UserSmsMessage;
+use App\Notifications\SmsOwnerDeliveryReceiptNotification;
 use App\SmsHistory;
 use App\User;
 use Illuminate\Http\Request;
@@ -89,9 +90,11 @@ class SmsController extends BaseController
 				}
 
 				if ($updated == true) {
-					// Save the changes
 					$item->update(['messages' => $messages]);
 					Log::info('Successfuly delivery receipt for SMS ' . $item->id);
+					if ($item->isDelivered() && $item->owner) {
+						$owner->notify(new SmsOwnerDeliveryReceiptNotification($item));
+					}
 				}
 			}
 		}
