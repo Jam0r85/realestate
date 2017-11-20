@@ -113,13 +113,13 @@ class SmsController extends BaseController
 		// Using the formatted number, find a user if they exist with that number.
 		$user = User::where('phone_number', $sender_number)->first();
 
-		SMsHistory::create([
+		$message = SmsHistory::create([
 			'recipient_id' => $user->id,
 			'phone_number' => $request->msisdn,
 			'body' => $request->text
 		]);
 
-		Log::info('Successful inbound SMS ' . $item->id);
+		Log::info('Successful inbound SMS ' . $message->id);
 
 		return response($request->input(), 200);
 
