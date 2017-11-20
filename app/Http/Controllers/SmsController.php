@@ -93,7 +93,7 @@ class SmsController extends BaseController
 			}
 		}
 
-		return response($request->input(), 200);
+		return response('OK', 200);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class SmsController extends BaseController
 
 		Log::info('Successful inbound SMS ' . $message->id);
 
-		return response($request->input(), 200);
+		return response('OK', 200);
 
 	}
 }
