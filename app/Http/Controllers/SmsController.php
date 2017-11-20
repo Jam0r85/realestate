@@ -38,15 +38,15 @@ class SmsController extends BaseController
     }
 
     /**
-     * The webhook for Nexmo to send delivery statuses to.
+     * The webhook for Nexmo to receive delivery statuses.
      * 
-     * @param \Illuminate\Http\Request $request
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @return  \Illuminate\Http\Response
      */
     public function deliveryStatus(Request $request)
     {
 		if (!isset($request->messageId) OR !isset($request->status)) {
-			Log::error('Not a valid delivery receipt');
+			Log::error('Not a valid SMS delivery receipt');
 		    return;
 		}
 
@@ -55,21 +55,48 @@ class SmsController extends BaseController
 
 		// Loop through each of the SMS message to that number.
 		foreach ($entries as $item) {
-			// Loop through each of the rsent messages for the main message.
-			foreach ($item->messages as $key => $message) {
+
+			$messages = $item->messages;
+
+			// Loop through each of the message parts sent for the main message.
+			foreach ($messages as $key => $message) {
+
+				// Save the messageId to a variable
+				if (isset($message['message-id'])) {
+					$messageId = $message['message-id'];
+				} elseif (isset($message['messageId'])) {
+					$messageId = $message['messageId'];
+				}
+
 				// Check whether the given messageID matches the one stored in the messages array field.
-				if ($message['message-id'] == $request->messageId) {
-					$messages = $item->messages;
+				if ($messageId == $request->messageId) {
+					array_replace($messages, $request->input());
 					// Remove the current message
 					array_pull($messages, $key);
 					// Add the new message
 					$messages = array_add($messages, $key, $request->input());
-					$item->messages = $messages;
-					$item->save();
 				}
 			}
+
+			// Save the changes
+			$item->update(['messages' => $messages]);
+
+			Log::info('Valid delivery receipt for SMS ' . $item->id);
 		}
 
-		return response('OK', 200);
+		return response($request->input(), 200);
+	}
+
+	/**
+	 * Handle incoming messages
+	 * 
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return  \Illuminate\Http\Response
+	 */
+	public function incoming(Request $request)
+	{
+
+		return response($request->input(), 200);
+
 	}
 }
