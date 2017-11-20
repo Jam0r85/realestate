@@ -159,7 +159,7 @@ class SmsHistory extends Model
      */
     public function isDelivered()
     {
-        if ($this->status() == 'delivered') {
+        if ($this->status() == 'Delivered') {
             return true;
         }
 
