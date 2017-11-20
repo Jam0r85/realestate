@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserSendSmsMessageRequest;
 use App\Notifications\UserSmsMessage;
+use App\Notifications\SmsMessageInboundStaffNotification;
 use App\Notifications\SmsOwnerDeliveryReceiptNotification;
 use App\SmsHistory;
 use App\User;
@@ -130,6 +131,10 @@ class SmsController extends BaseController
 		]);
 
 		Log::info('Successful inbound SMS ' . $message->id);
+
+		foreach (staff() as $user) {
+			$user->notify(new SmsMessageInboundStaffNotification($message));
+		}
 
 		return response('OK', 200);
 
