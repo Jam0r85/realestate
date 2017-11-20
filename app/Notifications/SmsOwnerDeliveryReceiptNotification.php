@@ -49,7 +49,8 @@ class SmsOwnerDeliveryReceiptNotification extends Notification
     {
         return [
             'text' => $this->message->body,
-            'status' => $this->message->status()
+            'status' => $this->message->status(),
+            'recipient' => $this->message->user->present()->fullName
         ];
     }
 }
