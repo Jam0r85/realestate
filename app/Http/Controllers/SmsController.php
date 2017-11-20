@@ -91,9 +91,12 @@ class SmsController extends BaseController
 
 				if ($updated == true) {
 					$item->update(['messages' => $messages]);
+					$item->fresh();
+
 					Log::info('Successfuly delivery receipt for SMS ' . $item->id);
+
 					if ($item->isDelivered() && $item->owner) {
-						$owner->notify(new SmsOwnerDeliveryReceiptNotification($item));
+						$item->owner->notify(new SmsOwnerDeliveryReceiptNotification($item));
 					}
 				}
 			}
