@@ -30,7 +30,7 @@ class SmsHistory extends Model
         $array['owner'] = $this->owner ? $this->owner->present()->fullName : null;
         $array['phone_number'] = [
             $this->phone_number,
-            $this->recipient->phone_number
+            $this->user->phone_number
         ];
 
         return $array;
