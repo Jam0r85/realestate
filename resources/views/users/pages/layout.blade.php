@@ -1,5 +1,11 @@
 @php
-	$sections = ['Details','Properties','Tenancies','Invoices','Bank Accounts'];
+	$sections = [
+		'Details' => 'details',
+		'Properties' => 'properties',
+		'Tenancies' => 'tenancies',
+		'Invoices' => 'invoices',
+		'Bank Accounts' => 'bankAccounts'
+	];
 	$history = ['EMail History','SMS History'];
 @endphp
 
@@ -26,9 +32,14 @@
 
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-					@foreach ($sections as $section)
-						<a class="nav-link {{ $loop->first ? 'active' : '' }}" id="v-pills-{{ str_slug($section) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($section) }}" role="tab">
-							{{ $section }}
+					@foreach ($sections as $key => $value)
+						<a class="nav-link {{ $loop->first ? 'active' : '' }}" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+							{{ $key }}
+							@if (method_exists($user, $value))
+								<span class="badge badge-light">
+									{{ count($user->$value) }}
+								</span>
+							@endif
 						</a>
 					@endforeach
 
@@ -47,8 +58,8 @@
 
 				<div class="tab-content" id="v-pills-tabContent">
 
-					@foreach ($sections as $section)
-						@include('users.sections.' . str_slug($section))
+					@foreach ($sections as $key => $value)
+						@include('users.sections.' . str_slug($key))
 					@endforeach
 
 					@foreach ($history as $item)
