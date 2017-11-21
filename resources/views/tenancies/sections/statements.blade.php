@@ -1,5 +1,5 @@
 @php
-	$statements = $tenancy->statements()->paginate();
+	$statements = $tenancy->statements()->with('tenancy')->paginate();
 	$statements->appends(['section' => 'statements']);
 @endphp
 

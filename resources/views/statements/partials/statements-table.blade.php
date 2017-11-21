@@ -3,8 +3,10 @@
 		<th>Status</th>
 		<th>Starts</th>
 		<th>Ends</th>
-		<th>Tenancy</th>
-		<th>Property</th>
+		@if (!isset($tenancy))
+			<th>Tenancy</th>
+			<th>Property</th>
+		@endif
 		<th>Amount</th>
 		<th>Send By</th>
 		<th></th>
@@ -18,13 +20,15 @@
 						{{ date_formatted($statement->period_start) }}
 					</a>
 				</td>
-				<td>{{ date_formatted($statement->period_end) }}</a>
-				<td>
-					<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
-						{{ $statement->present()->tenancyName }}
-					</a>
-				</td>
-				<td>{{ $statement->present()->propertyAddress }}</td>
+				<td>{{ date_formatted($statement->period_end) }}</a></td>
+				@if (!isset($tenancy))
+					<td>
+						<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
+							{{ $statement->present()->tenancyName }}
+						</a>
+					</td>
+					<td>{{ $statement->present()->propertyAddress }}</td>
+				@endif
 				<td>{{ currency($statement->amount) }}</td>
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
