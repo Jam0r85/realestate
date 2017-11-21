@@ -1,10 +1,3 @@
-@php
-	$sections = [
-		'Active' => 'active',
-		'Archived' => 'archived'
-	];
-@endphp
-
 @extends('layouts.app')
 
 @section('content')
@@ -39,24 +32,32 @@
 				@endcomponent
 				{{-- End of Users Search --}}
 
-				<div class="nav flex-column nav-pills mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				@if (isset($sections))
+					<div class="nav flex-column nav-pills mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-					@foreach ($sections as $key => $value)
-						<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
-							{{ $key }}
-						</a>
-					@endforeach
+						@foreach ($sections as $key)
+							<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+								{{ $key }}
+							</a>
+						@endforeach
 
-				</div>
+					</div>
+				@endif
 
 			</div>
 			<div class="col-12 col-md-8 col-lg-9 col-xl-10">
 
 				<div class="tab-content" id="v-pills-tabContent">
 
-					@foreach ($sections as $key => $value)
-						@include('users.sections.index.' . str_slug($key))
-					@endforeach
+					@if (isset($sections))
+						@foreach ($sections as $key)
+							@include('users.sections.index.' . str_slug($key))
+						@endforeach
+					@endif
+
+					@if (isset($searchResults))
+						@include('users.partials.users-table', ['users' => $searchResults])
+					@endif
 
 				</div>
 

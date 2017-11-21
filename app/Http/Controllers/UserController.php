@@ -17,16 +17,6 @@ use Illuminate\Support\Facades\Session;
 class UserController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -35,24 +25,13 @@ class UserController extends BaseController
     {
         $users = User::with('home','tenancies','tenancies.property')->latest();
 
+        $sections = ['Active','Archived'];
+
         $active_users = $users->paginate();
         $archived_users = $users->onlyTrashed()->paginate();
         $title = 'Users List';
         
-        return view('users.index', compact('active_users','archived_users','title'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function archived()
-    {
-        $users = User::onlyTrashed()->latest()->paginate();
-        $title = 'Archived Users';
-
-        return view('users.index', compact('users', 'title'));
+        return view('users.index', compact('active_users','archived_users','title','sections'));
     }
 
     /**
@@ -71,10 +50,10 @@ class UserController extends BaseController
 
         Session::put('users_search_term', $request->search_term);
 
-        $users = User::search(Session::get('users_search_term'))->get();
+        $searchResults = User::search(Session::get('users_search_term'))->get();
         $title = 'Search Results';
 
-        return view('users.index', compact('users', 'title'));
+        return view('users.index', compact('searchResults', 'title'));
     }
 
     /**

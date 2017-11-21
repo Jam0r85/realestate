@@ -157,7 +157,6 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('users')->group(function () {
 		Route::get('/', 'UserController@index')->name('users.index');
-		Route::get('archived', 'UserController@archived')->name('users.archived');
 		Route::post('search', 'UserController@search')->name('users.search');
 		Route::get('create', 'UserController@create')->name('users.create');
 		Route::post('/', 'UserController@store')->name('users.store');
