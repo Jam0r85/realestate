@@ -296,4 +296,18 @@ class UserController extends BaseController
     {
         //
     }
+
+    /**
+     * Mark all unread notifications as having been read.
+     * 
+     * @param  \App\User  $user
+     * @return  \Illuminate\Http\Response
+     */
+    public function clearNotifications(User $user)
+    {
+        $user->unreadNotifications->markAsRead();
+
+        $this->successMessage('All notifications have been marked as read');
+        return back();
+    }
 }

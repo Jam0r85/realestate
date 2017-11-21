@@ -4,9 +4,20 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+
+			<form method="POST" action="{{ route('users.clear-notifications', $user->id) }}" class="d-inline">
+				{{ csrf_field() }}
+				<button type="submit" class="btn btn-primary">
+					<i class="fa fa-bell-slash"></i> Clear All Notifications
+				</button>
+			</form>
+
+			<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary">
+				Return
+			</a>
+
+		</div>
 
 		@component('partials.header')
 			{{ $user->present()->fullName }}
@@ -24,7 +35,7 @@
 
 			<div class="card mb-3">
 				@component('partials.card-header')
-					{{ date_formatted($notification->created_at) }}
+					{{ datetime_formatted($notification->created_at) }}
 				@endcomponent
 
 				@include('users.notifications.' . snake_case(class_basename($notification->type)))

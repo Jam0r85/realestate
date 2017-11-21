@@ -172,6 +172,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
 		Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
 		Route::post('{user}/send-sms', 'SmsController@toUser')->name('users.send-sms');
+		Route::post('{user}/clear-notifications', 'UserController@clearNotifications')->name('users.clear-notifications');
 	});
 
 	Route::prefix('bank-accounts')->group(function () {
