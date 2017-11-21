@@ -9,13 +9,15 @@
 			<form method="POST" action="{{ route('users.clear-notifications', $user->id) }}" class="d-inline">
 				{{ csrf_field() }}
 				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-bell-slash"></i> Clear All Notifications
+					<i class="fa fa-bell"></i> Clear All Notifications
 				</button>
 			</form>
 
-			<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary">
-				Return
-			</a>
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('users.show', $user->id) }}
+				@endslot
+			@endcomponent
 
 		</div>
 
