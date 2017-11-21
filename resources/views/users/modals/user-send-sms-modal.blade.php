@@ -13,7 +13,7 @@
 
 					@if (!$user->phone_number)
 
-						@component('partials.alerts.danger')
+						@component('partials.alerts.warning')
 							User has no valid mobile phone number.
 						@endcomponent
 
