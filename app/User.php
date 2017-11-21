@@ -23,16 +23,14 @@ class User extends Authenticatable
      */
     public function toSearchableArray()
     {
-        $array = $this->only(
+        return $this->only(
             'title',
             'first_name',
             'last_name',
             'company_name',
             'email',
             'phone_number',
-            'phone_number_other',
-            'created_at',
-            'updated_at'
+            'phone_number_other'
         );
     }
 
