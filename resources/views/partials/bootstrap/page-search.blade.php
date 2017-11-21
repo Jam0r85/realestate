@@ -1,11 +1,16 @@
 {{-- Search Field --}}
 <div class="page-search">
-	<form class="form-inline" role="form" method="POST" action="{{ $route }}">
+	<form method="POST" action="{{ $route }}">
 		{{ csrf_field() }}
 
-		<input type="text" name="search_term" class="form-control col-6" placeholder="Search for..." value="{{ isset($search_term) ? $search_term : '' }}" />
-		
-		@include('partials.bootstrap.search-button')
+		<div class="input-group">
+			<input type="text" name="search_term" class="form-control" placeholder="Search for..." value="{{ isset($search_term) ? $search_term : '' }}" />
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-secondary">
+					<i class="fa fa-search"></i>
+				</button>
+			</span>
+		</div>
 
 		{{-- Clear Search Button --}}
 		@if (isset($search_term))

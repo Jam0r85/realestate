@@ -1,10 +1,6 @@
 <div class="card mb-3 {{ $message->isInbound() ? 'border' : 'text-white bg' }}-{{ $message->status('class') }}">
 
 	@component('partials.card-header')
-		<span class="float-right text-muted">
-			<small></small>
-		</span>
-
 		{{ $message->phone_number }}
 
 		@if ($message->user)
@@ -28,7 +24,7 @@
 		@if ($message->owner)
 			<p class="card-text text-muted">
 				<small>
-					<b>{{ $message->status() }}</b> by {{ $message->owner->present()->fullName }}
+					<b>{{ $message->status() }}</b> by <a href="{{ route('users.show', $message->owner_id) }}">{{ $message->owner->present()->fullName }}</a>
 				</small>
 			</p>
 		@endif
