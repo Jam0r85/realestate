@@ -1,3 +1,7 @@
+@php
+	$sections = ['Details','Properties','Tenancies','Invoices','Bank Accounts'];
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -19,74 +23,15 @@
 		<div class="row">
 			<div class="col-12 col-lg-3">
 
-				@include('users.partials.home-address-card')
-				@include('users.partials.system-info-card')
+				@include('users.layout.vertical-menu')
 
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-9">
 
-				@include('users.partials.user-info-card')
-
-			</div>
-			<div class="col-12 col-lg-5">
-
-				<div role="tablist">
-					<div class="card">
-
-						@component('partials.card-header')
-
-							<a data-toggle="collapse" href="#propertiesCollapse">
-								Linked Properties
-							</a>
-
-						@endcomponent
-
-						<div id="propertiesCollapse" class="collapse show">
-
-							
-
-						</div>
-
-						@component('partials.card-header')
-
-							<a data-toggle="collapse" href="#tenanciesCollapse">
-								Linked Tenancies
-							</a>
-
-						@endcomponent
-
-						<div id="tenanciesCollapse" class="collapse show">
-
-
-						</div>
-
-						@component('partials.card-header')
-
-							<a data-toggle="collapse" href="#latestInvoicesCollapse">
-								Linked Invoices
-							</a>
-
-						@endcomponent
-
-						<div id="latestInvoicesCollapse" class="collapse">
-
-
-						</div>
-
-						@component('partials.card-header')
-
-							<a data-toggle="collapse" href="#bankAccountsCollapse">
-								Linked Bank Accounts
-							</a>
-
-						@endcomponent
-
-						<div id="bankAccountsCollapse" class="collapse">
-
-
-						</div>
-
-					</div>
+				<div class="tab-content" id="v-pills-tabContent">
+					@foreach ($sections as $section)
+						@include('users.sections.' . str_slug($section))
+					@endforeach
 				</div>
 
 			</div>
