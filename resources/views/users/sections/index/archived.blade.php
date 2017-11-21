@@ -2,6 +2,6 @@
 
 	@include('users.partials.users-table', ['users' => $archived_users])
 
-	@include('partials.pagination', ['collection' => $archived_users])
+	@include('partials.pagination', ['collection' => $archived_users->appends(['section' => 'archived'])])
 	
 </div>

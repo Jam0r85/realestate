@@ -2,6 +2,6 @@
 
 	@include('users.partials.users-table', ['users' => $active_users])
 
-	@include('partials.pagination', ['collection' => $active_users])
+	@include('partials.pagination', ['collection' => $active_users->appends(['section' => 'active'])])
 	
 </div>

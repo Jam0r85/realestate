@@ -52,9 +52,13 @@
 			</div>
 			<div class="col-12 col-md-8 col-lg-9 col-xl-10">
 
-				@foreach ($sections as $key => $value)
-					@include('users.sections.index.' . str_slug($key))
-				@endforeach
+				<div class="tab-content" id="v-pills-tabContent">
+
+					@foreach ($sections as $key => $value)
+						@include('users.sections.index.' . str_slug($key))
+					@endforeach
+
+				</div>
 
 			</div>
 		</div>
