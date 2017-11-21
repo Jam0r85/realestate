@@ -23,16 +23,6 @@ use Illuminate\Support\Facades\Session;
 class TenancyController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -155,12 +145,12 @@ class TenancyController extends BaseController
      * @param  \App\Tenancy  $tenancy
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $page = 'layout')
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
         $tenancy->load('deposit.payments','deposit.payments.method');
         
-        return view('tenancies.show.' . $section, compact('tenancy'));
+        return view('tenancies.pages.' . $page, compact('tenancy'));
     }
 
     /**

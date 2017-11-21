@@ -44,5 +44,3 @@
 		@endforeach
 	@endslot
 @endcomponent
-
-@include('partials.pagination', ['collection' => $statements])
