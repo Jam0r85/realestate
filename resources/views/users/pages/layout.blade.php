@@ -33,7 +33,7 @@
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
 					@foreach ($sections as $key => $value)
-						<a class="nav-link {{ $loop->first ? 'active' : '' }}" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+						<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
 							{{ $key }}
 							@if (method_exists($user, $value))
 								<span class="badge badge-light">

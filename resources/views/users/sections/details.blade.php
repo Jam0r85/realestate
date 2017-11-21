@@ -1,4 +1,4 @@
-<div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="v-pills-details" role="tabpanel">
+<div class="tab-pane fade @if (request('section') == 'details' || (!request('section') && $loop->first)) show active @endif" id="v-pills-details" role="tabpanel">
 
 	<div class="card mb-3">
 
