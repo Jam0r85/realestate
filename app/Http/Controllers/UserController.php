@@ -63,7 +63,8 @@ class UserController extends BaseController
      */
     public function create()
     {
-        return view('users.create');
+        $latestUsers = User::limit(15)->latest()->get();
+        return view('users.create', compact('latestUsers'));
     }
 
     /**
