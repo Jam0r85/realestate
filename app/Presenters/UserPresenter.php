@@ -17,19 +17,39 @@ class UserPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function location($length = 'short')
+	public function location($length = 'short', $data = false)
 	{
 		$length = $length . 'Address';
 
 		foreach ($this->tenancies as $tenancy) {
 			if ($tenancy->isActive()) {
-				return $tenancy->property->present()->$length;
+				$model = $tenancy->property;
+				$value = $tenancy->property->present()->$length;
 			}
 		}
 
 		if ($this->home) {
-			return $this->home->present()->$length;
+			$model = $this->home;
+			$value = $this->home->present()->$length;
 		}
+
+		if ($data == true) {
+			return [
+				'name' => $value,
+				'data' => $model
+			];
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function locationLink($length = 'short')
+	{
+		$address = $this->location($length, true);
+		return '<a href="' . route('properties.show', $address['data']['id']) . '">' . $address['name'] . '</a>';
 	}
 
 	/**

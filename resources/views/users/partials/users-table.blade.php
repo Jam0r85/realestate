@@ -4,7 +4,7 @@
 		<th>Email</th>
 		<th>Mobile Phone</th>
 		<th>Other Phone</th>
-		<th>Location</th>
+		<th>Address</th>
 	@endslot
 	@slot('body')
 		@foreach ($users as $user)
@@ -17,7 +17,7 @@
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->phone_number }}</td>
 				<td>{{ $user->phone_number_other }}</td>
-				<td>{{ $user->present()->location }}</td>
+				<td>{!! $user->present()->locationLink !!}</td>
 			</tr>
 		@endforeach
 	@endslot
