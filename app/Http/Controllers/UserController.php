@@ -121,7 +121,7 @@ class UserController extends BaseController
      */
     public function show($id, $page = 'layout')
     {
-        $user = User::withTrashed()->findOrFail($id);
+        $user = User::with('properties','invoices','invoices.statements','invoices.items','invoices.items.taxRate','bankAccounts')->withTrashed()->findOrFail($id);
         return view('users.pages.' . $page, compact('user'));
     }
 
