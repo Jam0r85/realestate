@@ -116,13 +116,13 @@ class UserController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @param  string     $section
+     * @param  string  $page
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $page = 'layout')
     {
         $user = User::withTrashed()->findOrFail($id);
-        return view('users.show.' . $section, compact('user'));
+        return view('users.pages.' . $page, compact('user'));
     }
 
     /**

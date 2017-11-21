@@ -21,12 +21,12 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="row">
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-2">
 
 				@include('users.layout.vertical-menu')
 
 			</div>
-			<div class="col-12 col-lg-9">
+			<div class="col-12 col-lg-10">
 
 				<div class="tab-content" id="v-pills-tabContent">
 					@foreach ($sections as $section)
