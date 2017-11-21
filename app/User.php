@@ -188,7 +188,7 @@ class User extends Authenticatable
      */
     public function sms()
     {
-        return $this->hasMany('App\SmsHistory');
+        return $this->hasMany('App\SmsHistory')->latest();
     }
 
     /**
