@@ -40,7 +40,7 @@ class UserPresenter extends Presenter
 			];
 		}
 
-		return $value ?: null;
+		return isset($value) ? $value : null;
 	}
 
 	/**
