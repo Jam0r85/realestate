@@ -33,14 +33,14 @@ class UserPresenter extends Presenter
 			$value = $this->home->present()->$length;
 		}
 
-		if ($data == true) {
+		if ($data == true && isset($value) && isset($model)) {
 			return [
 				'name' => $value,
 				'data' => $model
 			];
 		}
 
-		return $value;
+		return $value ?: null;
 	}
 
 	/**
