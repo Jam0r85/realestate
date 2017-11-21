@@ -1,8 +1,10 @@
 @php
 	$sections = [
 		'Details' => 'details',
+		'Deposit' => null,
 		'Payments' => 'rent_payments',
-		'Statements' => 'statements'
+		'Statements' => 'statements',
+		'Agreements' => 'agreements'
 	];
 @endphp
 

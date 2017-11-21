@@ -28,7 +28,7 @@
 						<label for="amount">Amount</label>
 						<div class="input-group">
 							<span class="input-group-addon">
-								<i class="fa fa-gbp"></i>
+								<i class="fa fa-money-bill"></i>
 							</span>
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
 						</div>
