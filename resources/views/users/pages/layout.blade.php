@@ -6,7 +6,11 @@
 		'Invoices' => 'invoices',
 		'Bank Accounts' => 'bankAccounts'
 	];
-	$history = ['EMail History','SMS History'];
+
+	$history = [
+		'EMail History' => 'emails',
+		'SMS History' => 'sms'
+	];
 @endphp
 
 @extends('layouts.app')
@@ -48,6 +52,11 @@
 					@foreach ($history as $item)
 						<a class="nav-link" id="v-pills-{{ str_slug($item) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($item) }}" role="tab">
 							{{ $item }}
+							@if (method_exists($user, $value))
+								<span class="badge badge-light">
+									{{ count($user->$value) }}
+								</span>
+							@endif
 						</a>
 					@endforeach
 
