@@ -1,5 +1,5 @@
 @php
-	$invoices = $user->invoices()->paginate();
+	$invoices = $user->invoices()->with('property','users','statements','items','items.taxRate')->paginate();
 	$invoices->appends(['section' => 'invoices']);
 @endphp
 
