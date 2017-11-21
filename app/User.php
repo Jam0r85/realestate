@@ -32,8 +32,7 @@ class User extends Authenticatable
             'phone_number',
             'phone_number_other',
             'created_at',
-            'updated_at',
-            'home_inline'
+            'updated_at'
         );
     }
 
