@@ -4,7 +4,7 @@
 			{{ $notification->data['text'] }}
 		</p>
 		<footer class="blockquote-footer">
-			SMS message sent by {{ $notification->data['user'] }}
+			SMS message sent by <a href="{{ route('users.show', $notification->notifiable->user_id) }}">{{ $notification->data['user'] }}</a>
 		</footer>
 	</blockquote>
 </div>
