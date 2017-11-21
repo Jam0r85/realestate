@@ -49,9 +49,9 @@
 
 					<div class="dropdown-divider"></div>
 
-					@foreach ($history as $item)
-						<a class="nav-link" id="v-pills-{{ str_slug($item) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($item) }}" role="tab">
-							{{ $item }}
+					@foreach ($history as $key => $value)
+						<a class="nav-link" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+							{{ $key }}
 							@if (method_exists($user, $value))
 								<span class="badge badge-light">
 									{{ count($user->$value) }}
@@ -71,8 +71,8 @@
 						@include('users.sections.' . str_slug($key))
 					@endforeach
 
-					@foreach ($history as $item)
-						@include('users.sections.' . str_slug($item))
+					@foreach ($history as $key => $value)
+						@include('users.sections.' . str_slug($key))
 					@endforeach
 
 				</div>
