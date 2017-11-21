@@ -28,6 +28,11 @@
 				<td>{{ currency($statement->amount) }}</td>
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
+					@if ($statement->present()->status == 'Paid')
+						<a href="{{ route('statements.send', $statement->id) }}" class="btn btn-success btn-sm">
+							Send
+						</a>
+					@endif
 					<a href="{{ route('downloads.statement', $statement->id) }}" class="btn btn-primary btn-sm" target="_blank">
 						Download
 					</a>
