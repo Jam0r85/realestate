@@ -11,23 +11,35 @@
 				</div>
 				<div class="modal-body">
 
-					<div class="form-group">
-						<label for="phone_number">Number</label>
-						<input type="text" name="phone_number" id="phone_number" disabled class="form-control" value="{{ $user->phone_number }}" />
-					</div>
+					@if (!$user->phone_number)
 
-					<div class="form-group">
-						<label for="message">Message</label>
-						<textarea name="message" id="message" required class="form-control" rows="8"></textarea>
-					</div>
+						@component('partials.alerts.danger')
+							User has no valid mobile phone number.
+						@endcomponent
+
+					@else
+
+						<div class="form-group">
+							<label for="phone_number">Number</label>
+							<input type="text" name="phone_number" id="phone_number" disabled class="form-control" value="{{ $user->phone_number }}" />
+						</div>
+
+						<div class="form-group">
+							<label for="message">Message</label>
+							<textarea name="message" id="message" required class="form-control" rows="8"></textarea>
+						</div>
+
+					@endif
 
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					@component('partials.save-button')
-						Send Message
-					@endcomponent
-				</div>
+				@if ($user->phone_number)
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						@component('partials.save-button')
+							Send Message
+						@endcomponent
+					</div>
+				@endif
 			</div>
 		</form>
 	</div>
