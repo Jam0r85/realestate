@@ -4,9 +4,13 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('users.show', $user->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			{{ $user->present()->fullName }}
@@ -98,7 +102,7 @@
 						<label for="tenancy_service_letting_fee">Override Letting Fee</label>
 						<div class="input-group">
 							<span class="input-group-addon">
-								<i class="fa fa-gbp"></i>
+								<i class="fa fa-money-bill"></i>
 							</span>
 							<input type="text" name="tenancy_service_letting_fee" id="tenancy_service_letting_fee" class="form-control" value="{{ array_has($user->settings, 'tenancy_service_letting_fee') ? $user->settings['tenancy_service_letting_fee'] : '' }}" />
 						</div>
@@ -111,7 +115,7 @@
 						<label for="tenancy_service_re_letting_fee">Override Re-Letting Fee</label>
 						<div class="input-group">
 							<span class="input-group-addon">
-								<i class="fa fa-gbp"></i>
+								<i class="fa fa-money-bill"></i>
 							</span>
 							<input type="text" name="tenancy_service_re_letting_fee" id="tenancy_service_re_letting_fee" class="form-control" value="{{ array_has($user->settings, 'tenancy_service_re_letting_fee') ? $user->settings['tenancy_service_re_letting_fee'] : '' }}" />
 						</div>

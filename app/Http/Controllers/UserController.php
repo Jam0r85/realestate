@@ -128,25 +128,17 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UserUpdateRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->title = $request->title;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->company_name = $request->company_name;
-        $user->phone_number = $request->phone_number;
-        $user->phone_number_other = $request->phone_number_other;
+        $user->fill($request->input());
         $user->save();
 
-        $this->successMessage('The user "' . $user->name . '" was updated');
-
-        Cache::tags('users')->flush();
-
+        $this->successMessage('The user "' . $user->present()->fullName . '" was updated');
         return back();
     }
 
@@ -213,24 +205,6 @@ class UserController extends BaseController
         $user->save();
 
         $this->successMessage('The users e-mail was updated');
-
-        return back();
-    }
-
-    /**
-     * Update the user's home address in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateHomeAddress(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->property_id = $request->property_id;
-        $user->save();
-
-        $this->successMessage('The users location was updated');
 
         return back();
     }

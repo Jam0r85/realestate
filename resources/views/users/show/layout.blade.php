@@ -17,94 +17,79 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div class="row">
-			<div class="col col-5">
+			<div class="col-12 col-lg-3">
 
 				@include('users.partials.home-address-card')
 				@include('users.partials.system-info-card')
 
 			</div>
-			<div class="col col-7">
+			<div class="col-12 col-lg-4">
 
 				@include('users.partials.user-info-card')
 
 			</div>
-		</div>
+			<div class="col-12 col-lg-5">
 
-	@endcomponent
+				<div role="tablist">
+					<div class="card">
 
-	@component('partials.bootstrap.section-with-container')
+						@component('partials.card-header')
 
-		<div class="card">
-			<div class="card-body">
+							<a data-toggle="collapse" href="#propertiesCollapse">
+								Linked Properties
+							</a>
 
-				<ul class="nav nav-pills nav-justified" id="userTabs" role="tablist">
-					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#properties" role="tab">Properties</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#tenancies" role="tab">Tenancies</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#invoices" role="tab">Invoices</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#expenses" role="tab">Expenses</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#bank_accounts" role="tab">Bank Accounts</a>
-					</li>
-				</ul>
+						@endcomponent
+
+						<div id="propertiesCollapse" class="collapse show">
+
+							
+
+						</div>
+
+						@component('partials.card-header')
+
+							<a data-toggle="collapse" href="#tenanciesCollapse">
+								Linked Tenancies
+							</a>
+
+						@endcomponent
+
+						<div id="tenanciesCollapse" class="collapse show">
+
+
+						</div>
+
+						@component('partials.card-header')
+
+							<a data-toggle="collapse" href="#latestInvoicesCollapse">
+								Linked Invoices
+							</a>
+
+						@endcomponent
+
+						<div id="latestInvoicesCollapse" class="collapse">
+
+
+						</div>
+
+						@component('partials.card-header')
+
+							<a data-toggle="collapse" href="#bankAccountsCollapse">
+								Linked Bank Accounts
+							</a>
+
+						@endcomponent
+
+						<div id="bankAccountsCollapse" class="collapse">
+
+
+						</div>
+
+					</div>
+				</div>
 
 			</div>
-
-			<div class="tab-content">
-				<div class="tab-pane active" id="properties" role="tabpanel">
-
-					<div class="p-2 text-muted text-center">
-						Properties that this user is the owner of.
-					</div>
-
-					@include('properties.partials.properties-table', ['properties' => $user->properties])
-
-				</div>
-				<div class="tab-pane" id="tenancies" role="tabpanel">
-
-					<div class="p-2 text-muted text-center">
-						Tenancies which are linked to properties that this user is the owner of.
-					</div>
-
-					@include('tenancies.partials.tenancies-table', ['tenancies' => $user->tenancies])
-
-				</div>
-				<div class="tab-pane" id="invoices" role="tabpanel">
-
-					<div class="p-2 text-muted text-center">
-						Invoices that are linked to this user and need to be paid or have been paid.
-					</div>
-
-					@include('invoices.partials.invoices-table', ['invoices' => $user->invoices()->limit(10)->get()])
-
-				</div>
-				<div class="tab-pane" id="expenses" role="tabpanel">
-
-					<div class="p-2 text-muted text-center">
-						Expenses which are linked to properties that this user is the owner of and needs to pay or has paid.
-					</div>
-
-					@include('expenses.partials.expenses-table', ['expenses' => $user->expenses()->limit(10)->get()])
-
-				</div>
-				<div class="tab-pane" id="bank_accounts" role="tabpanel">
-
-					<div class="p-2 text-muted text-center">
-						Bank Accounts which are linked to this user.
-					</div>
-
-					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $user->bankAccounts])
-
-				</div>
-			</div>
-
 		</div>
 
 	@endcomponent

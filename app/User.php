@@ -73,7 +73,8 @@ class User extends Authenticatable
         'email',
         'phone_number',
         'phone_number_other',
-        'settings'
+        'settings',
+        'property_id'
     ];
 
     /**

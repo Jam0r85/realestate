@@ -4,9 +4,13 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('users.show', $user->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			{{ $user->present()->fullName }}
@@ -20,41 +24,51 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<form method="POST" action="{{ route('users.update-password', $user->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}
+		<div class="card mb-3">
 
-			<div class="form-group">
-				<label for="password">New Password</label>
-				<input type="password" class="form-control" name="password" id="password" />
-			</div>
-
-			<div class="form-group">
-				<label for="password_confirmation">Confirm New Password</label>
-				<input type="password" class="form-control" name="password_confirmation" id="password_confirmation" />
-			</div>
-
-			<div class="form-group">
-				<label class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" name="notify_user" value="true" checked >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description">Notify this user that their password has changed?</span>
-				</label>
-			</div>
-
-			<div class="form-group">
-				<label for="notify_message">Message to User (optional)</label>
-				<textarea name="notify_message" id="notify_message" class="form-control" rows="8"></textarea>
-				<small class="form-text text-muted">
-					Send the user a custom message letting them know why their password was changed.
-				</small>
-			</div>
-
-			@component('partials.save-button')
+			@component('partials.card-header')
 				Change Password
 			@endcomponent
 
-		</form>
+			<div class="card-body">
+
+				<form method="POST" action="{{ route('users.update-password', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					<div class="form-group">
+						<label for="password">New Password</label>
+						<input type="password" class="form-control" name="password" id="password" />
+					</div>
+
+					<div class="form-group">
+						<label for="password_confirmation">Confirm New Password</label>
+						<input type="password" class="form-control" name="password_confirmation" id="password_confirmation" />
+					</div>
+
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="checkbox" class="form-check-input" name="notify_user" value="true" checked >
+							Notify the user that their password has been changed?
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label for="notify_message">Message to User (optional)</label>
+						<textarea name="notify_message" id="notify_message" class="form-control" rows="4"></textarea>
+						<small class="form-text text-muted">
+							Send the user a custom message letting them know why their password was changed.
+						</small>
+					</div>
+
+					@component('partials.save-button')
+						Change Password
+					@endcomponent
+
+				</form>
+
+			</div>
+		</div>
 
 	@endcomponent
 

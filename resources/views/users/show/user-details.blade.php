@@ -4,9 +4,13 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('users.show', $user->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			{{ $user->present()->fullName }}
@@ -22,17 +26,70 @@
 
 		@include('partials.errors-block')
 
-		<form method="POST" action="{{ route('users.update', $user->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}			
+		<div class="row">
+			<div class="col-12 col-lg-6">
 
-			@include('users.partials.form')
+				<div class="card mb-3">
 
-			@component('partials.save-button')
-				Save Changes
-			@endcomponent
+					@component('partials.card-header')
+						Update Details
+					@endcomponent
 
-		</form>
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('users.update', $user->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}			
+
+							@include('users.partials.form')
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+				<div class="card mb-3">
+
+					@component('partials.card-header')
+						Set Home Address
+					@endcomponent
+
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('users.update', $user->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
+
+							<div class="form-group">
+								<label for="property_id">Property</label>
+								<select name="property_id" id="property_id" class="form-control select2">
+									<option value="">None</option>
+									@foreach (properties() as $property)
+										<option @if ($user->property_id == $property->id) selected @endif value="{{ $property->id }}">
+											{{ $property->present()->selectName }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 	@endcomponent
 
