@@ -1,5 +1,5 @@
 @php
-	$views = [
+	$sections = [
 		'Active' => 'active',
 		'Archived' => 'archived'
 	];
@@ -41,7 +41,7 @@
 
 				<div class="nav flex-column nav-pills mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-					@foreach ($views as $key => $value)
+					@foreach ($sections as $key => $value)
 						<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
 							{{ $key }}
 						</a>
@@ -52,32 +52,9 @@
 			</div>
 			<div class="col-12 col-md-8 col-lg-9 col-xl-10">
 
-				@component('partials.table')
-					@slot('header')
-						<th>Name</th>
-						<th>Email</th>
-						<th>Mobile Phone</th>
-						<th>Other Phone</th>
-						<th>Location</th>
-					@endslot
-					@slot('body')
-						@foreach ($users as $user)
-							<tr>
-								<td>
-									<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
-										{{ $user->present()->fullName }}
-									</a>
-								</td>
-								<td>{{ $user->email }}</td>
-								<td>{{ $user->phone_number }}</td>
-								<td>{{ $user->phone_number_other }}</td>
-								<td>{{ $user->present()->location }}</td>
-							</tr>
-						@endforeach
-					@endslot
-				@endcomponent
-
-				@include('partials.pagination', ['collection' => $users])
+				@foreach ($sections as $key => $value)
+					@include('users.sections.index.' . str_slug($key))
+				@endforeach
 
 			</div>
 		</div>
