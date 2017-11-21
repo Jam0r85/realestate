@@ -175,7 +175,6 @@ class StatementController extends BaseController
     public function send(StatementSendRequest $request, $id)
     {
         $statement = Statement::findOrFail($id);
-
         $statement->send();
 
         $this->successMessage('The statement was sent to the landlords');

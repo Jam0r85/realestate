@@ -29,9 +29,12 @@
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
 					@if ($statement->present()->status == 'Paid')
-						<a href="{{ route('statements.send', $statement->id) }}" class="btn btn-success btn-sm">
-							Send
-						</a>
+						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
+							{{ csrf_field() }}
+							<button type="submit" class="btn btn-success btn-sm">
+								Send
+							</button>
+						</form>
 					@endif
 					<a href="{{ route('downloads.statement', $statement->id) }}" class="btn btn-primary btn-sm" target="_blank">
 						Download
