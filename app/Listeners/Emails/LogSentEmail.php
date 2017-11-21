@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Emails;
 
 use App\Email;
-use App\EmailAttachment;
+use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,10 +30,6 @@ class LogSentEmail
     public function handle(MessageSending $event)
     {
         $message = $event->message;
-        $children = $message->getChildren();
-        $attachments = array_filter($children, function($child) {
-            return get_class($child) == 'Swift_Attachment';
-        });
 
         $email = Email::create([
             'to' => !$message->getHeaders()->get('To') ? null : $message->getHeaders()->get('To')->getFieldBody(),
@@ -41,5 +37,9 @@ class LogSentEmail
             'subject' => $message->getHeaders()->get('Subject')->getFieldBody(),
             'body' => $message->getBody()
         ]);
+
+        if ($user = User::where('email', $email->to)->first()) {
+            $email->users()->attach($user);
+        }
     }
 }

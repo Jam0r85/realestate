@@ -185,13 +185,19 @@ class User extends Authenticatable
     }
 
     /**
-     * A user can belong to many emails.
-     *
-     * @param  integer $limit
+     * User has many SMS messages.
      */
-    public function emails($limit = null)
+    public function sms()
     {
-        return Email::where('to', $this->email)->limit($limit)->latest()->get();
+        return $this->hasMany('App\SmsHistory');
+    }
+
+    /**
+     * User can belong to many emails.
+     */
+    public function emails()
+    {
+        return $this->belongsToMany('App\Email');
     }
 
     /**

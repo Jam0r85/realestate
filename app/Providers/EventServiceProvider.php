@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'Illuminate\Mail\Events\MessageSending' => [
-            'App\Listeners\LogSentEmail'
+            'App\Listeners\Emails\LogSentEmail'
         ],
 
         'App\Events\StatementCreated' => [
