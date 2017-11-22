@@ -124,9 +124,7 @@ class StatementPaymentController extends BaseController
      */
     public function update(StatementPaymentUpdateRequest $request, StatementPayment $payment)
     {
-        $payment->sent_at = $request->sent_at;
-        $payment->amount = $request->amount;
-        $payment->bank_account_id = $request->bank_account_id;
+        $payment->fill($request->input());
         $payment->save();
 
         $this->successMessage('The changes were saved for this payment');
@@ -162,23 +160,5 @@ class StatementPaymentController extends BaseController
 
         $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
         return view('statement-payments.print', compact('unsent_payments'));
-    }
-
-    /**
-     * Update the given statement payments as being sent.
-     * 
-     * @param \App\Http\Requests\StatementPaymentSentRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function markSent(StatementPaymentSentRequest $request)
-    {
-        StatementPayment::whereIn('id', $request->payments)
-            ->update([
-                'sent_at' => Carbon::now()
-            ]);
-
-        $this->successMessage('The statement ' . str_plural('payment', count($request->payments)) . ' ' . str_plural('was', count($request->payments)) . ' marked as being sent');
-
-        return back();
     }
 }
