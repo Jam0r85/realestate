@@ -9,8 +9,8 @@
 		@endif
 		<th>Amount</th>
 		@if (isset($tenancy))
-			<th>Invoice</th>
 			<th>Landlord</th>
+			<th>Invoice</th>
 		@endif
 		<th>Send By</th>
 		<th></th>
@@ -35,8 +35,8 @@
 				@endif
 				<td>{{ $statement->present()->amountFormatted }}</td>
 				@if (isset($tenancy))
-					<td>{{ $statement->invoice() ? $statement->invoice()->number : '-' }}</td>
-					<td>{{ currency($statement->landlord_balance_amount) }}</td>
+					<td>{{ currency($statement->getLandlordAmount()) }}</td>
+					<td>{{ $statement->invoice() ? $statement->invoice()->number : '-' }}</td>	
 				@endif
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
