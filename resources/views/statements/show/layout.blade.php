@@ -224,6 +224,7 @@
 									<th>Amount</th>
 									<th>Method</th>
 									<th>Recipients</th>
+									<th></th>
 								@endslot
 								@slot('body')
 									@foreach ($statement->payments()->with('bank_account')->get() as $payment)
@@ -233,15 +234,21 @@
 											<td>{{ $payment->amount }}</td>
 											<td>{{ $payment->present()->method }}</td>
 											<td>{{ $payment->present()->recipientNames }}</td>
+											<td class="text-right">
+												<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
+													Edit
+												</a>
+											</td>
 										</tr>
 									@endforeach
 								@endslot
 							@endcomponent
 
-						<footer class="card-footer">
-							<a class="card-footer-item" href="javascript:document.getElementById('generatePaymentsForm').submit();">{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments</a>
-							<form id="generatePaymentsForm" role="form" method="POST" action="{{ route('statements.create-payments', $statement->id) }}" style="display: hidden;">
+							<form method="POST" action="{{ route('statement-payments.store', $statement->id) }}">
 								{{ csrf_field() }}
+								@component('partials.save-button')
+									{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
+								@endcomponent
 							</form>
 							@if (count($statement->payments))
 								<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'delete-payments']) }}">Delete Payments</a>

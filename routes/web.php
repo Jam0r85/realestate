@@ -150,9 +150,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'StatementPaymentController@index')->name('statement-payments.index');
 		Route::get('print', 'StatementPaymentController@print')->name('statement-payments.print');
 		Route::post('mark-sent', 'StatementPaymentController@markSent')->name('statement-payments.mark-sent');
-		Route::get('{id}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit');
-		Route::get('{id}', 'StatementPaymentController@show')->name('statement-payments.show');
-		Route::put('{id}', 'StatementPaymentController@update')->name('statement-payments.update');
+		Route::post('/{statement}', 'StatementPaymentController@store')->name('statement-payments.store');
+		Route::get('{payment}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit');
+		Route::get('{payment}', 'StatementPaymentController@show')->name('statement-payments.show');
+		Route::put('{payment}', 'StatementPaymentController@update')->name('statement-payments.update');
+		Route::delete('{payment}', 'StatementPaymentController@destroy')->name('statement-payments.destroy');
 	});
 
 	Route::prefix('users')->group(function () {

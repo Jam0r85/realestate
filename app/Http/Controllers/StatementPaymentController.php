@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StatementPaymentSentRequest;
+use App\Http\Requests\StatementPaymentStoreRequest;
 use App\Http\Requests\StatementPaymentUpdateRequest;
 use App\Services\StatementService;
+use App\Statement;
 use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,19 +14,9 @@ use Illuminate\Http\Request;
 class StatementPaymentController extends BaseController
 {
     /**
-     * Create a new controller instance.
+     * Display a listing of statement payments.
      * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
-     * 
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index()
     {
@@ -43,41 +35,85 @@ class StatementPaymentController extends BaseController
     }
 
     /**
+     * Store a new statement payment in storage.
+     * 
+     * @param  \App\Http\Requests\StorePaymentStoreRequest  $request
+     * @param  \App\Statement  $statement  the statement that we are generating payments for
+     * @return  \Illuminate\Http\Response
+     */
+    public function store(StatementPaymentStoreRequest $request, Statement $statement)
+    {
+        $sent_at = $request->has('sent_at') ? $request->sent_at : null;
+
+        // Invoice Payments
+        if ($statement->invoice()) {
+            StatementPayment::updateOrCreate(
+                ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $statement->invoice()->id],
+                ['amount' => $statement->getInvoiceTotal(), 'sent_at' => $sent_at]
+            );
+        } else {
+            StatementPayment::where('statement_id', $statement->id)->where('parent_type', 'invoices')->delete();
+        }
+
+        // Expense Payments
+        if (count($statement->expenses)) {
+            foreach ($statement->expenses as $expense) {
+
+                StatementPayment::updateOrCreate(
+                    ['statement_id' => $statement->id, 'parent_type' => 'expenses', 'parent_id' => $expense->id],
+                    ['amount' => $expense->pivot->amount, 'sent_at' => $sent_at]
+                );
+            }
+        } else {
+            StatementPayment::where('statement_id', $statement->id)->where('parent_type', 'expenses')->delete();
+        }
+
+        // Landlord Payment
+        StatementPayment::updateOrCreate(
+            ['statement_id' => $statement->id, 'parent_type' => null],
+            ['amount' => $statement->getLandlordAmount(), 'sent_at' => $sent_at]
+        );
+
+        if (count($statement->payments)) {
+            $this->successMessage('The payments for Statement ' . $statement->id . ' were updated');
+        } else {
+            $this->successMessage('The payments for Statement ' . $statement->id . ' were created');
+        }
+
+        return back();
+    }
+
+    /**
      * Show the statement payment.
      * 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\StatementPayment  $payment
+     * @return  \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(StatementPayment $payment)
     {
-        $payment = StatementPayment::findOrFail($id);
-
         return view('statement-payments.show', compact('payment'));
     }
 
     /**
      * Show the form for editing a statement payment.
      * 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\StatementPayment  $payment
+     * @return  \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(StatementPayment $payment)
     {
-        $payment = StatementPayment::findOrFail($id);
-
         return view('statement-payments.edit', compact('payment'));
     }
 
     /**
      * Update the statement payment in storage.
      * 
-     * @param \App\Http\Request\StatementPaymentUpdateRequest $request 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Request\StatementPaymentUpdateRequest  $request 
+     * @param  \App\StatementPayment  $payment
+     * @return  \Illuminate\Http\Response
      */
-    public function update(StatementPaymentUpdateRequest $request, $id)
+    public function update(StatementPaymentUpdateRequest $request, StatementPayment $payment)
     {
-        $payment = StatementPayment::findOrFail($id);
         $payment->sent_at = $request->sent_at;
         $payment->amount = $request->amount;
         $payment->bank_account_id = $request->bank_account_id;
@@ -85,6 +121,20 @@ class StatementPaymentController extends BaseController
 
         $this->successMessage('The changes were saved for this payment');
         return back();
+    }
+
+    /**
+     * Remove the statement payment from storage.
+     *
+     * @param  \App\StatementPayment  $payment
+     * @return  \Illuminate\Http\Response
+     */
+    public function destroy(StatementPayment $payment)
+    {
+        $payment->delete();
+
+        $this->successMessage('The payment of ' . currency($payment->amount) . ' was deleted');
+        return redirect()->route('statements.show', $payment->statement_id);
     }
 
     /**

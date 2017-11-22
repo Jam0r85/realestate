@@ -4,9 +4,13 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('statement-payments.index') }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('statement-payments.index') }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			Statement Payment #{{ $payment->id }}
@@ -81,6 +85,27 @@
 
 						</form>
 
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Delete Payment
+					@endcomponent
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('statement-payments.destroy', $payment->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+
+							@component('partials.save-button')
+								Delete Payment
+							@endcomponent
+
+						</form>
 					</div>
 				</div>
 
