@@ -35,9 +35,22 @@ class Statement extends PdfModel
         $array['property'] = $this->tenancy->property->present()->fullAddress;
         $array['tenancy'] = $this->tenancy->present()->name;
         $array['amount'] = $this->amount;
+
+        if ($this->invoice()) {
+            foreach ($this->invoice()->items as $item) {
+                $invoice_items[] = $item->pluck('name','description')->toArray();
+            }
+        }
+
+        if (count($this->expenses)) {
+            foreach ($this->expenses as $expense) {
+                $expenses[] = $expense->pluck('name')->toArray();
+            }
+        }
+
         $array['items'] = [
-            'invoice' => $this->invoice() ? $this->invoice()->items : null,
-            'expense' => $this->expenses
+            'invoices' => isset($invoice_items) ? $invoice_items : null,
+            'expenses' => isset($expenses) ? $expenses : null
         ];
 
         return $array;
