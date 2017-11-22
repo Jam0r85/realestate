@@ -1,5 +1,5 @@
 @php
-	$statements = $tenancy->statements()->with('invoices','invoices.items','invoices.items.taxRate')->paginate();
+	$statements = $tenancy->statements()->with('invoices','invoices.invoiceGroup','invoices.items','invoices.items.taxRate','expenses')->paginate();
 	$statements->appends(['section' => 'statements']);
 @endphp
 
