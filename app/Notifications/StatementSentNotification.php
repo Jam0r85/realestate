@@ -89,17 +89,4 @@ class StatementSentNotification extends Notification
                 ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
         }
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }

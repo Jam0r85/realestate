@@ -139,7 +139,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 		Route::post('toggle-paid/{id?}', 'StatementController@updatePaid')->name('statements.update-paid');
 		Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
-		Route::post('{id}/send', 'StatementController@send')->name('statements.send');
+		Route::post('{statement}/send', 'StatementController@send')->name('statements.send');
 		Route::put('{statement}', 'StatementController@update')->name('statements.update');
 		Route::post('{id}/archive', 'StatementController@archive')->name('statements.archive');
 		Route::post('{id}/restore', 'StatementController@restore')->name('statements.restore');

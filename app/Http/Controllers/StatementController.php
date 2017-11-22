@@ -152,16 +152,14 @@ class StatementController extends BaseController
     /**
      * Send the statements to the owners.
      * 
-     * @param \App\Http\Requests\StatementSendRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\StatementSendRequest  $request
+     * @param  \App\Statement  $statement
+     * @return  \Illuminate\Http\Response
      */
-    public function send(StatementSendRequest $request, $id)
+    public function send(StatementSendRequest $request, Statement $statement)
     {
-        $statement = Statement::findOrFail($id);
         $statement->send();
-
-        $this->successMessage('The statement was sent to the landlords');
+        $this->successMessage('Statement ' . $statement->id . ' was sent by ' . $statement->present()->sendByPlain);
         return back();
     }
 

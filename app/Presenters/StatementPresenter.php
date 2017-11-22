@@ -33,6 +33,14 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
+	public function sendByPlain()
+	{
+		return $this->sendBy(null);
+	}
+
+	/**
+	 * @return string
+	 */
 	public function recipient()
 	{
 		foreach ($this->users as $user) {
