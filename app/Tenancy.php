@@ -593,4 +593,18 @@ class Tenancy extends BaseModel
     {
         return $this->agreements()->save($agreement);
     }
+
+    /**
+     * Is this tenancy active?
+     * 
+     * @return boolean
+     */
+    public function isActive()
+    {
+        if ($this->vacated_on < Carbon::now()) {
+            return false;
+        }
+
+        return true;
+    }
 }
