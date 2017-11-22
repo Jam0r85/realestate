@@ -1,9 +1,9 @@
 @component('mail::message')
 # Your Rental Statement
 
-Quick email to let you know that the latest rental statement for <b>{{ $statement->tenancy->property->present()->fullAddress }}</b> has been posted to you today.
+Quick email to let you know that the latest rental statement for <b>{{ $statement->property()->present()->fullAddress }}</b> has been posted to you today.
 
-The amount of {{ currency($statement->landlord_balance_amount) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
+The amount of {{ currency($statement->getLandlordAmount) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
 
 Thanks,<br>
 {{ get_setting('company_name', config('app.name')) }}
