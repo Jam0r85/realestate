@@ -27,7 +27,7 @@
 							<label for="amount">Deposit Amount</label>
 							<div class="input-group">
 								<span class="input-group-addon">
-									<i class="fa fa-gbp"></i>
+									<i class="fa fa-money-bill"></i>
 								</span>
 								<input type="number" step="any" name="amount" id="amount" class="form-control" required value="{{ $tenancy->deposit ? $tenancy->deposit->amount : old('amount') }}" />
 							</div>
@@ -215,7 +215,9 @@
 								<div class="form-group">
 									<label for="amount">Amount</label>
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-gbp"></i></span>
+										<span class="input-group-addon">
+											<i class="fa fa-money-bill"></i>
+										</span>
 										<input type="number" step="any" name="amount" class="form-control" required />
 									</div>
 								</div>

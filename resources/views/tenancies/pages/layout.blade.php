@@ -3,7 +3,8 @@
 		'Details' => 'details',
 		'Payments' => 'rent_payments',
 		'Statements' => 'statements',
-		'Agreements' => 'agreements'
+		'Agreements' => 'agreements',
+		'Rent Amounts' => 'rents'
 	];
 @endphp
 
@@ -96,5 +97,6 @@
 
 	@include('tenancies.modals.tenancy-rent-payment-modal')
 	@include('tenancies.modals.tenancy-statement-modal')
+	@include('tenancies.modals.new-rent-amount-modal')
 
 @endsection

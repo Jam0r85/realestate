@@ -19,10 +19,22 @@
 		</div>
 	</div>
 
-	@include('tenancies.partials.tenants-card')
+	<div class="card mb-3">
+		@component('partials.card-header')
+			Tenants
+		@endcomponent
+		@include('users.partials.users-table', ['users' => $tenancy->tenants])
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-lg-6">
+			@include('tenancies.partials.tenancy-details-card')
+		</div>
+		<div class="col-12 col-lg-6">
+			@include('tenancies.partials.service-card')
+		</div>
+	</div>
+	
 	@include('tenancies.partials.system-info-card')
-	@include('tenancies.partials.tenancy-details-card')
-	@include('tenancies.partials.service-card')
-	@include('tenancies.partials.agreement-card')
 
 </div>

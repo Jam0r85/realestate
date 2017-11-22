@@ -10,16 +10,19 @@ class TenancyRentPresenter extends Presenter
     /**
      * @return string
      */
-    public function status()
+    public function status($return = 'label')
     {
         if ($this->starts_at > Carbon::now()) {
-            return 'Pending';
+            $data['label'] = 'Pending';
+            $data['class'] = 'info';
+        } elseif ($this->deleted_at) {
+            $data['label'] = 'Archived';
+            $data['class'] = 'secondary';
+        } else {
+            $data['label'] = 'Active';
+            $data['class'] = 'success';
         }
 
-        if ($this->deleted_at) {
-            return 'Archived';
-        }
-
-        return 'Active';
+        return $data[$return];
     }
 }
