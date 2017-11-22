@@ -246,13 +246,16 @@
 
 							<form method="POST" action="{{ route('statement-payments.store', $statement->id) }}">
 								{{ csrf_field() }}
+
+								@if ($statement->sent_at)
+									<input type="hidden" name="sent_at" value="{{ $statement->sent_at }}" />
+								@endif
+
 								@component('partials.save-button')
 									{{ count($statement->payments) ? 'Re-Generate' : 'Generate' }} Payments
 								@endcomponent
 							</form>
-							@if (count($statement->payments))
-								<a class="card-footer-item" href="{{ route('statements.show', [$statement->id, 'delete-payments']) }}">Delete Payments</a>
-							@endif
+
 						</footer>
 					</div>
 

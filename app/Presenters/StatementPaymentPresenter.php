@@ -101,12 +101,14 @@ class StatementPaymentPresenter extends Presenter
     /**
      * @return string
      */
-    public function status()
+    public function status($return = 'value')
     {
         if ($this->sent_at) {
-            return 'Sent';
+            $data['value'] = 'Sent on ' . date_formatted($this->sent_at);
         } else {
-            return 'Unsent';
+            $data['value'] = 'Unsent';
         }
+
+        return $data[$return];
     }
 }
