@@ -43,7 +43,7 @@
 					@if ($statement->present()->status == 'Paid')
 						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 							{{ csrf_field() }}
-							<button type="submit" class="btn btn-success btn-sm">
+							<button type="submit" class="btn btn-info btn-sm">
 								Send
 							</button>
 						</form>
