@@ -159,7 +159,7 @@ class Statement extends PdfModel
      */
     public function getInvoiceAttribute()
     {
-        return $this->invoices()->first();
+        return $this->invoices->first();
     }
 
     /**
