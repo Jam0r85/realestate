@@ -11,7 +11,7 @@
 		">
 	<div class="card-body">
 		<h2 class="card-title">
-			{{ currency($tenancy->getRentBalance()) }}
+			{{ $tenancy->present()->rentBalance }}
 		</h2>
 		<p class="card-text">
 			Rent Balance

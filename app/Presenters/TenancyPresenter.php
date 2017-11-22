@@ -25,35 +25,75 @@ class TenancyPresenter extends Presenter
 	}
 
 	/**
-	 * @return integer
+	 * @return mixed
 	 */
-	public function rentAmount()
+	public function rentAmount($formatting = true)
 	{
-		return $this->currentRent ? $this->currentRent->amount : 0;
+		$rent = $this->currentRent ? $this->currentRent->amount : 0;
+
+		if ($formatting == true) {
+			return currency($rent);
+		}
+
+		return $rent;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function rentAmountPlain()
+	{
+		return $this->rentAmount(false);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function rentBalanceTotal($formatting = true)
+	{
+		$payments = $this->rent_payments->sum('amount');
+
+		if ($formatting == true) {
+			return currency($payments);
+		}
+
+		return $payments;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function rentBalance($formatting = true)
+	{
+		$balance = $this->rentBalanceTotal(false) - $this->statementTotal(false);
+
+		if ($formatting == true) {
+			return currency($balance);
+		}
+
+		return $balance;
 	}
 
 	/**
 	 * @return integer
 	 */
-	public function rentTotal()
+	public function rentBalancePlain()
 	{
-		return $this->rent_payments->sum('amount');
+		return $this->rentBalance(false);
 	}
 
 	/**
 	 * @return integer
 	 */
-	public function statementTotal()
+	public function statementTotal($formatting = true)
 	{
-		return $this->statements->sum('amount');
-	}
+		$statements = $this->statements->sum('amount');
 
-	/**
-	 * @return integer
-	 */
-	public function rentBalance()
-	{
-		return $this->rentTotal - $this->statementTotal;
+		if ($formatting == true) {
+			return currency($statements);
+		}
+
+		return $statements;
 	}
 
 	/**
@@ -61,7 +101,37 @@ class TenancyPresenter extends Presenter
 	 */
 	public function serviceName()
 	{
-		return $this->service ? $this->service->name : 'None';
+		return $this->service->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function serviceCharge()
+	{
+		$charge = $this->service->charge - $this->serviceDiscounts->sum('amount');
+
+        if ($charge < 1) {
+            return $charge * 100 . '%';
+        } else {
+            return currency($charge);
+        }
+	}
+
+	/**
+	 * @return string
+	 */
+	public function serviceChargeInCurrency()
+	{
+		return $this->serviceCharge;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function serviceReLettingFee()
+	{
+		return $this->service->re_letting_fee;
 	}
 
 	/**
@@ -70,15 +140,5 @@ class TenancyPresenter extends Presenter
 	public function startDate()
 	{
 		return $this->first_agreement ? $this->first_agreement->starts_at : null;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function propertyAddress($length = 'short')
-	{
-		$length = $length . 'Address';
-
-		return $this->property->present()->$length();
 	}
 }

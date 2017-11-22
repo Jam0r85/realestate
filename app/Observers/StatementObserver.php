@@ -21,7 +21,7 @@ class StatementObserver
 		$statement->key = str_random(30);
 		$statement->send_by = $statement->tenancy->property->settings['statement_send_method'];
 		$statement->period_end = $statement->period_end ?? $statement->period_start->addMonth()->subDay();
-		$statement->amount = $statement->amount ?? $statement->tenancy->rent_amount;
+		$statement->amount = $statement->amount ?? $statement->tenancy->present()->rentAmountPlain;
 	}
 
 	/**
@@ -33,7 +33,7 @@ class StatementObserver
 	public function saved(Statement $statement)
 	{
 		if (!count($statement->users)) {
-			$statement->users()->sync($statement->tenancy->property->owners);
+			$statement->users()->sync($statement->property()->owners);
 		}
 
 		UpdateTenancyRentBalances::dispatch($statement->tenancy_id);

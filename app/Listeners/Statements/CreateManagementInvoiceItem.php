@@ -32,9 +32,9 @@ class CreateManagementInvoiceItem
         $statement = Statement::findOrFail($event->statement->id);
         $tenancy = $statement->tenancy;
         $service = $tenancy->service;
-        $invoice = $statement->invoice;
+        $invoice = $statement->invoice();
 
-        if ($tenancy->hasServiceCharge()) {
+        if ($tenancy->getServiceChargeNetAmount() > 0) {
 
             if (!$invoice) {
                 $invoice = new Invoice();
@@ -43,6 +43,7 @@ class CreateManagementInvoiceItem
             }
 
             $description = $service->name . ' service at ' . $service->charge_formatted;
+
             if ($service->taxRate) {
                 $description .= ' plus ' . $service->taxRate->name;
             }
@@ -59,7 +60,7 @@ class CreateManagementInvoiceItem
             $item = new InvoiceItem();
             $item->name = $service->name;
             $item->description = $description;
-            $item->amount = $tenancy->service_charge_amount;
+            $item->amount = $tenancy->getServiceChargeNetAmount($statement->amount);
             $item->quantity = 1;
             $item->tax_rate_id = $service->tax_rate_id;
 

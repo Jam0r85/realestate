@@ -7,20 +7,20 @@
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			<a href="{{ route('services.show', $tenancy->service->id) }}">
-				{{ $tenancy->service->name }}
+				{{ $tenancy->present()->serviceName }}
 			</a>
 			@slot('title')
 				Service
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service_charge_formatted }}
+			{{ $tenancy->present()->serviceCharge }}
 			@slot('title')
 				Management Fee
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($tenancy->service_charge_amount) }}
+			{{ $tenancy->present()->serviceChargeInCurrency }}
 			@slot('title')
 				Management Fee Amount
 			@endslot

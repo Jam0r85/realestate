@@ -63,7 +63,7 @@ class StatementSentNotification extends Notification
             $email = new MailMessage();
             $email->subject('Your Rental Statement');
             $email->markdown('email-templates.statement-by-email', ['statement' => $this->statement]);
-            $email->attachData($statementToBeAttached, $this->statement->property->present()->shortAddress . ' Statement.pdf');
+            $email->attachData($statementToBeAttached, $this->statement->property()->present()->shortAddress . ' Statement.pdf');
 
             if (count($this->statement->expenses)) {
                 // Loop through the expenses

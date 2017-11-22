@@ -42,20 +42,6 @@ class Tenancy extends BaseModel
         return $array;
     }
 
-	/**
-	 * The attrbites that should be included in the collection.
-	 * 
-	 * @var array
-	 */
-	protected $appends = [
-        'rent_amount',
-        'service_charge_amount',
-        'service_charge_formatted',
-        'days_overdue',
-        'started_at',
-        'rent_balance'
-    ];
-
     /**
      * The attributes that should be cast to native types.
      * 
@@ -161,25 +147,17 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a current rent amount based on it starting before today.
+     * A tenancy can have a current rent amount.
      */
     public function currentRent()
     {
-        return $this->hasOne('App\TenancyRent')->where('starts_at', '<=', Carbon::now())->latest('starts_at');
+        return $this->hasOne('App\TenancyRent')
+            ->where('starts_at', '<=', Carbon::now())
+            ->latest('starts_at');
     }
 
     /**
-     * Get the current rent for this tenancy.
-     * 
-     * @return integer
-     */
-    public function getCurrentRentAmount()
-    {
-        return $this->currentRent->amount ?? 0;
-    }
-
-    /**
-     * A tenancy can have many users as tenants.
+     * A tenancy can have many tenants.
      */
     public function tenants()
     {
@@ -199,9 +177,7 @@ class Tenancy extends BaseModel
      */
     public function rent_payments()
     {
-    	return $this->morphMany('App\Payment', 'parent')
-            ->with('method','users','owner')
-            ->latest();
+    	return $this->morphMany('App\Payment', 'parent')->latest();
     }
 
     /**
@@ -209,9 +185,7 @@ class Tenancy extends BaseModel
      */
     public function latestRentPayment()
     {
-        return $this->rent_payments()
-            ->latest()
-            ->first();
+        return $this->rent_payments()->latest()->first();
     }
 
     /**
@@ -287,7 +261,7 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have many service discounts applied to it.
      */
-    public function service_discounts()
+    public function serviceDiscounts()
     {
         return $this->belongsToMany('App\Discount')->wherePivot('for', 'service');
     }
@@ -301,26 +275,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the tenancy's current rent amount.
-     * 
-     * @return integer
-     */
-    public function getRentAmountAttribute()
-    {
-    	return $this->currentRent ? $this->currentRent->amount : 0;
-    }
-
-    /**
-     * Get the tenancy's current rent balance.
-     * 
-     * @return integer
-     */
-    public function getRentBalance()
-    {
-        return $this->rent_payments->sum('amount') - $this->statements->sum('amount');
-    }
-
-    /**
      * Get the tenancy's next statement date.
      * 
      * @return Carbon\Carbon
@@ -331,53 +285,28 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the tenancy's service charge.
+     * Get the service charge net amount for this tenancy by multiplying
+     * the current rent amount with the calculated service charge.
      * 
      * @return integer
      */
-    public function getServiceChargeAmountAttribute()
+    public function getServiceChargeNetAmount($rentAmount = null)
     {
-        return ($this->getCurrentRentAmount() * $this->calculateServiceCharge());
-    }
-
-    /**
-     * Calculate tge service charge for this tenancy.
-     * 
-     * @return integer
-     */
-    protected function calculateServiceCharge()
-    {
-        return $this->service->charge - $this->service_discounts->sum('amount');
-    }
-
-    /**
-     * Check whether the tenancy has a service charge.
-     * 
-     * @return bool
-     */
-    public function hasServiceCharge()
-    {
-        if ($this->service) {
-            if ($this->calculateServiceCharge() > 0) {
-                return true;
-            }
+        if (is_null($rentAmount)) {
+            $rentAmount = $this->present()->rentAmountPlain;
         }
 
-        return false;
+        return $rentAmount * $this->getServiceChargeWithDiscounts();
     }
 
     /**
-     * Get the tenancy's service charge formatted.
+     * Get the service charge including discounts applied for this tenancy.
      * 
-     * @return string
+     * @return int
      */
-    public function getServiceChargeFormattedAttribute()
+    public function getServiceChargeWithDiscounts()
     {
-        if ($this->calculateServiceCharge() < 1) {
-            return ($this->calculateServiceCharge() * 100) . '%';
-        } else {
-            return currency($this->calculateServiceCharge());
-        }
+        return $this->service->charge - $this->serviceDiscounts->sum('amount');
     }
 
     /**
@@ -634,48 +563,33 @@ class Tenancy extends BaseModel
     /**
      * Store a statement to this tenancy.
      * 
-     * @param \App\Statement $statement
-     * @return void
+     * @param  \App\Statement  $statement  the statement we are storing.
+     * @return  \App\Statement
      */
     public function storeStatement(Statement $statement)
     {
-        $this->statements()->save($statement);
+        return $this->statements()->save($statement);
     }
 
     /**
-     * Store a tenancy rent amount against this tenancy.
+     * Store a rent amount to this tenancy.
      * 
-     * @param \App\TenancyRent $rent
-     * @return \App\TenancyRent
+     * @param  \App\TenancyRent  $rent  the rent amount we are storing.
+     * @return  \App\TenancyRent
      */
     public function storeRentAmount(TenancyRent $rent)
     {
-        $rent->user_id = Auth::user()->id;
         return $this->rents()->save($rent);
     }
 
     /**
-     * Store a tenancy agreement against this tenancy.
+     * Store an agreement to this tenancy.
      * 
-     * @param \App\Agreement $agreement
-     * @return \App\Agreement
+     * @param  \App\Agreement  $agreement  the agreement we are storing.
+     * @return  \App\Agreement
      */
     public function storeAgreement(Agreement $agreement)
     {
         return $this->agreements()->save($agreement);
-    }
-
-    /**
-     * Is this tenancy current active.
-     * 
-     * @return boolean
-     */
-    public function isActive()
-    {
-        if (is_null($this->vacated_on) || $this->vacated_on > Carbon::now()) {
-            return true;
-        }
-
-        return false;
     }
 }

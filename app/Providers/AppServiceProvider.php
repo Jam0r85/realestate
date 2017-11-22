@@ -19,12 +19,14 @@ use App\Observers\PaymentObserver;
 use App\Observers\PropertyObserver;
 use App\Observers\StatementObserver;
 use App\Observers\StatementPaymentObserver;
+use App\Observers\TenancyRentObserver;
 use App\Observers\UserObserver;
 use App\Payment;
 use App\Property;
 use App\Statement;
 use App\StatementPayment;
 use App\Tenancy;
+use App\TenancyRent;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
@@ -61,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
         StatementPayment::observe(StatementPaymentObserver::class);
         Agreement::observe(AgreementObserver::class);
         Property::observe(PropertyObserver::class);
+        TenancyRent::observe(TenancyRentObserver::class);
     }
 
     /**

@@ -35,7 +35,7 @@ class UpdateTenancyRentBalances
         if ($this->tenancy_id) {
             $tenancy = Tenancy::findOrFail($this->tenancy_id);
             $tenancy->update([
-                'rent_balance' => $tenancy->getRentBalance()
+                'rent_balance' => $tenancy->present()->rentBalancePlain
             ]);
         }
 
@@ -43,7 +43,7 @@ class UpdateTenancyRentBalances
             $tenancies = Tenancy::get();
             foreach ($tenancies as $tenancy) {
                 $tenancy->update([
-                    'rent_balance' => $tenancy->getRentBalance()
+                    'rent_balance' => $tenancy->present()->rentBalancePlain
                 ]);
             }
         }
