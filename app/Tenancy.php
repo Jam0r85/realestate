@@ -229,7 +229,7 @@ class Tenancy extends BaseModel
      */
     public function latestStatement()
     {
-        return $this->statements->latest('period_start')->first();
+        return $this->statements->first();
     }
 
     /**
