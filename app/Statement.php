@@ -32,7 +32,7 @@ class Statement extends PdfModel
     public function toSearchableArray()
     {
         $array = $this->only('amount','period_start','period_end','sent_at','paid_at');
-        $array['property'] = $this->property()->present()->fullAddress;
+        $array['property'] = $this->tenancy->property->present()->fullAddress;
         $array['tenancy'] = $this->tenancy->present()->name;
         $array['amounts'] = [
             'statement' => $this->amount,
