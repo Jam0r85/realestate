@@ -34,7 +34,7 @@ class Tenancy extends BaseModel
     {
         $array = $this->only('vacated_on');
         $array['name'] = $this->present()->name;
-        $array['property'] = $this->property->present()->propertyAddress;
+        $array['property'] = $this->property->present()->fullAddress;
         $array['rent'] = $this->present()->rentAmount;
         $array['started'] = $this->first_agreement ? $this->first_agreement->starts_at : null;
         $array['landlords'] = $this->property->owners->pluck('name');
