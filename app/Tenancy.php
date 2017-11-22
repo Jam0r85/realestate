@@ -219,9 +219,7 @@ class Tenancy extends BaseModel
      */
     public function statements()
     {
-        return $this->hasMany('App\Statement')
-            ->with('invoices','invoices.invoiceGroup','invoices.items','expenses','payments')
-            ->latest('period_start');
+        return $this->hasMany('App\Statement')->latest('period_start');
     }
 
     /**
