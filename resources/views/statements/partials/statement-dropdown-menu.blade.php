@@ -4,7 +4,7 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="statementOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'edit-statement-details']) }}">
-			Edit Details
+			Update Details
 		</a>
 		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'statement-options']) }}">
 			Statement Options

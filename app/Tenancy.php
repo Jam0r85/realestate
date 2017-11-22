@@ -35,7 +35,7 @@ class Tenancy extends BaseModel
         $array = $this->only('vacated_on');
         $array['name'] = $this->present()->name;
         $array['property'] = $this->property->present()->fullAddress;
-        $array['rent'] = $this->present()->rentAmount;
+        $array['rent'] = $this->present()->rentAmountPlain;
         $array['started'] = $this->first_agreement ? $this->first_agreement->starts_at : null;
         $array['landlords'] = $this->property->owners->pluck('name');
         $array['service'] = $this->service->name;
@@ -75,8 +75,8 @@ class Tenancy extends BaseModel
     /**
      * Scope a query to only include tenancies which are overdue.
      * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
      */
     public function scopeIsOverdue($query)
     {
@@ -86,8 +86,8 @@ class Tenancy extends BaseModel
     /**
      * Scope a query to only include tenancies which have a positive rent amount.
      * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
      */
     public function scopeHasRent($query)
     {
@@ -97,8 +97,8 @@ class Tenancy extends BaseModel
     /**
      * Scope a query to only include tenancies which have a negative rent amount.
      * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return  \Illuminate\Database\Eloquent
      */
     public function scopeOwesRent($query)
     {
@@ -106,10 +106,10 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Scope a query to only include tenancies which have a negative rent amount.
+     * Scope a query to only include tenancies which have a deposit but wrong deposit balance.
      * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
      */
     public function scopeOwesDeposit($query)
     {
@@ -121,8 +121,8 @@ class Tenancy extends BaseModel
     /**
      * Scope a query to only include tenancies which are active.
      * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
      */
     public function scopeActive($query)
     {
@@ -132,7 +132,7 @@ class Tenancy extends BaseModel
     }
 
 	/**
-	 * A tenancy belongs to a single property.
+	 * The property that this tenancy belongs to.
 	 */
     public function property()
     {
@@ -140,7 +140,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have many rent amounts.
+     * The rent amounts that this tenancy has.
      */
     public function rents()
     {
@@ -148,7 +148,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a current rent amount.
+     * The current rent amount of this tenancy.
      */
     public function currentRent()
     {
@@ -158,7 +158,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have many tenants.
+     * The tenants of the tenancy.
      */
     public function tenants()
     {
@@ -166,15 +166,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have many landlords.
-     */
-    public function getLandlordsAttribute()
-    {
-        return $this->property->owners;
-    }
-
-    /**
-     * A tenancy can have many rent payments.
+     * The rent payments for this tenancy.
      */
     public function rent_payments()
     {
@@ -182,15 +174,15 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a last rent payment.
+     * The latest rent payment for this tenancy.
      */
     public function latestRentPayment()
     {
-        return $this->rent_payments()->latest()->first();
+        return $this->rent_payments->first();
     }
 
     /**
-     * A tenancy can have many rental statements.
+     * The rental statements for this tenancy.
      */
     public function statements()
     {
@@ -198,7 +190,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a last rental statement.
+     * The most recent statement for this tenancy.
      */
     public function latestStatement()
     {
@@ -206,7 +198,7 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have many agreements.
+     * The tenancy agreements for this tenancy.
      */
     public function agreements()
     {
@@ -214,9 +206,9 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a current agreement.
+     * The current agreement for this tenancy.
      */
-    public function current_agreement()
+    public function currentAgreement()
     {
         return $this->hasOne('App\Agreement')
             ->where('starts_at', '<=', Carbon::now())
@@ -227,9 +219,9 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * A tenancy can have a first agreement.
+     * The first agreement for this tenancy.
      */
-    public function first_agreement()
+    public function firstAgreement()
     {
         return $this->hasOne('App\Agreement')
             ->oldest('starts_at');

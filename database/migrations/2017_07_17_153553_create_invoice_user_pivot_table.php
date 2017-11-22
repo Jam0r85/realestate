@@ -17,8 +17,8 @@ class CreateInvoiceUserPivotTable extends Migration
             $table->integer('invoice_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
-            $table->foreign('invoice_id')->references('id')->on('invoices');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

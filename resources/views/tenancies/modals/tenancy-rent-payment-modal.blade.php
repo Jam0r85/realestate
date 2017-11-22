@@ -30,10 +30,10 @@
 							<span class="input-group-addon">
 								<i class="fa fa-money-bill"></i>
 							</span>
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
+							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" placeholder="{{ $tenancy->present()->rentAmountPlain }}" />
 						</div>
 						<small class="form-text text-muted">
-							Leave blank to use the current rent amount of {{ $tenancy->present()->rentAmount }} as the payment amount.
+							Leave blank to use the current rent amount.
 						</small>
 					</div>
 

@@ -17,8 +17,8 @@ class CreateStatementUserPivotTable extends Migration
             $table->integer('statement_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
-            $table->foreign('statement_id')->references('id')->on('statements');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('statement_id')->references('id')->on('statements')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

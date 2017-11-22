@@ -1,6 +1,6 @@
 <div class="modal fade" id="tenancyStatementModal" tabindex="-1" role="dialog" aria-labelledby="tenancyStatementModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form role="form" method="POST" action="{{ route('statements.store') }}">
+		<form role="form" method="POST" action="{{ route('statements.store', $tenancy->id) }}">
 			{{ csrf_field() }}
 			<div class="modal-content">
 				<div class="modal-header">
@@ -19,10 +19,10 @@
 							<span class="input-group-addon">
 								<i class="fa fa-money-bill"></i>
 							</span>
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
+							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" placeholder="{{ $tenancy->present()->rentAmountPlain }}" />
 						</div>
 						<small class="form-text text-muted">
-							Leave this blank to use the current rent amount of {{ $tenancy->present()->rentAmount }}
+							Leave this blank to use the current rent amount.
 						</small>
 					</div>
 

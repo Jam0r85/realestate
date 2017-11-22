@@ -17,8 +17,8 @@ class CreateInvoiceStatementPivotTable extends Migration
             $table->integer('invoice_id')->unsigned()->index();
             $table->integer('statement_id')->unsigned()->index();
 
-            $table->foreign('invoice_id')->references('id')->on('invoices');
-            $table->foreign('statement_id')->references('id')->on('statements');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreign('statement_id')->references('id')->on('statements')->onDelete('cascade');
         });
     }
 

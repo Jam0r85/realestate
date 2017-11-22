@@ -17,8 +17,8 @@ class CreateStatementPaymentUserPivotTable extends Migration
             $table->integer('statement_payment_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
-            $table->foreign('statement_payment_id')->references('id')->on('statement_payments');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('statement_payment_id')->references('id')->on('statement_payments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDeleyte('cascade');
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\StatementCreated;
 use App\Http\Requests\ExpenseStoreRequest;
+use App\Http\Requests\StatementDestroyRequest;
 use App\Http\Requests\StatementSendRequest;
 use App\Http\Requests\StatementStoreRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
@@ -21,20 +22,9 @@ use Illuminate\Support\Facades\Session;
 class StatementController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @param   EloquentStatementsRepository $statements
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
+     * Display a listing of the statements.
      *
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index()
     {
@@ -45,7 +35,6 @@ class StatementController extends BaseController
         $statements->load('tenancy','tenancy.property','tenancy.tenants','payments');
 
         $title = 'Statements List';
-
         return view('statements.index', compact('statements','unsent_statements','title'));
     }
 
@@ -73,14 +62,13 @@ class StatementController extends BaseController
 
     /**
      * Store a new statement into storage.
-     * 
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     *
+     * @param  \App\Tenancy  $tenancy  the tenancy that this statement is for
+     * @param  \App\Http\Requests\StatementStoreRequest  $request
+     * @return. \Illuminate\Http\Response
      */
-    public function store(StatementStoreRequest $request)
+    public function store(StatementStoreRequest $request, Tenancy $tenancy)
     {
-        $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
-
         $statement = new Statement();
         $statement->period_start = $request->period_start ?? $tenancy->nextStatementDate();
         $statement->period_end = $request->period_end;
@@ -90,42 +78,38 @@ class StatementController extends BaseController
 
         event(new StatementCreated($statement));
 
-        $this->successMessage('The statement was created');
+        $this->successMessage('The new statement ' . $statement->id . ' was created');
         return back();
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified statement.
      *
      * @param  \App\Statement  $statement
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show(Statement $statement, $section = 'layout')
     {
-        $statement = Statement::withTrashed()->findOrFail($id);
         return view('statements.show.' . $section, compact('statement'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified statement in storage.
      *
-     * @param \App\Http|Requests\UpdateStatementRequest $request
-     * @param integer $id
+     * @param  \App\Http|Requests\UpdateStatementRequest  $request
+     * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStatementRequest $request, $id)
+    public function update(UpdateStatementRequest $request, Statement $statement)
     {
-        $statement = Statement::withTrashed()->findOrFail($id);
-
         $statement->created_at = $request->created_at;
         $statement->period_start = $request->period_start;
         $statement->period_end = $request->period_end;
         $statement->amount = $request->amount;
-
+        $statement->send_by = $request->send_by;
         $statement->save();
 
         $this->successMessage('The statement was updated');
-
         return back();
     }
 
@@ -266,14 +250,12 @@ class StatementController extends BaseController
     /**
      * Destroy the statement.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Statement  $statement
+     * @return  \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(StatementDestroyRequest $request, Statement $statement)
     {
-        $statement = Statement::withTrashed()->findOrFail($id);
-
         if ($request->has('paid_payments')) {
             $statement->payments()->whereNotNull('sent_at')->delete();
         }
@@ -282,9 +264,13 @@ class StatementController extends BaseController
             $statement->payments()->whereNull('sent_at')->delete();
         }
 
+        if ($statement->invoice()) {
+            $statement->invoice()->forceDelete();
+        }
+
         $statement->forceDelete();
 
-        $this->successMessage('The statement was destroyed');
+        $this->successMessage('The Statement ' . $statement->id . ' was destroyed');
         return redirect()->route('statements.index');
     }
 }
