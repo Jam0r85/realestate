@@ -191,7 +191,7 @@ class Statement extends PdfModel
      */
     public function getBankAccountAttribute()
     {
-        return $this->property->bank_account;
+        return $this->property()->bank_account;
     }
 
     /**
