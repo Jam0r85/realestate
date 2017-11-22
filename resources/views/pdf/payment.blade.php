@@ -25,6 +25,7 @@
 
 			<div class="lead">
 				<p>Property - {{ $payment->present()->propertyName }}</p>
+				<p>Tenancy - {{ $payment->present()->tenancyName }}</p>
 				<p>Method - {{ $payment->method->name }}</p>
 				<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
 				<p><b>Amount - {{ currency($payment->amount) }}</b></p>
