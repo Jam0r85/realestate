@@ -2,13 +2,9 @@
 
 namespace App;
 
-use App\Events\StatementCreating;
 use App\Expense;
 use App\Invoice;
 use App\Jobs\SendStatementToOwners;
-use App\Notifications\StatementSentNotification;
-use App\Settings\StatementData;
-use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Notification;
@@ -35,37 +31,22 @@ class Statement extends PdfModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('amount');
+        $array = $this->only('amount','period_start','period_end','sent_at','paid_at');
+        $array['property'] = $this->property()->present()->fullAddress;
+        $array['tenancy'] = $this->tenancy->present()->name;
 
-        // Get the dates.
-        $array['dates'] = [
-            'created_at' => $this->created_at,
-            'sent_at' => $this->sent_at,
-            'paid_at' => $this->paid_at
-        ];
-
-        // Get the property name.
-        $array['property'] = $this->property->name;
-
-        // Get the tenancy.
-        $array['tenancy'] = $this->tenancy->name;
-
-        // Get the amounts.
         $array['amounts'] = [
             'statement' => $this->amount,
-            'invoices' => count($this->invoices) ? $this->invoices->sum('total') : null,
-            'expenses' => count($this->expenses) ? $this->expenses->sum('pivot.amount') : null,
-            'landlord' => $this->landlord_balance_amount
+            'invoices' => $this->getInvoiceTotal(),
+            'expenses' => $this->getExpensesTotal(),
+            'landlord' => $this->getLandlordAmount()
         ];
 
         // Get the Items
         $array['items'] = [
-            'invoice' => count($this->invoices) ? $this->invoice->items->pluck('name','description')->toArray() : null,
-            'expense' => count($this->expenses) ? $this->expenses->pluck('name')->toArray() : null
+            'invoice' => $this->invoice() ? $this->invoice()->items : null,
+            'expense' => $this->expenses
         ];
-
-        // Get the users.
-        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
 
         return $array;
     }
@@ -76,15 +57,6 @@ class Statement extends PdfModel
      * @var array
      */
     protected $dates = ['period_start','period_end','paid_at','sent_at'];
-
-    /**
-     * The attrbites that should be included in the collection.
-     * 
-     * @var array
-     */
-    protected $appends = [
-        'landlord_balance_amount'
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -99,27 +71,15 @@ class Statement extends PdfModel
 		'period_end',
 		'amount',
 		'paid_at',
-		'sent_at',
-        'data'
+		'sent_at'
 	];
-
-    /**
-     * The attributes that should be cast to native types.
-     * 
-     * @var array
-     */
-    protected $casts = [
-        'data' => 'array'
-    ];
 
 	/**
 	 * A statement can belong to a tenancy.
 	 */
 	public function tenancy()
 	{
-		return $this->belongsTo('App\Tenancy')
-            ->with('tenants')
-            ->withTrashed();
+		return $this->belongsTo('App\Tenancy')->withTrashed();
 	}
 
 	/**
@@ -157,7 +117,7 @@ class Statement extends PdfModel
     /**
      * A statement can have one invoice.
      */
-    public function getInvoiceAttribute()
+    public function invoice()
     {
         return $this->invoices->first();
     }
@@ -175,114 +135,67 @@ class Statement extends PdfModel
      */
     public function expenses()
     {
-        return $this->belongsToMany('App\Expense')
-            ->withPivot('amount');
+        return $this->belongsToMany('App\Expense')->withPivot('amount');
     }
 
     /**
-     * Get the statement name.
-     * 
-     * @return [type] [description]
-     */
-    public function getNameAttribute()
-    {
-    	return date_formatted($this->period_start) . ' - ' . date_formatted($this->period_end);
-    }
-
-    /**
-     * Get the statement's property.
-     * 
-     * @return \App\Property
-     */
-    public function getPropertyAttribute()
-    {
-    	return $this->property();
-    }
-
-    /**
-     * Get the statement's invoice total.
+     * Get the invoice total for this statement.
      * 
      * @return int
      */
-    public function getInvoiceTotalAmountAttribute()
+    public function getInvoiceTotal()
     {
         return $this->invoices->sum('total');
     }
 
     /**
-     * Get the statement's expense total
+     * Get the expense total for this statement.
      * 
      * @return int
      */
-    public function getExpenseTotalAmountAttribute()
+    public function getExpensesTotal()
     {
         return $this->expenses->sum('pivot.amount');
     }
 
     /**
-     * Get the statement's balance amount to the landlord.
+     * Get the net amount for ths statement.
      * 
      * @return int
      */
-    public function getLandlordBalanceAmountAttribute()
+    public function getNetAmount()
     {
-        return $this->amount - ($this->invoice_total_amount + $this->expense_total_amount);
+        return $this->getExpensesTotal() + $this->invoices->sum('total_net');
     }
 
     /**
-     * Get the statement's net amount.
+     * Get the tax amount for this statement.
      * 
      * @return int
      */
-    public function getNetAmountAttribute()
-    {
-        return $this->expense_total_amount + $this->invoices->sum('total_net');
-    }
-
-    /**
-     * Get the statement's net amount.
-     * 
-     * @return int
-     */
-    public function getTaxAmountAttribute()
+    public function getTaxAmount()
     {
         return $this->invoices->sum('total_tax');
     }
 
     /**
-     * Get the statement's net amount.
+     * Get the landlord total for this statement.
      * 
      * @return int
      */
-    public function getTotalAmountAttribute()
+    public function getLandlordAmount()
     {
-        return $this->net_amount + $this->tax_amount;
+        return $this->amount - ($this->getInvoiceTotal() + $this->getExpensesTotal());
     }
 
     /**
-     * Get the statement's recipient address.
+     * Get the total amount for this statement.
      * 
-     * @return string
+     * @return int
      */
-    public function getRecipientAttribute()
+    public function getTotal()
     {
-        if (count($this->users)) {
-            foreach ($this->users as $user) {
-                if ($user->home) {
-                    return $user->home->name_formatted;
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the statement's recipient address as an inline string.
-     * 
-     * @return string
-     */
-    public function getRecipientInlineAttribute()
-    {
-        return str_replace('<br />', ', ', $this->recipient);
+        return $this->getNetAmount() + $this->getTaxAmount();
     }
 
     /**
@@ -294,16 +207,6 @@ class Statement extends PdfModel
     }
 
     /**
-     * Get the statement's period formatted.
-     * 
-     * @return string
-     */
-    public function getPeriodFormattedAttribute()
-    {
-        return date_formatted($this->period_start) . ' - ' . date_formatted($this->period_end);
-    }
-
-    /**
      * Check whether a statement has unsent payments.
      * 
      * @return int
@@ -311,36 +214,6 @@ class Statement extends PdfModel
     public function hasUnsentPayments()
     {
         return $this->payments()->whereNull('sent_at')->count();
-    }
-
-    /**
-     * Check whether the statement can be deleted.
-     * 
-     * @return bool
-     */
-    public function canDelete()
-    {
-        if ($this->trashed()) {
-            return false;
-        }
-        
-        return true;
-    }
-
-    /**
-     * Check whether the statement has user's with an email address.
-     * 
-     * @return mixed
-     */
-    public function getUserEmails()
-    {
-        if (count($this->users)) {
-            if (count($emails = $this->users()->whereNotNull('email')->pluck('email')->toArray())) {
-                return $emails;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -357,23 +230,25 @@ class Statement extends PdfModel
     }
 
     /**
-     * Store an invoice to an expense.
+     * Store an invoice to this statement and attach the property owners to the invoice.
      * 
-     * @param \App\Invoice $invoice
-     * @return void
+     * @param  \App\Invoice  $invoice  the invoice we are storing
+     * @return  \App'Invoice
      */
     public function storeInvoice(Invoice $invoice)
     {
-        $this->invoices()->save($invoice);
-        $invoice->users()->sync($this->tenancy->property->owners);
+        $invoice = $this->invoices()->save($invoice);
+        $invoice->users()->sync($this->property()->owners);
+
+        return $invoice;
     }
 
     /**
-     * Attach an expense to a rental statement.
+     * Attach an expense to this statement.
      * 
-     * @param \App\Expense $expense
-     * @param integer $amount
-     * @return void
+     * @param  \App\Expense  $expense  the expense that we are attaching
+     * @param  integer  $amount  the amount we are paying towards the expense
+     * @return  \App\Expense
      */
     public function attachExpense(Expense $expense, $amount = null)
     {
@@ -381,17 +256,7 @@ class Statement extends PdfModel
             $amount = $expense->cost;
         }
 
-        $this->expenses()->attach($expense, ['amount' => $amount]);
-    }
-
-    /**
-     * Check whether we can send this statement.
-     * 
-     * @return bool
-     */
-    public function canBeSent()
-    {
-        return false;
+        return $this->expenses()->attach($expense, ['amount' => $amount]);
     }
 
     /**
@@ -400,35 +265,5 @@ class Statement extends PdfModel
     public function send()
     {
         SendStatementToOwners::dispatch($this);
-    }
-
-    /**
-     * A statement can have data.
-     */
-    public function data()
-    {
-        return new StatementData($this);
-    }
-
-    /**
-     * Is this statement unpaid?
-     * 
-     * @return boolean
-     */
-    public function isUnpaid()
-    {
-        // Statement has no payments so it cannot be paid.
-        if (!count($this->payments)) {
-            return true;
-        }
-
-        // Loop through the payments and if any are not sent, then it's unpaid
-        foreach ($this->payments as $payment) {
-            if (is_null($payment->sent_at)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

@@ -33,9 +33,9 @@
 					</td>
 					<td>{{ $statement->present()->propertyAddress }}</td>
 				@endif
-				<td>{{ currency($statement->amount) }}</td>
+				<td>{{ $statement->present()->amountFormatted }}</td>
 				@if (isset($tenancy))
-					<td>{{ $statement->present()->invoiceNumber }}</td>
+					<td>{{ $statement->invoice() ? $statement->invoice()->number : '-' }}</td>
 					<td>{{ currency($statement->landlord_balance_amount) }}</td>
 				@endif
 				<td>{{ $statement->present()->sendBy(null) }}</td>

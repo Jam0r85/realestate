@@ -148,9 +148,12 @@ class TenancyController extends BaseController
     public function show($id, $page = 'layout')
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
-        $tenancy->load('deposit.payments','deposit.payments.method');
+
+        $payments = $tenancy->rent_payments()->with('method','owner')->paginate();
+        $statements = $tenancy->statements()->with('invoices','invoices.invoiceGroup','invoices.items','invoices.items.taxRate','expenses','payments')->paginate();
+        $rents = $tenancy->rents()->with('owner')->get();
         
-        return view('tenancies.pages.' . $page, compact('tenancy'));
+        return view('tenancies.pages.' . $page, compact('tenancy','statements','payments','rents'));
     }
 
     /**

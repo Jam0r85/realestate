@@ -108,7 +108,7 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function formattedAmount()
+	public function amountFormatted()
 	{
 		return currency($this->amount);
 	}
@@ -127,14 +127,6 @@ class StatementPresenter extends Presenter
 	public function branchVatNumber()
 	{
 		return 'VAT No. ' . $this->tenancy->property->branch->vat_number;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function invoiceNumber()
-	{
-		return $this->invoice ? $this->invoice->present()->name : null;
 	}
 
 	/**

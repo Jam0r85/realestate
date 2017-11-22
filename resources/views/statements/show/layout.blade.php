@@ -16,24 +16,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<div class="row">
-			<div class="col-12 col-lg-3">
-
-
-
-			</div>
-			<div class="col-12 col-lg-3">
-
-			</div>
-			<div class="col-12 col-lg-6">
-
-			</div>
-		</div>
-
-			@includeWhen($statement->canBeSent(), 'partials.alerts.primary', ['slot' => 'This statement has been paid and can be sent to the landlords.'])
-
 			<h1 class="title">Statement #{{ $statement->id }}</h1>
-			<h2><a href="{{ route('properties.show', $statement->property->id) }}">{{ $statement->property->name }}</a></h2>
+			<h2><a href="{{ route('properties.show', $statement->property()->id) }}">{{ $statement->property()->name }}</a></h2>
 			<h2 class="subtitle"><a href="{{ route('tenancies.show', $statement->tenancy->id) }}">{{ $statement->tenancy->name }}</a></h2>
 
 			<div class="control">
@@ -59,10 +43,10 @@
 			<div class="columns">
 				<div class="column is-4">
 
-					@if ($statement->invoice)
-						<a href="{{ route('invoices.show', $statement->invoice->id) }}">
+					@if ($statement->invoice())
+						<a href="{{ route('invoices.show', $statement->invoice()->id) }}">
 							<div class="notification is-info has-text-centered mb-2">
-								Statement links to Invoice #{{ $statement->invoice->number }}
+								Statement links to Invoice #{{ $statement->invoice()->present()->number }}
 							</div>
 						</a>
 					@endif
@@ -87,20 +71,20 @@
 								<td class="has-text-right">{{ currency($statement->amount) }}</td>
 							</tr>
 							<tr>
-								<td class="has-text-grey">Invoices Total</td>
-								<td class="has-text-right">{{ currency($statement->invoice_total_amount) }}</td>
+								<td class="has-text-grey">Invoice Total</td>
+								<td class="has-text-right">{{ currency($statement->getInvoiceTotal()) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Expenses Total</td>
-								<td class="has-text-right">{{ currency($statement->expense_total_amount) }}</td>
+								<td class="has-text-right">{{ currency($statement->getExpensesTotal()) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Total Out</td>
-								<td class="has-text-right">{{ currency($statement->total_amount) }}</td>
+								<td class="has-text-right">{{ currency($statement->getTotal()) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Balance to Landlord</td>
-								<td class="has-text-right">{{ currency($statement->landlord_balance_amount) }}</td>
+								<td class="has-text-right">{{ currency($statement->getLandlordAmount()) }}</td>
 							</tr>
 							<tr>
 								<td>Amount Paid</td>
@@ -168,9 +152,9 @@
 							Invoice Items
 						@endcomponent
 
-						@if ($statement->invoice)
+						@if ($statement->invoice())
 
-							@include('invoices.partials.item-table', ['items' => $statement->invoice->items])
+							@include('invoices.partials.item-table', ['items' => $statement->invoice()->items])
 
 						@else
 

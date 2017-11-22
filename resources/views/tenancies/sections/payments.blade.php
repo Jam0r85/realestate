@@ -1,5 +1,4 @@
 @php
-	$payments = $tenancy->rent_payments()->with('method','users')->paginate();
 	$payments->appends(['section' => 'payments']);
 @endphp
 

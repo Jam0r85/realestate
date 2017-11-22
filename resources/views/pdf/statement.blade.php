@@ -29,7 +29,7 @@
 			<div class="section">
 				<ul class="list-unstyled">
 					<li><strong>Rental Period:</strong> {{ $statement->present()->period }}</li>
-					<li><strong>Property:</strong> {{ $statement->property->present()->fullAddress }}</li>
+					<li><strong>Property:</strong> {{ $statement->property()->present()->fullAddress }}</li>
 					<li><strong>{{ str_plural('Tenant', count($statement->tenancy->tenants)) }}:</strong> {{ $statement->present()->tenants }}</li>
 				</ul>
 			</div>
@@ -43,7 +43,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>{{ $statement->present()->formattedAmount }}</td>
+							<td>{{ currency($statement->amount) }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -58,8 +58,8 @@
 					</thead>
 					<tbody>
 
-						@if($statement->invoice)
-							@foreach ($statement->invoice->items as $item)
+						@if($statement->invoice())
+							@foreach ($statement->invoice()->items as $item)
 								<tr>
 									<td>
 										<b>{{ $item->name }} (Inv. #{{ $item->invoice->number }})</b>
@@ -103,9 +103,9 @@
 					<tfoot>
 						<tr>
 							<th>Sub Totals</th>
-							<th>{{ currency($statement->net_amount) }}</th>
-							<th>{{ currency($statement->tax_amount) }}</th>
-							<th>{{ currency($statement->total_amount) }}</th>
+							<th>{{ currency($statement->getNetAmount()) }}</th>
+							<th>{{ currency($statement->getTaxAmount()) }}</th>
+							<th>{{ currency($statement->getTotal()) }}</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -119,7 +119,7 @@
 							{{ $statement->present()->sendBy }}
 						</td>
 						<td class="text-right">
-							Balance to Landlord - <b>{{ currency($statement->landlord_balance_amount) }}</b>
+							Balance to Landlord - <b>{{ currency($statement->getLandlordAmount()) }}</b>
 						</td>
 					</tr>
 				</table>
@@ -129,9 +129,9 @@
 	</div>
 
 	{{-- Attach the Invoice --}}
-	@if ($statement->invoice)
+	@if ($statement->invoice())
 		<div class="page-break"></div>
-		@include('pdf.invoice', ['invoice' => $statement->invoice])
+		@include('pdf.invoice', ['invoice' => $statement->invoice()])
 	@endif
 
 @include('pdf._footer')

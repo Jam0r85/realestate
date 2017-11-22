@@ -154,11 +154,11 @@
 
 									<li>
 										<span class="footer-title">Phone</span>
-										{{ $statement->tenancy->property->branch->phone_number }}
+										{{ $statement->property()->branch->phone_number }}
 									</li>
 									<li>
 										<span class="footer-title">E-Mail</span>
-										{{ $statement->tenancy->property->branch->email }}
+										{{ $statement->property()->branch->email }}
 									</li>
 
 								@elseif (isset($invoice))
