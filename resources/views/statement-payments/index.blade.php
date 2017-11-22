@@ -57,38 +57,7 @@
 
 		@endif
 
-		@component('partials.table')
-			@slot('header')
-				<th>Property</th>
-				<th>Statement</th>
-				<th>Name</th>
-				<th>Method</th>
-				<th>Amount</th>
-				<th>Sent</th>
-				<th></th>
-			@endslot
-			@slot('body')
-				@foreach ($sent_payments as $payment)
-					<tr>
-						<td>{{ $payment->present()->propertyName }}</td>
-						<td>
-							<a href="{{ route('statements.show', $payment->statement->id) }}">
-								{{ $payment->present()->statementName }}
-							</a>
-						</td>
-						<td>{{ $payment->present()->name }}</td>
-						<td>{{ $payment->present()->method }}</td>
-						<td>{{ currency($payment->amount) }}</td>
-						<td>{{ date_formatted($payment->sent_at) }}</td>
-						<td class="text-right">
-							<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
-								Edit
-							</a>
-						</td>
-					</tr>
-				@endforeach
-			@endslot
-		@endcomponent
+		@include('statement-payments.partials.statement-payments-table', ['payments' => $sent_payments])
 
 		@include('partials.pagination', ['collection' => $sent_payments])
 
