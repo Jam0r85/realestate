@@ -229,8 +229,7 @@ class Tenancy extends BaseModel
      */
     public function latestStatement()
     {
-        return $this->statements
-            ->first();
+        return $this->statements->latest('period_start')->first();
     }
 
     /**
@@ -238,8 +237,7 @@ class Tenancy extends BaseModel
      */
     public function agreements()
     {
-        return $this->hasMany('App\Agreement')
-            ->latest('starts_at');
+        return $this->hasMany('App\Agreement')->latest('starts_at');
     }
 
     /**

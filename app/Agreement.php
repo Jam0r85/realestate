@@ -4,10 +4,19 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Agreement extends BaseModel
 {
 	use SoftDeletes;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\AgreementPresenter';
 
     /**
      * The attributes that should be mutated to dates.

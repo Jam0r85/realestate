@@ -8,6 +8,10 @@
 			<th>Property</th>
 		@endif
 		<th>Amount</th>
+		@if (isset($tenancy))
+			<th>Invoice</th>
+			<th>Landlord</th>
+		@endif
 		<th>Send By</th>
 		<th></th>
 	@endslot
@@ -30,6 +34,10 @@
 					<td>{{ $statement->present()->propertyAddress }}</td>
 				@endif
 				<td>{{ currency($statement->amount) }}</td>
+				@if (isset($tenancy))
+					<td>{{ $statement->present()->invoiceNumber }}</td>
+					<td>{{ currency($statement->landlord_balance_amount) }}</td>
+				@endif
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
 					@if ($statement->present()->status == 'Paid')

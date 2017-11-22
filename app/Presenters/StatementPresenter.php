@@ -132,6 +132,14 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
+	public function invoiceNumber()
+	{
+		return $this->invoice ? $this->invoice->present()->name : null;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function status()
 	{
 		if ($this->sent_at) {

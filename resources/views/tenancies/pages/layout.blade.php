@@ -1,7 +1,6 @@
 @php
 	$sections = [
 		'Details' => 'details',
-		'Deposit' => null,
 		'Payments' => 'rent_payments',
 		'Statements' => 'statements',
 		'Agreements' => 'agreements'
@@ -64,6 +63,17 @@
 						</a>
 					@endforeach
 
+					<div class="dropdown-divider"></div>
+
+					<a class="nav-link @if (request('section') == 'deposit') active @endif" id="v-pills-deposit-tab" data-toggle="pill" href="#v-pills-deposit" role="tab">
+						Deposit
+						@if ($tenancy->deposit)
+							<span class="badge badge-success">
+								<i class="fa fa-check"></i>
+							</span>
+						@endif
+					</a>
+
 				</div>
 
 			</div>
@@ -74,6 +84,8 @@
 					@foreach ($sections as $key => $value)
 						@include('tenancies.sections.' . str_slug($key))
 					@endforeach
+
+					@include('tenancies.sections.deposit')
 
 				</div>
 
