@@ -49,7 +49,10 @@ class StatementPaymentController extends BaseController
         if ($statement->invoice()) {
             StatementPayment::updateOrCreate(
                 ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $statement->invoice()->id],
-                ['amount' => $statement->getInvoiceTotal(), 'sent_at' => $sent_at]
+                [
+                    'amount' => $statement->getInvoiceTotal(),
+                    'sent_at' => $sent_at
+                ]
             );
         } else {
             StatementPayment::where('statement_id', $statement->id)->where('parent_type', 'invoices')->delete();
@@ -61,7 +64,10 @@ class StatementPaymentController extends BaseController
 
                 StatementPayment::updateOrCreate(
                     ['statement_id' => $statement->id, 'parent_type' => 'expenses', 'parent_id' => $expense->id],
-                    ['amount' => $expense->pivot->amount, 'sent_at' => $sent_at]
+                    [
+                        'amount' => $expense->pivot->amount,
+                        'sent_at' => $sent_at
+                    ]
                 );
             }
         } else {
@@ -71,7 +77,11 @@ class StatementPaymentController extends BaseController
         // Landlord Payment
         StatementPayment::updateOrCreate(
             ['statement_id' => $statement->id, 'parent_type' => null],
-            ['amount' => $statement->getLandlordAmount(), 'sent_at' => $sent_at]
+            [
+                'amount' => $statement->getLandlordAmount(),
+                'sent_at' => $sent_at,
+                'bank_account_id' => $statement->property()->bank_account_id
+            ]
         );
 
         if (count($statement->payments)) {
