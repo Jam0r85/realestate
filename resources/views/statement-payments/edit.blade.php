@@ -101,6 +101,10 @@
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
 
+							<p class="card-text">
+								<b>Warning</b>, this action cannot be undone.
+							</p>
+
 							@component('partials.save-button')
 								Delete Payment
 							@endcomponent

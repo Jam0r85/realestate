@@ -601,7 +601,7 @@ class Tenancy extends BaseModel
      */
     public function isActive()
     {
-        if ($this->vacated_on < Carbon::now()) {
+        if ($this->vacated_on && $this->vacated_on < Carbon::now()) {
             return false;
         }
 
