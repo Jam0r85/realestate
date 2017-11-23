@@ -193,6 +193,16 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many appearances.
+	 */
+	public function appearances()
+	{
+		return $this->hasMany('App\Appearance')
+			->withTrashed()
+			->latest();
+	}
+
+	/**
 	 * A property can have settings.
 	 */
 	public function settings()

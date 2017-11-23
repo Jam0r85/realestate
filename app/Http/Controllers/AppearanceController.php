@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Appearance;
+use App\AppearancePrice;
+use App\AppearancePriceQualifier;
+use App\AppearanceSection;
+use App\AppearanceStatus;
 use App\Http\Requests\AppearanceStoreRequest;
+use App\Property;
 use Illuminate\Http\Request;
 
-class AppearanceController extends Controller
+class AppearanceController extends BaseController
 {
+    /**
+     * The individual sections to be show on the resource listing.
+     * 
+     * @var array
+     */
     protected $sections = [
         'Live',
         'Hidden',
@@ -46,7 +56,30 @@ class AppearanceController extends Controller
      */
     public function store(AppearanceStoreRequest $request)
     {
-        //
+        $property = Property::findOrFail($request->property_id);
+        $section = AppearanceSection::findOrFail($request->section_id);
+        $status = AppearanceStatus::findOrFail($request->status_id);
+        $qualifier = AppearancePriceQualifier::findOrFail($request->qualifier_id);
+
+        $appearance = new Appearance();
+        $appearance->summary = $request->summary;
+        $appearance->description = $request->description;
+        $appearance->live_at = $request->live_at;
+
+        $appearance->status()->associate($status);
+        $appearance->property()->associate($property);
+        $appearance->section()->associate($section);
+
+        $appearance->save();
+
+        $price = new AppearancePrice();
+        $price->amount = $request->price;
+        $price->qualifier()->associate($qualifier);
+
+        $appearance->prices()->save($price);
+
+        $this->successMessage('The new appearance was saved');
+        return back();
     }
 
     /**

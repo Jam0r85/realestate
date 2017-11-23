@@ -11,10 +11,25 @@ class Appearance extends Model
 	use SoftDeletes;
 	use PresentableTrait;
 
+	/**
+	 * The presenter for this model.
+	 * 
+	 * @var string
+	 */
 	protected $presenter = 'App\Presenters\AppearancePresenter';
 
+	/**
+	 * The attributes that should be mutated to dates.
+	 * 
+	 * @var array
+	 */
 	protected $dates = ['live_at','ended_at','deleted_at'];
 
+	/**
+	 * The attributes that should be cast to native types.
+	 * 
+	 * @var array
+	 */
 	protected $casts = [
 		'hidden' => 'boolean',
 		'data' => 'array'
@@ -33,7 +48,7 @@ class Appearance extends Model
 	*/
 	public function property()
 	{
-		return $this->hasOne('App\Property');
+		return $this->belongsTo('App\Property');
 	}
 
 	/**

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Agreement;
+use App\Appearance;
 use App\Deposit;
 use App\Document;
 use App\Event;
@@ -11,6 +12,7 @@ use App\Gas;
 use App\Invoice;
 use App\InvoiceGroup;
 use App\Observers\AgreementObserver;
+use App\Observers\AppearanceObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\ExpenseObserver;
 use App\Observers\InvoiceGroupObserver;
@@ -64,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         Agreement::observe(AgreementObserver::class);
         Property::observe(PropertyObserver::class);
         TenancyRent::observe(TenancyRentObserver::class);
+        Appearance::observe(AppearanceObserver::class);
     }
 
     /**

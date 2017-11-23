@@ -58,6 +58,22 @@ class PropertyPresenter extends Presenter
     /**
      * @return string
      */
+    public function slug()
+    {
+        $name = [
+            $this->address1,
+            $this->address2,
+            $this->address3
+        ];
+
+        $clean = array_filter($name);
+
+        return implode('-', $clean);
+    }
+
+    /**
+     * @return string
+     */
     public function withoutPostcode()
     {
         return $this->fullAddress(false);

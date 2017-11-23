@@ -16,7 +16,7 @@ class CreateAppearancePricesTable extends Migration
         Schema::create('appearance_prices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('appearance_id')->unsigned();
-            $table->decimal('price', 13, 3);
+            $table->decimal('amount', 13, 3);
             $table->integer('qualifier_id')->nullable();
             $table->timestamp('starts_at')->nullable();
             $table->timestamps();
