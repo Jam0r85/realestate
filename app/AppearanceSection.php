@@ -32,6 +32,14 @@ class AppearanceSection extends Model
         return $this->hasMany('App\AppearanceStatus');
     }
 
+    /**
+     * A section many have it's own price qualifiers.
+     */
+    public function qualifiers()
+    {
+        return $this->hasMany('App\AppearancePriceQualifiers');
+    }
+
 	/**
 	 * A section can have many appearances.
 	 */

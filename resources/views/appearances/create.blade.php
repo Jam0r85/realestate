@@ -51,7 +51,7 @@
 							<label for="property_id">
 								Property
 							</label>
-							<select name="property_id" id="property_id" class="form-control">
+							<select name="property_id" id="property_id" class="form-control select2">
 								@foreach (properties() as $property)
 									<option value="{{ $property->id }}">
 										{{ $property->present()->selectName }}
@@ -93,6 +93,31 @@
 						Price
 					@endcomponent
 					<div class="card-body">
+
+						<div class="form-group">
+							<label for="price">
+								Price
+							</label>
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-money-bill"></i>
+								</span>
+								<input type="number" step="any" class="form-control" name="price" id="price">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="qualifier_id">
+								Price Qualifier
+							</label>
+							<select name="qualifier_id" id="qualifier_id" class="form-control">
+								@foreach (price_qualifiers() as $qualifier)
+									<option value="{{ $qualifier->id }}">
+										{{ $qualifier->name }}
+									</option>
+								@endforeach
+							</select>
+						</div>
 
 					</div>
 				</div>

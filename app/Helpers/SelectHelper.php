@@ -159,3 +159,10 @@ if (!function_exists('appearace_statuses')) {
 		return \App\AppearanceStatus::get();
 	}
 }
+
+if (!function_exists('price_qualifiers')) {
+	function price_qualifiers()
+	{
+		return \App\AppearancePriceQualifier::get();
+	}
+}
