@@ -268,6 +268,12 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::get('sms', 'SmsController@index')->name('sms.index');
 
+	Route::prefix('appearances')->group(function () {
+		Route::get('/', 'AppearanceController@index')->name('appearances.index');
+		Route::get('create', 'AppearanceController@create')->name('appearances.create');
+		Route::post('/', 'AppearanceController@store')->name('appearances.store');
+	});
+
 });
 
 Route::get('sms/delivery-status', 'SmsController@deliveryStatus');

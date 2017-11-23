@@ -105,6 +105,9 @@
                                 <a class="dropdown-item" href="{{ route('properties.index') }}">
                                     Properties List
                                 </a>
+                                <a class="dropdown-item" href="{{ route('appearances.index') }}">
+                                    Appearances List
+                                </a>
                                 <a class="dropdown-item" href="{{ route('expenses.index') }}">
                                     Expenses List
                                 </a>

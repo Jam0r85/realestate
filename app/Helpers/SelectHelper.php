@@ -145,3 +145,17 @@ if (!function_exists('staff')) {
 		return \App\User::whereIn('id', config('system.staff'))->get();
 	}
 }
+
+if (!function_exists('sections')) {
+	function sections()
+	{
+		return \App\AppearanceSection::get();
+	}
+}
+
+if (!function_exists('appearace_statuses')) {
+	function appearance_statuses()
+	{
+		return \App\AppearanceStatus::get();
+	}
+}
