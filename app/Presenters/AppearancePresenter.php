@@ -17,7 +17,7 @@ class AppearancePresenter extends BasePresenter
 		}
 
 		if ($this->live_at < Carbon::now()) {
-			return 'Not Live';
+			return 'Live on ' . date_formatted($this->live_at);
 		}
 
 		if ($this->live_at >= Carbon::now()) {
@@ -39,5 +39,17 @@ class AppearancePresenter extends BasePresenter
 		}
 
 		return '<i class="fa ' . $icon . '"></i> ' . $value;
+	}
+
+	/**
+	 * @return  string
+	 */
+	public function statusLabel()
+	{
+		if ($this->deleted_at) {
+			return 'Archived';
+		}
+
+		return $this->status->name;
 	}
 }

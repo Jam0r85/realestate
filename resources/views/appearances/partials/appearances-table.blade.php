@@ -13,7 +13,7 @@
 			<tr>
 				<td>{{ $appearance->id }}</td>
 				<td>{{ $appearance->section->name }}</td>
-				<td>{{ $appearance->status->name }}</td>
+				<td>{{ $appearance->present()->statusLabel }}</td>
 				<td>{{ $appearance->property->present()->shortAddress }}</td>
 				<td>{!! $appearance->present()->visibility !!}</td>
 				<td>{{ $appearance->present()->liveStatus }}</td>

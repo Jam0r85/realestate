@@ -34,7 +34,7 @@
 									<span class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</span>
-									<input type="date" name="live_at" id="live_at" class="form-control" value="{{ date('Y-m-d') }}">
+									<input type="date" name="live_at" id="live_at" class="form-control" value="{{ old('live_at') ?: date('Y-m-d') }}">
 								</div>
 							</div>
 
@@ -57,7 +57,7 @@
 								</label>
 								<select name="section_id" id="section_id" class="form-control">
 									@foreach (sections() as $section)
-										<option value="{{ $section->id }}">
+										<option @if (old('section_id') == $section->id) selected @endif value="{{ $section->id }}">
 											{{ $section->name }}
 										</option>
 									@endforeach
@@ -70,7 +70,7 @@
 								</label>
 								<select name="property_id" id="property_id" class="form-control select2">
 									@foreach (properties() as $property)
-										<option value="{{ $property->id }}">
+										<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
 											{{ $property->present()->selectName }}
 										</option>
 									@endforeach
@@ -83,7 +83,7 @@
 								</label>
 								<select name="status_id" id="status_id" class="form-control">
 									@foreach (appearance_statuses() as $status)
-										<option value="{{ $status->id }}">
+										<option @if (old('status_id') == $status->id) selected @endif value="{{ $status->id }}">
 											{{ $status->name }}
 										</option>
 									@endforeach
@@ -119,7 +119,7 @@
 									<span class="input-group-addon">
 										<i class="fa fa-money-bill"></i>
 									</span>
-									<input type="number" step="any" class="form-control" name="price" id="price">
+									<input type="number" step="any" class="form-control" name="price" id="price" value="{{ old('price') }}">
 								</div>
 							</div>
 
@@ -129,7 +129,7 @@
 								</label>
 								<select name="qualifier_id" id="qualifier_id" class="form-control">
 									@foreach (price_qualifiers() as $qualifier)
-										<option value="{{ $qualifier->id }}">
+										<option @if (old('qualifier_id') == $qualifier->id) selected @endif value="{{ $qualifier->id }}">
 											{{ $qualifier->name }}
 										</option>
 									@endforeach
@@ -149,14 +149,14 @@
 								<label for="summary">
 									Summary
 								</label>
-								<textarea name="summary" id="summary" rows="6" class="form-control"></textarea>
+								<textarea name="summary" id="summary" rows="6" class="form-control">{{ old('summary') }}</textarea>
 							</div>
 
 							<div class="form-group">
 								<label for="description">
 									Description
 								</label>
-								<textarea name="description" id="description" rows="10" class="form-control"></textarea>
+								<textarea name="description" id="description" rows="10" class="form-control">{{ old('description') }}</textarea>
 							</div>
 
 						</div>

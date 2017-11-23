@@ -38,6 +38,17 @@ class Appearance extends Model
 	];
 
     /**
+     * Scope a query to eager load the relations needed when showing a list of appearances.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeEagerLoading($query)
+	{
+		return $query->with('section','status','property');
+	}
+
+    /**
      * Scope a query to only include live appearances.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -46,7 +57,8 @@ class Appearance extends Model
 	public function scopeLive($query)
 	{
 		return $query
-			->where('live_at', '<=', Carbon::now());
+			->where('live_at', '<=', Carbon::now())
+			->latest();
 	}
 
     /**
@@ -59,7 +71,8 @@ class Appearance extends Model
 	{
 		return $query
 			->where('live_at', '<=', Carbon::now())
-			->where('hidden', '0');
+			->where('hidden', '0')
+			->latest();
 		}
 
     /**
@@ -72,7 +85,8 @@ class Appearance extends Model
 	{
 		return $query
 			->whereNull('live_at')
-			->orWhere('live_at', '>', Carbon::now());
+			->orWhere('live_at', '>', Carbon::now())
+			->latest();
 	}
 
     /**

@@ -10,6 +10,7 @@ use App\AppearanceStatus;
 use App\Http\Requests\AppearanceStoreRequest;
 use App\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AppearanceController extends BaseController
 {
@@ -32,10 +33,10 @@ class AppearanceController extends BaseController
      */
     public function index()
     {
-        $appearances = Appearance::with('section','status','property')->latest();
-        $live_appearances = $appearances->get();
-        $hidden_appearances = $appearances->get();
-        $pending_appearances = $appearances->get();
+        $live_appearances = Appearance::eagerLoading()->liveAndVisible()->get();
+        $hidden_appearances = Appearance::eagerLoading()->hidden()->get();
+        $pending_appearances = Appearance::eagerLoading()->pending()->get();
+        $archived_appearances = Appearance::eagerLoading()->onlyTrashed()->paginate();
 
         $sections = $this->sections;
 
@@ -43,6 +44,7 @@ class AppearanceController extends BaseController
             'live_appearances',
             'hidden_appearances',
             'pending_appearances',
+            'archived_appearances',
             'sections'
         ));
     }
