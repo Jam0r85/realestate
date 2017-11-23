@@ -20,6 +20,7 @@ class AppearanceController extends BaseController
      */
     protected $sections = [
         'Live',
+        'Pending',
         'Hidden',
         'Archived'
     ];
@@ -31,11 +32,19 @@ class AppearanceController extends BaseController
      */
     public function index()
     {
-        $live_appearances = Appearance::latest()->paginate();
+        $appearances = Appearance::with('section','status','property')->latest();
+        $live_appearances = $appearances->get();
+        $hidden_appearances = $appearances->get();
+        $pending_appearances = $appearances->get();
 
         $sections = $this->sections;
 
-        return view('appearances.index', compact('live_appearances','sections'));
+        return view('appearances.index', compact(
+            'live_appearances',
+            'hidden_appearances',
+            'pending_appearances',
+            'sections'
+        ));
     }
 
     /**
@@ -62,6 +71,7 @@ class AppearanceController extends BaseController
         $qualifier = AppearancePriceQualifier::findOrFail($request->qualifier_id);
 
         $appearance = new Appearance();
+        $appearance->live_at = $request->live_at;
         $appearance->summary = $request->summary;
         $appearance->description = $request->description;
         $appearance->live_at = $request->live_at;
@@ -76,7 +86,7 @@ class AppearanceController extends BaseController
         $price->amount = $request->price;
         $price->qualifier()->associate($qualifier);
 
-        $appearance->prices()->save($price);
+        $appearance->storePrice($price);
 
         $this->successMessage('The new appearance was saved');
         return back();

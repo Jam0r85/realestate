@@ -16,7 +16,7 @@ class AppearanceObserver
 	public function creating(Appearance $appearance)
 	{
 		$appearance->user_id = Auth::user()->id;
-		$appearance->slug = str_random(10);
+		$appearance->slug = str_random(20);
 	}
 
 	/**
@@ -27,7 +27,11 @@ class AppearanceObserver
 	 */
 	public function created(Appearance $appearance)
 	{
-		$appearance->slug = str_slug($appearance->section->name . '/' . $appearance->property->town . '/' . $appearance->property->present()->slug);
+		$section = $appearance->section->slug;
+		$town = str_slug($appearance->property->town);
+		$address = $appearance->property->present()->slug;
+
+		$appearance->slug = $section . '/' . $town . '/' . $address;
 		$appearance->save();
 	}
 }

@@ -46,6 +46,7 @@ class AppearanceSection extends Model
     public function appearances()
     {
     	return $this->hasMany('App\Appearance')
+            ->withTrashed()
     		->latest();
     }
 

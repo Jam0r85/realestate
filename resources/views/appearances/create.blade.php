@@ -27,6 +27,18 @@
 						<div class="card-body">
 
 							<div class="form-group">
+								<label for="live_at">
+									Live Date
+								</label>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</span>
+									<input type="date" name="live_at" id="live_at" class="form-control" value="{{ date('Y-m-d') }}">
+								</div>
+							</div>
+
+							<div class="form-group">
 								<label for="hidden">
 									Visibility
 								</label>

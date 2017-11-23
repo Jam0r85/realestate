@@ -24,8 +24,7 @@ class CreateAppearancesTable extends Migration
             $table->text('summary');
             $table->text('description');
             $table->text('data')->nullable();
-            $table->timestamp('live_at')->nullable();
-            $table->timestamp('ended_at')->nullable();
+            $table->date('live_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

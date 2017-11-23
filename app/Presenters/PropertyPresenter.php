@@ -68,7 +68,7 @@ class PropertyPresenter extends Presenter
 
         $clean = array_filter($name);
 
-        return implode('-', $clean);
+        return str_slug(implode('-', $clean));
     }
 
     /**

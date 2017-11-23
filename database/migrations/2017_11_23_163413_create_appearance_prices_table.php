@@ -18,7 +18,7 @@ class CreateAppearancePricesTable extends Migration
             $table->integer('appearance_id')->unsigned();
             $table->decimal('amount', 13, 3);
             $table->integer('qualifier_id')->nullable();
-            $table->timestamp('starts_at')->nullable();
+            $table->date('starts_at')->nullable();
             $table->timestamps();
         });
     }

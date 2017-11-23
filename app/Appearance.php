@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\AppearancePrice;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -23,7 +25,7 @@ class Appearance extends Model
 	 * 
 	 * @var array
 	 */
-	protected $dates = ['live_at','ended_at','deleted_at'];
+	protected $dates = ['live_at','deleted_at'];
 
 	/**
 	 * The attributes that should be cast to native types.
@@ -34,6 +36,57 @@ class Appearance extends Model
 		'hidden' => 'boolean',
 		'data' => 'array'
 	];
+
+    /**
+     * Scope a query to only include live appearances.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeLive($query)
+	{
+		return $query
+			->where('live_at', '<=', Carbon::now());
+	}
+
+    /**
+     * Scope a query to only include live appearances.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeLiveAndVisible($query)
+	{
+		return $query
+			->where('live_at', '<=', Carbon::now())
+			->where('hidden', '0');
+		}
+
+    /**
+     * Scope a query to only include pending appearances.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopePending($query)
+	{
+		return $query
+			->whereNull('live_at')
+			->orWhere('live_at', '>', Carbon::now());
+	}
+
+    /**
+     * Scope a query to only include hidden appearances.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeHidden($query)
+	{
+		return $query
+			->where('live_at', '<=', Carbon::now())
+			->where('hidden', '1');
+	}
 
 	/**
 	* An appearance was created by it's owner.
@@ -82,4 +135,19 @@ class Appearance extends Model
 	{
 		return $this->hasMany('App\AppearanceFeature');
 	}
+
+	/**
+	 * Store a price to this appearance.
+	 * 
+	 * @param  \App\AppearancePrice  $price
+	 * @return  \App\AppearancePrice
+	 */
+	public function storePrice(AppearancePrice $price)
+	{
+		if (!$price->starts_at) {
+			$price->starts_at = $this->live_at;
+		}
+		return $this->prices()->save($price);
+	}
+
 }

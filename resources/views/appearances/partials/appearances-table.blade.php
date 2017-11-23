@@ -1,5 +1,6 @@
 @component('partials.table')
 	@slot('header')
+		<th>ID</th>
 		<th>Section</th>
 		<th>Status</th>
 		<th>Property</th>
@@ -10,6 +11,7 @@
 	@slot('body')
 		@foreach ($appearances as $appearance)
 			<tr>
+				<td>{{ $appearance->id }}</td>
 				<td>{{ $appearance->section->name }}</td>
 				<td>{{ $appearance->status->name }}</td>
 				<td>{{ $appearance->property->present()->shortAddress }}</td>
