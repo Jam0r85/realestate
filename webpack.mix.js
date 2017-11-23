@@ -18,10 +18,11 @@ mix.js('resources/assets/js/app.js', 'public/js')
 		'public/fontawesome/js/fontawesome.js'
 		], 'public/js/fontawesome.js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
-	.styles([
-		'node_modules/fullcalendar/dist/fullcalendar.min.css',
-		'node_modules/select2/dist/css/select2.min.css'
-	], 'public/css/all.css');
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js/fullcalendar.js')
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css/fullcalendar.css')
+	.copy('node_modules/trumbowyg/dist/trumbowyg.min.js', 'public/js/trumbowyg.js')
+	.copy('node_modules/trumbowyg/dist/ui/trumbowyg.min.css', 'public/css/trumbowyg.css')
+	.copy('node_modules/trumbowyg/dist/ui/icons.svg', 'public/css/trumbowyg/icons.svg')
 
 if (mix.inProduction()) {
 	mix.version();

@@ -174,3 +174,16 @@
 	@endcomponent
 
 @endsection
+
+@push('style')
+	<link href="{{ asset('css/trumbowyg.css') }}" rel="stylesheet">
+@endpush
+
+@push('footer_scripts')
+	<script src="{{ asset('js/trumbowyg.js') }}"></script>
+	<script>
+		$('#description').trumbowyg({
+			svgPath: '{{ asset('css/trumbowyg/icons.svg') }}'
+		});
+	</script>
+@endpush

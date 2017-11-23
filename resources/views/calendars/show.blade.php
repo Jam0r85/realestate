@@ -31,6 +31,10 @@
 
 @endsection
 
+@push('style')
+	<link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+@endpush
+
 @push('footer_scripts')
 <script>
 	$('#alert').hide();

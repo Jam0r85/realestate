@@ -12,28 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/all.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
     <script defer src="{{ mix('js/fontawesome.js') }}"></script>
 
-    <style type="text/css">
-        @auth
-            body {
-                @if ($setting = user_setting('font_override'))
-                    font-family: "{{ $setting }}" !important;
-                @endif
-                @if ($setting = user_setting('font_override_size'))
-                    font-size: {{ $setting }} !important;
-                @endif
-            }
-            input, textarea, select, button:not(.close), .dropdown-menu {
-                @if ($setting = user_setting('font_override_size'))
-                    font-size: {{ $setting }} !important;
-                @endif
-            }
-        @endauth
-    </style>
+    @stack('style')
 </head>
 <body>
     <div id="app">

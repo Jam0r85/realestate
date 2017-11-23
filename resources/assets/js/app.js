@@ -1,5 +1,5 @@
 require ('./bootstrap');
 
 require ('moment');
-require ('fullcalendar');
 require ('select2');
+require ('fullcalendar');
