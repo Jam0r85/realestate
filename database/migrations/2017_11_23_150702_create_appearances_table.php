@@ -20,6 +20,7 @@ class CreateAppearancesTable extends Migration
             $table->integer('property_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->boolean('hidden')->default(1);
+            $table->string('slug');
             $table->text('summary');
             $table->text('description');
             $table->text('data')->nullable();

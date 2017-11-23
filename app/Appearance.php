@@ -59,4 +59,12 @@ class Appearance extends Model
 	{
 		return $this->hasMany('App\AppearancePrice');
 	}
+
+	/**
+	 * An appearance can have many features.
+	 */
+	public function features()
+	{
+		return $this->hasMany('App\AppearanceFeature');
+	}
 }
