@@ -39,6 +39,17 @@ class Appearance extends Model
 		'data' => 'array'
 	];
 
+	/**
+	 * The keys to be allowed in the data column.
+	 * 
+	 * @var array
+	 */
+	protected $dataKeys = [
+		'avaliable_from',
+		'new_home',
+		'display_address'
+	];
+
     /**
      * Scope a query to eager load the relations needed when showing a list of appearances.
      *

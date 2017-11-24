@@ -17,7 +17,11 @@
 				<td>{{ $appearance->property->present()->shortAddress }}</td>
 				<td>{!! $appearance->present()->visibility !!}</td>
 				<td>{{ $appearance->present()->liveStatus }}</td>
-				<td></td>
+				<td class="text-right">
+					<a href="{{ route('appearances.show', $appearance->id) }}" class="btn btn-primary btn-sm">
+						Edit
+					</a>
+				</td>
 			</tr>
 		@endforeach
 	@endslot

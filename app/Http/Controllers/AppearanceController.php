@@ -77,6 +77,7 @@ class AppearanceController extends BaseController
         $appearance->summary = $request->summary;
         $appearance->description = $request->description;
         $appearance->live_at = $request->live_at;
+        $appearance->setData($request->input());
 
         $appearance->status()->associate($status);
         $appearance->property()->associate($property);

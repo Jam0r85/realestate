@@ -272,6 +272,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'AppearanceController@index')->name('appearances.index');
 		Route::get('create', 'AppearanceController@create')->name('appearances.create');
 		Route::post('/', 'AppearanceController@store')->name('appearances.store');
+		Route::get('{appearance}/{section?}', 'AppearanceController@show')->name('appearances.show');
 	});
 
 });

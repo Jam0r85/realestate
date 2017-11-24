@@ -78,6 +78,16 @@
 							</div>
 
 							<div class="form-group">
+								<label for="display_address">
+									Display Address (optional)
+								</label>
+								<input type="text" name="display_address" id="display_address" class="form-control" value="{{ old('display_address') }}">
+								<small class="form-text text-muted">
+									Overwrite the display address for this property.
+								</small>
+							</div>
+
+							<div class="form-group">
 								<label for="status_id">
 									Status
 								</label>
@@ -88,6 +98,29 @@
 										</option>
 									@endforeach
 								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="avaliable_from">
+									Avaliable From
+								</label>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</span>
+									<input type="date" name="avaliable_from" id="avaliable_from" class="form-control" value="{{ old('avaliable_from') }}">
+								</div>
+							</div>
+
+							<hr />
+
+							<div class="form-group">
+								<div class="form-check">
+									<label class="form-check-label">
+									<input class="form-check-input" type="checkbox" name="new_home" id="new_home" value="true">
+										New home?
+									</label>
+								</div>
 							</div>
 
 						</div>
