@@ -41,4 +41,12 @@ return [
         'sms_from' => env('NEXMO_FROM')
     ],
 
+    'rightmove' => [
+        //
+    ],
+
+    'onthemarket' => [
+        //
+    ],
+
 ];

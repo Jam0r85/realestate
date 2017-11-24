@@ -45,6 +45,7 @@ class Appearance extends Model
 	 * @var array
 	 */
 	protected $dataKeys = [
+		'agent_ref',
 		'avaliable_from',
 		'new_home',
 		'display_address'
