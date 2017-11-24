@@ -24,7 +24,7 @@ class PropertyUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'postcode' => 'required'
+            //
         ];
     }
 }

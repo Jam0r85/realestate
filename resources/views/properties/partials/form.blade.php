@@ -39,6 +39,20 @@
 </div>
 
 <div class="form-group">
+	<label for="tax_band_id">
+		Tax Band
+	</label>
+	<select name="tax_band_id" id="tax_band_id" class="form-control">
+		<option value="">None</option>
+		@foreach (tax_bands() as $band)
+			<option @if (isset($property) && $property->tax_band_id == $band->id) selected @endif value="{{ $band->id }}">
+				{{ $band->name }}
+			</option>
+		@endforeach
+	</select>
+</div>
+
+<div class="form-group">
 	<label for="owners">Owners</label>
 	<select name="owners[]" id="owners" class="form-control select2" multiple>
 		@foreach (users() as $user)

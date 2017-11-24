@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Settings\PropertySettings;
+use App\Traits\DataTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
@@ -12,6 +13,7 @@ class Property extends BaseModel
 	use SoftDeletes;
 	use Searchable;
 	use PresentableTrait;
+	use DataTrait;
 
 	/**
 	 * The presenter for this model.
@@ -47,8 +49,20 @@ class Property extends BaseModel
      * @var array
      */
     protected $casts = [
-    	'settings' => 'array'
+    	'settings' => 'array',
+    	'data' => 'array'
    ];
+
+   /**
+    * The keys that are allowed to be stored in the data column.
+    * 
+    * @var array
+    */
+	protected $dataKeys = [
+		'bedrooms',
+		'bathrooms',
+		'receiption_rooms'
+   	];
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +72,7 @@ class Property extends BaseModel
 	protected $fillable = [
 		'branch_id',
 		'bank_account_id',
+		'tax_band_id',
 		'house_name',
 		'house_number',
 		'address1',
@@ -200,6 +215,14 @@ class Property extends BaseModel
 		return $this->hasMany('App\Appearance')
 			->withTrashed()
 			->latest();
+	}
+
+	/**
+	 * A property can have a tax band.
+	 */
+	public function band()
+	{
+		return $this->belongsTo('App\TaxBand');
 	}
 
 	/**

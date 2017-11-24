@@ -17,7 +17,8 @@ class CreatePropertiesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('branch_id')->unsigned();
-            $table->integer('bank_account_id')->unsigned()->default(0);
+            $table->integer('bank_account_id')->unsigned()->nullable();
+            $table->integer('tax_band_id')->unsigned()->nullable();
             $table->string('house_name')->nullable();
             $table->string('house_number')->nullable();
             $table->string('address1')->nullable();
@@ -28,6 +29,7 @@ class CreatePropertiesTable extends Migration
             $table->string('postcode')->nullable();
             $table->string('country')->nullable();
             $table->text('settings')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

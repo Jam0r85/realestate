@@ -99,10 +99,10 @@ class PropertyController extends BaseController
      * @param  \App\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function update(PropertyUpdateRequest $request, $id)
+    public function update(PropertyUpdateRequest $request, Property $property)
     {
-        $property = Property::findOrFail($id);
         $property->fill($request->input());
+        $property->setData($request->input());
         $property->save();
 
         $property->owners()->sync($request->owners);

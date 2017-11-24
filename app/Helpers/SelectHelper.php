@@ -166,3 +166,10 @@ if (!function_exists('price_qualifiers')) {
 		return \App\AppearancePriceQualifier::get();
 	}
 }
+
+if (!function_exists('tax_bands')) {
+	function tax_bands()
+	{
+		return \App\TaxBand::get();
+	}
+}

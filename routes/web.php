@@ -72,7 +72,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('search', 'PropertyController@search')->name('properties.search');
 		Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
 		Route::post('{id}/update-owners', 'PropertyController@updateOwners')->name('properties.update-owners');
-		Route::put('{id}', 'PropertyController@update')->name('properties.update');
+		Route::put('{property}', 'PropertyController@update')->name('properties.update');
 		Route::post('{id}/update-statement-settings', 'PropertyController@updateStatementSettings')->name('properties.update-statement-settings');
 		Route::post('{id}/archive', 'PropertyController@archive')->name('properties.archive');
 		Route::post('{id}/restore', 'PropertyController@restore')->name('properties.restore');

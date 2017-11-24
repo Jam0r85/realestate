@@ -3,6 +3,7 @@
 namespace App;
 
 use App\AppearancePrice;
+use App\Traits\DataTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,7 @@ class Appearance extends Model
 {
 	use SoftDeletes;
 	use PresentableTrait;
+	use DataTrait;
 
 	/**
 	 * The presenter for this model.
