@@ -9,7 +9,7 @@
 		</a>
 
 		@component('partials.header')
-			Expenses List
+			{{ isset($title) ? $title : 'Expenses List' }}
 		@endcomponent
 
 	@endcomponent

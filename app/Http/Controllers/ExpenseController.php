@@ -52,10 +52,10 @@ class ExpenseController extends BaseController
 
         Session::put('expenses_search_term', $request->search_term);
 
-        $expenses = Expense::search(Session::get('expenses_search_term'))->get();
+        $searchResults = Expense::search(Session::get('expenses_search_term'))->get();
         $title = 'Search Results';
 
-        return view('expenses.index', compact('expenses', 'title'));
+        return view('expenses.index', compact('searchResults', 'title'));
     }
 
     /**
