@@ -24,8 +24,8 @@ class ExpenseController extends BaseController
         $unpaid_expenses = Expense::whereNull('paid_at')->latest()->get();
         $paid_expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
 
-        $unpaid_expenses->load('property','documents','statements');
-        $paid_expenses->load('property','documents','statements');
+        $unpaid_expenses->load('contractor','property','documents','statements');
+        $paid_expenses->load('contractor','property','documents','statements');
 
         $sections = ['Unpaid','Paid'];
 
