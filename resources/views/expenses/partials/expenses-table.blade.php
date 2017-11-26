@@ -9,7 +9,7 @@
 		@else
 			<th>Paid</th>
 		@endif
-		<th><i class="fa fa-upload"></i></th>
+		<th>Invoice</th>
 	@endslot
 	@slot('body')
 		@foreach ($expenses as $expense)
@@ -31,11 +31,7 @@
 				@else
 					<td>{{ date_formatted($expense->paid_at) }}</td>
 				@endif
-				<td>
-					@if (count($expense->documents))
-						<i class="fa fa-check"></i>
-					@endif
-				</td>
+				<td>{!! $expense->present()->invoiceDownloadButtons !!}</td>
 			</tr>
 		@endforeach
 	@endslot
