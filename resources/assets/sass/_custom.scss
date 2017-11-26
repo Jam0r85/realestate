@@ -117,3 +117,14 @@ section.section {
 	font-size: 13px;
 	padding: 0.2rem 0.5rem;
 }
+
+/**
+ * Pills
+ */
+.nav-pills .nav-link {
+	margin-bottom: 0.3rem;
+	background-color: #f8f8f8;
+}
+.nav-pills .nav-link.active {
+	padding-left: 1rem;
+}
