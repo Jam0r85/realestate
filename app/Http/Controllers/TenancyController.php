@@ -81,10 +81,10 @@ class TenancyController extends BaseController
 
         Session::put('tenancies_search_term', $request->search_term);
 
-        $tenancies = Tenancy::search(Session::get('tenancies_search_term'))->get();
+        $searchResults = Tenancy::search(Session::get('tenancies_search_term'))->get();
         $title = 'Search Results';
 
-        return view('tenancies.index', compact('tenancies','title'));
+        return view('tenancies.index', compact('searchResults','title'));
     }
 
     /**
