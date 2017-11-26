@@ -56,7 +56,7 @@
 					@endif
 
 					@if (isset($searchResults))
-						@include('properties.partials.users-table', ['properties' => $searchResults])
+						@include('properties.partials.properties-table', ['properties' => $searchResults])
 					@endif
 
 				</div>

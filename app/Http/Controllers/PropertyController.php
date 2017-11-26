@@ -6,19 +6,10 @@ use App\Http\Requests\PropertyStoreRequest;
 use App\Http\Requests\PropertyUpdateRequest;
 use App\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PropertyController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -42,12 +33,20 @@ class PropertyController extends BaseController
      */
     public function search(Request $request)
     {
-        $properties = Property::search($request->search_term)->get();
-        $properties->load('owners');
+        // Clear the search term.
+        if ($request && $request->has('clear_search')) {
+            Session::forget('properties_search_term');
+            return redirect()->route('properties.index');
+        }
+
+        Session::put('properties_search_term', $request->search_term);
+
+        $searchResults = Property::search(Session::get('properties_search_term'))->get();
+        $searchResults->load('owners');
         
         $title = 'Search Results';
 
-        return view('properties.index', compact('properties','title'));
+        return view('properties.index', compact('searchResults','title'));
     }
 
     /**
