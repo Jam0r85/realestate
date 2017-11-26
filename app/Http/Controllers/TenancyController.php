@@ -27,36 +27,29 @@ class TenancyController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($section = 'index', $view = 'index')
+    public function index()
     {
         $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments','statements')->latest();
 
-        if ($section == 'index') {
-            $tenancies = $tenancies->paginate();            
-            $title = 'Tenancies List';
-        }
+        $all_tenancies = $tenancies->paginate();
+        $overdue_tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
+        $has_rent = $tenancies->hasRent()->paginate();
+        $owes_rent = $tenancies->owesRent()->paginate();
+        $owes_deposit = $tenancies->owesDeposit()->paginate();
+        $archived_tenancies = $tenancies->onlyTrashed()->paginate();
 
-        if ($section == 'has-rent') {
-            $tenancies = $tenancies->hasRent()->paginate();
-            $title = 'Tenancies With Rent';
-        }
+        $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Archived'];
 
-        if ($section == 'owes-rent') {
-            $tenancies = $tenancies->owesRent()->paginate();
-            $title = 'Tenancies Owing Rent';
-        }
-
-        if ($section == 'overdue') {
-            $tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
-            $title = 'Overdue Tenancies';
-        }
-
-        if ($section == 'owes-deposit') {
-            $tenancies->owesDeposit()->paginate();
-            $title = 'Tenancies Owing Deposit';
-        }
-
-        return view('tenancies.' . $view, compact('tenancies','title'));
+        return view('tenancies.index', compact(
+            'all_tenancies',
+            'overdue_tenancies',
+            'has_rent',
+            'owes_rent',
+            'owes_deposit',
+            'archived_tenancies',
+            'title',
+            'sections'
+        ));
     }
 
     /**

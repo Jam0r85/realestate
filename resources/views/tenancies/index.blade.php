@@ -9,63 +9,60 @@
 		</a>
 
 		@component('partials.header')
-			{{ $title }}
+			{{ isset($title) ? $title : 'Tenancies List' }}
 		@endcomponent
-
-		<div class="btn-group" role="group">
-			<a href="{{ route('tenancies-list.index') }}" class="btn btn-sm {{ !Request::segment('2') ? 'btn-primary' : 'btn-secondary' }}">
-				All Tenancies
-			</a>
-			<a href="{{ route('tenancies-list.index', 'overdue') }}" class="btn btn-sm {{ Request::segment('2') == 'overdue' ? 'btn-primary' : 'btn-secondary' }}">
-				Overdue
-				<span class="badge badge-light">
-					{{ App\Tenancy::isOverdue()->count() }}
-				</span>
-			</a>
-			<a href="{{ route('tenancies-list.index', 'has-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'has-rent' ? 'btn-primary' : 'btn-secondary' }}">
-				Has Rent
-				<span class="badge badge-light">
-					{{ App\Tenancy::hasRent()->count() }}
-				</span>
-			</a>
-			<a href="{{ route('tenancies-list.index', 'owes-rent') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-rent' ? 'btn-primary' : 'btn-secondary' }}">
-				Owes Rent
-				<span class="badge badge-light">
-					{{ App\Tenancy::owesRent()->count() }}
-				</span>
-			</a>
-			<a href="{{ route('tenancies-list.index', 'owes-deposit') }}" class="btn btn-sm {{ Request::segment('2') == 'owes-deposit' ? 'btn-primary' : 'btn-secondary' }}">
-				Owes Deposit
-				<span class="badge badge-light">
-					{{ App\Tenancy::owesDeposit()->count() }}
-				</span>
-			</a>
-		</div>
 
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Tenancies Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('tenancies.search') }}
-			@endslot
-			@if (session('tenancies_search_term'))
-				@slot('search_term')
-					{{ session('tenancies_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Tenancies Search --}}
+		<div class="row">
+			<div class="col-12 col-md-4 col-lg-3 col-xl-2">
 
-		@if (Request::segment(2) == 'overdue')
-			@include('tenancies.partials.overdue-tenancies-table')
-		@else
-			@include('tenancies.partials.tenancies-table')
-		@endif
+				{{-- Tenancies Search --}}
+				@component('partials.bootstrap.page-search')
+					@slot('route')
+						{{ route('tenancies.search') }}
+					@endslot
+					@if (session('tenancies_search_term'))
+						@slot('search_term')
+							{{ session('tenancies_search_term') }}
+						@endslot
+					@endif
+				@endcomponent
+				{{-- End of Tenancies Search --}}
 
-		@include('partials.pagination', ['collection' => $tenancies])
+				@if (isset($sections))
+					<div class="nav flex-column nav-pills mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+						@foreach ($sections as $key)
+							<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+								{{ $key }}
+							</a>
+						@endforeach
+
+					</div>
+				@endif
+
+			</div>
+			<div class="col-12 col-md-8 col-lg-9 col-xl-10">
+
+				<div class="tab-content" id="v-pills-tabContent">
+
+					@if (isset($sections))
+						@foreach ($sections as $key)
+							@include('tenancies.sections.index.' . str_slug($key))
+						@endforeach
+					@endif
+
+					@if (isset($searchResults))
+						@include('tenancies.partials.tenancies-table', ['tenancies' => $searchResults])
+					@endif
+
+				</div>
+
+			</div>
+		</div>
 
 	@endcomponent
 

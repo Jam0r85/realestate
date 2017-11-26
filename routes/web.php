@@ -109,9 +109,8 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}', 'PaymentController@destroy')->name('payments.destroy');
 	});
 
-	Route::get('tenancies-list/{section?}', 'TenancyController@index')->name('tenancies-list.index');
-
 	Route::prefix('tenancies')->group(function () {
+		Route::get('/', 'TenancyController@index')->name('tenancies-list.index');
 		Route::get('archived', 'TenancyController@archived')->name('tenancies.archived');
 		Route::post('search', 'TenancyController@search')->name('tenancies.search');
 		Route::get('create', 'TenancyController@create')->name('tenancies.create');
