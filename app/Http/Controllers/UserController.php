@@ -104,8 +104,22 @@ class UserController extends BaseController
      */
     public function show($id, $page = 'layout')
     {
-        $user = User::with('properties','properties.owners','invoices','bankAccounts','sms.user','sms.owner')->withTrashed()->findOrFail($id);
-        return view('users.pages.' . $page, compact('user'));
+        $user = User::withTrashed()->findOrFail($id);
+
+        $bank_accounts = $user->bankAccounts;
+        $properties = $user->properties()->with('owners')->get();
+        $tenancies = $user->tenancies()->with('tenants')->get();
+        $invoices = $user->invoices()->with('users','property','items','items.taxRate')->paginate();
+        $sms_messages = $user->sms()->with('user','owner')->get();
+
+        return view('users.pages.' . $page, compact(
+            'user',
+            'bank_accounts',
+            'properties',
+            'tenancies',
+            'invoices',
+            'sms_messages'
+        ));
     }
 
     /**

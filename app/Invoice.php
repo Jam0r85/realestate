@@ -295,16 +295,6 @@ class Invoice extends PdfModel
     }
 
     /**
-     * Get the invoice's statement.
-     * 
-     * @return \App\Invoice
-     */
-    public function getStatementAttribute()
-    {
-        return $this->statements->first();
-    }
-
-    /**
      * Check wherther this invoice belongs to a statement.
      * 
      * @return boolean
