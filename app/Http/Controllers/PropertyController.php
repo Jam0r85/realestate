@@ -26,10 +26,12 @@ class PropertyController extends BaseController
      */
     public function index()
     {
-        $properties = Property::withTrashed()->with('owners')->latest()->paginate();
+        $active_properties = Property::withTrashed()->with('owners')->latest()->paginate();
+
+        $sections = ['Active'];
         $title = 'Properties List';
 
-        return view('properties.index', compact('properties','title'));
+        return view('properties.index', compact('active_properties','title','sections'));
     }
 
     /**
