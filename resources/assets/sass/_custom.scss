@@ -101,7 +101,18 @@ section.section {
  * Buttons
  */
 .btn {
+	font-size: 14px;
 	border: 0;
+	padding: 0.5rem 1rem;
 	text-transform: uppercase;
 	letter-spacing: 1.56px;
+	font-weight: 700;
+	box-shadow: 0 -3px 0 0 rgba(0,0,0,0.4) inset;
+	border-radius: 0;
+}
+.btn:hover {
+	box-shadow: none;
+}
+.btn-sm {
+	padding: 0.2rem 0.5rem;
 }

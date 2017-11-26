@@ -4,11 +4,11 @@
 // Variables
 @import "variables";
 
-// Custom
-@import "custom";
-
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
 // Select2
 @import "node_modules/select2/src/scss/core";
+
+// Custom
+@import "custom";

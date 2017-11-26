@@ -23,7 +23,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	.copy('node_modules/trumbowyg/dist/trumbowyg.min.js', 'public/js/trumbowyg.js')
 	.copy('node_modules/trumbowyg/dist/ui/trumbowyg.min.css', 'public/css/trumbowyg.css')
 	.copy('node_modules/trumbowyg/dist/ui/icons.svg', 'public/css/trumbowyg/icons.svg')
-
-if (mix.inProduction()) {
-	mix.version();
-}
+	.version();
