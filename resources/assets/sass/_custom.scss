@@ -96,3 +96,12 @@ section.section {
 .row.equal-height > [class*='col-'] {
     display: flex;
 }
+
+/**
+ * Buttons
+ */
+.btn {
+	border: 0;
+	text-transform: uppercase;
+	letter-spacing: 1.56px;
+}
