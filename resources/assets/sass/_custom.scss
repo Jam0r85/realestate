@@ -125,6 +125,9 @@ section.section {
 	margin-bottom: 0.3rem;
 	background-color: #f8f8f8;
 }
+.nav-pills .nav-link:hover:not(.active) {
+	background-color: #e8e8e8;
+}
 .nav-pills .nav-link.active {
 	padding-left: 1rem;
 }
