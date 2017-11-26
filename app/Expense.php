@@ -5,12 +5,21 @@ namespace App;
 use App\Document;
 use App\StatementPayment;
 use App\Traits\DocumentsTrait;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Expense extends BaseModel
 {
     use Searchable;
     use DocumentsTrait;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\ExpensePresenter';
 
     /**
      * The document name type.
@@ -106,16 +115,6 @@ class Expense extends BaseModel
     public function payments()
     {
         return $this->morphMany('App\StatementPayment', 'parent');
-    }
-
-    /**
-     * Get the expense balance amount.
-     *
-     * @return int
-     */
-    public function getRemainingBalanceAttribute()
-    {
-        return $this->cost - $this->statements->sum('pivot.amount');
     }
 
     /**

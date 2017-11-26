@@ -6,23 +6,14 @@ use App\Expense;
 use App\Http\Requests\ExpenseDeleteRequest;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\ExpenseUpdateRequest;
+use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ExpenseController extends BaseController
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+{    
     /**
      * Display a listing of expenses.
      *
@@ -31,12 +22,18 @@ class ExpenseController extends BaseController
     public function index()
     {
         $unpaid_expenses = Expense::whereNull('paid_at')->latest()->get();
-        $expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
+        $paid_expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
 
         $unpaid_expenses->load('property','documents','statements');
-        $expenses->load('property','documents','statements');
+        $paid_expenses->load('property','documents','statements');
 
-        return view('expenses.index', compact('unpaid_expenses','expenses'));
+        $sections = ['Unpaid','Paid'];
+
+        return view('expenses.index', compact(
+            'sections',
+            'unpaid_expenses',
+            'paid_expenses'
+        ));
     }
 
     /**
@@ -79,13 +76,15 @@ class ExpenseController extends BaseController
      */
     public function store(ExpenseStoreRequest $request)
     {
+        $property = Property::findOrFail($request->property_id);
+
         $expense = new Expense();
         $expense->name = $request->name;
-        $expense->property_id = $request->property_id;
         $expense->cost = $request->cost;
         $expense->contractor_id = $request->contractor_id;
         $expense->data = ['contractor_reference' => $request->contractor_reference];
-        $expense->save();
+
+        $property->expenses()->save($expense);
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
@@ -94,7 +93,6 @@ class ExpenseController extends BaseController
         }
 
         $this->successMessage('The expense "' . $expense->name . '" was created');
-
         return back();
     }
 
