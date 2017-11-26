@@ -134,9 +134,6 @@
                                 <a class="dropdown-item" href="{{ route('tenancies-list.index') }}">
                                     All Tenancies
                                 </a>
-                                <a class="dropdown-item" href="{{ route('tenancies.archived') }}" title="Archived Tenancies List">
-                                    Archived Tenancies
-                                </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
                                     Tenancy Services
                                 </a>

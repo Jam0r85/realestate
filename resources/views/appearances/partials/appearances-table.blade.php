@@ -19,7 +19,7 @@
 				<td>{{ $appearance->present()->liveStatus }}</td>
 				<td class="text-right">
 					<a href="{{ route('appearances.show', $appearance->id) }}" class="btn btn-primary btn-sm">
-						Edit
+						View
 					</a>
 				</td>
 			</tr>
