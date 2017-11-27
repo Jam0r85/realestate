@@ -32,7 +32,6 @@ class CreateManagementInvoiceItem
         $statement = Statement::findOrFail($event->statement->id);
         $tenancy = $statement->tenancy;
         $service = $tenancy->service;
-        $invoice = $statement->invoice();
 
         if ($tenancy->getServiceChargeNetAmount() > 0) {
 

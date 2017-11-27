@@ -33,7 +33,6 @@ class CreateReLettingFeeInvoiceItem
         $tenancy = $statement->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
-        $invoice = $statement->invoice();
 
         if (count($property->tenancies) > 1 && count($tenancy->statements) <= 1) {
 
