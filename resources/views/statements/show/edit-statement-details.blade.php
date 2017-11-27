@@ -131,7 +131,7 @@
 									</div>
 								@endif
 
-								@if ($statement->invoice())
+								@if (count($statement->invoices))
 									<div class="form-check">
 										<label class="form-check-label">
 											<input type="checkbox" name="invoice" id="invoice" value="true" class="form-check-input" checked />

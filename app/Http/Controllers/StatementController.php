@@ -262,8 +262,8 @@ class StatementController extends BaseController
             $statement->payments()->whereNull('sent_at')->delete();
         }
 
-        if ($statement->invoice()) {
-            $statement->invoice()->forceDelete();
+        if ($request->has('invoice')) {
+            $statement->invoices()->forceDelete();
         }
 
         $statement->forceDelete();
