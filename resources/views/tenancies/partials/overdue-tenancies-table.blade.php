@@ -17,7 +17,7 @@
 				<td>{{ $tenancy->present()->propertyAddress }}</td>
 				<td>{{ currency($tenancy->present()->rentAmount) }}</td>
 				<td>{{ currency($tenancy->present()->rentBalance) }}</td>
-				<td>{{ date_formatted($tenancy->nextStatementDate()) }}</td>
+				<td>{{ date_formatted($tenancy->present()->nextStatementStartDate) }}</td>
 			</tr>
 		@endforeach
 	@endslot
