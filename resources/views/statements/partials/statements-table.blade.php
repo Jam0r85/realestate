@@ -19,11 +19,7 @@
 		@foreach ($statements as $statement)
 			<tr>
 				<td>{{ $statement->present()->statusWithDate() }}</td>
-				<td>
-					<a href="{{ route('statements.show', $statement->id) }}">
-						{{ date_formatted($statement->period_start) }}
-					</a>
-				</td>
+				<td>{{ date_formatted($statement->period_start) }}</td>
 				<td>{{ date_formatted($statement->period_end) }}</a></td>
 				@if (!isset($tenancy))
 					<td>
@@ -36,7 +32,13 @@
 				<td>{{ $statement->present()->amountFormatted }}</td>
 				@if (isset($tenancy))
 					<td>{{ currency($statement->getLandlordAmount()) }}</td>
-					<td>{{ $statement->invoice() ? $statement->invoice()->number : '-' }}</td>	
+					<td>
+						@if (count($statement->invoices))
+							@foreach ($statement->invoices as $invoice)
+								{{ $invoice->present()->name }}
+							@endforeach
+						@endif
+					</td>
 				@endif
 				<td>{{ $statement->present()->sendBy(null) }}</td>
 				<td class="text-right">
@@ -48,6 +50,9 @@
 							</button>
 						</form>
 					@endif
+					<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-warning btn-sm">
+						View
+					</a>
 					<a href="{{ route('downloads.statement', $statement->id) }}" class="btn btn-primary btn-sm" target="_blank">
 						Download
 					</a>
