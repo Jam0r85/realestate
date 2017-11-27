@@ -50,6 +50,8 @@ class CreateReLettingFeeInvoiceItem
                     $invoice = new Invoice();
                     $invoice->property_id = $tenancy->property->id;
                     $invoice = $statement->storeInvoice($invoice);
+                } else {
+                    $invoice = $statement->invoices->first();
                 }
 
                 $item = new InvoiceItem();
