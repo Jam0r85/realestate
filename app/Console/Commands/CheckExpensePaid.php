@@ -54,7 +54,7 @@ class CheckExpensePaid extends Command
 
         foreach ($expenses as $expense) {
 
-            $balance = $expense->cost - $expense->payments->sum('pivot.amount');
+            $balance = $expense->cost - $expense->payments->sum('amount');
 
             if ($balance <= 0) {
 
@@ -90,7 +90,7 @@ class CheckExpensePaid extends Command
 
         foreach ($expenses as $expense) {
 
-            $balance = $expense->cost - $expense->payments->sum('pivot.amount');
+            $balance = $expense->cost - $expense->payments->sum('amount');
 
             if ($balance > 0) {
                 $expense->paid_at = null;
