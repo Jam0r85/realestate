@@ -154,9 +154,11 @@
 							Invoice Items
 						@endcomponent
 
-						@if ($statement->invoice())
-
-							@include('invoices.partials.item-table', ['items' => $statement->invoice()->items])
+						@if (count($statement->invoices))
+						
+							@foreach ($statement->invoices as $invoice)
+								@include('invoices.partials.item-table', ['items' => $invoice->items])
+							@endforeach
 
 						@else
 
