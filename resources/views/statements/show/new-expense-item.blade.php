@@ -41,7 +41,7 @@
 						<th>Balance</th>
 					</thead>
 					<tbody>
-						@foreach ($statement->property->unpaid_expenses as $unpaid_expense)
+						@foreach ($statement->tenancy->property->unpaid_expenses as $unpaid_expense)
 							<tr>
 								<td>
 									<input type="number" step="any" name="expense_amount[]" class="form-control" />
