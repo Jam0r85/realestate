@@ -295,16 +295,6 @@ class Invoice extends PdfModel
     }
 
     /**
-     * Check wherther this invoice belongs to a statement.
-     * 
-     * @return boolean
-     */
-    public function hasStatement()
-    {
-        return (boolean) $this->statements->first();
-    }
-
-    /**
      * Check whether the invoice can accept new payments or not.
      * 
      * @return bool

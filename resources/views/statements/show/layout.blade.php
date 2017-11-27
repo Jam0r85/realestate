@@ -43,12 +43,14 @@
 			<div class="columns">
 				<div class="column is-4">
 
-					@if ($statement->invoice())
-						<a href="{{ route('invoices.show', $statement->invoice()->id) }}">
-							<div class="notification is-info has-text-centered mb-2">
-								Statement links to Invoice #{{ $statement->invoice()->present()->number }}
-							</div>
-						</a>
+					@if (count($statement->invoices))
+						@foreach ($statement->invoices as $invoice)
+							<a href="{{ route('invoices.show', $invoice->id) }}">
+								<div class="notification is-info has-text-centered mb-2">
+									Statement links to Invoice #{{ $invoice->present()->number }}
+								</div>
+							</a>
+						@endforeach
 					@endif
 
 					<div class="card mb-2">

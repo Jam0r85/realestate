@@ -17,8 +17,9 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function letterRecipient()
 	{
-		if ($this->statement) {
-			return $this->statement->present()->recipient;
+		if (count($this->statements)) {
+			$statement = $this->statements->first();
+			return $statement->present()->letterRecipient;
 		}
 
 		return $this->usersList . '<br />' . nl2br($this->recipient);

@@ -41,7 +41,7 @@ class StatementPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function recipient()
+	public function letterRecipient()
 	{
 		foreach ($this->users as $user) {
 

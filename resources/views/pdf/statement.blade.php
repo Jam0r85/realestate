@@ -6,7 +6,7 @@
 			<div class="section">
 				<table>
 					<tr>
-						<td>{!! $statement->present()->recipient !!}</td>
+						<td>{!! $statement->present()->letterRecipient !!}</td>
 						<td class="text-right">
 							{!! $statement->present()->branchAddress !!}
 							@if ($vat_number = $statement->present()->branchVatNumber)
@@ -58,23 +58,25 @@
 					</thead>
 					<tbody>
 
-						@if($statement->invoice())
-							@foreach ($statement->invoice()->items as $item)
-								<tr>
-									<td>
-										<b>{{ $item->name }} (Inv. #{{ $item->invoice->number }})</b>
-										{!! $item->description ? '<br />' . $item->description : '' !!}
-										@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
-											<br />
-											@foreach ($statement->tenancy->service_discounts as $discount)
-												<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
-											@endforeach
-										@endif
-									</td>
-									<td>{{ currency($item->total_net) }}</td>
-									<td>{{ currency($item->total_tax) }}</td>
-									<td>{{ currency($item->total) }}</td>
-								</tr>
+						@if(count($statement->invoices))
+							@foreach ($statement->invoices as $invoice)
+								@foreach ($invoice->items as $item)
+									<tr>
+										<td>
+											<b>{{ $item->name }} (Inv. #{{ $item->invoice->number }})</b>
+											{!! $item->description ? '<br />' . $item->description : '' !!}
+											@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->service_discounts)
+												<br />
+												@foreach ($statement->tenancy->service_discounts as $discount)
+													<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
+												@endforeach
+											@endif
+										</td>
+										<td>{{ currency($item->total_net) }}</td>
+										<td>{{ currency($item->total_tax) }}</td>
+										<td>{{ currency($item->total) }}</td>
+									</tr>
+								@endforeach
 							@endforeach
 						@endif
 
@@ -129,9 +131,11 @@
 	</div>
 
 	{{-- Attach the Invoice --}}
-	@if ($statement->invoice())
-		<div class="page-break"></div>
-		@include('pdf.invoice', ['invoice' => $statement->invoice()])
+	@if (count($statement->invoices))
+		@foreach ($statement->invoices as $invoice)
+			<div class="page-break"></div>
+			@include('pdf.invoice', ['invoice' => $invoice])
+		@endforeach
 	@endif
 
 @include('pdf._footer')

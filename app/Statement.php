@@ -103,14 +103,6 @@ class Statement extends PdfModel
     }
 
     /**
-     * A statement can have one invoice.
-     */
-    public function invoice()
-    {
-        return $this->invoices->first();
-    }
-
-    /**
      * A statement can have many payments out to landlords, contractors, etc.
      */
     public function payments()
