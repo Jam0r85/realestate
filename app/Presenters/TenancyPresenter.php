@@ -149,7 +149,7 @@ class TenancyPresenter extends Presenter
 	{
 		if (count($this->statements)) {
 			$date = $this->statements->first()->period_end->addDay();
-		} elseif (count($this->firstAgreement)) {
+		} elseif ($this->firstAgreement) {
 			$date = $this->firstAgreement->starts_at;
 		} else {
 			$date = null;
