@@ -53,7 +53,10 @@ class CheckExpensePaid extends Command
         $expenses = Expense::whereNull('paid_at')->get();
 
         foreach ($expenses as $expense) {
-            if ($expense->remaining_balance <= 0) {
+
+            $balance = $expense->cost - $expense->payments->sum('pivot.amount');
+
+            if ($balance <= 0) {
 
                 // We automatically set the statements as having been paid.
                 $statements_paid = true;
@@ -86,7 +89,10 @@ class CheckExpensePaid extends Command
         $expenses = Expense::whereNotNull('paid_at')->get();
 
         foreach ($expenses as $expense) {
-            if ($expense->balance_amount > 0) {
+
+            $balance = $expense->cost - $expense->payments->sum('pivot.amount');
+
+            if ($balance > 0) {
                 $expense->paid_at = null;
                 $expense->save();
             }
