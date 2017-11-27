@@ -285,32 +285,14 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the number of days that this tenancy is overdue by.
-     * 
-     * @return integer
-     */
-    public function getDaysOverdueAttribute()
-    {
-        if (!$this->is_overdue) {
-            return null;
-        }
-        
-        if ($this->nextStatementDate() < Carbon::now()) {
-            return $this->nextStatementDate()->diffInDays(Carbon::now(), false);
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * Get the tenancy start date.
      * 
      * @return string
      */
     public function getStartedAtAttribute()
     {
-        if ($this->first_agreement) {
-            return $this->first_agreement->starts_at;
+        if ($this->firstAgreement) {
+            return $this->firstAgreement->starts_at;
         }
 
         return null;
@@ -414,7 +396,7 @@ class Tenancy extends BaseModel
             if (count($this->statements)) {
 
                 // Create a next statement date variable and add 3 days
-                $next_statement_date = $this->nextStatementDate();
+                $next_statement_date = $this->present()->nextStatementDueDate;
                 $next_statement_date->addDays(3);
 
                 // Check whether the next statement date has been passed.
