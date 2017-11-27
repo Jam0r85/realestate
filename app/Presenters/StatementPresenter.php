@@ -48,7 +48,9 @@ class StatementPresenter extends Presenter
 			$names[] = $user->present()->fullName;
 
 			if (!isset($home)) {
-				$home = $user->home->present()->letter;
+				if ($user->home) {
+					$home = $user->home->present()->letter;
+				}
 			}
 		}
 
