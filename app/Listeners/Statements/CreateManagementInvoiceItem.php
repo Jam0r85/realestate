@@ -36,10 +36,10 @@ class CreateManagementInvoiceItem
 
         if ($tenancy->getServiceChargeNetAmount() > 0) {
 
-            if (!$invoice) {
+            if (!count($statement->invoices)) {
                 $invoice = new Invoice();
                 $invoice->property_id = $tenancy->property->id;
-                $statement->storeInvoice($invoice);
+                $invoice = $statement->storeInvoice($invoice);
             }
 
             $description = $service->name . ' service at ' . $service->charge_formatted;

@@ -47,10 +47,10 @@ class CreateReLettingFeeInvoiceItem
 
             if ($re_letting_fee > 0) {
 
-                if (!$invoice) {
+                if (!count($statement->invoices)) {
                     $invoice = new Invoice();
                     $invoice->property_id = $tenancy->property->id;
-                    $statement->storeInvoice($invoice);
+                    $invoice = $statement->storeInvoice($invoice);
                 }
 
                 $item = new InvoiceItem();

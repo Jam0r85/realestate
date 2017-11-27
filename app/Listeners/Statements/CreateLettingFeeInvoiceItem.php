@@ -33,14 +33,13 @@ class CreateLettingFeeInvoiceItem
         $tenancy = $statement->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
-        $invoice = $statement->invoice();
 
         if (count($property->tenancies) <= 1 && $service->letting_fee && count($tenancy->statements) <= 1) {
 
-            if (!$invoice) {
+            if (!count($statement->invoices)) {
                 $invoice = new Invoice();
                 $invoice->property_id = $tenancy->property->id;
-                $statement->storeInvoice($invoice);
+                $invoice = $statement->storeInvoice($invoice);
             }
 
             $item = new InvoiceItem();
