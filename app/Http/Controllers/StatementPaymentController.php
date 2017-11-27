@@ -46,14 +46,16 @@ class StatementPaymentController extends BaseController
         $sent_at = $request->has('sent_at') ? $request->sent_at : null;
 
         // Invoice Payments
-        if ($statement->invoice()) {
-            StatementPayment::updateOrCreate(
-                ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $statement->invoice()->id],
-                [
-                    'amount' => $statement->getInvoiceTotal(),
-                    'sent_at' => $sent_at
-                ]
-            );
+        if (count($statement->invoices)) {
+            foreach ($statement->invoices as $invoice) {
+                StatementPayment::updateOrCreate(
+                    ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $invoice->id],
+                    [
+                        'amount' => $statement->getInvoiceTotal(),
+                        'sent_at' => $sent_at
+                    ]
+                );
+            }
         } else {
             StatementPayment::where('statement_id', $statement->id)->where('parent_type', 'invoices')->delete();
         }
