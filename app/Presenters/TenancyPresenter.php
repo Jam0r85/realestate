@@ -141,4 +141,24 @@ class TenancyPresenter extends Presenter
 	{
 		return $this->first_agreement ? $this->first_agreement->starts_at : null;
 	}
+
+	/**
+	 * @return [type] [description]
+	 */
+	public function nextStatementStartDate($format = null)
+	{
+		if (count($this->statements)) {
+			$date = $this->statements->first()->period_end->addDay();
+		} elseif (count($this->firstAgreement)) {
+			$date = $this->firstAgreement->starts_at;
+		} else {
+			$date = null;
+		}
+
+		if ($format && $date) {
+			return $date->format($format);
+		}
+
+		return $date;
+	}
 }

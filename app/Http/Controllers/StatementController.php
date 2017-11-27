@@ -70,7 +70,7 @@ class StatementController extends BaseController
     public function store(StatementStoreRequest $request, Tenancy $tenancy)
     {
         $statement = new Statement();
-        $statement->period_start = $request->period_start ?? $tenancy->nextStatementDate();
+        $statement->period_start = $request->period_start ?? $tenancy->present()->nextStatementStartDate;
         $statement->period_end = $request->period_end;
         $statement->amount = $request->amount;
 

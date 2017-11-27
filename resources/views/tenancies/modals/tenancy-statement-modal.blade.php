@@ -32,10 +32,10 @@
 							<span class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</span>
-							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ $tenancy->next_statement_start_date ? $tenancy->next_statement_start_date->format('Y-m-d') : '' }}" />
+							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') }}" />
 						</div>
 						<small class="form-text text-muted">
-							Leave blank to automatically use the next statement date. ({{ date_formatted($tenancy->nextStatementDate()) }})
+							Leave blank to automatically use the next statement date. ({{ date_formatted($tenancy->present()->nextStatementStartDate) }})
 						</small>
 					</div>
 

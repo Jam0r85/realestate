@@ -190,14 +190,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * The most recent statement for this tenancy.
-     */
-    public function latestStatement()
-    {
-        return $this->statements->first();
-    }
-
-    /**
      * The tenancy agreements for this tenancy.
      */
     public function agreements()
@@ -265,16 +257,6 @@ class Tenancy extends BaseModel
     public function deposit()
     {
         return $this->hasOne('App\Deposit');
-    }
-
-    /**
-     * Get the tenancy's next statement date.
-     * 
-     * @return Carbon\Carbon
-     */
-    public function nextStatementDate()
-    {
-        return $this->latestStatement() ? $this->latestStatement()->period_end->addDay() : $this->started_at;
     }
 
     /**
