@@ -1,9 +1,9 @@
-	<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid">
 
-		<div class="container">
+	<div class="container">
 
-			{{ $slot }}
-
-		</div>
+		{{ $slot }}
 
 	</div>
+
+</div>

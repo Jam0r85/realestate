@@ -1,3 +1,21 @@
+<template>
+	<b-table striped hover :items="items"></b-table>
+</template>
+
+<script>
+	const items = [
+		{ isActive: true, age: 40, first_name: 'James', last_name: 'Morris' }
+	]
+
+	export default {
+		data() {
+			return {
+				items: items
+			}
+		}
+	}
+</script>
+
 @component('partials.table')
 	@slot('header')
 		<th>Name</th>

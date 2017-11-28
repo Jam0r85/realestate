@@ -14,7 +14,23 @@
 
 	@endcomponent
 
+	<b-container class="bv-example-row">
+		<b-row>
+			<b-col>
+				hello
+			</b-col>
+			<b-col>
+				hello
+			</b-col>
+			<b-col>
+				hello
+			</b-col>
+		</b-row>
+	</b-container>
+
 	@component('partials.bootstrap.section-with-container')
+
+
 
 		<div class="row">
 			<div class="col-12 col-md-4 col-lg-3 col-xl-2">
