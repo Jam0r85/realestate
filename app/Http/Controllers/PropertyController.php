@@ -96,9 +96,9 @@ class PropertyController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\PropertyUpdateRequest $request
+     * @param  \App\Http\Requests\PropertyUpdateRequest  $request
      * @param  \App\Property  $property
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function update(PropertyUpdateRequest $request, Property $property)
     {
