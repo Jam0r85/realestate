@@ -89,9 +89,7 @@ if (!function_exists('users')) {
 if (!function_exists('properties')) {
 	function properties()
 	{
-		return cache()->tags('properties')->remember('properties', 60, function () {
-			return \App\Property::with('owners')->latest()->get();
-		});
+		return \App\Property::with('owners')->latest()->get();
 	}
 }
 
