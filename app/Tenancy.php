@@ -200,7 +200,9 @@ class Tenancy extends BaseModel
      */
     public function statements()
     {
-        return $this->hasMany('App\Statement')->latest('period_start');
+        return $this
+            ->hasMany('App\Statement')
+            ->latest('period_start');
     }
 
     /**
@@ -410,22 +412,18 @@ class Tenancy extends BaseModel
             if (count($this->statements)) {
 
                 // Create a next statement date variable and add 3 days
-                $next_statement_date = $this->present()->nextStatementDueDate;
+                $lastStatement = $this->statements->first();
+                $next_statement_date = $lastStatement->period_end->addDay();
 
-                if ($next_statement_date) {
-
-                    $reminder_date = $next_statement_date->addDays(3);
-
-                    // Check whether the next statement date has been passed.
-                    if ($reminder_date <= Carbon::now()) {
-                        $overdue = $next_statement_date->diffInDays(Carbon::now());
-                    }
+                // Check whether the next statement date has been passed.
+                if ($next_statement_date < Carbon::now()) {
+                    $overdue = $next_statement_date->diffInDays(Carbon::now());
                 }
+            }
 
-                // Has the tenant vacated?
-                if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
-                    $overdue = 0;
-                }
+            // Has the tenant vacated?
+            if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
+                $overdue = 0;
             }
         }
 
