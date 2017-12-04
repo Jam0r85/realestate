@@ -64,7 +64,7 @@ class Tenancy extends BaseModel
     protected $dates = ['vacated_on','deleted_at'];
 
     /**
-     * Scope a query to only include tenancies which are overdue.
+     * Scope a query to only include tenancies which are archived.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
@@ -144,6 +144,18 @@ class Tenancy extends BaseModel
         return $query
             ->whereNull('vacated_on')
             ->orWhere('vacated_on', '>', Carbon::now());
+    }
+
+    /**
+     * Scope a query to only include tenancies which have been vacated.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeVacated($query)
+    {
+        return $query
+            ->where('vacated_on', '<=', Carbon::now());
     }
 
 	/**

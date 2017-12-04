@@ -35,9 +35,10 @@ class TenancyController extends BaseController
         $has_rent = Tenancy::hasRent()->paginate();
         $owes_rent = Tenancy::owesRent()->paginate();
         $owes_deposit = Tenancy::owesDeposit()->paginate();
+        $vacated_tenancies = Tenancy::vacated()->paginate();
         $archived_tenancies = Tenancy::archived()->paginate();
 
-        $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Archived'];
+        $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Vacated','Archived'];
 
         return view('tenancies.index', compact(
             'all_tenancies',
@@ -45,6 +46,7 @@ class TenancyController extends BaseController
             'has_rent',
             'owes_rent',
             'owes_deposit',
+            'vacated_tenancies',
             'archived_tenancies',
             'title',
             'sections'
