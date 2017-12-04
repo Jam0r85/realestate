@@ -414,7 +414,7 @@ class Tenancy extends BaseModel
 
                 if ($next_statement_date) {
 
-                    $reminder_date->addDays(3);
+                    $reminder_date = $next_statement_date->addDays(3);
 
                     // Check whether the next statement date has been passed.
                     if ($reminder_date <= Carbon::now()) {
