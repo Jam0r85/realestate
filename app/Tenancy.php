@@ -86,7 +86,8 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
-            ->where('is_overdue', '>', '0');
+            ->where('is_overdue', '>', '0')
+            ->orderBy('is_overdue', 'desc');
     }
 
     /**
