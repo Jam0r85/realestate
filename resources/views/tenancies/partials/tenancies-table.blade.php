@@ -5,6 +5,9 @@
 		<th>Rent</th>
 		<th>Balance</th>
 		<th>Service</th>
+		@if (isset($daysOverdue))
+			<th>Days</th>
+		@endif
 		<th>Status</th>
 	@endslot
 	@slot('body')
@@ -19,6 +22,9 @@
 				<td>{{ $tenancy->present()->rentAmount }}</td>
 				<td>{{ $tenancy->present()->rentBalance }}</td>
 				<td>{{ $tenancy->present()->serviceName }}</td>
+				@if (isset($daysOverdue))
+					<td>{{ $tenancy->is_overdue }}</td>
+				@endif
 				<td>
 					@include('tenancies.partials.table-status-label')
 				</td>
