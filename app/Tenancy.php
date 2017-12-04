@@ -44,15 +44,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * The attributes that should be cast to native types.
-     * 
-     * @var array
-     */
-    protected $casts = [
-        'is_overdue' => 'boolean'
-    ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -95,7 +86,7 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
-            ->where('is_overdue', '1');
+            ->where('is_overdue', '>', '0');
     }
 
     /**
@@ -108,7 +99,8 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
-            ->where('rent_balance', '>', 0);
+            ->where('rent_balance', '>', 0)
+            ->orderBy('rent_balance');
     }
 
     /**
@@ -121,7 +113,8 @@ class Tenancy extends BaseModel
     {
         return $query
             ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
-            ->where('rent_balance', '<', 0);
+            ->where('rent_balance', '<', 0)
+            ->orderBy('rent_balance');
     }
 
     /**
@@ -408,7 +401,7 @@ class Tenancy extends BaseModel
      */
     public function checkWhetherOverdue()
     {
-        $overdue = false;
+        $overdue = 0;
 
         // Make sure the property is managed first.
         if ($this->isManaged()) {
@@ -418,16 +411,20 @@ class Tenancy extends BaseModel
 
                 // Create a next statement date variable and add 3 days
                 $next_statement_date = $this->present()->nextStatementDueDate;
-                $next_statement_date->addDays(3);
 
-                // Check whether the next statement date has been passed.
-                if ($next_statement_date <= Carbon::now()) {
-                    $overdue = true;
+                if ($next_statement_date) {
+
+                    $reminder_date->addDays(3);
+
+                    // Check whether the next statement date has been passed.
+                    if ($reminder_date <= Carbon::now()) {
+                        $overdue = $next_statement_date->diffInDays(Carbon::now());
+                    }
                 }
 
                 // Has the tenant vacated?
                 if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
-                    $overdue = false;
+                    $overdue = 0;
                 }
             }
         }
