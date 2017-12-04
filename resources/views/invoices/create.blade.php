@@ -19,6 +19,8 @@
 				Invoice Details
 			@endcomponent
 
+			<div class="card-body">
+
 				<form method="POST" action="{{ route('invoices.store') }}">
 					{{ csrf_field() }}					
 
@@ -74,7 +76,7 @@
 				</form>
 
 			</div>
-		</
+		</div>
 
 	@endcomponent
 

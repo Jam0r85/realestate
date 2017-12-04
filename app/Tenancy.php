@@ -78,9 +78,24 @@ class Tenancy extends BaseModel
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
-    public function scopeIsOverdue($query)
+    public function scopeArchived($query)
     {
-        return $query->where('is_overdue', '1');
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->onlyTrashed();
+    }
+
+    /**
+     * Scope a query to only include tenancies which are overdue.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeOverdue($query)
+    {
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->where('is_overdue', '1');
     }
 
     /**
@@ -91,7 +106,9 @@ class Tenancy extends BaseModel
      */
     public function scopeHasRent($query)
     {
-        return $query->where('rent_balance', '>', 0);
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->where('rent_balance', '>', 0);
     }
 
     /**
@@ -102,7 +119,9 @@ class Tenancy extends BaseModel
      */
     public function scopeOwesRent($query)
     {
-        return $query->where('rent_balance', '<', 0);
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->where('rent_balance', '<', 0);
     }
 
     /**
@@ -113,9 +132,11 @@ class Tenancy extends BaseModel
      */
     public function scopeOwesDeposit($query)
     {
-        return $query->whereHas('deposit', function ($query) {
-            $query->where('balance', '!=', 'amount');
-        });
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->whereHas('deposit', function ($query) {
+                $query->where('balance', '!=', 'amount');
+            });
     }
 
     /**

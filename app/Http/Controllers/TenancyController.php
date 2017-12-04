@@ -29,14 +29,13 @@ class TenancyController extends BaseController
      */
     public function index()
     {
-        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments','statements')->latest();
+        $all_tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments','statements')->latest()->paginate();
 
-        $all_tenancies = $tenancies->paginate();
-        $overdue_tenancies = $tenancies->isOverdue()->get()->sortByDesc('days_overdue');
-        $has_rent = $tenancies->hasRent()->paginate();
-        $owes_rent = $tenancies->owesRent()->paginate();
-        $owes_deposit = $tenancies->owesDeposit()->paginate();
-        $archived_tenancies = $tenancies->onlyTrashed()->paginate();
+        $overdue_tenancies = Tenancy::overdue()->get();
+        $has_rent = Tenancy::hasRent()->paginate();
+        $owes_rent = Tenancy::owesRent()->paginate();
+        $owes_deposit = Tenancy::owesDeposit()->paginate();
+        $archived_tenancies = Tenancy::archived()->paginate();
 
         $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Archived'];
 
