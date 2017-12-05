@@ -124,12 +124,12 @@ class RentPaymentController extends BaseController
 
         foreach ($merged as $item) {
 
+            $item->name = class_basename($item);
+
             if (class_basename($item) == 'Payment') {
-                $item->name = 'Payment';
                 $item->other = $item->method->name;
                 $balance = $balance + $item->amount;
             } elseif (class_basename($item) == 'Statement') {
-                $item->name = 'Statement #' . $item->id;
                 $item->other = $item->present()->period;
                 $balance = $balance - $item->amount;
             }
