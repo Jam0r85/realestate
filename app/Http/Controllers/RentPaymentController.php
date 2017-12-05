@@ -98,11 +98,27 @@ class RentPaymentController extends BaseController
     /**
      * Show a printable version of payments received.
      * 
-     * @param  Tenancy $tenancy [description]
-     * @return [type]           [description]
+     * @param  Tenancy  $tenancy
+     * @return  Illuminate\Http\Response
      */
     public function print(Tenancy $tenancy)
     {
-        return view('tenancies.pages.print-payments', compact('tenancy'));
+        return view('rent-payments.print', compact('tenancy'));
+    }
+
+    /**
+     * Show a printable version of payments received with statements.
+     * 
+     * @param  Tenancy  $tenancy
+     * @return  Illuminate\Http\Response
+     */
+    public function printWithStatements(Tenancy $tenancy)
+    {
+        $payments = $tenancy->rent_payments;
+        $statements = $tenancy->statements;
+
+        $merged = $payments->merge($statements);
+
+        return view('rent-payments.print-with-statements', compact('tenancy','merged'));
     }
 }

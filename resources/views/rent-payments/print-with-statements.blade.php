@@ -25,7 +25,7 @@
             @endcomponent
 
             @component('partials.sub-header')
-                Rental Payments Received
+                Rent Payments Received (with Statements)
             @endcomponent
 
         </div>
@@ -38,24 +38,27 @@
             @slot('header')
                 <th>Date</th>
                 <th>Amount</th>
+                <th>Type</th>                
                 <th>Method</th>
                 <th>Recorded By</th>
-                <th>Note</th>
             @endslot
             @slot('body')
-                @foreach ($tenancy->rent_payments as $payment)
+                @foreach ($merged as $item)
                     <tr>
-                        <td>
-                            <a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">
-                                {{ date_formatted($payment->created_at) }}
-                            </a>
-                        </td>
-                        <td>{{ currency($payment->amount) }}</td>
-                        <td>{{ $payment->method->name }}</td>
-                        <td>{{ $payment->owner->name }}</td>
-                        <td>
-                            <small>{{ $payment->note }}</small>
-                        </td>
+                        <td>{{ date_formatted($item->created_at) }}</td>
+                        <td>{{ currency($item->amount) }}</td>
+                        @if (class_basename($item) == 'Payment')
+                            <td>Payment</td>
+                            <td>{{ $item->method->name }}</td>
+                            <td>{{ $item->owner->present()->fullName }}</td>
+                        @elseif (class_basename($item) == 'Statement')
+                            <td>
+                                Statement #{{ $item->id }}
+                            </td>
+                            <td colspan="2">
+                                {{ $item->present()->period }}
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             @endslot

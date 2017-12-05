@@ -117,13 +117,15 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 		Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
 		Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
-		Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('tenancies.print-payments');
 		Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 		Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
 		Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 	});
+
+	Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('rent-payments.print');
+	Route::get('{tenancy}/rent-payments/print-with-statements', 'RentPaymentController@printWithStatements')->name('rent-payments.print-with-statements');
 
 	Route::resource('tenancy-rents', 'TenancyRentController');
 	Route::resource('services', 'ServiceController');
