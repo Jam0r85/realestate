@@ -94,4 +94,15 @@ class RentPaymentController extends BaseController
     	$this->successMessage('The payment of ' . currency($payment->amount) . ' was recorded for the tenancy ' . $tenancy->name);
     	return back();
     }
+
+    /**
+     * Show a printable version of payments received.
+     * 
+     * @param  Tenancy $tenancy [description]
+     * @return [type]           [description]
+     */
+    public function print(Tenancy $tenancy)
+    {
+        return view('tenancies.pages.print-payments', compact('tenancy'));
+    }
 }

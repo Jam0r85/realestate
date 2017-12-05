@@ -117,6 +117,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 		Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
 		Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
+		Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('tenancies.print-payments');
 		Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
@@ -218,7 +219,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('landlord-tax-report', 'ReportController@landlordTaxReport')->name('reports.landlord-tax-report');
 	});
 
-	Route::middleware(['auth'])->prefix('settings')->group(function () {
+	Route::prefix('settings')->group(function () {
 		Route::view('/', 'settings.general')->name('settings.general');
 		Route::view('invoice', 'settings.invoice')->name('settings.invoice');
 		Route::view('statement', 'settings.statement-settings')->name('settings.statement');

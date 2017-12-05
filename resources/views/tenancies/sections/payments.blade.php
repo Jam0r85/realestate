@@ -4,6 +4,10 @@
 
 <div class="tab-pane fade @if (request('section') == 'payments') show active @endif" id="v-pills-payments" role="tabpanel">
 
+	<a href="{{ route('tenancies.print-payments', $tenancy->id) }}" class="btn btn-secondary" target="_blank">
+		Print
+	</a>
+
 	@component('partials.table')
 		@slot('header')
 			<th>Date</th>

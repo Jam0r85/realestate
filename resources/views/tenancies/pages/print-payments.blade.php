@@ -12,7 +12,6 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-     <link href="{{ mix('css/all.css') }}" rel="stylesheet">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -22,7 +21,7 @@
         <div class="page-title">
 
             @component('partials.header')
-                {{ $tenancy->name }}
+                {{ $tenancy->present()->name }}
             @endcomponent
 
             @component('partials.sub-header')
@@ -40,7 +39,7 @@
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Method</th>
-                <th>Record By</th>
+                <th>Recorded By</th>
                 <th>Note</th>
             @endslot
             @slot('body')

@@ -64,7 +64,7 @@ class Tenancy extends BaseModel
     protected $dates = ['vacated_on','deleted_at'];
 
     /**
-     * Scope a query to only include tenancies which are archived.
+ * Scope a query to only include tenancies which are archive.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
