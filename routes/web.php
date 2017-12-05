@@ -116,7 +116,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('/', 'TenancyController@store')->name('tenancies.store');
 		Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
 		Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
-		Route::post('{id}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
+		Route::post('{tenancy}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 		Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');

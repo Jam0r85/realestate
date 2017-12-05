@@ -24,7 +24,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\StatementCreated' => [
             'App\Listeners\Statements\CreateLettingFeeInvoiceItem',
             'App\Listeners\Statements\CreateReLettingFeeInvoiceItem',
-            'App\Listeners\Statements\CreateManagementInvoiceItem'
+            'App\Listeners\Statements\CreateManagementInvoiceItem',
+        ],
+
+        'App\Events\Tenancies\TenancyUpdateStatus' => [
+            'App\Listeners\Tenancies\CheckBalances'
         ],
 
         'Illuminate\Notifications\Events\NotificationSent' => [

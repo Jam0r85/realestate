@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Agreement;
+use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Statement;
 use App\TenancyRent;
 use Carbon\Carbon;
@@ -550,12 +551,17 @@ class Tenancy extends BaseModel
     /**
      * Store a statement to this tenancy.
      * 
-     * @param  \App\Statement  $statement  the statement we are storing.
+     * @param  \App\Statement  $statement
      * @return  \App\Statement
      */
     public function storeStatement(Statement $statement)
     {
-        return $this->statements()->save($statement);
+        $statement = $this->statements()->save($statement);
+        $statement->users()->sync($this->property->owners);
+
+        event(new TenancyUpdateStatus($this));
+
+        return $statement;
     }
 
     /**
@@ -581,6 +587,22 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Store a rent payment to this tenancy.
+     * 
+     * @param  \App\Payment  $payment
+     * @return  \App\Payment
+     */
+    public function storeRentPayment(Payment $payment)
+    {
+        $payment = $this->rent_payments()->save($payment);
+        $payment->users()->attach($this->tenants);
+
+        event(new TenancyUpdateStatus($this));
+
+        return $payment;
+    }
+
+    /**
      * Is this tenancy active?
      * 
      * @return boolean
@@ -592,5 +614,35 @@ class Tenancy extends BaseModel
         }
 
         return true;
+    }
+
+    /**
+     * Get the rent payments total income for this tenancy.
+     * 
+     * @return  int
+     */
+    public function getRentPaymentsReceivedTotal()
+    {
+        return $this->rent_payments->sum('amount');
+    }
+
+    /**
+     * Get the statements total for this tenancy.
+     * 
+     * @return  int
+     */
+    public function getStatementsTotal()
+    {
+        return $this->statements->sum('amount');
+    }
+
+    /**
+     * Get the rent balance for this tenancy.
+     * 
+     * @return  int
+     */
+    public function getRentBalance()
+    {
+        return $this->getRentPaymentsReceivedTotal() - $this->getStatementsTotal();
     }
 }

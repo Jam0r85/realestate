@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Tenancies;
 
-use App\Statement;
+use App\Tenancy;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,25 +11,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StatementCreated
+class TenancyUpdateStatus
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * The statement we are storing.
-     * 
-     * @var
-     */
-    public $statement;
+    public $tenancy;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Statement $statement)
+    public function __construct(Tenancy $tenancy)
     {
-        $this->statement = $statement;
+        $this->tenancy = $tenancy;
     }
 
     /**

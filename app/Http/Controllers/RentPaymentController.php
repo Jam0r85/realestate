@@ -14,19 +14,9 @@ use Illuminate\Support\Facades\Session;
 class RentPaymentController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of rent payments received.
      * 
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index()
     {
@@ -55,9 +45,7 @@ class RentPaymentController extends BaseController
 
         Session::put('rent_payments_search_term', $request->search_term);
 
-        $payments = Payment::search(Session::get('rent_payments_search_term'))
-            ->get();
-
+        $payments = Payment::search(Session::get('rent_payments_search_term'))->get();
         $payments->load('users','method','parent');
 
         // Filter the payments for a parent_type of tenancy.
@@ -70,22 +58,18 @@ class RentPaymentController extends BaseController
 	/**
 	 * Store a rent payment into storage.
 	 * 
-	 * @param \App\Http\Requests\RentPaymentStoreRequest $request
-	 * @param integer $id tenancy_id
-	 * @return \Illuminate\Http\Response
+	 * @param  \App\Http\Requests\RentPaymentStoreRequest  $request
+	 * @param  \App\Tenancy  $tenancy
+	 * @return  \Illuminate\Http\Response
 	 */
-    public function store(RentPaymentStoreRequest $request, $id)
+    public function store(RentPaymentStoreRequest $request, Tenancy $tenancy)
     {
-    	$tenancy = Tenancy::withTrashed()->findOrFail($id);
-
     	$payment = new Payment();
     	$payment->amount = $request->amount ?? $tenancy->currentRent->amount;
     	$payment->payment_method_id = $request->payment_method_id;
     	$payment->note = $request->note;
 
-    	$tenancy->rent_payments()->save($payment);
-
-    	$payment->users()->attach($tenancy->tenants);
+    	$tenancy->storeRentPayment($payment);
 
         if ($request->has('send_notifications')) {
             Notification::send($payment->users, new TenantRentPaymentReceived($payment));
