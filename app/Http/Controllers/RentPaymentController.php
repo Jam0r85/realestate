@@ -118,6 +118,7 @@ class RentPaymentController extends BaseController
         $statements = $tenancy->statements;
 
         $merged = $payments->merge($statements);
+        $merged = $merged->sortBy('created_at');
 
         return view('rent-payments.print-with-statements', compact('tenancy','merged'));
     }
