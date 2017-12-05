@@ -102,7 +102,7 @@ class Tenancy extends BaseModel
         return $query
             ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
             ->where('rent_balance', '>', 0)
-            ->orderBy('rent_balance');
+            ->orderBy('rent_balance', 'desc');
     }
 
     /**
@@ -557,7 +557,7 @@ class Tenancy extends BaseModel
     public function storeStatement(Statement $statement)
     {
         $statement = $this->statements()->save($statement);
-        $statement->users()->sync($this->property->owners);
+        $statement->users()->attach($this->property->owners);
 
         event(new TenancyUpdateStatus($this));
 

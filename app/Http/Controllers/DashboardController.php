@@ -11,16 +11,6 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
 	/**
 	 * Display the dashboard.
 	 * 
@@ -29,8 +19,8 @@ class DashboardController extends Controller
     public function index()
     {
         $managed_services = Service::where('charge', '>', '0.00')->pluck('id')->toArray();
-
-        $overdue_tenancies = Tenancy::isOverdue()->count();
+        
+        $overdue_tenancies = Tenancy::overdue()->count();
         $active_tenancies = Tenancy::active()->count();
         $managed_tenancies = Tenancy::active()->whereIn('service_id', $managed_services)->get();
 

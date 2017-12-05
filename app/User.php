@@ -3,18 +3,19 @@
 namespace App;
 
 use App\Settings\UserSettings;
+use App\Traits\SettingsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
-class User extends Authenticatable
+class User extends UserBaseModel
 {
     use Notifiable;
     use SoftDeletes;
     use Searchable;
     use PresentableTrait;
+    use SettingsTrait;
 
     /**
      * Get the indexable data array for the model.
@@ -89,6 +90,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * The allowed keys in the settings column.
+     * 
+     * @var  array
+     */
+    protected $settingKeys = [
+        'tenancy_service_management_discount',
+        'tenancy_service_letting_fee',
+        'tenancy_service_re_letting_fee',
+        'expense_notifications',
+        'rent_payment_notifications'
+    ];
 
     /**
      * Scope a query to filter results who have a valid email.
@@ -195,14 +209,6 @@ class User extends Authenticatable
     public function emails()
     {
         return $this->belongsToMany('App\Email');
-    }
-
-    /**
-     * A user can have settings.
-     */
-    public function settings()
-    {
-        return new UserSettings($this);
     }
 
     /**

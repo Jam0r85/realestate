@@ -66,7 +66,7 @@ trait DataTrait
 	public function setData(array $data)
 	{
 		$column = $this->getDataColumn();
-		$existing_data = $this->column;
+		$existing_data = $this->$column;
 
 		// Store the key and value in the data.
 		foreach ($data as $key => $value) {

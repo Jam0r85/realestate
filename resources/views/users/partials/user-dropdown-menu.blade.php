@@ -11,11 +11,8 @@
 		<i class="fa fa-cogs"></i> Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-settings']) }}">
-			Change Settings
-		</a>
-		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'user-details']) }}">
-			Update Details
+		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update']) }}">
+			Update User
 		</a>
 		<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'update-email']) }}">
 			Change E-Mail Address

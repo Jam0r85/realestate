@@ -86,12 +86,6 @@ class UserController extends BaseController
         $user->password = bcrypt($request->password ?? str_random(10));
         $user->save();
 
-        $user->settings()->storeDefault();
-
-        $this->successMessage('The user "' . $user->name . '" was created');
-
-        Cache::tags('users')->flush();
-
         return redirect()->route('users.show', $user->id);
     }
 
@@ -102,10 +96,8 @@ class UserController extends BaseController
      * @param  string  $page
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $page = 'layout')
+    public function show(User $user, $page = 'layout')
     {
-        $user = User::withTrashed()->findOrFail($id);
-
         $bank_accounts = $user->bankAccounts;
         $properties = $user->properties()->with('owners')->get();
         $tenancies = $user->tenancies()->with('tenants')->get();
@@ -126,54 +118,13 @@ class UserController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\User  $user
+     * @return  \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
         $user->fill($request->input());
         $user->save();
-
-        $this->successMessage('The user "' . $user->present()->fullName . '" was updated');
-        return back();
-    }
-
-    /**
-     * Update the user's settings.
-     * 
-     * @param  Request $request [description]
-     * @param  [type]  $id      [description]
-     * @return [type]           [description]
-     */
-    public function updateSettings(Request $request, $id)
-    {
-        // Dark Mode Toggle
-        if (!$request->has('dark_mode')) {
-            $request->request->add(['dark_mode' => null]);
-        }
-
-        // Notification Toggles
-        if (!$request->has('expense_record_notifications_sms')) {
-            $request->request->add(['expense_record_notifications_sms' => null]);
-        }
-
-        if (!$request->has('expense_record_notifications_email')) {
-            $request->request->add(['expense_record_notifications_email' => null]);
-        }
-
-        if (!$request->has('rent_payment_received_notification_email')) {
-            $request->request->add(['rent_payment_received_notification_email' => null]);
-        }
-
-        if (!$request->has('rent_payment_received_notification_sms')) {
-            $request->request->add(['rent_payment_received_notification_sms' => null]);
-        }
-
-        $user = User::findOrFail($id);
-        $user->settings()->merge($request->input());
-
-        $this->successMessage('The users settings were updated');
 
         return back();
     }
@@ -201,8 +152,6 @@ class UserController extends BaseController
         $user->email = $request->email;
         $user->save();
 
-        $this->successMessage('The users e-mail was updated');
-
         return back();
     }
 
@@ -219,7 +168,6 @@ class UserController extends BaseController
 
         $user->notify(new UserEmail($request->subject, $request->message));
 
-        $this->successMessage('The email was sent to the user');      
         return back();
     }
 
@@ -235,8 +183,6 @@ class UserController extends BaseController
         $user->deleted_at = Carbon::now();
         $user->save();
 
-        $this->successMessage('The user was archived');
-
         return back();
     }
 
@@ -251,8 +197,6 @@ class UserController extends BaseController
         $user = User::findOrFail($id);
         $user->deleted_at = null;
         $user->save();
-
-        $this->successMessage('The user was restored');
 
         return back();
     }

@@ -162,12 +162,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('create', 'UserController@create')->name('users.create');
 		Route::post('/', 'UserController@store')->name('users.store');
 		Route::get('{id}/edit', 'UserController@edit')->name('users.edit');
-		Route::get('{id}/{section?}', 'UserController@show')->name('users.show');
-		Route::put('{id}/update-settings', 'UserController@updateSettings')->name('users.update-settings');
+		Route::get('{user}/{section?}', 'UserController@show')->name('users.show');
 		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email');
 		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password');
 		Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
-		Route::put('{id}', 'UserController@update')->name('users.update');
+		Route::put('{user}', 'UserController@update')->name('users.update');
 		Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
 		Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
 		Route::post('{user}/send-sms', 'SmsController@toUser')->name('users.send-sms');

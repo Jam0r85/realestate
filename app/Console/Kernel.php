@@ -6,7 +6,6 @@ use App\Jobs\ArchivePastTenancyRents;
 use App\Jobs\GenerateRecurringInvoices;
 use App\Jobs\SendUnsentStatements;
 use App\Jobs\UpdateTenancyDepositBalances;
-use App\Jobs\UpdateTenancyRentBalances;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
