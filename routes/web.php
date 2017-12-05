@@ -110,7 +110,7 @@ Route::middleware(['staff'])->group(function () {
 	});
 
 	Route::prefix('tenancies')->group(function () {
-		Route::get('/', 'TenancyController@index')->name('tenancies-list.index');
+		Route::get('/', 'TenancyController@index')->name('tenancies.index');
 		Route::post('search', 'TenancyController@search')->name('tenancies.search');
 		Route::get('create', 'TenancyController@create')->name('tenancies.create');
 		Route::post('/', 'TenancyController@store')->name('tenancies.store');

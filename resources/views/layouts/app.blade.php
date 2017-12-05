@@ -131,7 +131,7 @@
                             @endcomponent
 
                             <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                                <a class="dropdown-item" href="{{ route('tenancies-list.index') }}">
+                                <a class="dropdown-item" href="{{ route('tenancies.index') }}">
                                     All Tenancies
                                 </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">

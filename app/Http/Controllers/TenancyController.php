@@ -54,19 +54,6 @@ class TenancyController extends BaseController
     }
 
     /**
-     * Display a list of archived tenancies.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function archived()
-    {
-        $tenancies = Tenancy::with('property','tenants','currentRent','service','deposit')->onlyTrashed()->paginate();
-        $title = 'Archived Tenancies';
-
-        return view('tenancies.index', compact('tenancies','title'));
-    }
-
-    /**
      * Search through the resource and display the results.
      * 
      * @param  Request $request [description]
