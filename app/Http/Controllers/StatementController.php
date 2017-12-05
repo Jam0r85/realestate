@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StatementCreated;
+use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\StatementDestroyRequest;
 use App\Http\Requests\StatementSendRequest;
@@ -108,6 +109,8 @@ class StatementController extends BaseController
         $statement->amount = $request->amount;
         $statement->send_by = $request->send_by;
         $statement->save();
+
+        event(new TenancyUpdateStatus($statement->tenancy));
 
         $this->successMessage('The statement was updated');
         return back();
@@ -267,6 +270,8 @@ class StatementController extends BaseController
         }
 
         $statement->forceDelete();
+
+        event(new TenancyUpdateStatus($statement->tenancy));
 
         $this->successMessage('The Statement ' . $statement->id . ' was destroyed');
         return redirect()->route('statements.index');

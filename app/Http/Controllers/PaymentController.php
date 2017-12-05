@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\DestroyPaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Payment;
@@ -82,6 +83,10 @@ class PaymentController extends BaseController
         $payment->amount = $request->amount;
         $payment->payment_method_id = $request->payment_method_id;
         $payment->save();
+
+        if (class_basename($payment->parent) == 'Tenancy') {
+            event(new TenancyUpdateStatus($payment->parent));
+        }
 
         $this->successMessage('The payment was updated');
 
