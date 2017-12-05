@@ -38,27 +38,20 @@
             @slot('header')
                 <th>Date</th>
                 <th>Amount</th>
-                <th>Type</th>                
-                <th>Method</th>
-                <th>Recorded By</th>
+                <th>Name</th>                
+                <th>Other</th>
+                <th class="text-right">Balance</th>
             @endslot
             @slot('body')
                 @foreach ($merged as $item)
                     <tr>
                         <td>{{ date_formatted($item->created_at) }}</td>
                         <td>{{ currency($item->amount) }}</td>
-                        @if (class_basename($item) == 'Payment')
-                            <td>Payment</td>
-                            <td>{{ $item->method->name }}</td>
-                            <td>{{ $item->owner->present()->fullName }}</td>
-                        @elseif (class_basename($item) == 'Statement')
-                            <td>
-                                Statement #{{ $item->id }}
-                            </td>
-                            <td colspan="2">
-                                {{ $item->present()->period }}
-                            </td>
-                        @endif
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->other }}</td>
+                        <td class="text-right">
+                            {{ currency($item->balance) }}
+                        </td>
                     </tr>
                 @endforeach
             @endslot

@@ -120,6 +120,23 @@ class RentPaymentController extends BaseController
         $merged = $payments->merge($statements);
         $merged = $merged->sortBy('created_at');
 
+        $balance = 0;
+
+        foreach ($merged as $item) {
+
+            if (class_basename($item) == 'Payment') {
+                $item->name = 'Payment';
+                $item->other = $item->method->name;
+                $balance = $balance + $item->amount;
+            } elseif (class_basename($item) == 'Statement') {
+                $item->name = 'Statement #' . $item->id;
+                $item->other = $item->present()->period;
+                $balance = $balance - $item->amount;
+            }
+
+            $item->balance = $balance;
+        }
+
         return view('rent-payments.print-with-statements', compact('tenancy','merged'));
     }
 }
