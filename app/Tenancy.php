@@ -155,6 +155,7 @@ class Tenancy extends BaseModel
     public function scopeVacated($query)
     {
         return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
             ->where('vacated_on', '<=', Carbon::now());
     }
 
