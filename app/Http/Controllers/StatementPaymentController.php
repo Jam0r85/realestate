@@ -86,12 +86,6 @@ class StatementPaymentController extends BaseController
             ]
         );
 
-        if (count($statement->payments)) {
-            $this->successMessage('The payments for Statement ' . $statement->id . ' were updated');
-        } else {
-            $this->successMessage('The payments for Statement ' . $statement->id . ' were created');
-        }
-
         return back();
     }
 
@@ -129,7 +123,6 @@ class StatementPaymentController extends BaseController
         $payment->fill($request->input());
         $payment->save();
 
-        $this->successMessage('The changes were saved for this payment');
         return back();
     }
 
@@ -142,8 +135,6 @@ class StatementPaymentController extends BaseController
     public function destroy(StatementPayment $payment)
     {
         $payment->delete();
-
-        $this->successMessage('The payment of ' . currency($payment->amount) . ' was deleted');
         return redirect()->route('statements.show', $payment->statement_id);
     }
 
