@@ -34,24 +34,41 @@ class CreateLettingFeeInvoiceItem
         $service = $tenancy->service;
         $property = $tenancy->property;
 
-        if (count($property->tenancies) <= 1 && $service->letting_fee && count($tenancy->statements) <= 1) {
+        // Is this the first tenancy for this property?
+        if (count($property->tenancies) > 1) {
 
-            if (!count($statement->invoices)) {
-                $invoice = new Invoice();
-                $invoice->property_id = $tenancy->property->id;
-                $invoice = $statement->storeInvoice($invoice);
-            } else {
-                $invoice = $statement->invoices->first();
+            // Is this the first statement for this tenancy?
+            if (count($tenancy->statements) <= 1) {
+
+                // Set the re-letting fee from the service
+                $lettingFee = $service->re_letting_fee;
+
+                // Loop through the property owners and see whether there is a custom letting fee instead
+                foreach ($property->owners as $user) {
+                    if ($fee = $user->getSetting('tenancy_service_letting_fee')) {
+                        $lettingFee = $fee;
+                    }
+                }
+
+                // Is the letting fee a valid amount?
+                if ($lettingFee > 0) {
+
+                    if (!count($statement->invoices)) {
+                        $invoice = $statement->storeInvoice();
+                    } else {
+                        $invoice = $statement->invoices->first();
+                    }
+
+                    $item = new InvoiceItem();
+                    $item->name = $service->name;
+                    $item->description = $service->name . ' Letting Fee';
+                    $item->amount = $lettingFee;
+                    $item->quantity = 1;
+                    $item->tax_rate_id = $service->tax_rate_id;
+
+                    $invoice->storeItem($item);
+                }
             }
-
-            $item = new InvoiceItem();
-            $item->name = $service->name;
-            $item->description = $service->name . ' Letting Fee';
-            $item->amount = $service->letting_fee;
-            $item->quantity = 1;
-            $item->tax_rate_id = $service->tax_rate_id;
-
-            $invoice->storeItem($item);
         }
     }
 }

@@ -33,25 +33,24 @@ class CreateManagementInvoiceItem
         $tenancy = $statement->tenancy;
         $service = $tenancy->service;
 
+        // Do we have a valid service charge amount?
         if ($tenancy->getServiceChargeNetAmount() > 0) {
 
             if (!count($statement->invoices)) {
-                $invoice = new Invoice();
-                $invoice->property_id = $tenancy->property->id;
-                $invoice = $statement->storeInvoice($invoice);
+                $invoice = $statement->storeInvoice();
             } else {
                 $invoice = $statement->invoices->first();
             }
 
+            // Format the description
             $description = $service->name . ' service at ' . $service->charge_formatted;
 
+            // If there is a tax rate add it to the description as well
             if ($service->taxRate) {
                 $description .= ' plus ' . $service->taxRate->name;
             }
 
-            /**
-             * Loop through any invoice items and make sure we do not have a duplicate.
-             */
+            // Loop through each of the current invoice items and check for duplicates
             foreach ($invoice->items as $item) {
                 if ($item->description == $description) {
                     return;

@@ -122,7 +122,6 @@ class StatementPaymentController extends BaseController
     {
         $payment->fill($request->input());
         $payment->save();
-
         return back();
     }
 

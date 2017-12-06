@@ -64,7 +64,7 @@ class StatementController extends BaseController
     /**
      * Store a new statement into storage.
      *
-     * @param  \App\Tenancy  $tenancy  the tenancy that this statement is for
+     * @param  \App\Tenancy  $tenancy
      * @param  \App\Http\Requests\StatementStoreRequest  $request
      * @return. \Illuminate\Http\Response
      */
@@ -78,6 +78,7 @@ class StatementController extends BaseController
         $tenancy->storeStatement($statement);
 
         event(new StatementCreated($statement));
+
         return back();
     }
 
@@ -253,6 +254,8 @@ class StatementController extends BaseController
 
         $statement->forceDelete();
 
+        // We need to update the tenancy balances.
+        // Surely there is a better place to put this?
         event(new TenancyUpdateStatus($statement->tenancy));
 
         return redirect()->route('statements.index');

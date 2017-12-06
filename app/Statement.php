@@ -215,8 +215,14 @@ class Statement extends PdfModel
      * @param  \App\Invoice  $invoice  the invoice we are storing
      * @return  \App'Invoice
      */
-    public function storeInvoice(Invoice $invoice)
+    public function storeInvoice(Invoice $invoice = null)
     {
+        if (is_null($invoice)) {
+            $invoice = new Invoice();
+        }
+        
+        $invoice->property_id = $this->tenancy->property_id;
+
         $invoice = $this->invoices()->save($invoice);
         $invoice->users()->sync($this->property()->owners);
 
@@ -245,5 +251,8 @@ class Statement extends PdfModel
     public function send()
     {
         SendStatementToOwners::dispatch($this);
+        
+        $this->sent_at = Carbon::now();
+        $this->saveWithMessage('has been sent');
     }
 }

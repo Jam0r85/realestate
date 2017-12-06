@@ -49,7 +49,7 @@ class BaseModel extends Model
 
 		// Check whether options contains an overwrite flash message
 		if (array_has($options, 'flash_message')) {
-			$this->flashMessage($options['flash_message']);
+			$this->flashMessage($this->classNameFormatted() . ' #' . $this->id . ' ' . $options['flash_message']);
 		} else {
 			$this->flashMessage($action);
 		}

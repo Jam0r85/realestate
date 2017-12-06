@@ -31,7 +31,7 @@ class CheckBalances
         if ($tenancy) {
             $tenancy->rent_balance = $tenancy->getRentBalance();
             $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
-            $tenancy->saveWithMessage('Tenancy #' . $tenancy->id . ' balances updated');
+            $tenancy->saveWithMessage('balances updated');
         }
     }
 }

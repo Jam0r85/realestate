@@ -34,34 +34,41 @@ class CreateReLettingFeeInvoiceItem
         $service = $tenancy->service;
         $property = $tenancy->property;
 
-        if (count($property->tenancies) > 1 && count($tenancy->statements) <= 1) {
+        // Is this the first tenancy for this property?
+        if (count($property->tenancies) > 1) {
 
-            $re_letting_fee = $service->re_letting_fee;
+            // Is this the first statement for this tenancy?
+            if (count($tenancy->statements) <= 1) {
 
-            foreach ($property->owners as $user) {
-                if ($fee = $user->settings['tenancy_service_re_letting_fee']) {
-                    $re_letting_fee = $fee;
-                }
-            }
+                // Set the re-letting fee from the service
+                $reLettingFee = $service->re_letting_fee;
 
-            if ($re_letting_fee > 0) {
-
-                if (!count($statement->invoices)) {
-                    $invoice = new Invoice();
-                    $invoice->property_id = $tenancy->property->id;
-                    $invoice = $statement->storeInvoice($invoice);
-                } else {
-                    $invoice = $statement->invoices->first();
+                // Loop through the property owners and see whether there is a custom letting fee instead
+                foreach ($property->owners as $user) {
+                    if ($fee = $user->getSetting('tenancy_service_re_letting_fee')) {
+                        $reLettingFee = $fee;
+                    }
                 }
 
-                $item = new InvoiceItem();
-                $item->name = $service->name;
-                $item->description = $service->name . ' Re-Letting Fee';
-                $item->amount = $re_letting_fee;
-                $item->quantity = 1;
-                $item->tax_rate_id = $service->tax_rate_id;
+                // Is the letting fee a valid amount?
+                if ($reLettingFee > 0) {
 
-                $invoice->storeItem($item);
+                    // Grab the statement invoice or create one if not present.
+                    if (!count($statement->invoices)) {
+                        $invoice = $statement->storeInvoice();
+                    } else {
+                        $invoice = $statement->invoices->first();
+                    }
+
+                    $item = new InvoiceItem();
+                    $item->name = $service->name;
+                    $item->description = $service->name . ' Re-Letting Fee';
+                    $item->amount = $reLettingFee;
+                    $item->quantity = 1;
+                    $item->tax_rate_id = $service->tax_rate_id;
+
+                    $invoice->storeItem($item);
+                }
             }
         }
     }
