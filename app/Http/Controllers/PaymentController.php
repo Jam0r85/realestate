@@ -73,22 +73,23 @@ class PaymentController extends BaseController
      * Update the payment in storage.
      * 
      * @param \App\Http\Requests\UpdatePaymentRequest $request
-     * @param integer $id
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePaymentRequest $request, $id)
+    public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        $payment = Payment::findOrFail($id);
         $payment->created_at = $request->created_at;
         $payment->amount = $request->amount;
         $payment->payment_method_id = $request->payment_method_id;
         $payment->save();
 
+        $payment->users()->sync($request->users);
+
+        // Rent payment, we need to update the tenancy.
+        // Better place to put this?
         if (class_basename($payment->parent) == 'Tenancy') {
             event(new TenancyUpdateStatus($payment->parent));
         }
-
-        $this->successMessage('The payment was updated');
 
         return back();
     }

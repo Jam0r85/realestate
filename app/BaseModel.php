@@ -57,7 +57,7 @@ class BaseModel extends Model
 		$message = $this->$method();
 
 		if ($message) {
-			flashy()->success($message);
+			flash($message)->success();
 		}
 	}
 

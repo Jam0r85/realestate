@@ -121,7 +121,7 @@ class SmsHistory extends BaseModel
      */
     public function messageCreated()
     {
-        return 'The SMS was sent';
+        return 'The SMS was sent to ' . $this->phone_number;
     }
 
     /**

@@ -37,11 +37,7 @@
 			@slot('body')
 				@foreach ($payments as $payment)
 					<tr>
-						<td>
-							<a href="{{ route('payments.show', $payment->id) }}">
-								{{ date_formatted($payment->created_at) }}
-							</a>
-						</td>
+						<td>{{ date_formatted($payment->created_at) }}</td>
 						<td>
 							<a href="{{ route('tenancies.show', $payment->parent_id) }}">
 								{{ $payment->present()->tenancyName }}
@@ -53,6 +49,9 @@
 							@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 						</td>
 						<td class="text-right">
+							<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-warning btn-sm">
+								View
+							</a>
 							<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-primary btn-sm">
 								Receipt
 							</a>

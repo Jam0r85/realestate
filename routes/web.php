@@ -105,7 +105,7 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('payments')->group(function () {
 		Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
-		Route::put('{id}', 'PaymentController@update')->name('payments.update');
+		Route::put('{payment}', 'PaymentController@update')->name('payments.update');
 		Route::delete('{id}', 'PaymentController@destroy')->name('payments.destroy');
 	});
 
