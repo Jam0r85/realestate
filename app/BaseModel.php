@@ -14,6 +14,18 @@ class BaseModel extends Model
 	protected $perPage = 30;
 
 	/**
+	 * Save an Eloquent model but overwrite the flash alert shown.
+	 * 
+	 * @param  string  $message
+	 * @param  array  $options
+	 * @return  void
+	 */
+	public function saveWithMessage($message, array $options = []) {
+		$options = array_add($options, 'flash_message', $message);
+		$this->save($options);
+	}
+
+	/**
 	 * Overwrite the Eloquent save method.
 	 * 
 	 * @param  array  $options
@@ -28,10 +40,18 @@ class BaseModel extends Model
 
 		parent::save($options);
 
+		// Set the correct action
 		if ($this->wasRecentlyCreated) {
-			$this->flashMessage('created');
+			$action = 'created';
 		} else {
-			$this->flashMessage('updated');
+			$action = 'updated';
+		}
+
+		// Check whether options contains an overwrite flash message
+		if (array_has($options, 'flash_message')) {
+			$this->flashMessage($options['flash_message']);
+		} else {
+			$this->flashMessage($action);
 		}
 	}
 
@@ -48,14 +68,22 @@ class BaseModel extends Model
 	/**
 	 * Flash the message to the screen using the correct message method.
 	 * 
-	 * @param  string  $name
+	 * @param  string  $action
 	 * @return void
 	 */
-	public function flashMessage($name)
+	public function flashMessage($action)
 	{
-		$method = 'message' . ucwords($name);
-		$message = $this->$method();
+		// Set the correct method name
+		$method = 'message' . ucwords($action);
 
+		// Check whether the method exists
+		if (method_exists($this, $method)) {
+			$message = $this->$method();
+		} else {
+			$message = $action;
+		}
+
+		// Providing we have a valid message, flash an alert for it
 		if ($message) {
 			flash($message)->success();
 		}
@@ -68,7 +96,7 @@ class BaseModel extends Model
 	 */
 	public function messageCreated()
 	{
-		return 'New ' . class_basename($this) . ' created';
+		return 'New ' . $this->classNameFormatted() . ' created';
 	}
 
 	/**
@@ -78,7 +106,7 @@ class BaseModel extends Model
 	 */
 	public function messageUpdated()
 	{
-		return class_basename($this) . ' #' . $this->id . ' was updated';
+		return $this->classNameFormatted() . ' #' . $this->id . ' was updated';
 	}
 
 	/**
@@ -88,7 +116,7 @@ class BaseModel extends Model
 	 */
 	public function messageDeleted()
 	{
-		return class_basename($this) . ' #' . $this->id . ' was deleted';
+		return $this->classNameFormatted() . ' #' . $this->id . ' was deleted';
 	}
 
 	/**
@@ -98,7 +126,7 @@ class BaseModel extends Model
 	 */
 	public function messageRestored()
 	{
-		return class_basename($this) . ' #' . $this->id . ' was restored';
+		return $this->classNameFormatted() . ' #' . $this->id . ' was restored';
 	}
 
 	/**
@@ -108,7 +136,17 @@ class BaseModel extends Model
 	 */
 	public function className()
 	{
-		return strtolower(class_basename($this));
+		return class_basename($this);
+	}
+
+	/**
+	 * Get the class name in lower case.
+	 * 
+	 * @return  string
+	 */
+	public function classNameLower()
+	{
+		return strtolower($this->className());
 	}
 
 	/**
@@ -118,7 +156,7 @@ class BaseModel extends Model
 	 */
 	public function classNameSingular()
 	{
-		return str_singular($this->className());
+		return str_singular($this->classNameLower());
 	}
 
 	/**
@@ -128,6 +166,18 @@ class BaseModel extends Model
 	 */
 	public function classNamePlural()
 	{
-		return str_plural($this->className());
+		return str_plural($this->classNameLower());
+	}
+
+	/**
+	 * Get the formatted class name eg. BankAccount becomes Bank Account
+	 * 
+	 * @return [type] [description]
+	 */
+	public function classNameFormatted()
+	{
+		$slug = snake_case($this->className());
+		$clean = str_replace('_', ' ', $slug);
+		return ucfirst($clean);
 	}
 }

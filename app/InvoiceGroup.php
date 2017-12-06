@@ -49,4 +49,11 @@ class InvoiceGroup extends BaseModel
     {
     	return $this->belongsTo('App\Branch');
     }
+
+    public function storeInvoice(Invoice $invoice)
+    {
+        $this->invoices()->save($invoice);
+
+        return $invoice;
+    }
 }

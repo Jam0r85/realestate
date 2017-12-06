@@ -78,8 +78,6 @@ class StatementController extends BaseController
         $tenancy->storeStatement($statement);
 
         event(new StatementCreated($statement));
-
-        $this->successMessage('The new statement ' . $statement->id . ' was created');
         return back();
     }
 
@@ -112,7 +110,6 @@ class StatementController extends BaseController
 
         event(new TenancyUpdateStatus($statement->tenancy));
 
-        $this->successMessage('The statement was updated');
         return back();
     }
 
@@ -131,8 +128,6 @@ class StatementController extends BaseController
 
         $statement->save();
 
-        $this->successMessage('The statement\'s paid date was updated');
-
         return back();
     }
 
@@ -147,8 +142,6 @@ class StatementController extends BaseController
         $service = new StatementService();
         $result = $service->toggleStatementSent($id);
 
-        $this->successMessage('The statement was marked as ' . $result);
-
         return back();
     }
 
@@ -162,7 +155,6 @@ class StatementController extends BaseController
     public function send(StatementSendRequest $request, Statement $statement)
     {
         $statement->send();
-        $this->successMessage('Statement ' . $statement->id . ' was sent by ' . $statement->present()->sendByPlain);
         return back();
     }
 
@@ -177,8 +169,6 @@ class StatementController extends BaseController
     {
         $service = new StatementService();
         $service->createInvoiceItem($request->input(), $id);
-
-        $this->successMessage('The invoice item was created');
 
         return back();
     }
@@ -195,8 +185,6 @@ class StatementController extends BaseController
         $service = new StatementService();
         $service->createExpenseItem($request->input(), $id);
 
-        $this->successMessage('The expense item was added');
-
         return back();
     }
 
@@ -210,8 +198,6 @@ class StatementController extends BaseController
     {
         $service = new StatementService();
         $service->createStatementPayments($id);
-
-        $this->successMessage('The statement payments were created');
 
         return back();
     }
@@ -227,8 +213,6 @@ class StatementController extends BaseController
         $statement = Statement::findOrFail($id);
         $statement->delete();
 
-        $this->successMessage('The statement was archived');
-
         return back();
     }
 
@@ -242,8 +226,6 @@ class StatementController extends BaseController
     {
         $statement = Statement::onlyTrashed()->findOrFail($id);
         $statement->restore();
-
-        $this->successMessage('The statement was restored');
 
         return back();
     }
@@ -273,7 +255,6 @@ class StatementController extends BaseController
 
         event(new TenancyUpdateStatus($statement->tenancy));
 
-        $this->successMessage('The Statement ' . $statement->id . ' was destroyed');
         return redirect()->route('statements.index');
     }
 }

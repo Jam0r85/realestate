@@ -18,16 +18,6 @@ use Illuminate\Support\Facades\Session;
 class InvoiceController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a list of invoices.
      *
      * @return \Illuminate\Http\Response
@@ -112,20 +102,18 @@ class InvoiceController extends BaseController
      */
     public function store(InvoiceStoreRequest $request)
     {
-        $group = InvoiceGroup::findOrFail($request->invoice_group_id);
+        $invoiceGroup = InvoiceGroup::findOrFail($request->invoice_group_id);
 
         $invoice = new Invoice();
         $invoice->property_id = $request->property_id;
         $invoice->number = $request->number;
         $invoice->terms = $request->terms;
 
-        $group->invoices()->save($invoice);
+        $invoiceGroup->storeInvoice($invoice);
 
         if ($request->has('users')) {
             $invoice->users()->attach($request->users);
         }
-
-        $this->successMessage('The invoice ' . $invoice->present()->name . ' was created');
         
         return redirect()->route('invoices.show', $invoice->id);
     }
@@ -163,9 +151,6 @@ class InvoiceController extends BaseController
         $invoice->save();
 
         $invoice->users()->sync($request->input('users'));
-
-        $this->successMessage('The invoice was updated');
-
         return back();
     }
 
@@ -181,8 +166,6 @@ class InvoiceController extends BaseController
         $service = new InvoiceService();
         $service->createInvoiceItem($request->input(), $id);
 
-        $this->successMessage('The invoice item was created');
-
         return redirect()->route('invoices.show', $id);
     }
 
@@ -196,8 +179,6 @@ class InvoiceController extends BaseController
     {
         $invoice = Invoice::findOrFail($id);
         $invoice->delete();
-
-        $this->successMessage('The invoice was archived');
 
         return back();
     }
@@ -213,8 +194,6 @@ class InvoiceController extends BaseController
         $invoice = Invoice::withTrashed()->findOrFail($id);
         $invoice->restore();
 
-        $this->successMessage('The invoice was restored');
-
         return back();
     }
 
@@ -229,15 +208,9 @@ class InvoiceController extends BaseController
     {
         $invoice = Invoice::withTrashed()->findOrFail($id);
 
-        if ($request->confirmation != $id) {
-            $this->errorMessage('The ID provided did not match the invoice ID');
-            return back();
-        }
-
         $invoice->items()->delete();
         $invoice->forceDelete();
 
-        $this->successMessage('The invoice was destroyed');
         return redirect()->route('invoices.index');
     }
 
@@ -252,7 +225,6 @@ class InvoiceController extends BaseController
         $invoice = Invoice::findOrFail($id);
         $invoice->clone();
 
-        $this->successMessage('The invoice was cloned');
         return back();
     }
 
@@ -268,7 +240,6 @@ class InvoiceController extends BaseController
         $invoice = Invoice::findOrFail($id);
         $invoice->send();
 
-        $this->successMessage('The invoice was sent');
         return back();
     }
 }

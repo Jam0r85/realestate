@@ -116,7 +116,6 @@ class TenancyController extends BaseController
         // Attach the tenants
         $tenancy->tenants()->attach($request->tenants);
 
-        $this->successMessage('The tenancy ' . $tenancy->present()->name . ' was created');
         return redirect()->route('tenancies.show', $tenancy->id);
     }
 
@@ -160,11 +159,7 @@ class TenancyController extends BaseController
     {
         $tenancy = Tenancy::findOrFail($id);
         $tenancy->delete();
-
         $tenancy->deposit->delete();
-
-        $this->successMessage('The tenancy "' . $tenancy->name . '" was archived');
-
         return back();
     }
 
@@ -181,9 +176,6 @@ class TenancyController extends BaseController
         $tenancy->vacated_on = $request->vacated_on;
         $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
         $tenancy->save();
-
-        $this->successMessage('The tenants were recorded as vacating');
-
         return back();
     }
 }

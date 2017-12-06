@@ -92,7 +92,6 @@ class ExpenseController extends BaseController
             }
         }
 
-        $this->successMessage('The expense "' . $expense->name . '" was created');
         return back();
     }
 
@@ -124,7 +123,6 @@ class ExpenseController extends BaseController
         $expense->property_id = $request->property_id;
         $expense->save();
 
-        $this->successMessage('The expense "' . $expense->name . '" was updated');
         return back();
     }
 
@@ -139,8 +137,6 @@ class ExpenseController extends BaseController
     {
         $expense = Expense::findOrFail($id);
         $expense->delete();
-
-        $this->successMessage('The expense "' . $expense->name . '" was deleted');
         return redirect()->route('expenses.index');
     }
 }

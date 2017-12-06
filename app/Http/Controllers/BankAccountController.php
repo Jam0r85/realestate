@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Session;
 class BankAccountController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -101,8 +91,6 @@ class BankAccountController extends BaseController
             $account->users()->attach($request->users);
         }
 
-        $this->successMessage('The bank account was created');
-
         return back();
     }
 
@@ -133,7 +121,6 @@ class BankAccountController extends BaseController
 
         $account->users()->sync($request->users);
 
-        $this->successMessage('The bank account was updated and attached users were synced');
         return back();
     }
 
@@ -158,8 +145,6 @@ class BankAccountController extends BaseController
             $account->users()->attach($request->new_users);
         }
 
-        $this->successMessage('The users were updated');
-
         return back();
     }
 
@@ -174,8 +159,6 @@ class BankAccountController extends BaseController
     {
         $account = BankAccount::findOrFail($id);
         $account->delete();
-
-        $this->successMessage('The bank account was archived');
         return back();
     }
 
@@ -190,8 +173,6 @@ class BankAccountController extends BaseController
     {
         $account = BankAccount::onlyTrashed()->findOrFail($id);
         $account->restore();
-
-        $this->successMessage('The bank account was restored');
         return back();
     }
 }

@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\Session;
 class PaymentController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of all rent payments received.
      *
      * @return \Illuminate\Http\Response
@@ -111,8 +101,6 @@ class PaymentController extends BaseController
         }
 
         $payment->delete();
-
-        $this->successMessage('The payment ' . $payment->id . ' was deleted');
 
         return redirect()->route('payments.rent');
     }

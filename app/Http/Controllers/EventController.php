@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Session;
 class EventController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -177,8 +167,6 @@ class EventController extends BaseController
             return $data;
         }
 
-        $this->successMessage('The event "' . $event->title . '" was updated');
-
         return back();
     }
 
@@ -193,9 +181,6 @@ class EventController extends BaseController
     {
         $event = Event::onlyTrashed()->findOrFail($id);
         $event->restore();
-
-        $this->successMessage('The event "' . $event->title . '" was restored');
-
         return back();
     }
 
@@ -220,8 +205,6 @@ class EventController extends BaseController
             return $data;
         }
 
-        $this->successMessage('The event "' . $event->title . '" was deleted');
-
         return back();
     }
 
@@ -237,8 +220,6 @@ class EventController extends BaseController
         $event = Event::onlyTrashed()->findOrFail($id);
 
         $event->forceDelete();
-
-        $this->successMessage('The event "' . $event->title . '" was removed completely');
         return redirect()->route('events.index');
     }
 }

@@ -77,7 +77,6 @@ class PropertyController extends BaseController
             $property->owners()->attach($request->owners);
         }
 
-        $this->successMessage('The property ' . $property->present()->shortAddress . ' was created');
         return redirect()->route('properties.show', $property->id);
     }
 
@@ -108,7 +107,6 @@ class PropertyController extends BaseController
 
         $property->owners()->sync($request->owners);
 
-        $this->successMessage('The property ' . $property->present()->shortName . ' was updated');
         return back();
     }
 
@@ -124,25 +122,6 @@ class PropertyController extends BaseController
         $service = new PropertyService();
         $service->updateStatementSettings($request->only('bank_account_id','sending_method'), $id);
 
-        $this->successMessage('Statement settings updated');
-
-        return back();
-    }
-
-    /**
-     * Update the owners of the property.
-     * 
-     * @param Request $request
-     * @param integer $id
-     * @return void
-     */
-    public function updateOwners(Request $request, $id)
-    {
-        $service = new PropertyService();
-        $service->updateOwners($request->input(), $id);
-
-        $this->successMessage('The owners were updated');
-
         return back();
     }
 
@@ -157,9 +136,6 @@ class PropertyController extends BaseController
     {
         $property = Property::findOrFail($id);
         $property->delete();
-
-        $this->successMessage('The property was archived');
-
         return back();
     }
 
@@ -174,9 +150,6 @@ class PropertyController extends BaseController
     {
         $property = Property::onlyTrashed()->findOrFail($id);
         $property->restore();
-
-        $this->successMessage('The property was restored');
-
         return back();
     }
 }

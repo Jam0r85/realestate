@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class InvoiceItemController extends BaseController
 {
+    public function store(Request $request)
+    {
+
+    }
+
 	/**
 	 * Show the form for editing an invoice item.
 	 * 
@@ -33,13 +38,23 @@ class InvoiceItemController extends BaseController
 
         if ($request->has('remove_item')) {
             $item->delete();
-            $this->successMessage('The item was removed');
         } else {
         	$item->fill($request->input());
         	$item->save();
-            $this->successMessage('The item was updated');
         }
 
         return back();
+    }
+
+    /**
+     * Remove an invoice item from storage.
+     * 
+     * @param  InvoiceItem  $item
+     * @return  \Illuminate\Http\Response
+     */
+    public function delete(InvoiceItem $item)
+    {
+        $item->delete();
+        return redirect()->route('invoices.show', $item->invoice_id);
     }
 }

@@ -17,17 +17,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class DepositController extends BaseController
-{
-    /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+{    
     /**
      * Display a listing of deposits.
      *
@@ -98,8 +88,6 @@ class DepositController extends BaseController
         $deposit->unique_id = $request->unique_id;
         $deposit->save();
 
-        $this->successMessage('The deposit of ' . $deposit->amount . ' was created');
-
         return back();
     }
 
@@ -117,8 +105,6 @@ class DepositController extends BaseController
         $deposit->unique_id = $request->unique_id;
         $deposit->amount = $request->amount;
         $deposit->save();
-
-        $this->successMessage('The deposit was updated');
 
         return back();
     }
@@ -153,8 +139,6 @@ class DepositController extends BaseController
             $deposit->certificate()->save($file);
         }
 
-        $this->successMessage('The certificate was uploaded');
-
         return back();
     }
 
@@ -170,8 +154,6 @@ class DepositController extends BaseController
 
         Storage::delete($deposit->certificate->path);
         $deposit->certificate()->delete();
-
-        $this->successMessage('The deposit certificate was deleted');
 
         return back();
     }

@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\Response;
 class CalendarController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -56,8 +46,6 @@ class CalendarController extends BaseController
         $calendar->branch_id = $request->branch_id;
         $calendar->is_private = $request->is_private;
         $calendar->save();
-
-        $this->successMessage('The calendar ' . $calendar->name . ' was created');
 
         return back();
     }
