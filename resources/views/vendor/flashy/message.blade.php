@@ -8,6 +8,7 @@
     right: 20px;
     font-size: 16px;
     color: #fff;
+    z-index: 100000;
 }
 
 .flashy--success {

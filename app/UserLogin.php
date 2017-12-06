@@ -13,4 +13,14 @@ class UserLogin extends BaseModel
         'user_id',
         'ip'
     ];
+
+    /**
+     * Overwrite the created message.
+     * 
+     * @return  null
+     */
+    public function messageCreated()
+    {
+    	return null;
+    }
 }

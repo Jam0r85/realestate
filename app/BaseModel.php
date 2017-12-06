@@ -29,9 +29,9 @@ class BaseModel extends Model
 		parent::save($options);
 
 		if ($this->wasRecentlyCreated) {
-			flashy()->success($this->getCreatedMessage());
+			$this->flashMessage('created');
 		} else {
-			flashy()->success($this->getUpdatedMessage());
+			$this->flashMessage('updated');
 		}
 	}
 
@@ -42,7 +42,23 @@ class BaseModel extends Model
 	 */
 	public function delete()
 	{
-		flashy()->success($this->getDeletedMessage());
+		$this->flashMessage('deleted');
+	}
+
+	/**
+	 * Flash the message to the screen using the correct message method.
+	 * 
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function flashMessage($name)
+	{
+		$method = 'message' . ucwords($name);
+		$message = $this->$method();
+
+		if ($message) {
+			flashy()->success($message);
+		}
 	}
 
 	/**
@@ -50,9 +66,9 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function getCreatedMessage()
+	public function messageCreated()
 	{
-		return 'New ' . $this->classNameSingular() . ' created';
+		return 'New ' . class_basename($this) . ' created';
 	}
 
 	/**
@@ -60,9 +76,9 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function getUpdatedMessage()
+	public function messageUpdated()
 	{
-		return 'The ' . $this->classNameSingular() . ' #' . $this->id . ' was updated';
+		return class_basename($this) . ' #' . $this->id . ' was updated';
 	}
 
 	/**
@@ -70,9 +86,9 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function getDeletedMessage()
+	public function messageDeleted()
 	{
-		return 'The ' . $this->classNameSingular() . ' #' . $this->id . ' was deleted';
+		return class_basename($this) . ' #' . $this->id . ' was deleted';
 	}
 
 	/**
@@ -80,9 +96,9 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function getRestoredMessage()
+	public function messageRestored()
 	{
-		return $this->classNameSingular() . ' #' . $this->id . ' was restored';
+		return class_basename($this) . ' #' . $this->id . ' was restored';
 	}
 
 	/**

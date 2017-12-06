@@ -33,7 +33,7 @@ trait SettingsTrait
 	public function getAllowedKeys()
 	{
 		if (!$this->settingKeys) {
-			//
+			return null;
 		}
 
 		return $this->settingKeys;
@@ -70,8 +70,13 @@ trait SettingsTrait
 		// Store the key and value in the table.
 		foreach ($setting as $key => $value) {
 
-			// Check that the key is allowed.
-			if (in_array($key, $this->getAllowedKeys())) {
+			if ($this->getAllowedKeys()) {
+
+				if (in_array($key, $this->getAllowedKeys())) {
+					$existing_settings[$key] = $value;
+				}
+				
+			} else {
 				$existing_settings[$key] = $value;
 			}
 		}
