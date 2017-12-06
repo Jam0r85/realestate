@@ -19,6 +19,7 @@
 			<th>Method</th>
 			<th>Note</th>
 			<th>Recorded By</th>
+			<th>Users</th>
 			<th class="text-right"></th>
 		@endslot
 		@slot('body')
@@ -35,6 +36,7 @@
 						<small>{{ $payment->note }}</small>
 					</td>
 					<td>{{ $payment->owner->present()->fullName }}</td>
+					<td>{{ $payment->present()->userNames }}</td>
 					<td class="text-right">
 						<a href="{{ route('downloads.payment', $payment->id) }}" title="Download" target="_blank" class="btn btn-sm btn-primary">
 							Receipt

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
-class SmsHistory extends Model
+class SmsHistory extends BaseModel
 {
     use Searchable;
     use PresentableTrait;
@@ -113,6 +113,16 @@ class SmsHistory extends Model
             'class' => 'warning'
         ]
     ];
+
+    /**
+     * Overwrite the message created.
+     * 
+     * @return  string
+     */
+    public function messageCreated()
+    {
+        return 'The SMS was sent';
+    }
 
     /**
      * The user that this SMS was sent to.

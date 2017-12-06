@@ -556,7 +556,7 @@ class Tenancy extends BaseModel
      */
     public function storeStatement(Statement $statement)
     {
-        $statement = $this->statements()->save($statement);
+        $this->statements()->save($statement);
         $statement->users()->attach($this->property->owners);
 
         event(new TenancyUpdateStatus($this));
@@ -594,7 +594,7 @@ class Tenancy extends BaseModel
      */
     public function storeRentPayment(Payment $payment)
     {
-        $payment = $this->rent_payments()->save($payment);
+        $this->rent_payments()->save($payment);
         $payment->users()->attach($this->tenants);
 
         event(new TenancyUpdateStatus($this));

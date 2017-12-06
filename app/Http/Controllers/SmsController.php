@@ -34,8 +34,6 @@ class SmsController extends BaseController
     public function toUser(UserSendSmsMessageRequest $request, User $user)
     {
     	$response = $user->notify(new UserSmsMessage($request->message));
-
-    	$this->successMessage('The SMS was sent to ' . $user->phone_number);
     	return back();
     }
 

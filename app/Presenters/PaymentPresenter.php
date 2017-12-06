@@ -47,4 +47,18 @@ class PaymentPresenter extends Presenter
 			return $this->parent->property->branch->present()->location;
 		}
 	}
+
+	/**
+	 * @return  string
+	 */
+	public function userNames()
+	{
+		foreach ($this->users as $user) {
+			$names[] = $user->present()->fullName;
+		}
+
+		if (isset($names) && count($names)) {
+			return implode(' ', $names);
+		}
+	}
 }
