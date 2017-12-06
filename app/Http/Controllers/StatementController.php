@@ -115,38 +115,6 @@ class StatementController extends BaseController
     }
 
     /**
-     * Update whether a statement is paid or not.
-     *
-     * @param [type] $[name] [<description>]
-     * @param  \App\Repositories\EloquentStatementsRepository $id
-     * @return Illuminate\Http\Response
-     */
-    public function updatePaid(Request $request, $id)
-    {
-        $statement = Statement::withTrashed()->findOrFail($id);
-
-        $statement->paid_at = $request->paid_at;
-
-        $statement->save();
-
-        return back();
-    }
-
-    /**
-     * Toggle a statement as being sent or unsent.
-     * 
-     * @param integer $id
-     * @return Illuminate\Http\Response
-     */
-    public function toggleSent($id)
-    {
-        $service = new StatementService();
-        $result = $service->toggleStatementSent($id);
-
-        return back();
-    }
-
-    /**
      * Send the statements to the owners.
      * 
      * @param  \App\Http\Requests\StatementSendRequest  $request
@@ -189,45 +157,27 @@ class StatementController extends BaseController
         return back();
     }
 
-   /**
-    * Create the payments for the statement.
-    * 
-    * @param integer $id
-    * @return \Illuminate\Http\Response
-    */
-    public function createPayments($id)
-    {
-        $service = new StatementService();
-        $service->createStatementPayments($id);
-
-        return back();
-    }
-
     /**
-     * Archive the statement.
+     * Archive the statement in storage.
      *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Statement  $statement
+     * @return  \Illuminate\Http\Response
      */
-    public function archive($id)
+    public function archive(Request $request, Statement $statement)
     {
-        $statement = Statement::findOrFail($id);
         $statement->delete();
-
         return back();
     }
 
     /**
-     * Restore the statement.
+     * Restore the statement from storage.
      *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Statement  $statement
+     * @return  \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore(Request $request, Statement $statement)
     {
-        $statement = Statement::onlyTrashed()->findOrFail($id);
         $statement->restore();
-
         return back();
     }
 

@@ -44,7 +44,7 @@ class Statement extends PdfModel
      * 
      * @var array
      */
-    protected $dates = ['period_start','period_end','paid_at','sent_at'];
+    protected $dates = ['deleted_at','period_start','period_end','paid_at','sent_at'];
 
     /**
      * The attributes that are mass assignable.

@@ -62,6 +62,8 @@ class BaseModel extends Model
 	 */
 	public function delete()
 	{
+		parent::delete();
+
 		$this->flashMessage('deleted');
 	}
 

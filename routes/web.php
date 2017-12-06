@@ -138,12 +138,10 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 		Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
-		Route::post('toggle-paid/{id?}', 'StatementController@updatePaid')->name('statements.update-paid');
-		Route::post('toggle-sent/{id?}', 'StatementController@toggleSent')->name('statements.toggle-sent');
 		Route::post('{statement}/send', 'StatementController@send')->name('statements.send');
 		Route::put('{statement}', 'StatementController@update')->name('statements.update');
-		Route::post('{id}/archive', 'StatementController@archive')->name('statements.archive');
-		Route::post('{id}/restore', 'StatementController@restore')->name('statements.restore');
+		Route::put('{statement}/archive', 'StatementController@archive')->name('statements.archive');
+		Route::put('{statement}/restore', 'StatementController@restore')->name('statements.restore');
 		Route::delete('{statement}/destroy', 'StatementController@destroy')->name('statements.destroy');
 	});
 

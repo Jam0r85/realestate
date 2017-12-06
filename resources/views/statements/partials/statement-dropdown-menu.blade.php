@@ -3,11 +3,8 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="statementOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'edit-statement-details']) }}">
-			Update Details
-		</a>
-		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'statement-options']) }}">
-			Statement Options
+		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'update']) }}">
+			Update Statement
 		</a>
 		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'new-invoice-item']) }}">
 			New Invoice Item

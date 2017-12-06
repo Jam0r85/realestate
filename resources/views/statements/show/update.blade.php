@@ -101,54 +101,112 @@
 			</div>
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Delete Statement
-					@endcomponent
-					<div class="card-body">
+				@if ($statement->deleted_at)
 
-						<form method="POST" action="{{ route('statements.destroy', $statement->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Restore Statement
+						@endcomponent
 
-							@component('partials.alerts.warning')
-								<b>Warning</b>, this cannot be undone.
-							@endcomponent
+						<div class="card-body">
 
-							<div class="form-group">
-								@if (count($statement->payments))
-									<div class="form-check">
-										<label class="form-check-label">
-											<input type="checkbox" name="paid_payments" id="paid_payments" value="true" class="form-check-input" />
-											Delete paid statement payments?
-										</label>
-									</div>
-									<div class="form-check">
-										<label class="form-check-label">
-											<input type="checkbox" name="unpaid_payments" id="unpaid_payments" value="true" class="form-check-input" checked />
-											Delete unpaid statement payments?
-										</label>
-									</div>
-								@endif
+							<form method="POST" action="{{ route('statements.restore', $statement->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
 
-								@if (count($statement->invoices))
-									<div class="form-check">
-										<label class="form-check-label">
-											<input type="checkbox" name="invoice" id="invoice" value="true" class="form-check-input" checked />
-											Delete the related invoice and it's items?
-										</label>
-									</div>
-								@endif
-							</div>
+								<p class="card-text">
+									Do you want to restore this statement?
+								</p>
 
-							@component('partials.save-button')
-								Delete Statement
-							@endcomponent
+								@component('partials.save-button')
+									Restore Statement
+								@endcomponent
 
-						</form>
+							</form>
 
+						</div>
 					</div>
-				</div>
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Delete Statement
+						@endcomponent
+						<div class="card-body">
+
+							<form method="POST" action="{{ route('statements.destroy', $statement->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+
+								@component('partials.alerts.warning')
+									<b>Warning</b>, this cannot be undone.
+								@endcomponent
+
+								<div class="form-group">
+									@if (count($statement->payments))
+										<div class="form-check">
+											<label class="form-check-label">
+												<input type="checkbox" name="paid_payments" id="paid_payments" value="true" class="form-check-input" />
+												Delete paid statement payments?
+											</label>
+										</div>
+										<div class="form-check">
+											<label class="form-check-label">
+												<input type="checkbox" name="unpaid_payments" id="unpaid_payments" value="true" class="form-check-input" checked />
+												Delete unpaid statement payments?
+											</label>
+										</div>
+									@endif
+
+									@if (count($statement->invoices))
+										<div class="form-check">
+											<label class="form-check-label">
+												<input type="checkbox" name="invoice" id="invoice" value="true" class="form-check-input" checked />
+												Delete the related invoice and it's items?
+											</label>
+										</div>
+									@endif
+								</div>
+
+								@component('partials.save-button')
+									Delete Statement
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+				@else
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Archive Statement
+						@endcomponent
+
+						<div class="card-body">
+
+							<form method="POST" action="{{ route('statements.archive', $statement->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+
+								<p class="card-text">
+									Are you sure you want to archive this statement?
+								</p>
+
+								<p class="card-text">
+									Users attached to this statement will be unable to view it in their profile.
+								</p>
+
+								@component('partials.save-button')
+									Archive Statement
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+				@endif
 
 			</div>
 		</div>
