@@ -316,7 +316,9 @@ class Invoice extends PdfModel
      */
     public function storeItem(InvoiceItem $item)
     {
-        return $this->items()->save($item);
+        $this->items()->save($item);
+
+        return $item;
     }
 
     /**
