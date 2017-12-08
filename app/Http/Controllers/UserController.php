@@ -103,6 +103,7 @@ class UserController extends BaseController
         $tenancies = $user->tenancies()->with('tenants')->get();
         $invoices = $user->invoices()->with('users','property','items','items.taxRate')->paginate();
         $sms_messages = $user->sms()->with('user','owner')->get();
+        $emails = $user->emails()->paginate();
 
         return view('users.pages.' . $page, compact(
             'user',
@@ -110,7 +111,8 @@ class UserController extends BaseController
             'properties',
             'tenancies',
             'invoices',
-            'sms_messages'
+            'sms_messages',
+            'emails'
         ));
     }
 
@@ -159,15 +161,12 @@ class UserController extends BaseController
      * Send the user an email message.
      *
      * @param \App\Http\Requests\UserSendEmailRequest $request
-     * @param  \App\User                $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function sendEmail(UserSendEmailRequest $request, $id)
+    public function sendEmail(UserSendEmailRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         $user->notify(new UserEmail($request->subject, $request->message));
-
         return back();
     }
 

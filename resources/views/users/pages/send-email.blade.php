@@ -77,7 +77,7 @@
 							<th class="text-right">Date</th>
 						@endslot
 						@slot('body')
-							@foreach ($user->emails(15) as $email)
+							@foreach ($emails as $email)
 								<tr>
 									<td>
 										<a href="{{ route('emails.preview', $email->id) }}">

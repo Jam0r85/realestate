@@ -163,7 +163,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{user}/{section?}', 'UserController@show')->name('users.show');
 		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email');
 		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password');
-		Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
+		Route::post('{user}/send-email', 'UserController@sendEmail')->name('users.send-email');
 		Route::put('{user}', 'UserController@update')->name('users.update');
 		Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
 		Route::post('{id}/restore', 'UserController@restore')->name('users.restore');

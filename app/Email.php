@@ -9,11 +9,7 @@ class Email extends BaseModel
      *
      * @var array
      */
-    protected $fillable = [
-    	'to',
-    	'subject',
-    	'body'
-    ];
+    protected $fillable = ['to','subject','body'];
 
     /**
      * An email can belong to many users.
