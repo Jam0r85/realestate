@@ -14,7 +14,7 @@ class UserLoginController extends Controller
      */
     public function index()
     {
-        $logins = UserLogin::paginate();
+        $logins = UserLogin::latest()->paginate();
         return view('user-logins.index', compact('logins'));
     }
 }
