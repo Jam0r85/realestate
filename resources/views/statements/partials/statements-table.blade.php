@@ -29,7 +29,7 @@
 				<td>{{ date_formatted($statement->period_end) }}</a></td>
 				@if (!isset($tenancy))
 					<td>{{ truncate($statement->present()->tenancyName) }}</td>
-					<td>{{ $statement->present()->propertyAddress }}</td>
+					<td>{{ truncate($statement->present()->propertyAddress) }}</td>
 				@endif
 				<td>{{ $statement->present()->amountFormatted }}</td>
 				@if (isset($tenancy))
