@@ -35,7 +35,7 @@ class CreateLettingFeeInvoiceItem
         $property = $tenancy->property;
 
         // Is this the first tenancy for this property?
-        if (count($property->tenancies) > 1) {
+        if (!count($property->tenancies)) {
 
             // Is this the first statement for this tenancy?
             if (count($tenancy->statements) <= 1) {
