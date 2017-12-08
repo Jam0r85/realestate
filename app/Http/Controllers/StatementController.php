@@ -29,14 +29,18 @@ class StatementController extends BaseController
      */
     public function index()
     {
-        $statements = Statement::whereNotNull('sent_at')->latest()->paginate();
-        $unsent_statements = Statement::where('sent_at', null)->orWhere('paid_at', null)->latest()->get();
+        $sent = Statement::sent()->paginate();
+        $unsent = Statement::unsent()->get();
 
-        $unsent_statements->load('tenancy','tenancy.property','tenancy.tenants','users','payments');
-        $statements->load('tenancy','tenancy.property','tenancy.tenants','payments');
-
+        $sections = ['Unsent','Sent'];
         $title = 'Statements List';
-        return view('statements.index', compact('statements','unsent_statements','title'));
+
+        return view('statements.index', compact(
+            'sent',
+            'unsent',
+            'title',
+            'sections'
+        ));
     }
 
     /**
@@ -54,11 +58,11 @@ class StatementController extends BaseController
 
         Session::put('statements_search_term', $request->search_term);
 
-        $statements = Statement::search(Session::get('statements_search_term'))->get();
-        $statements->sortBy('period_start');
+        $searchResults = Statement::search(Session::get('statements_search_term'))->get();
+        $searchResults->sortBy('period_start');
         $title = 'Search Results';
 
-        return view('statements.index', compact('statements','title'));
+        return view('statements.index', compact('searchResults','title'));
     }
 
     /**

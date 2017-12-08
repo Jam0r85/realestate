@@ -1,5 +1,5 @@
 <section class="section">
-	<div class="container-fluid">
+	<div class="container">
 
 		{{ $slot }}
 

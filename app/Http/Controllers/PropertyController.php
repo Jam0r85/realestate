@@ -17,12 +17,13 @@ class PropertyController extends BaseController
      */
     public function index()
     {
-        $active_properties = Property::withTrashed()->with('owners')->latest()->paginate();
+        $active = Property::with('owners')->latest()->paginate();
+        $archived = Property::onlyTrashed()->with('owners')->latest()->paginate();
 
-        $sections = ['Active'];
+        $sections = ['Active','Archived'];
         $title = 'Properties List';
 
-        return view('properties.index', compact('active_properties','title','sections'));
+        return view('properties.index', compact('active','archived','title','sections'));
     }
 
     /**

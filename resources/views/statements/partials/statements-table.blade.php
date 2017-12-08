@@ -41,7 +41,7 @@
 					</td>
 				@endif
 				<td>{{ $statement->present()->sendBy(null) }}</td>
-				<td class="text-right">
+				<td class="text-right text-nowrap">
 					@include('statements.partials.statements-table-action-buttons')
 				</td>
 			</tr>

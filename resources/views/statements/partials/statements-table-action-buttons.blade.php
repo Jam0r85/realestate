@@ -11,7 +11,7 @@
 	<form method="POST" action="{{ route('statement-payments.store', $statement->id) }}" class="d-inline">
 		{{ csrf_field() }}
 		<button type="submit" class="btn btn-info btn-sm">
-			Create Payments
+			<i class="fa fa-plus"></i> Payments
 		</button>
 	</form>
 @endif

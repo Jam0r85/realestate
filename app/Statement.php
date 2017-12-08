@@ -62,6 +62,35 @@ class Statement extends PdfModel
 		'sent_at'
 	];
 
+    /**
+     * Scope a query to only include sent statements.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeSent($query)
+    {
+        return $query
+            ->whereNotNull('sent_at')
+            ->latest('sent_at')
+            ->with('tenancy','tenancy.property','tenancy.tenants','payments','users');
+    }
+
+    /**
+     * Scope a query to only include sent statements.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeUnsent($query)
+    {
+        return $query
+            ->where('sent_at', null)
+            ->orWhere('paid_at', null)
+            ->latest()
+            ->with('tenancy','tenancy.property','tenancy.tenants','payments','users');
+    }
+
 	/**
 	 * A statement can belong to a tenancy.
 	 */

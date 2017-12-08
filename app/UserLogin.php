@@ -21,6 +21,14 @@ class UserLogin extends BaseModel
      */
     public function messageCreated()
     {
-    	return null;
+    	return 'New login recorded for ' . $this->user->present()->fullName;
+    }
+
+    /**
+     * A user login belongs to a user.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }

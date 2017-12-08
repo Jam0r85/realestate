@@ -68,6 +68,9 @@
                                 <a class="dropdown-item" href="{{ route('users.index') }}">
                                     Users
                                 </a>
+                                <a class="dropdown-item" href="{{ route('user-logins.index') }}">
+                                    User Logins
+                                </a>
                                 <a class="dropdown-item" href="{{ route('bank-accounts.index') }}">
                                     Bank Accounts
                                 </a>

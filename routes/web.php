@@ -171,6 +171,8 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{user}/clear-notifications', 'UserController@clearNotifications')->name('users.clear-notifications');
 	});
 
+	Route::get('user-logins', 'UserLoginController@index')->name('user-logins.index');
+
 	Route::prefix('bank-accounts')->group(function () {
 		Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
 		Route::get('archived', 'BankAccountController@archived')->name('bank-accounts.archived');

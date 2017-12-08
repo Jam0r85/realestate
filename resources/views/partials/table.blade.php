@@ -1,6 +1,6 @@
 <table class="table table-striped table-hover">
 	@if (isset($header))
-		<thead class="{{ user_setting('dark_mode') ? 'thead-dark' : '' }}">
+		<thead class="thead-dark">
 			{{ $header }}
 		</thead>
 	@endif

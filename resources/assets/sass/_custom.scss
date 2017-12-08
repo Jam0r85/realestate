@@ -120,15 +120,15 @@ section.section {
 /**
  * Pills
  */
+.nav-pills {
+	margin-bottom: 1rem;
+}
 .nav-pills .nav-link {
-	margin-bottom: 0.3rem;
+	margin-right: 0.3rem;
 	background-color: #f8f8f8;
 }
 .nav-pills .nav-link:hover:not(.active) {
 	background-color: #e8e8e8;
-}
-.nav-pills .nav-link.active {
-	padding-left: 1rem;
 }
 
 /**
