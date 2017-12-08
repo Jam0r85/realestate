@@ -28,11 +28,7 @@
 				<td>{{ date_formatted($statement->period_start) }}</td>
 				<td>{{ date_formatted($statement->period_end) }}</a></td>
 				@if (!isset($tenancy))
-					<td>
-						<a href="{{ route('tenancies.show', $statement->tenancy->id) }}">
-							{{ $statement->present()->tenancyName }}
-						</a>
-					</td>
+					<td>{{ truncate($statement->present()->tenancyName) }}</td>
 					<td>{{ $statement->present()->propertyAddress }}</td>
 				@endif
 				<td>{{ $statement->present()->amountFormatted }}</td>
