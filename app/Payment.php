@@ -104,7 +104,14 @@ class Payment extends PdfModel
      */
     public function messageCreated()
     {
-        return class_basename($this->parent) . ' payment of ' . currency($this->amount) . ' created';
+        $name = class_basename($this->parent);
+
+        // We overwrite the tenancy name as it's actually a rent payment
+        if ($name == 'Tenancy') {
+            $name = 'Rent';
+        }
+
+        return $name . ' payment of ' . currency($this->amount) . ' created';
     }
 
     /**
