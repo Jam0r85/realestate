@@ -1,5 +1,6 @@
 @component('partials.table')
 	@slot('header')
+		<th>Status</th>
 		<th>Name</th>
 		<th>Property</th>
 		<th>Rent</th>
@@ -8,16 +9,13 @@
 		@if (isset($daysOverdue))
 			<th>Days</th>
 		@endif
-		<th>Status</th>
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($tenancies as $tenancy)
 			<tr>
-				<td>
-					<a href="{{ route('tenancies.show', $tenancy->id) }}">
-						{{ $tenancy->present()->name }}
-					</a>
-				</td>
+				<td>@include('tenancies.partials.table-status-label')</td>
+				<td>{{ truncate($tenancy->present()->name) }}</td>
 				<td>{{ $tenancy->property->present()->shortAddress }}</td>
 				<td>{{ $tenancy->present()->rentAmount }}</td>
 				<td>{{ $tenancy->present()->rentBalance }}</td>
@@ -25,8 +23,10 @@
 				@if (isset($daysOverdue))
 					<td>{{ $tenancy->is_overdue }}</td>
 				@endif
-				<td>
-					@include('tenancies.partials.table-status-label')
+				<td class="text-right">
+					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-primary btn-sm">
+						View
+					</a>
 				</td>
 			</tr>
 		@endforeach

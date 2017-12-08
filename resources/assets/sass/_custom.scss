@@ -31,6 +31,12 @@ section.section {
 	color: #fff;
 }
 
+/**
+ * Calendar
+ */
+.fc-event {
+	background-color: $primary;
+}
 .fc-event .fc-time {
 	color: rgba(255,255,255,0.5);
 }
