@@ -98,6 +98,16 @@ class Payment extends PdfModel
     }
 
     /**
+     * Overwrite the message created response.
+     * 
+     * @return  string
+     */
+    public function messageCreated()
+    {
+        return class_basename($this->parent) . ' payment of ' . currency($this->amount) . ' created';
+    }
+
+    /**
      * A payment can have an owner.
      */
     public function owner()
@@ -137,17 +147,5 @@ class Payment extends PdfModel
     public function isRent()
     {
         return $this->parent_type === 'tenancies';
-    }
-
-    /**
-     * Create a new payment.
-     * 
-     * @param array $data
-     * @return \App\Payment
-     */
-    public static function createPayment(array $data)
-    {
-        $data['key'] = str_random(30);
-        return parent::create($data);
     }
 }

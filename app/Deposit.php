@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Payment;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -112,5 +113,19 @@ class Deposit extends BaseModel
     public function getBalanceAttribute()
     {
     	return $this->payments->sum('amount');
+    }
+
+    /**
+     * Store a payment to this deposit.
+     * 
+     * @param  \App\Payment  $payment
+     * @return  \App\Payment
+     */
+    public function storePayment(Payment $payment)
+    {
+        $this->payments()->save($payment);
+        $payment->users()->attach($this->tenancy->tenants);
+
+        return $payment;
     }
 }
