@@ -2,7 +2,7 @@
 	$emails->appends(['section' => 'email-history']);
 @endphp
 
-<div class="tab-pane fade @if (request('section') == 'email-history') show active @endif" id="v-pills-email-history" role="tabpanel">
+<div class="tab-pane fade @if (request('section') == 'e-mail-history') show active @endif" id="v-pills-e-mail-history" role="tabpanel">
 
 	@include('emails.partials.emails-table', ['emails' => $emails])
 

@@ -48,49 +48,38 @@
 			</div>
 		@endif
 
-		<div class="row">
-			<div class="col-12 col-md-4 col-lg-3 col-xl-2">
+		<div class="nav nav-pills" id="v-pills-tab" role="tablist">
 
-				<div class="nav flex-column nav-pills mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+			@foreach ($sections as $key => $value)
+				<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
+					{{ $key }}
+					@if (method_exists($tenancy, $value))
+						<span class="badge badge-light">
+							{{ count($tenancy->$value) }}
+						</span>
+					@endif
+				</a>
+			@endforeach
 
-					@foreach ($sections as $key => $value)
-						<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
-							{{ $key }}
-							@if (method_exists($tenancy, $value))
-								<span class="badge badge-light">
-									{{ count($tenancy->$value) }}
-								</span>
-							@endif
-						</a>
-					@endforeach
+			<a class="nav-link @if (request('section') == 'deposit') active @endif" id="v-pills-deposit-tab" data-toggle="pill" href="#v-pills-deposit" role="tab">
+				Deposit
+				@if ($tenancy->deposit)
+					<span class="badge badge-success">
+						<i class="fa fa-check"></i>
+					</span>
+				@endif
+			</a>
 
-					<div class="dropdown-divider"></div>
+		</div>
 
-					<a class="nav-link @if (request('section') == 'deposit') active @endif" id="v-pills-deposit-tab" data-toggle="pill" href="#v-pills-deposit" role="tab">
-						Deposit
-						@if ($tenancy->deposit)
-							<span class="badge badge-success">
-								<i class="fa fa-check"></i>
-							</span>
-						@endif
-					</a>
+		<div class="tab-content" id="v-pills-tabContent">
 
-				</div>
+			@foreach ($sections as $key => $value)
+				@include('tenancies.sections.' . str_slug($key))
+			@endforeach
 
-			</div>
-			<div class="col-12 col-md-8 col-lg-9 col-xl-10">
+			@include('tenancies.sections.deposit')
 
-				<div class="tab-content" id="v-pills-tabContent">
-
-					@foreach ($sections as $key => $value)
-						@include('tenancies.sections.' . str_slug($key))
-					@endforeach
-
-					@include('tenancies.sections.deposit')
-
-				</div>
-
-			</div>
 		</div>
 
 	@endcomponent

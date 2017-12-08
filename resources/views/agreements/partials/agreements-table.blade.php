@@ -12,7 +12,7 @@
 		@foreach ($agreements as $agreement)
 			<tr>
 				<td>{{ $agreement->present()->status }}</td>
-				@if (isset($tenancy))
+				@if (!isset($tenancy))
 					<td>{{ $agreement->tenancy->present()->name }}</td>
 				@endif
 				<td>{{ $agreement->present()->startDateFormatted }}</td>
