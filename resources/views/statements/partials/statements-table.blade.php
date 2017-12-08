@@ -1,6 +1,6 @@
 @component('partials.table')
 	@slot('header')
-		@if (isset($unsent))
+		@if (isset($status))
 			<th>Status</th>
 		@endif
 		<th>Starts</th>
@@ -14,7 +14,7 @@
 			<th>Landlord</th>
 			<th>Invoice</th>
 		@endif
-		@if (isset($unsent))
+		@if (isset($send_by))
 			<th>Send By</th>
 		@endif
 		<th></th>
@@ -22,7 +22,7 @@
 	@slot('body')
 		@foreach ($statements as $statement)
 			<tr>
-				@if (isset($unsent))
+				@if (isset($status))
 					<td>{{ $statement->present()->statusWithDate() }}</td>
 				@endif
 				<td>{{ date_formatted($statement->period_start) }}</td>
@@ -46,7 +46,7 @@
 						@endif
 					</td>
 				@endif
-				@if (isset($unsent))
+				@if (isset($send_by))
 					<td>{{ $statement->present()->sendBy(null) }}</td>
 				@endif
 				<td class="text-right text-nowrap">
