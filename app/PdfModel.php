@@ -51,7 +51,7 @@ class PdfModel extends FileModel
 	 */
 	public function createPdf($return, $fileName = null)
 	{
-		$title = $this->classNameSingular() . '-' . $this->id;
+		$title = $this->classNameSingular() . '-' . $this->id . '.pdf';
 
 		return PDF::loadView($this->viewName(), [
             $this->classNameSingular() => $this,
