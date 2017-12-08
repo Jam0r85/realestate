@@ -16,7 +16,7 @@
 			<tr>
 				<td>@include('tenancies.partials.table-status-label')</td>
 				<td>{{ truncate($tenancy->present()->name) }}</td>
-				<td>{{ $tenancy->property->present()->shortAddress }}</td>
+				<td>{{ truncate($tenancy->property->present()->shortAddress) }}</td>
 				<td>{{ $tenancy->present()->rentAmount }}</td>
 				<td>{{ $tenancy->present()->rentBalance }}</td>
 				<td>{{ $tenancy->present()->serviceName }}</td>
