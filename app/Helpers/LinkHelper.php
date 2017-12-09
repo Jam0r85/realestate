@@ -36,7 +36,7 @@ class Menu
 		$newQueryString = array_merge($currentQueryString, $queries);
 
 		// Remove null values from the query
-		array_filter($newQueryString);
+		$newQueryString = array_filter($newQueryString);
 
 		// Add the new query string to the url
 		if (count($newQueryString)) {

@@ -49,6 +49,41 @@
 					</div>
 				</div>
 
+
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ request('month') ?? 'Month' }}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item @if (!request('month')) active @endif" href="{{ Menu::filterRoute('tenancies.index', ['month' => null]) }}">
+							Any Month
+						</a>
+						<div class="dropdown-divider"></div>
+						@foreach (months() as $month)
+							<a class="dropdown-item @if (request('month') == $month) active @endif" href="{{ Menu::filterRoute('tenancies.index', ['month' => $month]) }}">
+								{{ $month }}
+							</a>
+						@endforeach
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ request('year') ?? 'Year' }}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item @if (!request('year')) active @endif" href="{{ Menu::filterRoute('tenancies.index', ['year' => null]) }}">
+							Any Year
+						</a>
+						<div class="dropdown-divider"></div>
+						@foreach (years('App\Tenancy') as $year)
+							<a class="dropdown-item @if (request('year') == $year) active @endif" href="{{ Menu::filterRoute('tenancies.index', ['year' => $year]) }}">
+								{{ $year }}
+							</a>
+						@endforeach
+					</div>
+				</div>
+
 				@foreach ($sections as $key)
 					<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
 						{{ $key }}
