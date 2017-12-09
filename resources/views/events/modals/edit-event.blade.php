@@ -14,10 +14,9 @@
 
 				<div class="modal-body">
 
-					<div class="form-group">
-						<label for="created_by">Created By</label>
-						<input type="text" class="form-control" disabled name="created_at" value="{{ $event->owner->present()->fullName }}" />
-					</div>
+					@component('partials.alerts.info')
+						Created {{ datetime_formatted($event->created_at) }} by {{ $event->owner->present()->fullName }}
+					@endcomponent
 
 					<div class="form-group">
 						<label for="title">Title</label>
