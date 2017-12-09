@@ -179,14 +179,8 @@
 
                             <div class="dropdown-menu" aria-labelledby="usersDropdown">
                                 <a class="dropdown-item" href="{{ route('invoices.index') }}">
-                                    All Invoices
+                                    Invoices
                                 </a>
-                                @foreach (invoiceGroups() as $group)
-                                    <a class="dropdown-item" href="{{ route('invoices.index', ['group' => str_slug($group->name)]) }}">
-                                        {{ $group->name }} Invoices
-                                    </a>
-                                @endforeach
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('invoice-groups.index') }}">
                                     Invoice Groups List
                                 </a>

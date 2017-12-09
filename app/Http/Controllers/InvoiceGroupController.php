@@ -11,25 +11,14 @@ use Illuminate\Support\Facades\Cache;
 class InvoiceGroupController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     * 
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $invoice_groups = InvoiceGroup::latest()->paginate();
-        
-        return view('invoice-groups.index', compact('invoice_groups'));
+        $groups = InvoiceGroup::latest()->paginate();        
+        return view('invoice-groups.index', compact('groups'));
     }
 
     /**
@@ -57,23 +46,18 @@ class InvoiceGroupController extends BaseController
         $group->format = $request->format;
         $group->save();
 
-        Cache::tags(['invoice_groups'])->flush();
-
-        $this->successMessage('The invoice group "' . $group->name . '" was created');
-
         return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param integer $id
-     * @param string $section
+     * @param  \App\InvoiceGroup  $group
+     * @param  string $section
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
-    {
-        $group = InvoiceGroup::findOrFail($id);        
+    public function show(InvoiceGroup $group, $section = 'layout')
+    {    
         return view('invoice-groups.show.' . $section, compact('group'));
     }
 
@@ -84,18 +68,13 @@ class InvoiceGroupController extends BaseController
      * @param integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInvoiceGroupRequest $request, $id)
+    public function update(UpdateInvoiceGroupRequest $request, InvoiceGroup $group)
     {
-        $group = InvoiceGroup::findOrFail($id);
         $group->name = $request->name;
         $group->branch_id = $request->branch_id;
         $group->next_number = $request->next_number;
         $group->format = $request->format;
         $group->save();
-
-        Cache::tags(['invoice_groups'])->flush();
-
-        $this->successMessage('The invoice group "' . $group->name . '" was updated');
 
         return back();
     }
