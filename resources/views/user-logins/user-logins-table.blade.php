@@ -1,7 +1,6 @@
 @component('partials.table')
 	@slot('header')
 		<th>Date</th>
-		<th>Time</th>
 		@if (isset($user))
 			<th>User</th>
 		@endif
@@ -14,8 +13,7 @@
 	@slot('body')
 		@foreach ($logins as $login)
 			<tr>
-				<td>{{ date_formatted($login->created_at) }}</td>
-				<td>{{ time_formatted($login->created_at) }}</td>
+				<td>{{ datetime_formatted($login->created_at) }}</td>
 				@if (isset($user))
 					<td>{{ $login->user->present()->fullName }}</td>
 				@endif

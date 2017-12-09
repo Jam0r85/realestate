@@ -35,4 +35,15 @@ class Service extends Model
     		return currency($this->charge);
     	}
     }
+
+    /**
+     * Set the slug name for this service.
+     *
+     * @param  string  $value
+     * @return  void
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = str_slug($value);
+    }
 }

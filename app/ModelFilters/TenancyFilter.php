@@ -1,0 +1,25 @@
+<?php
+
+namespace App\ModelFilters;
+
+class TenancyFilter extends BaseFilter
+{
+    /**
+    * Related Models that have ModelFilters as well as the method on the ModelFilter
+    * As [relationMethod => [input_key1, input_key2]].
+    *
+    * @var array
+    */
+    public $relations = [];
+
+    /**
+     * Filter results by service slug.
+     * 
+     * @param  string  $slug
+     * @return 
+     */
+    public function service($slug)
+    {
+    	return $this->related('service', 'slug', '=', $slug);
+    }
+}
