@@ -88,20 +88,12 @@ class PaymentController extends BaseController
      * Destroy the given payment.
      * 
      * @param \App\Http\Requests\DestroyPaymentRequest $request
-     * @param integer $id
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyPaymentRequest $request, $id)
+    public function destroy(DestroyPaymentRequest $request, Payment $payment)
     {
-        $payment = Payment::findOrFail($id);
-
-        if ($request->confirmation != $payment->id) {
-            $this->errorMessage("The ID was incorrect");
-            return back();
-        }
-
         $payment->delete();
-
-        return redirect()->route('payments.rent');
+        return redirect()->route('rent-payments.index');
     }
 }

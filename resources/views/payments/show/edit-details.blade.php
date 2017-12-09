@@ -84,6 +84,37 @@
 				</div>
 
 			</div>
+			<div class="col-12 col-lg-6">
+
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Delete Payment
+					@endcomponent
+
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('payments.destroy', $payment->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+
+							<p class="card-text">
+								Enter the ID ({{ $payment->id }}) of this payment into the field below to confirm that you wish to destroy it.
+							</p>
+
+							<div class="form-group">
+								<input type="text" name="confirmation" class="form-control" />
+							</div>
+
+							@component('partials.save-button')
+								Delete Payment
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
 		</div>
 
 	@endcomponent

@@ -4,10 +4,7 @@
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="paymentOptionsDropdown">
 		<a class="dropdown-item" href="{{ route('payments.show', [$payment->id, 'edit-details']) }}" title="Edit Payment Details">
-			Edit Payment Details
-		</a>
-		<a class="dropdown-item" href="{{ route('payments.show', [$payment->id, 'delete-payment']) }}" title="Delete Payment">
-			Delete Payment
+			Edit Payment
 		</a>
 	</div>
 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Jobs\UpdateTenancyRentBalances;
+use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +37,7 @@ class PaymentObserver
 		$parentClass = class_basename($payment->parent);
 
 		if ($parentClass == 'Tenancy') {
-			UpdateTenancyRentBalances::dispatch($payment->parent_id);
+			event(new TenancyUpdateStatus($payment->parent));
 		}
 	}
 
@@ -52,7 +52,7 @@ class PaymentObserver
 		$parentClass = class_basename($payment->parent);
 
 		if ($parentClass == 'Tenancy') {
-			UpdateTenancyRentBalances::dispatch($payment->parent_id);
+			event(new TenancyUpdateStatus($payment->parent));
 		}
 	}
 }
