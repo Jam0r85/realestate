@@ -72,7 +72,10 @@ class Payment extends PdfModel
      */
     public function scopeForRent($query)
     {
-        return $query->where('parent_type', 'tenancies');
+        return $query
+            ->with('users','method','parent','parent.tenants','parent.property')
+            ->where('parent_type', 'tenancies')
+            ->latest();
     }
 
     /**
