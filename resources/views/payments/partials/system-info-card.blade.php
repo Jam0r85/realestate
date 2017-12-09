@@ -16,7 +16,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($payment->updated_at) }}
+			{{ datetime_formatted($payment->updated_at) }}
 			@slot('title')
 				Updated
 			@endslot
