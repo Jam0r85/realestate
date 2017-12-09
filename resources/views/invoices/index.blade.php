@@ -34,15 +34,50 @@
 
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Filter Group
+						{{ request('group') ?? 'Group' }}
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item @if (!request('group')) active @endif" href="{{ route('invoices.index') }}">
+						<a class="dropdown-item @if (!request('group')) active @endif" href="{{ Menu::filterRoute('invoices.index', ['group' => null]) }}">
 							All Groups
 						</a>
+						<div class="dropdown-divider"></div>
 						@foreach (invoiceGroups() as $group)
-							<a class="dropdown-item @if (request('group') == $group->slug) active @endif" href="invoices?group={{ $group->slug }}">
+							<a class="dropdown-item @if (request('group') == $group->slug) active @endif" href="{{ Menu::filterRoute('invoices.index', ['group' => $group->slug]) }}">
 								{{ $group->name }}
+							</a>
+						@endforeach
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ request('month') ?? 'Month' }}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item @if (!request('month')) active @endif" href="{{ Menu::filterRoute('invoices.index', ['month' => null]) }}">
+							Any Month
+						</a>
+						<div class="dropdown-divider"></div>
+						@foreach (months() as $month)
+							<a class="dropdown-item @if (request('month') == $month) active @endif" href="{{ Menu::filterRoute('invoices.index', ['month' => $month]) }}">
+								{{ $month }}
+							</a>
+						@endforeach
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ request('year') ?? 'Year' }}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item @if (!request('year')) active @endif" href="{{ Menu::filterRoute('invoices.index', ['year' => null]) }}">
+							Any Year
+						</a>
+						<div class="dropdown-divider"></div>
+						@foreach (years('App\Invoice') as $year)
+							<a class="dropdown-item @if (request('year') == $year) active @endif" href="{{ Menu::filterRoute('invoices.index', ['year' => $year]) }}">
+								{{ $year }}
 							</a>
 						@endforeach
 					</div>

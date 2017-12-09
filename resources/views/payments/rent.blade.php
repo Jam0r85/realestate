@@ -38,21 +38,15 @@
 				@foreach ($payments as $payment)
 					<tr>
 						<td>{{ date_formatted($payment->created_at) }}</td>
-						<td>
-							<a href="{{ route('tenancies.show', $payment->parent_id) }}">
-								{{ $payment->present()->tenancyName }}
-							</a>
-						</td>
+						<td>{{ truncate($payment->present()->tenancyName) }}</td>
 						<td>{{ currency($payment->amount) }}</td>
 						<td>{{ $payment->method->name }}</td>
-						<td>
-							@include('partials.bootstrap.users-inline', ['users' => $payment->users])
-						</td>
+						<td>{{ $payment->present()->userNames }}</td>
 						<td class="text-right">
-							<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-warning btn-sm">
+							<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">
 								View
 							</a>
-							<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-primary btn-sm">
+							<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
 								Receipt
 							</a>
 						</td>

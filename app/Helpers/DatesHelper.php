@@ -87,3 +87,50 @@ function date_modifier($start, $interval_type, $interval)
 
 	return $start->$interval_type($interval);
 }
+
+/**
+ * Month names.
+ * 
+ * @return  array
+ */
+function months()
+{
+	return [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
+}
+
+function years($modelName = null, $column = 'created_at')
+{
+	$start = $end = \Carbon\Carbon::now();
+	$startYear = $start->subYears(10)->format('Y');
+	$endYear = $end->format('Y');
+
+	if ($modelName) {
+		$model = new $modelName;
+		if ($model) {
+			$first = $model->oldest($column)->first();
+			$last = $model->latest($column)->first();
+
+			$startYear = $first->created_at->format('Y');
+			$endYear = $last->created_at->format('Y');
+		}
+	}
+
+	for ($i = $startYear; $i <= $endYear; $i++) {
+		$years[] = $i;
+	}
+
+	return $years;
+}
