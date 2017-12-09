@@ -1,7 +1,7 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-cogs"></i> System Information
-	</div>
+	@component('partials.card-header')
+		System Information
+	@endcomponent
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ $payment->owner->name }}

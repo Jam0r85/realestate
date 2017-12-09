@@ -2,23 +2,19 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('payments.partials.dropdown-menus')
-			</div>
-
-			@component('partials.header')
-				Payment {{ $payment->id }}
-			@endcomponent
-			
+		<div class="float-right">
+			@include('payments.partials.dropdown-menus')
 		</div>
 
+		@component('partials.header')
+			Payment {{ $payment->id }}
+		@endcomponent
+		
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		<div class="row">
 			<div class="col col-5">

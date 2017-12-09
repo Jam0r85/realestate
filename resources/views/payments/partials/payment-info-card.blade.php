@@ -1,7 +1,7 @@
 <div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-gbp"></i> Payment Information
-	</div>
+	@component('partials.card-header')
+		Payment Information
+	@endcomponent
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			{{ currency($payment->amount) }}
@@ -27,34 +27,28 @@
 					Invoice
 				@endslot
 			@endcomponent
-
-			@if ($payment->parent->property)
-
-				@component('partials.bootstrap.list-group-item')
-					<a href="{{ route('properties.show', $payment->parent->property->id) }}" title="{{ $payment->parent->property->short_name }}">
-						{{ $payment->parent->property->short_name }}
-					</a>
-					@slot('title')
-						Property
-					@endslot
-				@endcomponent
-
-			@endif
+			@component('partials.bootstrap.list-group-item')
+				<a href="{{ route('properties.show', $payment->parent->property->id) }}">
+					{{ $payment->present()->propertyName }}
+				</a>
+				@slot('title')
+					Property
+				@endslot
+			@endcomponent
 
 		@elseif ($payment->parent_type == 'tenancies')
 
 			@component('partials.bootstrap.list-group-item')
-				<a href="{{ route('tenancies.show', $payment->parent->id) }}" title="{{ $payment->parent->name }}">
-					{{ $payment->parent->name }}
+				<a href="{{ route('tenancies.show', $payment->parent->id) }}">
+					{{ $payment->present()->tenancyName }}
 				</a>
 				@slot('title')
 					Tenancy
 				@endslot
 			@endcomponent
-
 			@component('partials.bootstrap.list-group-item')
-				<a href="{{ route('properties.show', $payment->parent->property->id) }}" title="{{ $payment->parent->property->short_name }}">
-					{{ $payment->parent->property->short_name }}
+				<a href="{{ route('properties.show', $payment->parent->property->id) }}">
+					{{ $payment->present()->propertyName }}
 				</a>
 				@slot('title')
 					Property

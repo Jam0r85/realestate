@@ -21,6 +21,16 @@ class PaymentPresenter extends Presenter
 	/**
 	 * @return string
 	 */
+	public function propertyNameShort()
+	{
+		if (method_exists($this->parent, 'property')) {
+			return $this->parent->property->present()->shortAddress;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
 	public function propertyName()
 	{
 		if (method_exists($this->parent, 'property')) {
