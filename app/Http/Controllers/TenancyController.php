@@ -27,16 +27,16 @@ class TenancyController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $all_tenancies = Tenancy::with('property','tenants','currentRent','service','deposit','rent_payments','statements')->latest()->paginate();
+        $all_tenancies = Tenancy::eagerLoading()->filter($request->all())->latest()->paginateFilter();
 
-        $overdue_tenancies = Tenancy::overdue()->get();
-        $has_rent = Tenancy::hasRent()->paginate();
-        $owes_rent = Tenancy::owesRent()->paginate();
-        $owes_deposit = Tenancy::owesDeposit()->paginate();
-        $vacated_tenancies = Tenancy::vacated()->paginate();
-        $archived_tenancies = Tenancy::archived()->paginate();
+        $overdue_tenancies = Tenancy::overdue()->filter($request->all())->get();
+        $has_rent = Tenancy::hasRent()->filter($request->all())->paginateFilter();
+        $owes_rent = Tenancy::owesRent()->filter($request->all())->paginateFilter();
+        $owes_deposit = Tenancy::owesDeposit()->filter($request->all())->paginateFilter();
+        $vacated_tenancies = Tenancy::vacated()->filter($request->all())->paginateFilter();
+        $archived_tenancies = Tenancy::archived()->filter($request->all())->paginateFilter();
 
         $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Vacated','Archived'];
 

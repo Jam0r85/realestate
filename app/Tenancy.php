@@ -67,6 +67,18 @@ class Tenancy extends BaseModel
     protected $dates = ['vacated_on','deleted_at'];
 
     /**
+     * Scope a query to include eager loading dependencies.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeEagerLoading($query)
+    {
+        return $query
+            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements');
+    }
+
+    /**
      * Scope a query to only include tenancies which are archive.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -75,7 +87,7 @@ class Tenancy extends BaseModel
     public function scopeArchived($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->onlyTrashed();
     }
 
@@ -88,7 +100,7 @@ class Tenancy extends BaseModel
     public function scopeOverdue($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->where('is_overdue', '>', '0')
             ->orderBy('is_overdue', 'desc');
     }
@@ -102,7 +114,7 @@ class Tenancy extends BaseModel
     public function scopeHasRent($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->where('rent_balance', '>', 0)
             ->orderBy('rent_balance', 'desc');
     }
@@ -116,7 +128,7 @@ class Tenancy extends BaseModel
     public function scopeOwesRent($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->where('rent_balance', '<', 0)
             ->orderBy('rent_balance');
     }
@@ -130,7 +142,7 @@ class Tenancy extends BaseModel
     public function scopeOwesDeposit($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->whereHas('deposit', function ($query) {
                 $query->where('balance', '!=', 'amount');
             });
