@@ -25,8 +25,14 @@ class InvoiceController extends BaseController
      */
     public function index(Request $request)
     {
-        $paid = Invoice::paid()->filter($request->all())->paginateFilter();
-        $unpaid = Invoice::unpaid()->filter($request->all())->paginateFilter();
+        $paid = Invoice::paid()->filter($request->all());
+        $unpaid = Invoice::unpaid()->filter($request->all());
+
+        $paidTotal = $paid->sum('total');
+        $unpaidTotal = $unpaid->sum('total');
+
+        $paid = $paid->paginateFilter();
+        $unpaid = $unpaid->paginateFilter();        
 
         $sections = ['Unpaid','Paid'];
         $title = 'Invoices List';

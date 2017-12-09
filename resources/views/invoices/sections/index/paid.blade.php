@@ -2,6 +2,6 @@
 
 	@include('invoices.partials.invoices-table', ['invoices' => $paid])
 
-	@include('partials.pagination', ['collection' => $paid->appends(['section' => 'unpaid'])])
+	@include('partials.pagination', ['collection' => $paid->appends(['section' => 'paid'])])
 	
 </div>
