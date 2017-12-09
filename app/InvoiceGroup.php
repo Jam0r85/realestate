@@ -50,6 +50,12 @@ class InvoiceGroup extends BaseModel
     	return $this->belongsTo('App\Branch');
     }
 
+    /**
+     * Store an invoice to this group.
+     * 
+     * @param  \App\Invoice  $invoice
+     * @return  \App\Invoice
+     */
     public function storeInvoice(Invoice $invoice)
     {
         $this->invoices()->save($invoice);

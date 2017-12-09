@@ -17,7 +17,7 @@ class InvoiceGroupController extends BaseController
      */
     public function index()
     {
-        $groups = InvoiceGroup::latest()->paginate();        
+        $groups = InvoiceGroup::orderBy('name')->paginate();        
         return view('invoice-groups.index', compact('groups'));
     }
 
