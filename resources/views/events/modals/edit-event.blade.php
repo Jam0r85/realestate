@@ -67,7 +67,7 @@
 							</h5>
 
 							<p class="card-text">
-								You can delete this event by entering the ID of the event into the field below.
+								Please confirm you want to delete this event by entering the Event ID ({{ $event->id }}) into the field below.
 							</p>
 
 							<div class="form-group">

@@ -170,6 +170,7 @@ return [
         'App\Providers\HelperServiceProvider',
         'App\Providers\SettingsServiceProvider',
         Barryvdh\Debugbar\ServiceProvider::class,
+        EloquentFilter\ServiceProvider::class,
 
         /*
          * Application Service Providers...

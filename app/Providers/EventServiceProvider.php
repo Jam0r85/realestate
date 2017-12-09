@@ -17,6 +17,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\LogSuccessfulLogin',
         ],
 
+        'Illuminate\Auth\Events\Failed' => [
+            'App\Listeners\LogFailedLogin'
+        ],
+
         'Illuminate\Mail\Events\MessageSending' => [
             'App\Listeners\Emails\LogSentEmail'
         ],

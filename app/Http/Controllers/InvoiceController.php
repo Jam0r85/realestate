@@ -20,46 +20,18 @@ class InvoiceController extends BaseController
     /**
      * Display a list of invoices.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index($group_name = null)
+    public function index(Request $request)
     {
-        $invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments','statements')
-            ->withTrashed()
-            ->whereNotNull('paid_at')
-            ->latest();
+        $paid = Invoice::paid()->filter($request->all())->paginateFilter();
+        $unpaid = Invoice::unpaid()->filter($request->all())->paginateFilter();
 
-        $unpaid_invoices = Invoice::with('property','users','items','items.taxRate','payments','statement_payments','statements')
-            ->whereNull('paid_at')
-            ->latest();
-
-        // filter by group
-        if ($group_name = request('group')) {
-            $group = InvoiceGroup::where('slug', $group_name)->first();
-
-            if ($group) {
-                $invoices->where('invoice_group_id', $group->id);
-                $unpaid_invoices->where('invoice_group_id', $group->id);
-            }
-        }
-
-        // filter by month
-        if ($month = request('month')) {
-            $invoices->whereMonth('paid_at', $month);
-            $unpaid_invoices->whereMonth('created_at', $month);
-        }
-
-        // filter by year
-        if ($year = request('year')) {
-            $invoices->whereYear('paid_at', $year);
-            $unpaid_invoices->whereYear('paid_at', $year);
-        }
-
-        $invoices = $invoices->paginate();
-        $unpaid_invoices = $unpaid_invoices->get();
-
+        $sections = ['Unpaid','Paid'];
         $title = 'Invoices List';
-        return view('invoices.index', compact('invoices','unpaid_invoices','title'));
+
+        return view('invoices.index', compact('paid','unpaid','title','sections'));
     }
 
     /**

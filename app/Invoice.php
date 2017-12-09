@@ -5,6 +5,7 @@ namespace App;
 use App\InvoiceItem;
 use App\Jobs\SendInvoiceToUsers;
 use App\StatementPayment;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -15,6 +16,7 @@ class Invoice extends PdfModel
     use SoftDeletes;
     use Searchable;
     use PresentableTrait;
+    use Filterable;
 
     /**
      * The presenter for this model
@@ -108,9 +110,33 @@ class Invoice extends PdfModel
 		'paid_at'
 	];
 
-    protected $with = [
-        'invoiceGroup'
-    ];
+    /**
+     * Scope a query to only include paid invoices.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopePaid($query)
+    {
+        return $query
+            ->with('invoiceGroup','property','users','items','items.taxRate','payments','statement_payments','statements')
+            ->whereNotNull('paid_at')
+            ->latest();
+    }
+
+    /**
+     * Scope a query to only include unpaid invoices.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return  \Illuminate\Database\Eloquent
+     */
+    public function scopeUnpaid($query)
+    {
+        return $query
+            ->with('invoiceGroup','property','users','items','items.taxRate','payments','statement_payments','statements')
+            ->whereNull('paid_at')
+            ->latest();
+    }
 
 	/**
 	 * An invoice can belong to an owner.

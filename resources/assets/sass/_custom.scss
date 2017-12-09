@@ -14,6 +14,13 @@ section.section {
 	margin-bottom: 1rem;
 }
 
+/**
+ * Navbar
+ */
+nav.navbar {
+	background-color: #2D5768 !important;
+}
+
 .text-white .card-footer a,
 .text-white .table a {
 	color: #fff;
@@ -35,7 +42,7 @@ section.section {
  * Calendar
  */
 .fc-event {
-	background-color: $primary;
+	background-color: $primary !important;
 }
 .fc-event .fc-time {
 	color: rgba(255,255,255,0.5);
@@ -135,6 +142,14 @@ section.section {
 }
 .nav-pills .nav-link:hover:not(.active) {
 	background-color: #e8e8e8;
+}
+
+/**
+ * Forms
+ */
+.nav-pills .dropdown .btn {
+	height: 100%;
+	margin-right: 0.3rem;
 }
 
 /**

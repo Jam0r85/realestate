@@ -21,7 +21,7 @@
 <body>
     <div id="app">
 
-        <nav class="navbar navbar-expand-lg {{ user_setting('dark_mode') ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
+        <nav class="navbar navbar-expand-lg navbar-dark">
 
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 {{ get_setting('company_name', config('app.name', 'Laravel')) }}
