@@ -14,7 +14,7 @@
 				<td>{{ $invoice->present()->status }}</td>
 				<td>{{ $invoice->name }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
-				<td>{{ $invoice->present()->propertyAddress }}</td>
+				<td>{{ truncate($invoice->present()->propertyAddress) }}</td>
 				<td>{{ currency($invoice->total) }}</td>
 				<td>{{ $invoice->present()->usersList }}</td>
 				<td class="text-right">
