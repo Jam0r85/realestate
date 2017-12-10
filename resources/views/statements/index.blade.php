@@ -29,6 +29,7 @@
 			{!! (new Filter())->monthDropdown() !!}
 			{!! (new Filter())->yearDropdown('App\Statement') !!}
 			{!! Filter::sentPill() !!}
+			{!! Filter::archivePill() !!}
 			{!! Filter::clearButton() !!}
 		</ul>
 

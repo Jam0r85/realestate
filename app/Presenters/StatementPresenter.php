@@ -229,6 +229,8 @@ class StatementPresenter extends Presenter
 			return $return;
 		} elseif (!count($this->payments)) {
 			return 'No Payments';
+		} elseif ($this->delete_at) {
+			return 'Archived';
 		} else {
 			return 'Unpaid';
 		}
