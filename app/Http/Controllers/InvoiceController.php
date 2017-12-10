@@ -32,6 +32,7 @@ class InvoiceController extends BaseController
         $invoices = Invoice::with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
             ->withTrashed()
             ->filter($request->all())
+            ->latest()
             ->paginateFilter();
 
         return view('invoices.index', compact('invoices'));
