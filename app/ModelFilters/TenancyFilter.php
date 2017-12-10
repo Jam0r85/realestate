@@ -39,7 +39,7 @@ class TenancyFilter extends BaseFilter
      */
     public function hasRentBalance()
     {
-        return $this->where('rent_balance', '>', 0);
+        return $this->where('rent_balance', '>', 0)->orderBy('rent_balance', 'desc');
     }
 
     /**
@@ -49,7 +49,7 @@ class TenancyFilter extends BaseFilter
      */
     public function owesRent()
     {
-        return $this->where('rent_balance', '<', 0);
+        return $this->where('rent_balance', '<', 0)->orderBy('rent_balance', 'desc');
     }
 
     public function owesDeposit()
