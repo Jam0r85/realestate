@@ -35,7 +35,7 @@ class InvoicePresenter extends BasePresenter
 		}
 
 		if (isset($names) && count($names)) {
-			return implode('', $names);
+			return implode(' ', $names);
 		}
 	}
 
