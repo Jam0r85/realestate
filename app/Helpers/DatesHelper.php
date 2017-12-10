@@ -113,18 +113,30 @@ function months()
 
 function years($modelName = null, $column = 'created_at')
 {
+	// Set the start date and end date to today
 	$start = $end = \Carbon\Carbon::now();
+
+	// Set the start year to 10 years ago from today and the end year as this year
 	$startYear = $start->subYears(10)->format('Y');
 	$endYear = $end->format('Y');
 
 	if ($modelName) {
-		$model = new $modelName;
-		if ($model) {
-			$first = $model->oldest($column)->first();
-			$last = $model->latest($column)->first();
 
-			$startYear = $first->created_at->format('Y');
-			$endYear = $last->created_at->format('Y');
+		$model = new $modelName;
+
+		if ($model) {
+
+			// First and last records found when ordered by the column
+			$first = $model->whereNotNull($column)->oldest($column)->first();
+			$last = $model->whereNotNull($column)->latest($column)->first();
+
+			if ($first->$column) {
+				$startYear = $first->$column->format('Y');
+			}
+
+			if ($last->$column) {
+				$endYear = $last->$column->format('Y');
+			}
 		}
 	}
 

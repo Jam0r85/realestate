@@ -76,7 +76,7 @@
 							Any Year
 						</a>
 						<div class="dropdown-divider"></div>
-						@foreach (years('App\Tenancy') as $year)
+						@foreach (years('App\Tenancy', 'started_on') as $year)
 							<a class="dropdown-item @if (request('year') == $year) active @endif" href="{{ Menu::filterRoute('tenancies.index', ['year' => $year]) }}">
 								{{ $year }}
 							</a>

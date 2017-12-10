@@ -20,6 +20,7 @@ class CreateTenanciesTable extends Migration
             $table->integer('service_id')->unsigned();
             $table->decimal('rent_balance', 12, 3)->default(0);
             $table->integer('is_overdue')->default(0);
+            $table->date('started_on')->nullable();
             $table->date('vacated_on')->nullable();
             $table->timestamps();
             $table->softDeletes();

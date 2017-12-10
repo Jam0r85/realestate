@@ -64,7 +64,11 @@ class Tenancy extends BaseModel
      * 
      * @var array
      */
-    protected $dates = ['vacated_on','deleted_at'];
+    protected $dates = [
+        'started_on',
+        'vacated_on',
+        'deleted_at'
+    ];
 
     /**
      * Scope a query to include eager loading dependencies.
