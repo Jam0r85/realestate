@@ -30,7 +30,6 @@ class TenancyController extends BaseController
     public function index(Request $request)
     {
         $all_tenancies = Tenancy::eagerLoading()->filter($request->all())->latest()->paginateFilter();
-
         $overdue_tenancies = Tenancy::overdue()->filter($request->all())->get();
         $has_rent = Tenancy::hasRent()->filter($request->all())->paginateFilter();
         $owes_rent = Tenancy::owesRent()->filter($request->all())->paginateFilter();
