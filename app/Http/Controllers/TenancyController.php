@@ -30,11 +30,12 @@ class TenancyController extends BaseController
      */
     public function index(Request $request)
     {
-        $tenancies = Tenancy::eagerLoading()
+        $tenancies = Tenancy::withTrashed()
+            ->eagerLoading()
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
-            
+
         return view('tenancies.index', compact('tenancies'));
     }
 

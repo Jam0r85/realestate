@@ -109,6 +109,12 @@
 				</a>
 			</li>
 
+			<li class="nav-item">
+				<a class="nav-link @if (request('archived')) active @endif" href="{{ request('archived') ? Filter::link('tenancies.index', ['archived' => null]) : Filter::link('tenancies.index', ['archived' => true]) }}">
+					Archived
+				</a>
+			</li>
+
 			{!! Filter::clearButton() !!}
 
 		</ul>
