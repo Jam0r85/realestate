@@ -19,11 +19,17 @@ class UserController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $users = User::with('home','tenancies','tenancies.property')->withTrashed()->filter($request->all())->latest()->paginateFilter();
+        $users = User::with('home','tenancies','tenancies.property')
+            ->withTrashed()
+            ->filter($request->all())
+            ->latest()
+            ->paginateFilter();
+            
         $title = 'Users List';
         
         return view('users.index', compact('users','title','sections'));
