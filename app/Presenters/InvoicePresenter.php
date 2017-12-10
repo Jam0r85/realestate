@@ -42,19 +42,69 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function trashedIcon()
-	{
-		if ($this->deleted_at) {
-			return '<i class="fa fa-trash"></i>';
-		}
-	}
-
-	/**
-	 * @return string
-	 */
 	public function fullDate($date = 'created_at')
 	{
 		return longdate_formatted($this->$date);
+	}
+
+	/**
+	 * Get the invoice total
+	 * 
+	 * @return  integer
+	 */
+	public function total()
+	{
+		return $this->itemsTotal();
+	}
+
+	/**
+	 * Get the invoice items total
+	 * 
+	 * @return  integer
+	 */
+	public function itemsTotal()
+	{
+		return $this->items->sum('total');
+	}
+
+	/**
+	 * Get the invoice items net total
+	 * 
+	 * @return  integer
+	 */
+	public function itemsTotalNet()
+	{
+		return $this->items->sum('total_net');
+	}
+
+	/**
+	 * Get the invoice items tax total
+	 * 
+	 * @return  integer
+	 */
+	public function itemsTotalTax()
+	{
+		return $this->items->sum('total_tax');
+	}
+
+	/**
+	 * Get the invoice payments total
+	 * 
+	 * @return  integer
+	 */
+	public function paymentsTotal()
+	{
+		return $this->payments->sum('amount') + $this->statement_payments->sum('amount');
+	}
+
+	/**
+	 * Get the invoice remaining balance total
+	 * 
+	 * @return  integer
+	 */
+	public function remainingBalanceTotal()
+	{
+		return $this->total() - $this->paymentsTotal();
 	}
 
 	/**

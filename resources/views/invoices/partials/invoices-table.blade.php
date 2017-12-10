@@ -15,7 +15,7 @@
 				<td>{{ $invoice->name }}</td>
 				<td>{{ date_formatted($invoice->created_at) }}</td>
 				<td>{{ truncate($invoice->present()->propertyAddress) }}</td>
-				<td>{{ currency($invoice->total) }}</td>
+				<td>{{ currency($invoice->present()->total) }}</td>
 				<td>{{ $invoice->present()->usersList }}</td>
 				<td class="text-right">
 					<a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-primary btn-sm">

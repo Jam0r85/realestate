@@ -67,20 +67,6 @@ class Invoice extends PdfModel
     protected $casts = [
         'property_id' => 'integer'
     ];
-
-    /**
-     * The attrbites that should be included in the collection.
-     * 
-     * @var array
-     */
-    protected $appends = [
-        'total',
-        'total_net',
-        'total_tax',
-        'total_payments',
-        'total_balance',
-        'recipient_formatted'
-    ];
     
     /**
      * The attributes that should be mutated to dates.
@@ -88,8 +74,6 @@ class Invoice extends PdfModel
      * @var array
      */
 	protected $dates = ['due_at','sent_at','paid_at','deleted_at'];
-
-    protected $with = ['payments'];
 
     /**
      * The attributes that are mass assignable.
@@ -269,71 +253,6 @@ class Invoice extends PdfModel
                 }
             }
         }
-    }
-
-    /**
-     * Get the invoice's total cost.
-     * 
-     * @return integer
-     */
-    public function getTotalAttribute()
-    {
-        return $this->items->sum('total');
-    }
-
-    /**
-     * Get the invoice's total net cost.
-     * 
-     * @return integer
-     */
-    public function getTotalNetAttribute()
-    {
-        return $this->items->sum('total_net');
-    }
-
-    /**
-     * Get the invoice's total tax cost.
-     * 
-     * @return integer
-     */
-    public function getTotalTaxAttribute()
-    {
-        return $this->items->sum('total_tax');
-    }
-
-    /**
-     * Get the invoice's total payments amount by combining the
-     * statement payments and direct payments.
-     * 
-     * @return integer
-     */
-    public function getTotalPaymentsAttribute()
-    {
-        return $this->payments->sum('amount') + $this->statement_payments->sum('amount');
-    }
-
-    /**
-     * Get the invoice's total balance remaining amount.
-     * 
-     * @return integer
-     */
-    public function getTotalBalanceAttribute()
-    {
-        return $this->total - $this->total_payments;
-    }
-
-    /**
-     * Check whether the invoice can accept new payments or not.
-     * 
-     * @return bool
-     */
-    public function canTakePayments()
-    {
-        if ($this->total_balance > 0) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

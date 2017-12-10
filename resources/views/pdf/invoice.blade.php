@@ -64,9 +64,9 @@
 					<tfoot>
 						<tr>
 							<th>Totals</th>
-							<th>{{ currency($invoice->total_net) }}</th>
-							<th>{{ currency($invoice->total_tax) }}</th>
-							<th>{{ currency($invoice->total) }}</th>
+							<th>{{ currency($invoice->present()->itemsTotalNet) }}</th>
+							<th>{{ currency($invoice->present()->itemsTotalTax) }}</th>
+							<th>{{ currency($invoice->present()->total) }}</th>
 						</tr>
 					</tfoot>
 				</table>
