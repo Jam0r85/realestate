@@ -111,6 +111,9 @@ class InvoicePresenter extends BasePresenter
 		} elseif ($this->paid_at) {
 			$data['value'] = 'Paid';
 			$data['class'] = 'text-success';
+		} elseif ($this->deleted_at) {
+			$data['value'] = 'Archived';
+			$data['class'] = 'secondary';
 		} else {
 			$data['value'] = 'Unpaid';
 			$data['class'] = '';
