@@ -91,6 +91,7 @@ class Tenancy extends BaseModel
     public function scopeArchived($query)
     {
         return $query
+            ->eagerLoading()
             ->onlyTrashed();
     }
 
@@ -103,6 +104,7 @@ class Tenancy extends BaseModel
     public function scopeOverdue($query)
     {
         return $query
+            ->eagerLoading()
             ->where('is_overdue', '>', '0')
             ->orderBy('is_overdue', 'desc');
     }
@@ -116,6 +118,7 @@ class Tenancy extends BaseModel
     public function scopeHasRent($query)
     {
         return $query
+            ->eagerLoading()
             ->where('rent_balance', '>', 0)
             ->orderBy('rent_balance', 'desc');
     }
@@ -129,6 +132,7 @@ class Tenancy extends BaseModel
     public function scopeOwesRent($query)
     {
         return $query
+            ->eagerLoading()
             ->where('rent_balance', '<', 0)
             ->orderBy('rent_balance');
     }
