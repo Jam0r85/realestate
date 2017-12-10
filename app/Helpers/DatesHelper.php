@@ -130,11 +130,11 @@ function years($modelName = null, $column = 'created_at')
 			$first = $model->whereNotNull($column)->oldest($column)->first();
 			$last = $model->whereNotNull($column)->latest($column)->first();
 
-			if ($first->$column) {
+			if ($first) {
 				$startYear = $first->$column->format('Y');
 			}
 
-			if ($last->$column) {
+			if ($last) {
 				$endYear = $last->$column->format('Y');
 			}
 		}
