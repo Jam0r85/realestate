@@ -1,8 +1,6 @@
 @component('partials.table')
 	@slot('header')
-		@if (isset($status))
-			<th>Status</th>
-		@endif
+		<th>Status</th>
 		<th>Starts</th>
 		<th>Ends</th>
 		@if (!isset($tenancy))
@@ -22,9 +20,7 @@
 	@slot('body')
 		@foreach ($statements as $statement)
 			<tr>
-				@if (isset($status))
-					<td>{{ $statement->present()->statusWithDate() }}</td>
-				@endif
+				<td>{{ $statement->present()->statusWithDate() }}</td>
 				<td>{{ date_formatted($statement->period_start) }}</td>
 				<td>{{ date_formatted($statement->period_end) }}</a></td>
 				@if (!isset($tenancy))
