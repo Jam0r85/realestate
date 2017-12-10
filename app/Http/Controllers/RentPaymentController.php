@@ -15,15 +15,14 @@ class RentPaymentController extends BaseController
 {
     /**
      * Display a listing of rent payments received.
-     * 
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return  \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::forRent()->paginate();
-
-        $title = 'Rent Payments';
-        return view('payments.rent', compact('payments','title'));
+        $payments = Payment::forRent()->filter($request->all())->paginateFilter();
+        return view('payments.rent', compact('payments'));
     }
 
     /**

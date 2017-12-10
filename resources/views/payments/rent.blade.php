@@ -5,7 +5,7 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			{{ $title }}
+			Rent Payments
 		@endcomponent
 
 	@endcomponent
@@ -24,6 +24,25 @@
 			@endif
 		@endcomponent
 		{{-- End of Payments Search --}}
+
+		<ul class="nav nav-pills">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{ request('method') ? slug_to_name(request('method')) : 'Method' }}
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item @if (!request('method')) active @endif" href="{{ Filter::link('rent-payments.index', ['method' => null]) }}">
+						All Methods
+					</a>
+					<div class="dropdown-divider"></div>
+					@foreach (payment_methods() as $method)
+						<a class="dropdown-item @if (request('method') == $method->slug) active @endif" href="{{ Filter::link('rent-payments.index', ['method' => $method->slug]) }}">
+							{{ $method->name }}
+						</a>
+					@endforeach
+				</div>
+			</li>
+		</ul>
 
 		@component('partials.table')
 			@slot('header')

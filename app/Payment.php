@@ -2,6 +2,7 @@
 
 namespace App;
 
+use EloquentFilter\Filterable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -9,6 +10,7 @@ class Payment extends PdfModel
 {
     use Searchable;
     use PresentableTrait;
+    use Filterable;
 
     /**
      * The presenter for this model.
