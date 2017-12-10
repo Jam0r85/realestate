@@ -2,6 +2,7 @@
 
 namespace App;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -9,6 +10,7 @@ class Event extends BaseModel
 {
     use SoftDeletes;
     use Searchable;
+    use Filterable;
 
     /**
      * Get the indexable data array for the model.

@@ -5,7 +5,7 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			{{ $title }}
+			Events List
 		@endcomponent
 
 	@endcomponent
@@ -24,6 +24,14 @@
 			@endif
 		@endcomponent
 		{{-- End of Events Search --}}
+
+		<ul class="nav nav-pills">
+			{!! (new Filter())->monthDropdown() !!}
+			{!! (new Filter())->yearDropdown('App\Event') !!}
+			{!! Filter::archivePill() !!}
+
+			{!! Filter::clearButton() !!}
+		</ul>
 
 		<div class="row equal-height">
 

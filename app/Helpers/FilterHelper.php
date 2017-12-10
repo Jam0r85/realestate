@@ -143,6 +143,16 @@ class Filter
 	}
 
 	/**
+	 * Show the archive pill.
+	 * 
+	 * @return  view
+	 */
+	public static function archivePill()
+	{
+		return view('partials.filter.archive-pill');
+	}
+
+	/**
 	 * Display the clear filter button.
 	 * 
 	 * @return  string

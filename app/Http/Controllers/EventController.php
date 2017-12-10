@@ -16,14 +16,18 @@ class EventController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::withTrashed()->with('owner','calendar')->latest()->paginate();
-        $title = 'Events List';
+        $events = Event::with('owner','calendar')
+            ->withTrashed()
+            ->filter($request->all())
+            ->latest()
+            ->paginate();
 
-        return view('events.index', compact('events','title'));
+        return view('events.index', compact('events'));
     }
 
     /**
