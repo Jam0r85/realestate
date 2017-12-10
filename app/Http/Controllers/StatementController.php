@@ -31,6 +31,7 @@ class StatementController extends BaseController
     public function index(Request $request)
     {
         $statements = Statement::with('tenancy','tenancy.property','tenancy.tenants','payments','users')
+            ->withTrashed()
             ->filter($request->all())
             ->paginateFilter();
 
