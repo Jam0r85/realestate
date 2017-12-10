@@ -10,7 +10,7 @@ class BaseFilter extends ModelFilter
     {
         parent::__construct($query, $input, $relationsEnabled);
 
-        if (!$this->filterDateColumn) {
+        if (!property_exists($this, 'filterDateColumn')) {
             $this->filterDateColumn = 'created_at';
         }
     }
