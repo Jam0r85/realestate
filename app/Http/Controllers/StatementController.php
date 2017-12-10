@@ -30,6 +30,10 @@ class StatementController extends BaseController
      */
     public function index(Request $request)
     {
+        if (!$request->all()) {
+            $request->request->add(['sent' => false]);
+        }
+
         $statements = Statement::with('tenancy','tenancy.property','tenancy.tenants','payments','users')
             ->withTrashed()
             ->filter($request->all())

@@ -65,8 +65,12 @@ class BaseFilter extends ModelFilter
             return $this->whereNull('sent_at');
         }
 
-        if ($value == 'unsent') {
-            return $this->whereNull('sent_at');
+        if ($value == 'paid') {
+            return $this->whereNotNull('paid_at');
+        }
+
+        if ($value == 'unpaid') {
+            return $this->whereNull('paid_at');
         }
     }
 
@@ -85,19 +89,13 @@ class BaseFilter extends ModelFilter
      * 
      * @return  $this
      */
-    public function paid()
+    public function paid($status = false)
     {
-        return $this->whereNotNull('paid_at');
-    }
-
-    /**
-     * Filter records to only show unpaid
-     * 
-     * @return  $this
-     */
-    public function unpaid()
-    {
-        return $this->whereNull('paid_at');
+        if ($status) {
+            return $this->whereNotNull('paid_at');
+        } else {
+            return $this->whereNull('paid_at');
+        }
     }
 
     /**
@@ -105,18 +103,12 @@ class BaseFilter extends ModelFilter
      * 
      * @return  $this
      */
-    public function sent()
+    public function sent($status = false)
     {
-        return $this->whereNotNull('sent_at');
-    }
-
-    /**
-     * Filter records to only show unsent
-     * 
-     * @return  $this
-     */
-    public function unsent()
-    {
-        return $this->whereNull('sent_at');
+        if ($status) {
+            return $this->whereNotNull('sent_at');
+        } else {
+            return $this->whereNull('sent_at');
+        }
     }
 }

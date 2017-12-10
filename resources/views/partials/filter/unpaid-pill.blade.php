@@ -1,5 +1,5 @@
 <li class="nav-item">
-	<a class="nav-link @if (request('unpaid')) active @endif" href="{{ request('unpaid') ? Filter::link(['unpaid' => null]) : Filter::link(['unpaid' => true]) }}">
+	<a class="nav-link @if (request('paid') == false) active @endif" href="{{ request('paid') == false ? Filter::link(['paid' => false]) : Filter::link(['paid' => false]) }}">
 		Unpaid
 	</a>
 </li>

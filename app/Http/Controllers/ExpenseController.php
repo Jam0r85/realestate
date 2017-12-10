@@ -23,7 +23,7 @@ class ExpenseController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            $request->request->add(['unpaid' => true]);
+            $request->request->add(['paid' => false]);
         }
 
         $expenses = Expense::with('contractor','property','documents','statements','payments')

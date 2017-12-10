@@ -26,7 +26,7 @@ class InvoiceController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            $request->request->add(['unpaid' => true]);
+            $request->request->add(['paid' => false]);
         }
 
         $invoices = Invoice::with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
