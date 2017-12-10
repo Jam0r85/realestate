@@ -13,6 +13,20 @@ class InvoiceFilter extends BaseFilter
     public $relations = [];
 
     /**
+     * Setup the filter.
+     * 
+     * @return  $this
+     */
+    public function setup()
+    {
+        if (!request('archived')) {
+            $this->whereNull('deleted_at');
+        }
+
+        return $this;
+    }
+
+    /**
      * Filter invoices by group slug.
      *
      * @param  string  $slug

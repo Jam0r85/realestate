@@ -25,16 +25,12 @@ class InvoiceController extends BaseController
      */
     public function index(Request $request)
     {
-        $paid = Invoice::paid()->filter($request->all());
-        $unpaid = Invoice::unpaid()->filter($request->all());
+        $invoices = Invoice::with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
+            ->withTrashed()
+            ->filter($request->all())
+            ->paginateFilter();
 
-        $paid = $paid->paginateFilter();
-        $unpaid = $unpaid->paginateFilter();        
-
-        $sections = ['Unpaid','Paid'];
-        $title = 'Invoices List';
-
-        return view('invoices.index', compact('paid','unpaid','title','sections'));
+        return view('invoices.index', compact('invoices'));
     }
 
     /**
