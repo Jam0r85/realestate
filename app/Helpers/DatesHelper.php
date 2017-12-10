@@ -130,18 +130,25 @@ function years($modelName = null, $column = 'created_at')
 			$first = $model->whereNotNull($column)->oldest($column)->first();
 			$last = $model->whereNotNull($column)->latest($column)->first();
 
+			// We have a first record, reset the start year
 			if ($first) {
 				$startYear = $first->$column->format('Y');
 			}
 
+			// We have a last record, reset the last year
 			if ($last) {
 				$endYear = $last->$column->format('Y');
 			}
 		}
 	}
 
+	// Loop through the years
 	for ($i = $startYear; $i <= $endYear; $i++) {
-		$years[] = $i;
+
+		// Make sure that there is a record with that year in the table
+		if ($model->whereYear($column, $i)->count()) {
+			$years[] = $i;
+		}
 	}
 
 	return $years;
