@@ -115,7 +115,7 @@ class TenancyController extends BaseController
     {
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
 
-        $payments = $tenancy->rent_payments()->with('method','owner')->paginate();
+        $payments = $tenancy->rent_payments()->with('method','owner','users')->paginate();
         $statements = $tenancy->statements()->with('invoices','invoices.invoiceGroup','invoices.items','invoices.items.taxRate','expenses','payments')->paginate();
         $rents = $tenancy->rents()->with('owner')->get();
         

@@ -29,7 +29,7 @@
 				@endif
 				<td>{{ $statement->present()->amountFormatted }}</td>
 				@if (isset($tenancy))
-					<td>{{ currency($statement->getLandlordAmount()) }}</td>
+					<td>{{ currency($statement->present()->landlordBalanceTotal) }}</td>
 					<td>
 						@if (count($statement->invoices))
 							@foreach ($statement->invoices as $invoice)
