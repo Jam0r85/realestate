@@ -105,9 +105,9 @@
 					<tfoot>
 						<tr>
 							<th>Sub Totals</th>
-							<th>{{ currency($statement->getNetAmount()) }}</th>
-							<th>{{ currency($statement->getTaxAmount()) }}</th>
-							<th>{{ currency($statement->getTotal()) }}</th>
+							<th>{{ currency($statement->present()->netTotal) }}</th>
+							<th>{{ currency($statement->present()->taxTotal) }}</th>
+							<th>{{ currency($statement->present()->total) }}</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -121,7 +121,7 @@
 							{{ $statement->present()->sendBy }}
 						</td>
 						<td class="text-right">
-							Balance to Landlord - <b>{{ currency($statement->getLandlordAmount()) }}</b>
+							Balance to Landlord - <b>{{ currency($statement->present()->landlordBalanceTotal) }}</b>
 						</td>
 					</tr>
 				</table>

@@ -148,66 +148,6 @@ class Statement extends PdfModel
     }
 
     /**
-     * Get the invoice total for this statement.
-     * 
-     * @return int
-     */
-    public function getInvoiceTotal()
-    {
-        return $this->invoices->sum('total');
-    }
-
-    /**
-     * Get the expense total for this statement.
-     * 
-     * @return int
-     */
-    public function getExpensesTotal()
-    {
-        return $this->expenses->sum('pivot.amount');
-    }
-
-    /**
-     * Get the net amount for ths statement.
-     * 
-     * @return int
-     */
-    public function getNetAmount()
-    {
-        return $this->getExpensesTotal() + $this->invoices->sum('total_net');
-    }
-
-    /**
-     * Get the tax amount for this statement.
-     * 
-     * @return int
-     */
-    public function getTaxAmount()
-    {
-        return $this->invoices->sum('total_tax');
-    }
-
-    /**
-     * Get the landlord total for this statement.
-     * 
-     * @return int
-     */
-    public function getLandlordAmount()
-    {
-        return $this->amount - ($this->getInvoiceTotal() + $this->getExpensesTotal());
-    }
-
-    /**
-     * Get the total amount for this statement.
-     * 
-     * @return int
-     */
-    public function getTotal()
-    {
-        return $this->getNetAmount() + $this->getTaxAmount();
-    }
-
-    /**
      * Get the statement's bank account.
      */
     public function getBankAccountAttribute()

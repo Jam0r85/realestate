@@ -7,6 +7,8 @@ use Laracasts\Presenter\Presenter;
 class StatementPresenter extends Presenter
 {
 	/**
+	 * Get the payment method name
+	 * 
 	 * @return string
 	 */
 	public function paymentMethod()
@@ -121,6 +123,75 @@ class StatementPresenter extends Presenter
 	public function amountFormatted()
 	{
 		return currency($this->amount);
+	}
+
+	/**
+	 * Get the statement expense total
+	 * 
+	 * @return  integer
+	 */
+	public function expensesTotal()
+	{
+		return $this->expenses->sum('pivot.amount');
+	}
+
+	/**
+	 * Get the statement invoice total
+	 * 
+	 * @param  string  $return
+	 * @return  integer
+	 */
+	public function invoicesTotal($return = 'total')
+	{
+		$data['total'] = $data['net'] = $data['tax'] = 0;
+
+		foreach ($this->invoices as $invoice) {
+			$data['total'] += $invoice->present()->total;
+			$data['net'] += $invoice->present()->itemsTotalNet;
+			$data['tax'] += $invoice->present()->itemsTotalTax;
+		}
+
+		return $data[$return];
+	}
+
+	/**
+	 * Get the statement net total
+	 * 
+	 * @return  integer
+	 */
+	public function netTotal()
+	{
+		return $this->expensesTotal() + $this->invoicesTotal('net');
+	}
+
+	/**
+	 * Get the statement tax total
+	 * 
+	 * @return  integer
+	 */
+	public function taxTotal()
+	{
+		return $this->invoicesTotal('tax');
+	}
+
+	/**
+	 * Get the statement total
+	 * 
+	 * @return  integer
+	 */
+	public function total()
+	{
+		return $this->taxTotal() + $this->netTotal();
+	}
+
+	/**
+	 * Get the statement landlord balance
+	 * 
+	 * @return. integer
+	 */
+	public function landlordBalanceTotal()
+	{
+		return $this->amount - $this->total();
 	}
 
 	/**
