@@ -179,7 +179,9 @@ class TenancyPresenter extends Presenter
 			$data['value'] = 'Vacating';
 		}
 
-		$data['value'] = 'Active';
+		if (!$this->vacated_on) {
+			$data['value'] = 'Active';
+		}
 
 		if ($this->deleted_at) {
 			$data['value'] = 'Archived';
