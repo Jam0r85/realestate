@@ -161,4 +161,30 @@ class TenancyPresenter extends Presenter
 
 		return $date;
 	}
+
+	/**
+	 * Present the status of this tenancy.
+	 * 
+	 * @param  string  $return
+	 * @return  string
+	 */
+	public function status($return = 'value')
+	{
+		if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
+			$data['value'] = 'Vacated';
+		}
+
+		if ($this->vacated_on && $this->vacated_on > Carbon::now()) {
+			$data['value'] = 'Vacating';
+		}
+
+		$data['value'] = 'Active';
+
+		if ($this->deleted_at) {
+			$data['value'] = 'Archived';
+			$data['class'] = 'secondary';
+		}
+
+		return $data[$return];
+	}
 }

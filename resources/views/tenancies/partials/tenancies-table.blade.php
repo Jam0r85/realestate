@@ -14,7 +14,7 @@
 	@slot('body')
 		@foreach ($tenancies as $tenancy)
 			<tr>
-				<td>@include('tenancies.partials.table-status-label')</td>
+				<td>{{ $tenancy->present()->status }}</td>
 				<td>{{ truncate($tenancy->present()->name) }}</td>
 				<td>{{ truncate($tenancy->property->present()->shortAddress) }}</td>
 				<td>{{ $tenancy->present()->rentAmount }}</td>
