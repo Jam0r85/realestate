@@ -32,7 +32,7 @@
 		<ul class="nav nav-pills">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{{ request('service') ?? 'Services' }}
+					{{ request('service') ? slug_to_name(request('service')) : 'Services' }}
 				</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item @if (!request('service')) active @endif" href="{{ Filter::link('tenancies.index', ['service' => null]) }}">
@@ -100,6 +100,12 @@
 			<li class="nav-item">
 				<a class="nav-link @if (request('vacated')) active @endif" href="{{ request('vacated') ? Filter::link('tenancies.index', ['vacated' => null]) : Filter::link('tenancies.index', ['vacated' => true]) }}">
 					Vacated
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link @if (request('vacating')) active @endif" href="{{ request('vcating') ? Filter::link('tenancies.index', ['vacating' => null]) : Filter::link('tenancies.index', ['vacating' => true]) }}">
+					Vacating
 				</a>
 			</li>
 

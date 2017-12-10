@@ -39,7 +39,7 @@ class TenancyFilter extends BaseFilter
      */
     public function hasRentBalance()
     {
-        return $this->where('rent_balance', '>', 0)->orderBy('rent_balance', 'desc');
+        return $this->where('rent_balance', '>', 0)->orderBy('rent_balance');
     }
 
     /**
@@ -70,10 +70,20 @@ class TenancyFilter extends BaseFilter
     /**
      * Show only vacated results.
      * 
-     * @return [type] [description]
+     * @return  $this
      */
     public function vacated()
     {
         return $this->whereNotNull('vacated_on')->where('vacated_on', '<=', Carbon::now());
+    }
+
+    /**
+     * Show only vacating results.
+     * 
+     * @return. $this
+     */
+    public function vacating()
+    {
+        return $this->whereNotNull('vacated_on')->where('vacated_on', '>', Carbon::now());
     }
 }
