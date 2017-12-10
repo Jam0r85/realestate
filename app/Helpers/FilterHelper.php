@@ -2,6 +2,87 @@
 
 class Filter
 {
+
+	/**
+	 * Get the range of months.
+	 * 
+	 * @return  array
+	 */
+	private function months()
+	{
+		return [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+	}
+
+	/**
+	 * Get a range of years for the dropdown.
+	 * 
+	 * @param  [type] $modelNamer [description]
+	 * @param  [type] $column     [description]
+	 * @return [type]             [description]
+	 */
+	private function years($modelName, $column)
+	{
+		// Set the start date and end date to today
+		$start = $end = \Carbon\Carbon::now();
+
+		// Set the start year to 10 years ago from today and the end year as this year
+		$startYear = $start->subYears(10)->format('Y');
+		$endYear = $end->format('Y');
+
+		if ($modelName) {
+
+			$model = new $modelName;
+
+			if ($model) {
+
+				// First and last records found when ordered by the column
+				$first = $model->whereNotNull($column)->oldest($column)->first();
+				$last = $model->whereNotNull($column)->latest($column)->first();
+
+				// We have a first record, reset the start year
+				if ($first) {
+					$startYear = $first->$column->format('Y');
+				}
+
+				// We have a last record, reset the last year
+				if ($last) {
+					$endYear = $last->$column->format('Y');
+				}
+			}
+		}
+
+		$tableYears = $model
+			->select(DB::raw('YEAR('.$column.') as year'))
+			->whereNotNull($column)
+			->groupBy('year')
+			->get()
+			->toArray();
+
+		// Loop through the years
+		for ($i = $startYear; $i <= $endYear; $i++) {
+
+			// Make sure that there is a record with that year in the table
+			if (in_array($i, array_flatten($tableYears))) {
+				$years[] = $i;
+			}
+		}
+
+		return $years;
+	}
+
 	/**
 	 * Turn a laravel route into a URL with added query string.
 	 * 
@@ -9,10 +90,10 @@ class Filter
 	 * @param  array  $query
 	 * @return  string
 	 */
-	public static function link($route, array $queries = [])
+	public static function link(array $queries = [])
 	{
 		// Get the url based on the route name
-		$url = route($route);
+		$url = url()->current();
 
 		// Get the current query string as an array or create a new array
 		$currentQueryString = request()->query() ?? [];
@@ -32,6 +113,33 @@ class Filter
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Show the year dropdown filter.
+	 * 
+	 * @param  string  $model
+	 * @param  string  $columnName
+	 * @return  view
+	 */
+	public function yearDropdown($model = null, $column = 'created_at')
+	{
+		$years = $this->years($model, $column);
+
+		return view('partials.filter.year-dropdown', ['years' => $years]);
+	}
+
+	/**
+	 * Show the month dropdown filter.
+	 * 
+	 * @param  string  $model
+	 * @param  string  $columnName
+	 * @return  view
+	 */
+	public function monthDropdown()
+	{
+		$months = $this->months();
+		return view('partials.filter.month-dropdown', ['months' => $months]);
 	}
 
 	/**

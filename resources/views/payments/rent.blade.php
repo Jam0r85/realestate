@@ -31,17 +31,21 @@
 					{{ request('method') ? slug_to_name(request('method')) : 'Method' }}
 				</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item @if (!request('method')) active @endif" href="{{ Filter::link('rent-payments.index', ['method' => null]) }}">
+					<a class="dropdown-item @if (!request('method')) active @endif" href="{{ Filter::link(['method' => null]) }}">
 						All Methods
 					</a>
 					<div class="dropdown-divider"></div>
 					@foreach (payment_methods() as $method)
-						<a class="dropdown-item @if (request('method') == $method->slug) active @endif" href="{{ Filter::link('rent-payments.index', ['method' => $method->slug]) }}">
+						<a class="dropdown-item @if (request('method') == $method->slug) active @endif" href="{{ Filter::link(['method' => $method->slug]) }}">
 							{{ $method->name }}
 						</a>
 					@endforeach
 				</div>
 			</li>
+
+			{!! (new Filter())->monthDropdown() !!}
+			{!! (new Filter())->yearDropdown('App\Payment') !!}
+
 		</ul>
 
 		@component('partials.table')

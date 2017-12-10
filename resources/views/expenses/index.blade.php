@@ -31,12 +31,12 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				<a class="nav-link @if (!request('paid')) active @endif" href="{{ Filter::link('expenses.index', ['paid' => null]) }}">
+				<a class="nav-link @if (!request('paid')) active @endif" href="{{ Filter::link(['paid' => null]) }}">
 					Unpaid
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link @if (request('paid') == 'true') active @endif" href="{{ Filter::link('expenses.index', ['paid' => 'true']) }}">
+				<a class="nav-link @if (request('paid') == 'true') active @endif" href="{{ Filter::link(['paid' => 'true']) }}">
 					Paid
 				</a>
 			</li>
