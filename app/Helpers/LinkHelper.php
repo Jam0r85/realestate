@@ -24,7 +24,7 @@ class Menu
 	 * @param  array  $query
 	 * @return  string
 	 */
-	public static function filterRoute($route, array $queries = [])
+	public static function link($route, array $queries = [])
 	{
 		// Get the url based on the route name
 		$url = route($route);

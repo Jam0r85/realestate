@@ -89,6 +89,8 @@ class Invoice extends PdfModel
      */
 	protected $dates = ['due_at','sent_at','paid_at','deleted_at'];
 
+    protected $with = ['payments'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -119,7 +121,7 @@ class Invoice extends PdfModel
     public function scopePaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','payments','statement_payments','statements')
+            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
             ->whereNotNull('paid_at')
             ->latest();
     }
@@ -133,7 +135,7 @@ class Invoice extends PdfModel
     public function scopeUnpaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','payments','statement_payments','statements')
+            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
             ->whereNull('paid_at')
             ->latest();
     }

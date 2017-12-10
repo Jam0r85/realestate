@@ -29,31 +29,21 @@
 		@endcomponent
 		{{-- End of Users Search --}}
 
-		@if (isset($sections))
-			<div class="nav nav-pills" id="v-pills-tab" role="tablist">
+		<ul class="nav nav-pills">
+			<li class="nav-item">
+				<a class="nav-link @if (!request('status')) active @endif" href="{{ Menu::link('users.index', ['status' => null]) }}">
+					Active
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @if (request('status') == 'archived') active @endif" href="{{ Menu::link('users.index', ['status' => 'archived']) }}">
+					Archived
+				</a>
+			</li>
+		</ul>
 
-				@foreach ($sections as $key)
-					<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
-						{{ $key }}
-					</a>
-				@endforeach
-
-			</div>
-		@endif
-
-		<div class="tab-content" id="v-pills-tabContent">
-
-			@if (isset($sections))
-				@foreach ($sections as $key)
-					@include('users.sections.index.' . str_slug($key))
-				@endforeach
-			@endif
-
-			@if (isset($searchResults))
-				@include('users.partials.users-table', ['users' => $searchResults])
-			@endif
-
-		</div>
+		@include('users.partials.users-table')
+		@include('partials.pagination', ['collection' => $users])
 
 	@endcomponent
 

@@ -23,15 +23,10 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::with('home','tenancies','tenancies.property')->latest();
-
-        $sections = ['Active','Archived'];
-
-        $active_users = $users->paginate();
-        $archived_users = $users->onlyTrashed()->paginate();
+        $users = User::with('home','tenancies','tenancies.property')->withTrashed()->latest()->paginateFilter();
         $title = 'Users List';
         
-        return view('users.index', compact('active_users','archived_users','title','sections'));
+        return view('users.index', compact('users','title','sections'));
     }
 
     /**

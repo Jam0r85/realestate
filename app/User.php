@@ -4,6 +4,7 @@ namespace App;
 
 use App\Settings\UserSettings;
 use App\Traits\SettingsTrait;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
@@ -16,6 +17,7 @@ class User extends UserBaseModel
     use Searchable;
     use PresentableTrait;
     use SettingsTrait;
+    use Filterable;
 
     /**
      * Get the indexable data array for the model.

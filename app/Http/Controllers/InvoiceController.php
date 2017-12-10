@@ -28,9 +28,6 @@ class InvoiceController extends BaseController
         $paid = Invoice::paid()->filter($request->all());
         $unpaid = Invoice::unpaid()->filter($request->all());
 
-        $paidTotal = $paid->sum('total');
-        $unpaidTotal = $unpaid->sum('total');
-
         $paid = $paid->paginateFilter();
         $unpaid = $unpaid->paginateFilter();        
 
