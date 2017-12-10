@@ -31,7 +31,7 @@ class ExpensePresenter extends Presenter
 	public function invoiceDownloadButtons()
 	{
 		foreach ($this->documents as $document) {
-			$buttons[] = '<a href="' . Storage::url($document->path) . '" target="_blank" class="btn btn-primary btn-sm">Download #' . $document->id . '</a>';
+			$buttons[] = '<a href="' . Storage::url($document->path) . '" target="_blank" class="btn btn-primary btn-sm">Download</a>';
 		}
 
 		if (isset($buttons) && count($buttons)) {

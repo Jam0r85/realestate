@@ -5,12 +5,10 @@
 			<th>Property</th>
 			<th>Contractors</th>
 			<th>Cost</th>
-			@if (isset($unpaid))
+			@if (request('paid') == false)
 				<th>Balance</th>
-			@else
-				<th>Paid</th>
 			@endif
-			<th>Invoice</th>
+			<th class="text-right"></th>
 		@endslot
 		@slot('body')
 			@foreach ($expenses as $expense)
@@ -27,12 +25,10 @@
 					</td>
 					<td>{{ $expense->present()->contractorName }}</td>
 					<td>{{ currency($expense->cost) }}</td>
-					@if (isset($unpaid))
+					@if (request('paid') == false)
 						<td>{{ currency($expense->present()->remainingBalance) }}</td>
-					@else
-						<td>{{ date_formatted($expense->paid_at) }}</td>
 					@endif
-					<td>{!! $expense->present()->invoiceDownloadButtons !!}</td>
+					<td class="text-right">{!! $expense->present()->invoiceDownloadButtons !!}</td>
 				</tr>
 			@endforeach
 		@endslot
