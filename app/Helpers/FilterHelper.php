@@ -21,7 +21,10 @@ class Filter
 		$newQueryString = array_merge($currentQueryString, $queries);
 
 		// Remove null values from the query
-		$newQueryString = array_filter($newQueryString);
+		array_filter($newQueryString);
+
+		// Remove pagination from the query
+		unset($newQueryString['page']);
 
 		// Add the new query string to the url
 		if (count($newQueryString)) {
@@ -31,6 +34,11 @@ class Filter
 		return $url;
 	}
 
+	/**
+	 * Display the clear filter button.
+	 * 
+	 * @return  string
+	 */
 	public static function clearButton()
 	{
 		if (request()->query()) {
