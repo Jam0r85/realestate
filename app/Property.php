@@ -4,6 +4,7 @@ namespace App;
 
 use App\Settings\PropertySettings;
 use App\Traits\DataTrait;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
@@ -14,6 +15,7 @@ class Property extends BaseModel
 	use Searchable;
 	use PresentableTrait;
 	use DataTrait;
+	use Filterable;
 
 	/**
 	 * The presenter for this model.

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Crypt;
 use Laracasts\Presenter\PresentableTrait;
@@ -12,6 +13,7 @@ class BankAccount extends BaseModel
     use SoftDeletes;
     use Searchable;
     use PresentableTrait;
+    use Filterable;
 
     /**
      * The presenter for this model.

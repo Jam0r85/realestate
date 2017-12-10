@@ -18,9 +18,9 @@ class BankAccountController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = BankAccount::with('owner')->latest()->paginate();
+        $accounts = BankAccount::with('owner')->filter($request->all())->latest()->paginate();
         $title = 'Bank Accounts List';
 
         return view('bank-accounts.index', compact('accounts','title'))->with(['full' => true]);

@@ -29,6 +29,19 @@
 		@endcomponent
 		{{-- End of Bank Accounts Search --}}
 
+		<ul class="nav nav-pills">
+			<li class="nav-item">
+				<a class="nav-link @if (!request('archived')) active @endif" href="{{ Filter::link('bank-accounts.index', ['archived' => null]) }}">
+					Active
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @if (request('archived') == 'true') active @endif" href="{{ Filter::link('bank-accounts.index', ['archived' => 'true']) }}">
+					Archived
+				</a>
+			</li>
+		</ul>
+
 		@include('bank-accounts.partials.bank-accounts-table')
 
 	@endcomponent

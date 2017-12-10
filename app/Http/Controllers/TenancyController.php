@@ -25,31 +25,13 @@ class TenancyController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $all_tenancies = Tenancy::eagerLoading()->filter($request->all())->latest()->paginateFilter();
-        $overdue_tenancies = Tenancy::overdue()->filter($request->all())->get();
-        $has_rent = Tenancy::hasRent()->filter($request->all())->paginateFilter();
-        $owes_rent = Tenancy::owesRent()->filter($request->all())->paginateFilter();
-        $owes_deposit = Tenancy::owesDeposit()->filter($request->all())->paginateFilter();
-        $vacated_tenancies = Tenancy::vacated()->filter($request->all())->paginateFilter();
-        $archived_tenancies = Tenancy::archived()->filter($request->all())->paginateFilter();
-
-        $sections = ['All Tenancies','Overdue','Has Rent','Owes Rent','Vacated','Archived'];
-
-        return view('tenancies.index', compact(
-            'all_tenancies',
-            'overdue_tenancies',
-            'has_rent',
-            'owes_rent',
-            'owes_deposit',
-            'vacated_tenancies',
-            'archived_tenancies',
-            'title',
-            'sections'
-        ));
+        $tenancies = Tenancy::eagerLoading()->filter($request->all())->latest()->paginateFilter();
+        return view('tenancies.index', compact('tenancies'));
     }
 
     /**

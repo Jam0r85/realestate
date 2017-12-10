@@ -17,23 +17,13 @@ class ExpenseController extends BaseController
     /**
      * Display a listing of expenses.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $unpaid_expenses = Expense::whereNull('paid_at')->latest()->get();
-        $paid_expenses = Expense::whereNotNull('paid_at')->latest()->paginate();
-
-        $unpaid_expenses->load('contractor','property','documents','statements','payments');
-        $paid_expenses->load('contractor','property','documents','statements','payments');
-
-        $sections = ['Unpaid','Paid'];
-
-        return view('expenses.index', compact(
-            'sections',
-            'unpaid_expenses',
-            'paid_expenses'
-        ));
+        $expenses = Expense::with('contractor','property','documents','statements','payments')->filter($request->all())->latest()->paginateFilter();
+        return view('expenses.index', compact('expenses'));
     }
 
     /**

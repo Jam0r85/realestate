@@ -13,17 +13,15 @@ class PropertyController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $active = Property::with('owners')->latest()->paginate();
-        $archived = Property::onlyTrashed()->with('owners')->latest()->paginate();
-
-        $sections = ['Active','Archived'];
+        $properties = Property::with('owners')->withTrashed()->filter($request->all())->latest()->paginateFilter();
         $title = 'Properties List';
 
-        return view('properties.index', compact('active','archived','title','sections'));
+        return view('properties.index', compact('properties','title','sections'));
     }
 
     /**

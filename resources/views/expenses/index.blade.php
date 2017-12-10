@@ -29,31 +29,21 @@
 		@endcomponent
 		{{-- End of Expenses Search --}}
 
-		@if (isset($sections))
-			<div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+		<ul class="nav nav-pills">
+			<li class="nav-item">
+				<a class="nav-link @if (!request('paid')) active @endif" href="{{ Filter::link('expenses.index', ['paid' => null]) }}">
+					Unpaid
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @if (request('paid') == 'true') active @endif" href="{{ Filter::link('expenses.index', ['paid' => 'true']) }}">
+					Paid
+				</a>
+			</li>
+		</ul>
 
-				@foreach ($sections as $key)
-					<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
-						{{ $key }}
-					</a>
-				@endforeach
-
-			</div>
-		@endif
-
-		<div class="tab-content" id="v-pills-tabContent">
-
-			@if (isset($sections))
-				@foreach ($sections as $key)
-					@include('expenses.sections.index.' . str_slug($key))
-				@endforeach
-			@endif
-
-			@if (isset($searchResults))
-				@include('expenses.partials.expenses-table', ['expenses' => $searchResults])
-			@endif
-
-		</div>
+		@include('expenses.partials.expenses-table')
+		@include('partials.pagination', ['collection' => $expenses])
 
 	@endcomponent
 

@@ -31,12 +31,12 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				<a class="nav-link @if (!request('status')) active @endif" href="{{ Menu::link('users.index', ['status' => null]) }}">
+				<a class="nav-link @if (!request('archived')) active @endif" href="{{ Filter::link('users.index', ['archived' => null]) }}">
 					Active
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link @if (request('status') == 'archived') active @endif" href="{{ Menu::link('users.index', ['status' => 'archived']) }}">
+				<a class="nav-link @if (request('archived') == 'true') active @endif" href="{{ Filter::link('users.index', ['archived' => 'true']) }}">
 					Archived
 				</a>
 			</li>

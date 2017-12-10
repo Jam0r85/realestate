@@ -5,6 +5,7 @@ namespace App;
 use App\Document;
 use App\StatementPayment;
 use App\Traits\DocumentsTrait;
+use EloquentFilter\Filterable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -13,6 +14,7 @@ class Expense extends BaseModel
     use Searchable;
     use DocumentsTrait;
     use PresentableTrait;
+    use Filterable;
 
     /**
      * The presenter for this model.

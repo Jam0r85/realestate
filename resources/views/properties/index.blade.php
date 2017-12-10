@@ -29,31 +29,21 @@
 		@endcomponent
 		{{-- End of Properties Search --}}
 
-		@if (isset($sections))
-			<div class="nav nav-pills" id="v-pills-tab" role="tablist">
+		<ul class="nav nav-pills">
+			<li class="nav-item">
+				<a class="nav-link @if (!request('archived')) active @endif" href="{{ Filter::link('properties.index', ['archived' => null]) }}">
+					Active
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @if (request('archived') == 'true') active @endif" href="{{ Filter::link('properties.index', ['archived' => 'true']) }}">
+					Archived
+				</a>
+			</li>
+		</ul>
 
-				@foreach ($sections as $key)
-					<a class="nav-link @if (request('section') == str_slug($key)) active @elseif (!request('section') && $loop->first) active @endif" id="v-pills-{{ str_slug($key) }}-tab" data-toggle="pill" href="#v-pills-{{ str_slug($key) }}" role="tab">
-						{{ $key }}
-					</a>
-				@endforeach
-
-			</div>
-		@endif
-
-		<div class="tab-content" id="v-pills-tabContent">
-
-			@if (isset($sections))
-				@foreach ($sections as $key)
-					@include('properties.sections.index.' . str_slug($key))
-				@endforeach
-			@endif
-
-			@if (isset($searchResults))
-				@include('properties.partials.properties-table', ['properties' => $searchResults])
-			@endif
-
-		</div>
+		@include('properties.partials.properties-table')
+		@include('partials.pagination', ['collection' => $properties])
 
 	@endcomponent
 

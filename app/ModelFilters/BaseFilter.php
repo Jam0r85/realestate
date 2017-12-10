@@ -56,5 +56,37 @@ class BaseFilter extends ModelFilter
         if ($value == 'archived') {
             return $this->whereNotNull('deleted_at');
         }
+
+        if ($value == 'sent') {
+            return $this->whereNotNull('sent_at');
+        }
+
+        if ($value == 'unsent') {
+            return $this->whereNull('sent_at');
+        }
+
+        if ($value == 'unsent') {
+            return $this->whereNull('sent_at');
+        }
+    }
+
+    /**
+     * Filter results by their deleted_at column
+     * 
+     * @return  $this
+     */
+    public function archived()
+    {
+        return $this->whereNotNull('deleted_at');
+    }
+
+    /**
+     * Filter results by their paid_at column
+     * 
+     * @return  $this
+     */
+    public function paid()
+    {
+        return $this->whereNotNull('paid_at');
     }
 }

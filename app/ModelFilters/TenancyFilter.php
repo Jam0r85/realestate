@@ -29,4 +29,29 @@ class TenancyFilter extends BaseFilter
     {
     	return $this->related('service', 'slug', '=', $slug);
     }
+
+    public function hasRent()
+    {
+
+    }
+
+    public function owesRent()
+    {
+
+    }
+
+    public function owesDeposit()
+    {
+
+    }
+
+    public function overdue()
+    {
+
+    }
+
+    public function vacated()
+    {
+
+    }
 }
