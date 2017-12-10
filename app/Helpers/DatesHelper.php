@@ -142,11 +142,18 @@ function years($modelName = null, $column = 'created_at')
 		}
 	}
 
+	$tableYears = $model
+		->select(DB::raw('YEAR('.$column.') as year'))
+		->whereNotNull($column)
+		->groupBy('year')
+		->get()
+		->toArray();
+
 	// Loop through the years
 	for ($i = $startYear; $i <= $endYear; $i++) {
 
 		// Make sure that there is a record with that year in the table
-		if ($model->whereYear($column, $i)->count()) {
+		if (in_array($i, array_flatten($tableYears))) {
 			$years[] = $i;
 		}
 	}
