@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use Carbon\Carbon;
 use Laracasts\Presenter\Presenter;
 
 class TenancyPresenter extends Presenter
