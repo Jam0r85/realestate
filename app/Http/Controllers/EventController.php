@@ -25,7 +25,7 @@ class EventController extends BaseController
             ->withTrashed()
             ->filter($request->all())
             ->latest()
-            ->paginate();
+            ->paginateFilter();
 
         return view('events.index', compact('events'));
     }

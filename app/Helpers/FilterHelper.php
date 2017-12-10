@@ -153,6 +153,26 @@ class Filter
 	}
 
 	/**
+	 * Show the paid pill.
+	 * 
+	 * @return  view
+	 */
+	public static function paidPill()
+	{
+		return view('partials.filter.paid-pill');
+	}
+
+	/**
+	 * Show the unpaid pill.
+	 * 
+	 * @return  view
+	 */
+	public static function unpaidPill()
+	{
+		return view('partials.filter.unpaid-pill');
+	}
+
+	/**
 	 * Display the clear filter button.
 	 * 
 	 * @return  string

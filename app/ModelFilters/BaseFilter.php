@@ -81,12 +81,22 @@ class BaseFilter extends ModelFilter
     }
 
     /**
-     * Filter results by their paid_at column
+     * Filter records to only show paid
      * 
      * @return  $this
      */
     public function paid()
     {
         return $this->whereNotNull('paid_at');
+    }
+
+    /**
+     * Filter records to only show unpaid
+     * 
+     * @return  $this
+     */
+    public function unpaid()
+    {
+        return $this->whereNull('paid_at');
     }
 }

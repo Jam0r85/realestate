@@ -30,16 +30,7 @@
 		{{-- End of Properties Search --}}
 
 		<ul class="nav nav-pills">
-			<li class="nav-item">
-				<a class="nav-link @if (!request('archived')) active @endif" href="{{ Filter::link(['archived' => null]) }}">
-					Active
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link @if (request('archived') == 'true') active @endif" href="{{ Filter::link(['archived' => 'true']) }}">
-					Archived
-				</a>
-			</li>
+			{!! Filter::archivePill() !!}
 		</ul>
 
 		@include('properties.partials.properties-table')
