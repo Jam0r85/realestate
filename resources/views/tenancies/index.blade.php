@@ -86,6 +86,18 @@
 			</li>
 
 			<li class="nav-item">
+				<a class="nav-link @if (request('has_rent_balance')) active @endif" href="{{ request('has_rent_balance') ? Filter::link('tenancies.index', ['has_rent_balance' => null]) : Filter::link('tenancies.index', ['has_rent_balance' => true]) }}">
+					Has Rent
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link @if (request('owes_rent')) active @endif" href="{{ request('owes_rent') ? Filter::link('tenancies.index', ['owes_rent' => null]) : Filter::link('tenancies.index', ['owes_rent' => true]) }}">
+					Owes Rent
+				</a>
+			</li>
+
+			<li class="nav-item">
 				<a class="nav-link @if (request('vacated')) active @endif" href="{{ request('vacated') ? Filter::link('tenancies.index', ['vacated' => null]) : Filter::link('tenancies.index', ['vacated' => true]) }}">
 					Vacated
 				</a>

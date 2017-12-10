@@ -117,10 +117,7 @@ class Tenancy extends BaseModel
      */
     public function scopeHasRent($query)
     {
-        return $query
-            ->eagerLoading()
-            ->where('rent_balance', '>', 0)
-            ->orderBy('rent_balance', 'desc');
+        return $query->where('rent_balance', '>', 0)->orderBy('rent_balance', 'desc');
     }
 
     /**

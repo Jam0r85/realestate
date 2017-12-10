@@ -45,7 +45,7 @@ class Filter
 			return '
 				<li class="nav-item">
 					<a class="nav-link" href="' .  url()->current() . '">
-						<i class="fa fa-trash"></i> Clear Filters
+						<i class="fa fa-trash"></i> Clear
 					</a>
 				</li>
 			';

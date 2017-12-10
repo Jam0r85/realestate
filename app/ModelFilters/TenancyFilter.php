@@ -32,14 +32,24 @@ class TenancyFilter extends BaseFilter
     	return $this->related('service', 'slug', '=', $slug);
     }
 
-    public function hasRent()
+    /**
+     * Show only rent balance results.
+     * 
+     * @return  $this
+     */
+    public function hasRentBalance()
     {
-
+        return $this->where('rent_balance', '>', 0);
     }
 
+    /**
+     * Show only negative rent balance results.
+     * 
+     * @return  $this
+     */
     public function owesRent()
     {
-
+        return $this->where('rent_balance', '<', 0);
     }
 
     public function owesDeposit()
