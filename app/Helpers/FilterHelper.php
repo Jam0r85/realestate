@@ -173,13 +173,23 @@ class Filter
 	}
 
 	/**
-	 * Show the paid pill.
+	 * Show the unsent pill.
 	 * 
 	 * @return  view
 	 */
 	public static function unsentPill()
 	{
 		return view('partials.filter.unsent-pill');
+	}
+
+	/**
+	 * Show the sent pill.
+	 * 
+	 * @return  view
+	 */
+	public static function sentPill()
+	{
+		return view('partials.filter.sent-pill');
 	}
 
 	/**

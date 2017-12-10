@@ -28,7 +28,7 @@
 		<ul class="nav nav-pills">
 			{!! (new Filter())->monthDropdown() !!}
 			{!! (new Filter())->yearDropdown('App\Statement') !!}
-			{!! Filter::unsentPill() !!}
+			{!! Filter::sentPill() !!}
 			{!! Filter::clearButton() !!}
 		</ul>
 

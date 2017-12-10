@@ -99,4 +99,24 @@ class BaseFilter extends ModelFilter
     {
         return $this->whereNull('paid_at');
     }
+
+    /**
+     * Filter records to only show sent
+     * 
+     * @return  $this
+     */
+    public function sent()
+    {
+        return $this->whereNotNull('sent_at');
+    }
+
+    /**
+     * Filter records to only show unsent
+     * 
+     * @return  $this
+     */
+    public function unsent()
+    {
+        return $this->whereNull('sent_at');
+    }
 }

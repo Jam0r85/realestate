@@ -14,7 +14,7 @@
 			<th>Landlord</th>
 			<th>Invoice</th>
 		@endif
-		@if (isset($send_by))
+		@if (!request('sent'))
 			<th>Send By</th>
 		@endif
 		<th></th>
@@ -42,7 +42,7 @@
 						@endif
 					</td>
 				@endif
-				@if (isset($send_by))
+				@if (!request('sent'))
 					<td>{{ $statement->present()->sendBy(null) }}</td>
 				@endif
 				<td class="text-right text-nowrap">
