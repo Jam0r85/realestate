@@ -104,7 +104,7 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link @if (request('vacating')) active @endif" href="{{ request('vcating') ? Filter::link('tenancies.index', ['vacating' => null]) : Filter::link('tenancies.index', ['vacating' => true]) }}">
+				<a class="nav-link @if (request('vacating')) active @endif" href="{{ request('vacating') ? Filter::link('tenancies.index', ['vacating' => null]) : Filter::link('tenancies.index', ['vacating' => true]) }}">
 					Vacating
 				</a>
 			</li>
