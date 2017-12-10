@@ -80,8 +80,14 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link @if (request('overdue')) active @endif" href="{{ Filter::link('tenancies.index', ['overdue' => true]) }}">
+				<a class="nav-link @if (request('overdue')) active @endif" href="{{ request('overdue') ? Filter::link('tenancies.index', ['overdue' => null]) : Filter::link('tenancies.index', ['overdue' => true]) }}">
 					Overdue
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link @if (request('vacated')) active @endif" href="{{ request('vacated') ? Filter::link('tenancies.index', ['vacated' => null]) : Filter::link('tenancies.index', ['vacated' => true]) }}">
+					Vacated
 				</a>
 			</li>
 

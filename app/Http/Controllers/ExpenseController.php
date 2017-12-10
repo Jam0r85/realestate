@@ -22,7 +22,11 @@ class ExpenseController extends BaseController
      */
     public function index(Request $request)
     {
-        $expenses = Expense::with('contractor','property','documents','statements','payments')->filter($request->all())->latest()->paginateFilter();
+        $expenses = Expense::with('contractor','property','documents','statements','payments')
+            ->filter($request->all())
+            ->latest()
+            ->paginateFilter();
+            
         return view('expenses.index', compact('expenses'));
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\ModelFilters;
 
+use Carbon\Carbon;
+
 class TenancyFilter extends BaseFilter
 {
     /**
@@ -45,13 +47,23 @@ class TenancyFilter extends BaseFilter
 
     }
 
+    /**
+     * Show only overdue results.
+     * 
+     * @return  $this
+     */
     public function overdue()
     {
-
+        return $this->where('is_overdue', '>', 0)->orderBy('is_overdue', 'desc');
     }
 
+    /**
+     * Show only vacated results.
+     * 
+     * @return [type] [description]
+     */
     public function vacated()
     {
-
+        return $this->whereNotNull('vacated_on')->where('vacated_on', '<=', Carbon::now());
     }
 }

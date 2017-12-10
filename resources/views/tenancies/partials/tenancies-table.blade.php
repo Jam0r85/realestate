@@ -6,7 +6,7 @@
 		<th>Rent</th>
 		<th>Balance</th>
 		<th>Service</th>
-		@if (isset($daysOverdue))
+		@if (request('overdue'))
 			<th>Days</th>
 		@endif
 		<th></th>
@@ -20,7 +20,7 @@
 				<td>{{ $tenancy->present()->rentAmount }}</td>
 				<td>{{ $tenancy->present()->rentBalance }}</td>
 				<td>{{ $tenancy->present()->serviceName }}</td>
-				@if (isset($daysOverdue))
+				@if (request('overdue'))
 					<td>{{ $tenancy->is_overdue }}</td>
 				@endif
 				<td class="text-right">
