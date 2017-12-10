@@ -74,19 +74,19 @@
 							</tr>
 							<tr>
 								<td class="has-text-grey">Invoice Total</td>
-								<td class="has-text-right">{{ currency($statement->getInvoiceTotal()) }}</td>
+								<td class="has-text-right">{{ currency($statement->present()->invoicesTotal) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Expenses Total</td>
-								<td class="has-text-right">{{ currency($statement->getExpensesTotal()) }}</td>
+								<td class="has-text-right">{{ currency($statement->present()->expensesTotal) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Total Out</td>
-								<td class="has-text-right">{{ currency($statement->getTotal()) }}</td>
+								<td class="has-text-right">{{ currency($statement->present()->total) }}</td>
 							</tr>
 							<tr>
 								<td class="has-text-grey">Balance to Landlord</td>
-								<td class="has-text-right">{{ currency($statement->getLandlordAmount()) }}</td>
+								<td class="has-text-right">{{ currency($statement->present()->landlordBalanceTotal) }}</td>
 							</tr>
 							<tr>
 								<td>Amount Paid</td>
