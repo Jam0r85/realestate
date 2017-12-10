@@ -173,6 +173,16 @@ class Filter
 	}
 
 	/**
+	 * Show the paid pill.
+	 * 
+	 * @return  view
+	 */
+	public static function unsentPill()
+	{
+		return view('partials.filter.unsent-pill');
+	}
+
+	/**
 	 * Display the clear filter button.
 	 * 
 	 * @return  string

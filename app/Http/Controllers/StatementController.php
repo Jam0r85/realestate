@@ -25,22 +25,16 @@ class StatementController extends BaseController
     /**
      * Display a listing of the statements.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return  \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sent = Statement::sent()->paginate();
-        $unsent = Statement::unsent()->get();
+        $statements = Statement::with('tenancy','tenancy.property','tenancy.tenants','payments','users')
+            ->filter($request->all())
+            ->paginateFilter();
 
-        $sections = ['Unsent','Sent'];
-        $title = 'Statements List';
-
-        return view('statements.index', compact(
-            'sent',
-            'unsent',
-            'title',
-            'sections'
-        ));
+        return view('statements.index', compact('statements'));
     }
 
     /**
