@@ -178,7 +178,7 @@ class UserController extends BaseController
     public function clearNotifications($id)
     {
         $user = $this->repository
-            ->findOrFail()
+            ->findOrFail($id)
             ->unreadNotifications
             ->markAsRead();
 
