@@ -23,6 +23,8 @@ class InvoiceFilter extends BaseFilter
             $this->whereNull('deleted_at');
         }
 
+        $this->orderBy('number', 'desc');
+
         return $this;
     }
 
