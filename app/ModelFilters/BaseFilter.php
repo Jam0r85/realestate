@@ -46,37 +46,6 @@ class BaseFilter extends ModelFilter
     }
 
     /**
-     * Filter results by status.
-     * 
-     * @param  string  $value
-     * @return  $this
-     */
-    public function status($value)
-    {
-        if ($value == 'archived') {
-            return $this->whereNotNull('deleted_at');
-        }
-
-        if ($value == 'sent') {
-            return $this->whereNotNull('sent_at')
-                ->latest('sent_at');
-        }
-
-        if ($value == 'unsent') {
-            return $this->whereNull('sent_at');
-        }
-
-        if ($value == 'paid') {
-            return $this->whereNotNull('paid_at')
-                ->latest('paid_at');
-        }
-
-        if ($value == 'unpaid') {
-            return $this->whereNull('paid_at');
-        }
-    }
-
-    /**
      * Filter results by their deleted_at column
      * 
      * @return  $this
@@ -96,7 +65,8 @@ class BaseFilter extends ModelFilter
         if ($status) {
             return $this->whereNotNull('paid_at');
         } else {
-            return $this->whereNull('paid_at');
+            return $this->whereNull('paid_at')
+                ->latest('paid_at');
         }
     }
 
@@ -110,7 +80,8 @@ class BaseFilter extends ModelFilter
         if ($status) {
             return $this->whereNotNull('sent_at');
         } else {
-            return $this->whereNull('sent_at');
+            return $this->whereNull('sent_at')
+                ->latest('sent_at');
         }
     }
 }
