@@ -16,18 +16,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Properties Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('properties.search') }}
-			@endslot
-			@if (session('properties_search_term'))
-				@slot('search_term')
-					{{ session('properties_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Properties Search --}}
+		@include('partials.index-search', ['route' => 'properties.search', 'session' => 'property_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! Filter::archivePill() !!}

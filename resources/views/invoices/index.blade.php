@@ -16,18 +16,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Invoices Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('invoices.search') }}
-			@endslot
-			@if (session('invoices_search_term'))
-				@slot('search_term')
-					{{ session('invoices_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Invoices Search --}}
+		@include('partials.index-search', ['route' => 'invoices.search', 'session' => 'invoice_search_term'])
 
 		<ul class="nav nav-pills">
 			<li class="nav-item dropdown">

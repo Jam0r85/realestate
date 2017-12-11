@@ -16,18 +16,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Bank Accounts Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('bank-accounts.search') }}
-			@endslot
-			@if (session('bank_accounts_search_term'))
-				@slot('search_term')
-					{{ session('bank_accounts_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Bank Accounts Search --}}
+		@include('partials.index-search', ['route' => 'bank-accounts.search', 'session' => 'bank_account_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! Filter::archivePill() !!}

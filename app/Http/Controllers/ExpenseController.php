@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Expense;
 use App\Http\Requests\ExpenseDeleteRequest;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\ExpenseUpdateRequest;
@@ -15,10 +14,17 @@ use Illuminate\Support\Facades\Storage;
 class ExpenseController extends BaseController
 {    
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Expense';
+
+    /**
      * Display a listing of expenses.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -26,7 +32,8 @@ class ExpenseController extends BaseController
             $request->request->add(['paid' => false]);
         }
 
-        $expenses = Expense::with('contractor','property','documents','statements','payments')
+        $expenses = $this->repository
+            ->with('contractor','property','documents','statements','payments')
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
@@ -35,31 +42,9 @@ class ExpenseController extends BaseController
     }
 
     /**
-     * Search through the resource.
-     *
-     * @param \Illuminate\Http\Response $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('expenses_search_term');
-            return redirect()->route('expenses.index');
-        }
-
-        Session::put('expenses_search_term', $request->search_term);
-
-        $searchResults = Expense::search(Session::get('expenses_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('expenses.index', compact('searchResults', 'title'));
-    }
-
-    /**
      * Show the form for creating a new expense.
      *
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function create()
     {
@@ -69,14 +54,14 @@ class ExpenseController extends BaseController
     /**
      * Store a newly created expense in storage.
      *
-     * @param \App\Http\Requests\ExpenseStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\ExpenseStoreRequest  $request
+     * @return  \Illuminate\Http\Response
      */
     public function store(ExpenseStoreRequest $request)
     {
         $property = Property::findOrFail($request->property_id);
 
-        $expense = new Expense();
+        $expense = $this->repository;
         $expense->name = $request->name;
         $expense->cost = $request->cost;
         $expense->contractor_id = $request->contractor_id;
@@ -97,44 +82,30 @@ class ExpenseController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\Expense  $expense
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function show($id, $section ='layout')
     {
-        $expense = Expense::findOrFail($id);
+        $expense = $this->repository
+            ->findOrFail($id);
+
         return view('expenses.show.' . $section, compact('expense'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\ExpenseUpdateRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\ExpenseUpdateRequest $request
+     * @param  integer  $id
+     * @return  \Illuminate\Http\Response
      */
     public function update(ExpenseUpdateRequest $request, $id)
     {
-        $expense = Expense::findOrFail($id);
-        $expense->name = $request->name;
-        $expense->cost = $request->cost;
-        $expense->contractor_id = $request->contractor_id;
-        $expense->property_id = $request->property_id;
-        $expense->save();
+        $expense = $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Http\Requests\ExpenseDeleteRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ExpenseDeleteRequest $request, $id)
-    {
-        $expense = Expense::findOrFail($id);
-        $expense->delete();
-        return redirect()->route('expenses.index');
     }
 }

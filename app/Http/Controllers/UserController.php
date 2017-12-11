@@ -6,8 +6,6 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\{UserStoreRequest, UserUpdateRequest, UserSendEmailRequest};
 use App\Notifications\UserEmail;
-use App\Services\UserService;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +15,13 @@ use Illuminate\Support\Facades\Session;
 class UserController extends BaseController
 {
     /**
+     * The model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\User';
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -24,37 +29,15 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $users = User::with('home','tenancies','tenancies.property')
+        $users = $this->repository
+            ->with('home','tenancies','tenancies.property')
             ->withTrashed()
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
             
         $title = 'Users List';
-        
         return view('users.index', compact('users','title','sections'));
-    }
-
-    /**
-     * Search through the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('users_search_term');
-            return redirect()->route('users.index');
-        }
-
-        Session::put('users_search_term', $request->search_term);
-
-        $users = User::search(Session::get('users_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('users.index', compact('users', 'title'));
     }
 
     /**
@@ -64,7 +47,11 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $latestUsers = User::limit(15)->latest()->get();
+        $latestUsers = $this->repository
+            ->latest()
+            ->limit(15)
+            ->get();
+
         return view('users.create', compact('latestUsers'));
     }
 
@@ -76,7 +63,7 @@ class UserController extends BaseController
      */
     public function store(UserStoreRequest $request)
     {
-        $user = new User();
+        $user = $this->repository;
         $user->title = $request->title;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -97,8 +84,12 @@ class UserController extends BaseController
      * @param  string  $page
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, $page = 'layout')
+    public function show($id, $page = 'layout')
     {
+        $user = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
         $bank_accounts = $user->bankAccounts;
         $properties = $user->properties()->with('owners')->get();
         $tenancies = $user->tenancies()->with('tenants')->get();
@@ -124,10 +115,13 @@ class UserController extends BaseController
      * @param  \App\User  $user
      * @return  \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $user->fill($request->input());
-        $user->save();
+        $user = $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->setSetting($request->input())
+            ->save();
 
         return back();
     }
@@ -141,7 +135,8 @@ class UserController extends BaseController
      */
     public function updateEmail(UpdateUserEmailRequest $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->repository
+            ->findOrFail($id);
 
         if ($user->email && $request->has('remove_email')) {
             $service = new UserService();
@@ -162,54 +157,16 @@ class UserController extends BaseController
      * Send the user an email message.
      *
      * @param \App\Http\Requests\UserSendEmailRequest $request
-     * @param  \App\User  $user
+     * @param  \App\User  $id
      * @return \Illuminate\Http\Response
      */
-    public function sendEmail(UserSendEmailRequest $request, User $user)
+    public function sendEmail(UserSendEmailRequest $request, $id)
     {
-        $user->notify(new UserEmail($request->subject, $request->message));
+        $user = $this->repository
+            ->findOrFail($id)
+            ->notify(new UserEmail($request->subject, $request->message));
+            
         return back();
-    }
-
-    /**
-     * Archive the specified resource in storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Responce
-     */
-    public function archive($id)
-    {
-        User::findOrFail($id);
-        $user->deleted_at = Carbon::now();
-        $user->save();
-
-        return back();
-    }
-
-    /**
-     * Restore the specified resource in storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Responce
-     */
-    public function restore($id)
-    {
-        $user = User::findOrFail($id);
-        $user->deleted_at = null;
-        $user->save();
-
-        return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
     }
 
     /**
@@ -218,9 +175,12 @@ class UserController extends BaseController
      * @param  \App\User  $user
      * @return  \Illuminate\Http\Response
      */
-    public function clearNotifications(User $user)
+    public function clearNotifications($id)
     {
-        $user->unreadNotifications->markAsRead();
+        $user = $this->repository
+            ->findOrFail()
+            ->unreadNotifications
+            ->markAsRead();
 
         $this->successMessage('All notifications have been marked as read');
         return back();

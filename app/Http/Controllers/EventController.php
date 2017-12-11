@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Http\Requests\EventDestroyRequest;
 use App\Http\Requests\EventForceDestroyRequest;
 use App\Http\Requests\RestoreEventRequest;
@@ -14,6 +13,13 @@ use Illuminate\Support\Facades\Session;
 class EventController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Event';
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,35 +27,15 @@ class EventController extends BaseController
      */
     public function index(Request $request)
     {
-        $events = Event::with('owner','calendar')
+        $events = $this->repository
+            ->with('owner','calendar')
             ->withTrashed()
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
 
-        return view('events.index', compact('events'));
-    }
-
-    /**
-     * Search the events.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('events_search_term');
-            return redirect()->route('events.index');
-        }
-
-        Session::put('events_search_term', $request->search_term);
-
-        $events = Event::search(Session::get('events_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('events.index', compact('events', 'title'));
+        $title = 'Events List';
+        return view('events.index', compact('events','title'));
     }
 
     /**
@@ -60,7 +46,8 @@ class EventController extends BaseController
      */
     public function feed($id)
     {
-        $events = Event::select('id', 'calendar_id', 'title', 'start', 'end', 'allDay')
+        $events = $this->repository
+            ->select('id', 'calendar_id', 'title', 'start', 'end', 'allDay')
             ->where('calendar_id', $id)
             ->get();
 
@@ -92,7 +79,7 @@ class EventController extends BaseController
      */
     public function store(Request $request)
     {
-        $event = new Event();
+        $event = $this->repository;
         $event->user_id = Auth::user()->id;
         $event->calendar_id = $request->calendar_id;
         $event->title = $request->title;
@@ -128,32 +115,40 @@ class EventController extends BaseController
      */
     public function editByModal(Request $request)
     {
-        $event = Event::withTrashed()->findOrFail($request->event_id);
+        $event = $this->repository
+            ->withTrashed()
+            ->findOrFail($request->event_id);
+
         return view('events.modals.edit-event', compact('event'));
     }
 
     /**
      * Show the edit page for editing an event.
      *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  integer  $id
+     * @return  \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $event = Event::withTrashed()->findOrFail($id);
+        $event = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
         return view('events.edit', compact('event'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request  $request
-     * @param integer $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $event = Event::withTrashed()->findOrFail($id);
+        $event = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
 
         $event->title = $request->title;
         $event->body = $request->body;
@@ -172,58 +167,5 @@ class EventController extends BaseController
         }
 
         return back();
-    }
-
-    /**
-     * Restore an event.
-     *
-     * @param \App\Http\Requests\RestoreEventRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function restore(RestoreEventRequest $request, $id)
-    {
-        $event = Event::onlyTrashed()->findOrFail($id);
-        $event->restore();
-        return back();
-    }
-
-    /**
-     * Delete an event.
-     *
-     * @param \App\Http\Requests\EventDestroyRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EventDestroyRequest $request, $id)
-    {
-        $event = Event::findOrFail($id);
-        $event->delete();
-
-        if ($request->has('from_modal')) {
-            $data['alert'] = [
-                'class' => 'alert-success',
-                'message' => 'The event "' . $event->title . '" was deleted'
-            ];
-
-            return $data;
-        }
-
-        return back();
-    }
-
-    /**
-     * Force destroy an event and remove it from storage.
-     *
-     * @param \App\Http\Requests\EventForceDestroyRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function forceDestroy(EventForceDestroyRequest $request, $id)
-    {
-        $event = Event::onlyTrashed()->findOrFail($id);
-
-        $event->forceDelete();
-        return redirect()->route('events.index');
     }
 }

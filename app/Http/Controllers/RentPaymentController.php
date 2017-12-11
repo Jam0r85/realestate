@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RentPaymentStoreRequest;
+use App\Http\Requests\SearchRequest;
 use App\Notifications\TenantRentPaymentReceived;
-use App\Payment;
 use App\Tenancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Session;
 class RentPaymentController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Payment';
+
+    /**
+     * The index view for this controller.
+     * 
+     * @var string
+     */
+    public $indexView = 'payments.rent';
+
+    /**
      * Display a listing of rent payments received.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -21,34 +35,37 @@ class RentPaymentController extends BaseController
      */
     public function index(Request $request)
     {
-        $payments = Payment::forRent()->filter($request->all())->paginateFilter();
+        $payments = $this->repository
+            ->forRent()
+            ->filter($request->all())
+            ->paginateFilter();
+
         return view('payments.rent', compact('payments'));
     }
 
     /**
      * Search through the rent payments and display the results.
      * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\SearchRequest  $request
+     * @return  \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('rent_payments_search_term');
-            return redirect()->route('rent-payments.index');
+        $parent = parent::search($request);
+
+        if (is_array($parent)) {
+
+            $payments = $parent['payments'];
+
+            $payments
+                ->load('users','method','parent')
+                ->where('parent_type', 'tenancies');
+
+            $parent['payments'] = $payments;
+
         }
 
-        Session::put('rent_payments_search_term', $request->search_term);
-
-        $payments = Payment::search(Session::get('rent_payments_search_term'))->get();
-        $payments->load('users','method','parent');
-
-        // Filter the payments for a parent_type of tenancy.
-        $payments = $payments->where('parent_type', 'tenancies');
-
-        $title = 'Search Results';
-        return view('payments.rent', compact('payments','title'));
+        return $parent;
     }
 
 	/**
@@ -60,7 +77,7 @@ class RentPaymentController extends BaseController
 	 */
     public function store(RentPaymentStoreRequest $request, Tenancy $tenancy)
     {
-    	$payment = new Payment();
+    	$payment = $this->repository;
     	$payment->amount = $request->amount ?? $tenancy->currentRent->amount;
     	$payment->payment_method_id = $request->payment_method_id;
     	$payment->note = $request->note;

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Service;
 use Illuminate\Http\Request;
 
 class ServiceController extends BaseController
 {
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Service';
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,9 @@ class ServiceController extends BaseController
      */
     public function index()
     {
-        $services = Service::get();
+        $services = $this->repository
+            ->get();
+
         return view('services.index', compact('services'));     
     }
 
@@ -36,7 +44,7 @@ class ServiceController extends BaseController
      */
     public function store(Request $request)
     {
-        $service = new Service();
+        $service = $this->repository;
         $service->name = $request->name;
         $service->description = $request->description;
         $service->letting_fee = $request->letting_fee;
@@ -45,18 +53,16 @@ class ServiceController extends BaseController
         $service->tax_rate_id = $request->tax_rate_id;
         $service->save();
 
-        $this->successMessage('The service "' . $service->name . '" was created');
-
         return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param  \App\Service  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show($id)
     {
         //
     }
@@ -64,12 +70,14 @@ class ServiceController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Service  $id
+     * @return  \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $service = Service::findOrFail($id);
+        $service = $this->repository
+            ->findOrFail($id);
+
         return view('services.edit', compact('service'));
     }
 
@@ -77,12 +85,14 @@ class ServiceController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Service  $id
+     * @return  \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $service = Service::findOrFail($id);
+        $service = $this->repository
+            ->findOrFail($id);
+
         $service->name = $request->name;
         $service->description = $request->description;
         $service->letting_fee = $request->letting_fee;
@@ -94,17 +104,6 @@ class ServiceController extends BaseController
         $this->successMessage('The service "' . $service->name . '" was updated');
 
         return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Service $service)
-    {
-        //
     }
 
     /**

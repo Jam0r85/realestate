@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class BaseModel extends Model
 {
@@ -162,7 +163,17 @@ class BaseModel extends Model
 	}
 
 	/**
-	 * Get the singular class name.
+	 * Get the view class name.
+	 * 
+	 * @return  string
+	 */
+	public function classViewName()
+	{
+		return kebab_case(str_plural($this->className()));
+	}
+
+	/**
+	 * Get the plural class name.
 	 * 
 	 * @return string
 	 */

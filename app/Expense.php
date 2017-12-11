@@ -75,7 +75,9 @@ class Expense extends BaseModel
     protected $fillable = [
         'name',
         'cost',
-        'paid_at'
+        'paid_at',
+        'contractor_id',
+        'property_id'
     ];
 
     /**

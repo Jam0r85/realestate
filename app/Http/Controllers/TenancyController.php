@@ -12,7 +12,6 @@ use App\Http\Requests\TenancyStoreRequest;
 use App\Http\Requests\TenantsVacatedRequest;
 use App\Notifications\TenantRentPaymentReceived;
 use App\Property;
-use App\Tenancy;
 use App\TenancyRent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,14 +22,22 @@ use Illuminate\Support\Facades\Session;
 class TenancyController extends BaseController
 {
     /**
+     * The model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Tenancy';
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $tenancies = Tenancy::withTrashed()
+        $tenancies = $this->repository
+            ->withTrashed()
             ->eagerLoading()
             ->filter($request->all())
             ->latest()
@@ -40,31 +47,9 @@ class TenancyController extends BaseController
     }
 
     /**
-     * Search through the resource and display the results.
-     * 
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('tenancies_search_term');
-            return redirect()->route('tenancies.index');
-        }
-
-        Session::put('tenancies_search_term', $request->search_term);
-
-        $searchResults = Tenancy::search(Session::get('tenancies_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('tenancies.index', compact('searchResults','title'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function create()
     {
@@ -74,14 +59,14 @@ class TenancyController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\TenancyStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TenancyStoreRequest  $request
+     * @return  \Illuminate\Http\Response
      */
     public function store(TenancyStoreRequest $request)
     {
         $property = Property::findOrFail($request->property_id);
 
-        $tenancy = new Tenancy();
+        $tenancy = $this->repository;
         $tenancy->user_id = Auth::user()->id;
         $tenancy->service_id = $request->service_id;
 
@@ -109,44 +94,19 @@ class TenancyController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\Tenancy  $tenancy
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function show($id, $page = 'layout')
     {
-        $tenancy = Tenancy::withTrashed()->findOrFail($id);
+        $tenancy = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
 
         $payments = $tenancy->rent_payments()->with('method','owner','users')->paginate();
         $statements = $tenancy->statements()->with('invoices','invoices.invoiceGroup','invoices.items','invoices.items.taxRate','expenses','payments')->paginate();
         $rents = $tenancy->rents()->with('owner')->get();
         
         return view('tenancies.pages.' . $page, compact('tenancy','statements','payments','rents'));
-    }
-
-    /**
-     * Update the discounts for a tenancy.
-     * 
-     * @param  Request       $request
-     * @param  \App\Tenancy  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateDiscounts(Request $request, $id)
-    {
-        $this->tenancies->updateDiscounts($request->discount_id, $id);
-        return back();
-    }
-
-    /**
-     * Archive the tenancy.
-     *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function archive(TenancyArchiveRequest $request, $id)
-    {
-        $tenancy = Tenancy::findOrFail($id);
-        $tenancy->delete();
-        $tenancy->deposit->delete();
-        return back();
     }
 
     /**

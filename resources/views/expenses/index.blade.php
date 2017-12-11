@@ -16,18 +16,7 @@
 
 	@component('partials.section-with-container')
 
-		{{-- Expenses Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('expenses.search') }}
-			@endslot
-			@if (session('expenses_search_term'))
-				@slot('search_term')
-					{{ session('expenses_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Expenses Search --}}
+		@include('partials.index-search', ['route' => 'expenses.search', 'session' => 'expense_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! Filter::paidPill() !!}

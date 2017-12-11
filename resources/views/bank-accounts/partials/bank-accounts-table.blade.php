@@ -13,7 +13,7 @@
 		@endif
 	@endslot
 	@slot('body')
-		@foreach ($accounts as $account)
+		@foreach ($bank_accounts as $account)
 			<tr>
 				<td><a href="{{ route('bank-accounts.show', $account->id) }}">{{ $account->account_name }}</a></td>
 				<td>{{ $account->account_number }}</td>
@@ -33,4 +33,4 @@
 	@endslot
 @endcomponent
 
-@include('partials.pagination', ['collection' => $accounts])
+@include('partials.pagination', ['collection' => $bank_accounts])

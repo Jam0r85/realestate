@@ -14,14 +14,22 @@ use Illuminate\Support\Facades\Session;
 class BankAccountController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\BankAccount';
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $accounts = BankAccount::with('owner')
+        $bank_accounts = $this->repository
+            ->with('owner')
             ->withTrashed()
             ->filter($request->all())
             ->latest()
@@ -29,48 +37,13 @@ class BankAccountController extends BaseController
 
         $title = 'Bank Accounts List';
 
-        return view('bank-accounts.index', compact('accounts','title'))->with(['full' => true]);
-    }
-
-    /**
-     * Display a listing of archived bank accounts.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function archived()
-    {
-        $accounts = BankAccount::onlyTrashed()->latest()->paginate();
-        $title = 'Archived Bank Accounts';
-
-        return view('bank-accounts.index', compact('accounts','title'))->with(['archived' => true]);
-    }
-
-    /**
-     * Search through the bank accounts and display the results.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('bank_accounts_search_term');
-            return redirect()->route('bank-accounts.index');
-        }
-
-        Session::put('bank_accounts_search_term', $request->search_term);
-
-        $accounts = BankAccount::search(Session::get('bank_accounts_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('bank-accounts.index', compact('accounts','title'));
+        return view('bank-accounts.index', compact('bank_accounts','title'))->with(['full' => true]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function create()
     {
@@ -80,12 +53,12 @@ class BankAccountController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\BankAccountStoreRequest $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\BankAccountStoreRequest  $request
+     * @return  \Illuminate\Http\Response
      */
     public function store(BankAccountStoreRequest $request)
     {
-        $account = new BankAccount();
+        $account = $this->repository;
         $account->user_id = Auth::user()->id;
         $account->bank_name = $request->bank_name;
         $account->account_name = $request->account_name;
@@ -104,81 +77,33 @@ class BankAccountController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\BankAccount  $bankAccount
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function show($id, $section = 'layout')
     {
-        $account = BankAccount::withTrashed()->findOrFail($id);
+        $account = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
         return view('bank-accounts.show.' . $section, compact('account'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateBankAccountRequest $request
-     * @param integer $id
+     * @param  \App\Http\Requests\UpdateBankAccountRequest  $request
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateBankAccountRequest $request, $id)
     {
-        $account = BankAccount::findOrFail($id);
-        $account->fill($request->input());
-        $account->save();
+        $account = $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         $account->users()->sync($request->users);
 
-        return back();
-    }
-
-    /**
-     * Update the users attached to a bank account.
-     * 
-     * @param  Request $request [description]
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateUsers(Request $request, $id)
-    {
-        $account = BankAccount::findOrFail($id);
-
-        // Remove the owners.
-        if ($request->has('remove')) {
-            $account->users()->detach($request->remove);
-        }
-
-        // Attach new users to the account.
-        if ($request->has('new_users')) {
-            $account->users()->attach($request->new_users);
-        }
-
-        return back();
-    }
-
-    /**
-     * Destroy/archive the bank account.
-     *
-     * @param \App\Http\Requests\BankAccountDestroyRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BankAccountDestroyRequest $request, $id)
-    {
-        $account = BankAccount::findOrFail($id);
-        $account->delete();
-        return back();
-    }
-
-    /**
-     * Restore the bank account.
-     *
-     * @param \App\Http\Requests\BankAccountRestoreRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function restore(BankAccountRestoreRequest $request, $id)
-    {
-        $account = BankAccount::onlyTrashed()->findOrFail($id);
-        $account->restore();
         return back();
     }
 }

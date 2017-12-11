@@ -12,18 +12,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Payments Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('rent-payments.search') }}
-			@endslot
-			@if (session('rent_payments_search_term'))
-				@slot('search_term')
-					{{ session('rent_payments_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Payments Search --}}
+		@include('partials.index-search', ['route' => 'rent-payments.search', 'session' => 'payment_search_term'])
 
 		<ul class="nav nav-pills">
 			<li class="nav-item dropdown">

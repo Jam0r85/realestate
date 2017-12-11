@@ -89,7 +89,7 @@ Route::middleware(['staff'])->group(function () {
 	});
 
 	Route::prefix('rent-payments')->group(function () {
-		Route::get('/', 'RentPaymentController@index')->name('rent-payments.index');
+		Route::get('/', 'RentPaymentController@index')->name('payments.rent');
 		Route::post('search', 'RentPaymentController@search')->name('rent-payments.search');
 	});
 
@@ -160,15 +160,15 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('create', 'UserController@create')->name('users.create');
 		Route::post('/', 'UserController@store')->name('users.store');
 		Route::get('{id}/edit', 'UserController@edit')->name('users.edit');
-		Route::get('{user}/{section?}', 'UserController@show')->name('users.show');
+		Route::get('{id}/{section?}', 'UserController@show')->name('users.show');
 		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email');
 		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password');
-		Route::post('{user}/send-email', 'UserController@sendEmail')->name('users.send-email');
-		Route::put('{user}', 'UserController@update')->name('users.update');
+		Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
+		Route::put('{id}', 'UserController@update')->name('users.update');
 		Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
 		Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
-		Route::post('{user}/send-sms', 'SmsController@toUser')->name('users.send-sms');
-		Route::post('{user}/clear-notifications', 'UserController@clearNotifications')->name('users.clear-notifications');
+		Route::post('{id}/send-sms', 'SmsController@toUser')->name('users.send-sms');
+		Route::post('{id}/clear-notifications', 'UserController@clearNotifications')->name('users.clear-notifications');
 	});
 
 	Route::get('user-logins', 'UserLoginController@index')->name('user-logins.index');

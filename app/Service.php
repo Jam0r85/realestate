@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Service extends Model
+class Service extends BaseModel
 {
 	/**
 	 * The attrbites that should be included in the collection.

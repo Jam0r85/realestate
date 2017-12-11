@@ -5,11 +5,10 @@ namespace App;
 use App\AppearancePrice;
 use App\Traits\DataTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
-class Appearance extends Model
+class Appearance extends BaseModel
 {
 	use SoftDeletes;
 	use PresentableTrait;

@@ -12,7 +12,6 @@ use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateStatementRequest;
 use App\Mail\StatementByEmail;
 use App\Services\StatementService;
-use App\Statement;
 use App\Tenancy;
 use App\User;
 use Carbon\Carbon;
@@ -22,6 +21,8 @@ use Illuminate\Support\Facades\Session;
 
 class StatementController extends BaseController
 {
+    public $model = 'App\Statement';
+
     /**
      * Display a listing of the statements.
      *
@@ -34,34 +35,13 @@ class StatementController extends BaseController
             $request->request->add(['sent' => false]);
         }
 
-        $statements = Statement::with('tenancy','tenancy.property','tenancy.tenants','payments','users')
+        $statements = $this->repository
+            ->with('tenancy','tenancy.property','tenancy.tenants','payments','users')
             ->withTrashed()
             ->filter($request->all())
             ->paginateFilter();
 
         return view('statements.index', compact('statements'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('statements_search_term');
-            return redirect()->route('statements.index');
-        }
-
-        Session::put('statements_search_term', $request->search_term);
-
-        $searchResults = Statement::search(Session::get('statements_search_term'))->get();
-        $searchResults->sortBy('period_start');
-        $title = 'Search Results';
-
-        return view('statements.index', compact('searchResults','title'));
     }
 
     /**
@@ -73,7 +53,7 @@ class StatementController extends BaseController
      */
     public function store(StatementStoreRequest $request, Tenancy $tenancy)
     {
-        $statement = new Statement();
+        $statement = $this->repository;
         $statement->period_start = $request->period_start ?? $tenancy->present()->nextStatementStartDate;
         $statement->period_end = $request->period_end;
         $statement->amount = $request->amount;
@@ -88,11 +68,15 @@ class StatementController extends BaseController
     /**
      * Display the specified statement.
      *
-     * @param  \App\Statement  $statement
+     * @param  \App\Statement  $id
      * @return  \Illuminate\Http\Response
      */
-    public function show(Statement $statement, $section = 'layout')
+    public function show($id, $section = 'layout')
     {
+        $statement = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
         return view('statements.show.' . $section, compact('statement'));
     }
 
@@ -103,14 +87,13 @@ class StatementController extends BaseController
      * @param  \App\Statement  $statement
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStatementRequest $request, Statement $statement)
+    public function update(UpdateStatementRequest $request, $id)
     {
-        $statement->created_at = $request->created_at;
-        $statement->period_start = $request->period_start;
-        $statement->period_end = $request->period_end;
-        $statement->amount = $request->amount;
-        $statement->send_by = $request->send_by;
-        $statement->save();
+        $statement = $this->repository
+            ->withTrashed()
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         event(new TenancyUpdateStatus($statement->tenancy));
 
@@ -121,12 +104,15 @@ class StatementController extends BaseController
      * Send the statements to the owners.
      * 
      * @param  \App\Http\Requests\StatementSendRequest  $request
-     * @param  \App\Statement  $statement
+     * @param  \App\Statement  $id
      * @return  \Illuminate\Http\Response
      */
-    public function send(StatementSendRequest $request, Statement $statement)
+    public function send(StatementSendRequest $request, $id)
     {
-        $statement->send();
+        $statement = $this->repository
+            ->findOrFail($id)
+            ->send();
+
         return back();
     }
 
@@ -161,38 +147,17 @@ class StatementController extends BaseController
     }
 
     /**
-     * Archive the statement in storage.
-     *
-     * @param  \App\Statement  $statement
-     * @return  \Illuminate\Http\Response
-     */
-    public function archive(Request $request, Statement $statement)
-    {
-        $statement->delete();
-        return back();
-    }
-
-    /**
-     * Restore the statement from storage.
-     *
-     * @param  \App\Statement  $statement
-     * @return  \Illuminate\Http\Response
-     */
-    public function restore(Request $request, Statement $statement)
-    {
-        $statement->restore();
-        return back();
-    }
-
-    /**
      * Destroy the statement.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Statement  $statement
      * @return  \Illuminate\Http\Response
      */
-    public function destroy(StatementDestroyRequest $request, Statement $statement)
+    public function destroy(Request $request, $id)
     {
+        $statement = $this->repository
+            ->findOrFail($id);
+            
         if ($request->has('paid_payments')) {
             $statement->payments()->whereNotNull('sent_at')->delete();
         }

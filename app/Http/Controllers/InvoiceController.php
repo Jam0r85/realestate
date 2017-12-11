@@ -7,7 +7,6 @@ use App\Http\Requests\InvoiceStoreRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoicePaymentRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Invoice;
 use App\InvoiceGroup;
 use App\Services\InvoiceService;
 use App\Services\PaymentService;
@@ -17,6 +16,8 @@ use Illuminate\Support\Facades\Session;
 
 class InvoiceController extends BaseController
 {
+    public $model = 'App\Invoice';
+
     /**
      * Display a list of invoices.
      *
@@ -29,35 +30,14 @@ class InvoiceController extends BaseController
             $request->request->add(['paid' => false]);
         }
 
-        $invoices = Invoice::with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
+        $invoices = $this->repository
+            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
             ->withTrashed()
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
 
         return view('invoices.index', compact('invoices'));
-    }
-
-    /**
-     * Search through the invoices and display the results.
-     * 
-     * @param  \Illuminate\Http|Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('invoices_search_term');
-            return redirect()->route('invoices.index');
-        }
-
-        Session::put('invoices_search_term', $request->search_term);
-
-        $invoices = Invoice::search(Session::get('invoices_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('invoices.index', compact('invoices','title'));
     }
 
     /**
@@ -80,7 +60,7 @@ class InvoiceController extends BaseController
     {
         $invoiceGroup = InvoiceGroup::findOrFail($request->invoice_group_id);
 
-        $invoice = new Invoice();
+        $invoice = $this->repository;
         $invoice->property_id = $request->property_id;
         $invoice->number = $request->number;
         $invoice->terms = $request->terms;
@@ -102,7 +82,10 @@ class InvoiceController extends BaseController
      */
     public function show($id, $section = 'layout')
     {
-        $invoice = Invoice::withTrashed()->findOrFail($id);
+        $invoice = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
         return view('invoices.show.' . $section, compact('invoice'));
     }
 
@@ -111,11 +94,12 @@ class InvoiceController extends BaseController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function update(UpdateInvoiceRequest $request, $id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = $this->repository
+            ->findOrFail($id);
         
         $invoice->property_id = $request->property_id;
         $invoice->created_at = $request->created_at;
@@ -133,8 +117,8 @@ class InvoiceController extends BaseController
     /**
      * Store a new invoice item to the invoice.
      * 
-     * @param   \App\Http\Requests\StoreInvoiceItemRequest  $request
-     * @param   \App\Invoice                                $id
+     * @param  \App\Http\Requests\StoreInvoiceItemRequest  $request
+     * @param  \App\Invoice  $id
      * @return  \Illuminate\Http\Response
      */
     public function createItem(StoreInvoiceItemRequest $request, $id)
@@ -146,60 +130,16 @@ class InvoiceController extends BaseController
     }
 
     /**
-     * Archive an invoice in storage.
-     *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function archive($id)
-    {
-        $invoice = Invoice::findOrFail($id);
-        $invoice->delete();
-
-        return back();
-    }
-
-    /**
-     * Restore an invoice in storage.
-     *
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function restore($id)
-    {
-        $invoice = Invoice::withTrashed()->findOrFail($id);
-        $invoice->restore();
-
-        return back();
-    }
-
-    /**
-     * Destroy an invoice from storage.
-     * 
-     * @param \App\Http\Requests\DestroyInvoiceRequest $request
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(DestroyInvoiceRequest $request, $id)
-    {
-        $invoice = Invoice::withTrashed()->findOrFail($id);
-
-        $invoice->items()->delete();
-        $invoice->forceDelete();
-
-        return redirect()->route('invoices.index');
-    }
-
-    /**
      * Clone the given invoice.
      * 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Invoice  $id
+     * @return  \Illuminate\Http\Response
      */
     public function clone($id)
     {
-        $invoice = Invoice::findOrFail($id);
-        $invoice->clone();
+        $this->repository
+            ->findOrFail($id)
+            ->clone();
 
         return back();
     }
@@ -207,14 +147,15 @@ class InvoiceController extends BaseController
     /**
      * Send this invoice to it's users.
      * 
-     * @param  Request $request [description]
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Invoice  $id
+     * @return  \Illuminate\Http\Response
      */
     public function send(Request $request, $id)
     {
-        $invoice = Invoice::findOrFail($id);
-        $invoice->send();
+        $invoice = $this->repository
+            ->findOrFail($id)
+            ->send();
 
         return back();
     }

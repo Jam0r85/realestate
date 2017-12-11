@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Calendar;
 use App\Http\Requests\StoreCalendarRequest;
 use App\Http\Requests\UpdateCalendarRequest;
 use Illuminate\Http\Request;
@@ -12,13 +11,22 @@ use Illuminate\Support\Facades\Response;
 class CalendarController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Calendar';
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $calendars = Calendar::paginate();
+        $calendars = $this->repository
+            ->paginate();
+
         return view('calendars.index', compact('calendars'));
     }
 
@@ -36,11 +44,11 @@ class CalendarController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function store(StoreCalendarRequest $request)
     {
-        $calendar = new Calendar();
+        $calendar = $this->repository;
         $calendar->user_id = Auth::user()->id;
         $calendar->name = $request->name;
         $calendar->branch_id = $request->branch_id;
@@ -54,11 +62,13 @@ class CalendarController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\Calendar  $calendar
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function show($id, $section = 'show')
     {
-        $calendar = Calendar::findOrFail($id);
+        $calendar = $this->repository
+            ->findOrFail($id);
+
         return view('calendars.' . $section, compact('calendar'));
     }
 
@@ -70,7 +80,8 @@ class CalendarController extends BaseController
      */
     public function iCalFeed($id)
     {
-        $calendar = Calendar::findOrFail($id);
+        $calendar = $this->repository
+            ->findOrFail($id);
 
         // Build the calendar
         $vCalendar = new \Eluceo\iCal\Component\Calendar(config('app.url'));
@@ -104,32 +115,11 @@ class CalendarController extends BaseController
      */
     public function update(UpdateCalendarRequest $request, $id)
     {
-        $data = $request->except('_token');
-        $calendar = $this->calendars->update($data, $id);
-        return back();
-    }
+        $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
-    /**
-     * Archive the specified resource.
-     *
-     * @param  \App\Calendar  $calendar
-     * @return \Illuminate\Http\Response
-     */
-    public function archive($id)
-    {
-        $this->calendars->archive($id);
-        return back();
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  \App\Calendar  $calendar
-     * @return \Illuminate\Http\Response
-     */
-    public function restore($id)
-    {
-        $this->calendars->restore($id);
         return back();
     }
 }

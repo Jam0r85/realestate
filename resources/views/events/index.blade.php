@@ -5,25 +5,14 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			Events List
+			{{ $title }}
 		@endcomponent
 
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Events Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('events.search') }}
-			@endslot
-			@if (session('events_search_term'))
-				@slot('search_term')
-					{{ session('events_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Events Search --}}
+		@include('partials.index-search', ['route' => 'events.search', 'session' => 'event_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! (new Filter())->monthDropdown() !!}

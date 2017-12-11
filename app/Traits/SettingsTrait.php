@@ -69,14 +69,7 @@ trait SettingsTrait
 
 		// Store the key and value in the table.
 		foreach ($setting as $key => $value) {
-
-			if ($this->getAllowedKeys()) {
-
-				if (in_array($key, $this->getAllowedKeys())) {
-					$existing_settings[$key] = $value;
-				}
-				
-			} else {
+			if (in_array($key, $this->getAllowedKeys())) {
 				$existing_settings[$key] = $value;
 			}
 		}

@@ -15,6 +15,13 @@ use Illuminate\Support\Carbon;
 class AppearanceController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Appearance';
+
+    /**
      * The individual sections to be show on the resource listing.
      * 
      * @var array
@@ -125,17 +132,6 @@ class AppearanceController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Appearance $appearance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Appearance  $appearance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Appearance $appearance)
     {
         //
     }

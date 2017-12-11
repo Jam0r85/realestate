@@ -16,18 +16,7 @@
 
 	@component('partials.section-with-container')
 
-		{{-- Tenancies Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('tenancies.search') }}
-			@endslot
-			@if (session('tenancies_search_term'))
-				@slot('search_term')
-					{{ session('tenancies_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Tenancies Search --}}
+		@include('partials.index-search', ['route' => 'tenancies.search', 'session' => 'tenancy_search_term'])
 
 		<ul class="nav nav-pills">
 			<li class="nav-item dropdown">

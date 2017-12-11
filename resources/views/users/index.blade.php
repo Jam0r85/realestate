@@ -16,18 +16,7 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		{{-- Users Search --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('users.search') }}
-			@endslot
-			@if (session('users_search_term'))
-				@slot('search_term')
-					{{ session('users_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End of Users Search --}}
+		@include('partials.index-search', ['route' => 'users.search', 'session' => 'user_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! Filter::archivePill() !!}

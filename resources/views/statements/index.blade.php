@@ -12,18 +12,7 @@
 
 	@component('partials.section-with-container')
 
-		{{-- Statements search form --}}
-		@component('partials.bootstrap.page-search')
-			@slot('route')
-				{{ route('statements.search') }}
-			@endslot
-			@if (session('statements_search_term'))
-				@slot('search_term')
-					{{ session('statements_search_term') }}
-				@endslot
-			@endif
-		@endcomponent
-		{{-- End statements search form --}}
+		@include('partials.index-search', ['route' => 'statements.search', 'session' => 'statement_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! (new Filter())->monthDropdown() !!}

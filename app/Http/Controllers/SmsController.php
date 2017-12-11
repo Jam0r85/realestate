@@ -6,7 +6,6 @@ use App\Http\Requests\UserSendSmsMessageRequest;
 use App\Notifications\UserSmsMessage;
 use App\Notifications\SmsMessageInboundStaffNotification;
 use App\Notifications\SmsOwnerDeliveryReceiptNotification;
-use App\SmsHistory;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,13 +13,24 @@ use Illuminate\Support\Facades\Log;
 class SmsController extends BaseController
 {
 	/**
+	 * The eloquent model for this controller.
+	 * 
+	 * @var string
+	 */
+	public $model = 'App\SmsHistory';
+
+	/**
 	 * Display a list of sent SMS messages.
 	 * 
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
-		$messages = SmsHistory::with('user','owner')->latest()->paginate();
+		$messages = $this->repository
+			->with('user','owner')
+			->latest()
+			->paginate();
+
 		return view('sms.index', compact('messages'));
 	}
 
@@ -54,7 +64,10 @@ class SmsController extends BaseController
 		}
 
     	// Loop for all main SMS messages with the given phone number.
-		$entries = SmsHistory::where('phone_number', $request->msisdn)->where('inbound', '0')->get();
+		$entries = $this->repository
+			->where('phone_number', $request->msisdn)
+			->where('inbound', '0')
+			->get();
 
 		// Loop through each of the SMS message to that number.
 		foreach ($entries as $item) {
@@ -121,12 +134,12 @@ class SmsController extends BaseController
 		// Using the formatted number, find a user if they exist with that number.
 		$user = User::where('phone_number', $sender_number)->first();
 
-		$message = SmsHistory::create([
-			'user_id' => $user->id,
-			'phone_number' => $request->msisdn,
-			'body' => $request->text,
-			'inbound' => true
-		]);
+		$message = $this->repository;
+		$message->user_id = $user->id;
+		$message->phone_number = $request->msisdn;
+		$message->body = $request->text;
+		$message->inbound = true;
+		$message->save();
 
 		Log::info('Successful inbound SMS ' . $message->id);
 
