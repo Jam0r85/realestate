@@ -58,7 +58,8 @@ class BaseFilter extends ModelFilter
         }
 
         if ($value == 'sent') {
-            return $this->whereNotNull('sent_at');
+            return $this->whereNotNull('sent_at')
+                ->latest('sent_at');
         }
 
         if ($value == 'unsent') {
@@ -66,7 +67,8 @@ class BaseFilter extends ModelFilter
         }
 
         if ($value == 'paid') {
-            return $this->whereNotNull('paid_at');
+            return $this->whereNotNull('paid_at')
+                ->latest('paid_at');
         }
 
         if ($value == 'unpaid') {
