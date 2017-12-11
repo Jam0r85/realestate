@@ -51,10 +51,10 @@ class UserController extends BaseController
 
         Session::put('users_search_term', $request->search_term);
 
-        $searchResults = User::search(Session::get('users_search_term'))->get();
+        $users = User::search(Session::get('users_search_term'))->get();
         $title = 'Search Results';
 
-        return view('users.index', compact('searchResults', 'title'));
+        return view('users.index', compact('users', 'title'));
     }
 
     /**
