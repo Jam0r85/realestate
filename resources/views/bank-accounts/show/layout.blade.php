@@ -35,7 +35,7 @@
 						Similar Bank Accounts
 					@endcomponent
 
-					@include('bank-accounts.partials.bank-accounts-table', ['accounts' => $account->similarBankAccounts()])
+					@include('bank-accounts.partials.bank-accounts-table', ['bank_accounts' => $account->similarBankAccounts()])
 
 				</div>		
 				{{-- End Similar Bank Accounts --}}
