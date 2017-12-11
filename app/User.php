@@ -94,6 +94,19 @@ class User extends UserBaseModel
     protected $dates = ['deleted_at'];
 
     /**
+     * The keys allowed in the settings column.
+     * 
+     * @var array
+     */
+    public $settingKeys = [
+        'tenancy_service_management_discount',
+        'tenancy_service_letting_fee',
+        'tenancy_service_re_letting_fee',
+        'expense_notifications',
+        'rent_payment_notifications'
+    ];
+
+    /**
      * Scope a query to filter results who have a valid email.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
