@@ -63,10 +63,10 @@ class BaseFilter extends ModelFilter
     public function paid($status = false)
     {
         if ($status) {
-            return $this->whereNotNull('paid_at');
-        } else {
-            return $this->whereNull('paid_at')
+            return $this->whereNotNull('paid_at')
                 ->latest('paid_at');
+        } else {
+            return $this->whereNull('paid_at');
         }
     }
 
@@ -78,10 +78,10 @@ class BaseFilter extends ModelFilter
     public function sent($status = false)
     {
         if ($status) {
-            return $this->whereNotNull('sent_at');
-        } else {
-            return $this->whereNull('sent_at')
+            return $this->whereNotNull('sent_at')
                 ->latest('sent_at');
+        } else {
+            return $this->whereNull('sent_at');
         }
     }
 }
