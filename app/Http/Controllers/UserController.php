@@ -141,9 +141,6 @@ class UserController extends BaseController
         if ($user->email && $request->has('remove_email')) {
             $service = new UserService();
             $service->removeUserEmail($user);
-
-            $this->successMessage('The e-mail for this user was removed');
-
             return back();
         }
 
@@ -182,7 +179,6 @@ class UserController extends BaseController
             ->unreadNotifications
             ->markAsRead();
 
-        $this->successMessage('All notifications have been marked as read');
         return back();
     }
 }
