@@ -90,11 +90,11 @@ class StatementPaymentPresenter extends Presenter
     public function recipientNames()
     {
         foreach ($this->users as $user) {
-            $names[] = $user->present()->fullName;
+            $names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
         }
 
         if (isset($names) && count($names)) {
-            return implode(' & ', $names);
+            return implode(' ', $names);
         }
     }
 

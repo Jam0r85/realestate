@@ -8,6 +8,9 @@
 		<th>Name</th>
 		<th>Method</th>
 		<th>Amount</th>
+		@if (isset($statement))
+			<th>Users</th>
+		@endif
 		<th></th>
 	@endslot
 	@slot('body')
@@ -25,6 +28,9 @@
 				<td>{{ $payment->present()->name }}</td>
 				<td>{{ $payment->present()->method }}</td>
 				<td>{{ currency($payment->amount) }}</td>
+				@if (isset($statement))
+					<td>{!! $payment->present()->recipientNames !!}</td>
+				@endif
 				<td class="text-right">
 					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
 						Edit
