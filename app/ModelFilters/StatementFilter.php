@@ -13,4 +13,18 @@ class StatementFilter extends BaseFilter
     * @var array
     */
     public $relations = [];
+
+    /**
+     * Setup the filter.
+     * 
+     * @return  $this
+     */
+    public function setup()
+    {
+        if (!request('archived')) {
+            $this->whereNull('deleted_at');
+        }
+
+        return $this;
+    }
 }
