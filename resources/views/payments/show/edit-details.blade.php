@@ -67,7 +67,7 @@
 								<label for="users">Attached Users</label>
 								<select name="users[]" id="users" class="form-control select2" multiple>
 									@foreach (users() as $user)
-										<option @if ($payment->parent->tenants->contains($user->id)) selected @endif value="{{ $user->id }}">
+										<option @if ($payment->users->contains($user->id)) selected @endif value="{{ $user->id }}">
 											{{ $user->present()->fullName }}
 										</option>
 									@endforeach
