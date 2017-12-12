@@ -23,6 +23,7 @@ class PaymentController extends BaseController
     public function index(Request $request)
     {
         $payments = $this->repository
+            ->with('method','users')
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
