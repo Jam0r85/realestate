@@ -7,6 +7,15 @@ use Laracasts\Presenter\Presenter;
 class StatementPaymentPresenter extends Presenter
 {
     /**
+     * 
+     * @return string
+     */
+    public function parentName()
+    {
+        return parentModel($this->parent_type);
+    }
+    
+    /**
      * @return string
      */
     public function name()

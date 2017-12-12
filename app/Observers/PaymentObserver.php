@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\Invoices\InvoiceUpdateBalancesEvent;
+use App\Events\Invoices\InvoiceUpdateBalances;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Payment;
 use Carbon\Carbon;
@@ -40,7 +40,7 @@ class PaymentObserver
 		}
 
 		if ($payment->present()->parentName == 'Invoice') {
-			event (new InvoiceUpdateBalancesEvent($payment->parent));
+			event (new InvoiceUpdateBalances($payment->parent));
 		}
 	}
 
@@ -57,7 +57,7 @@ class PaymentObserver
 		}
 
 		if ($payment->present()->parentName == 'Invoice') {
-			event (new InvoiceUpdateBalancesEvent($payment->parent));
+			event (new InvoiceUpdateBalances($payment->parent));
 		}
 	}
 }

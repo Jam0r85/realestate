@@ -2,7 +2,8 @@
 
 namespace App\Observers;
 
-use App\Events\Invoices\InvoiceUpdateBalancesEvent;
+use App\Events\Expenses\ExpenseUpdateBalances;
+use App\Events\Invoices\InvoiceUpdateBalances;
 use App\StatementPayment;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,15 +21,19 @@ class StatementPaymentObserver
 	}
 
 	/**
-	 * Listen to the StatementPayment saved event.
+	 * Listen to the StatementPayment updated event.
 	 * 
 	 * @param \App\StatementPayment $payment
 	 * @return void
 	 */
-	public function saved(StatementPayment $payment)
+	public function updated(StatementPayment $payment)
 	{
 		if ($payment->present()->parentName == 'Invoice') {
-			event (new InvoiceUpdateBalancesEvent($payment->parent));
+			event (new InvoiceUpdateBalances($payment->parent));
+		}
+
+		if ($payment->present()->parentName == 'Expense') {
+			event (new ExpenseUpdateBalances($payment->parent));
 		}
 	}
 
@@ -41,7 +46,11 @@ class StatementPaymentObserver
 	public function deleted(StatementPayment $payment)
 	{
 		if ($payment->present()->parentName == 'Invoice') {
-			event (new InvoiceUpdateBalancesEvent($payment->parent));
+			event (new InvoiceUpdateBalances($payment->parent));
+		}
+
+		if ($payment->present()->parentName == 'Expense') {
+			event (new ExpenseUpdateBalances($payment->parent));
 		}
 	}
 }

@@ -67,7 +67,9 @@ class Expense extends BaseModel
      *
      * @var array
      */
-    protected $dates = ['paid_at'];
+    protected $dates = [
+        'paid_at'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -77,6 +79,7 @@ class Expense extends BaseModel
     protected $fillable = [
         'name',
         'cost',
+        'balance',
         'paid_at',
         'contractor_id',
         'property_id',
@@ -97,7 +100,8 @@ class Expense extends BaseModel
      */
     public function contractor()
     {
-        return $this->belongsTo('App\User', 'contractor_id');
+        return $this
+            ->belongsTo('App\User', 'contractor_id');
     }
 
     /**
@@ -105,7 +109,8 @@ class Expense extends BaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -113,7 +118,8 @@ class Expense extends BaseModel
      */
     public function property()
     {
-        return $this->belongsTo('App\Property');
+        return $this
+            ->belongsTo('App\Property');
     }
 
     /**
@@ -121,8 +127,8 @@ class Expense extends BaseModel
      */
     public function statements()
     {
-        return $this->belongsToMany('App\Statement')
-            ->withPivot('amount');
+        return $this
+            ->belongsToMany('App\Statement');
     }
 
     /**
@@ -130,7 +136,18 @@ class Expense extends BaseModel
      */
     public function payments()
     {
-        return $this->morphMany('App\StatementPayment', 'parent');
+        return $this
+            ->morphMany('App\StatementPayment', 'parent');
+    }
+
+    /**
+     * An expense can have many sent statement payments.
+     */
+    public function paymentsSent()
+    {
+        return $this
+            ->morphMany('App\StatementPayment', 'parent')
+            ->whereNotNull('sent_at');
     }
 
     /**

@@ -1,24 +1,24 @@
-<table class="table table-striped table-responsive">
-	<thead>
+@component('partials.table')
+	@slot('header')
 		<th>Date</th>
 		<th>Statement</th>
 		<th>Statement Date</th>
 		<th>Tenancy</th>
 		<th>Amount</th>
-	</thead>
-	<tbody>
-		@foreach ($expense->statements as $statement)
+	@endslot
+	@slot('body')
+		@foreach ($expense->payments as $payment)
 			<tr>
-				<td>{{ date_formatted($statement->created_at) }}</td>
+				<td>{{ date_formatted($payment->created_at) }}</td>
 				<td>
-					<a href="{{ route('statements.show', $statement->id) }}">
-						#{{ $statement->id }}
+					<a href="{{ route('statements.show', $payment->statement_id) }}">
+						#{{ $payment->statement_id }}
 					</a>
 				</td>
-				<td>{{ date_formatted($statement->period_start) }} - {{ date_formatted($statement->period_end) }}</td>
-				<td>{{ $statement->tenancy->name }}</td>
-				<td>{{ currency($statement->pivot->amount) }}</td>
+				<td>{{ date_formatted($payment->statement->period_start) }} - {{ date_formatted($payment->statement->period_end) }}</td>
+				<td>{{ $payment->statement->tenancy->present()->name }}</td>
+				<td>{{ currency($payment->amount) }}</td>
 			</tr>
 		@endforeach
-	</tbody>
-</table>
+	@endslot
+@endcomponent

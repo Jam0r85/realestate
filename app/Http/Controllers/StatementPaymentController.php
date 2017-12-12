@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Invoices\InvoiceUpdateBalancesEvent;
+use App\Events\Expenses\ExpenseUpdateBalances;
+use App\Events\Invoices\InvoiceUpdateBalances;
 use App\Http\Requests\StatementPaymentSentRequest;
 use App\Http\Requests\StatementPaymentStoreRequest;
 use App\Http\Requests\StatementPaymentUpdateRequest;
-use App\Services\StatementService;
 use App\Statement;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -69,7 +69,9 @@ class StatementPaymentController extends BaseController
                 // Attach the invoice users to this payment
                 $payment->users()->sync($invoice->users);
 
-                event(new InvoiceUpdateBalancesEvent($invoice));
+                if ($sent_at) {
+                    event(new InvoiceUpdateBalances($invoice));
+                }
             }
         } else {
             $this->repository
@@ -92,6 +94,10 @@ class StatementPaymentController extends BaseController
 
                 // Attach the expense contractor to this payment
                 $payment->users()->sync($expense->contractor);
+
+                if ($sent_at) {
+                    event(new ExpenseUpdateBalances($expense));
+                }
             }
         } else {
             $this->repository

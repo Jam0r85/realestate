@@ -2,12 +2,12 @@
 
 namespace App\Listeners\Invoices;
 
-use App\Events\Invoices\InvoiceUpdateBalancesEvent;
+use App\Events\Invoices\InvoiceUpdateBalances;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class InvoiceUpdateBalancesListener
+class UpdateBalances
 {
     /**
      * Create the event listener.
@@ -25,7 +25,7 @@ class InvoiceUpdateBalancesListener
      * @param  InvoiceUpdateBalancesEvent  $event
      * @return void
      */
-    public function handle(InvoiceUpdateBalancesEvent $event)
+    public function handle(InvoiceUpdateBalances $event)
     {
         $invoice = $event->invoice;
 

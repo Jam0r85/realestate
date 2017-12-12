@@ -20,9 +20,10 @@ class CreateInvoicesTable extends Migration
             $table->integer('invoice_group_id')->unsigned();
             $table->string('number');
             $table->text('recipient')->nullable();
-            $table->decimal('net', 8, 2)->default(0);
-            $table->decimal('tax', 8, 2)->default(0);
-            $table->decimal('total', 8, 2)->default(0);
+            $table->decimal('net', 13, 3)->default(0);
+            $table->decimal('tax', 13, 3)->default(0);
+            $table->decimal('total', 13, 3)->default(0);
+            $table->decimal('balance', 13, 3)->default(0);
             $table->text('terms')->nullable();
             $table->string('key');
             $table->timestamp('due_at')->nullable();
