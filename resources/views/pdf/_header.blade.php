@@ -113,9 +113,10 @@
 				background-color: #f8f8f8;
 			}
 			table.table-list th, table.table-list td {
-				padding: 0.6rem;
+				padding: 0.4rem;
 				border: 1px solid #999;
 				margin: 0;
+				font-size: 14px;
 			}
 			ul.list-unstyled {
 				list-style: none;
