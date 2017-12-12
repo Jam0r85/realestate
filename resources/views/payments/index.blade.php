@@ -31,6 +31,9 @@
 					@endforeach
 				</div>
 			</li>
+
+			{!! (new Filter())->monthDropdown() !!}
+			{!! (new Filter())->yearDropdown('App\Payment') !!}
 		</ul>
 
 		@include('payments.partials.payments-table')

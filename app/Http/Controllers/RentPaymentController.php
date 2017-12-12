@@ -21,29 +21,6 @@ class RentPaymentController extends BaseController
     public $model = 'App\Payment';
 
     /**
-     * The index view for this controller.
-     * 
-     * @var string
-     */
-    public $indexView = 'payments.rent';
-
-    /**
-     * Display a listing of rent payments received.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return  \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $payments = $this->repository
-            ->forRent()
-            ->filter($request->all())
-            ->paginateFilter();
-
-        return view('payments.rent', compact('payments'));
-    }
-
-    /**
      * Search through the rent payments and display the results.
      * 
      * @param  \App\Http\Requests\SearchRequest  $request

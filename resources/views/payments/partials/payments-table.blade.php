@@ -13,7 +13,7 @@
 				<td>{{ date_formatted($payment->created_at) }}</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
-				<td>{!! $payment->present()->badge !!} {{ $payment->present()->forName }}</td>
+				<td>{!! $payment->present()->badge !!} {{ truncate($payment->present()->forName) }}</td>
 				<td>{!! $payment->present()->userNames !!}</td>
 				<td class="text-right">
 					<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">

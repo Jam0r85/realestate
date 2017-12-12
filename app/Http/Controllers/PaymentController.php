@@ -24,6 +24,7 @@ class PaymentController extends BaseController
     {
         $payments = $this->repository
             ->filter($request->all())
+            ->latest()
             ->paginateFilter();
 
         return view('payments.index', compact('payments'));

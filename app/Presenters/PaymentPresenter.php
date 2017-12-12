@@ -7,8 +7,6 @@ use Laracasts\Presenter\Presenter;
 class PaymentPresenter extends Presenter
 {
 	/**
-	 * Get the type for this payment.
-	 * eg. invoices become Invoice
 	 * 
 	 * @return string
 	 */
@@ -24,11 +22,9 @@ class PaymentPresenter extends Presenter
 	{
 		if ($this->parentName() == 'Tenancy') {
 			return 'Rent';
-		} elseif ($this->parentName() == 'Deposit') {
-			return 'Deposit';
 		}
 
-		return 'Payment';
+		return $this->parentName();
 	}
 
 	/**
@@ -44,49 +40,11 @@ class PaymentPresenter extends Presenter
 	 */
 	public function forName()
 	{
-		if ($this->parentName == 'Tenancy' || $this->parentName == 'Deposit') {
-			return $this->tenancyName();
-		} elseif ($this->parentName() == 'Invoice') {
-			return $this->invoiceName();
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function propertyNameShort()
-	{
-		if (method_exists($this->parent, 'property')) {
-			return $this->parent->property->present()->shortAddress;
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function propertyName()
-	{
-		if (method_exists($this->parent, 'property')) {
-			return $this->parent->property->present()->fullAddress;
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function tenancyName()
-	{
-		if (class_basename($this->parent) == 'Tenancy') {
+		if ($this->parentName() == 'Tenancy') {
 			return $this->parent->present()->name;
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function invoiceName()
-	{
-		if (class_basename($this->parent) == 'Invoice') {
+		} elseif ($this->parentName() == 'Deposit') {
+			return $this->parent->tenancy->present()->name;
+		} elseif ($this->parentName() == 'Invoice') {
 			return $this->parent->present()->name;
 		}
 	}

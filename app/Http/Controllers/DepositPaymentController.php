@@ -4,66 +4,52 @@ namespace App\Http\Controllers;
 
 use App\Deposit;
 use App\Http\Requests\DepositPaymentStoreRequest;
-use App\Payment;
+use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class DepositPaymentController extends BaseController
 {
     /**
-     * Display a listing of deposit payments received.
+     * The eloquent model for this controller.
      * 
-     * @return \Illuminate\Http\Response
+     * @var string
      */
-    public function index()
-    {
-        $payments = Payment::with('users','method','parent')
-            ->forDeposit()
-            ->latest()
-            ->paginate();
-
-        $title = 'Deposit Payments';
-        return view('payments.deposit', compact('payments','title'));
-    }
+    public $model = 'App\Payment';
 
     /**
-     * Search through the deposit payments and display the results.
+     * Search through the rent payments and display the results.
      * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\SearchRequest  $request
+     * @return  \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('deposit_payments_search_term');
-            return redirect()->route('deposit-payments.index');
+        $parent = parent::search($request);
+
+        if (is_array($parent)) {
+
+            $payments = $parent['payments'];
+
+            $payments
+                ->load('users','method','parent')
+                ->where('parent_type', 'deposits');
+
+            $parent['payments'] = $payments;
         }
 
-        Session::put('deposit_payments_search_term', $request->search_term);
-
-        $payments = Payment::search(Session::get('deposit_payments_search_term'))
-            ->get();
-
-        $payments->load('users','method','parent');
-
-        // Filter the payments for a parent_type of deposit.
-        $payments = $payments->where('parent_type', 'deposits');
-
-        $title = 'Search Results';
-        return view('payments.deposit', compact('payments','title'));
+        return $parent;
     }
 
     /**
      * Store a new payment for the given deposit.
      * 
-     * @param \App\Http\Requests\DepositPaymentStoreRequest $request
+     * @param  \App\Http\Requests\DepositPaymentStoreRequest $request
      * @param  \App\Deposit  $deposit
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function store(DepositPaymentStoreRequest $request, Deposit $deposit)
     {
-        $payment = new Payment();
+        $payment = $this->repository;
         $payment->amount = $request->amount;
         $payment->payment_method_id = $request->payment_method_id;
         $payment->note = $request->note;
