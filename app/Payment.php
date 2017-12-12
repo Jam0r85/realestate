@@ -75,7 +75,6 @@ class Payment extends PdfModel
     public function scopeForRent($query)
     {
         return $query
-            ->with('users','method','parent','parent.tenants','parent.property')
             ->where('parent_type', 'tenancies')
             ->latest();
     }
@@ -88,7 +87,8 @@ class Payment extends PdfModel
      */
     public function scopeForDeposit($query)
     {
-        return $query->where('parent_type', 'deposits');
+        return $query
+            ->where('parent_type', 'deposits');
     }
 
     /**
@@ -99,7 +99,8 @@ class Payment extends PdfModel
      */
     public function scopeForInvoice($query)
     {
-        return $query->where('parent_type', 'invoices');
+        return $query
+            ->where('parent_type', 'invoices');
     }
 
     /**

@@ -16,7 +16,8 @@ class Service extends BaseModel
 	 */
     public function taxRate()
     {
-    	return $this->belongsTo('App\TaxRate')
+    	return $this
+            ->belongsTo('App\TaxRate')
             ->withTrashed();
     }
 

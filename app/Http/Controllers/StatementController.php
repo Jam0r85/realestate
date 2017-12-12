@@ -36,7 +36,7 @@ class StatementController extends BaseController
         }
 
         $statements = $this->repository
-            ->with('tenancy','tenancy.property','tenancy.tenants','payments','users')
+            ->with('tenancy','tenancy.property','tenancy.users','payments','users')
             ->withTrashed()
             ->filter($request->all())
             ->paginateFilter();

@@ -69,7 +69,9 @@ class Statement extends PdfModel
 	 */
 	public function tenancy()
 	{
-		return $this->belongsTo('App\Tenancy')->withTrashed();
+		return $this
+            ->belongsTo('App\Tenancy')
+            ->withTrashed();
 	}
 
 	/**
@@ -85,7 +87,8 @@ class Statement extends PdfModel
 	 */
     public function users()
     {
-    	return $this->belongsToMany('App\User');
+    	return $this
+            ->belongsToMany('App\User');
     }
 
     /**
