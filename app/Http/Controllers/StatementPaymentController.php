@@ -27,13 +27,12 @@ class StatementPaymentController extends BaseController
     public function index()
     {
         $unsent_payments = $this->repository
-            ->whereNull('sent_at')
-            ->latest()
-            ->get();
-
-        if (count($unsent_payments)) {
-            $unsent_payments = $unsent_payments->groupBy('group')->sortBy('bank_account.account_name');
-        }
+                ->with('statement','statement.tenancy','statement.tenancy.property','bank_account','parent')
+                ->whereNull('sent_at')
+                ->latest()
+                ->get()
+                ->groupBy('group')
+                ->sortBy('bank_account.account_name');
 
     	$sent_payments = $this->repository
             ->with('statement','statement.tenancy','statement.tenancy.property','users','bank_account')
