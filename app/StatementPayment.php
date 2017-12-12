@@ -37,6 +37,16 @@ class StatementPayment extends BaseModel
         'parent_id'
 	];
 
+    /**
+     * Get the model created message.
+     * 
+     * @return  string
+     */
+    public function messageCreated()
+    {
+        return $this->present()->name . 's created';
+    }
+
 	/**
 	 * A statement payment belongs to a statement.
 	 */
