@@ -15,8 +15,7 @@
 			<tr>
 				<td>{{ $payment->present()->status }}</td>
 				@if (!isset($statement))
-					<td>{{ $payment->present()->propertyName }}</td>
-					<td>
+					<td>{{ truncate($payment->present()->propertyName) }}</td>
 						<a href="{{ route('statements.show', $payment->statement->id) }}">
 							{{ $payment->present()->statementName }}
 						</a>
