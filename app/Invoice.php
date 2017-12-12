@@ -161,7 +161,8 @@ class Invoice extends PdfModel
      */
     public function items()
     {
-        return $this->hasMany('App\InvoiceItem');
+        return $this
+            ->hasMany('App\InvoiceItem');
     }
 
     /**
