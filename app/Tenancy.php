@@ -70,6 +70,11 @@ class Tenancy extends BaseModel
         'deleted_at'
     ];
 
+    /**
+     * The attributes that should be eager loaded.
+     * 
+     * @var array
+     */
     protected $with = [
         'users'
     ];
@@ -83,7 +88,7 @@ class Tenancy extends BaseModel
     public function scopeEagerLoading($query)
     {
         return $query
-            ->with('property','users','currentRent','service','deposit','rent_payments','statements');
+            ->with('property','currentRent','service','deposit','rent_payments','statements');
     }
 
     /**
