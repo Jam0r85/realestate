@@ -22,4 +22,15 @@ class PaymentFilter extends BaseFilter
     {
     	return $this->related('method', 'slug', '=', $slug);
     }
+
+    /**
+     * Filter results by parent.
+     * 
+     * @param  string $parent
+     * @return 
+     */
+    public function parent($parent)
+    {
+        return $this->where('parent_type', $parent);
+    }
 }

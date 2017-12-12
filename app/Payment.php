@@ -110,14 +110,8 @@ class Payment extends PdfModel
      */
     public function messageCreated()
     {
-        $name = class_basename($this->parent);
-
-        // We overwrite the tenancy name as it's actually a rent payment
-        if ($name == 'Tenancy') {
-            $name = 'Rent';
-        }
-
-        return $name . ' payment of ' . currency($this->amount) . ' created';
+        return $this
+            ->present()->name . ' payment of ' . currency($this->amount) . ' created';
     }
 
     /**
@@ -125,7 +119,8 @@ class Payment extends PdfModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
 	/**
