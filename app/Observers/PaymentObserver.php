@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\Invoices\InvoiceUpdateBalancesEvent;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Payment;
 use Carbon\Carbon;
@@ -34,10 +35,12 @@ class PaymentObserver
 	 */
 	public function saved(Payment $payment)
 	{
-		$parentClass = class_basename($payment->parent);
-
-		if ($parentClass == 'Tenancy') {
+		if ($payment->present()->parentName == 'Tenancy') {
 			event(new TenancyUpdateStatus($payment->parent));
+		}
+
+		if ($payment->present()->parentName == 'Invoice') {
+			event (new InvoiceUpdateBalancesEvent($payment->parent));
 		}
 	}
 
@@ -49,10 +52,12 @@ class PaymentObserver
 	 */
 	public function deleted(Payment $payment)
 	{
-		$parentClass = class_basename($payment->parent);
-
-		if ($parentClass == 'Tenancy') {
+		if ($payment->present()->parentName == 'Tenancy') {
 			event(new TenancyUpdateStatus($payment->parent));
+		}
+
+		if ($payment->present()->parentName == 'Invoice') {
+			event (new InvoiceUpdateBalancesEvent($payment->parent));
 		}
 	}
 }

@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 
 class InvoiceItemController extends BaseController
 {
-    public function store(Request $request)
-    {
-
-    }
+    public $model = 'App\InvoiceItem';
 
 	/**
 	 * Show the form for editing an invoice item.
@@ -21,27 +18,27 @@ class InvoiceItemController extends BaseController
 	 */
     public function edit($id)
     {
-    	$item = InvoiceItem::findOrFail($id);
+        $item = $this
+            ->repository
+            ->findOrFail($id);
+
     	return view('invoices.show.edit-item', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateInvoiceItemRequest $request
-     * @param integer $id
+     * @param  \App\Http\Requests\UpdateInvoiceItemRequest $request
+     * @param  \App\InvoiceItem $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateInvoiceItemRequest $request, $id)
     {
-    	$item = InvoiceItem::findOrFail($id);
-
-        if ($request->has('remove_item')) {
-            $item->delete();
-        } else {
-        	$item->fill($request->input());
-        	$item->save();
-        }
+        $this
+            ->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
     }

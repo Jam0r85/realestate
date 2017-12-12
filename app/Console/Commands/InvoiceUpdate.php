@@ -2,18 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Events\Invoices\InvoiceUpdateBalances;
 use App\Invoice;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class InvoiceUpdateBalances extends Command
+class InvoiceUpdate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'invoice:update-balances';
+    protected $signature = 'invoice:update';
 
     /**
      * The console command description.
@@ -43,20 +44,7 @@ class InvoiceUpdateBalances extends Command
         $invoices = Invoice::all();
 
         foreach ($invoices as $invoice) {
-            $invoice->net = $invoice->present()->itemsTotalNet;
-            $invoice->tax = $invoice->present()->itemsTotalTax;
-            $invoice->total = $invoice->present()->itemsTotal;
-            $invoice->balance = $invoice->present()->remainingBalanceTotal;
-
-            if ($invoice->balance <= 0 && count($invoice->items)) {
-                if (!$invoice->paid_at) {
-                    $invoice->paid_at = Carbon::now();
-                }
-            } else {
-                $invoice->paid_at = null;
-            }
-
-            $invoice->save();
+            event(new InvoiceUpdateBalances($invoice));
         }
 
         $this->info('Invoices Updated');

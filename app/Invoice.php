@@ -5,6 +5,7 @@ namespace App;
 use App\InvoiceItem;
 use App\Jobs\SendInvoiceToUsers;
 use App\StatementPayment;
+use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -89,6 +90,7 @@ class Invoice extends PdfModel
 		'net',
 		'tax',
 		'total',
+        'balance',
 		'terms',
 		'key',
 		'due_at',

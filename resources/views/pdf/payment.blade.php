@@ -24,8 +24,10 @@
 			<hr />
 
 			<div class="lead">
-				<p>Property - {{ $payment->present()->propertyName }}</p>
-				<p>Tenancy - {{ $payment->present()->tenancyName }}</p>
+				@if ($payment->present()->parentName == 'Tenancy')
+					<p>Property - {{ $payment->parent->property->present()->fullAddress }}</p>
+					<p>Tenancy - {{ $payment->parent->present()->name }}</p>
+				@endif
 				<p>Method - {{ $payment->method->name }}</p>
 				<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
 				<p><b>Amount - {{ currency($payment->amount) }}</b></p>

@@ -28,10 +28,8 @@ class CheckBalances
     {
         $tenancy = $event->tenancy;
 
-        if ($tenancy) {
-            $tenancy->rent_balance = $tenancy->getRentBalance();
-            $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
-            $tenancy->saveWithMessage('balances updated');
-        }
+        $tenancy->rent_balance = $tenancy->getRentBalance();
+        $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
+        $tenancy->saveWithMessage('balances updated');
     }
 }

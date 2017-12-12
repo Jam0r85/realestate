@@ -35,6 +35,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Tenancies\CheckBalances'
         ],
 
+        'App\Events\Invoices\InvoiceUpdateBalancesEvent' => [
+            'App\Listeners\Invoices\InvoiceUpdateBalancesListener'
+        ],
+
         'Illuminate\Notifications\Events\NotificationSent' => [
             'App\Listeners\LogSmsNotification',
         ],
