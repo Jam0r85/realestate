@@ -58,13 +58,16 @@ class StatementPaymentController extends BaseController
         // Invoice Payments
         if (count($statement->invoices)) {
             foreach ($statement->invoices as $invoice) {
-                $this->repository::updateOrCreate(
+                $payment = $this->repository::updateOrCreate(
                     ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $invoice->id],
                     [
                         'amount' => $statement->present()->invoicesTotal,
                         'sent_at' => $sent_at
                     ]
                 );
+
+                // Attach the invoice users to this payment
+                $payment->users()->sync($invoice->users);
 
                 event(new InvoiceUpdateBalancesEvent($invoice));
             }
@@ -79,13 +82,16 @@ class StatementPaymentController extends BaseController
         if (count($statement->expenses)) {
             foreach ($statement->expenses as $expense) {
 
-                $this->repository::updateOrCreate(
+                $payment = $this->repository::updateOrCreate(
                     ['statement_id' => $statement->id, 'parent_type' => 'expenses', 'parent_id' => $expense->id],
                     [
                         'amount' => $expense->pivot->amount,
                         'sent_at' => $sent_at
                     ]
                 );
+
+                // Attach the expense contractor to this payment
+                $payment->users()->sync($expense->contractor);
             }
         } else {
             $this->repository
@@ -95,7 +101,7 @@ class StatementPaymentController extends BaseController
         }
 
         // Landlord Payment
-        $this->repository::updateOrCreate(
+        $payment = $this->repository::updateOrCreate(
             ['statement_id' => $statement->id, 'parent_type' => null],
             [
                 'amount' => $statement->present()->landlordBalanceTotal,
@@ -103,6 +109,9 @@ class StatementPaymentController extends BaseController
                 'bank_account_id' => $statement->property()->bank_account_id
             ]
         );
+
+        // Attach the statement users to this payment
+        $payment->users()->sync($statement->users);
 
         return back();
     }
