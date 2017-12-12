@@ -70,6 +70,10 @@ class Tenancy extends BaseModel
         'deleted_at'
     ];
 
+    protected $with = [
+        'users'
+    ];
+
     /**
      * Scope a query to include eager loading dependencies.
      * 

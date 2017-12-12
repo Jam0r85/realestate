@@ -132,7 +132,8 @@ class Payment extends PdfModel
 	 */
     public function users()
     {
-    	return $this->belongsToMany('App\User');
+    	return $this
+            ->belongsToMany('App\User');
     }
 
     /**
@@ -140,7 +141,8 @@ class Payment extends PdfModel
      */
     public function method()
     {
-        return $this->belongsTo('App\PaymentMethod', 'payment_method_id');
+        return $this
+            ->belongsTo('App\PaymentMethod', 'payment_method_id');
     }
 
     /**
@@ -148,7 +150,9 @@ class Payment extends PdfModel
      */
     public function parent()
     {
-    	return $this->morphTo()->withTrashed();
+    	return $this
+            ->morphTo()
+            ->withTrashed();
     }
 
     /**
@@ -158,6 +162,7 @@ class Payment extends PdfModel
      */
     public function isRent()
     {
-        return $this->parent_type === 'tenancies';
+        return $this
+            ->parent_type === 'tenancies';
     }
 }
