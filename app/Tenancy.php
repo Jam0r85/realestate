@@ -608,8 +608,13 @@ class Tenancy extends BaseModel
      */
     public function storeStatement(Statement $statement)
     {
-        $this->statements()->save($statement);
-        $statement->users()->attach($this->property->owners);
+        $this
+            ->statements()
+            ->save($statement);
+
+        $statement
+            ->users()
+            ->attach($this->property->owners);
 
         event(new TenancyUpdateStatus($this));
 

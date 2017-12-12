@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('tenancy:check-overdue')->dailyAt('09:00');
+        $schedule->command('tenancy:check-overdue')->dailyAt('08:00');
         $schedule->command('statement:check-paid')->everyThirtyMinutes();
         $schedule->command('invoice:check-paid')->everyThirtyMinutes();
         $schedule->command('expense:check-paid')->everyThirtyMinutes();
