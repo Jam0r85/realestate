@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Storage;
 class DocumentController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Document';
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -46,7 +53,6 @@ class DocumentController extends BaseController
             $parent->storeDocument($file);
         }
 
-        $this->successMessage('The ' . str_plural($parent->getDocumentNameType(), count($request->files)) . ' ' . str_plural('was', count($request->files)) . ' uploaded');
         return back();
     }
 
@@ -82,23 +88,11 @@ class DocumentController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $document = Document::findOrFail($id);
+        $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
-        $document->name = $request->name;
-        $document->save();
-
-        $this->successMessage('The document "' . $document->name . '" was updated');
         return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Document  $document
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Document $document)
-    {
-        //
     }
 }
