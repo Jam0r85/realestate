@@ -72,7 +72,8 @@ class BaseFilter extends ModelFilter
             return $this->whereNotNull('sent_at')
                 ->latest('sent_at');
         } else {
-            return $this->whereNull('sent_at');
+            return $this->whereNull('sent_at')
+                ->latest('created_at');
         }
     }
 }
