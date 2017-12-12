@@ -4,7 +4,7 @@ namespace App\ModelFilters;
 
 class EventFilter extends BaseFilter
 {
-	protected $filterDateColumn = 'start';
+	public $filterDateColumn = 'start';
 
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter

@@ -11,7 +11,7 @@ class TenancyFilter extends BaseFilter
      * 
      * @var  string
      */
-    protected $filterDateColumn = 'started_on';
+    public $filterDateColumn = 'started_on';
 
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter
