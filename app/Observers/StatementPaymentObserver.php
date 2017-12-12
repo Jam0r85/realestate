@@ -29,10 +29,10 @@ class StatementPaymentObserver
 	public function saved(StatementPayment $payment)
 	{
 		if ($payment->parent) {
-			if ($payment->present()->parentName == 'Invoice') {
+			if ($payment->present()->parentName == 'Invoice' && $payment->parent_id) {
 				event (new InvoiceUpdateBalances($payment->parent));
 			}
-			if ($payment->present()->parentName == 'Expense') {
+			if ($payment->present()->parentName == 'Expense' && $payment->parent_id) {
 				event (new ExpenseUpdateBalances($payment->parent));
 			}
 		}
@@ -47,10 +47,10 @@ class StatementPaymentObserver
 	public function deleted(StatementPayment $payment)
 	{
 		if ($payment->parent) {
-			if ($payment->present()->parentName == 'Invoice' &&) {
+			if ($payment->present()->parentName == 'Invoice' && $payment->parent_id) {
 				event (new InvoiceUpdateBalances($payment->parent));
 			}
-			if ($payment->present()->parentName == 'Expense') {
+			if ($payment->present()->parentName == 'Expense' && $payment->parent_id) {
 				event (new ExpenseUpdateBalances($payment->parent));
 			}
 		}
