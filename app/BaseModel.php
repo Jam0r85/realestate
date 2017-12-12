@@ -65,7 +65,11 @@ class BaseModel extends Model
 	{
 		parent::delete();
 
-		$this->flashMessage('deleted');
+		if ($this->forceDeleting) {
+			$this->flashMessage('forceDeleted');
+		} else {
+			$this->flashMessage('deleted');
+		}
 	}
 
 	/**
@@ -120,6 +124,16 @@ class BaseModel extends Model
 	public function messageDeleted()
 	{
 		return $this->classNameFormatted() . ' #' . $this->id . ' was deleted';
+	}
+
+	/**
+	 * Get the model deleted message.
+	 * 
+	 * @return  string
+	 */
+	public function messageForceDeleted()
+	{
+		return $this->classNameFormatted() . ' #' . $this->id . ' was destroyed';
 	}
 
 	/**

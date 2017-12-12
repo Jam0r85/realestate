@@ -49,12 +49,12 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/create-payment', 'InvoicePaymentController@store')->name('invoices.create-payment');
 		Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 		Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
-		Route::post('{id}/archive', 'InvoiceController@archive')->name('invoices.archive');
-		Route::post('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
-		Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
 		Route::post('{id}/create-recurring', 'InvoiceRecurringController@store')->name('invoices.create-recurring');
 		Route::post('{id}/clone', 'InvoiceController@clone')->name('invoices.clone');
 		Route::post('{id}/send', 'InvoiceController@send')->name('invoices.send');
+		Route::put('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
+		Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
+		Route::put('{id}/destroy', 'InvoiceController@forceDestroy')->name('invoices.forceDestroy');
 	});
 
 	Route::prefix('invoice-groups')->group(function () {
