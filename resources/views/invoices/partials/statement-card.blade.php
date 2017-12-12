@@ -1,18 +1,16 @@
-@if ($invoice->statement)
+@if (count($invoice->statements))
 	<div class="card mb-3">
 
 		@component('partials.card-header')
-			Linked to Statement {{ $invoice->statement->id }}
+			Statements
 		@endcomponent
 
-		<div class="card-body">
-			<p class="card-text">
-				This invoice is attached to a rental statement.
-			</p>
-
-			<a href="{{ route('statements.show', $invoice->statement->id) }}" class="btn btn-primary">
-				View Statement
-			</a>
+		<div class="list-group list-group-flush">
+			@foreach ($invoice->statements as $statement)
+				<a href="{{ route('statements.show', $statement->id) }}" class="list-group-item list-group-item-action">
+					{{ $statement->present()->name }}
+				</a>
+			@endforeach
 		</div>
 		
 	</div>

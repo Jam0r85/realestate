@@ -2,10 +2,13 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
-
-class StatementPresenter extends Presenter
+class StatementPresenter extends BasePresenter
 {
+	public function name()
+	{
+		return 'Statement #' . $this->id;
+	}
+	
 	/**
 	 * Get the payment method name
 	 * 
