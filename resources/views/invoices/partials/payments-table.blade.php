@@ -17,7 +17,6 @@
 				</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
-				<td>
 					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
 				</td>
 			</tr>
@@ -38,9 +37,7 @@
 						Statement #{{ $payment->statement_id }}
 					</a>
 				</td>
-				<td>
-					@include('partials.bootstrap.users-inline', ['users' => $payment->users])
-				</td>
+				<td>{!! $payment->present()->recipientNames !!}</td>
 			</tr>
 		@endforeach
 		{{-- End statement invoice payments --}}
