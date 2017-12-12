@@ -79,7 +79,7 @@
 										<label class="custom-control custom-checkbox">
 											<input class="custom-control-input" type="checkbox" name="user_id[]" value="{{ $user->id }}" checked />
 											<span class="custom-control-indicator"></span>
-											<span class="custom-control-description">{{ $user->name }}</span>
+											<span class="custom-control-description">{{ $user->present()->fullName }}</span>
 										</label>
 									@endforeach
 								</div>
@@ -111,7 +111,7 @@
 							@endslot
 						@endcomponent
 						@component('partials.bootstrap.list-group-item')
-							{{ currency($invoice->total_balance) }}
+							{{ currency($invoice->balance) }}
 							@slot('title')
 								Balance Remaining
 							@endslot
@@ -125,14 +125,14 @@
 						Payments History
 					@endcomponent
 
-					<table class="table table-striped table-hover table-responsive">
-						<thead>
+					@component('partials.table')
+						@slot('header')
 							<th>Date</th>
 							<th>Amount</th>
 							<th>Method</th>
 							<th>User(s)</th>
-						</thead>
-						<tbody>
+						@endslot
+						@slot('body')
 							@foreach ($invoice->payments as $payment)
 								<tr>
 									<td>{{ date_formatted($payment->created_at) }}</td>
@@ -153,8 +153,9 @@
 									</td>
 								</tr>
 							@endforeach
-						</tbody>
-					</table>
+						@endslot
+					@endcomponent
+
 				</div>
 
 			</div>
