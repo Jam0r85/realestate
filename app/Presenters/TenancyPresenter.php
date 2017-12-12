@@ -84,6 +84,28 @@ class TenancyPresenter extends Presenter
 	}
 
 	/**
+	 * @return  string
+	 */
+	public function rentBalanceFormatted()
+	{
+		$class = '';
+
+		if ($this->currentRent) {
+			if ($this->rentBalancePlain >= $this->currentRent->amount) {
+				$class = 'success';
+			} elseif ($this->rentBalancePlain > 0 && $this->rentBalancePlain < $this->currentRent->amount) {
+				$class = 'info';
+			} elseif ($this->rentBalancePlain < 0) {
+				$class = 'danger';
+			}
+		} else {
+			$class = 'warning';
+		}
+
+		return '<span class="text-' . $class .'">' . $this->rentBalance() . '</span>';
+	}
+
+	/**
 	 * @return integer
 	 */
 	public function statementTotal($formatting = true)

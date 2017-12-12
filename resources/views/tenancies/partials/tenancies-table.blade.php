@@ -18,7 +18,7 @@
 				<td>{{ truncate($tenancy->present()->name) }}</td>
 				<td>{{ truncate($tenancy->property->present()->shortAddress) }}</td>
 				<td>{{ $tenancy->present()->rentAmount }}</td>
-				<td>{{ $tenancy->present()->rentBalance }}</td>
+				<td>{!! $tenancy->present()->rentBalanceFormatted !!}</td>
 				<td>{{ $tenancy->present()->serviceName }}</td>
 				@if (request('overdue'))
 					<td>{{ $tenancy->is_overdue }}</td>
