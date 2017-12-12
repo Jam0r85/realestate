@@ -59,15 +59,10 @@ class ExpenseController extends BaseController
      */
     public function store(ExpenseStoreRequest $request)
     {
-        $property = Property::findOrFail($request->property_id);
-
-        $expense = $this->repository;
-        $expense->name = $request->name;
-        $expense->cost = $request->cost;
-        $expense->contractor_id = $request->contractor_id;
-        $expense->data = ['contractor_reference' => $request->contractor_reference];
-
-        $property->expenses()->save($expense);
+        $expense = $this->repository
+            ->fill($request->input())
+            ->setData($request->input())
+            ->save();
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {

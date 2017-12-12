@@ -4,6 +4,7 @@ namespace App;
 
 use App\Document;
 use App\StatementPayment;
+use App\Traits\DataTrait;
 use App\Traits\DocumentsTrait;
 use EloquentFilter\Filterable;
 use Laracasts\Presenter\PresentableTrait;
@@ -15,6 +16,7 @@ class Expense extends BaseModel
     use DocumentsTrait;
     use PresentableTrait;
     use Filterable;
+    use DataTrait;
 
     /**
      * The presenter for this model.
@@ -77,7 +79,17 @@ class Expense extends BaseModel
         'cost',
         'paid_at',
         'contractor_id',
-        'property_id'
+        'property_id',
+        'data'
+    ];
+
+    /**
+     * The allowed keys in the data column.
+     * 
+     * @var  array
+     */
+    public $dataKeys = [
+        'contractor_reference'
     ];
 
     /**

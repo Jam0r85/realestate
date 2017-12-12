@@ -7,20 +7,11 @@ use EloquentFilter\ModelFilter;
 class BaseFilter extends ModelFilter
 {
     /**
-     * ModelFilter constructor.
-     *
-     * @param $query
-     * @param array $input
-     * @param bool $relationsEnabled
+     * The date column we use to filter results against.
+     * 
+     * @var string
      */
-    public function __construct($query, array $input = [], $relationsEnabled = true)
-    {
-        parent::__construct($query, $input, $relationsEnabled);
-
-        if (!property_exists($this, 'filterDateColumn')) {
-            $this->filterDateColumn = 'created_at';
-        }
-    }
+    public $filterDateColumn = 'created_at';
 
     /**
      * Filter results by month.
