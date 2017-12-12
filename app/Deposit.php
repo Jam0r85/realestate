@@ -20,8 +20,8 @@ class Deposit extends BaseModel
     {
         $array = $this->only('amount','unique_id');
 
-        $array['tenancy'] = $this->tenancy->name;
-        $array['property'] = $this->tenancy->property->name;
+        $array['tenancy'] = $this->tenancy->present()->name;
+        $array['property'] = $this->tenancy->property->present()->fullAddress;
 
         return $array;
     }
@@ -112,19 +112,26 @@ class Deposit extends BaseModel
      */
     public function getBalanceAttribute()
     {
-    	return $this->payments->sum('amount');
+    	return $this
+            ->payments
+            ->sum('amount');
     }
 
     /**
      * Store a payment to this deposit.
      * 
-     * @param  \App\Payment  $payment
+     * @param  \App\Payment $payment
      * @return  \App\Payment
      */
     public function storePayment(Payment $payment)
     {
-        $this->payments()->save($payment);
-        $payment->users()->attach($this->tenancy->tenants);
+        $this
+            ->payments()
+            ->save($payment);
+
+        $payment
+            ->users()
+            ->attach($this->tenancy->users);
 
         return $payment;
     }
