@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Tenancies\TenancyUpdateStatus;
-use App\Http\Requests\DestroyPaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class PaymentController extends BaseController
 {
@@ -18,10 +15,25 @@ class PaymentController extends BaseController
     public $model = 'App\Payment';
 
     /**
+     * Display a listing of the resource.
+     * 
+     * @param  \Illuminate\Http\Request $request
+     * @return  \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $payments = $this->repository
+            ->filter($request->all())
+            ->paginateFilter();
+
+        return view('payments.index', compact('payments'));
+    }
+
+    /**
      * Find and display the payment.
      * 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
+     * @param  integer $id
+     * @return  \Illuminate\Http\Response
      */
     public function show($id, $section = 'layout')
     {
@@ -34,24 +46,21 @@ class PaymentController extends BaseController
     /**
      * Update the payment in storage.
      * 
-     * @param \App\Http\Requests\UpdatePaymentRequest $request
+     * @param  \App\Http\Requests\UpdatePaymentRequest  $request
      * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
+     * @return  \Illuminate\Http\Response
      */
     public function update(UpdatePaymentRequest $request, $id)
     {
-        $payment = $this->repository
+        $this->repository
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
 
-        $payment->users()->sync($request->users);
-
-        // Rent payment, we need to update the tenancy.
-        // Better place to put this?
-        if (class_basename($payment->parent) == 'Tenancy') {
-            event(new TenancyUpdateStatus($payment->parent));
-        }
+        $this->repository
+            ->findOrFail($id)
+            ->users()
+            ->sync($request->users);            
 
         return back();
     }

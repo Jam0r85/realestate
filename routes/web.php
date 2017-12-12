@@ -88,24 +88,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy');
 	});
 
-	Route::prefix('rent-payments')->group(function () {
-		Route::get('/', 'RentPaymentController@index')->name('payments.rent');
-		Route::post('search', 'RentPaymentController@search')->name('rent-payments.search');
-	});
-
-	Route::prefix('deposit-payments')->group(function () {
-		Route::get('/', 'DepositPaymentController@index')->name('deposit-payments.index');
-		Route::post('search', 'DepositPaymentController@search')->name('deposit-payments.search');
-	});
-
-	Route::prefix('invoice-payments')->group(function () {
-		Route::get('/', 'InvoicePaymentController@index')->name('invoice-payments.index');
-		Route::post('search', 'InvoicePaymentController@search')->name('invoice-payments.search');
-	});
-
 	Route::prefix('payments')->group(function () {
+		Route::get('/', 'PaymentController@index')->name('payments.index');
+		Route::post('search', 'PaymentController@search')->name('payments.search');
 		Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
-		Route::put('{payment}', 'PaymentController@update')->name('payments.update');
+		Route::put('{id}', 'PaymentController@update')->name('payments.update');
 		Route::delete('{payment}', 'PaymentController@destroy')->name('payments.destroy');
 	});
 

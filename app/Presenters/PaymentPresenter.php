@@ -7,14 +7,47 @@ use Laracasts\Presenter\Presenter;
 class PaymentPresenter extends Presenter
 {
 	/**
+	 * Get the type for this payment.
+	 * eg. invoices become Invoice
+	 * 
+	 * @return string
+	 */
+	public function parentName()
+	{
+		return parentModel($this->parent_type);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function name()
 	{
-		if ($this->parent_type == 'tenancies') {
+		if ($this->parentName() == 'Tenancy') {
 			return 'Rent';
-		} elseif ($this->parent_type == 'deposits') {
+		} elseif ($this->parentName() == 'Deposit') {
 			return 'Deposit';
+		}
+
+		return 'Payment';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function badge()
+	{
+		return '<span class="badge badge-info">' . $this->name() . '</span>';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function forName()
+	{
+		if ($this->parentName == 'Tenancy' || $this->parentName == 'Deposit') {
+			return $this->tenancyName();
+		} elseif ($this->parentName() == 'Invoice') {
+			return $this->invoiceName();
 		}
 	}
 
@@ -43,7 +76,17 @@ class PaymentPresenter extends Presenter
 	 */
 	public function tenancyName()
 	{
-		if ($this->parent_type == 'tenancies') {
+		if (class_basename($this->parent) == 'Tenancy') {
+			return $this->parent->present()->name;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function invoiceName()
+	{
+		if (class_basename($this->parent) == 'Invoice') {
 			return $this->parent->present()->name;
 		}
 	}
@@ -64,7 +107,7 @@ class PaymentPresenter extends Presenter
 	public function userNames()
 	{
 		foreach ($this->users as $user) {
-			$names[] = $user->present()->fullName;
+			$names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
 		}
 
 		if (isset($names) && count($names)) {

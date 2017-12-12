@@ -111,14 +111,8 @@
                             @endcomponent
 
                             <div class="dropdown-menu" aria-labelledby="paymentsDropdown">
-                                <a class="dropdown-item" href="{{ route('payments.rent') }}">
-                                    Rent Payments
-                                </a>
-                                <a class="dropdown-item" href="{{ route('deposit-payments.index') }}">
-                                    Deposit Payments
-                                </a>
-                                <a class="dropdown-item" href="{{ route('invoice-payments.index') }}">
-                                    Invoice Payments
+                                <a class="dropdown-item" href="{{ route('payments.index') }}">
+                                    Payments List
                                 </a>
                             </div>
 

@@ -5,14 +5,14 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			Rent Payments
+			Payments List
 		@endcomponent
 
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
 
-		@include('partials.index-search', ['route' => 'rent-payments.search', 'session' => 'payment_search_term'])
+		@include('partials.index-search', ['route' => 'payments.search', 'session' => 'payment_search_term'])
 
 		<ul class="nav nav-pills">
 			<li class="nav-item dropdown">
@@ -31,14 +31,9 @@
 					@endforeach
 				</div>
 			</li>
-
-			{!! (new Filter())->monthDropdown() !!}
-			{!! (new Filter())->yearDropdown('App\Payment') !!}
-
 		</ul>
 
-		@include('payments.partials.rent-payments-table')
-
+		@include('payments.partials.payments-table')
 		@include('partials.pagination', ['collection' => $payments])
 
 	@endcomponent
