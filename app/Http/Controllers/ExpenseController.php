@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExpenseDeleteRequest;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\ExpenseUpdateRequest;
-use App\Property;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class ExpenseController extends BaseController
 {    
@@ -59,14 +55,14 @@ class ExpenseController extends BaseController
      */
     public function store(ExpenseStoreRequest $request)
     {
-        $expense = $this->repository
+        $this->repository
             ->fill($request->input())
             ->setData($request->input())
             ->save();
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                $expense->storeDocument($file);
+                $this->repository->storeDocument($file);
             }
         }
 
@@ -96,7 +92,7 @@ class ExpenseController extends BaseController
      */
     public function update(ExpenseUpdateRequest $request, $id)
     {
-        $expense = $this->repository
+        $this->repository
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
