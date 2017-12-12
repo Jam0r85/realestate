@@ -23,7 +23,7 @@
 		@component('partials.card-header')
 			Tenants
 		@endcomponent
-		@include('users.partials.users-table', ['users' => $tenancy->tenants])
+		@include('users.partials.users-table', ['users' => $tenancy->users])
 	</div>
 
 	<div class="row">

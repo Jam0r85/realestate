@@ -79,7 +79,7 @@ class Tenancy extends BaseModel
     public function scopeEagerLoading($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements');
+            ->with('property','users','currentRent','service','deposit','rent_payments','statements');
     }
 
     /**
@@ -117,7 +117,10 @@ class Tenancy extends BaseModel
      */
     public function scopeHasRent($query)
     {
-        return $query->where('rent_balance', '>', 0)->orderBy('rent_balance', 'desc');
+        return $query
+            ->eagerLoading()
+            ->where('rent_balance', '>', 0)
+            ->orderBy('rent_balance', 'desc');
     }
 
     /**
@@ -158,6 +161,7 @@ class Tenancy extends BaseModel
     public function scopeActive($query)
     {
         return $query
+            ->eagerLoading()
             ->whereNull('vacated_on')
             ->orWhere('vacated_on', '>', Carbon::now());
     }
@@ -171,7 +175,7 @@ class Tenancy extends BaseModel
     public function scopeVacated($query)
     {
         return $query
-            ->with('property','tenants','currentRent','service','deposit','rent_payments','statements')
+            ->eagerLoading()
             ->where('vacated_on', '<=', Carbon::now());
     }
 
@@ -180,7 +184,9 @@ class Tenancy extends BaseModel
 	 */
     public function property()
     {
-    	return $this->belongsTo('App\Property')->withTrashed();
+    	return $this
+            ->belongsTo('App\Property')
+            ->withTrashed();
     }
 
     /**
@@ -188,7 +194,10 @@ class Tenancy extends BaseModel
      */
     public function rents()
     {
-    	return $this->hasMany('App\TenancyRent')->withTrashed()->latest('starts_at');
+    	return $this
+            ->hasMany('App\TenancyRent')
+            ->withTrashed()
+            ->latest('starts_at');
     }
 
     /**
@@ -196,7 +205,8 @@ class Tenancy extends BaseModel
      */
     public function currentRent()
     {
-        return $this->hasOne('App\TenancyRent')
+        return $this
+            ->hasOne('App\TenancyRent')
             ->where('starts_at', '<=', Carbon::now())
             ->latest('starts_at');
     }
@@ -204,9 +214,10 @@ class Tenancy extends BaseModel
     /**
      * The tenants of the tenancy.
      */
-    public function tenants()
+    public function users()
     {
-    	return $this->belongsToMany('App\User');
+    	return $this
+            ->belongsToMany('App\User');
     }
 
     /**
@@ -214,7 +225,9 @@ class Tenancy extends BaseModel
      */
     public function rent_payments()
     {
-    	return $this->morphMany('App\Payment', 'parent')->latest();
+    	return $this
+            ->morphMany('App\Payment', 'parent')
+            ->latest();
     }
 
     /**
@@ -222,7 +235,9 @@ class Tenancy extends BaseModel
      */
     public function latestRentPayment()
     {
-        return $this->rent_payments->first();
+        return $this
+            ->rent_payments
+            ->first();
     }
 
     /**
@@ -240,7 +255,9 @@ class Tenancy extends BaseModel
      */
     public function agreements()
     {
-        return $this->hasMany('App\Agreement')->latest('starts_at');
+        return $this
+            ->hasMany('App\Agreement')
+            ->latest('starts_at');
     }
 
     /**
@@ -248,7 +265,8 @@ class Tenancy extends BaseModel
      */
     public function currentAgreement()
     {
-        return $this->hasOne('App\Agreement')
+        return $this
+            ->hasOne('App\Agreement')
             ->where('starts_at', '<=', Carbon::now())
             ->where('ends_at', '>', Carbon::now())
             ->orWhere('starts_at', '<=', Carbon::now())
@@ -261,7 +279,8 @@ class Tenancy extends BaseModel
      */
     public function firstAgreement()
     {
-        return $this->hasOne('App\Agreement')
+        return $this
+            ->hasOne('App\Agreement')
             ->oldest('starts_at');
     }
 
@@ -270,7 +289,8 @@ class Tenancy extends BaseModel
      */
     public function service()
     {
-        return $this->belongsTo('App\Service');
+        return $this
+            ->belongsTo('App\Service');
     }
 
     /**
@@ -278,7 +298,8 @@ class Tenancy extends BaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -286,7 +307,9 @@ class Tenancy extends BaseModel
      */
     public function discounts()
     {
-        return $this->belongsToMany('App\Discount')->withPivot('for');
+        return $this
+            ->belongsToMany('App\Discount')
+            ->withPivot('for');
     }
 
     /**
@@ -294,7 +317,9 @@ class Tenancy extends BaseModel
      */
     public function serviceDiscounts()
     {
-        return $this->belongsToMany('App\Discount')->wherePivot('for', 'service');
+        return $this
+            ->belongsToMany('App\Discount')
+            ->wherePivot('for', 'service');
     }
 
     /**
@@ -302,7 +327,8 @@ class Tenancy extends BaseModel
      */
     public function deposit()
     {
-        return $this->hasOne('App\Deposit');
+        return $this
+            ->hasOne('App\Deposit');
     }
 
     /**
@@ -314,7 +340,9 @@ class Tenancy extends BaseModel
     public function getServiceChargeNetAmount($rentAmount = null)
     {
         if (is_null($rentAmount)) {
-            $rentAmount = $this->present()->rentAmountPlain;
+            $rentAmount = $this
+                ->present()
+                ->rentAmountPlain;
         }
 
         return $rentAmount * $this->getServiceChargeWithDiscounts();
@@ -610,7 +638,7 @@ class Tenancy extends BaseModel
     public function storeRentPayment(Payment $payment)
     {
         $this->rent_payments()->save($payment);
-        $payment->users()->attach($this->tenants);
+        $payment->users()->attach($this->users);
 
         event(new TenancyUpdateStatus($this));
 

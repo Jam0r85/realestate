@@ -12,8 +12,8 @@ class TenancyPresenter extends Presenter
 	 */
 	public function name()
 	{
-		if (count($this->tenants)) {
-			foreach ($this->tenants as $user) {
+		if (count($this->users)) {
+			foreach ($this->users as $user) {
 				$names[] = $user->present()->fullName;
 			}
 		}

@@ -39,7 +39,6 @@ class RentPaymentController extends BaseController
                 ->where('parent_type', 'tenancies');
 
             $parent['payments'] = $payments;
-
         }
 
         return $parent;

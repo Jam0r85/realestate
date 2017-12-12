@@ -29,7 +29,8 @@ class TenancyFilter extends BaseFilter
     public function setup()
     {
         if (!request('archived')) {
-            return $this->whereNull('deleted_at');
+            return $this
+                ->whereNull('deleted_at');
         }
     }
 
@@ -41,7 +42,8 @@ class TenancyFilter extends BaseFilter
      */
     public function service($slug)
     {
-    	return $this->related('service', 'slug', '=', $slug);
+    	return $this
+            ->related('service', 'slug', '=', $slug);
     }
 
     /**
@@ -51,7 +53,9 @@ class TenancyFilter extends BaseFilter
      */
     public function hasRentBalance()
     {
-        return $this->where('rent_balance', '>', 0)->orderBy('rent_balance');
+        return $this
+            ->where('rent_balance', '>', 0)
+            ->orderBy('rent_balance');
     }
 
     /**
@@ -61,7 +65,9 @@ class TenancyFilter extends BaseFilter
      */
     public function owesRent()
     {
-        return $this->where('rent_balance', '<', 0)->orderBy('rent_balance', 'desc');
+        return $this
+            ->where('rent_balance', '<', 0)
+            ->orderBy('rent_balance', 'desc');
     }
 
     public function owesDeposit()
@@ -76,7 +82,9 @@ class TenancyFilter extends BaseFilter
      */
     public function overdue()
     {
-        return $this->where('is_overdue', '>', 0)->orderBy('is_overdue', 'desc');
+        return $this
+            ->where('is_overdue', '>', 0)
+            ->orderBy('is_overdue', 'desc');
     }
 
     /**
@@ -86,7 +94,9 @@ class TenancyFilter extends BaseFilter
      */
     public function vacated()
     {
-        return $this->whereNotNull('vacated_on')->where('vacated_on', '<=', Carbon::now());
+        return $this
+            ->whereNotNull('vacated_on')
+            ->where('vacated_on', '<=', Carbon::now());
     }
 
     /**
@@ -96,6 +106,8 @@ class TenancyFilter extends BaseFilter
      */
     public function vacating()
     {
-        return $this->whereNotNull('vacated_on')->where('vacated_on', '>', Carbon::now());
+        return $this
+            ->whereNotNull('vacated_on')
+            ->where('vacated_on', '>', Carbon::now());
     }
 }
