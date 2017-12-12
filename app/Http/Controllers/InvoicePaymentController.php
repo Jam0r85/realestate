@@ -11,45 +11,11 @@ use Illuminate\Support\Facades\Session;
 class InvoicePaymentController extends BaseController
 {
     /**
-     * Display a listing of invoice payments received.
+     * The eloquent model for this controller.
      * 
-     * @return \Illuminate\Http\Response
+     * @var string
      */
-    public function index()
-    {
-        $payments = Payment::with('users','method','parent')
-            ->forInvoice()
-            ->latest()
-            ->paginate();
-
-        $title = 'Invoice Payments';
-        return view('payments.invoice', compact('payments','title'));
-    }
-
-    /**
-     * Search through the invoice payments and display the results.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('invoice_payments_search_term');
-            return redirect()->route('invoice-payments.index');
-        }
-
-        Session::put('invoice_payments_search_term', $request->search_term);
-
-        $payments = Payment::search(Session::get('invoice_payments_search_term'))
-            ->get();
-
-        $payments->load('users','method','parent');
-
-        $title = 'Search Results';
-        return view('payments.invoice', compact('payments','title'));
-    }
+    public $model = 'App\Payment';
 
     /**
      * Store a new invoice payment in storage.
@@ -62,7 +28,7 @@ class InvoicePaymentController extends BaseController
     {
     	$invoice = Invoice::withTrashed()->findOrFail($id);
 
-    	$payment = new Payment();
+    	$payment = $this->repository;
     	$payment->amount = $request->amount;
     	$payment->payment_method_id = $request->payment_method_id;
     	$payment->note = $request->note;
@@ -71,7 +37,6 @@ class InvoicePaymentController extends BaseController
 
     	$payment->users()->attach($invoice->users);
 
-    	$this->successMessage('The payment of ' . $payment->amount . ' was recorded for Invoice ' . $invoice->name);
     	return back();
     }
 }
