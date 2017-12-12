@@ -95,6 +95,7 @@ class ExpenseController extends BaseController
         $this->repository
             ->findOrFail($id)
             ->fill($request->input())
+            ->setData($request->input())
             ->save();
 
         return back();

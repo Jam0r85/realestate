@@ -81,9 +81,9 @@ class BaseController extends Controller
 	 * @param  integer  $id
 	 * @return  \Illuminate\Http\Response
 	 */
-	public function archive(Request $request, $id)
+	public function destroy(Request $request, $id)
 	{
-        $record = $this->repository
+        $this->repository
         	->findOrFail($id)
         	->delete();
 
@@ -96,7 +96,11 @@ class BaseController extends Controller
             return $data;
         }
 
-        return back();
+        if ($this->repository->checkSoftDeletes()) {
+        	return back();
+        } else {
+        	return redirect()->route($this->indexView);
+        }
 	}
 
 	/**
@@ -123,7 +127,7 @@ class BaseController extends Controller
      * @param  integer $id
      * @return  \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function forceDestroy(Request $request, $id)
     {
         $record = $this->repository
         	->onlyTrashed()

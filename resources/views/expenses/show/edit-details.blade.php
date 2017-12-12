@@ -2,55 +2,78 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-secondary float-right">
-				Return
-			</a>
-
-			@component('partials.header')
-				{{ $expense->name }}
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('expenses.show', $expense->id) }}
+				@endslot
 			@endcomponent
-
-			@component('partials.sub-header')
-				Edit expense details
-			@endcomponent
-
 		</div>
+
+		@component('partials.header')
+			{{ $expense->name }}
+		@endcomponent
+
+		@component('partials.sub-header')
+			Edit expense details
+		@endcomponent
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
-		<form method="POST" action="{{ route('expenses.update', $expense->id) }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}
+		<div class="row">
+			<div class="col-12 col-lg-6">
 
-			<div class="form-group">
-				<label for="property_id">Property</label>
-				<select name="property_id" id="property_id" class="form-control select2">
-					<option value="">Please select..</option>
-					@foreach(properties() as $property)
-						<option 
-							@if ($expense->property_id == $property->id) selected @endif
-							value="{{ $property->id }}">
-								{{ $property->name }} ({{ implode(', ', $property->owners->pluck('name')->toArray()) }})
-						</option>
-					@endforeach
-				</select>
-			</div>	
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Expense Details
+					@endcomponent
+					<div class="card-body">
 
-			@include('expenses.partials.form')
+						<form method="POST" action="{{ route('expenses.update', $expense->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
 
-			@component('partials.save-button')
-				Save Changes
-			@endcomponent
+							@include('expenses.partials.form')
 
-		</form>
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Delete Expense
+					@endcomponent
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('expenses.destroy', $expense->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+
+							@component('partials.save-button')
+								Delete Expense
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 	@endcomponent
 

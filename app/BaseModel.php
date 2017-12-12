@@ -193,4 +193,18 @@ class BaseModel extends Model
 		$clean = str_replace('_', ' ', $slug);
 		return ucfirst($clean);
 	}
+
+	/**
+	 * Check whether the model uses Soft Deletes.
+	 * 
+	 * @return  boolean
+	 */
+	public function checkSoftDeletes()
+	{
+		if (!in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($this))) {
+			return false;
+		}
+
+		return true;
+	}
 }

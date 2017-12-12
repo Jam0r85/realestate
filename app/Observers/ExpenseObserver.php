@@ -27,6 +27,7 @@ class ExpenseObserver
 	 */
 	public function deleted(Expense $expense)
 	{
+		// Delete each of the documents attached to this expense
 		foreach ($expense->documents as $document) {
 			Storage::delete($document->path);
 			$document->forceDelete();
