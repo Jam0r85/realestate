@@ -82,18 +82,14 @@
 
 						@foreach ($statement->expenses as $expense)
 							<tr>
-								<td>
-									
+								<td>									
 									<b>{{ $expense->name }}</b>
-
-									@if ($expense->contractor)
-										<br />{{ $expense->contractor->name }}
+									@if ($expense->present()->contractorName)
+										<br />{{ $expense->present()->contractorName }}
 									@endif
-
 									@if ($expense->pivot->amount != $expense->cost)
 										<small>(Part Payment)</small>
 									@endif
-
 								</td>
 								<td>{{ currency($expense->pivot->amount) }}</td>
 								<td></td>

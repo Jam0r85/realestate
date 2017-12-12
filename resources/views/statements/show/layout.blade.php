@@ -192,7 +192,7 @@
 									@foreach ($statement->expenses as $expense)
 										<tr>
 											<td>{{ $expense->name }}</td>
-											<td>{{ $expense->contractor ? $expense->contractor->name : '' }}</td>
+											<td>{{ $expense->present()->contractorName }}</td>
 											<td>{{ currency($expense->cost) }}</td>
 											<td>{{ currency($expense->pivot->amount) }}</td>
 										</tr>
