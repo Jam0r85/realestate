@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Invoices\InvoiceUpdateBalancesEvent;
 use App\Http\Requests\StatementPaymentSentRequest;
 use App\Http\Requests\StatementPaymentStoreRequest;
 use App\Http\Requests\StatementPaymentUpdateRequest;
@@ -64,6 +65,8 @@ class StatementPaymentController extends BaseController
                         'sent_at' => $sent_at
                     ]
                 );
+
+                event(new InvoiceUpdateBalancesEvent($invoice));
             }
         } else {
             $this->repository
