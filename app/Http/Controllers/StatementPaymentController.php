@@ -68,10 +68,6 @@ class StatementPaymentController extends BaseController
 
                 // Attach the invoice users to this payment
                 $payment->users()->sync($invoice->users);
-
-                if ($sent_at) {
-                    event(new InvoiceUpdateBalances($invoice));
-                }
             }
         } else {
             $this->repository
@@ -94,10 +90,6 @@ class StatementPaymentController extends BaseController
 
                 // Attach the expense contractor to this payment
                 $payment->users()->sync($expense->contractor);
-
-                if ($sent_at) {
-                    event(new ExpenseUpdateBalances($expense));
-                }
             }
         } else {
             $this->repository
