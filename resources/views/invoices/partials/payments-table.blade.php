@@ -25,7 +25,7 @@
 		{{-- End direct invoice payments --}}
 
 		{{-- Statement invoice payments --}}
-		@foreach ($invoice->statement_payments as $payment)
+		@foreach ($invoice->statementPayments as $payment)
 			<tr>
 				<td>
 					<a href="{{ route('payments.show', $payment->id) }}" title="Payment #{{ $payment->id }}">

@@ -94,7 +94,7 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function paymentsTotal()
 	{
-		return $this->payments->sum('amount') + $this->statement_payments->sum('amount');
+		return $this->payments->sum('amount') + $this->statementPaymentsSent->sum('amount');
 	}
 
 	/**

@@ -31,7 +31,7 @@ class InvoiceController extends BaseController
         }
 
         $invoices = $this->repository
-            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
+            ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->withTrashed()
             ->filter($request->all())
             ->latest()

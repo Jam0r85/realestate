@@ -143,7 +143,7 @@
 									</td>
 								</tr>
 							@endforeach
-							@foreach ($invoice->statement_payments as $payment)
+							@foreach ($invoice->statementPayments as $payment)
 								<tr>
 									<td>{{ date_formatted($payment->created_at) }}</td>
 									<td>{{ currency($payment->amount) }}</td>

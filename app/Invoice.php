@@ -186,9 +186,20 @@ class Invoice extends PdfModel
     /**
      * An invoice can have many statement payments.
      */
-    public function statement_payments()
+    public function statementPayments()
     {
-        return $this->morphMany('App\StatementPayment', 'parent');
+        return $this
+            ->morphMany('App\StatementPayment', 'parent');
+    }
+
+    /**
+     * An invoice can have many sent statement payments.
+     */
+    public function statementPaymentsSent()
+    {
+        return $this
+            ->morphMany('App\StatementPayment', 'parent')
+            ->whereNotNull('sent_at');
     }
 
     /**
