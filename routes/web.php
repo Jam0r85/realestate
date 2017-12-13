@@ -43,9 +43,6 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('create', 'InvoiceController@create')->name('invoices.create');
 		Route::post('/', 'InvoiceController@store')->name('invoices.store');	
 		Route::post('search', 'InvoiceController@search')->name('invoices.search');
-		Route::post('{id}/create-item', 'InvoiceController@createItem')->name('invoices.create-item');
-		Route::get('{id}/edit-item', 'InvoiceItemController@edit')->name('invoices.edit-item'); // Item ID
-		Route::put('{id}/update-item', 'InvoiceItemController@update')->name('invoices.update-item'); // Item ID
 		Route::post('{id}/create-payment', 'InvoicePaymentController@store')->name('invoices.create-payment');
 		Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 		Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
@@ -55,6 +52,14 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
 		Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
 		Route::put('{id}/destroy', 'InvoiceController@forceDestroy')->name('invoices.forceDestroy');
+	});
+
+	Route::prefix('invoice-items')->group(function () {
+		Route::get('{invoice}', 'InvoiceItemController@create')->name('invoice-items.create');
+		Route::post('{invoice}', 'InvoiceItemController@store')->name('invoice-items.store');
+		Route::get('{id}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit');
+		Route::put('{id}', 'InvoiceItemController@update')->name('invoice-items.update');
+		Route::delete('{id}', 'InvoiceItemController@destroy')->name('invoice-items.destroy');
 	});
 
 	Route::prefix('invoice-groups')->group(function () {

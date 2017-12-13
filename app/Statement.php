@@ -4,6 +4,7 @@ namespace App;
 
 use App\Expense;
 use App\Invoice;
+use App\InvoiceItem;
 use App\Jobs\SendStatementToOwners;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
@@ -199,5 +200,161 @@ class Statement extends PdfModel
         
         $this->sent_at = Carbon::now();
         $this->saveWithMessage('has been sent');
+    }
+
+    /**
+     * Create the invoice items for this statement.
+     * 
+     * @return void
+     */
+    public function createInvoiceItems()
+    {
+        $this->createInvoiceManagementItem();
+        $this->createInvoiceLettingItem();
+        $this->createInvoiceReLettingItem();
+    }
+
+    /**
+     * Create the invoice management item.
+     * 
+     * @return void
+     */
+    public function createInvoiceManagementItem()
+    {
+        $tenancy = $this->tenancy;
+        $service = $tenancy->service;
+        $property = $tenancy->property;
+
+        // Is this the first tenancy for this property?
+        if (!count($property->tenancies)) {
+
+            // Is this the first statement for this tenancy?
+            if (count($tenancy->statements) <= 1) {
+
+                // Set the re-letting fee from the service
+                $lettingFee = $service->re_letting_fee;
+
+                // Loop through the property owners and see whether there is a custom letting fee instead
+                foreach ($property->owners as $user) {
+                    if ($fee = $user->getSetting('tenancy_service_letting_fee')) {
+                        $lettingFee = $fee;
+                    }
+                }
+
+                // Is the letting fee a valid amount?
+                if ($lettingFee > 0) {
+
+                    if (!count($this->invoices)) {
+                        $invoice = $this->storeInvoice();
+                    } else {
+                        $invoice = $this->invoices->first();
+                    }
+
+                    $item = new InvoiceItem();
+                    $item->name = $service->name;
+                    $item->description = $service->name . ' Letting Fee';
+                    $item->amount = $lettingFee;
+                    $item->quantity = 1;
+                    $item->tax_rate_id = $service->tax_rate_id;
+
+                    $invoice->storeItem($item);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create the invoice letting item.
+     * 
+     * @return void
+     */
+    public function createInvoiceLettingItem()
+    {
+        $tenancy = $this->tenancy;
+        $service = $tenancy->service;
+        $property = $tenancy->property;
+
+        // Is this the first tenancy for this property?
+        if (count($property->tenancies) >= 1) {
+
+            // Is this the first statement for this tenancy?
+            if (count($tenancy->statements) <= 1) {
+
+                // Set the re-letting fee from the service
+                $reLettingFee = $service->re_letting_fee;
+
+                // Loop through the property owners and see whether there is a custom letting fee instead
+                foreach ($property->owners as $user) {
+                    if ($fee = $user->getSetting('tenancy_service_re_letting_fee')) {
+                        $reLettingFee = $fee;
+                    }
+                }
+
+                // Is the letting fee a valid amount?
+                if ($reLettingFee > 0) {
+
+                    // Grab the statement invoice or create one if not present.
+                    if (!count($this->invoices)) {
+                        $invoice = $this->storeInvoice();
+                    } else {
+                        $invoice = $this->invoices->first();
+                    }
+
+                    $item = new InvoiceItem();
+                    $item->name = $service->name;
+                    $item->description = $service->name . ' Re-Letting Fee';
+                    $item->amount = $reLettingFee;
+                    $item->quantity = 1;
+                    $item->tax_rate_id = $service->tax_rate_id;
+
+                    $invoice->storeItem($item);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create the invoice re-letting item.
+     * 
+     * @return void
+     */
+    public function createInvoiceReLettingItem()
+    {
+        $tenancy = $this->tenancy;
+        $service = $tenancy->service;
+
+        // Do we have a valid service charge amount?
+        if ($tenancy->getServiceChargeNetAmount() > 0) {
+
+            if (!count($this->invoices)) {
+                $invoice = $this->storeInvoice();
+            } else {
+                $invoice = $this->invoices->first();
+            }
+
+            // Format the description
+            $description = $service->name . ' service at ' . $service->charge_formatted;
+
+            // If there is a tax rate add it to the description as well
+            if ($service->taxRate) {
+                $description .= ' plus ' . $service->taxRate->name;
+            }
+
+            // Loop through each of the current invoice items and check for duplicates
+            foreach ($invoice->items as $item) {
+                if ($item->description == $description) {
+                    return;
+                }
+            }
+
+            $item = new InvoiceItem();
+            $item->name = $service->name;
+            $item->description = $description;
+            $item->amount = $tenancy->getServiceChargeNetAmount($this->amount);
+            $item->quantity = 1;
+            $item->tax_rate_id = $service->tax_rate_id;
+
+            $invoice->storeItem($item);
+        }
     }
 }

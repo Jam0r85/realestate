@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\StatementCreated;
+use App\Events\StatementWasCreated;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\StatementDestroyRequest;
@@ -60,7 +60,7 @@ class StatementController extends BaseController
 
         $tenancy->storeStatement($statement);
 
-        event(new StatementCreated($statement));
+        event(new StatementWasCreated($statement));
 
         return back();
     }

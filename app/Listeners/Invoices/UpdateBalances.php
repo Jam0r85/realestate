@@ -3,6 +3,7 @@
 namespace App\Listeners\Invoices;
 
 use App\Events\Invoices\InvoiceUpdateBalances;
+use App\Events\Payments\PaymentRecorded;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,23 +26,25 @@ class UpdateBalances
      * @param  InvoiceUpdateBalancesEvent  $event
      * @return void
      */
-    public function handle(InvoiceUpdateBalances $event)
+    public function handle(PaymentRecorded $event)
     {
-        $invoice = $event->invoice;
+        $payment = $event->payment;
 
-        $invoice->net = $invoice->present()->itemsTotalNet;
-        $invoice->tax = $invoice->present()->itemsTotalTax;
-        $invoice->total = $invoice->present()->itemsTotal;
-        $invoice->balance = $invoice->present()->remainingBalanceTotal;
+        if ($invoice = class_basename($payment->parent) == 'Invoice') {
+            $invoice->net = $invoice->present()->itemsTotalNet;
+            $invoice->tax = $invoice->present()->itemsTotalTax;
+            $invoice->total = $invoice->present()->itemsTotal;
+            $invoice->balance = $invoice->present()->remainingBalanceTotal;
 
-        if ($invoice->balance <= 0 && count($invoice->items)) {
-            if (!$invoice->paid_at) {
-                $invoice->paid_at = Carbon::now();
+            if ($invoice->balance <= 0 && count($invoice->items)) {
+                if (!$invoice->paid_at) {
+                    $invoice->paid_at = Carbon::now();
+                }
+            } else {
+                $invoice->paid_at = null;
             }
-        } else {
-            $invoice->paid_at = null;
-        }
 
-        $invoice->saveWithMessage('balances updated');
+            $invoice->saveWithMessage('balances updated');
+        }
     }
 }

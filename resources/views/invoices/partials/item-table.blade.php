@@ -10,7 +10,7 @@
 		@foreach ($items as $invoice_item)
 			<tr>
 				<td>
-					<a href="{{ route('invoices.edit-item', $invoice_item->id) }}" name="Edit Item">
+					<a href="{{ route('invoice-items.edit', $invoice_item->id) }}" name="Edit Item">
 						<b>{{ $invoice_item->name }}</b>
 					</a>
 					<br /><small>{{ $invoice_item->description }}</small>

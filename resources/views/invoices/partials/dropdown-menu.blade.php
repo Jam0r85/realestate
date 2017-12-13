@@ -12,7 +12,7 @@
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'archive-invoice']) }}">
 			Invoice Status
 		</a>
-		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'new-invoice-item']) }}" title="New Invoice Item">
+		<a class="dropdown-item" href="{{ route('invoice-items.create', $invoice->id) }}" title="New Invoice Item">
 			New Invoice Item
 		</a>
 		<a class="dropdown-item" href="{{ route('invoices.show', [$invoice->id, 'record-payment']) }}" title="Record Payment">

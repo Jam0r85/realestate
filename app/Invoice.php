@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\InvoiceItemWasCreated;
 use App\InvoiceItem;
 use App\Jobs\SendInvoiceToUsers;
 use App\StatementPayment;
@@ -278,7 +279,7 @@ class Invoice extends PdfModel
     public function storeItem(InvoiceItem $item)
     {
         $this->items()->save($item);
-
+        event (new InvoiceItemWasCreated($item));
         return $item;
     }
 
@@ -337,5 +338,28 @@ class Invoice extends PdfModel
         $this->update([
             'sent_at' => Carbon::now()
         ]);
+    }
+
+    /**
+     * Update the balances for this invoice.
+     * 
+     * @return void
+     */
+    public function updateBalances()
+    {
+        $this->net = $this->present()->itemsTotalNet;
+        $this->tax = $this->present()->itemsTotalTax;
+        $this->total = $this->present()->itemsTotal;
+        $this->balance = $this->present()->remainingBalanceTotal;
+
+        if ($this->balance <= 0 && count($invoice->items)) {
+            if (!$this->paid_at) {
+                $this->paid_at = Carbon::now();
+            }
+        } else {
+            $this->paid_at = null;
+        }
+
+        $this->saveWithMessage('balances updated');
     }
 }

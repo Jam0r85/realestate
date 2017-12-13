@@ -26,10 +26,14 @@ class CheckBalances
      */
     public function handle(TenancyUpdateStatus $event)
     {
-        $tenancy = $event->tenancy;
+        $payment = $event->payment;
 
-        $tenancy->rent_balance = $tenancy->getRentBalance();
-        $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
-        $tenancy->saveWithMessage('balances updated');
+        if ($tenancy = class_basename($payment->parent) == 'Tenancy') {
+
+            $tenancy->rent_balance = $tenancy->getRentBalance();
+            $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
+            $tenancy->saveWithMessage('balances updated');
+
+        }
     }
 }

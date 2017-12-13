@@ -115,21 +115,6 @@ class InvoiceController extends BaseController
     }
 
     /**
-     * Store a new invoice item to the invoice.
-     * 
-     * @param  \App\Http\Requests\StoreInvoiceItemRequest  $request
-     * @param  \App\Invoice  $id
-     * @return  \Illuminate\Http\Response
-     */
-    public function createItem(StoreInvoiceItemRequest $request, $id)
-    {
-        $service = new InvoiceService();
-        $service->createInvoiceItem($request->input(), $id);
-
-        return redirect()->route('invoices.show', $id);
-    }
-
-    /**
      * Clone the given invoice.
      * 
      * @param  \App\Invoice  $id

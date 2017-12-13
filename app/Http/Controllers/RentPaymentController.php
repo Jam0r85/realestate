@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RentPaymentWasCreated;
 use App\Http\Requests\RentPaymentStoreRequest;
 use App\Http\Requests\SearchRequest;
 use App\Notifications\TenantRentPaymentReceived;
@@ -59,6 +60,8 @@ class RentPaymentController extends BaseController
     	$payment->note = $request->note;
 
     	$tenancy->storeRentPayment($payment);
+
+        event(new RentPaymentWasCreated($payment));
 
         if ($request->has('send_notifications')) {
             Notification::send($payment->users, new TenantRentPaymentReceived($payment));

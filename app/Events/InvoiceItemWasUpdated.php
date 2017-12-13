@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\Tenancies;
+namespace App\Events;
 
-use App\Tenancy;
+use App\InvoiceItem;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,25 +11,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TenancyUpdateStatus
+class InvoiceItemWasUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The tenancy we are dealing with.
+     * The invoice item we are dealing with.
      * 
-     * @var \App\Tenancy
+     * @var \App\InvoiceItem
      */
-    public $tenancy;
+    public $item;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Tenancy $tenancy)
+    public function __construct(InvoiceItem $item)
     {
-        $this->tenancy = $tenancy;
+        $this->item = $item;
     }
 
     /**

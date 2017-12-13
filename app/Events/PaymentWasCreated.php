@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\Invoices;
+namespace App\Events;
 
-use App\Invoice;
+use App\Payment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,25 +11,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class InvoiceUpdateBalances
+class PaymentWasCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * The invoice we are dealing with.
-     * 
-     * @var \App\Invoice
-     */
-    public $invoice;
+    public $payment;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Payment $payment)
     {
-        $this->invoice = $invoice;
+        $this->payment = $payment;
     }
 
     /**

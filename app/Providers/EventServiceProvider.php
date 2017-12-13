@@ -13,38 +13,52 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        // Users
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
-
         'Illuminate\Auth\Events\Failed' => [
             'App\Listeners\LogFailedLogin'
         ],
 
+        // Emails
         'Illuminate\Mail\Events\MessageSending' => [
             'App\Listeners\Emails\LogSentEmail'
         ],
 
-        'App\Events\StatementCreated' => [
-            'App\Listeners\Statements\CreateLettingFeeInvoiceItem',
-            'App\Listeners\Statements\CreateReLettingFeeInvoiceItem',
-            'App\Listeners\Statements\CreateManagementInvoiceItem',
+        // Statements
+        'App\Events\StatementWasCreated' => [
+            'App\Listeners\InvoiceListener@statementCreated',
+            'App\Listeners\TenancyListener@statementCreated'
         ],
 
-        'App\Events\Tenancies\TenancyUpdateStatus' => [
-            'App\Listeners\Tenancies\CheckBalances'
+        // Statement Payments
+        'App\Events\InvoiceStatementPaymentWasSaved' => [
+            'App\Listeners\InvoiceListener@statementPaymentSaved',
+            'App\Listeners\StatementListener@invoicePaymentSaved'
+        ],
+        'App\Events\ExpenseStatementPaymentWasSaved' => [
+            'App\Listeners\ExpenseListener@statementPaymentSaved',
+            'App\Listeners\StatementListener@expensePaymentSaved'
+        ],
+        'App\Events\LandlordStatementPaymentWasSaved' => [
+            'App\Listeners\StatementListener@landlordPaymentSaved'
         ],
 
-        'App\Events\Invoices\InvoiceUpdateBalances' => [
-            'App\Listeners\Invoices\UpdateBalances'
+        // Payments
+        'App\Events\RentPaymentWasCreated' => [
+            'App\Listeners\TenancyListener@rentPaymentCreated'
+        ],
+        'App\Events\DepositPaymentWasCreated' => [
+            'App\Listeners\TenancyListener@depositPaymentCreated'
         ],
 
-        'App\Events\Expenses\ExpenseUpdateBalances' => [    
-            'App\Listeners\Expenses\UpdateBalances'
+        // Invoices
+        'App\Events\InvoiceItemWasCreated' => [
+            'App\Listeners\InvoiceListener@itemCreated'
         ],
-
-        'Illuminate\Notifications\Events\NotificationSent' => [
-            'App\Listeners\LogSmsNotification',
+        'App\Events\InvoiceItemWasUpdated' => [
+            'App\Listeners\InvoiceListener@itemUpdated'
         ],
     ];
 

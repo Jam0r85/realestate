@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExpenseStatementPaymentWasSaved;
 use App\Events\Expenses\ExpenseUpdateBalances;
+use App\Events\InvoiceStatementPaymentWasSaved;
 use App\Events\Invoices\InvoiceUpdateBalances;
+use App\Events\LandlordStatementPaymentWasSaved;
 use App\Http\Requests\StatementPaymentSentRequest;
 use App\Http\Requests\StatementPaymentStoreRequest;
 use App\Http\Requests\StatementPaymentUpdateRequest;
@@ -68,6 +71,8 @@ class StatementPaymentController extends BaseController
 
                 // Attach the invoice users to this payment
                 $payment->users()->sync($invoice->users);
+
+                event (new InvoiceStatementPaymentWasSaved($payment));
             }
         } else {
             $this->repository
@@ -90,6 +95,8 @@ class StatementPaymentController extends BaseController
 
                 // Attach the expense contractor to this payment
                 $payment->users()->sync($expense->contractor);
+
+                event (new ExpenseStatementPaymentWasSaved($payment));
             }
         } else {
             $this->repository
@@ -107,6 +114,8 @@ class StatementPaymentController extends BaseController
                 'bank_account_id' => $statement->property()->bank_account_id
             ]
         );
+
+        event (new LandlordStatementPaymentWasSaved($payment));
 
         // Attach the statement users to this payment
         $payment->users()->sync($statement->users);

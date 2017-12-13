@@ -264,7 +264,7 @@
     <script src="{{ mix('js/app.js') }}"></script>
     <script>
         $('.select2').select2();
-        $('li.alert').not('.alert-important').delay(3000).fadeOut(350);
+        // $('li.alert').not('.alert-important').delay(3000).fadeOut(350);
     </script>
 
     @stack('footer_scripts')

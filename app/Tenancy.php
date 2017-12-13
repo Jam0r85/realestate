@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Agreement;
-use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Statement;
 use App\TenancyRent;
 use Carbon\Carbon;
@@ -616,8 +615,6 @@ class Tenancy extends BaseModel
             ->users()
             ->attach($this->property->owners);
 
-        event(new TenancyUpdateStatus($this));
-
         return $statement;
     }
 
@@ -653,8 +650,6 @@ class Tenancy extends BaseModel
     {
         $this->rent_payments()->save($payment);
         $payment->users()->attach($this->users);
-
-        event(new TenancyUpdateStatus($this));
 
         return $payment;
     }
@@ -701,5 +696,17 @@ class Tenancy extends BaseModel
     public function getRentBalance()
     {
         return $this->getRentPaymentsReceivedTotal() - $this->getStatementsTotal();
+    }
+
+    /**
+     * Update the rent balance held for this tenancy.
+     * 
+     * @return void
+     */
+    public function updateRentBalance()
+    {
+        $this->rent_balance = $this->getRentBalance();
+        $this->is_overdue = $this->checkWhetherOverdue();
+        $this->saveWithMessage('balances updated');
     }
 }

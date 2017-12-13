@@ -161,4 +161,24 @@ class Expense extends BaseModel
         $this->payments()->save($payment);
         $payment->users()->attach($this->contractor);
     }
+
+    /**
+     * Update the balances for this expense.
+     * 
+     * @return void
+     */
+    public function updateBalances()
+    {
+        $this->balance = $this->cost - $this->paymentsSent->sum('amount');
+
+        if ($this->balance <= 0) {
+            if (!$this->paid_at) {
+                $this->paid_at = Carbon::now();
+            }
+        } else {
+            $this->paid_at = null;
+        }
+
+        $this->saveWithMessage('balance updated');
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\Expenses;
+namespace App\Events;
 
-use App\Expense;
+use App\StatementPayment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,25 +11,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ExpenseUpdateBalances
+class ExpenseStatementPaymentWasSaved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The expense we are dealing with.
+     * The statement payment we are dealing with.
      * 
-     * @var \App\Expense
+     * @var \App\StatementPayment
      */
-    public $expense;
+    public $payment;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Expense $expense)
+    public function __construct(StatementPayment $payment)
     {
-        $this->expense = $expense;
+        $this->payment = $payment;
     }
 
     /**
