@@ -93,8 +93,7 @@ trait DataTrait
 	public function storeData(array $data)
 	{
 		$this->setData($data);
-		$this->save();
-
+		$this->saveWithMessage('data saved');
 		return $this;
 	}
 }

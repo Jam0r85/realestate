@@ -39,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExpenseStatementPaymentWasSaved' => [
             'App\Listeners\ExpenseListener@statementPaymentSaved',
         ],
+        'App\Events\ExpenseStatementPaymentWasSent' => [
+            'App\Listeners\ExpenseListener@statementPaymentSent'
+        ],
 
         // Payments
         'App\Events\RentPaymentWasCreated' => [

@@ -92,7 +92,7 @@ class UserController extends BaseController
 
         $bank_accounts = $user->bankAccounts;
         $properties = $user->properties()->with('owners')->get();
-        $tenancies = $user->tenancies()->with('tenants')->get();
+        $tenancies = $user->tenancies()->with('users')->get();
         $invoices = $user->invoices()->with('users','property','items','items.taxRate')->paginate();
         $sms_messages = $user->sms()->with('user','owner')->get();
         $emails = $user->emails()->paginate();

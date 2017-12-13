@@ -39,12 +39,12 @@ class TenantRentPaymentReceived extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         $via = [];
-        
-        if (user_setting('rent_payment_received_notification_email', $notifiable)) {
+
+        if ($notifiable->getSetting('rent_payment_received_notification_email')) {
             $via[] = 'mail';
         }
 
-        if (user_setting('rent_payment_received_notification_sms', $notifiable)) {
+        if ($notifiable->getSetting('rent_payment_received_notification_sms')) {
             $via[] = 'nexmo';
         }
 

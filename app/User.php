@@ -103,7 +103,8 @@ class User extends UserBaseModel
         'tenancy_service_letting_fee',
         'tenancy_service_re_letting_fee',
         'expense_notifications',
-        'rent_payment_notifications'
+        'rent_payment_notifications',
+        'contractor_bank_account_id'
     ];
 
     /**
@@ -154,7 +155,10 @@ class User extends UserBaseModel
      */
     public function tenancies()
     {
-        return $this->belongsToMany('App\Tenancy')->withTrashed()->latest();
+        return $this
+            ->belongsToMany('App\Tenancy')
+            ->withTrashed()
+            ->latest();
     }
 
     /**

@@ -151,7 +151,7 @@
 				<div class="card mb-3">
 
 					@component('partials.card-header')
-						Rental Settings
+						Contractor Settings
 					@endcomponent
 
 					<div class="card-body">
@@ -159,6 +159,20 @@
 						<form method="POST" action="{{ route('users.update', $user->id) }}">
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
+
+							<div class="form-group">
+								<label for="expense_notifications">
+									Bank Account
+								</label>
+								<select name="contractor_bank_account_id" id="contractor_bank_account_id" class="form-control">
+									<option value="">None</option>
+									@foreach (bank_accounts([$user->id]) as $account)
+										<option @if ($user->getSetting('contractor_bank_account_id') == $account->id) selected @endif value="{{ $account->id }}">
+											{{ $account->present()->selectName }}
+										</option>
+									@endforeach
+								</select>
+							</div>
 
 							<div class="form-group">
 								<label for="expense_notifications">
@@ -176,6 +190,27 @@
 									</option>
 								</select>
 							</div>
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+				<div class="card mb-3">
+
+					@component('partials.card-header')
+						Rental Settings
+					@endcomponent
+
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('users.update', $user->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
 
 							<div class="form-group">
 								<label for="expense_notifications">

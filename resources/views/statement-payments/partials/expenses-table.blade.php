@@ -2,7 +2,8 @@
 	@slot('header')
 		<th>Property</th>
 		<th>Expense</th>
-		<th class="text-right">Amount</th>
+		<th>Amount</th>
+		<th>Method</th>
 		<th class="d-print-none"></th>
 	@endslot
 	@slot('body')
@@ -10,7 +11,8 @@
 			<tr>
 				<td>{{ $payment->present()->propertyName }}</td>
 				<td>{!! $payment->present()->expenseName !!}</td>
-				<td class="text-right">{{ currency($payment->amount) }}</td>
+				<td>{{ currency($payment->amount) }}</td>
+				<td>{{ $payment->present()->method }}</td>
 				<td class="text-right d-print-none">
 					@include('statement-payments.partials.payment-checkbox')
 				</td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ExpenseStatementPaymentWasSaved;
+use App\Events\ExpenseStatementPaymentWasSent;
 use App\Events\Expenses\ExpenseUpdateBalances;
 use App\Events\InvoiceStatementPaymentWasSaved;
 use App\Events\Invoices\InvoiceUpdateBalances;
@@ -89,7 +90,8 @@ class StatementPaymentController extends BaseController
                     ['statement_id' => $statement->id, 'parent_type' => 'expenses', 'parent_id' => $expense->id],
                     [
                         'amount' => $expense->pivot->amount,
-                        'sent_at' => $sent_at
+                        'sent_at' => $sent_at,
+                        'bank_account_id' => $expense->contractor->getSetting('contractor_bank_account_id')
                     ]
                 );
 
@@ -158,10 +160,16 @@ class StatementPaymentController extends BaseController
      */
     public function update(StatementPaymentUpdateRequest $request, $id)
     {
-        $this->repository
-            ->findOrFail($id)
+        $payment = $this->repository
+            ->findOrFail($id);
+
+        $payment
             ->fill($request->input())
             ->save();
+
+        if ($payment->present()->parentName == 'Expense') {
+            event(new ExpenseStatementPaymentWasSent($payment));
+        }
 
         return back();
     }
