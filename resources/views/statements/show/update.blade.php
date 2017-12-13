@@ -129,11 +129,11 @@
 
 					<div class="card mb-3">
 						@component('partials.card-header')
-							Delete Statement
+							Destroy Statement
 						@endcomponent
 						<div class="card-body">
 
-							<form method="POST" action="{{ route('statements.destroy', $statement->id) }}">
+							<form method="POST" action="{{ route('statements.forceDestroy', $statement->id) }}">
 								{{ csrf_field() }}
 								{{ method_field('DELETE') }}
 
@@ -141,34 +141,8 @@
 									<b>Warning</b>, this cannot be undone.
 								@endcomponent
 
-								<div class="form-group">
-									@if (count($statement->payments))
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="paid_payments" id="paid_payments" value="true" class="form-check-input" />
-												Delete paid statement payments?
-											</label>
-										</div>
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="unpaid_payments" id="unpaid_payments" value="true" class="form-check-input" checked />
-												Delete unpaid statement payments?
-											</label>
-										</div>
-									@endif
-
-									@if (count($statement->invoices))
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" name="invoice" id="invoice" value="true" class="form-check-input" checked />
-												Delete the related invoice and it's items?
-											</label>
-										</div>
-									@endif
-								</div>
-
 								@component('partials.save-button')
-									Delete Statement
+									Destroy Statement
 								@endcomponent
 
 							</form>
@@ -180,17 +154,17 @@
 
 					<div class="card mb-3">
 						@component('partials.card-header')
-							Archive Statement
+							Delete Statement
 						@endcomponent
 
 						<div class="card-body">
 
-							<form method="POST" action="{{ route('statements.archive', $statement->id) }}">
+							<form method="POST" action="{{ route('statements.destroy', $statement->id) }}">
 								{{ csrf_field() }}
-								{{ method_field('PUT') }}
+								{{ method_field('DELETE') }}
 
 								<p class="card-text">
-									Are you sure you want to archive this statement?
+									Are you sure you want to delete this statement?
 								</p>
 
 								<p class="card-text">

@@ -126,14 +126,14 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'StatementController@index')->name('statements.index');
 		Route::post('search', 'StatementController@search')->name('statements.search');
 		Route::post('/{tenancy}', 'StatementController@store')->name('statements.store');
-		Route::get('{statement}/{section?}', 'StatementController@show')->name('statements.show');
+		Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 		Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
-		Route::post('{statement}/send', 'StatementController@send')->name('statements.send');
-		Route::put('{statement}', 'StatementController@update')->name('statements.update');
-		Route::put('{statement}/archive', 'StatementController@archive')->name('statements.archive');
-		Route::put('{statement}/restore', 'StatementController@restore')->name('statements.restore');
-		Route::delete('{statement}/destroy', 'StatementController@destroy')->name('statements.destroy');
+		Route::post('{id}/send', 'StatementController@send')->name('statements.send');
+		Route::put('{id}', 'StatementController@update')->name('statements.update');
+		Route::delete('{id}/archive', 'StatementController@destroy')->name('statements.destroy');
+		Route::put('{id}/restore', 'StatementController@restore')->name('statements.restore');
+		Route::delete('{id}/destroy', 'StatementController@forceDestroy')->name('statements.forceDestroy');
 	});
 
 	Route::prefix('statement-payments')->group(function () {

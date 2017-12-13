@@ -23,4 +23,19 @@ class StatementObserver
 		$statement->period_end = $statement->period_end ?? $statement->period_start->addMonth()->subDay();
 		$statement->amount = $statement->amount ?? $statement->tenancy->present()->rentAmountPlain;
 	}
+
+	/**
+	 * Listen to the Statement deleting event.
+	 * 
+	 * @param App\Statement $statement
+	 * @return void
+	 */
+	public function deleting(Statement $statement)
+	{
+		if ($statement->forceDeleting) {
+            $statement->payments()->whereNotNull('sent_at')->delete();
+            $statement->payments()->whereNull('sent_at')->delete();
+            $statement->invoices()->forceDelete();
+		}
+	}
 }

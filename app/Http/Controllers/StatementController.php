@@ -145,37 +145,4 @@ class StatementController extends BaseController
 
         return back();
     }
-
-    /**
-     * Destroy the statement.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Statement  $statement
-     * @return  \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
-    {
-        $statement = $this->repository
-            ->findOrFail($id);
-            
-        if ($request->has('paid_payments')) {
-            $statement->payments()->whereNotNull('sent_at')->delete();
-        }
-
-        if ($request->has('unpaid_payments')) {
-            $statement->payments()->whereNull('sent_at')->delete();
-        }
-
-        if ($request->has('invoice')) {
-            $statement->invoices()->forceDelete();
-        }
-
-        $statement->forceDelete();
-
-        // We need to update the tenancy balances.
-        // Surely there is a better place to put this?
-        event(new TenancyUpdateStatus($statement->tenancy));
-
-        return redirect()->route('statements.index');
-    }
 }
