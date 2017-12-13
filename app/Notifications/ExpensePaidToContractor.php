@@ -71,23 +71,26 @@ class ExpensePaidToContractor extends Notification
     public function toMail($notifiable)
     {
         $mail = new MailMessage();
-        $mail->subject('Expense Paid');
-        $mail->markdown('email-templates.expenses.contractor-paid', [
+        $mail->subject('Invoice Payment');
+        $mail->markdown('email-templates.expenses.contractor-paid',
+            [
                 'payment' => $this->payment,
                 'expense' => $this->expense
-            ]);
+            ]
+        );
 
+        // Check whether we can attach documents to the email
         if (count($this->expense->documents)) {
-            $invoiceFileNumber = 0;
+            $documentFileNumber = 0;
 
-            foreach ($this->expense->documents as $invoice) {
+            foreach ($this->expense->documents as $document) {
 
-                $invoiceFileNumber++;
-                $invoiceFileName = snake_case($this->expense->name . '_' . $invoiceFileNumber) . '.' . $invoice->extension;
+                $documentFileNumber++;
+                $documentFileName = snake_case($this->expense->name . '_' . $documentFileNumber) . '.' . $document->extension;
 
                 $mail->attach(
-                    Storage::url($invoice->path), [
-                        'as' => $invoiceFileName
+                    Storage::url($document->path), [
+                        'as' => $documentFileName
                     ]
                 );
             }
