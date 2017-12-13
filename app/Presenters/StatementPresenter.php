@@ -93,9 +93,9 @@ class StatementPresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function tenants()
+	public function users()
 	{
-		foreach ($this->tenancy->tenants as $user) {
+		foreach ($this->tenancy->users as $user) {
 			$names[] = $user->present()->fullName;
 		}
 

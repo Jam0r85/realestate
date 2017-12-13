@@ -30,7 +30,7 @@
 				<ul class="list-unstyled">
 					<li><strong>Rental Period:</strong> {{ $statement->present()->period }}</li>
 					<li><strong>Property:</strong> {{ $statement->property()->present()->fullAddress }}</li>
-					<li><strong>{{ str_plural('Tenant', count($statement->tenancy->tenants)) }}:</strong> {{ $statement->present()->tenants }}</li>
+					<li><strong>{{ str_plural('Tenant', count($statement->tenancy->users)) }}:</strong> {{ $statement->present()->users }}</li>
 				</ul>
 			</div>
 
