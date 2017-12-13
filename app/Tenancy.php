@@ -584,9 +584,19 @@ class Tenancy extends BaseModel
      * 
      * @return integer
      */
-    public function getLettingFee()
+    public function getLettingFee($custom = false)
     {
-        return $this->service->letting_fee;
+        $fee = $this->service->letting_fee;
+
+        if ($custom) {
+            if ($this->getCustomUserLettingFees()) {
+                foreach ($this->getCustomUserLettingFees() as $customFee) {
+                    $fee = $customFee['amount'];
+                }
+            }
+        }
+
+        return $fee;
     }
 
     /**
@@ -594,9 +604,19 @@ class Tenancy extends BaseModel
      * 
      * @return integer
      */
-    public function getReLettingFee()
+    public function getReLettingFee($custom = false)
     {
-        return $this->service->re_letting_fee;
+        $fee = $this->service->re_letting_fee;
+
+        if ($custom) {
+            if ($this->getCustomUserReLettingFees()) {
+                foreach ($this->getCustomUserReLettingFees() as $customFee) {
+                    $fee = $customFee['amount'];
+                }
+            }
+        }
+
+        return $fee;
     }
 
     /**

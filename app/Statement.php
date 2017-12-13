@@ -169,7 +169,7 @@ class Statement extends PdfModel
         
         $invoice->property_id = $this->tenancy->property_id;
 
-        $invoice = $this->invoices()->save($invoice);
+        $this->invoices()->save($invoice);
         $invoice->users()->sync($this->property()->owners);
 
         return $invoice;
@@ -212,6 +212,8 @@ class Statement extends PdfModel
         $this->createInvoiceManagementItem();
         $this->createInvoiceLettingItem();
         $this->createInvoiceReLettingItem();
+
+        return $this;
     }
 
     /**
@@ -261,6 +263,8 @@ class Statement extends PdfModel
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -311,6 +315,8 @@ class Statement extends PdfModel
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -356,5 +362,7 @@ class Statement extends PdfModel
 
             $invoice->storeItem($item);
         }
+
+        return $this;
     }
 }
