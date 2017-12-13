@@ -5,13 +5,20 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+			@if (count($invoice->statements))
+				@foreach ($invoice->statements as $statement)
+					@component('partials.return-button')
+						{{ $statement->present()->name }}
+						@slot('url')
+							{{ route('statements.show', $statement->id) }}
+						@endslot
+					@endcomponent
+				@endforeach
+			@endif
+
 			@component('partials.return-button')
 				@slot('url')
-					@if ($invoice->statement)
-						{{ route('statements.show', $invoice->statement->id) }}
-					@else
-						{{ route('invoices.show', $invoice->id) }}
-					@endif
+					{{ route('invoices.show', $invoice->id) }}
 				@endslot
 			@endcomponent
 		</div>

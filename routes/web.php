@@ -127,7 +127,6 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('search', 'StatementController@search')->name('statements.search');
 		Route::post('/{tenancy}', 'StatementController@store')->name('statements.store');
 		Route::get('{statement}/{section?}', 'StatementController@show')->name('statements.show');
-		Route::post('{id}/create-invoice-item', 'StatementController@createInvoiceItem')->name('statements.create-invoice-item');
 		Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 		Route::post('{statement}/send', 'StatementController@send')->name('statements.send');
