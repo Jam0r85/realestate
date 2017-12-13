@@ -70,7 +70,7 @@ class TenancyController extends BaseController
         $tenancy->user_id = Auth::user()->id;
         $tenancy->service_id = $request->service_id;
 
-        $property->tenancies()->save($tenancy);
+        $property->storeTenancy($tenancy);
 
         // Rent
         $rent = new TenancyRent;
@@ -85,7 +85,7 @@ class TenancyController extends BaseController
         $tenancy->storeAgreement($agreement);
 
         // Attach the tenants
-        $tenancy->tenants()->attach($request->tenants);
+        $tenancy->users()->attach($request->tenants);
 
         return redirect()->route('tenancies.show', $tenancy->id);
     }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Settings\PropertySettings;
+use App\Tenancy;
 use App\Traits\DataTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -244,5 +245,25 @@ class Property extends BaseModel
     public function storeExpense(Expense $expense)
     {
     	return $this->expenses()->save($expense);
+    }
+
+    /**
+     * Store a tenancy to this property.
+     * 
+     * @param  \App\Tenancy  $tenancy
+     * @return  \App\Tenancy
+     */
+    public function storeTenancy(Tenancy $tenancy)
+    {
+    	$this->tenancies()->save($tenancy);
+
+        // Add discounts to the tenancy
+        foreach ($this->owners as $user) {
+            if ($discount = $user->getSetting('tenancy_service_management_discount')) {
+                $tenancy->discounts()->attach($discount, ['for' => 'service']);
+            }
+        }
+
+    	return $tenancy;
     }
 }
