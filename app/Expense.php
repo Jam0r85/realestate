@@ -169,7 +169,7 @@ class Expense extends BaseModel
      */
     public function updateBalances()
     {
-        $this->balance = $this->cost - $this->paymentsSent->sum('amount');
+        $this->balance = $this->cost - $this->payments->sum('amount');
 
         if ($this->balance <= 0) {
             if (!$this->paid_at) {
