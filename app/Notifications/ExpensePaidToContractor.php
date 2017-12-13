@@ -10,6 +10,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class ExpensePaidToContractor extends Notification
 {
@@ -69,11 +70,29 @@ class ExpensePaidToContractor extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Expense Paid')
-            ->markdown('email-templates.expenses.contractor-paid', [
+        $mail = new MailMessage();
+        $mail->subject('Expense Paid');
+        $mail->markdown('email-templates.expenses.contractor-paid', [
                 'payment' => $this->payment,
                 'expense' => $this->expense
             ]);
+
+        if (count($this->expense->documents)) {
+            $invoiceFileNumber = 0;
+
+            foreach ($this->expense->documents as $invoice) {
+
+                $invoiceFileNumber++;
+                $invoiceFileName = snake_case($this->expense->name . '_' . $invoiceFileNumber) . '.' . $invoice->extension;
+
+                $mail->attach(
+                    Storage::url($invoice->path), [
+                        'as' => $invoiceFileName
+                    ]
+                );
+            }
+        }
+
+        return $mail;
     }
 }

@@ -9,8 +9,12 @@ Your invoice reference is {{ $expense->getData('contractor_reference') }}
 
 It relates to the work you carried out at the property - <b>{{ $expense->property->present()->fullAddress }}</b>
 
+@if (count($expense->documents))
+We have attached your {{ str_plural('invoice', count($expense->documents)) }} to this email.
+@endif
+
 @if ($expense->balance <= 0)
-Your invoice has been paid in full.
+Your invoice has now been paid in full.
 @else
 Your invoice total was {{ currency($expense->cost) }}.
 
