@@ -6,13 +6,13 @@
 
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($invoice->total_net) }}
+			{{ currency($invoice->net) }}
 			@slot('title')
 				Net
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($invoice->total_tax) }}
+			{{ currency($invoice->tax) }}
 			@slot('title')
 				Tax
 			@endslot
@@ -24,13 +24,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($invoice->total_payments) }}
+			{{ currency($invoice->present()->paymentsTotal) }}
 			@slot('title')
 				Payments Total
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($invoice->total_balance) }}
+			{{ currency($invoice->present()->remainingBalanceTotal) }}
 			@slot('title')
 				Remaining Balance
 			@endslot
