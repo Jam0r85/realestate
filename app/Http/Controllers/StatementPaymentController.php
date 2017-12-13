@@ -115,8 +115,6 @@ class StatementPaymentController extends BaseController
             ]
         );
 
-        event (new LandlordStatementPaymentWasSaved($payment));
-
         // Attach the statement users to this payment
         $payment->users()->sync($statement->users);
 
