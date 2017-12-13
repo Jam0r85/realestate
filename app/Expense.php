@@ -6,6 +6,7 @@ use App\Document;
 use App\StatementPayment;
 use App\Traits\DataTrait;
 use App\Traits\DocumentsTrait;
+use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
