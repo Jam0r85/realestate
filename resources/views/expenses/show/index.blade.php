@@ -16,7 +16,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($expense->remaining_balance) }}
+			{{ currency($expense->balance) }}
 			@slot('title')
 				Balance
 			@endslot
