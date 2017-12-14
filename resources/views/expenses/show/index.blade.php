@@ -1,55 +1,67 @@
-@extends('layouts.app')
-
-@section('content')
-
-	@component('partials.page-header')
-
-		<div class="float-right">
-			@include('expenses.partials.dropdown-menus')
-		</div>
-
-		@component('partials.header')
+<div class="card mb-3">
+	@component('partials.card-header')
+		Expense Details
+	@endcomponent
+	<ul class="list-group list-group-flush">
+		@component('partials.bootstrap.list-group-item')
 			{{ $expense->name }}
+			@slot('title')
+				Name
+			@endslot
 		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ currency($expense->cost) }}
+			@slot('title')
+				Cost
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ currency($expense->remaining_balance) }}
+			@slot('title')
+				Balance
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $expense->contractor ? $expense->contractor->name : '-' }}
+			@slot('title')
+				Contractor
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			<a href="{{ route('properties.show', $expense->property_id) }}" title="{{ $expense->property->name }}">
+				{{ $expense->property->name }}
+			</a>
+			@slot('title')
+				Property
+			@endslot
+		@endcomponent
+	</ul>
+</div>
 
+<div class="card mb-3">
+	@component('partials.card-header')
+		System Information
 	@endcomponent
-
-	@component('partials.section-with-container')	
-
-		@includeIf($expense->isPaid(), 'partials.alerts.success', ['slot' => 'This expense was paid ' . date_formatted($expense->paid_at)])
-
-		<div class="row">
-			<div class="col col-5">
-
-				@include('expenses.partials.invoices-card')
-				@include('expenses.partials.system-info-card')
-
-			</div>
-			<div class="col col-7">
-
-				@include('expenses.partials.expense-info-card')
-
-			</div>
-		</div>
-
-	@endcomponent
-
-	@component('partials.bootstrap.section-with-container')
-
-		<ul class="nav nav-tabs" id="userTabs" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#payments" role="tab">Payments</a>
-			</li>
-		</ul>
-
-		<div class="tab-content">
-			<div class="tab-pane active" id="payments" role="tabpanel">
-
-				@include('expenses.partials.payments-table')
-
-			</div>
-		</div>
-
-	@endcomponent
-
-@endsection
+	<ul class="list-group list-group-flush">
+		@component('partials.bootstrap.list-group-item')
+			<a href="{{ route('users.show', $expense->owner->id) }}">
+				{{ $expense->owner->name }}
+			</a>
+			@slot('title')
+				Created By
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ date_formatted($expense->created_at) }}
+			@slot('title')
+				Registered
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ date_formatted($expense->updated_at) }}
+			@slot('title')
+				Updated
+			@endslot
+		@endcomponent
+	</ul>
+</div>

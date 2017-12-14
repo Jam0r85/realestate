@@ -2,19 +2,41 @@
 
 class Menu
 {
-	public static function activeRoute($route, $output = "is-active", $alternative = null)
+	public static function activeRoute($route, $output = "active", $alternative = null)
 	{
 	    if (Route::currentRouteName() == $route) return $output;
 
 	    return $alternative;
 	}
 
-	public static function activeRoutes(array $routes, $output = 'is-active')
+	public static function activeRouteWithShow($route, $show, $output = "active")
+	{
+		$segments = Request::segments();
+
+	    if (Route::currentRouteName() == $route) {
+
+	    	if (in_array($show, $segments)) {
+	    		return $output;
+	    	}	
+	    }
+	}
+
+	public static function activeRoutes(array $routes, $output = 'active')
 	{
 	    foreach ($routes as $route)
 	    {
 	        if (Route::currentRouteName() == $route) return $output;
 	    }
+	}
+
+	public static function route($routeName, $id, $show = null)
+	{
+		return route($routeName, [$id, 'show' => $show]);
+	}
+
+	public static function showLink($title, $routeName, $id, $show = null)
+	{
+		return '<a href="' . Menu::route($routeName, $id, $show) . '" class="nav-link ' . Menu::activeRouteWithShow($routeName, $show) . '">' . $title . '</a>';
 	}
 
 	/**

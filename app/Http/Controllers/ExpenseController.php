@@ -76,14 +76,12 @@ class ExpenseController extends BaseController
      * @param  string  $show
      * @return  \Illuminate\Http\Response
      */
-    public function show($id, $show ='index')
+    public function show($id, $show = 'index')
     {
         $expense = $this->repository
             ->findOrFail($id);
 
-        $view = 'expenses.show.' . $show;
-
-        return view($view, compact('expense'));
+        return view('expenses.show', compact('expense','show'));
     }
 
     /**
