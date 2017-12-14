@@ -5,6 +5,7 @@
 		<th>Statement Date</th>
 		<th>Tenancy</th>
 		<th>Amount</th>
+		<th>Status</th>
 	@endslot
 	@slot('body')
 		@foreach ($expense->payments as $payment)
@@ -18,6 +19,7 @@
 				<td>{{ date_formatted($payment->statement->period_start) }} - {{ date_formatted($payment->statement->period_end) }}</td>
 				<td>{{ $payment->statement->tenancy->present()->name }}</td>
 				<td>{{ currency($payment->amount) }}</td>
+				<td>{{ $payment->sent_at ? 'Sent' : 'Unsent' }}</td>
 			</tr>
 		@endforeach
 	@endslot
