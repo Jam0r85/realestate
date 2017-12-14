@@ -16,7 +16,7 @@
 					<td>{!! truncate($expense->name) !!}</td>
 					<td>
 						<a href="{{ route('properties.show', $expense->property->id) }}">
-							{{ $expense->property->present()->shortAddress }}
+							{{ truncate($expense->property->present()->shortAddress) }}
 						</a>
 					</td>
 					<td>{{ $expense->present()->contractorName }}</td>
