@@ -31,8 +31,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('statement:check-paid')->everyThirtyMinutes();
 
         $schedule->job(new GenerateRecurringInvoices)->daily();
-        $schedule->job(new UpdateTenancyDepositBalances)->daily();
-        // $schedule->job(new ArchivePastTenancyRents)->daily();
 
         // Running backups
         $schedule->command('backup:clean')->daily()->at('01:00');

@@ -195,9 +195,6 @@ class Statement extends PdfModel
     public function send()
     {
         SendStatementToOwners::dispatch($this);
-        
-        $this->sent_at = Carbon::now();
-        $this->saveWithMessage('has been sent');
     }
 
     /**

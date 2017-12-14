@@ -43,5 +43,8 @@ class SendStatementToOwners
     public function handle()
     {
         Notification::send($this->statement->users, new StatementSentNotification($this->statement));
+
+        $this->statement->sent_at = Carbon::now();
+        $this->statement->saveWithMessage('has been dispatched');
     }
 }
