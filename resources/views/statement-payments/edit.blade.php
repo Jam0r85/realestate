@@ -93,7 +93,7 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
-						Delete Payment
+						Destroy Statement Payment
 					@endcomponent
 					<div class="card-body">
 
@@ -101,12 +101,8 @@
 							{{ csrf_field() }}
 							{{ method_field('DELETE') }}
 
-							<p class="card-text">
-								<b>Warning</b>, this action cannot be undone.
-							</p>
-
 							@component('partials.save-button')
-								Delete Payment
+								Destroy Statement Payment
 							@endcomponent
 
 						</form>
