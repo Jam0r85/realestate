@@ -45,7 +45,7 @@
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
 			<a href="{{ route('users.show', $expense->owner->id) }}">
-				{{ $expense->owner->name }}
+				{{ $expense->owner->present()->fullName }}
 			</a>
 			@slot('title')
 				Created By
