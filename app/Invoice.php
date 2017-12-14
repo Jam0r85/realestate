@@ -183,7 +183,8 @@ class Invoice extends PdfModel
      */
     public function statements()
     {
-        return $this->belongsToMany('App\Statement');
+        return $this
+            ->belongsToMany('App\Statement');
     }
 
     /**
@@ -378,10 +379,12 @@ class Invoice extends PdfModel
         $this->balance = $this->present()->remainingBalanceTotal;
 
         if (empty($this->balance) && count($this->items)) {
-            if (!$this->paid_at) {
+            if (is_null($this->paid_at)) {
                 if (count($this->statements)) {
                     foreach ($this->statements as $statement) {
-                        $this->paid_at = $statement->paid_at;
+                        if ($statement->paid_at) {
+                            $this->paid_at = $statement->paid_at;
+                        }
                     }
                 } else {
                     $this->paid_at = Carbon::now();
