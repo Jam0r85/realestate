@@ -6,6 +6,7 @@ use App\Events\ExpenseStatementPaymentWasSaved;
 use App\Events\ExpenseStatementPaymentWasSent;
 use App\Events\Expenses\ExpenseUpdateBalances;
 use App\Events\InvoiceStatementPaymentWasSaved;
+use App\Events\InvoiceStatementPaymentWasSent;
 use App\Events\Invoices\InvoiceUpdateBalances;
 use App\Events\LandlordStatementPaymentWasSaved;
 use App\Http\Requests\StatementPaymentSentRequest;
@@ -193,6 +194,10 @@ class StatementPaymentController extends BaseController
         $payment
             ->fill(['sent_at' => Carbon::now()])
             ->saveWithMessage('was sent');
+
+        if ($payment->present()->parentName == 'Invoice') {
+            event(new InvoiceStatementPaymentWasSent($payment));
+        }
 
         if ($payment->present()->parentName == 'Expense') {
             event(new ExpenseStatementPaymentWasSent($payment));

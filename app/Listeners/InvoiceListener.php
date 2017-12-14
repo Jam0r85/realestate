@@ -7,6 +7,7 @@ use App\Events\InvoiceItemWasUpdated;
 use App\Events\InvoicePaymentWasCreated;
 use App\Events\InvoicePaymentWasDeleted;
 use App\Events\InvoiceStatementPaymentWasSaved;
+use App\Events\InvoiceStatementPaymentWasSent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -62,6 +63,21 @@ class InvoiceListener
         $invoice = $payment->parent;
         
         $invoice->updateBalances();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  InvoiceStatementPaymentWasSent  $event
+     * @return void
+     */
+    public function statementPaymentSent(InvoiceStatementPaymentWasSent $event)
+    {
+        $payment = $event->payment;
+        $invoice = $payment->parent;
+
+        $invoice->sent_at = $payment->sent_at;
+        $invoice->saveWithMessage('set as sent');
     }
 
     /**
