@@ -2,6 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Events\DepositPaymentWasCreated;
+use App\Events\DepositPaymentWasDeleted;
 use App\Events\RentPaymentWasCreated;
 use App\Events\RentPaymentWasDeleted;
 use App\Events\StatementWasCreated;
@@ -37,7 +39,7 @@ class TenancyListener
     /**
      * Handle the event.
      *
-     * @param  PaymentWasCreated  $event
+     * @param  RentPaymentWasCreated  $event
      * @return void
      */
     public function rentPaymentCreated(RentPaymentWasCreated $event)
@@ -51,7 +53,7 @@ class TenancyListener
     /**
      * Handle the event.
      *
-     * @param  PaymentWasCreated  $event
+     * @param  RentPaymentWasDeleted  $event
      * @return void
      */
     public function rentPaymentDeleted(RentPaymentWasDeleted $event)
@@ -60,5 +62,33 @@ class TenancyListener
         $tenancy = $payment->parent;
 
         $tenancy->updateRentBalance();
-    }    
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  DepositPaymentWasCreated  $event
+     * @return void
+     */
+    public function depositPaymentCreated(DepositPaymentWasCreated $event)
+    {
+        $payment = $event->payment;
+        $deposit = $payment->parent;
+
+        $deposit->updateBalance();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  DepositPaymentWasDeleted  $event
+     * @return void
+     */
+    public function depositPaymentDeleted(DepositPaymentWasDeleted $event)
+    {
+        $payment = $event->payment;
+        $deposit = $payment->parent;
+
+        $deposit->updateBalance();
+    }  
 }

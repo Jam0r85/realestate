@@ -67,7 +67,8 @@ class Deposit extends BaseModel
 	 */
     public function owner()
     {
-    	return $this->belongsTo('App\User', 'user_id');
+    	return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -75,7 +76,8 @@ class Deposit extends BaseModel
      */
     public function tenancy()
     {
-    	return $this->belongsTo('App\Tenancy')
+    	return $this
+            ->belongsTo('App\Tenancy')
             ->withTrashed();
     }
 
@@ -84,7 +86,8 @@ class Deposit extends BaseModel
      */
     public function payments()
     {
-    	return $this->morphMany('App\Payment', 'parent')
+    	return $this
+            ->morphMany('App\Payment', 'parent')
             ->latest();
     }
 
@@ -93,16 +96,8 @@ class Deposit extends BaseModel
      */
     public function certificate()
     {
-        return $this->morphOne('App\Document', 'parent');
-    }
-
-    /**
-     * A deposit can have a last payment.
-     */
-    public function lastPayment()
-    {
-        return $this->morphOne('App\Payment', 'parent')
-            ->latest();
+        return $this
+            ->morphOne('App\Document', 'parent');
     }
 
     /**
@@ -134,5 +129,16 @@ class Deposit extends BaseModel
             ->attach($this->tenancy->users);
 
         return $payment;
+    }
+
+    /**
+     * Update the balance for this deposit.
+     * 
+     * @return void
+     */
+    public function updateBalance()
+    {
+        $this->balance = $this->payments->sum('amount');
+        $this->saveWithMessage('balance updated');
     }
 }

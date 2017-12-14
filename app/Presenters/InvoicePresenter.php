@@ -31,6 +31,20 @@ class InvoicePresenter extends BasePresenter
 	public function usersList()
 	{
 		foreach ($this->users as $user) {
+			$names[] = $user->present()->fullName;
+		}
+
+		if (isset($names) && count($names)) {
+			return implode(' ', $names);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function userBadges()
+	{
+		foreach ($this->users as $user) {
 			$names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
 		}
 

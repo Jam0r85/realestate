@@ -42,5 +42,9 @@ class PaymentObserver
 		if ($payment->present()->parentName == 'Tenancy') {
 			event(new RentPaymentWasDeleted($payment));
 		}
+
+		if ($payment->present()->parentName == 'Deposit') {
+			event(new DepositPaymentWasDeleted($payment));
+		}
 	}
 }
