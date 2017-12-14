@@ -48,11 +48,10 @@ class PropertyController extends BaseController
      */
     public function store(PropertyStoreRequest $request)
     {
-        $property = $this->repository;
-        $property->fill($request->input());
-        $property->save();
-
-        $property->settings()->storeDefault();
+        $property = $this->repository
+            ->fill($request->input())
+            ->setData($request->input())
+            ->save();
 
         if ($request->has('owners')) {
             $property->owners()->attach($request->owners);
