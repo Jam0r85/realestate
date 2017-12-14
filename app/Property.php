@@ -100,7 +100,9 @@ class Property extends BaseModel
 	 */
 	public function invoices()
 	{
-		return $this->hasMany('App\Invoice')->latest();
+		return $this
+			->hasMany('App\Invoice')
+			->latest();
 	}
 
 	/**
@@ -108,7 +110,10 @@ class Property extends BaseModel
 	 */
 	public function tenancies()
 	{
-		return $this->hasMany('App\Tenancy')->withTrashed()->latest();
+		return $this
+			->hasMany('App\Tenancy')
+			->withTrashed()
+			->latest();
 	}
 
 	/**
@@ -116,7 +121,9 @@ class Property extends BaseModel
 	 */
 	public function activeTenancy()
 	{
-		return $this->hasOne('App\Tenancy')->active();
+		return $this
+			->hasOne('App\Tenancy')
+			->active();
 	}
 
 	/**
@@ -124,7 +131,9 @@ class Property extends BaseModel
 	 */
 	public function expenses()
 	{
-		return $this->hasMany('App\Expense')->latest();
+		return $this
+			->hasMany('App\Expense')
+			->latest();
 	}
 
 	/**
@@ -132,7 +141,10 @@ class Property extends BaseModel
 	 */
 	public function unpaid_expenses()
 	{
-		return $this->hasMany('App\Expense')->whereNull('paid_at')->latest();
+		return $this
+			->hasMany('App\Expense')
+			->whereNull('paid_at')
+			->latest();
 	}
 
 	/**
@@ -140,7 +152,9 @@ class Property extends BaseModel
 	 */
 	public function statements()
 	{
-		return $this->hasManyThrough('App\Statement', 'App\Tenancy')->latest('period_start');
+		return $this
+			->hasManyThrough('App\Statement', 'App\Tenancy')
+			->latest('period_start');
 	}
 
 	/**
@@ -148,7 +162,8 @@ class Property extends BaseModel
 	 */
 	public function owner()
 	{
-		return $this->belongsTo('App\User', 'user_id');
+		return $this
+			->belongsTo('App\User', 'user_id');
 	}
 
 	/**
@@ -156,7 +171,8 @@ class Property extends BaseModel
 	 */
 	public function owners()
 	{
-		return $this->belongsToMany('App\User');
+		return $this
+			->belongsToMany('App\User');
 	}
 
 	/**
@@ -164,7 +180,8 @@ class Property extends BaseModel
 	 */
 	public function residents()
 	{
-		return $this->hasMany('App\User');
+		return $this
+			->hasMany('App\User');
 	}
 
 	/**
@@ -191,7 +208,8 @@ class Property extends BaseModel
 	 */
 	public function branch()
 	{
-		return $this->belongsTo('App\Branch');
+		return $this
+			->belongsTo('App\Branch');
 	}
 
 	/**
@@ -199,7 +217,8 @@ class Property extends BaseModel
 	 */
 	public function bank_account()
 	{
-		return $this->belongsTo('App\BankAccount');
+		return $this
+			->belongsTo('App\BankAccount');
 	}
 
 	/**
@@ -207,7 +226,9 @@ class Property extends BaseModel
 	 */
 	public function gas()
 	{
-		return $this->hasMany('App\Gas')->latest();
+		return $this
+			->hasMany('App\Gas')
+			->latest();
 	}
 
 	/**
@@ -215,7 +236,8 @@ class Property extends BaseModel
 	 */
 	public function appearances()
 	{
-		return $this->hasMany('App\Appearance')
+		return $this
+			->hasMany('App\Appearance')
 			->withTrashed()
 			->latest();
 	}
@@ -225,15 +247,8 @@ class Property extends BaseModel
 	 */
 	public function band()
 	{
-		return $this->belongsTo('App\TaxBand');
-	}
-
-	/**
-	 * A property can have settings.
-	 */
-	public function settings()
-	{
-		return new PropertySettings($this);
+		return $this
+			->belongsTo('App\TaxBand');
 	}
 
 	/**
