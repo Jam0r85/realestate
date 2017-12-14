@@ -59,15 +59,25 @@
 					@endcomponent
 					<div class="card-body">
 
-						<form method="POST" action="{{ route('expenses.destroy', $expense->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
+						@if (count($expense->paymentsSent))
 
-							@component('partials.save-button')
-								Delete Expense
+							@component('partials.alerts.warning')
+								Expense has payments through statements and cannot be deleted.
 							@endcomponent
 
-						</form>
+						@else
+
+							<form method="POST" action="{{ route('expenses.destroy', $expense->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+
+								@component('partials.save-button')
+									Delete Expense
+								@endcomponent
+
+							</form>
+
+						@endif
 
 					</div>
 				</div>
