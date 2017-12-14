@@ -1,3 +1,7 @@
+@component('partials.alerts.info')
+	Expense payments can created through rental statements for the same property.
+@endcomponent
+
 @component('partials.table')
 	@slot('header')
 		<th>Date</th>
