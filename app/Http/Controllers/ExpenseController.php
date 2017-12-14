@@ -72,22 +72,39 @@ class ExpenseController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Expense  $expense
+     * @param  int  $id
+     * @param  string  $show
      * @return  \Illuminate\Http\Response
      */
-    public function show($id, $section ='layout')
+    public function show($id, $show ='index')
     {
         $expense = $this->repository
             ->findOrFail($id);
 
-        return view('expenses.show.' . $section, compact('expense'));
+        $view = 'expenses.show.' . $show;
+
+        return view($view, compact('expense'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $expense = $this->repository
+            ->findOrFail($id);
+
+        return view('expenses.edit', compact('expense'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\ExpenseUpdateRequest $request
-     * @param  integer  $id
+     * @param  int  $id
      * @return  \Illuminate\Http\Response
      */
     public function update(ExpenseUpdateRequest $request, $id)

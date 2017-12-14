@@ -2,28 +2,21 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.page-header')
 
-		<div class="page-title">
-
-			<div class="float-right">
-				@include('expenses.partials.dropdown-menus')
-			</div>
-
-			@component('partials.header')
-				{{ $expense->name }}
-			@endcomponent
-
+		<div class="float-right">
+			@include('expenses.partials.dropdown-menus')
 		</div>
 
-	@endcomponent
-	@component('partials.bootstrap.section-with-container')	
+		@component('partials.header')
+			{{ $expense->name }}
+		@endcomponent
 
-		@if ($expense->paid_at)
-			<div class="alert alert-success">
-				This expense was paid {{ date_formatted($expense->paid_at) }}
-			</div>
-		@endif
+	@endcomponent
+
+	@component('partials.section-with-container')	
+
+		@includeIf($expense->isPaid(), 'partials.alerts.success', ['slot' => 'This expense was paid ' . date_formatted($expense->paid_at)])
 
 		<div class="row">
 			<div class="col col-5">

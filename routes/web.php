@@ -88,6 +88,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('search', 'ExpenseController@search')->name('expenses.search');
 		Route::get('create', 'ExpenseController@create')->name('expenses.create');
 		Route::post('/', 'ExpenseController@store')->name('expenses.store');
+		Route::get('{id}/edit', 'ExpenseController@edit')->name('expenses.edit');
 		Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
 		Route::put('{id}', 'ExpenseController@update')->name('expenses.update');
 		Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy');
