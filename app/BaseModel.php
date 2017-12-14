@@ -103,7 +103,7 @@ class BaseModel extends Model
 	 */
 	public function messageCreated()
 	{
-		return 'New ' . $this->classNameFormatted() . ' created';
+		return 'New ' . $this->classNameFormatted() . ' #' . $this->id . ' created';
 	}
 
 	/**

@@ -627,13 +627,22 @@ class Tenancy extends BaseModel
      */
     public function storeStatement(Statement $statement)
     {
+        // Save the statement
         $this
             ->statements()
             ->save($statement);
 
+        // Attach property owners to the statement
         $statement
             ->users()
             ->attach($this->property->owners);
+
+        // Create invoice and items here
+        if ($statement->needsInvoiceCheck()) {
+            $invoice = new Invoice();
+            $invoice->property_id = $this->property->id;
+            $invoice = $statement->storeInvoice($invoice);
+        }
 
         return $statement;
     }

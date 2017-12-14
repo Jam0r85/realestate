@@ -17,12 +17,15 @@ class InvoiceObserver
 	 */
 	public function creating(Invoice $invoice)
 	{
+		$created_at = $invoice->created_at ?? Carbon::now();
+
 		$invoice->user_id = $invoice->user_id ?? Auth::user()->id;
 		$invoice->key = str_random(30);
 		$invoice->property_id = $invoice->property_id ?? 0;
 		$invoice->terms = $invoice->terms ?? get_setting('invoice_default_terms');
 		$invoice->invoice_group_id = $invoice->invoice_group_id ?? get_setting('invoice_default_group');
 		$invoice->number = $invoice->number ?? InvoiceGroup::findOrFail($invoice->invoice_group_id)->next_number;
+		$invoice->due_at = Carbon::parse($created_at)->addDay(get_setting('invoice_due_after'), 30);
 	}
 
 	/**
@@ -33,10 +36,6 @@ class InvoiceObserver
 	 */
 	public function created(Invoice $invoice)
 	{
-		$invoice->update([
-			'due_at' => Carbon::parse($invoice->created_at)->addDay(get_setting('invoice_due_after'), 30)
-		]);
-
 		$group = InvoiceGroup::findOrFail($invoice->invoice_group_id);
 		if ($invoice->number == $group->next_number) {
 			$group->increment('next_number');

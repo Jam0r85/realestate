@@ -161,16 +161,14 @@ class Statement extends PdfModel
      * @param  \App\Invoice  $invoice  the invoice we are storing
      * @return  \App'Invoice
      */
-    public function storeInvoice(Invoice $invoice = null)
+    public function storeInvoice(Invoice $invoice)
     {
-        if (is_null($invoice)) {
-            $invoice = new Invoice();
-        }
-        
-        $invoice->property_id = $this->tenancy->property_id;
-
         $this->invoices()->save($invoice);
         $invoice->users()->sync($this->property()->owners);
+
+        $this->createInvoiceLettingItem($invoice);
+        $this->createInvoiceReLettingItem($invoice);
+        $this->createInvoiceManagementItem($invoice);
 
         return $invoice;
     }
@@ -203,17 +201,25 @@ class Statement extends PdfModel
     }
 
     /**
-     * Create the invoice items for this statement.
+     * Check whether this statement needs an invoice as well.
      * 
-     * @return void
+     * @return  boolean
      */
-    public function createInvoiceItems()
+    public function needsInvoiceCheck()
     {
-        $this->createInvoiceManagementItem();
-        $this->createInvoiceLettingItem();
-        $this->createInvoiceReLettingItem();
+        if ($this->tenancy->getLettingFee(true)) {
+            return true;
+        }
 
-        return $this;
+        if ($this->tenancy->getReLettingFee(true)) {
+            return true;
+        }
+
+        if ($this->tenancy->getServiceChargeNetAmount()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -226,6 +232,7 @@ class Statement extends PdfModel
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
+        $invoice = $this->invoices->first();
 
         // Is this the first tenancy for this property?
         if (!count($property->tenancies)) {
@@ -246,12 +253,6 @@ class Statement extends PdfModel
                 // Is the letting fee a valid amount?
                 if ($lettingFee > 0) {
 
-                    if (!count($this->invoices)) {
-                        $invoice = $this->storeInvoice();
-                    } else {
-                        $invoice = $this->invoices->first();
-                    }
-
                     $item = new InvoiceItem();
                     $item->name = $service->name;
                     $item->description = $service->name . ' Letting Fee';
@@ -263,8 +264,6 @@ class Statement extends PdfModel
                 }
             }
         }
-
-        return $this;
     }
 
     /**
@@ -272,11 +271,12 @@ class Statement extends PdfModel
      * 
      * @return void
      */
-    public function createInvoiceLettingItem()
+    public function createInvoiceLettingItem(Invoice $invoice)
     {
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
+        $invoice = $this->invoices->first();
 
         // Is this the first tenancy for this property?
         if (count($property->tenancies) >= 1) {
@@ -297,13 +297,6 @@ class Statement extends PdfModel
                 // Is the letting fee a valid amount?
                 if ($reLettingFee > 0) {
 
-                    // Grab the statement invoice or create one if not present.
-                    if (!count($this->invoices)) {
-                        $invoice = $this->storeInvoice();
-                    } else {
-                        $invoice = $this->invoices->first();
-                    }
-
                     $item = new InvoiceItem();
                     $item->name = $service->name;
                     $item->description = $service->name . ' Re-Letting Fee';
@@ -315,8 +308,6 @@ class Statement extends PdfModel
                 }
             }
         }
-
-        return $this;
     }
 
     /**
@@ -328,15 +319,10 @@ class Statement extends PdfModel
     {
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
+        $invoice = $this->invoices->first();
 
         // Do we have a valid service charge amount?
         if ($tenancy->getServiceChargeNetAmount() > 0) {
-
-            if (!count($this->invoices)) {
-                $invoice = $this->storeInvoice();
-            } else {
-                $invoice = $this->invoices->first();
-            }
 
             // Format the description
             $description = $service->name . ' service at ' . $service->charge_formatted;
@@ -362,7 +348,5 @@ class Statement extends PdfModel
 
             $invoice->storeItem($item);
         }
-
-        return $this;
     }
 }

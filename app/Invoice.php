@@ -279,7 +279,9 @@ class Invoice extends PdfModel
     public function storeItem(InvoiceItem $item)
     {
         $this->items()->save($item);
+
         event (new InvoiceItemWasCreated($item));
+        
         return $item;
     }
 

@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Events\InvoiceItemWasCreated;
 use App\Events\InvoiceItemWasUpdated;
 use App\Events\InvoiceStatementPaymentWasSaved;
-use App\Events\StatementWasCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -19,18 +18,6 @@ class InvoiceListener
     public function __construct()
     {
         //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  StatementWasCreated  $event
-     * @return void
-     */
-    public function statementCreated(StatementWasCreated $event)
-    {
-        $statement = $event->statement;
-        $statement->createInvoiceItems();
     }
 
     /**
