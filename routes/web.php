@@ -255,6 +255,7 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('documents')->group(function () {
 		Route::post('/', 'DocumentController@store')->name('documents.store');
+		Route::get('{id}/edit', 'DocumentController@edit')->name('documents.edit');
 		Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show');
 		Route::put('{id}', 'DocumentController@update')->name('documents.update');
 	});

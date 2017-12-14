@@ -1,43 +1,35 @@
-<div class="card mb-3">
+@component('partials.alerts.info')
+	The invoices listed below will automatically be attached to rental statements when they are sent by e-mail.
+@endcomponent
 
-	@component('partials.card-header')
-		Uploaded Invoices
-	@endcomponent
-
-	@if (count($expense->documents))
-
-		<ul class="list-group list-group-flush">
-
-			@foreach ($expense->documents as $invoice)
-
-				<li class="list-group-item">
-					<a href="{{ Storage::url($invoice->path) }}" target="_blank" title="{{ $invoice->name }}">
-						{{ $invoice->name }}
+@component('partials.table')
+	@slot('header')
+		<th>Uploaded</th>
+		<th>Name</th>
+		<th></th>
+	@endslot
+	@slot('body')
+		@foreach ($expense->documents as $document)
+			<tr>
+				<td>{{ date_formatted($document->created_at) }}</td>
+				<td>{{ $document->name }}</td>
+				<td class="text-right">
+					<a href="{{ route('documents.edit', $document->id) }}" class="btn btn-warning btn-sm">
+						Edit
 					</a>
-					<small class="d-block mb-2">
-						Uploaded {{ date_formatted($invoice->created_at) }}
-					</small>
-					<div class="btn-group" role="group" aria-label="Invoice Options">
-						<a href="{{ route('documents.show', [$invoice->id, 'edit-details']) }}" class="btn btn-warning btn-sm">
-							Edit
-						</a>
-						<a href="{{ route('documents.show', $invoice->id) }}" class="btn btn-primary btn-sm">
-							View
-						</a>
-					</div>
-				</li>
+					<a href="{{ Storage::url($document->path) }}" class="btn btn-secondary btn-sm" target="_blank">
+						Download
+					</a>
+				</td>
+			</tr>
+		@endforeach
+	@endslot
+@endcomponent
 
-			@endforeach
-
-		</ul>
-
-	@else
-
-		<div class="card-body">
-			No invoices have been uploaded and added to this expense.
-		</div>
-
-	@endif
+<div class="card mb-3">
+	@component('partials.card-header')
+		Upload Invoices
+	@endcomponent
 
 	<div class="card-body">
 
