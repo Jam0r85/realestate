@@ -85,12 +85,16 @@ class PropertyController extends BaseController
     public function update(PropertyUpdateRequest $request, $id)
     {
         $property = $this->repository
-            ->findOrFail($id)
+            ->findOrFail($id);
+
+        $property
             ->fill($request->input())
             ->setData($request->input())
             ->save();
 
-        $property->owners()->sync($request->owners);
+        $property
+            ->owners()
+            ->sync($request->owners);
 
         return back();
     }

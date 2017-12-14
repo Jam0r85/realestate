@@ -1,4 +1,4 @@
-@if (count($users))
+@if ($users && count($users))
 
 	<ul class="list-group list-group-flush">
 		@each('partials.bootstrap.user-list-group-item', $users, 'user')
