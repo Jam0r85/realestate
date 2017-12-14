@@ -380,11 +380,9 @@ class Invoice extends PdfModel
 
         if (empty($this->balance) && count($this->items)) {
             if (is_null($this->paid_at)) {
-                if (count($this->statements)) {
-                    foreach ($this->statements as $statement) {
-                        if ($statement->paid_at) {
-                            $this->paid_at = $statement->paid_at;
-                        }
+                if (count($statements = $this->statements()->whereNotNull('paid_at')->get())) {
+                    foreach ($statements as $statement) {
+                        $this->paid_at = $statement->paid_at;
                     }
                 } else {
                     $this->paid_at = Carbon::now();
