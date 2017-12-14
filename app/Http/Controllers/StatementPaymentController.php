@@ -167,6 +167,33 @@ class StatementPaymentController extends BaseController
             ->fill($request->input())
             ->save();
 
+        if ($payment->present()->parentName == 'Invoice') {
+            event(new InvoiceStatementPaymentWasSaved($payment));
+        }
+
+        if ($payment->present()->parentName == 'Expense') {
+            event(new ExpenseStatementPaymentWasSaved($payment));
+        }
+
+        return back();
+    }
+
+    /**
+     * Send the given statement payment.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function send(Request $request, $id)
+    {
+        $payment = $this->repository
+            ->findOrFail($id);
+
+        $payment
+            ->fill(['sent_at' => Carbon::now()])
+            ->saveWithMessage('was sent');
+
         if ($payment->present()->parentName == 'Expense') {
             event(new ExpenseStatementPaymentWasSent($payment));
         }
@@ -175,7 +202,7 @@ class StatementPaymentController extends BaseController
     }
 
     /**
-     * Download the statement payments as a PDF.
+     * Show a printable version of unsent statement payments.
      * 
      * @return \Illuminate\Http\Response
      */

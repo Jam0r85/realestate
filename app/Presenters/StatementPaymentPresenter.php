@@ -56,7 +56,9 @@ class StatementPaymentPresenter extends Presenter
      */
     public function propertyName()
     {
-        return $this->statement->tenancy->property->present()->shortAddress;
+        if ($this->statement) {
+            return $this->statement->tenancy->property->present()->shortAddress;
+        }
     }
 
     /**

@@ -378,7 +378,7 @@ class Invoice extends PdfModel
         $this->total = $this->present()->itemsTotal;
         $this->balance = $this->present()->remainingBalanceTotal;
 
-        if (empty($this->balance) && count($this->items)) {
+        if ($this->balance == '0' && count($this->items)) {
             if (is_null($this->paid_at)) {
                 if (count($statements = $this->statements()->whereNotNull('paid_at')->get())) {
                     foreach ($statements as $statement) {

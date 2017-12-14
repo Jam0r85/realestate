@@ -138,11 +138,12 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('statement-payments')->group(function () {
 		Route::get('/', 'StatementPaymentController@index')->name('statement-payments.index');
-		Route::get('print', 'StatementPaymentController@print')->name('statement-payments.print');
-		Route::post('/{statement}', 'StatementPaymentController@store')->name('statement-payments.store');
-		Route::get('{payment}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit');
-		Route::put('{payment}', 'StatementPaymentController@update')->name('statement-payments.update');
-		Route::delete('{payment}', 'StatementPaymentController@destroy')->name('statement-payments.destroy');
+		Route::get('print', 'StatementPaymentController@print')->name('statement-payments.print'); // Printable view of statement payments
+		Route::post('/{statement}', 'StatementPaymentController@store')->name('statement-payments.store'); // Create a statement payment
+		Route::get('{payment}/edit', 'StatementPaymentController@edit')->name('statement-payments.edit'); // Edit a statement payment
+		Route::put('{payment}', 'StatementPaymentController@update')->name('statement-payments.update'); // Update a statement payment
+		Route::put('{payment}/send', 'StatementPaymentController@send')->name('statement-payments.send'); // Send a statement payment
+		Route::delete('{payment}', 'StatementPaymentController@destroy')->name('statement-payments.destroy'); // Delete a statement payment
 	});
 
 	Route::prefix('users')->group(function () {
