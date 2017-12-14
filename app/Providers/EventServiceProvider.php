@@ -13,6 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+
+        // Notifications
+        'Illuminate\Notifications\Events\NotificationSent' => [
+            'App\Listeners\LogSmsNotification'
+        ],
+        
         // Users
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',

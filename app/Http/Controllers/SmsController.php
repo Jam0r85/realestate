@@ -45,7 +45,8 @@ class SmsController extends BaseController
     {
     	$user = User::findOrFail($id);
 
-    	$response = $user->notify(new UserSmsMessage($request->message));
+    	$user->notify(new UserSmsMessage($request->message));
+    	
     	return back();
     }
 
