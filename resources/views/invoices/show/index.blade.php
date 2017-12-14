@@ -1,6 +1,43 @@
 <div class="card mb-3">
 
-	@component('partials.bootstrap.card-header')
+	@component('partials.card-header')
+		Invoice Items
+	@endcomponent
+
+	@include('invoice-items.partials.items-table', ['items' => $invoice->items])
+
+</div>
+
+<div class="card mb-3">
+
+	@component('partials.card-header')
+		Linked Users
+	@endcomponent
+
+	@include('users.partials.users-table', ['users' => $invoice->users])
+
+</div>
+
+<div class="card mb-3">
+
+	@component('partials.card-header')
+		Invoice Details
+	@endcomponent
+
+	<ul class="list-group list-group-flush">
+		@component('partials.bootstrap.list-group-item')
+			{{ $invoice->invoiceGroup->name }}
+			@slot('title')
+				Invoice Group
+			@endslot
+		@endcomponent
+	</ul>
+
+</div>
+
+<div class="card mb-3">
+
+	@component('partials.card-header')
 		System Information
 	@endcomponent
 

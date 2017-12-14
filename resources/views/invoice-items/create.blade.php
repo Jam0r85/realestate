@@ -24,7 +24,7 @@
 		</div>
 
 		@component('partials.header')
-			Invoice #{{ $invoice->number }}
+			Invoice {{ $invoice->number }}
 		@endcomponent
 
 		@component('partials.sub-header')
@@ -51,7 +51,7 @@
 						<form method="POST" action="{{ route('invoice-items.store', $invoice->id) }}">
 							{{ csrf_field() }}
 
-							@include('invoices.partials.item-form')
+							@include('invoice-items.partials.form')
 
 							@component('partials.save-button')
 								Add Invoice Item
@@ -71,28 +71,7 @@
 						Current Invoice Items
 					@endcomponent
 
-					@component('partials.table')
-						@slot('header')
-							<th>Name</th>
-							<th>Amount</th>
-							<th>#</th>
-							<th class="text-right">Total</th>
-						@endslot
-						@slot('body')
-							@foreach ($invoice->items as $item)
-								<tr>
-									<td>
-										<a href="{{ route('invoice-items.edit', $item->id) }}" name="Edit Item">
-											{{ $item->name }}
-										</a>
-									</td>
-									<td>{{ currency($item->amount) }}</td>
-									<td>{{ $item->quantity }}</td>
-									<td class="text-right">{{ currency($item->total) }}</td>
-								</tr>
-							@endforeach
-						@endslot
-					@endcomponent
+					@include('invoice-items.partials.items-table', ['items' => $invoice->items])
 					
 				</div>
 

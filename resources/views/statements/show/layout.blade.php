@@ -157,7 +157,7 @@
 						@if (count($statement->invoices))
 						
 							@foreach ($statement->invoices as $invoice)
-								@include('invoices.partials.item-table', ['items' => $invoice->items])
+								@include('invoice-items.partials.items-table', ['items' => $invoice->items])
 							@endforeach
 
 						@else

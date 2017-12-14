@@ -97,6 +97,13 @@ nav.navbar {
 .table-dark a:hover {
 	color: rgba(255,255,255,0.8);
 }
+.table-bordered tfoot td {
+	border-top-width: 2px;
+	color: $gray-600;
+}
+.card table.table-bordered {
+	border: 0 !important;
+}
 
 /**
  * List Groups

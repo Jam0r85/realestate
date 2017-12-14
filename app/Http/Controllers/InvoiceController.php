@@ -77,16 +77,31 @@ class InvoiceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoice  $invoice
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $show = 'index')
     {
         $invoice = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        return view('invoices.show.' . $section, compact('invoice'));
+        return view('invoices.show', compact('invoice','show'));
+    }
+
+    /**
+     * Display the form to edit the specified resource.
+     *
+     * @param  int  $id
+     * @return  \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $invoice = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('invoices.edit', compact('invoice'));
     }
 
     /**

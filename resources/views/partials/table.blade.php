@@ -1,8 +1,13 @@
-<table class="table table-striped table-hover">
+<table class="table table-bordered">
 	@if (isset($header))
-		<thead class="thead-dark">
+		<thead>
 			{{ $header }}
 		</thead>
+	@endif
+	@if (isset($footer))
+		<tfoot>
+			{{ $footer }}
+		</tfoot>
 	@endif
 	@if (isset($body))
 		<tbody>

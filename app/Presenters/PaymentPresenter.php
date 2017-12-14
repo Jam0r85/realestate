@@ -62,7 +62,7 @@ class PaymentPresenter extends Presenter
 	/**
 	 * @return  string
 	 */
-	public function userNames()
+	public function userBadges()
 	{
 		foreach ($this->users as $user) {
 			$names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
@@ -70,6 +70,20 @@ class PaymentPresenter extends Presenter
 
 		if (isset($names) && count($names)) {
 			return implode(' ', $names);
+		}
+	}
+
+	/**
+	 * @return  string
+	 */
+	public function userNames()
+	{
+		foreach ($this->users as $user) {
+			$names[] = $user->present()->fullName;
+		}
+
+		if (isset($names) && count($names)) {
+			return implode(' & ', $names);
 		}
 	}
 }

@@ -45,7 +45,7 @@
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
 
-							@include('invoices.partials.item-form')
+							@include('invoice-items.partials.form')
 
 							@component('partials.save-button')
 								Save Changes

@@ -45,6 +45,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('search', 'InvoiceController@search')->name('invoices.search');
 		Route::post('{id}/create-payment', 'InvoicePaymentController@store')->name('invoices.create-payment');
 		Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
+		Route::get('{id}/edit', 'InvoiceController@edit')->name('invoices.edit');
 		Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
 		Route::post('{id}/create-recurring', 'InvoiceRecurringController@store')->name('invoices.create-recurring');
 		Route::post('{id}/clone', 'InvoiceController@clone')->name('invoices.clone');
