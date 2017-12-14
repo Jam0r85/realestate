@@ -12,7 +12,7 @@
 
 <div class="form-group">
 	<label for="name">Name</label>
-	<input class="form-control" type="text" name="name" id="nane" value="{{ isset($expense) ? $expense->name : old('name') }}" />
+	<input class="form-control" type="text" name="name" id="name" value="{{ isset($expense) ? $expense->name : old('name') }}" />
 </div>
 
 <div class="form-group">

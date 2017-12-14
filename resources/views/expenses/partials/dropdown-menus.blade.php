@@ -3,11 +3,8 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="expenseOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit-details']) }}">
-			Expense Details
-		</a>
-		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'expense-status']) }}">
-			Expense Status
+		<a class="dropdown-item" href="{{ route('expenses.show', [$expense->id, 'edit']) }}">
+			<i class="fa fa-edit"></i> Edit Expense
 		</a>
 	</div>
 </div>

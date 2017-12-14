@@ -182,4 +182,18 @@ class Expense extends BaseModel
 
         $this->saveWithMessage('balance updated');
     }
+
+    /**
+     * Has this expense been paid?
+     * 
+     * @return boolean
+     */
+    public function isPaid()
+    {
+        if ($this->balance > 0) {
+            return false;
+        }
+
+        return true;
+    }
 }

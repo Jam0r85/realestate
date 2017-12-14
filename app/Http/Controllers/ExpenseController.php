@@ -92,11 +92,16 @@ class ExpenseController extends BaseController
      */
     public function update(ExpenseUpdateRequest $request, $id)
     {
-        $this->repository
-            ->findOrFail($id)
+        $expense = $this->repository
+            ->findOrFail($id);
+
+        $expense
             ->fill($request->input())
             ->setData($request->input())
             ->save();
+
+        $expense
+            ->updateBalances();
 
         return back();
     }
