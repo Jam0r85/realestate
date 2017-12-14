@@ -25,6 +25,7 @@ class InvoiceStatementPaymentWasSaved
     /**
      * Create a new event instance.
      *
+     * @param  \App\StatementPayment $payment
      * @return void
      */
     public function __construct(StatementPayment $payment)
