@@ -27,14 +27,17 @@
 					Invoice
 				@endslot
 			@endcomponent
-			@component('partials.bootstrap.list-group-item')
-				<a href="{{ route('properties.show', $payment->parent->property->id) }}">
-					{{ $payment->present()->propertyName }}
-				</a>
-				@slot('title')
-					Property
-				@endslot
-			@endcomponent
+
+			@if ($payment->parent->property)
+				@component('partials.bootstrap.list-group-item')
+					<a href="{{ route('properties.show', $payment->parent->property->id) }}">
+						{{ $payment->present()->fullAddress }}
+					</a>
+					@slot('title')
+						Property
+					@endslot
+				@endcomponent
+			@endif
 
 		@elseif ($payment->parent_type == 'tenancies')
 

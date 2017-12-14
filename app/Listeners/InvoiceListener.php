@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\InvoiceItemWasCreated;
 use App\Events\InvoiceItemWasUpdated;
 use App\Events\InvoicePaymentWasCreated;
+use App\Events\InvoicePaymentWasDeleted;
 use App\Events\InvoiceStatementPaymentWasSaved;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -70,6 +71,20 @@ class InvoiceListener
      * @return void
      */
     public function paymentCreated(InvoicePaymentWasCreated $event)
+    {
+        $payment = $event->payment;
+        $invoice = $payment->parent;
+        
+        $invoice->updateBalances();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  InvoicePaymentWasCreated  $event
+     * @return void
+     */
+    public function paymentDeleted(InvoicePaymentWasDeleted $event)
     {
         $payment = $event->payment;
         $invoice = $payment->parent;

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\RentPaymentWasCreated;
+use App\Events\RentPaymentWasDeleted;
 use App\Events\StatementWasCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -46,4 +47,18 @@ class TenancyListener
 
         $tenancy->updateRentBalance();
     }
+
+    /**
+     * Handle the event.
+     *
+     * @param  PaymentWasCreated  $event
+     * @return void
+     */
+    public function rentPaymentDeleted(RentPaymentWasDeleted $event)
+    {
+        $payment = $event->payment;
+        $tenancy = $payment->parent;
+
+        $tenancy->updateRentBalance();
+    }    
 }

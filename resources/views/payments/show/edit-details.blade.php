@@ -88,7 +88,7 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
-						Delete Payment
+						Destroy Payment
 					@endcomponent
 
 					<div class="card-body">
@@ -98,7 +98,7 @@
 							{{ method_field('DELETE') }}
 
 							<p class="card-text">
-								Enter the ID ({{ $payment->id }}) of this payment into the field below to confirm that you wish to destroy it.
+								To confirm you wish to destroy this payment please enter <b>{{ $payment->id }}</b> into the field below.
 							</p>
 
 							<div class="form-group">
