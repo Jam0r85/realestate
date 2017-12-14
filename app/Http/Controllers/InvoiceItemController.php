@@ -6,7 +6,6 @@ use App\Events\InvoiceItemWasUpdated;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateInvoiceItemRequest;
 use App\Invoice;
-use App\InvoiceItem;
 use Illuminate\Http\Request;
 
 class InvoiceItemController extends BaseController
@@ -21,6 +20,7 @@ class InvoiceItemController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function create(Invoice $invoice)
@@ -37,8 +37,8 @@ class InvoiceItemController extends BaseController
      */
     public function store(StoreInvoiceItemRequest $request, Invoice $invoice)
     {
-        $item = $this->repository;
-        $item->fill($request->input());
+        $item = $this->repository
+            ->fill($request->input());
 
         $invoice->storeItem($item);
         return back();
@@ -78,17 +78,5 @@ class InvoiceItemController extends BaseController
         event(new InvoiceItemWasUpdated($item));
 
         return back();
-    }
-
-    /**
-     * Remove an invoice item from storage.
-     * 
-     * @param  InvoiceItem  $item
-     * @return  \Illuminate\Http\Response
-     */
-    public function delete(InvoiceItem $item)
-    {
-        $item->delete();
-        return redirect()->route('invoices.show', $item->invoice_id);
     }
 }

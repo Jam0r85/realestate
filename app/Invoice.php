@@ -3,8 +3,10 @@
 namespace App;
 
 use App\Events\InvoiceItemWasCreated;
+use App\Events\InvoicePaymentWasCreated;
 use App\InvoiceItem;
 use App\Jobs\SendInvoiceToUsers;
+use App\Payment;
 use App\StatementPayment;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
@@ -318,13 +320,34 @@ class Invoice extends PdfModel
     /**
      * Store an statement payment to this invoice.
      * 
-     * @param \App\StatementPayment $payment
-     * @return void
+     * @param  \App\StatementPayment  $payment
+     * @return \App\StatementPayment
      */
     public function storeStatementPayment(StatementPayment $payment)
     {
         $this->statement_payments()->save($payment);
         $payment->users()->attach($this->property->owners);
+
+        return $payment;
+    }
+
+    /**
+     * Store a payment to this invoice.
+     * 
+     * @param  \App\Payment  $payment
+     * @return \App\Payment
+     */
+    public function storePayment(Payment $payment)
+    {
+        $this->payments()->save($payment);
+
+        $payment
+            ->users()
+            ->attach($this->users);
+
+        event(new InvoicePaymentWasCreated($payment));
+
+        return $payment;
     }
 
     /**
