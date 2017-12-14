@@ -22,14 +22,14 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $expense->contractor ? $expense->contractor->name : '-' }}
+			{{ $expense->present()->contractorName }}
 			@slot('title')
 				Contractor
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('properties.show', $expense->property_id) }}" title="{{ $expense->property->name }}">
-				{{ $expense->property->name }}
+			<a href="{{ route('properties.show', $expense->property_id) }}">
+				{{ $expense->property->present()->fullAddress }}
 			</a>
 			@slot('title')
 				Property
