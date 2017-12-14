@@ -26,6 +26,8 @@
 
 		@include('partials.errors-block')
 
+		@includeWhen($payment->sent_at, 'partials.alerts.success', ['slot' => 'This payment was sent on ' . date_formatted($payment->sent_at)])
+
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
