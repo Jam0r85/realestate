@@ -10,7 +10,3 @@
 <a href="{{ route('statements.show', $statement->id) }}" class="btn btn-warning btn-sm">
 	View
 </a>
-
-<a href="{{ route('downloads.statement', $statement->id) }}" class="btn btn-primary btn-sm" target="_blank">
-	Download
-</a>
