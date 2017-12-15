@@ -203,7 +203,7 @@
 					<div class="card-body">
 
 						@component('partials.alerts.warning')
-							Overrwite the charges for new tenancies that this user is the landlord of.
+							Overrwite the charges for new tenancies created for properties this user is the owner of.
 						@endcomponent
 
 						<form method="POST" action="{{ route('users.update', $user->id) }}">
