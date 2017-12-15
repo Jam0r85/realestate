@@ -115,17 +115,16 @@ class InvoiceController extends BaseController
     {
         $invoice = $this->repository
             ->findOrFail($id);
-        
-        $invoice->property_id = $request->property_id;
-        $invoice->created_at = $request->created_at;
-        $invoice->due_at = $request->due_at;
-        $invoice->paid_at = $request->has('paid_at') ? $request->paid_at : null;
-        $invoice->number = $request->number;
-        $invoice->recipient = $request->recipient;
-        $invoice->terms = $request->terms;
-        $invoice->save();
 
-        $invoice->users()->sync($request->input('users'));
+        $invoice
+            ->fill($request->input())
+            ->save();
+
+        if ($request->has('users')) {
+            $invoice
+                ->users()->sync($request->input('users'));
+        }
+
         return back();
     }
 

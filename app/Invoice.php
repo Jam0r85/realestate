@@ -85,7 +85,6 @@ class Invoice extends PdfModel
      * @var array
      */
 	protected $fillable = [
-        'user_id',
 		'property_id',
 		'invoice_group_id',
 		'number',
@@ -393,6 +392,26 @@ class Invoice extends PdfModel
         }
 
         $this->saveWithMessage('balances updated');
+    }
+
+    /**
+     * Has this invoice got no remaining balance?
+     * 
+     * @return  bool
+     */
+    public function noBalance()
+    {
+        // Invoice has no items, cannot possibly have a balance
+        if (!count($this->items)) {
+            return false;
+        }
+
+        // Invoice balance is bigger than 0
+        if ($this->balance > 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

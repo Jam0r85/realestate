@@ -24,7 +24,7 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'created_at' => 'required'
+            'created_at' => 'required|sometimes'
         ];
     }
 }

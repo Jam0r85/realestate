@@ -1,8 +1,8 @@
 @component('partials.table')
 	@slot('header')
 		<th>Name</th>
-		<th>#</th>
-		<th class="text-right">Amount</th>		
+		<th>Quantity</th>
+		<th class="text-right">Net</th>		
 		<th class="text-right">Tax</th>
 		<th class="text-right">Total</th>
 	@endslot
@@ -12,8 +12,8 @@
 				<td>
 					<a href="{{ route('invoice-items.edit', $invoice_item->id) }}" name="Edit Item">
 						<b>{{ $invoice_item->name }}</b>
-					</a>
-					<br /><small>{{ $invoice_item->description }}</small>
+					</a><br />
+					{{ $invoice_item->description }}
 				</td>
 				<td>{{ $invoice_item->quantity }}</td>
 				<td class="text-right">{{ currency($invoice_item->amount) }}</td>

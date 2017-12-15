@@ -114,6 +114,78 @@
 			</div>
 			<div class="col-12 col-lg-6">
 
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Invoice Sent
+					@endcomponent
+					<div class="card-body">
+
+							<form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+
+								<div class="form-group">
+									<label for="paid_at">Date Sent</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</span>
+										<input type="date" name="sent_at" id="sent_at" value="{{ $invoice->sent_at ? $invoice->sent_at->format('Y-m-d') : old('sent_at') }}" class="form-control">
+									</div>
+								</div>
+
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+
+							</form>
+
+					</div>
+				</div>
+
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Invoice Paid
+					@endcomponent
+					<div class="card-body">
+
+						@if (!$invoice->noBalance())
+
+							@component('partials.alerts.warning')
+								@if ($invoice->balance > 0)
+									Invoice has an outstanding balance of {{ currency($invoice->balance) }} which must be cleared before it can be marked as paid.
+								@else
+									Invoice has no items and so cannot have been paid.
+								@endif
+							@endcomponent
+
+						@else
+
+							<form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+
+								<div class="form-group">
+									<label for="paid_at">Date Paid</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</span>
+										<input type="date" name="paid_at" id="paid_at" value="{{ $invoice->paid_at ? $invoice->paid_at->format('Y-m-d') : old('paid_at') }}" class="form-control">
+									</div>
+								</div>
+
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+
+							</form>
+
+						@endif
+
+					</div>
+				</div>
+
 				@if ($invoice->deleted_at)
 
 					<div class="card mb-3">
