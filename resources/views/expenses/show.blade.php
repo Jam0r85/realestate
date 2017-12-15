@@ -25,7 +25,11 @@
 
 	@component('partials.section-with-container')
 
-		@includeIf($expense->isPaid(), 'partials.alerts.success', ['slot' => 'This expense was paid ' . date_formatted($expense->paid_at)])
+		@if ($expense->isPaid())
+			@component('partials.alerts.success')
+				This expense was paid {{ date_formatted($expense->paid_at) }}
+			@endcomponent
+		@endif
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
