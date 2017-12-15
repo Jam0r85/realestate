@@ -32,7 +32,7 @@
 					<td>{!! $payment->present()->recipientNames !!}</td>
 				@endif
 				<td class="text-right">
-					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
+					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-warning btn-sm">
 						Edit
 					</a>
 				</td>
