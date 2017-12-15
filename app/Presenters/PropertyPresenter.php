@@ -100,8 +100,22 @@ class PropertyPresenter extends Presenter
 
         if (isset($names) && count($names)) {
             return implode(' & ', $names);
-        } else {
-            return null;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function ownerBadges()
+    {
+        if (count($this->owners)) {
+            foreach ($this->owners as $user) {
+                $names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
+            }
+        }
+
+        if (isset($names) && count($names)) {
+            return implode(' ', $names);
         }
     }
 
