@@ -1,1 +1,3 @@
-@include('properties.partials.properties-table', ['properties' => $account->properties])
+@include('properties.partials.properties-table', [
+	'properties' => $account->properties()->with('owners')->get()
+])

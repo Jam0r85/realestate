@@ -1,3 +1,7 @@
-@include('statement-payments.partials.statement-payments-table', ['payments' => $account->statement_payments()->with('statement','bank_account')->paginate()])
+@include('statement-payments.partials.statement-payments-table', [
+	'payments' => $account->statement_payments()->with('statement','bank_account','parent')->paginate()
+])
 
-@include('partials.pagination', ['collection' => $account->statement_payments()->paginate()])
+@include('partials.pagination', [
+	'collection' => $account->statement_payments()->paginate()
+])
