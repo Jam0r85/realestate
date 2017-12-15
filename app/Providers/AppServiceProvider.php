@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Agreement;
 use App\Appearance;
+use App\BankAccount;
 use App\Deposit;
 use App\Document;
 use App\Event;
@@ -14,6 +15,7 @@ use App\InvoiceGroup;
 use App\InvoiceItem;
 use App\Observers\AgreementObserver;
 use App\Observers\AppearanceObserver;
+use App\Observers\BankAccountObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\ExpenseObserver;
 use App\Observers\InvoiceGroupObserver;
@@ -70,6 +72,7 @@ class AppServiceProvider extends ServiceProvider
         Property::observe(PropertyObserver::class);
         TenancyRent::observe(TenancyRentObserver::class);
         Appearance::observe(AppearanceObserver::class);
+        BankAccount::observe(BankAccountObserver::class);
     }
 
     /**

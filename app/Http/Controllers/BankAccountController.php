@@ -16,7 +16,7 @@ class BankAccountController extends BaseController
     /**
      * The eloquent model for this controller.
      * 
-     * @var string
+     * @var  string
      */
     public $model = 'App\BankAccount';
 
@@ -41,7 +41,7 @@ class BankAccountController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -52,20 +52,17 @@ class BankAccountController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\BankAccountStoreRequest  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(BankAccountStoreRequest $request)
     {
-        $account = $this->repository;
-        $account->user_id = Auth::user()->id;
-        $account->bank_name = $request->bank_name;
-        $account->account_name = $request->account_name;
-        $account->sort_code = $request->sort_code;
-        $account->account_number = $request->account_number;
-        $account->save();
+        $account = $this->repository
+            ->fill($request->all())
+            ->save();
 
         if ($request->has('users')) {
-            $account->users()->attach($request->users);
+            $account
+                ->users()->attach($request->users);
         }
 
         return back();
@@ -74,7 +71,8 @@ class BankAccountController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\BankAccount  $bankAccount
+     * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
     public function show($id, $show = 'index')
@@ -111,11 +109,14 @@ class BankAccountController extends BaseController
     public function update(UpdateBankAccountRequest $request, $id)
     {
         $account = $this->repository
-            ->findOrFail($id)
+            ->findOrFail($id);
+
+        $account
             ->fill($request->input())
             ->save();
 
-        $account->users()->sync($request->users);
+        $account
+            ->users()->sync($request->users);
 
         return back();
     }
