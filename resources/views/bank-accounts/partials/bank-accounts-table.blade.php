@@ -11,11 +11,12 @@
 		@if (isset($archived))
 			<th class="text-right">Archived</th>
 		@endif
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($bank_accounts as $account)
 			<tr>
-				<td><a href="{{ route('bank-accounts.show', $account->id) }}">{{ $account->account_name }}</a></td>
+				<td>{{ $account->account_name }}</td>
 				<td>{{ $account->account_number }}</td>
 				<td>{{ $account->sort_code }}</td>
 				<td>{{ $account->bank_name }}</td>
@@ -28,6 +29,11 @@
 						{{ date_formatted($account->deleted_at) }}
 					</td>
 				@endif
+				<td class="text-right">
+					<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-primary btn-sm">
+						View
+					</a>
+				</td>
 			</tr>
 		@endforeach
 	@endslot

@@ -9,9 +9,9 @@
 				<i class="fa fa-comment"></i> Send SMS
 			</button>
 
-			<a href="{{ route('users.show', [$user->id, 'send-email']) }}" class="btn btn-primary">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userSendEmailModal">
 				<i class="fa fa-envelope"></i> Send E-Mail
-			</a>
+			</button>
 
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="userOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,5 +66,6 @@
 	@endcomponent
 
 	@include('users.modals.user-send-sms-modal')
+	@include('users.modals.send-email-modal')
 
 @endsection
