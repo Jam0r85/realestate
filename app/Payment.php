@@ -158,7 +158,38 @@ class Payment extends PdfModel
      */
     public function isRent()
     {
-        return $this
-            ->parent_type === 'tenancies';
+        if ($this->present()->parentName == 'Tenancy') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Is this payment an invoice payment?
+     * 
+     * @return boolean
+     */
+    public function isInvoice()
+    {
+        if ($this->present()->parentName == 'Invoice') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Is this payment a deposit payment?
+     * 
+     * @return boolean
+     */
+    public function isDeposit()
+    {
+        if ($this->present()->parentName == 'Deposit') {
+            return true;
+        }
+
+        return false;
     }
 }

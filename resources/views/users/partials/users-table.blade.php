@@ -7,21 +7,23 @@
 		@if (!isset($tenancy))
 			<th>Address</th>
 		@endif
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($users as $user)
 			<tr>
-				<td>
-					<a href="{{ route('users.show', $user->id) }}" title="View {{ $user->name }}'s Profile">
-						{{ $user->present()->fullName }}
-					</a>
-				</td>
+				<td>{{ $user->present()->fullName }}</td>
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->phone_number }}</td>
 				<td>{{ $user->phone_number_other }}</td>
 				@if (!isset($tenancy))
 					<td>{!! $user->present()->locationLink !!}</td>
 				@endif
+				<td class="text-right">
+					<a href="{{ route('users.show', $user->id) }}" class="btn btn-primary btn-sm">
+						View
+					</a>
+				</td>
 			</tr>
 		@endforeach
 	@endslot

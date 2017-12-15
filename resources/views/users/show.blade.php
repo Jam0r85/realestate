@@ -54,7 +54,7 @@
 				{!! Menu::showLink('Bank Accounts', 'users.show', $user->id) !!}
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('E-Mail History', 'users.show', $user->id, 'email-history') !!}
+				{!! Menu::showLink('E-Mail History', 'users.show', $user->id, 'emails-history') !!}
 			</li>
 			<li class="nav-item">
 				{!! Menu::showLink('SMS History', 'users.show', $user->id) !!}

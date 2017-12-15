@@ -55,7 +55,7 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
-						Delete Expense
+						Destroy Expense
 					@endcomponent
 					<div class="card-body">
 
@@ -80,7 +80,7 @@
 									{{ method_field('DELETE') }}
 
 									@component('partials.save-button')
-										Delete Expense
+										Destroy Expense
 									@endcomponent
 
 								</form>

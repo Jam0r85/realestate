@@ -18,7 +18,7 @@ class PaymentController extends BaseController
      * Display a listing of the resource.
      * 
      * @param  \Illuminate\Http\Request $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -37,12 +37,12 @@ class PaymentController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id)
     {
         $payment = $this->repository
             ->findOrFail($id);
 
-        return view('payments.show.' . $section, compact('payment'));
+        return view('payments.show', compact('payment'));
     }
 
     /**
@@ -63,7 +63,7 @@ class PaymentController extends BaseController
      * Update the specified resource in storage.
      * 
      * @param  \App\Http\Requests\UpdatePaymentRequest  $request
-     * @param  \App\Payment  $payment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdatePaymentRequest $request, $id)

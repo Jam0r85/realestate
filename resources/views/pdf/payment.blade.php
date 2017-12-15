@@ -24,14 +24,17 @@
 			<hr />
 
 			<div class="lead">
-				@if ($payment->present()->parentName == 'Tenancy')
+
+				@if ($payment->isRent())
 					<p>Property - {{ $payment->parent->property->present()->fullAddress }}</p>
 					<p>Tenancy - {{ $payment->parent->present()->name }}</p>
 				@endif
-				@if ($payment->present()->parentName == 'Invoice')
+
+				@if ($payment->isInvoice())
 					<p>Invoice - {{ $payment->parent->present()->name }}</p>
 					<p>Property - {{ $payment->parent->property->present()->fullAddress }}</p>
 				@endif
+				
 				<p>Method - {{ $payment->method->name }}</p>
 				<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
 				<p><b>Amount - {{ currency($payment->amount) }}</b></p>
