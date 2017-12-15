@@ -120,25 +120,39 @@
 					@endcomponent
 					<div class="card-body">
 
-							<form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
+						@if (count($invoice->statements))
+							@component('partials.alerts.info')
+								Linked statement sent dates are:-
+								<ul>
+								@foreach ($invoice->statements as $statement)
+									<li>
+										{{ $statement->present()->name }}
+										<em>{{ $statement->sent_at ? date_formatted($statement->sent_at) : 'Not sent' }}</em>
+									</li>
+								@endforeach
+								</ul>
+							@endcomponent
+						@endif
 
-								<div class="form-group">
-									<label for="paid_at">Date Sent</label>
-									<div class="input-group">
-										<span class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</span>
-										<input type="date" name="sent_at" id="sent_at" value="{{ $invoice->sent_at ? $invoice->sent_at->format('Y-m-d') : old('sent_at') }}" class="form-control">
-									</div>
+						<form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
+
+							<div class="form-group">
+								<label for="paid_at">Date Sent</label>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</span>
+									<input type="date" name="sent_at" id="sent_at" value="{{ $invoice->sent_at ? $invoice->sent_at->format('Y-m-d') : old('sent_at') }}" class="form-control">
 								</div>
+							</div>
 
-								@component('partials.save-button')
-									Save Changes
-								@endcomponent
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
 
-							</form>
+						</form>
 
 					</div>
 				</div>
@@ -160,6 +174,20 @@
 							@endcomponent
 
 						@else
+
+							@if (count($invoice->statements))
+								@component('partials.alerts.info')
+									Linked statement paid dates are:-
+									<ul>
+									@foreach ($invoice->statements as $statement)
+										<li>
+											{{ $statement->present()->name }}
+											<em>{{ $statement->paid_at ? date_formatted($statement->paid_at) : 'Not paid' }}</em>
+										</li>
+									@endforeach
+									</ul>
+								@endcomponent
+							@endif
 
 							<form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
 								{{ csrf_field() }}

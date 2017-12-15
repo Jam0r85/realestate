@@ -54,6 +54,21 @@
 			@endcomponent
 		@endif
 
+		@if (count($invoice->statements))
+			@component('partials.alerts.info')
+				Invoice attached to the following statements:-
+				<ul>
+					@foreach ($invoice->statements as $statement)
+						<li>
+							<a href="{{ route('statements.show', $statement->id) }}">
+								{{ $statement->present()->name }}
+							</a>
+						</li>
+					@endforeach
+				</ul>
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'invoices.show', $invoice->id, 'index') !!}
