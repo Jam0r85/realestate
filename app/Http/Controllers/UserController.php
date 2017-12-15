@@ -84,28 +84,29 @@ class UserController extends BaseController
      * @param  string  $page
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $page = 'layout')
+    public function show($id, $show = 'index')
+    {
+        $user = $this->repository
+            ->with('properties.owners','tenancies.users','invoices.users','invoices.property','invoices.items','invoices.items.taxRate','sms.user','sms.owner')
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('users.show', compact('user','show'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         $user = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        $bank_accounts = $user->bankAccounts;
-        $properties = $user->properties()->with('owners')->get();
-        $tenancies = $user->tenancies()->with('users')->get();
-        $invoices = $user->invoices()->with('users','property','items','items.taxRate')->paginate();
-        $sms_messages = $user->sms()->with('user','owner')->get();
-        $emails = $user->emails()->paginate();
-
-        return view('users.pages.' . $page, compact(
-            'user',
-            'bank_accounts',
-            'properties',
-            'tenancies',
-            'invoices',
-            'sms_messages',
-            'emails'
-        ));
+        return view('users.edit', compact('user'));
     }
 
     /**

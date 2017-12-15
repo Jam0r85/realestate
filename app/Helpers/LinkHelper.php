@@ -36,6 +36,10 @@ class Menu
 
 	public static function showLink($title, $routeName, $id, $show = null)
 	{
+		if (is_null($show)) {
+			$show = str_slug($title);
+		}
+		
 		return '<a href="' . Menu::route($routeName, $id, $show) . '" class="nav-link ' . Menu::activeRouteWithShow($routeName, $show) . '">' . $title . '</a>';
 	}
 
