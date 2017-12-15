@@ -1,18 +1,17 @@
 @if (count($expenses))
 	@component('partials.table')
 		@slot('header')
+			<th>Date</th>
 			<th>Name</th>
 			<th>Property</th>
 			<th>Contractors</th>
 			<th>Cost</th>
-			@if (request('paid') == false)
-				<th>Balance</th>
-			@endif
 			<th class="text-right"></th>
 		@endslot
 		@slot('body')
 			@foreach ($expenses as $expense)
 				<tr>
+					<td>{{ date_formatted($expense->created_at) }}</td>
 					<td>{!! truncate($expense->name) !!}</td>
 					<td>
 						<a href="{{ route('properties.show', $expense->property->id) }}">
@@ -21,9 +20,6 @@
 					</td>
 					<td>{{ $expense->present()->contractorName }}</td>
 					<td>{{ currency($expense->cost) }}</td>
-					@if (request('paid') == false)
-						<td>{{ currency($expense->present()->remainingBalance) }}</td>
-					@endif
 					<td class="text-right">
 						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
 							View

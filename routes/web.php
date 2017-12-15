@@ -26,16 +26,16 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('events')->group(function () {
 		Route::get('/', 'EventController@index')->name('events.index');
-		Route::post('search', 'EventController@search')->name('events.search');
-		Route::get('feed/{id}', 'EventController@feed')->name('events.feed');
-		Route::post('create', 'EventController@create')->name('events.create');
-		Route::post('/', 'EventController@store')->name('events.store');
-		Route::post('edit', 'EventController@editByModal')->name('events.edit-modal');
-		Route::get('{id}/edit', 'EventController@edit')->name('events.edit');
-		Route::put('{id}', 'EventController@update')->name('events.update');
-		Route::put('{id}/restore', 'EventController@restore')->name('events.restore');
-		Route::delete('{id}', 'EventController@destroy')->name('events.destroy');
-		Route::delete('{id}/force-destroy', 'EventController@forceDestroy')->name('events.force-destroy');
+		Route::post('search', 'EventController@search')->name('events.search'); // Search through the events
+		Route::get('feed/{id}', 'EventController@feed')->name('events.feed'); // Get the event feed for the fullCalendar
+		Route::post('create', 'EventController@create')->name('events.create'); // Show the modal to create a new event
+		Route::post('/', 'EventController@store')->name('events.store'); // Store the event
+		Route::post('edit', 'EventController@editByModal')->name('events.edit-modal'); // Show the modal to edit the event
+		Route::get('{id}/edit', 'EventController@edit')->name('events.edit'); // Show the edit event page
+		Route::put('{id}', 'EventController@update')->name('events.update'); // Update the event
+		Route::delete('{id}', 'EventController@destroy')->name('events.destroy'); // Delete the event
+		Route::put('{id}/restore', 'EventController@restore')->name('events.restore'); // Restore the event
+		Route::delete('{id}/force-destroy', 'EventController@forceDestroy')->name('events.force-destroy'); // Destroy the event
 	});
 
 	Route::prefix('invoices')->group(function () {
