@@ -122,4 +122,18 @@ class StatementPaymentPresenter extends Presenter
 
         return $data[$return];
     }
+
+    /**
+     * @return  array
+     */
+    public function relatedUserIds()
+    {
+        // Get the owners of the property
+        $owners = $this->statement->users->pluck('id')->toArray();
+
+        // Get the users of this payment
+        $users = $this->users->pluck('id')->toArray();
+
+        return array_merge($owners, $users);
+    }
 }

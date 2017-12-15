@@ -70,7 +70,7 @@
 								<label for="bank_account_id">Bank Account</label>
 								<select name="bank_account_id" id="bank_account_id" class="form-control">
 									<option value="">None</option>
-									@foreach (bank_accounts($payment->statement->tenancy->property->owners->pluck('id')->toArray()) as $account)
+									@foreach (bank_accounts($payment->present()->relatedUserIds) as $account)
 										<option @if ($payment->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">
 											{{ $account->present()->selectName }}
 										</option>
