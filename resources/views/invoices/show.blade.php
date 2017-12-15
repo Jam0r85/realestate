@@ -27,6 +27,9 @@
 
 		@component('partials.header')
 			Invoice {{ $invoice->present()->name }}
+			<span class="badge badge-secondary">
+				{{ currency($invoice->balance) }} balance
+			</span>
 		@endcomponent
 
 		@if ($invoice->property)
@@ -39,7 +42,17 @@
 
 	@component('partials.section-with-container')
 
-		@includeIf($invoice->paid_at, 'partials.alerts.success', ['slot' => 'This invoice was paid ' . date_formatted($invoice->paid_at)])
+		@if ($invoice->isPaid())
+			@component('partials.alerts.success')
+				This invoice was paid {{ date_formatted($invoice->paid_at) }}
+			@endcomponent
+		@endif
+
+		@if ($invoice->isSent())
+			@component('partials.alerts.success')
+				This invoice was sent {{ date_formatted($invoice->sent_at) }}
+			@endcomponent
+		@endif
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">

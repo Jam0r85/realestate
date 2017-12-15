@@ -9,7 +9,8 @@
 			<th>Date</th>
 			<th>Method</th>
 			<th>User(s)</th>
-			<th>Amount</th>
+			<th class="text-right">Amount</th>
+			<th></th>
 		@endslot
 		@slot('body')
 			@foreach ($invoice->payments as $payment)
@@ -17,7 +18,12 @@
 					<td>{{ date_formatted($payment->created_at) }}</td>
 					<td>{{ $payment->method->name }}</td>
 					<td>{!! $payment->present()->userBages !!}</td>
-					<td>{{ currency($payment->amount) }}</td>
+					<td class="text-right">{{ currency($payment->amount) }}</td>
+					<td class="text-right">
+						<a href="{{ route('payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
+							Edit
+						</a>
+					</td>
 				</tr>
 			@endforeach
 			@foreach ($invoice->statementPayments as $payment)
@@ -25,7 +31,12 @@
 					<td>{{ date_formatted($payment->created_at) }}</td>
 					<td>Statement #{{ $payment->statement->id }}</td>
 					<td>{!! $payment->present()->recipientNames !!}
-					<td>{{ currency($payment->amount) }}</td>
+					<td class="text-right">{{ currency($payment->amount) }}</td>
+					<td class="text-right">
+						<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
+							Edit
+						</a>
+					</td>
 				</tr>
 			@endforeach
 		@endslot

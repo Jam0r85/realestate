@@ -394,4 +394,32 @@ class Invoice extends PdfModel
 
         $this->saveWithMessage('balances updated');
     }
+
+    /**
+     * Has this invoice been paid?
+     * 
+     * @return  bool
+     */
+    public function isPaid()
+    {
+        if (!$this->paid_at) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Has this invoice been sent?
+     * 
+     * @return  bool
+     */
+    public function isSent()
+    {
+        if (!$this->sent_at) {
+            return false;
+        }
+
+        return true;
+    }
 }

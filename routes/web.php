@@ -98,6 +98,7 @@ Route::middleware(['staff'])->group(function () {
 	Route::prefix('payments')->group(function () {
 		Route::get('/', 'PaymentController@index')->name('payments.index');
 		Route::post('search', 'PaymentController@search')->name('payments.search');
+		Route::get('{id}/edit', 'PaymentController@edit')->name('payments.edit');
 		Route::get('{id}/{section?}', 'PaymentController@show')->name('payments.show');
 		Route::put('{id}', 'PaymentController@update')->name('payments.update');
 		Route::delete('{payment}', 'PaymentController@destroy')->name('payments.destroy');

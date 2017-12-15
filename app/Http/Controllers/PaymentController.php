@@ -32,10 +32,10 @@ class PaymentController extends BaseController
     }
 
     /**
-     * Find and display the payment.
+     * Display the specified resource.
      * 
-     * @param  integer $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id, $section = 'layout')
     {
@@ -46,11 +46,25 @@ class PaymentController extends BaseController
     }
 
     /**
-     * Update the payment in storage.
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $payment = $this->repository
+            ->findOrFail($id);
+
+        return view('payments.edit', compact('payment'));
+    }
+
+    /**
+     * Update the specified resource in storage.
      * 
      * @param  \App\Http\Requests\UpdatePaymentRequest  $request
      * @param  \App\Payment  $payment
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdatePaymentRequest $request, $id)
     {
