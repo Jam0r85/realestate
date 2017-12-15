@@ -65,10 +65,11 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('invoice-groups')->group(function () {
 		Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
-		Route::post('/', 'InvoiceGroupController@store')->name('invoice-groups.store');
 		Route::get('create', 'InvoiceGroupController@create')->name('invoice-groups.create');
-		Route::put('{group}', 'InvoiceGroupController@update')->name('invoice-groups.update');
-		Route::get('{group}/{section?}', 'InvoiceGroupController@show')->name('invoice-groups.show');
+		Route::post('/', 'InvoiceGroupController@store')->name('invoice-groups.store'); // Store a new invoice group
+		Route::put('{id}', 'InvoiceGroupController@update')->name('invoice-groups.update'); // Update the invoice group
+		Route::get('{id}/edit', 'InvoiceGroupController@edit')->name('invoice-groups.edit'); // Edit the invoice group
+		Route::get('{id}/{section?}', 'InvoiceGroupController@show')->name('invoice-groups.show'); // Show the invoice group
 	});
 
 	Route::prefix('properties')->group(function () {

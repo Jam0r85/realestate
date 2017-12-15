@@ -11,13 +11,23 @@ use Illuminate\Support\Facades\Cache;
 class InvoiceGroupController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var  string
+     */
+    public $model = 'App\InvoiceGroup';
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $groups = InvoiceGroup::orderBy('name')->paginate();        
+        $groups = $this->repository
+            ->orderBy('name')
+            ->paginate();
+
         return view('invoice-groups.index', compact('groups'));
     }
 
@@ -34,17 +44,14 @@ class InvoiceGroupController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreInvoiceGroupRequest $request
+     * @param  \App\Http\Requests\StoreInvoiceGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreInvoiceGroupRequest $request)
     {
-        $group = new InvoiceGroup();
-        $group->name = $request->name;
-        $group->branch_id = $request->branch_id;
-        $group->next_number = $request->next_number;
-        $group->format = $request->format;
-        $group->save();
+        $group = $this->repository
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
@@ -52,29 +59,33 @@ class InvoiceGroupController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\InvoiceGroup  $group
-     * @param  string $section
+     * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show(InvoiceGroup $group, $section = 'layout')
-    {    
-        return view('invoice-groups.show.' . $section, compact('group'));
+    public function show($id, $show = 'index')
+    {
+        $group = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('invoice-groups.show', compact('group','show'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateInvoiceGroupRequest $request
-     * @param integer $id
+     * @param  \App\Http\Requests\UpdateInvoiceGroupRequest  $request
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInvoiceGroupRequest $request, InvoiceGroup $group)
+    public function update(UpdateInvoiceGroupRequest $request, $id)
     {
-        $group->name = $request->name;
-        $group->branch_id = $request->branch_id;
-        $group->next_number = $request->next_number;
-        $group->format = $request->format;
-        $group->save();
+        $this->repository
+            ->withTrashed()
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
