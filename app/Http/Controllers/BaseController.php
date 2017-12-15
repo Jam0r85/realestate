@@ -83,14 +83,16 @@ class BaseController extends Controller
 	 */
 	public function destroy(Request $request, $id)
 	{
-        $this->repository
-        	->findOrFail($id)
+        $model = $this->repository
+        	->findOrFail($id);
+
+        $model
         	->delete();
 
         if ($request->has('from_modal')) {
             $data['alert'] = [
                 'class' => 'alert-success',
-                'message' => 'The event "' . $event->title . '" was deleted'
+                'message' => $model->messageDeleted()
             ];
 
             return $data;
