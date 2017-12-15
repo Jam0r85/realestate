@@ -55,7 +55,7 @@ class TenancyFilter extends BaseFilter
     {
         return $this
             ->where('rent_balance', '>', 0)
-            ->orderBy('rent_balance');
+            ->orderBy('rent_balance', 'desc');
     }
 
     /**
