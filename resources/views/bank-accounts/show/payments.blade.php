@@ -1,0 +1,1 @@
+@include('statement-payments.partials.statement-payments-table', ['payments' => $account->statement_payments])

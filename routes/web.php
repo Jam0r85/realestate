@@ -170,14 +170,14 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('bank-accounts')->group(function () {
 		Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
-		Route::get('archived', 'BankAccountController@archived')->name('bank-accounts.archived');
-		Route::post('search', 'BankAccountController@search')->name('bank-accounts.search');
-		Route::get('create', 'BankAccountController@create')->name('bank-accounts.create');
-		Route::post('/', 'BankAccountController@store')->name('bank-accounts.store');
-		Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show');
-		Route::put('{id}', 'BankAccountController@update')->name('bank-accounts.update');
-		Route::delete('{id}', 'BankAccountController@destroy')->name('bank-accounts.destroy');
-		Route::put('{id}/restore', 'BankAccountController@restore')->name('bank-accounts.restore');
+		Route::post('search', 'BankAccountController@search')->name('bank-accounts.search'); // Search the bank accounts
+		Route::get('create', 'BankAccountController@create')->name('bank-accounts.create'); // Create a new bank account
+		Route::post('/', 'BankAccountController@store')->name('bank-accounts.store'); // Store the new bank account
+		Route::get('{id}/edit', 'BankAccountController@edit')->name('bank-accounts.edit'); // Edit the bank account
+		Route::get('{id}/{section?}', 'BankAccountController@show')->name('bank-accounts.show'); // Show the bank account
+		Route::put('{id}', 'BankAccountController@update')->name('bank-accounts.update'); // Update the bank account
+		Route::delete('{id}', 'BankAccountController@destroy')->name('bank-accounts.destroy'); // Delete a bank account
+		Route::put('{id}/restore', 'BankAccountController@restore')->name('bank-accounts.restore'); // Restore a bank account
 	});
 
 	Route::prefix('user-groups')->group(function () {

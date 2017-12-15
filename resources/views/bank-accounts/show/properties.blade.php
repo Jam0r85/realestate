@@ -1,0 +1,1 @@
+@include('properties.partials.properties-table', ['properties' => $account->properties])

@@ -9,7 +9,7 @@
 		</a>
 
 		@component('partials.header')
-			Bank Accounts
+			{{ isset($title) ? $title : 'Bank Accounts List' }}
 		@endcomponent
 
 	@endcomponent

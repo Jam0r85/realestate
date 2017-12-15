@@ -24,7 +24,7 @@ class BankAccountController extends BaseController
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -35,9 +35,7 @@ class BankAccountController extends BaseController
             ->latest()
             ->paginateFilter();
 
-        $title = 'Bank Accounts List';
-
-        return view('bank-accounts.index', compact('bank_accounts','title'))->with(['full' => true]);
+        return view('bank-accounts.index', compact('bank_accounts'))->with(['full' => true]);
     }
 
     /**
@@ -77,15 +75,30 @@ class BankAccountController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\BankAccount  $bankAccount
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $show = 'index')
     {
         $account = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        return view('bank-accounts.show.' . $section, compact('account'));
+        return view('bank-accounts.show', compact('account','show'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $account = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('bank-accounts.edit', compact('account'));
     }
 
     /**

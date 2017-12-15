@@ -3,10 +3,14 @@
 @section('content')
 
 	@component('partials.page-header')
-	
-		<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('bank-accounts.show', $account->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			{{ $account->account_name }}
@@ -18,7 +22,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@component('partials.alerts.info')
 			<i class="fa fa-info-circle"></i> <b>Important Note</b><br />When a landlord is changing their bank account it is better to archive their original account and create a new one as opposed to updating the account number and sort code.
@@ -71,7 +75,7 @@
 			</div>
 			<div class="col-sm-12 col-lg-6">
 
-				@if ($account->trashed())
+				@if ($account->deleted_at)
 
 					<div class="card mb-3">
 
@@ -84,14 +88,6 @@
 							<form method="POST" action="{{ route('bank-accounts.restore', $account->id) }}">
 								{{ csrf_field() }}
 								{{ method_field('PUT') }}
-
-								<p class="card-text">
-									You can restore this bank account by entering it's ID into the field below.
-								</p>
-
-								<div class="form-group">
-									<input type="number" step="any" class="form-control" name="confirmation" />
-								</div>
 
 								@component('partials.save-button')
 									Restore Bank Account
@@ -108,7 +104,7 @@
 					<div class="card mb-3">
 
 						@component('partials.card-header')
-							Archive Bank Account
+							Delete Bank Account
 						@endcomponent
 
 						<div class="card-body">
@@ -117,16 +113,8 @@
 								{{ csrf_field() }}
 								{{ method_field('DELETE') }}
 
-								<p class="card-text">
-									You can archive this bank account and prevent it from being used in the future by entering it's ID into the field below.
-								</p>
-
-								<div class="form-group">
-									<input type="number" step="any" class="form-control" name="confirmation" />
-								</div>
-
 								@component('partials.save-button')
-									Archive Bank Account
+									Delete Bank Account
 								@endcomponent
 
 							</form>
