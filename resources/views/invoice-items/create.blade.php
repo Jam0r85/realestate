@@ -17,6 +17,7 @@
 			@endif
 
 			@component('partials.return-button')
+				Invoice #{{ $invoice->present()->name }}
 				@slot('url')
 					{{ route('invoices.show', $invoice->id) }}
 				@endslot
@@ -48,16 +49,26 @@
 
 					<div class="card-body">
 
-						<form method="POST" action="{{ route('invoice-items.store', $invoice->id) }}">
-							{{ csrf_field() }}
+						@if ($invoice->isPaid())
 
-							@include('invoice-items.partials.form')
-
-							@component('partials.save-button')
-								Add Invoice Item
+							@component('partials.alerts.warning')
+								This invoice has been paid and cannot accept new items.
 							@endcomponent
 
-						</form>
+						@else
+
+							<form method="POST" action="{{ route('invoice-items.store', $invoice->id) }}">
+								{{ csrf_field() }}
+
+								@include('invoice-items.partials.form')
+
+								@component('partials.save-button')
+									Add Invoice Item
+								@endcomponent
+
+							</form>
+
+						@endif
 
 					</div>
 				</div>
