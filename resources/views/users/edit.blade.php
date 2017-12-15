@@ -202,6 +202,10 @@
 
 					<div class="card-body">
 
+						@component('partials.alerts.warning')
+							Overrwite the charges for new tenancies that this user is the landlord of.
+						@endcomponent
+
 						<form method="POST" action="{{ route('users.update', $user->id) }}">
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
@@ -261,6 +265,10 @@
 					@endcomponent
 
 					<div class="card-body">
+
+						@component('partials.alerts.warning')
+							When this user is assigned as a contractor for an expense the following settings are used.
+						@endcomponent
 
 						<form method="POST" action="{{ route('users.update', $user->id) }}">
 							{{ csrf_field() }}
