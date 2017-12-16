@@ -216,10 +216,7 @@ Route::middleware(['staff'])->group(function () {
 	});
 
 	Route::prefix('settings')->group(function () {
-		Route::view('/', 'settings.general')->name('settings.general');
-		Route::view('invoice', 'settings.invoice')->name('settings.invoice');
-		Route::view('statement', 'settings.statement-settings')->name('settings.statement');
-		Route::view('logo', 'settings.logo')->name('settings.logo');
+		Route::get('/{show?}', 'SettingController@index')->name('settings.index');
 		Route::post('logo', 'SettingController@updateLogo')->name('settings.update-logo');
 		Route::delete('logo', 'SettingController@destroyLogo')->name('settings.destroy-logo');
 		Route::get('tax-rates', 'SettingController@taxRates')->name('settings.tax-rates');

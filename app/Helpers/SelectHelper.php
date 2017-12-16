@@ -115,11 +115,17 @@ if (!function_exists('discounts')) {
 }
 
 if (!function_exists('bank_accounts')) {
-	function bank_accounts($user_ids)
+	function bank_accounts($user_ids = null)
 	{
-		return \App\BankAccount::whereHas('users', function ($query) use ($user_ids) {
-			$query->whereIn('id', $user_ids);
-		})->get();
+		$accounts = new \App\BankAccount();
+
+		if ($user_ids) {
+			$accounts->whereHas('users', function ($query) use ($user_ids) {
+				$query->whereIn('id', $user_ids);
+			});
+		}
+
+		return $accounts->get();
 	}
 }
 

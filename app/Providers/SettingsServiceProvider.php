@@ -28,7 +28,9 @@ class SettingsServiceProvider extends ServiceProvider
     {
         // Global Settings
         App::singleton('settings', function ($app) {
-            return Setting::whereNull('parent_type')->pluck('value', 'key')->all();
+            return Cache::rememberForever('app_settings', function () {
+                return Setting::pluck('value', 'key')->all();
+            });
         });
     }
 }

@@ -1,7 +1,5 @@
-<div class="card-header {{ isset($style) ? $style : '' }} {{ user_setting('dark_mode') ? 'bg-dark' : '' }}">
-	<span class="{{ !user_setting('dark_mode') ? 'text-primary' : '' }}">
-		{{ $slot }}
-	</span>
+<div class="card-header">
+	{{ $slot }}
 
 	@if (isset($small))
 		<small class="text-muted d-block">

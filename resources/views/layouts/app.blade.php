@@ -211,7 +211,7 @@
                                 <a class="dropdown-item" href="{{ route('users.show', Auth::user()->id) }}">
                                     My Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ route('settings.general') }}">
+                                <a class="dropdown-item" href="{{ route('settings.index') }}">
                                     Application Settings
                                 </a>
                                 <a class="dropdown-item" href="{{ route('branches.index') }}">

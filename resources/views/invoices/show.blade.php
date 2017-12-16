@@ -82,6 +82,6 @@
 
 	@endcomponent
 
-	@include('invoice-items.modals.new-item-modal')
+	@include('invoice-items.modals.new-item-modal', ['invoice' => $invoice])
 
 @endsection

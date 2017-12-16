@@ -5,13 +5,6 @@ namespace App;
 class Setting extends BaseModel
 {
 	/**
-	 * Indicates if the model should be timestamped.
-	 * 
-	 * @var boolean
-	 */
-	public $timestamps = false;
-
-	/**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -25,15 +18,24 @@ class Setting extends BaseModel
      * 
      * @return array
      */
-    public function keys()
+    public static $allowedKeys = [
+		'company_name',
+        'company_user_id',
+        'company_bank_account_id',
+        'company_logo',
+        'invoice_default_terms',
+        'invoice_default_group',
+        'default_tax_rate_id',
+    ];
+
+    /**
+     * Overwrite the updated message.
+     * 
+     * @return  string
+     */
+    public function messageUpdated()
     {
-    	return [
-    		'company_name',
-            'invoice_default_terms',
-            'invoice_default_group',
-            'company_bank_account_id',
-            'company_logo'
-    	];
+        return 'Setting ' . studly_case($this->key) . ' was updated';
     }
 
 }

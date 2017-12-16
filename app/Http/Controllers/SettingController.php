@@ -17,13 +17,23 @@ use Illuminate\Support\Facades\Storage;
 class SettingController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return  void
+     * The eloquent model for this controller.
+     * 
+     * @var string
      */
-    public function __construct()
+    public $model = 'App\Setting';
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($show = 'index')
     {
-        $this->middleware('auth');
+        $settings = $this->repository
+            ->all();
+
+        return view('settings.index', compact('settings','show'));
     }
 
     /**
@@ -35,11 +45,28 @@ class SettingController extends BaseController
      */
     public function update(Request $request)
     {
-        $values = $request->except('_token');
+        $newSettings = $request->except('_token','_method');
 
-        $this->updateSettingsTable($values);
+        foreach ($newSettings as $key => $value) {
 
-        $this->successMessage('Changes were saved');
+            $setting = $this->repository
+                ->where('key', $key)
+                ->exists();
+
+            if ($setting) {
+
+                $this->repository
+                    ->where('key', $key)
+                    ->update(['value' => $value]);
+
+            } else {
+
+                $this->repository
+                    ->create(['key' => $key, 'value' => $value]);
+            }
+        }
+
+        Cache::forget('app_settings');
 
         return back();
     }
