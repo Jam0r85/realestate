@@ -62,7 +62,8 @@ class BankAccount extends BaseModel
 	 */
     public function users()
     {
-    	return $this->belongsToMany('App\User');
+    	return $this
+            ->belongsToMany('App\User');
     }
 
     /**
@@ -70,7 +71,8 @@ class BankAccount extends BaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -78,7 +80,9 @@ class BankAccount extends BaseModel
      */
     public function properties()
     {
-        return $this->hasMany('App\Property')->withTrashed();
+        return $this
+            ->hasMany('App\Property')
+            ->withTrashed();
     }
 
     /**
@@ -86,7 +90,9 @@ class BankAccount extends BaseModel
      */
     public function statement_payments()
     {
-        return $this->hasMany('App\StatementPayment');
+        return $this
+            ->hasMany('App\StatementPayment')
+            ->latest();
     }
 
     /**
