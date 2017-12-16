@@ -43,6 +43,7 @@ class UpdateStatementPayments extends Command
         if ($company_user) {
             StatementPayment::where('parent_type', 'invoices')->chunk(200, function ($payments) use ($company_user) {
                 foreach ($payments as $payment) {
+                    $payment->update(['bank_account_id' => get_setting('company_bank_account_id')]);
                     $payment->users()->sync($company_user);
                 }
             });
