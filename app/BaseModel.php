@@ -30,13 +30,18 @@ class BaseModel extends Model
 	 * Overwrite the Eloquent save method.
 	 * 
 	 * @param  array  $options
-	 * @return  void
+	 * @return void
 	 */
 	public function save (array $options = [])
 	{
-		// Update settings trait
+		// Update settings column
 		if (method_exists($this, 'setSetting')) {
 			$this->setSetting(request()->input());
+		}
+
+		// Update data column
+		if (method_exists($this, 'setData')) {
+			$this->setData(request()->input());
 		}
 
 		parent::save($options);

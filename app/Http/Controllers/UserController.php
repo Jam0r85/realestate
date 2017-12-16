@@ -121,7 +121,6 @@ class UserController extends BaseController
         $user = $this->repository
             ->findOrFail($id)
             ->fill($request->input())
-            ->setSetting($request->input())
             ->save();
 
         return back();

@@ -51,14 +51,13 @@ class SettingController extends BaseController
 
             $setting = $this->repository
                 ->where('key', $key)
-                ->exists();
+                ->first();
 
             if ($setting) {
 
-                $this->repository
+                $setting = $this->repository
                     ->where('key', $key)
-                    ->first()
-                    ->save(['value' => $value]);
+                    ->update(['value' => $value]);
 
             } else {
 

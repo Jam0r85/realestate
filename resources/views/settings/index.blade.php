@@ -18,6 +18,11 @@
 					General
 				</a>
 			</li>
+			<li class="nav-item">
+				<a href="{{ route('settings.index', 'invoices') }}" class="nav-link">
+					Invoices
+				</a>
+			</li>
 		</ul>
 
 		@include('settings.show.' . $show)

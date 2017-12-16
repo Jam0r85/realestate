@@ -4,6 +4,21 @@ namespace App;
 
 class Setting extends BaseModel
 {
+    /**
+     * primaryKey 
+     * 
+     * @var integer
+     * @access protected
+     */
+    protected $primaryKey = null;
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
 	/**
      * The attributes that are mass assignable.
      *
