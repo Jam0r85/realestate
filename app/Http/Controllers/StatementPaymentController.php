@@ -53,8 +53,8 @@ class StatementPaymentController extends BaseController
      * Store a new statement payment in storage.
      * 
      * @param  \App\Http\Requests\StorePaymentStoreRequest  $request
-     * @param  \App\Statement  $statement  the statement that we are generating payments for
-     * @return  \Illuminate\Http\Response
+     * @param  \App\Statement  $statement
+     * @return \Illuminate\Http\Response
      */
     public function store(StatementPaymentStoreRequest $request, Statement $statement)
     {
@@ -67,12 +67,13 @@ class StatementPaymentController extends BaseController
                     ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $invoice->id],
                     [
                         'amount' => $statement->present()->invoicesTotal,
-                        'sent_at' => $sent_at
+                        'sent_at' => $sent_at,
+                        'bank_account_id' => get_setting('company_bank_account_id')
                     ]
                 );
 
                 // Attach the invoice users to this payment
-                $payment->users()->sync($invoice->users);
+                $payment->users()->sync(get_setting('company_user_id'));
 
                 event (new InvoiceStatementPaymentWasSaved($payment));
             }
@@ -167,6 +168,9 @@ class StatementPaymentController extends BaseController
         $payment
             ->fill($request->input())
             ->save();
+
+        $payment
+            ->users()->sync($request->users);
 
         if ($payment->present()->parentName == 'Invoice') {
             event(new InvoiceStatementPaymentWasSaved($payment));

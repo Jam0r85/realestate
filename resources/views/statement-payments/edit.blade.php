@@ -67,18 +67,14 @@
 							</div>
 
 							<div class="form-group">
-								<label for="bank_account_id">Bank Account</label>
-								<select name="bank_account_id" id="bank_account_id" class="form-control">
-									<option value="">None</option>
-									@foreach (bank_accounts($payment->present()->relatedUserIds) as $account)
-										<option @if ($payment->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">
-											{{ $account->present()->selectName }}
+								<label for="users">Attached Users</label>
+								<select name="users[]" id="users" class="form-control select2" multiple>
+									@foreach (users() as $user)
+										<option @if ($payment->users->contains($user->id)) selected @endif value="{{ $user->id }}">
+											{{ $user->present()->selectName }}
 										</option>
 									@endforeach
 								</select>
-								<small class="form-text text-muted">
-									Select the bank account that this payment was sent to.
-								</small>
 							</div>
 
 							@component('partials.save-button')

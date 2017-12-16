@@ -15,6 +15,6 @@ class BankAccountObserver
 	 */
 	public function creating(BankAccount $account)
 	{
-		$appearance->user_id = Auth::user()->id;
+		$account->user_id = Auth::user()->id;
 	}
 }
