@@ -32,11 +32,12 @@ class InvoiceItemController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreInvoiceItemRequest  $request
-     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceItemRequest $request, Invoice $invoice)
+    public function store(StoreInvoiceItemRequest $request)
     {
+        $invoice = Invoice::withTrashed()->findOrFail($request->invoice_id);
+
         $item = $this->repository
             ->fill($request->input());
 

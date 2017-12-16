@@ -6,9 +6,9 @@
 
 		<div class="float-right">
 
-			<a href="{{ route('invoice-items.create', $invoice->id) }}" class="btn btn-primary">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newInvoiceItemModal">
 				<i class="fa fa-plus"></i> New Item
-			</a>
+			</button>
 
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="invoiceOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -81,5 +81,7 @@
 		@include('invoices.show.' . $show)
 
 	@endcomponent
+
+	@include('invoice-items.modals.new-item-modal')
 
 @endsection

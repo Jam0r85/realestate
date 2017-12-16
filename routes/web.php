@@ -56,11 +56,10 @@ Route::middleware(['staff'])->group(function () {
 	});
 
 	Route::prefix('invoice-items')->group(function () {
-		Route::get('{invoice}', 'InvoiceItemController@create')->name('invoice-items.create');
-		Route::post('{invoice}', 'InvoiceItemController@store')->name('invoice-items.store');
-		Route::get('{id}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit');
-		Route::put('{id}', 'InvoiceItemController@update')->name('invoice-items.update');
-		Route::delete('{id}', 'InvoiceItemController@destroy')->name('invoice-items.destroy');
+		Route::post('/', 'InvoiceItemController@store')->name('invoice-items.store'); // Store a new invoice item
+		Route::get('{id}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit'); // Edit an invoice item
+		Route::put('{id}', 'InvoiceItemController@update')->name('invoice-items.update'); // Update an invoice item
+		Route::delete('{id}', 'InvoiceItemController@destroy')->name('invoice-items.destroy'); // Destroy an invoice item
 	});
 
 	Route::prefix('invoice-groups')->group(function () {

@@ -24,6 +24,7 @@ class StoreInvoiceItemRequest extends FormRequest
     public function rules()
     {
         return [
+            'invoice_id' => 'required',
             'name' => 'required',
             'amount' => 'required',
             'quantity' => 'required'

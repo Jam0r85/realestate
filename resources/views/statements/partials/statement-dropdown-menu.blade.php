@@ -12,13 +12,7 @@
 		<h5 class="dropdown-header">
 			Invoices
 		</h5>
-		@if (count($statement->invoices))
-			@foreach ($statement->invoices as $invoice)
-				<a class="dropdown-item" href="{{ route('invoice-items.create', $invoice->id) }}">
-					{{ $invoice->present()->name }} New Item
-				</a>
-			@endforeach
-		@else
+		@if (!count($statement->invoices))
 			<a class="dropdown-item" href="#">
 				Create Invoice
 			</a>
