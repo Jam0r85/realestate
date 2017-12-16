@@ -92,7 +92,7 @@ class BankAccount extends BaseModel
     {
         return $this
             ->hasMany('App\StatementPayment')
-            ->latest();
+            ->latest('sent_at');
     }
 
     /**
