@@ -35,7 +35,16 @@ class Setting extends BaseModel
      */
     public function messageUpdated()
     {
-        return 'Setting ' . studly_case($this->key) . ' was updated';
+        return 'Setting <b>' . ucfirst(str_replace('_', ' ', $this->key)) . '</b> was updated';
     }
 
+    /**
+     * Overwrite the updated message.
+     * 
+     * @return  string
+     */
+    public function messageCreated()
+    {
+        return 'Setting <b>' . ucfirst(str_replace('_', ' ', $this->key)) . '</b> was created';
+    }
 }

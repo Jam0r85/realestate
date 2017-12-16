@@ -57,7 +57,8 @@ class SettingController extends BaseController
 
                 $this->repository
                     ->where('key', $key)
-                    ->update(['value' => $value]);
+                    ->first()
+                    ->save(['value' => $value]);
 
             } else {
 
@@ -69,28 +70,6 @@ class SettingController extends BaseController
         Cache::forget('app_settings');
 
         return back();
-    }
-
-    /**
-     * Update the settings table.
-     *
-     * @param array $data
-     * @return void
-     */
-    protected function updateSettingsTable($data)
-    {
-        foreach ($data as $key => $value) {
-            if (Setting::where('key', $key)->exists()) {
-                $setting = Setting::where('key', $key)->update(['value' => $value]);
-            } else {
-                $new = new Setting();
-                $new->key = $key;
-                $new->value = $value;
-                $new->save();
-            }
-        }
-
-        Cache::forget('site.settings');
     }
 
     /**
