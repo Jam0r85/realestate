@@ -100,12 +100,12 @@
 							</div>
 
 							<div class="form-group">
-								<label for="receiption_rooms">
-									Living Rooms
+								<label for="reception_rooms">
+									Reception Rooms
 								</label>
-								<select name="receiption_rooms" id="receiption_rooms" class="form-control">
+								<select name="reception_rooms" id="reception_rooms" class="form-control">
 									@for($i = 0; $i <= 10; $i++)
-										<option @if ($property->getData('receiption_rooms') == $i) selected @endif value="{{ $i }}">
+										<option @if ($property->getData('reception_rooms') == $i) selected @endif value="{{ $i }}">
 											@if ($i == 0)
 												None
 											@else

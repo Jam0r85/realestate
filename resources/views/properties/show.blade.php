@@ -18,7 +18,7 @@
 		</div>
 
 		@component('partials.header')
-			{{ $property->present()->fullAddress }}
+			{{ $property->present()->shortAddress }}
 		@endcomponent
 		
 	@endcomponent

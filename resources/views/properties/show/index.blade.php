@@ -16,62 +16,106 @@
 	@endif
 </div>
 
-<div class="card mb-3">
+<div class="row">
+	<div class="col-12 col-lg-6">
 
-	@component('partials.card-header')
-		Property Information
-	@endcomponent
-	
-	<ul class="list-group list-group-flush">
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->house_name }}
-			@slot('title')
-				House Name
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->house_number }}
-			@slot('title')
-				House Number
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->address1 }}
-			@slot('title')
-				Address Line 1
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->address2 }}
-			@slot('title')
-				Address Line 2
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->address3 }}
-			@slot('title')
-				Address Line 3
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->town }}
-			@slot('title')
-				Town
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->county }}
-			@slot('title')
-				County
-			@endslot
-		@endcomponent
-		@component('partials.bootstrap.list-group-item')
-			{{ $property->postcode }}
-			@slot('title')
-				Postcode
-			@endslot
-		@endcomponent
-	</ul>
+		<div class="card mb-3">
+
+			@component('partials.card-header')
+				Property Details
+			@endcomponent
+			
+			<ul class="list-group list-group-flush">
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->house_name }}
+					@slot('title')
+						House Name
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->house_number }}
+					@slot('title')
+						House Number
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->address1 }}
+					@slot('title')
+						Address Line 1
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->address2 }}
+					@slot('title')
+						Address Line 2
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->address3 }}
+					@slot('title')
+						Address Line 3
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->town }}
+					@slot('title')
+						Town
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->county }}
+					@slot('title')
+						County
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->postcode }}
+					@slot('title')
+						Postcode
+					@endslot
+				@endcomponent
+			</ul>
+		</div>
+
+	</div>
+	<div class="col-12 col-lg-6">
+
+		<div class="card mb-3">
+
+			@component('partials.card-header')
+				Property Further Details
+			@endcomponent
+
+			<ul class="list-group list-group-flush">
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->band ? $property->band->name : '' }}
+					@slot('title')
+						Tax Band
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->getData('reception_rooms') }}
+					@slot('title')
+						Reception Rooms
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->getData('bedrooms') }}
+					@slot('title')
+						Bedrooms
+					@endslot
+				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->getData('bathrooms') }}
+					@slot('title')
+						Bathrooms
+					@endslot
+				@endcomponent
+			</ul>
+
+		</div>
+
+	</div>
 </div>
 
 <div class="card mb-3">
