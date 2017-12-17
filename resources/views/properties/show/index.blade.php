@@ -7,6 +7,14 @@
 </div>
 
 <div class="card mb-3">
+	@component('partials.card-header')
+		Current Residents
+	@endcomponent
+
+	@include('users.partials.users-table', ['users' => $property->residents])
+</div>
+
+<div class="card mb-3">
 
 	@component('partials.card-header')
 		Property Information
