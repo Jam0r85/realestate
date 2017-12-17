@@ -11,7 +11,7 @@ class AgreementObserver
 	/**
 	 * Listen to the Agreement creating event.
 	 * 
-	 * @param \App\agreement $agreement
+	 * @param  \App\Agreement  $agreement
 	 * @return void
 	 */
 	public function creating(Agreement $agreement)

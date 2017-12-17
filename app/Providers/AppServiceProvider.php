@@ -23,12 +23,14 @@ use App\Observers\InvoiceItemObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PaymentObserver;
 use App\Observers\PropertyObserver;
+use App\Observers\ServiceObserver;
 use App\Observers\StatementObserver;
 use App\Observers\StatementPaymentObserver;
 use App\Observers\TenancyRentObserver;
 use App\Observers\UserObserver;
 use App\Payment;
 use App\Property;
+use App\Service;
 use App\Statement;
 use App\StatementPayment;
 use App\Tenancy;
@@ -73,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
         TenancyRent::observe(TenancyRentObserver::class);
         Appearance::observe(AppearanceObserver::class);
         BankAccount::observe(BankAccountObserver::class);
+        Service::observe(ServiceObserver::class);
     }
 
     /**

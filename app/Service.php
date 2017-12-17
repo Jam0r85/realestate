@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 class Service extends BaseModel
 {
     use PresentableTrait;
+    use SoftDeletes;
 
     /**
      * The presenter for this model.

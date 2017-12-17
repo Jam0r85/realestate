@@ -21,6 +21,7 @@ class ServiceController extends BaseController
     public function index()
     {
         $services = $this->repository
+            ->withTrashed()
             ->get();
 
         return view('services.index', compact('services'));     
@@ -60,6 +61,7 @@ class ServiceController extends BaseController
     public function edit($id)
     {
         $service = $this->repository
+            ->withTrashed()
             ->findOrFail($id);
 
         return view('services.edit', compact('service'));

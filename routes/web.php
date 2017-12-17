@@ -122,7 +122,16 @@ Route::middleware(['staff'])->group(function () {
 	Route::get('{tenancy}/rent-payments/print-with-statements', 'RentPaymentController@printWithStatements')->name('rent-payments.print-with-statements');
 
 	Route::resource('tenancy-rents', 'TenancyRentController');
-	Route::resource('services', 'ServiceController');
+	
+	Route::prefix('services')->group(function () {
+		Route::get('/', 'ServiceController@index')->name('services.index');
+		Route::get('create', 'ServiceController@create')->name('services.create'); // Create a new service
+		Route::post('/', 'ServiceController@store')->name('services.store'); // Store the new service
+		Route::get('{id}/edit', 'ServiceController@edit')->name('services.edit'); // Edit the service
+		Route::put('{id}', 'ServiceController@update')->name('services.update'); // Update the service
+		Route::delete('{id}', 'ServiceController@destroy')->name('services.destroy'); // Delete the service
+		Route::put('{id}/restore', 'ServiceController@restore')->name('services.restore'); // Restore the service
+	});
 
 	Route::prefix('statements')->group(function () {
 		Route::get('/', 'StatementController@index')->name('statements.index');

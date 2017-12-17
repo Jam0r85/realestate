@@ -2,13 +2,15 @@
 
 @section('content')
 
-	@component('partials.bootstrap.section-with-container')
-		<div class="page-title">
-			<h1>Create Service</h1>
-		</div>
+	@component('partials.page-header')
+
+		@component('partials.header')
+			Create Service
+		@endcomponent
+
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
