@@ -124,7 +124,9 @@ class TenancyPresenter extends Presenter
 	 */
 	public function serviceName()
 	{
-		return $this->service->name;
+		if ($this->service) {
+			return $this->service->name;
+		}
 	}
 
 	/**

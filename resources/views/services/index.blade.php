@@ -20,6 +20,7 @@
 
 		@component('partials.table')
 			@slot('header')
+				<th>Status</th>
 				<th>Name</th>
 				<th>Letting Fee</th>
 				<th>Re-Letting Fee</th>
@@ -30,6 +31,7 @@
 			@slot('body')
 				@foreach ($services as $service)
 					<tr>
+						<td>{{ $service->present()->status }}</td>
 						<td>{{ $service->name }}<br />{{ $service->description }}</td>
 						<td>{{ currency($service->letting_fee) }}</td>
 						<td>{{ currency($service->re_letting_fee) }}</td>
