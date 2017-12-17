@@ -530,7 +530,7 @@ class Tenancy extends BaseModel
         $fees = [];
 
         foreach ($this->property->owners as $user) {
-            if ($amount = user_setting('tenancy_service_letting_fee', $user)) {
+            if ($amount = $user->getSetting('tenancy_service_letting_fee')) {
                 $fees[] = [
                     'user_name' => $user->name,
                     'user_id' => $user->id,
@@ -567,7 +567,7 @@ class Tenancy extends BaseModel
         $fees = [];
 
         foreach ($this->property->owners as $user) {
-            if ($amount = user_setting('tenancy_service_re_letting_fee', $user)) {
+            if ($amount = $user->getSetting('tenancy_service_re_letting_fee')) {
                 $fees[] = [
                     'user_name' => $user->name,
                     'user_id' => $user->id,

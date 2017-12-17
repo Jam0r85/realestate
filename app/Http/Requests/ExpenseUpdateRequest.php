@@ -24,8 +24,8 @@ class ExpenseUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'cost' =>'required|numeric'
+            'name' => 'required|sometimes',
+            'cost' =>'required|numeric|sometimes'
         ];
     }
 }

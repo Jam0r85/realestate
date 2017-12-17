@@ -55,6 +55,42 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
+						Expense Settings
+					@endcomponent
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('expenses.update', $expense->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
+
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="hidden" name="disable_paid_notification" value="no">
+									<input class="form-check-input" type="checkbox" name="disable_paid_notification" value="yes" @if ($expense->getData('disable_paid_notification') == 'yes') checked @endif />
+									Disable the notification to the contractor when this expense has been paid in full.
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="hidden" name="already_paid" value="no">
+									<input class="form-check-input" type="checkbox" id="already_paid" name="already_paid" value="yes" @if ($expense->getData('already_paid') == 'yes') checked @endif />
+									Has this expense already been paid?
+								</label>
+							</div>
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
+				<div class="card mb-3">
+					@component('partials.card-header')
 						Destroy Expense
 					@endcomponent
 					<div class="card-body">

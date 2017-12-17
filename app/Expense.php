@@ -93,7 +93,9 @@ class Expense extends BaseModel
      * @var  array
      */
     public $dataKeys = [
-        'contractor_reference'
+        'contractor_reference',
+        'disable_paid_notification',
+        'already_paid'
     ];
 
     /**
@@ -180,7 +182,7 @@ class Expense extends BaseModel
             $this->paid_at = null;
         }
 
-        $this->saveWithMessage('balance updated');
+        return $this->saveWithMessage('balance updated');
     }
 
     /**
@@ -191,6 +193,26 @@ class Expense extends BaseModel
     public function isPaid()
     {
         if ($this->balance > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether we can send the paid notification to the contractor.
+     * 
+     * @return  bool
+     */
+    public function canSendPaidNotificationToContractor()
+    {
+        // Notification disabled
+        if ($this->getData('disable_paid_notification') == 'yes') {
+            return false;
+        }
+
+        // Expense has already been paid, do not send out the notification
+        if ($this->getData('already_paid') == 'yes') {
             return false;
         }
 

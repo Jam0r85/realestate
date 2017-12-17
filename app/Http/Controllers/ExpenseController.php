@@ -112,7 +112,6 @@ class ExpenseController extends BaseController
 
         $expense
             ->fill($request->input())
-            ->setData($request->input())
             ->save();
 
         $expense

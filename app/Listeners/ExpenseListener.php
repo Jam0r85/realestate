@@ -45,6 +45,8 @@ class ExpenseListener
         $payment = $event->payment;
         $expense = $payment->parent;
 
-        $expense->contractor->notify(new ExpensePaidToContractor($payment, $expense));
+        if ($expense->canSendPaidNotificationToContractor()) {
+            $expense->contractor->notify(new ExpensePaidToContractor($payment, $expense));
+        }
     }
 }

@@ -23,7 +23,7 @@ class BaseModel extends Model
 	 */
 	public function saveWithMessage($message, array $options = []) {
 		$options = array_add($options, 'flash_message', $message);
-		$this->save($options);
+		return $this->save($options);
 	}
 
 	/**
