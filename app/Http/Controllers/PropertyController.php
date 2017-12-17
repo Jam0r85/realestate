@@ -80,11 +80,25 @@ class PropertyController extends BaseController
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $property = $this->repository
+            ->findOrFail($id);
+
+        return view('properties.edit', compact('property'));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\PropertyUpdateRequest  $request
-     * @param  \App\Property  $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(PropertyUpdateRequest $request, $id)
     {
@@ -93,12 +107,13 @@ class PropertyController extends BaseController
 
         $property
             ->fill($request->input())
-            ->setData($request->input())
             ->save();
 
-        $property
-            ->owners()
-            ->sync($request->owners);
+        if ($request->has('owners')) {
+            $property
+                ->owners()
+                ->sync($request->owners);
+        }
 
         return back();
     }
