@@ -85,7 +85,8 @@ class Property extends BaseModel
 		'county',
 		'postcode',
 		'country',
-		'settings'
+		'settings',
+		'data'
 	];
 
     /**

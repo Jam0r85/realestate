@@ -1,5 +1,7 @@
 <div class="card-header">
-	{{ $slot }}
+	<span class="text-primary">
+		{{ $slot }}
+	</span>
 
 	@if (isset($small))
 		<small class="text-muted d-block">

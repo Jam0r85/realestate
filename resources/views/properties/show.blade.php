@@ -11,7 +11,7 @@
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="propertyOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('properties.edit', $property->id) }}">
-						Edit Property
+						<i class="fa fa-edit"></i> Edit Property
 					</a>
 				</div>
 			</div>

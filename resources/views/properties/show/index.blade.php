@@ -11,7 +11,7 @@
 		Current Residents
 	@endcomponent
 
-	@include('users.partials.users-table', ['users' => $property->residents])
+	@includeIf($property->currentResidents(), 'users.partials.users-table', ['users' => $property->currentResidents()])
 </div>
 
 <div class="card mb-3">
