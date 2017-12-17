@@ -1,4 +1,12 @@
 <div class="card mb-3">
+	@component('partials.card-header')
+		Owners
+	@endcomponent
+
+	@include('users.partials.users-table', ['users' => $property->owners])
+</div>
+
+<div class="card mb-3">
 
 	@component('partials.card-header')
 		Property Information
