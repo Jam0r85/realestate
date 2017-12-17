@@ -195,8 +195,9 @@ class Property extends BaseModel
 	public function currentResidents()
 	{
 		if ($this->activeTenancy) {
-			return $this->activeTenancy->tenants;
+			return $this->activeTenancy->users;
 		}
+
 		if ($this->residents) {
 			return $this->residents;
 		}
