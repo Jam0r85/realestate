@@ -1,6 +1,7 @@
 @if (count($expenses))
 	@component('partials.table')
 		@slot('header')
+			<th>Status</th>
 			<th>Date</th>
 			<th>Name</th>
 			<th>Property</th>
@@ -11,6 +12,7 @@
 		@slot('body')
 			@foreach ($expenses as $expense)
 				<tr>
+					<td>{{ $expense->present()->status }}</td>
 					<td>{{ date_formatted($expense->created_at) }}</td>
 					<td>{!! truncate($expense->name) !!}</td>
 					<td>
