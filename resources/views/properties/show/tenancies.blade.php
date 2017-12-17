@@ -1,0 +1,1 @@
+@include('tenancies.partials.tenancies-table', ['tenancies' => $property->tenancies])

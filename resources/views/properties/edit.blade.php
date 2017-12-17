@@ -4,9 +4,13 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('properties.show', $property->id) }}" class="btn btn-secondary float-right">
-			Return
-		</a>
+		<div class="float-right">
+			@component('partials.return-button')
+				@slot('url')
+					{{ route('properties.show', $property->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
 		@component('partials.header')
 			{{ $property->present()->shortAddress }}
@@ -18,7 +22,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 

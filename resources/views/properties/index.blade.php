@@ -9,12 +9,12 @@
 		</a>
 
 		@component('partials.header')
-			{{ $title }}
+			{{ isset($title) ? $title : 'Properties List' }}
 		@endcomponent
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.index-search', ['route' => 'properties.search', 'session' => 'property_search_term'])
 

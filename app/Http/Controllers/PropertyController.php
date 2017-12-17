@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\Session;
 
 class PropertyController extends BaseController
 {
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
     public $model = 'App\Property';
 
     /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -26,7 +31,6 @@ class PropertyController extends BaseController
             ->latest()
             ->paginateFilter();
 
-        $title = 'Properties List';
         return view('properties.index', compact('properties','title'));
     }
 
@@ -44,13 +48,12 @@ class PropertyController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\PropertyStoreRequest  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(PropertyStoreRequest $request)
     {
         $property = $this->repository
             ->fill($request->input())
-            ->setData($request->input())
             ->save();
 
         if ($request->has('owners')) {
@@ -63,16 +66,17 @@ class PropertyController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Property  $id
+     * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $show = 'index')
     {
         $property = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        return view('properties.show.' . $section, compact('property'));
+        return view('properties.show', compact('property','show'));
     }
 
     /**

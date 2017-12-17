@@ -64,7 +64,7 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('invoice-groups')->group(function () {
 		Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
-		Route::get('create', 'InvoiceGroupController@create')->name('invoice-groups.create');
+		Route::get('create', 'InvoiceGroupController@create')->name('invoice-groups.create'); // Create a new invoice group
 		Route::post('/', 'InvoiceGroupController@store')->name('invoice-groups.store'); // Store a new invoice group
 		Route::put('{id}', 'InvoiceGroupController@update')->name('invoice-groups.update'); // Update the invoice group
 		Route::get('{id}/edit', 'InvoiceGroupController@edit')->name('invoice-groups.edit'); // Edit the invoice group
@@ -73,15 +73,14 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('properties')->group(function () {
 		Route::get('/', 'PropertyController@index')->name('properties.index');
-		Route::get('create', 'PropertyController@create')->name('properties.create');
-		Route::post('/', 'PropertyController@store')->name('properties.store');
-		Route::post('search', 'PropertyController@search')->name('properties.search');
-		Route::get('{id}/{section?}', 'PropertyController@show')->name('properties.show');
-		Route::post('{id}/update-owners', 'PropertyController@updateOwners')->name('properties.update-owners');
-		Route::put('{property}', 'PropertyController@update')->name('properties.update');
-		Route::post('{id}/update-statement-settings', 'PropertyController@updateStatementSettings')->name('properties.update-statement-settings');
-		Route::post('{id}/archive', 'PropertyController@archive')->name('properties.archive');
-		Route::post('{id}/restore', 'PropertyController@restore')->name('properties.restore');
+		Route::post('search', 'PropertyController@search')->name('properties.search'); // Search properties
+		Route::get('create', 'PropertyController@create')->name('properties.create'); // Create a new property
+		Route::post('/', 'PropertyController@store')->name('properties.store'); // Store the new property
+		Route::get('{id}/edit', 'PropertyController@edit')->name('properties.edit'); // Edit the property
+		Route::get('{id}/{show?}', 'PropertyController@show')->name('properties.show'); // Show the property
+		Route::put('{id}', 'PropertyController@update')->name('properties.update'); // Update the property
+		Route::delete('{id}', 'PropertyController@destroy')->name('properties.destroy'); // Delete the property
+		Route::put('{id}/restore', 'PropertyController@restore')->name('properties.restore'); // Restore the property
 	});
 
 	Route::prefix('expenses')->group(function () {
