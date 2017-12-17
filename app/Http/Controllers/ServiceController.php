@@ -44,34 +44,18 @@ class ServiceController extends BaseController
      */
     public function store(Request $request)
     {
-        $service = $this->repository;
-        $service->name = $request->name;
-        $service->description = $request->description;
-        $service->letting_fee = $request->letting_fee;
-        $service->re_letting_fee = $request->re_letting_fee;
-        $service->charge = $this->formatCharge($request->charge, $request->charge_type);
-        $service->tax_rate_id = $request->tax_rate_id;
-        $service->save();
+        $this->repository
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Service  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Service  $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -85,40 +69,16 @@ class ServiceController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Service  $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $service = $this->repository
-            ->findOrFail($id);
-
-        $service->name = $request->name;
-        $service->description = $request->description;
-        $service->letting_fee = $request->letting_fee;
-        $service->re_letting_fee = $request->re_letting_fee;
-        $service->charge = $this->formatCharge($request->charge, $request->charge_type);
-        $service->tax_rate_id = $request->tax_rate_id;
-        $service->save();
-
-        $this->successMessage('The service "' . $service->name . '" was updated');
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
-    }
-
-    /**
-     * Format the charge based on the amount and type.
-     * 
-     * @param integer $amount
-     * @param string $type
-     * @return integer
-     */
-    private function formatCharge($amount, $type)
-    {
-        if ($type == 'percent') {
-            return $amount / 100;
-        }
-
-        return $amount;
     }
 }

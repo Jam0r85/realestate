@@ -2,14 +2,40 @@
 
 namespace App;
 
+use Laracasts\Presenter\PresentableTrait;
+
 class Service extends BaseModel
 {
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\ServicePresenter';
+
 	/**
 	 * The attrbites that should be included in the collection.
 	 * 
 	 * @var array
 	 */
 	protected $appends = ['charge_formatted'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'charge',
+        'letting_fee',
+        're_letting_fee',
+        'tax_rate_id'
+    ];
 
 	/**
 	 * A service can have a tax rate.
