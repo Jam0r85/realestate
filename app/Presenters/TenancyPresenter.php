@@ -134,13 +134,15 @@ class TenancyPresenter extends Presenter
 	 */
 	public function serviceCharge()
 	{
-		$charge = $this->service->charge - $this->serviceDiscounts->sum('amount');
+		if ($this->service) {
+			$charge = $this->service->charge - $this->serviceDiscounts->sum('amount');
 
-        if ($charge < 1) {
-            return $charge * 100 . '%';
-        } else {
-            return currency($charge);
-        }
+	        if ($charge < 1) {
+	            return $charge * 100 . '%';
+	        } else {
+	            return currency($charge);
+	        }
+	    }
 	}
 
 	/**
@@ -156,7 +158,9 @@ class TenancyPresenter extends Presenter
 	 */
 	public function serviceReLettingFee()
 	{
-		return $this->service->re_letting_fee;
+		if ($this->service) {
+			return $this->service->re_letting_fee;
+		}
 	}
 
 	/**

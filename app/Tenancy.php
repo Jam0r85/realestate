@@ -586,17 +586,19 @@ class Tenancy extends BaseModel
      */
     public function getLettingFee($custom = false)
     {
-        $fee = $this->service->letting_fee;
+        if ($this->service) {
+            $fee = $this->service->letting_fee;
 
-        if ($custom) {
-            if ($this->getCustomUserLettingFees()) {
-                foreach ($this->getCustomUserLettingFees() as $customFee) {
-                    $fee = $customFee['amount'];
+            if ($custom) {
+                if ($this->getCustomUserLettingFees()) {
+                    foreach ($this->getCustomUserLettingFees() as $customFee) {
+                        $fee = $customFee['amount'];
+                    }
                 }
             }
-        }
 
-        return $fee;
+            return $fee;
+        }
     }
 
     /**
@@ -606,17 +608,19 @@ class Tenancy extends BaseModel
      */
     public function getReLettingFee($custom = false)
     {
-        $fee = $this->service->re_letting_fee;
+        if ($this->service) {
+            $fee = $this->service->re_letting_fee;
 
-        if ($custom) {
-            if ($this->getCustomUserReLettingFees()) {
-                foreach ($this->getCustomUserReLettingFees() as $customFee) {
-                    $fee = $customFee['amount'];
+            if ($custom) {
+                if ($this->getCustomUserReLettingFees()) {
+                    foreach ($this->getCustomUserReLettingFees() as $customFee) {
+                        $fee = $customFee['amount'];
+                    }
                 }
             }
-        }
 
-        return $fee;
+            return $fee;
+        }
     }
 
     /**
