@@ -588,45 +588,79 @@ class Tenancy extends BaseModel
     /**
      * Get this tenancy's letting fee.
      * 
-     * @return integer
+     * @return  int
      */
     public function getLettingFee($custom = false)
     {
+        // Check we have a service assigned
         if ($this->service) {
-            $fee = $this->service->letting_fee;
 
-            if ($custom) {
-                if ($this->getCustomUserLettingFees()) {
-                    foreach ($this->getCustomUserLettingFees() as $customFee) {
-                        $fee = $customFee['amount'];
+            // Set the default fee to the service letting fee
+            $defaultFee = $this->service->letting_fee;
+
+            // Do we want to check for custom letting fees?
+            if ($custom == true) {
+                // Does this tenancy have a property and owners?
+                if ($this->property && count($this->property->owners)) {
+                    // Loop through each of the owners
+                    foreach ($this->property->owners as $user) {
+                        // Set the custom fee to the one in the user's settings
+                        $customFee = $user->getSetting('tenancy_service_letting_fee');
                     }
                 }
             }
 
-            return $fee;
+            return $customFee ?? $defaultFee;
         }
+    }
+
+    /**
+     * Get the letting fee or custom fee instead.
+     * 
+     * @return  int
+     */
+    public function getLettingFeeWithCustom()
+    {
+        return $this->getLettingFee(true);
     }
 
     /**
      * Get this tenancy's re-letting fee.
      * 
-     * @return integer
+     * @return  int
      */
     public function getReLettingFee($custom = false)
     {
+        // Check we have a service assigned
         if ($this->service) {
-            $fee = $this->service->re_letting_fee;
 
-            if ($custom) {
-                if ($this->getCustomUserReLettingFees()) {
-                    foreach ($this->getCustomUserReLettingFees() as $customFee) {
-                        $fee = $customFee['amount'];
+            // Set the default fee to the service letting fee
+            $defaultFee = $this->service->re_letting_fee;
+
+            // Do we want to check for custom letting fees?
+            if ($custom == true) {
+                // Does this tenancy have a property and owners?
+                if ($this->property && count($this->property->owners)) {
+                    // Loop through each of the owners
+                    foreach ($this->property->owners as $user) {
+                        // Set the custom fee to the one in the user's settings
+                        $customFee = $user->getSetting('tenancy_service_re_letting_fee');
                     }
                 }
             }
 
-            return $fee;
+            return $customFee ?? $defaultFee;
         }
+    }
+
+    /**
+     * Get the re letting fee with custom fee included.
+     * 
+     * @return  int
+     */
+    public function getReLettingFeeWithCustom()
+    {
+        return $this->getReLettingFee(true);
     }
 
     /**
@@ -638,14 +672,10 @@ class Tenancy extends BaseModel
     public function storeStatement(Statement $statement)
     {
         // Save the statement
-        $this
-            ->statements()
-            ->save($statement);
+        $this->statements()->save($statement);
 
         // Attach property owners to the statement
-        $statement
-            ->users()
-            ->attach($this->property->owners);
+        $statement->users()->attach($this->property->owners);
 
         // Create invoice and items here
         if ($statement->needsInvoiceCheck()) {

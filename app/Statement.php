@@ -158,8 +158,8 @@ class Statement extends PdfModel
     /**
      * Store an invoice to this statement and attach the property owners to the invoice.
      * 
-     * @param  \App\Invoice  $invoice  the invoice we are storing
-     * @return  \App'Invoice
+     * @param  \App\Invoice  $invoice
+     * @return \App'Invoice
      */
     public function storeInvoice(Invoice $invoice)
     {
@@ -204,15 +204,15 @@ class Statement extends PdfModel
      */
     public function needsInvoiceCheck()
     {
-        if ($this->tenancy->getLettingFee(true)) {
+        if ($this->tenancy->getLettingFeeWithCustom() > 0) {
             return true;
         }
 
-        if ($this->tenancy->getReLettingFee(true)) {
+        if ($this->tenancy->getReLettingFeeWithCustom() > 0) {
             return true;
         }
 
-        if ($this->tenancy->getServiceChargeNetAmount()) {
+        if ($this->tenancy->getServiceChargeNetAmount() > 0) {
             return true;
         }
 
@@ -224,40 +224,35 @@ class Statement extends PdfModel
      * 
      * @return void
      */
-    public function createInvoiceManagementItem()
+    public function createInvoiceReLettingItem(Invoice $invoice)
     {
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
-        $invoice = $this->invoices->first();
 
-        // Is this the first tenancy for this property?
-        if (!count($property->tenancies)) {
+        if ($service) {
 
-            // Is this the first statement for this tenancy?
-            if (count($tenancy->statements) <= 1) {
+            // Other tenancies already exist
+            if (count($property->tenancies) > 1) {
 
-                // Set the re-letting fee from the service
-                $lettingFee = $service->re_letting_fee;
+                // Is this the first statement for this tenancy?
+                if (count($tenancy->statements) == 1) {
 
-                // Loop through the property owners and see whether there is a custom letting fee instead
-                foreach ($property->owners as $user) {
-                    if ($fee = $user->getSetting('tenancy_service_letting_fee')) {
-                        $lettingFee = $fee;
+                    // Set the re-letting fee from the service
+                    $amount = $tenancy->getReLettingFeeWithCustom();
+
+                    // Is the letting fee a valid amount?
+                    if ($amount > 0) {
+
+                        $item = new InvoiceItem();
+                        $item->name = $service->name;
+                        $item->description = $service->name . ' Re-Letting Fee';
+                        $item->amount = $amount;
+                        $item->quantity = 1;
+                        $item->tax_rate_id = $service->tax_rate_id;
+
+                        $invoice->storeItem($item);
                     }
-                }
-
-                // Is the letting fee a valid amount?
-                if ($lettingFee > 0) {
-
-                    $item = new InvoiceItem();
-                    $item->name = $service->name;
-                    $item->description = $service->name . ' Letting Fee';
-                    $item->amount = $lettingFee;
-                    $item->quantity = 1;
-                    $item->tax_rate_id = $service->tax_rate_id;
-
-                    $invoice->storeItem($item);
                 }
             }
         }
@@ -273,35 +268,30 @@ class Statement extends PdfModel
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
         $property = $tenancy->property;
-        $invoice = $this->invoices->first();
 
-        // Is this the first tenancy for this property?
-        if (count($property->tenancies) >= 1) {
+        // Make sure we have a valid service first
+        if ($service) {
 
-            // Is this the first statement for this tenancy?
-            if (count($tenancy->statements) <= 1) {
+            // First tenancy for the property?
+            if (count($property->tenancies) == 1) {
 
-                // Set the re-letting fee from the service
-                $reLettingFee = $service->re_letting_fee;
+                // Is this the first statement for this tenancy?
+                if (count($tenancy->statements) == 1) {
 
-                // Loop through the property owners and see whether there is a custom letting fee instead
-                foreach ($property->owners as $user) {
-                    if ($fee = $user->getSetting('tenancy_service_re_letting_fee')) {
-                        $reLettingFee = $fee;
+                    $amount = $tenancy->getLettingFeeWithCustom();
+
+                    // Is the letting fee a valid amount?
+                    if ($amount > 0) {
+
+                        $item = new InvoiceItem();
+                        $item->name = $service->name;
+                        $item->description = $service->name . ' Letting Fee';
+                        $item->amount = $amount;
+                        $item->quantity = 1;
+                        $item->tax_rate_id = $service->tax_rate_id;
+
+                        $invoice->storeItem($item);
                     }
-                }
-
-                // Is the letting fee a valid amount?
-                if ($reLettingFee > 0) {
-
-                    $item = new InvoiceItem();
-                    $item->name = $service->name;
-                    $item->description = $service->name . ' Re-Letting Fee';
-                    $item->amount = $reLettingFee;
-                    $item->quantity = 1;
-                    $item->tax_rate_id = $service->tax_rate_id;
-
-                    $invoice->storeItem($item);
                 }
             }
         }
@@ -312,11 +302,10 @@ class Statement extends PdfModel
      * 
      * @return void
      */
-    public function createInvoiceReLettingItem()
+    public function createInvoiceManagementItem(Invoice $invoice)
     {
         $tenancy = $this->tenancy;
         $service = $tenancy->service;
-        $invoice = $this->invoices->first();
 
         // Do we have a valid service charge amount?
         if ($tenancy->getServiceChargeNetAmount() > 0) {
