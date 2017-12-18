@@ -86,8 +86,7 @@ class TenancyController extends BaseController
         $tenancy->storeAgreement($agreement);
 
         // Attach the tenants
-        $tenancy
-            ->users()->attach($request->tenants);
+        $tenancy->users()->attach($request->tenants);
 
         return redirect()->route('tenancies.show', $tenancy->id);
     }

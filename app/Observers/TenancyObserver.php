@@ -15,6 +15,6 @@ class TenancyObserver
 	 */
 	public function creating(Tenancy $tenancy)
 	{
-		$agreement->user_id = Auth::user()->id;
+		$tenancy->user_id = Auth::user()->id;
 	}
 }
