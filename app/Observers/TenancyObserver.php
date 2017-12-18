@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Tenancy;
 use Illuminate\Support\Facades\Auth;
 
 class TenancyObserver

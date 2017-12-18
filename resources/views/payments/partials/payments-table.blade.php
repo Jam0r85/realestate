@@ -20,7 +20,7 @@
 						View
 					</a>
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
-						Receipt
+						<i class="fa fa-download"></i>
 					</a>
 				</td>
 			</tr>
