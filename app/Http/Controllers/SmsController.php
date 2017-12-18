@@ -38,15 +38,12 @@ class SmsController extends BaseController
 	 * Send an SMS message to the given user.
 	 *
 	 * @param  \App\Http\Requests\UserSendSmsMessageRequest  $request
-	 * @param  int  $user
-	 * @return  \Illuminate\Http\Response
+	 * @param  \App\User  $user
+	 * @return \Illuminate\Http\Response
 	 */
-    public function toUser(UserSendSmsMessageRequest $request, $id)
+    public function toUser(UserSendSmsMessageRequest $request, User $user)
     {
-    	$user = User::findOrFail($id);
-
-    	$user->notify(new UserSmsMessage($request->message));
-    	
+    	$user->notify(new UserSmsMessage($request->message));    	
     	return back();
     }
 

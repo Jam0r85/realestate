@@ -6,10 +6,10 @@
 
 		<div class="float-right">
 
-			<form method="POST" action="{{ route('users.clear-notifications', $user->id) }}" class="d-inline">
+			<form method="POST" action="{{ route('notifications.clear', $user->id) }}" class="d-inline">
 				{{ csrf_field() }}
 				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-bell"></i> Clear All Notifications
+					<i class="fa fa-bell"></i> Clear Notifications
 				</button>
 			</form>
 
@@ -31,7 +31,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@foreach ($user->notifications as $notification)
 
@@ -40,7 +40,7 @@
 					{{ datetime_formatted($notification->created_at) }}
 				@endcomponent
 
-				@include('users.notifications.' . snake_case(class_basename($notification->type)))
+				@include('notifications.users.' . snake_case(class_basename($notification->type)))
 			</div>
 
 		@endforeach

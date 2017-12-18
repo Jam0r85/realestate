@@ -161,24 +161,29 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{payment}', 'StatementPaymentController@destroy')->name('statement-payments.destroy'); // Delete a statement payment
 	});
 
+	// Users
 	Route::prefix('users')->group(function () {
 		Route::get('/', 'UserController@index')->name('users.index');
-		Route::post('search', 'UserController@search')->name('users.search');
-		Route::get('create', 'UserController@create')->name('users.create');
-		Route::post('/', 'UserController@store')->name('users.store');
-		Route::get('{id}/edit', 'UserController@edit')->name('users.edit');
-		Route::get('{id}/{section?}', 'UserController@show')->name('users.show');
-		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email');
-		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password');
-		Route::post('{id}/send-email', 'UserController@sendEmail')->name('users.send-email');
-		Route::put('{id}', 'UserController@update')->name('users.update');
-		Route::post('{id}/archive', 'UserController@archive')->name('users.archive');
-		Route::post('{id}/restore', 'UserController@restore')->name('users.restore');
-		Route::post('{id}/send-sms', 'SmsController@toUser')->name('users.send-sms');
-		Route::post('{id}/clear-notifications', 'UserController@clearNotifications')->name('users.clear-notifications');
+		Route::post('search', 'UserController@search')->name('users.search'); // Search users
+		Route::get('create', 'UserController@create')->name('users.create'); // Create a new user
+		Route::post('/', 'UserController@store')->name('users.store'); // Store a new user
+		Route::get('{id}/edit', 'UserController@edit')->name('users.edit'); // Edit the user
+		Route::get('{id}/{section?}', 'UserController@show')->name('users.show'); // Show the user
+		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email'); // Update the users email
+		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password'); // Update the users password
+		Route::put('{id}', 'UserController@update')->name('users.update'); // Update the user
+		Route::post('{id}/destroy', 'UserController@archive')->name('users.destroy'); // Delete the user
+		Route::post('{id}/restore', 'UserController@restore')->name('users.restore'); // Restore the user
 	});
 
+	// User logins
 	Route::get('user-logins', 'UserLoginController@index')->name('user-logins.index');
+
+	// Notifications
+	Route::prefix('notifications')->group(function () {
+		Route::get('{user}', 'NotificationController@user')->name('notifications.user');
+		Route::post('{user}', 'NotificationController@clearNotifications')->name('notifications.clear'); // Clear notifications for the user
+	});
 
 	Route::prefix('bank-accounts')->group(function () {
 		Route::get('/', 'BankAccountController@index')->name('bank-accounts.index');
@@ -218,8 +223,12 @@ Route::middleware(['staff'])->group(function () {
 	Route::get('download/statement/{id}', 'DownloadController@statement')->name('downloads.statement');
 	Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloads.payment');
 
-	Route::get('emails', 'EmailController@index')->name('emails.index');
-	Route::get('emails/{id}/preview', 'EmailController@preview')->name('emails.preview');
+	// Emails
+	Route::prefix('emails')->group(function () {
+		Route::get('/', 'EmailController@index')->name('emails.index'); // Get the emails
+		Route::get('{id}/preview', 'EmailController@preview')->name('emails.preview'); // Preview the emails
+		Route::post('{id}/email', 'EmailController@sendUserEmail')->name('users.send-email'); // Send a user an email
+	});
 
 	Route::prefix('reports')->group(function () {
 		Route::get('/', 'ReportController@index')->name('reports.index');
@@ -271,7 +280,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'DocumentController@update')->name('documents.update');
 	});
 
-	Route::get('sms', 'SmsController@index')->name('sms.index');
+	Route::prefix('sms')->group(function () {
+		Route::get('/', 'SmsController@index')->name('sms.index');
+		Route::post('{user}', 'SmsController@toUser')->name('users.send-sms'); // Send a SMS to a user
+	});
+	
 
 	Route::prefix('appearances')->group(function () {
 		Route::get('/', 'AppearanceController@index')->name('appearances.index');

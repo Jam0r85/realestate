@@ -189,7 +189,7 @@
 
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.show', [Auth::user()->id, 'user-notifications']) }}">
+                            <a class="nav-link" href="{{ route('notifications.user', Auth::user()->id) }}">
                                 @if (count(Auth::user()->unreadNotifications))
                                     <span class="badge badge-danger">
                                         {{ count(Auth::user()->unreadNotifications) }} Unread

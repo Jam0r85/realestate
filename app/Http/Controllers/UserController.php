@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPhoneRequest;
-use App\Http\Requests\{UserStoreRequest, UserUpdateRequest, UserSendEmailRequest};
-use App\Notifications\UserEmail;
+use App\Http\Requests\{UserStoreRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -146,38 +145,6 @@ class UserController extends BaseController
 
         $user->email = $request->email;
         $user->save();
-
-        return back();
-    }
-
-    /**
-     * Send the user an email message.
-     *
-     * @param \App\Http\Requests\UserSendEmailRequest $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function sendEmail(UserSendEmailRequest $request, $id)
-    {
-        $user = $this->repository
-            ->findOrFail($id)
-            ->notify(new UserEmail($request->subject, $request->message));
-            
-        return back();
-    }
-
-    /**
-     * Mark all unread notifications as having been read.
-     * 
-     * @param  \App\User  $user
-     * @return  \Illuminate\Http\Response
-     */
-    public function clearNotifications($id)
-    {
-        $user = $this->repository
-            ->findOrFail($id)
-            ->unreadNotifications
-            ->markAsRead();
 
         return back();
     }

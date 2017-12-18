@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Email;
+use App\Http\Requests\UserSendEmailRequest;
+use App\Notifications\UserEmail;
+use App\User;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
@@ -16,6 +19,21 @@ class EmailController extends Controller
     {
     	$emails = Email::latest()->paginate();
     	return view('emails.index', compact('emails'));
+    }
+
+    /**
+     * Send a user an email.
+     *
+     * @param  \App\Http\Requests\UserSendEmailRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sendUserEmail(UserSendEmailRequest $request, $id)
+    {
+        $user = User::findOrFail($id)
+            ->notify(new UserEmail($request->subject, $request->message));
+            
+        return back();
     }
 
     /**
