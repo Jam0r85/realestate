@@ -21,13 +21,18 @@ use Illuminate\Support\Facades\Session;
 
 class StatementController extends BaseController
 {
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
     public $model = 'App\Statement';
 
     /**
      * Display a listing of the statements.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -47,16 +52,16 @@ class StatementController extends BaseController
     /**
      * Store a new statement into storage.
      *
-     * @param  \App\Tenancy  $tenancy
      * @param  \App\Http\Requests\StatementStoreRequest  $request
-     * @return. \Illuminate\Http\Response
+     * @return.\Illuminate\Http\Response
      */
-    public function store(StatementStoreRequest $request, Tenancy $tenancy)
+    public function store(StatementStoreRequest $request)
     {
-        $statement = $this->repository;
-        $statement->period_start = $request->period_start ?? $tenancy->present()->nextStatementStartDate;
-        $statement->period_end = $request->period_end;
-        $statement->amount = $request->amount;
+        $tenancy = Tenancy::withTrashed()
+            ->findOrFail($request->tenancy_id);
+
+        $statement = $this->repository
+            ->fill($request->input());
 
         $tenancy->storeStatement($statement);
 

@@ -12,34 +12,6 @@ trait DataTrait
 	public $dataColumn = 'data';
 
 	/**
-	 * Get the data column.
-	 * 
-	 * @return  string
-	 */
-	public function getDataColumn()
-	{
-		if (!$this->dataColumn) {
-			//
-		}
-
-		return $this->dataColumn;
-	}
-
-	/**
-	 * The allowed keys to be stored inside the data column.
-	 * 
-	 * @return  array;
-	 */
-	public function getAllowedKeys()
-	{
-		if (!$this->dataKeys) {
-			//
-		}
-
-		return $this->dataKeys;
-	}
-
-	/**
 	 * Get the value of a key held in the data.
 	 * 
 	 * @param  string  $key  the key we want the value for
@@ -47,7 +19,7 @@ trait DataTrait
 	 */
 	public function getData($key)
 	{
-		$column = $this->getDataColumn();
+		$column = $this->dataColumn;
 		$existing_data = $this->$column;
 
 		if (is_array($existing_data) && !array_key_exists($key, $existing_data)) {
@@ -65,14 +37,14 @@ trait DataTrait
 	 */
 	public function setData(array $data)
 	{
-		$column = $this->getDataColumn();
+		$column = $this->dataColumn;
 		$existing_data = $this->$column;
 
 		// Store the key and value in the data.
 		foreach ($data as $key => $value) {
 
 			// Check that the key is allowed.
-			if (in_array($key, $this->getAllowedKeys())) {
+			if (in_array($key, $this->dataKeys)) {
 				$existing_data[$key] = $value;
 			}
 		}

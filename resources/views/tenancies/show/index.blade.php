@@ -1,6 +1,27 @@
 <div class="card mb-3">
+	@component('partials.card-header')
+		Tenants
+	@endcomponent
 
-	@component('partials.bootstrap.card-header')
+	@include('users.partials.users-table', ['users' => $tenancy->users])
+</div>
+
+<div class="card mb-3">
+	@component('partials..card-header')
+		Tenancy Details
+	@endcomponent
+	<ul class="list-group list-group-flush">		
+		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : '' }}
+			@slot('title')
+				Started
+			@endslot
+		@endcomponent
+	</ul>
+</div>
+
+<div class="card mb-3">
+	@component('partials.card-header')
 		System Information
 	@endcomponent
 

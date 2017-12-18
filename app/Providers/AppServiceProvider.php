@@ -26,6 +26,7 @@ use App\Observers\PropertyObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\StatementObserver;
 use App\Observers\StatementPaymentObserver;
+use App\Observers\TenancyObserver;
 use App\Observers\TenancyRentObserver;
 use App\Observers\UserObserver;
 use App\Payment;
@@ -73,6 +74,7 @@ class AppServiceProvider extends ServiceProvider
         Agreement::observe(AgreementObserver::class);
         Property::observe(PropertyObserver::class);
         TenancyRent::observe(TenancyRentObserver::class);
+        Tenancy::observe(TenancyObserver::class);
         Appearance::observe(AppearanceObserver::class);
         BankAccount::observe(BankAccountObserver::class);
         Service::observe(ServiceObserver::class);

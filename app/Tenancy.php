@@ -363,7 +363,9 @@ class Tenancy extends BaseModel
      */
     public function getServiceChargeWithDiscounts()
     {
-        return $this->service->charge - $this->serviceDiscounts->sum('amount');
+        if ($this->service) {
+            return $this->service->charge - $this->serviceDiscounts->sum('amount');
+        }
     }
 
     /**
@@ -416,6 +418,10 @@ class Tenancy extends BaseModel
      */
     public function isManaged()
     {
+        if (!$this->service) {
+            return false;
+        }
+
         // Do we have a service charge?
         if ($this->service->charge == 0) {
             return false;

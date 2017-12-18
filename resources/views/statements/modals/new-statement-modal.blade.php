@@ -1,6 +1,6 @@
-<div class="modal fade" id="tenancyStatementModal" tabindex="-1" role="dialog" aria-labelledby="tenancyStatementModalLabel" aria-hidden="true">
+<div class="modal fade" id="newStatementModal" tabindex="-1" role="dialog" aria-labelledby="tenancyStatementModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form role="form" method="POST" action="{{ route('statements.store', $tenancy->id) }}">
+		<form method="POST" action="{{ route('statements.store') }}">
 			{{ csrf_field() }}
 			<div class="modal-content">
 				<div class="modal-header">
@@ -11,15 +11,24 @@
 				</div>
 				<div class="modal-body">
 
-					<input type="hidden" name="tenancy_id" value="{{ $tenancy->id }}" />
+					@component('partials.alerts.info')
+						<p class="text-center">
+							Want to record an old statement instead?
+						</p>
+						<a href="{{ route('old-statements.create', $tenancy->id) }}" class="btn btn-secondary btn-block">
+							Record Old Statement
+						</a>
+					@endcomponent
+
+					<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
 
 					<div class="form-group">
-						<label for="amount">Statement Amount (optional)</label>
+						<label for="amount">Statement Amount</label>
 						<div class="input-group">
 							<span class="input-group-addon">
 								<i class="fa fa-money-bill"></i>
 							</span>
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" placeholder="{{ $tenancy->present()->rentAmountPlain }}" />
+							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
 						</div>
 						<small class="form-text text-muted">
 							Leave this blank to use the current rent amount.
@@ -27,12 +36,12 @@
 					</div>
 
 					<div class="form-group">
-						<label for="period_start">Start Date (optional)</label>
+						<label for="period_start">Start Date</label>
 						<div class="input-group">
 							<span class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</span>
-							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') }}" />
+							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
 						</div>
 						<small class="form-text text-muted">
 							Leave blank to automatically use the next statement date. ({{ date_formatted($tenancy->present()->nextStatementStartDate) }})

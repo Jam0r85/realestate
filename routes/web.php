@@ -105,17 +105,21 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('tenancies')->group(function () {
 		Route::get('/', 'TenancyController@index')->name('tenancies.index');
-		Route::post('search', 'TenancyController@search')->name('tenancies.search');
-		Route::get('create', 'TenancyController@create')->name('tenancies.create');
-		Route::post('/', 'TenancyController@store')->name('tenancies.store');
-		Route::get('{id}/{section?}', 'TenancyController@show')->name('tenancies.show');
-		Route::post('old-statement', 'OldStatementController@store')->name('old-statement.store');
+		Route::post('search', 'TenancyController@search')->name('tenancies.search'); // Search tenancies
+		Route::get('create', 'TenancyController@create')->name('tenancies.create'); // Create a new tenancy
+		Route::post('/', 'TenancyController@store')->name('tenancies.store'); // Store a new tenancy
+		Route::get('{id}/edit', 'TenancyController@edit')->name('tenancies.edit'); // Edit a tenancy
+		Route::get('{id}/{show?}', 'TenancyController@show')->name('tenancies.show'); // Show the tenancy
 		Route::post('{tenancy}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
-		Route::post('{id}/create-rental-statement', 'TenancyController@createRentalStatement')->name('tenancies.create-rental-statement');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 		Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
 		Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
+	});
+
+	Route::prefix('statements/old')->group(function () {
+		Route::get('{id}', 'OldStatementController@create')->name('old-statements.create'); // Create an old rental statement
+		Route::post('old-statement', 'OldStatementController@store')->name('old-statements.store'); // Store the old rental statement
 	});
 
 	Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('rent-payments.print');
@@ -135,8 +139,8 @@ Route::middleware(['staff'])->group(function () {
 
 	Route::prefix('statements')->group(function () {
 		Route::get('/', 'StatementController@index')->name('statements.index');
-		Route::post('search', 'StatementController@search')->name('statements.search');
-		Route::post('/{tenancy}', 'StatementController@store')->name('statements.store');
+		Route::post('search', 'StatementController@search')->name('statements.search'); // Search statements
+		Route::post('/', 'StatementController@store')->name('statements.store'); // Store a new statement
 		Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 		Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');

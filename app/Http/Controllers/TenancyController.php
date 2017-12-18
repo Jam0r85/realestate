@@ -49,7 +49,7 @@ class TenancyController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -60,17 +60,18 @@ class TenancyController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\TenancyStoreRequest  $request
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(TenancyStoreRequest $request)
     {
-        $property = Property::findOrFail($request->property_id);
+        $property = Property::withTrashed()
+            ->findOrFail($request->property_id);
 
-        $tenancy = $this->repository;
-        $tenancy->user_id = Auth::user()->id;
-        $tenancy->service_id = $request->service_id;
+        $tenancy = $this->repository
+            ->fill($request->input());
 
-        $property->storeTenancy($tenancy);
+        $property
+            ->storeTenancy($tenancy);
 
         // Rent
         $rent = new TenancyRent;
@@ -85,7 +86,8 @@ class TenancyController extends BaseController
         $tenancy->storeAgreement($agreement);
 
         // Attach the tenants
-        $tenancy->users()->attach($request->tenants);
+        $tenancy
+            ->users()->attach($request->tenants);
 
         return redirect()->route('tenancies.show', $tenancy->id);
     }
@@ -93,20 +95,17 @@ class TenancyController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tenancy  $tenancy
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @param  string  $show
+     * @return \Illuminate\Http\Response
      */
-    public function show($id, $page = 'layout')
+    public function show($id, $show = 'index')
     {
         $tenancy = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        $payments = $tenancy->rent_payments()->with('method','owner','users')->paginate();
-        $statements = $tenancy->statements()->with('invoices','invoices.invoiceGroup','invoices.items','invoices.items.taxRate','expenses','payments')->paginate();
-        $rents = $tenancy->rents()->with('owner')->get();
-        
-        return view('tenancies.pages.' . $page, compact('tenancy','statements','payments','rents'));
+        return view('tenancies.show', compact('tenancy','show'));
     }
 
     /**

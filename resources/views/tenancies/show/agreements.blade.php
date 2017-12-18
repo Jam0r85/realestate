@@ -1,0 +1,1 @@
+@include('agreements.partials.agreements-table', ['agreements' => $tenancy->agreements])

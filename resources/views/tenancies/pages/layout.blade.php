@@ -30,6 +30,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@include('partials.errors-block')
+
 		@if ($tenancy->trashed())
 			<div class="alert alert-secondary">
 				This tenancy was <b>archived</b> on {{ date_formatted($tenancy->deleted_at) }}

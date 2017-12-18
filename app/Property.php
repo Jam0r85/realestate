@@ -5,6 +5,7 @@ namespace App;
 use App\Settings\PropertySettings;
 use App\Tenancy;
 use App\Traits\DataTrait;
+use App\Traits\SettingsTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -17,6 +18,7 @@ class Property extends BaseModel
 	use PresentableTrait;
 	use DataTrait;
 	use Filterable;
+	use SettingsTrait;
 
 	/**
 	 * The presenter for this model.
@@ -61,10 +63,19 @@ class Property extends BaseModel
     * 
     * @var array
     */
-	protected $dataKeys = [
+	public $dataKeys = [
 		'bedrooms',
 		'bathrooms',
 		'receiption_rooms'
+   	];
+
+    /**
+    * The keys that are allowed to be stored in the settings column.
+    * 
+    * @var array
+    */
+	public $settingKeys = [
+		'statement_send_method'
    	];
 
     /**

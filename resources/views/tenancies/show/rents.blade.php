@@ -1,0 +1,1 @@
+@include('tenancy-rents.partials.rents-table', ['rents' => $tenancy->rents])
