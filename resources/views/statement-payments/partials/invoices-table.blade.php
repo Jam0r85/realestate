@@ -3,7 +3,7 @@
 		<th>Property</th>
 		<th>Number</th>
 		<th class="text-right">Amount</th>
-		<th class="text-right d-print-none"></th>
+		<th class="text-right d-print-none">Users</th>
 		<th class="d-print-none"></th>
 	@endslot
 	@slot('body')

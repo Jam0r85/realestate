@@ -216,6 +216,11 @@ class Expense extends BaseModel
             return false;
         }
 
+        // Do not send the notification if the expense has not been paid
+        if (!$this->isPaid()) {
+            return false;
+        }
+
         return true;
     }
 }
