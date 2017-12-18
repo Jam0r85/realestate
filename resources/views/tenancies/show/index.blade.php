@@ -1,3 +1,16 @@
+<div class="row mb-3">
+	<div class="col-12 col-lg-4">
+
+		@include('tenancies.partials.rent-card')
+
+	</div>
+	<div class="col-12 col-lg-4">
+
+		@include('tenancies.partials.deposit-card')
+
+	</div>
+</div>
+
 <div class="card mb-3">
 	@component('partials.card-header')
 		Tenants
