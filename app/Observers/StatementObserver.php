@@ -19,7 +19,7 @@ class StatementObserver
 	{
 		$statement->user_id = Auth::user()->id;
 		$statement->key = str_random(30);
-		$statement->send_by = $statement->tenancy->property->getSetting('statement_send_method');
+		$statement->send_by = $statement->tenancy->property->getSetting('statement_send_method') ?? 'email';
 		$statement->period_end = $statement->period_end ?? $statement->period_start->addMonth()->subDay();
 		$statement->amount = $statement->amount ?? $statement->tenancy->present()->rentAmountPlain;
 	}
