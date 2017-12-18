@@ -88,6 +88,7 @@ class PropertyController extends BaseController
     public function edit($id)
     {
         $property = $this->repository
+            ->withTrashed()
             ->findOrFail($id);
 
         return view('properties.edit', compact('property'));

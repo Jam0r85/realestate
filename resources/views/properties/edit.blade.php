@@ -125,6 +125,69 @@
 					</div>
 				</div>
 
+				@if ($property->deleted_at)
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Restore Property
+						@endcomponent
+						<div class="card-body">
+
+							<form method="POST" action="{{ route('properties.restore', $property->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+
+								@component('partials.save-button')
+									Restore Property
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Destroy Property
+						@endcomponent
+						<div class="card-body">
+
+							<form method="POST" action="{{ route('properties.forceDestroy', $property->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+
+								@component('partials.save-button')
+									Destroy Property
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+				@else
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							Delete Property
+						@endcomponent
+						<div class="card-body">
+
+							<form method="POST" action="{{ route('properties.destroy', $property->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+
+								@component('partials.save-button')
+									Delete Property
+								@endcomponent
+
+							</form>
+
+						</div>
+					</div>
+
+				@endif
+
 			</div>
 		</div>
 

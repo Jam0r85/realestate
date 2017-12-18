@@ -71,6 +71,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/{section?}', 'InvoiceGroupController@show')->name('invoice-groups.show'); // Show the invoice group
 	});
 
+	// Properties
 	Route::prefix('properties')->group(function () {
 		Route::get('/', 'PropertyController@index')->name('properties.index');
 		Route::post('search', 'PropertyController@search')->name('properties.search'); // Search properties
@@ -81,6 +82,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'PropertyController@update')->name('properties.update'); // Update the property
 		Route::delete('{id}', 'PropertyController@destroy')->name('properties.destroy'); // Delete the property
 		Route::put('{id}/restore', 'PropertyController@restore')->name('properties.restore'); // Restore the property
+		Route::delete('{id}/forceDelete', 'PropertyController@forceDestroy')->name('properties.forceDestroy');// Destroy the property
 	});
 
 	Route::prefix('expenses')->group(function () {
