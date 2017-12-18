@@ -59,6 +59,8 @@ class BaseModel extends Model
 		} else {
 			$this->flashMessage($action);
 		}
+
+		return $this;
 	}
 
 	/**
