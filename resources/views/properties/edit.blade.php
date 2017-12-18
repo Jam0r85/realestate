@@ -57,6 +57,35 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
+						Tenancy Settings
+					@endcomponent
+
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('properties.update', $property->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}	
+
+							<div class="form-group">
+								<label for="statement_send_method">Statement Send Method</label>
+								<select name="statement_send_method" id="statement_send_method" class="form-control">
+									<option @if ($property->getSetting('statement_send_method') == 'email') selected @endif value="email">E-Mail</option>
+									<option @if ($property->getSetting('statement_send_method') == 'post') selected @endif value="post">Post</option>
+								</select>
+							</div>
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+
+				</div>
+
+				<div class="card mb-3">
+					@component('partials.card-header')
 						Building Information
 					@endcomponent
 					<div class="card-body">
