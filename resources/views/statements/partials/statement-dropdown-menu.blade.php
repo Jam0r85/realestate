@@ -3,8 +3,8 @@
 		Options
 	</button>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="statementOptionsDropdown">
-		<a class="dropdown-item" href="{{ route('statements.show', [$statement->id, 'update']) }}">
-			Update Statement
+		<a class="dropdown-item" href="{{ route('statements.edit', $statement->id) }}">
+			Edit Statement
 		</a>
 		<a class="dropdown-item" href="{{ route('downloads.statement', $statement->id) }}" target="_blank">
 			Download Statement

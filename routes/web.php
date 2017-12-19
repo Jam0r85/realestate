@@ -143,6 +143,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'StatementController@index')->name('statements.index');
 		Route::post('search', 'StatementController@search')->name('statements.search'); // Search statements
 		Route::post('/', 'StatementController@store')->name('statements.store'); // Store a new statement
+		Route::get('{id}/edit', 'StatementController@edit')->name('statements.edit'); // Edit a statement
 		Route::get('{id}/{section?}', 'StatementController@show')->name('statements.show');
 		Route::post('{id}/create-expense-item', 'StatementController@createExpenseItem')->name('statements.create-expense-item');
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');

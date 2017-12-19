@@ -86,6 +86,21 @@ class StatementController extends BaseController
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $statement = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('statements.edit', compact('statement'));
+    }
+
+    /**
      * Update the specified statement in storage.
      *
      * @param  \App\Http|Requests\UpdateStatementRequest  $request
@@ -99,8 +114,6 @@ class StatementController extends BaseController
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
-
-        event(new TenancyUpdateStatus($statement->tenancy));
 
         return back();
     }
