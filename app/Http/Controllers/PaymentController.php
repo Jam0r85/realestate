@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DepositPaymentWasUpdated;
 use App\Http\Requests\UpdatePaymentRequest;
 use Illuminate\Http\Request;
 
@@ -75,9 +76,15 @@ class PaymentController extends BaseController
             ->fill($request->input())
             ->save();
 
-        $payment
-            ->users()
-            ->sync($request->users);            
+        if ($request->has('users')) {
+            $payment
+                ->users()
+                ->sync($request->users);
+        }
+
+        if ($payment->present()->parentName == 'Deposit') {
+            event(new DepositPaymentWasUpdated($payment));
+        }
 
         return back();
     }
