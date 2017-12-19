@@ -39,6 +39,20 @@ class TenancyListener
     /**
      * Handle the event.
      *
+     * @param  StatementWasSent  $event
+     * @return void
+     */
+    public function statementSent(StatementWasSent $event)
+    {
+        $statement = $event->statement;
+        $tenancy = $statement->tenancy;
+
+        
+    }
+
+    /**
+     * Handle the event.
+     *
      * @param  RentPaymentWasCreated  $event
      * @return void
      */

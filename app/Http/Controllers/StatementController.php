@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StatementWasCreated;
+use App\Events\StatementWasSent;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\StatementDestroyRequest;
@@ -122,14 +123,16 @@ class StatementController extends BaseController
      * Send the statements to the owners.
      * 
      * @param  \App\Http\Requests\StatementSendRequest  $request
-     * @param  \App\Statement  $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function send(StatementSendRequest $request, $id)
     {
         $statement = $this->repository
             ->findOrFail($id)
             ->send();
+
+        event(new StatementWasSent($statement));
 
         return back();
     }

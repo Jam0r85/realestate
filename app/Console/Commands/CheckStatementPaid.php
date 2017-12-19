@@ -43,9 +43,9 @@ class CheckStatementPaid extends Command
 
         foreach ($statements as $statement) {
 
-            $amount_paid = $statement->payments()->whereNotNull('sent_at')->sum('amount');
+            $paid = $statement->unsentPayments->sum('amount');
 
-            if ($amount_paid >= $statement->amount) {
+            if ($paid >= $statement->amount) {
                 $statement->paid_at = Carbon::now();
                 $statement->save();
             }

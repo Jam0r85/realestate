@@ -108,6 +108,24 @@
 
 					<div class="card-body">
 
+
+
+							@component('partials.alerts.info')
+
+								<p>This statement has been paid and can be sent to the landlord(s).</p>
+
+								<form method="POST" action="{{ route('statements.send', $statement->id) }}">
+									{{ csrf_field() }}
+
+									<button type="submit" class="btn btn-secondary btn-block">
+										Send Statement
+									</button>
+								</form>
+
+							@endcomponent
+
+
+
 						<form method="POST" action="{{ route('statements.update', $statement->id) }}">
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}

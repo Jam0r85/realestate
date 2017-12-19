@@ -113,7 +113,18 @@ class Statement extends PdfModel
      */
     public function payments()
     {
-        return $this->hasMany('App\StatementPayment');
+        return $this
+            ->hasMany('App\StatementPayment');
+    }
+
+    /**
+     * A statement can have unsent payments
+     */
+    public function unsentPayments()
+    {
+        return $this
+            ->hasMany('App\StatementPayment')
+            ->whereNull('sent_at');
     }
 
     /**
@@ -130,16 +141,6 @@ class Statement extends PdfModel
     public function getBankAccountAttribute()
     {
         return $this->property()->bank_account;
-    }
-
-    /**
-     * Check whether a statement has unsent payments.
-     * 
-     * @return int
-     */
-    public function hasUnsentPayments()
-    {
-        return $this->payments()->whereNull('sent_at')->count();
     }
 
     /**
@@ -334,5 +335,37 @@ class Statement extends PdfModel
 
             $invoice->storeItem($item);
         }
+    }
+
+    /**
+     * Check whether this statement can be sent.
+     * 
+     * @return  bool
+     */
+    public function canBeSent()
+    {
+        if (!$this->paid_at) {
+            return false;
+        }
+
+        if ($this->sent_at) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Has this statement been paid in full?
+     * 
+     * @return  boolean
+     */
+    public function hasBeenPaidInFull()
+    {
+        if (count($this->unsentPayments)) {
+            return false;
+        }
+
+        return true;
     }
 }
