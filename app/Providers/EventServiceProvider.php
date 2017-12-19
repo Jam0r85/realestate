@@ -72,6 +72,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\DepositPaymentWasCreated' => [
             'App\Listeners\DepositListener@paymentCreated'
         ],
+        'App\Events\DepositPaymentWasUpdated' => [
+            'App\Listeners\DepositListener@paymentUpdated'
+        ],
         'App\Events\DepositPaymentWasDeleted' => [
             'App\Listeners\DepositListener@paymentDeleted'
         ],

@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\DepositPaymentWasCreated;
 use App\Events\DepositPaymentWasDeleted;
+use App\Events\DepositPaymentWasUpdated;
 use App\Events\DepositWasForceDeleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -41,6 +42,20 @@ class DepositListener
      * @return void
      */
     public function paymentCreated(DepositPaymentWasCreated $event)
+    {
+        $payment = $event->payment;
+        $deposit = $payment->parent;
+
+        $deposit->updateBalance();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  DepositPaymentWasUpdated  $event
+     * @return void
+     */
+    public function paymentUpdated(DepositPaymentWasUpdated $event)
     {
         $payment = $event->payment;
         $deposit = $payment->parent;

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\DepositPaymentWasCreated;
+use App\Events\DepositPaymentWasUpdated;
 use App\Events\InvoicePaymentWasCreated;
 use App\Events\InvoicePaymentWasDeleted;
 use App\Events\RentPaymentWasCreated;
@@ -48,6 +49,19 @@ class PaymentObserver
 
 		if ($payment->present()->parentName == 'Deposit') {
 			event(new DepositPaymentWasCreated($payment));
+		}
+	}
+
+	/**
+	 * Listen to the Payment updated event.
+	 * 
+	 * @param  \App\Payment  $payment
+	 * @return void
+	 */
+	public function updated(Payment $payment)
+	{
+		if ($payment->present()->parentName == 'Deposit') {
+			event(new DepositPaymentWasUpdated($payment));
 		}
 	}
 
