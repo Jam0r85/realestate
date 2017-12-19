@@ -775,7 +775,6 @@ class Tenancy extends BaseModel
     public function updateRentBalance()
     {
         $this->rent_balance = $this->getRentBalance();
-        $this->is_overdue = $this->checkWhetherOverdue();
         $this->saveWithMessage('balances updated');
     }
 }

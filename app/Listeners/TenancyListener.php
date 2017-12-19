@@ -7,6 +7,7 @@ use App\Events\DepositPaymentWasDeleted;
 use App\Events\RentPaymentWasCreated;
 use App\Events\RentPaymentWasDeleted;
 use App\Events\StatementWasCreated;
+use App\Events\StatementWasSent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -47,7 +48,8 @@ class TenancyListener
         $statement = $event->statement;
         $tenancy = $statement->tenancy;
 
-        
+        $tenancy->is_overdue = $tenancy->checkWhetherOverdue();
+        $tenancy->saveWithMessage('overdue checked');  
     }
 
     /**

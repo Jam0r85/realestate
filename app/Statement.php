@@ -196,6 +196,8 @@ class Statement extends PdfModel
     public function send()
     {
         SendStatementToOwners::dispatch($this);
+
+        return $this;
     }
 
     /**
