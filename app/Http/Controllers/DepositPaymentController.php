@@ -17,44 +17,22 @@ class DepositPaymentController extends BaseController
     public $model = 'App\Payment';
 
     /**
-     * Search through the rent payments and display the results.
-     * 
-     * @param  \App\Http\Requests\SearchRequest  $request
-     * @return  \Illuminate\Http\Response
-     */
-    public function search(SearchRequest $request)
-    {
-        $parent = parent::search($request);
-
-        if (is_array($parent)) {
-
-            $payments = $parent['payments'];
-
-            $payments
-                ->load('users','method','parent')
-                ->where('parent_type', 'deposits');
-
-            $parent['payments'] = $payments;
-        }
-
-        return $parent;
-    }
-
-    /**
      * Store a new payment for the given deposit.
      * 
      * @param  \App\Http\Requests\DepositPaymentStoreRequest $request
-     * @param  \App\Deposit  $deposit
-     * @return  \Illuminate\Http\Response
+     * @param  int  $deposit
+     * @return \Illuminate\Http\Response
      */
-    public function store(DepositPaymentStoreRequest $request, Deposit $deposit)
+    public function store(DepositPaymentStoreRequest $request, $id)
     {
-        $payment = $this->repository;
-        $payment->amount = $request->amount;
-        $payment->payment_method_id = $request->payment_method_id;
-        $payment->note = $request->note;
+        $deposit = Deposit::withTrashed()
+            ->findOrFail($id);
+
+        $payment = $this->repository
+            ->fill($request->input());
 
         $deposit->storePayment($payment);
+
         return back();
     }
 }

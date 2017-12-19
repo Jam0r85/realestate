@@ -65,10 +65,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\TenancyListener@rentPaymentDeleted'
         ],
         'App\Events\DepositPaymentWasCreated' => [
-            'App\Listeners\TenancyListener@depositPaymentCreated'
+            'App\Listeners\DepositListener@paymentCreated'
         ],
         'App\Events\DepositPaymentWasDeleted' => [
-            'App\Listeners\TenancyListener@depositPaymentDeleted'
+            'App\Listeners\DepositListener@paymentDeleted'
         ],
         'App\Events\InvoicePaymentWasCreated' => [
             'App\Listeners\InvoiceListener@paymentCreated'

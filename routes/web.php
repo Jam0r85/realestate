@@ -43,7 +43,6 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('create', 'InvoiceController@create')->name('invoices.create');
 		Route::post('/', 'InvoiceController@store')->name('invoices.store');	
 		Route::post('search', 'InvoiceController@search')->name('invoices.search');
-		Route::post('{id}/create-payment', 'InvoicePaymentController@store')->name('invoices.create-payment');
 		Route::put('{id}', 'InvoiceController@update')->name('invoices.update');
 		Route::get('{id}/edit', 'InvoiceController@edit')->name('invoices.edit');
 		Route::get('{id}/{section?}', 'InvoiceController@show')->name('invoices.show');
@@ -96,6 +95,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy');
 	});
 
+	// Payments (App\Payments)
 	Route::prefix('payments')->group(function () {
 		Route::get('/', 'PaymentController@index')->name('payments.index');
 		Route::post('search', 'PaymentController@search')->name('payments.search'); // Search the payments
@@ -103,6 +103,9 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}', 'PaymentController@show')->name('payments.show'); // Show the payment
 		Route::put('{id}', 'PaymentController@update')->name('payments.update'); // Update the payment
 		Route::delete('{payment}', 'PaymentController@destroy')->name('payments.destroy'); // Destroy the payment
+
+		Route::post('{id}/invoice', 'InvoicePaymentController@store')->name('invoices.store-payment'); // Store a new invoice payment
+		Route::post('{id}/deposit', 'DepositPaymentController@store')->name('deposits.store-payment'); // Store a new deposit payment
 	});
 
 	Route::prefix('tenancies')->group(function () {

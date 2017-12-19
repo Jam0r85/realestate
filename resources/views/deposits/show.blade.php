@@ -19,6 +19,7 @@
 
 		@component('partials.header')
 			Deposit #{{ $deposit->id }}
+			<span class="badge badge-secondary">{{ currency($deposit->balance) }} balance</span>
 		@endcomponent
 
 		@component('partials.sub-header')
@@ -34,6 +35,9 @@
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'deposit.show', $deposit->id, 'index') !!}
+			</li>
+			<li class="nav-item">
+				{!! Menu::showLink('Payments', 'deposit.show', $deposit->id) !!}
 			</li>
 		</ul>
 

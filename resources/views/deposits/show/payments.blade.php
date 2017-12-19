@@ -13,27 +13,14 @@
 			<th></th>
 		@endslot
 		@slot('body')
-			@foreach ($invoice->payments as $payment)
+			@foreach ($deposit->payments as $payment)
 				<tr>
 					<td>{{ date_formatted($payment->created_at) }}</td>
 					<td>{{ $payment->method->name }}</td>
-					<td>{!! $payment->present()->userBages !!}</td>
+					<td>{!! $payment->present()->userBadges !!}</td>
 					<td class="text-right">{{ currency($payment->amount) }}</td>
 					<td class="text-right">
 						<a href="{{ route('payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
-							Edit
-						</a>
-					</td>
-				</tr>
-			@endforeach
-			@foreach ($invoice->statementPayments as $payment)
-				<tr>
-					<td>{{ date_formatted($payment->created_at) }}</td>
-					<td>Statement #{{ $payment->statement->id }}</td>
-					<td>{!! $payment->present()->recipientNames !!}
-					<td class="text-right">{{ currency($payment->amount) }}</td>
-					<td class="text-right">
-						<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
 							Edit
 						</a>
 					</td>
@@ -43,7 +30,7 @@
 		@slot('footer')
 			<tr>
 				<td colspan="3">Total</td>
-				<td class="text-right">{{ currency($invoice->present()->paymentsTotal) }}</td>
+				<td class="text-right"></td>
 			</tr>
 		@endslot
 	@endcomponent
@@ -58,7 +45,7 @@
 
 	<div class="card-body">
 
-		<form method="POST" action="{{ route('invoices.store-payment', $invoice->id) }}">
+		<form method="POST" action="{{ route('deposits.store-payment', $deposit->id) }}">
 			{{ csrf_field() }}
 
 			<div class="form-group">
@@ -91,12 +78,12 @@
 				</small>
 			</div>
 
-			@if (count($invoice->users))
+			@if (count($deposit->tenancy->users))
 				<div class="form-group">
 					<p class="text-muted">
 						Select the user's that made this payment.
 					</p>
-					@foreach ($invoice->users as $user)
+					@foreach ($deposit->tenancy->users as $user)
 						<label class="custom-control custom-checkbox">
 							<input class="custom-control-input" type="checkbox" name="user_id[]" value="{{ $user->id }}" checked />
 							<span class="custom-control-indicator"></span>

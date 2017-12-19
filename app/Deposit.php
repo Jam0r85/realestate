@@ -36,7 +36,8 @@ class Deposit extends BaseModel
 	protected $fillable = [
 		'tenancy_id',
 		'amount',
-        'unique_id'
+        'unique_id',
+        'balance'
 	];
 
     /**

@@ -2,7 +2,10 @@
 
 namespace App\Observers;
 
+use App\Events\DepositPaymentWasCreated;
+use App\Events\InvoicePaymentWasCreated;
 use App\Events\InvoicePaymentWasDeleted;
+use App\Events\RentPaymentWasCreated;
 use App\Events\RentPaymentWasDeleted;
 use App\Payment;
 use Carbon\Carbon;
@@ -24,6 +27,27 @@ class PaymentObserver
 		
 		if (request()->input('created_at')) {
 			$payment->created_at = $payment->updated_at = Carbon::createFromFormat('Y-m-d', request()->input('created_at'));
+		}
+	}
+
+	/**
+	 * Listen to the Payment created event.
+	 * 
+	 * @param  \App\Payment  $payment
+	 * @return void
+	 */
+	public function created(Payment $payment)
+	{
+		if ($payment->present()->parentName == 'Invoice') {
+			event(new InvoicePaymentWasCreated($payment));
+		}	
+
+		if ($payment->present()->parentName == 'Tenancy') {
+			event(new RentPaymentWasCreated($payment));
+		}
+
+		if ($payment->present()->parentName == 'Deposit') {
+			event(new DepositPaymentWasCreated($payment));
 		}
 	}
 

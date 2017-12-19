@@ -21,30 +21,6 @@ class RentPaymentController extends BaseController
      */
     public $model = 'App\Payment';
 
-    /**
-     * Search through the rent payments and display the results.
-     * 
-     * @param  \App\Http\Requests\SearchRequest  $request
-     * @return  \Illuminate\Http\Response
-     */
-    public function search(SearchRequest $request)
-    {
-        $parent = parent::search($request);
-
-        if (is_array($parent)) {
-
-            $payments = $parent['payments'];
-
-            $payments
-                ->load('users','method','parent')
-                ->where('parent_type', 'tenancies');
-
-            $parent['payments'] = $payments;
-        }
-
-        return $parent;
-    }
-
 	/**
 	 * Store a rent payment into storage.
 	 * 
@@ -60,8 +36,6 @@ class RentPaymentController extends BaseController
     	$payment->note = $request->note;
 
     	$tenancy->storeRentPayment($payment);
-
-        event(new RentPaymentWasCreated($payment));
 
         if ($request->has('send_notifications')) {
             Notification::send($payment->users, new TenantRentPaymentReceived($payment));
