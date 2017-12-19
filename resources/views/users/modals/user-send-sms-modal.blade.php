@@ -1,6 +1,6 @@
 <div class="modal fade" id="userSendSmsMessage" tabindex="-1" role="dialog" aria-labelledby="userSendSmsMessageLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form role="form" method="POST" action="{{ route('users.send-sms', $user->id) }}">
+		<form method="POST" action="{{ route('sms.user', $user->id) }}">
 			{{ csrf_field() }}
 			<div class="modal-content">
 				<div class="modal-header">
@@ -21,7 +21,8 @@
 
 						<div class="form-group">
 							<label for="phone_number">Number</label>
-							<input type="text" name="phone_number" id="phone_number" disabled class="form-control" value="{{ $user->phone_number }}" />
+							<input type="hidden" name="phone_number" value="{{ $user->phone_number }}">
+							<input type="text" name="phone_number_show" id="phone_number_show" disabled class="form-control" value="{{ $user->phone_number }}" />
 						</div>
 
 						<div class="form-group">

@@ -283,9 +283,10 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'DocumentController@update')->name('documents.update');
 	});
 
+	// SMS
 	Route::prefix('sms')->group(function () {
-		Route::get('/', 'SmsController@index')->name('sms.index');
-		Route::post('{user}', 'SmsController@toUser')->name('users.send-sms'); // Send a SMS to a user
+		Route::get('/', 'SmsController@index')->name('sms.index'); // Show a list of SMS messages
+		Route::post('{user}', 'SmsController@toUser')->name('sms.user'); // Send a SMS to a user
 	});
 	
 
@@ -298,5 +299,6 @@ Route::middleware(['staff'])->group(function () {
 
 });
 
+// Public SMS routes for deliery updates
 Route::get('sms/delivery-status', 'SmsController@deliveryStatus');
 Route::get('sms/inbound', 'SmsController@incoming');

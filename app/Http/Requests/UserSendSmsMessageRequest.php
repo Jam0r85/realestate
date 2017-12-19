@@ -25,25 +25,8 @@ class UserSendSmsMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'required'
+            'message' => 'required',
+            'phone_number' => 'required'
         ];
-    }
-
-    /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-
-            $user = User::findOrFail($this->route()->parameter('id'));
-
-            if (!$user->phone_number) {
-                $validator->errors()->add('none', 'User does not have a valid mobile phone number');
-            }
-        });
     }
 }

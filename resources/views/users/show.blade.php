@@ -37,6 +37,8 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@include('partials.errors-block')
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'users.show', $user->id, 'index') !!}
