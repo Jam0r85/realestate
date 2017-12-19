@@ -10,7 +10,7 @@
 				@component('partials.return-button')
 					Deposit #{{ $payment->parent->id }}
 					@slot('url')
-						{{ route('deposits.show', $payment->parent->id) }}
+						{{ route('deposits.show', [$payment->parent->id, 'payments']) }}
 					@endslot
 				@endcomponent
 			@endif
