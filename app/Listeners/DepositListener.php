@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\DepositPaymentWasCreated;
 use App\Events\DepositPaymentWasDeleted;
+use App\Events\DepositWasForceDeleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -17,6 +18,20 @@ class DepositListener
     public function __construct()
     {
         //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  DepositPaymentWasCreated  $event
+     * @return void
+     */
+    public function forceDeleted(DepositWasForceDeleted $event)
+    {
+        $deposit = $event->deposit;
+
+        // Delete deposit related payments
+        $deposit->payments()->delete();
     }
 
     /**

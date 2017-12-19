@@ -144,7 +144,7 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Deposits</h6>
-                                <a class="dropdown-item" href="{{ route('deposit.index') }}" title="Deposits List">
+                                <a class="dropdown-item" href="{{ route('deposits.index') }}" title="Deposits List">
                                     Deposits List
                                 </a>
                                 <div class="dropdown-divider"></div>

@@ -12,7 +12,7 @@
 
 	@component('partials.section-with-container')
 
-		@include('partials.index-search', ['route' => 'deposit.search', 'session' => 'deposit_search_term'])
+		@include('partials.index-search', ['route' => 'deposits.search', 'session' => 'deposit_search_term'])
 
 		<ul class="nav nav-pills">
 			{!! Filter::archivePill() !!}

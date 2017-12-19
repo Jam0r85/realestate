@@ -61,26 +61,31 @@ class Filter
 				if ($last) {
 					$endYear = $last->$column->format('Y');
 				}
+
+				$tableYears = $model
+					->select(DB::raw('YEAR('.$column.') as year'))
+					->whereNotNull($column)
+					->groupBy('year')
+					->get()
+					->toArray();
+
+				if ($tableYears) {
+
+					// Loop through the years
+					for ($i = $startYear; $i <= $endYear; $i++) {
+
+						// Make sure that there is a record with that year in the table
+						if (in_array($i, array_flatten($tableYears))) {
+							$years[] = $i;
+						}
+					}
+
+					return $years;
+				}
 			}
 		}
 
-		$tableYears = $model
-			->select(DB::raw('YEAR('.$column.') as year'))
-			->whereNotNull($column)
-			->groupBy('year')
-			->get()
-			->toArray();
-
-		// Loop through the years
-		for ($i = $startYear; $i <= $endYear; $i++) {
-
-			// Make sure that there is a record with that year in the table
-			if (in_array($i, array_flatten($tableYears))) {
-				$years[] = $i;
-			}
-		}
-
-		return $years;
+		return ['2017'];
 	}
 
 	/**

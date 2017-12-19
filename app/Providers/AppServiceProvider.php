@@ -16,6 +16,7 @@ use App\InvoiceItem;
 use App\Observers\AgreementObserver;
 use App\Observers\AppearanceObserver;
 use App\Observers\BankAccountObserver;
+use App\Observers\DepositObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\ExpenseObserver;
 use App\Observers\InvoiceGroupObserver;
@@ -78,6 +79,7 @@ class AppServiceProvider extends ServiceProvider
         Appearance::observe(AppearanceObserver::class);
         BankAccount::observe(BankAccountObserver::class);
         Service::observe(ServiceObserver::class);
+        Deposit::observe(DepositObserver::class);
     }
 
     /**

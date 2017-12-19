@@ -14,6 +14,11 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
 
+        // Deposits
+        'App\Events\DepositWasForceDeleted' => [
+            'App\Listeners\DepositListener@forceDeleted',
+        ],
+
         // Notifications
         'Illuminate\Notifications\Events\NotificationSent' => [
             'App\Listeners\LogSmsNotification'

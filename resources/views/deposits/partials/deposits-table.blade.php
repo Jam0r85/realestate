@@ -18,7 +18,7 @@
 					<td>{{ currency($deposit->balance) }}</td>
 					<td>{{ $deposit->unique_id }}</td>
 					<td class="text-right">
-						<a href="{{ route('deposit.show', $deposit->id) }}" class="btn btn-primary btn-sm">
+						<a href="{{ route('deposits.show', $deposit->id) }}" class="btn btn-primary btn-sm">
 							View
 						</a>
 						@if ($deposit->certificate)

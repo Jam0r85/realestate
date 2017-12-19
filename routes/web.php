@@ -270,12 +270,15 @@ Route::middleware(['staff'])->group(function () {
 
 	// Deposits
 	Route::prefix('deposit')->group(function () {
-		Route::get('/', 'DepositController@index')->name('deposit.index');
-		Route::post('/search', 'DepositController@search')->name('deposit.search'); // Search the deposits
-		Route::post('/', 'DepositController@store')->name('deposit.store'); // Store a new deposit
-		Route::get('{id}/edit', 'DepositController@edit')->name('deposit.edit'); // Edit a deposit
-		Route::get('{id}/{show?}', 'DepositController@show')->name('deposit.show'); // Show a deposit
-		Route::put('{id}', 'DepositController@update')->name('deposit.update'); // Update a deposit
+		Route::get('/', 'DepositController@index')->name('deposits.index');
+		Route::post('/search', 'DepositController@search')->name('deposits.search'); // Search the deposits
+		Route::post('/', 'DepositController@store')->name('deposits.store'); // Store a new deposit
+		Route::get('{id}/edit', 'DepositController@edit')->name('deposits.edit'); // Edit a deposit
+		Route::get('{id}/{show?}', 'DepositController@show')->name('deposits.show'); // Show a deposit
+		Route::put('{id}', 'DepositController@update')->name('deposits.update'); // Update a deposit
+		Route::delete('{id}', 'DepositController@destroy')->name('deposits.destroy'); // Delete a deposit
+		Route::put('{id}/restore', 'DepositController@restore')->name('deposits.restore'); // Restore a deposit
+		Route::delete('{id}/forceDestroy', 'DepositController@forceDestroy')->name('deposits.forceDestroy'); // Force destroy a deposit
 		Route::post('{id}/upload-certificate', 'DepositController@uploadCertificate')->name('deposit.upload-certificate'); 
 		Route::post('{deposit}/record-payment', 'DepositPaymentController@store')->name('deposit.record-payment');
 		Route::delete('{id}/delete-certificate', 'DepositController@destroyCertificate')->name('deposit.destroy-certificate');

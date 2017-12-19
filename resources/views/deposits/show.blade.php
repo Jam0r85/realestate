@@ -10,7 +10,7 @@
 					<i class="fa fa-cogs"></i> Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="depositOptionsDropdown">
-					<a class="dropdown-item" href="{{ route('deposit.edit', $deposit->id) }}">
+					<a class="dropdown-item" href="{{ route('deposits.edit', $deposit->id) }}">
 						<i class="fa fa-edit"></i> Edit Deposit
 					</a>
 				</div>
@@ -34,10 +34,10 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'deposit.show', $deposit->id, 'index') !!}
+				{!! Menu::showLink('Details', 'deposits.show', $deposit->id, 'index') !!}
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Payments', 'deposit.show', $deposit->id) !!}
+				{!! Menu::showLink('Payments', 'deposits.show', $deposit->id) !!}
 			</li>
 		</ul>
 

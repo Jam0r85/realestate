@@ -94,17 +94,17 @@ class DepositController extends BaseController
     /**
      * Update the deposit in storage.
      *
-     * @param \App\Http\Requests\DepositUpdateRequest $request
-     * @param integer $id
+     * @param  \App\Http\Requests\DepositUpdateRequest $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(DepositUpdateRequest $request, $id)
     {
-        $deposit = Deposit::findOrFail($id);
-
-        $deposit->unique_id = $request->unique_id;
-        $deposit->amount = $request->amount;
-        $deposit->save();
+        $this->repository
+            ->withTrashed()
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
