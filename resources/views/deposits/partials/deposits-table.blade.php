@@ -12,8 +12,8 @@
 			@foreach ($deposits as $deposit)
 				<tr>
 					<td>{{ date_formatted($deposit->created_at) }}</td>
-					<td>{{ $deposit->tenancy->present()->name }}</td>
-					<td>{{ $deposit->tenancy->property->present()->shortAddress }}</td>
+					<td>{{ truncate($deposit->tenancy->present()->name) }}</td>
+					<td>{{ truncate($deposit->tenancy->property->present()->shortAddress) }}</td>
 					<td>{{ currency($deposit->amount) }}</td>
 					<td>
 						<span class="@if ($deposit->balance < $deposit->amount) text-danger @endif">
