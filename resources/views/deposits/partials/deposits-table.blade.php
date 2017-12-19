@@ -22,7 +22,7 @@
 					</td>
 					<td>{{ $deposit->unique_id }}</td>
 					<td class="text-right">
-						<a href="{{ route('tenancies.show', $deposit->tenancy->id) }}" class="btn btn-primary btn-sm">
+						<a href="{{ route('deposits.show', $deposit->tenancy->id) }}" class="btn btn-primary btn-sm">
 							View
 						</a>
 						@if ($deposit->certificate)

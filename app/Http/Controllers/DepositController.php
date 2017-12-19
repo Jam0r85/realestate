@@ -61,6 +61,32 @@ class DepositController extends BaseController
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id, $show = 'index')
+    {
+        $deposit = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
      * Update the deposit in storage.
      *
      * @param \App\Http\Requests\DepositUpdateRequest $request

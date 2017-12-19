@@ -66,9 +66,11 @@
 								<input type="text" name="current_email" id="current_email" class="form-control" value="{{ $user->email }}" disabled />
 							</div>
 
-							<form method="POST" action="{{ route('users.update-email', $user->id) }}">
+							<form method="POST" action="{{ route('users.update', $user->id) }}">
 								{{ csrf_field() }}
 								{{ method_field('PUT') }}
+
+								<input type="hidden" name="email" value="" />
 
 								<button type="submit" class="btn btn-danger" name="remove_email" value="true">
 									<i class="fa fa-times"></i> Remove E-Mail
