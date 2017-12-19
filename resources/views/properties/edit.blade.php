@@ -74,6 +74,18 @@
 								</select>
 							</div>
 
+							<div class="form-group">
+								<label for="bank_account_id">Payment Method</label>
+								<select name="bank_account_id" id="bank_account_id" class="form-control">
+									<option value="">Cheque or Cash</option>
+									@foreach (bank_accounts($property->owners->pluck('id')->toArray()) as $account)
+										<option @if ($property->bank_account_id == $account->id) selected @endif value="{{ $account->id }}">
+											{{ $account->present()->selectName }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
