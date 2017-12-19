@@ -15,11 +15,7 @@
 					<td>{{ truncate($deposit->tenancy->present()->name) }}</td>
 					<td>{{ truncate($deposit->tenancy->property->present()->shortAddress) }}</td>
 					<td>{{ currency($deposit->amount) }}</td>
-					<td>
-						<span class="@if ($deposit->balance < $deposit->amount) text-danger @endif">
-							{{ currency($deposit->balance) }}
-						</span>
-					</td>
+					<td>{{ currency($deposit->balance) }}</td>
 					<td>{{ $deposit->unique_id }}</td>
 					<td class="text-right">
 						<a href="{{ route('deposit.show', $deposit->id) }}" class="btn btn-primary btn-sm">
