@@ -39,15 +39,6 @@ class Deposit extends BaseModel
         'unique_id'
 	];
 
-	/**
-	 * The attrbites that should be included in the collection.
-	 * 
-	 * @var array
-	 */
-	protected $appends = [
-        'balance'
-    ];
-
     /**
      * The attributes that should be cast to native types.
      * 
@@ -56,13 +47,6 @@ class Deposit extends BaseModel
     protected $casts = [
         'data' => 'array'
     ];
-
-    /**
-     * The relations that should be eager leader.
-     * 
-     * @var array
-     */
-    protected $with = ['payments'];
 
 	/**
 	 * A deposit was recorded by an owner.
@@ -103,18 +87,6 @@ class Deposit extends BaseModel
     }
 
     /**
-     * Get the balance of this deposit.
-     * 
-     * @return int
-     */
-    public function getBalanceAttribute()
-    {
-    	return $this
-            ->payments
-            ->sum('amount');
-    }
-
-    /**
      * Store a payment to this deposit.
      * 
      * @param  \App\Payment $payment
@@ -140,7 +112,7 @@ class Deposit extends BaseModel
      */
     public function updateBalance()
     {
-        $this->balance = $this->payments->sum('amount');
+        $this->balance = $this->amount - $this->payments->sum('amount');
         $this->saveWithMessage('balance updated');
     }
 }
