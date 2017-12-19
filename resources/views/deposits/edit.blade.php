@@ -49,7 +49,12 @@
 									</span>
 									<input type="number" step="any" name="amount" id="amount" value="{{ $deposit->amount }}" class="form-control" />
 								</div>
-							</div>							
+							</div>
+
+							<div class="form-group">
+								<label for="unique_id">Reference or Unique ID</label>
+								<input type="text" name="unique_id" id="unique_id" value="{{ $deposit->unique_id }}" class="form-control" />
+							</div>				
 
 							@component('partials.save-button')
 								Save Changes
