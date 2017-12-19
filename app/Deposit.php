@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Payment;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -10,6 +11,7 @@ class Deposit extends BaseModel
 {
     use Searchable;
     use SoftDeletes;
+    use Filterable;
 
     /**
      * Get the indexable data array for the model.

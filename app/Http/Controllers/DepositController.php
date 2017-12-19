@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Deposit;
 use App\Document;
 use App\Http\Requests\DepositStorePaymentRequest;
 use App\Http\Requests\DepositUpdateRequest;
@@ -17,66 +16,36 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class DepositController extends BaseController
-{    
+{
+
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Deposit';
+
     /**
      * Display a listing of deposits.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $deposits = Deposit::with('payments','owner','tenancy','certificate','tenancy.property')
+        $deposits = $this->repository
+            ->with('payments','owner','tenancy','certificate','tenancy.property')
+            ->filter($request->all())
             ->latest()
             ->paginate();
 
-        $deposit_balance = Deposit::with('payments')->get()->sum('balance');
-            
-        $title = 'Deposits List';
-        return view('deposits.index', compact('title','deposits','deposit_balance'));
-    }
-
-    /**
-     * Display a listing of archived deposits.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function archived()
-    {
-        $deposits = Deposit::with('payments','owner','tenancy','certificate','tenancy.property')
-            ->onlyTrashed()
-            ->latest()
-            ->paginate();
-            
-        $title = 'Archived Deposits List';
-        return view('deposits.index', compact('title','deposits'));
-    }
-
-    /**
-     * Search through the deposits and display the results.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        // Clear the search term.
-        if ($request && $request->has('clear_search')) {
-            Session::forget('deposit_search_term');
-            return redirect()->route('deposit.index');
-        }
-
-        Session::put('deposit_search_term', $request->search_term);
-
-        $deposits = Deposit::search(Session::get('deposit_search_term'))->get();
-        $title = 'Search Results';
-
-        return view('deposits.index', compact('deposits', 'title'));
+        return view('deposits.index', compact('deposits'));
     }
 
     /**
      * Store a newly create deposit in storage.
      *
-     * @param \App\Http\Requests\StoreDepositRequest $request
+     * @param  \App\Http\Requests\StoreDepositRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDepositRequest $request)
@@ -156,16 +125,5 @@ class DepositController extends BaseController
         $deposit->certificate()->delete();
 
         return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Deposit  $deposit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Deposit $deposit)
-    {
-        //
     }
 }

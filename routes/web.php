@@ -265,12 +265,12 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/send-reminder', 'GasController@sendReminder')->name('gas-safe.send-reminder');
 	});
 
+	// Deposits
 	Route::prefix('deposit')->group(function () {
 		Route::get('/', 'DepositController@index')->name('deposit.index');
-		Route::get('archived', 'DepositController@archived')->name('deposit.archived');
-		Route::post('/search', 'DepositController@search')->name('deposit.search');
-		Route::post('/', 'DepositController@store')->name('deposit.store');
-		Route::put('{id}', 'DepositController@update')->name('deposit.update');
+		Route::post('/search', 'DepositController@search')->name('deposit.search'); // Search the deposits
+		Route::post('/', 'DepositController@store')->name('deposit.store'); // Store a new deposit
+		Route::put('{id}', 'DepositController@update')->name('deposit.update'); // Update a deposit
 		Route::post('{id}/upload-certificate', 'DepositController@uploadCertificate')->name('deposit.upload-certificate'); 
 		Route::post('{deposit}/record-payment', 'DepositPaymentController@store')->name('deposit.record-payment');
 		Route::delete('{id}/delete-certificate', 'DepositController@destroyCertificate')->name('deposit.destroy-certificate');
