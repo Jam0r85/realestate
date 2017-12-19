@@ -64,6 +64,7 @@ class DepositController extends BaseController
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
     public function show($id, $show = 'index')
@@ -72,7 +73,7 @@ class DepositController extends BaseController
             ->withTrashed()
             ->findOrFail($id);
 
-        return view
+        return view('deposits.show', compact('deposit','show'));
     }
 
     /**
@@ -83,7 +84,11 @@ class DepositController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $deposit = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('deposits.edit', compact('deposit'));
     }
 
     /**

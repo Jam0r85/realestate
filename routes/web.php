@@ -270,6 +270,8 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'DepositController@index')->name('deposit.index');
 		Route::post('/search', 'DepositController@search')->name('deposit.search'); // Search the deposits
 		Route::post('/', 'DepositController@store')->name('deposit.store'); // Store a new deposit
+		Route::get('{id}/edit', 'DepositController@edit')->name('deposit.edit'); // Edit a deposit
+		Route::get('{id}/{show?}', 'DepositController@show')->name('deposit.show'); // Show a deposit
 		Route::put('{id}', 'DepositController@update')->name('deposit.update'); // Update a deposit
 		Route::post('{id}/upload-certificate', 'DepositController@uploadCertificate')->name('deposit.upload-certificate'); 
 		Route::post('{deposit}/record-payment', 'DepositPaymentController@store')->name('deposit.record-payment');
