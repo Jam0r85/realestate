@@ -113,7 +113,7 @@ class Deposit extends BaseModel
      */
     public function updateBalance()
     {
-        $this->balance = $this->amount - $this->payments->sum('amount');
+        $this->balance = $this->payments->sum('amount');
         $this->saveWithMessage('balance updated');
     }
 }
