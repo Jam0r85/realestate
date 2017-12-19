@@ -7,7 +7,7 @@
 		<div class="float-right">
 			@component('partials.return-button')
 				@slot('url')
-					{{ route('deposit.show', $deposit->id) }}
+					{{ route('deposits.show', $deposit->id) }}
 				@endslot
 			@endcomponent
 		</div>

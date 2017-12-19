@@ -8,6 +8,17 @@ use App\Events\DepositWasForceDeleted;
 class DepositObserver
 {
 	/**
+	 * Listen to the Document updated event.
+	 * 
+	 * @param  \App\Document  $document
+	 * @return void
+	 */
+	public function updated(Deposit $deposit)
+	{
+
+	}
+
+	/**
 	 * Listen to the Document deleted event.
 	 * 
 	 * @param  \App\Document  $document
