@@ -272,6 +272,7 @@ Route::middleware(['staff'])->group(function () {
 	Route::prefix('deposit')->group(function () {
 		Route::get('/', 'DepositController@index')->name('deposits.index');
 		Route::post('/search', 'DepositController@search')->name('deposits.search'); // Search the deposits
+		Route::get('create', 'DepositController@create')->name('deposits.create'); // Create a new deposit
 		Route::post('/', 'DepositController@store')->name('deposits.store'); // Store a new deposit
 		Route::get('{id}/edit', 'DepositController@edit')->name('deposits.edit'); // Edit a deposit
 		Route::get('{id}/{show?}', 'DepositController@show')->name('deposits.show'); // Show a deposit

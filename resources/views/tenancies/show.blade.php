@@ -4,7 +4,7 @@
 
 	@component('partials.page-header')
 
-		<div class="float-right">
+		<div class="mb-3 text-right">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tenancyRentPaymentModal">
 				<i class="fa fa-plus"></i> Payment
 			</button>

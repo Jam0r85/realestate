@@ -1,4 +1,4 @@
-<div class="card text-white text-center 
+<div class="card text-white text-center
 	@if (!$tenancy->deposit)
 		bg-secondary
 	@elseif ($tenancy->deposit->balance != $tenancy->deposit->amount)
