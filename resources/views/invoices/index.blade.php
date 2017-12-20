@@ -4,9 +4,11 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('invoices.create') }}" class="btn btn-primary float-right">
-			<i class="fa fa-plus"></i> New Invoice
-		</a>
+		<div class="mb-3 text-right">
+			<a href="{{ route('invoices.create') }}" class="btn btn-primary">
+				<i class="fa fa-plus"></i> New Invoice
+			</a>
+		</div>
 
 		@component('partials.header')
 			Invoices List
@@ -15,6 +17,51 @@
 	@endcomponent
 
 	@component('partials.bootstrap.section-with-container')
+
+		<div class="row">
+			<div class="col-12 col-lg-4">
+
+				<div class="card text-white bg-dark mb-3">
+					<div class="card-body text-center">
+
+						<h2>{{ currency($totals['net']) }}</h2>
+						<span class="text-muted">
+							<b>NET</b>
+						</span>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-lg-4">
+
+				<div class="card text-white bg-dark mb-3">
+					<div class="card-body text-center">
+
+						<h2>{{ currency($totals['tax']) }}</h2>
+						<span class="text-muted">
+							<b>TAX</b>
+						</span>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-lg-4">
+
+				<div class="card text-white bg-dark mb-3">
+					<div class="card-body text-center">
+
+						<h2>{{ currency($totals['total']) }}</h2>
+						<span class="text-muted">
+							<b>TOTAL</b>
+						</span>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 		@include('partials.index-search', ['route' => 'invoices.search', 'session' => 'invoice_search_term'])
 

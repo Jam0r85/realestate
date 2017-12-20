@@ -30,6 +30,12 @@ class InvoiceController extends BaseController
             $request->request->add(['paid' => false]);
         }
 
+        $totals = [
+            'net' => $this->repository->filter($request->all())->sum('net'),
+            'tax' => $this->repository->filter($request->all())->sum('tax'),
+            'total' => $this->repository->filter($request->all())->sum('total')
+        ];
+
         $invoices = $this->repository
             ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->withTrashed()
@@ -37,7 +43,7 @@ class InvoiceController extends BaseController
             ->latest()
             ->paginateFilter();
 
-        return view('invoices.index', compact('invoices'));
+        return view('invoices.index', compact('invoices','totals'));
     }
 
     /**
