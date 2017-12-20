@@ -54,6 +54,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}/destroy', 'InvoiceController@forceDestroy')->name('invoices.forceDestroy');
 	});
 
+	// Invoice Item
 	Route::prefix('invoice-items')->group(function () {
 		Route::post('/', 'InvoiceItemController@store')->name('invoice-items.store'); // Store a new invoice item
 		Route::get('{id}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit'); // Edit an invoice item
@@ -61,6 +62,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}', 'InvoiceItemController@destroy')->name('invoice-items.destroy'); // Destroy an invoice item
 	});
 
+	// Invoice Groups
 	Route::prefix('invoice-groups')->group(function () {
 		Route::get('/', 'InvoiceGroupController@index')->name('invoice-groups.index');
 		Route::get('create', 'InvoiceGroupController@create')->name('invoice-groups.create'); // Create a new invoice group

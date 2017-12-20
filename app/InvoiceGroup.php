@@ -8,13 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class InvoiceGroup extends BaseModel
 {   
     Use SoftDeletes;
-    
-	/**
-	 * Indicates if the model should be timestamped.
-	 * 
-	 * @var bool
-	 */
-	public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -28,17 +21,8 @@ class InvoiceGroup extends BaseModel
 	 */
     public function invoices()
     {
-    	return $this->hasMany('App\Invoice')
-            ->latest();
-    }
-
-    /**
-     * An invoice group can have many unpaid invoices.
-     */
-    public function unpaidInvoices()
-    {
-        return $this->hasMany('App\Invoice')
-            ->whereNull('paid_at')
+    	return $this
+            ->hasMany('App\Invoice')
             ->latest();
     }
 
@@ -47,18 +31,21 @@ class InvoiceGroup extends BaseModel
      */
     public function branch()
     {
-    	return $this->belongsTo('App\Branch');
+    	return $this
+            ->belongsTo('App\Branch');
     }
 
     /**
      * Store an invoice to this group.
      * 
      * @param  \App\Invoice  $invoice
-     * @return  \App\Invoice
+     * @return \App\Invoice
      */
     public function storeInvoice(Invoice $invoice)
     {
-        $this->invoices()->save($invoice);
+        $this
+            ->invoices()
+            ->save($invoice);
 
         return $invoice;
     }

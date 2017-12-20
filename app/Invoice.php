@@ -104,12 +104,12 @@ class Invoice extends PdfModel
      * Scope a query to only include paid invoices.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return  \Illuminate\Database\Eloquent
+     * @return \Illuminate\Database\Eloquent
      */
     public function scopePaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
+            ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->whereNotNull('paid_at')
             ->latest();
     }
@@ -118,12 +118,12 @@ class Invoice extends PdfModel
      * Scope a query to only include unpaid invoices.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return  \Illuminate\Database\Eloquent
+     * @return \Illuminate\Database\Eloquent
      */
     public function scopeUnpaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','statement_payments','statements')
+            ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->whereNull('paid_at')
             ->latest();
     }
