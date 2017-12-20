@@ -20,7 +20,6 @@
 			@slot('header')
 				<th>Name</th>
 				<th>Next Number</th>
-				<th>Unpaid</th>
 				<th>Format</th>
 				<th></th>
 			@endslot
@@ -29,7 +28,6 @@
 					<tr>
 						<td>{{ $group->name }}</td>
 						<td>{{ $group->next_number }}</td>
-						<td>{{ count($group->unpaidInvoices) }}</td>
 						<td>{{ $group->format }}</td>
 						<td class="text-right">
 							<a href="{{ route('invoice-groups.show', $group->id) }}" class="btn btn-primary btn-sm">
