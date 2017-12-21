@@ -174,7 +174,9 @@ class User extends UserBaseModel
      */
     public function expenses()
     {
-        return $this->hasManyThrough('App\Expense', 'App\Property')->latest();
+        return $this
+            ->hasMany('App\Expense')
+            ->latest();
     }
 
     /**

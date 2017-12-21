@@ -53,6 +53,9 @@
 				{!! Menu::showLink('Invoices', 'users.show', $user->id) !!}
 			</li>
 			<li class="nav-item">
+				{!! Menu::showLink('Expenses', 'users.show', $user->id) !!}
+			</li>
+			<li class="nav-item">
 				{!! Menu::showLink('Bank Accounts', 'users.show', $user->id) !!}
 			</li>
 			<li class="nav-item">
