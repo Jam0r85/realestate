@@ -28,8 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('statement:check-paid')->everyThirtyMinutes();
-
         $schedule->job(new GenerateRecurringInvoices)->daily();
 
         // Running backups
