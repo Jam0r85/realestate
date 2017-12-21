@@ -73,22 +73,6 @@ class StatementPaymentPresenter extends Presenter
     /**
      * @return string
      */
-    public function expenseName()
-    {
-        if (plural_from_model($this->parent) == 'expenses') {
-            $name = $this->parent->name;
-
-            if ($this->parent->contractor) {
-                $name .= '<br />' . $this->parent->contractor->present()->fullName;
-            }
-
-            return $name;
-        }
-    }
-
-    /**
-     * @return string
-     */
     public function recipientBadges()
     {
         foreach ($this->users as $user) {

@@ -11,7 +11,7 @@
 		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ $payment->present()->propertyName }}</td>
-				<td>{!! $payment->present()->expenseName !!}</td>
+				<td>{{ $payment->parent->name }}</td>
 				<td>{{ currency($payment->amount) }}</td>
 				<td>{!! $payment->parent->present()->contractorBadge !!}</td>
 				<td>{{ $payment->present()->method }}</td>
