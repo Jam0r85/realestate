@@ -11,7 +11,7 @@ class PaymentPresenter extends Presenter
 	 */
 	public function name()
 	{
-		if ($this->parentName() == 'Tenancy') {
+		if (model_name($this->parent) == 'Tenancy') {
 			return 'Rent';
 		}
 
@@ -31,11 +31,15 @@ class PaymentPresenter extends Presenter
 	 */
 	public function forName()
 	{
-		if ($this->parentName() == 'Tenancy') {
+		if (model_name($this->parent) == 'Tenancy') {
 			return $this->parent->present()->name;
-		} elseif ($this->parentName() == 'Deposit') {
+		}
+
+		if (model_name($this->parent) == 'Deposit') {
 			return $this->parent->tenancy->present()->name;
-		} elseif ($this->parentName() == 'Invoice') {
+		}
+
+		if (model_name($this->parent) == 'Invoice') {
 			return $this->parent->present()->name;
 		}
 	}
