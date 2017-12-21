@@ -168,4 +168,27 @@ class EventController extends BaseController
 
         return back();
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $event = parent::destroy($request, $id);
+
+        if ($request->has('from_modal')) {
+            $data['alert'] = [
+                'class' => 'alert-success',
+                'message' => 'The event "' . $event->title . '" was updated'
+            ];
+
+            return $data;
+        }
+
+        return back();
+    }
 }
