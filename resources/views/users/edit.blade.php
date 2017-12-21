@@ -292,16 +292,33 @@
 
 							<div class="form-group">
 								<label for="expense_notifications">
-									Expense Notifications
+									Expense Paid Notification
 								</label>
-								<select name="expense_notifications" id="expense_notifications" class="form-control">
-									<option @if (!$user->getSetting('expense_notifications')) selected @endif value="">
+								<select name="expense_paid_notifications" id="expense_paid_notifications" class="form-control">
+									<option @if (!$user->getSetting('expense_paid_notifications')) selected @endif value="">
 										None
 									</option>
-									<option @if ($user->getSetting('expense_notifications') == 'email') selected @endif value="email">
+									<option @if ($user->getSetting('expense_paid_notifications') == 'email') selected @endif value="email">
 										E-Mail
 									</option>
-									<option @if ($user->getSetting('expense_notifications') == 'sms') selected @endif value="sms">
+									<option @if ($user->getSetting('expense_paid_notifications') == 'sms') selected @endif value="sms">
+										SMS
+									</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="expense_notifications">
+									Expense Received Notification
+								</label>
+								<select name="expense_received_notifications" id="expense_received_notifications" class="form-control">
+									<option @if (!$user->getSetting('expense_received_notifications')) selected @endif value="">
+										None
+									</option>
+									<option @if ($user->getSetting('expense_received_notifications') == 'email') selected @endif value="email">
+										E-Mail
+									</option>
+									<option @if ($user->getSetting('expense_received_notifications') == 'sms') selected @endif value="sms">
 										SMS
 									</option>
 								</select>
