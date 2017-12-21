@@ -222,7 +222,7 @@ class Expense extends BaseModel
         }
 
         // Contractor does not have expense notification settings set
-        if (!$this->contractor->getSetting('expense_notifications')) {
+        if (!$this->contractor->getSetting('expense_paid_notifications')) {
             return false;
         }
 

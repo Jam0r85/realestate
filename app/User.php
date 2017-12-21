@@ -102,7 +102,8 @@ class User extends UserBaseModel
         'tenancy_service_management_discount',
         'tenancy_service_letting_fee',
         'tenancy_service_re_letting_fee',
-        'expense_notifications',
+        'expense_paid_notifications',
+        'expense_received_notifications',
         'rent_payment_notifications',
         'contractor_bank_account_id'
     ];
