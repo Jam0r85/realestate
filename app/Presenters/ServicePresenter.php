@@ -9,6 +9,20 @@ class ServicePresenter extends BasePresenter
 	/**
 	 * @return  string
 	 */
+	public function selectName()
+	{
+		$name = $this->name;
+
+		if ($this->serviceChargeFormatted) {
+			$name .= ' ' . $this->serviceChargeFormatted;
+		}
+
+		return $name;
+	}
+
+	/**
+	 * @return  string
+	 */
 	public function serviceChargeFormatted()
 	{
 		if ($this->charge < 1) {

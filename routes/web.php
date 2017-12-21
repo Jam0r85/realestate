@@ -115,7 +115,8 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('search', 'TenancyController@search')->name('tenancies.search'); // Search tenancies
 		Route::get('create', 'TenancyController@create')->name('tenancies.create'); // Create a new tenancy
 		Route::post('/', 'TenancyController@store')->name('tenancies.store'); // Store a new tenancy
-		Route::get('{id}/edit', 'TenancyController@edit')->name('tenancies.edit'); // Edit a tenancy
+		Route::get('{id}/edit', 'TenancyController@edit')->name('tenancies.edit'); // Edit the tenancy
+		Route::put('{id}', 'TenancyController@update')->name('tenancies.update'); // Update the tenancy
 		Route::get('{id}/{show?}', 'TenancyController@show')->name('tenancies.show'); // Show the tenancy
 		Route::post('{tenancy}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');

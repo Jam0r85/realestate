@@ -108,6 +108,41 @@ class TenancyController extends BaseController
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $tenancy = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('tenancies.edit', compact('tenancy'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $tenancy = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        $tenancy
+            ->fill($request->input())
+            ->save();
+
+        return back();
+    }
+
+    /**
      * Record the tenants having vacated a tenancy.
      * 
      * @param  TenantsVacatedRequest $request

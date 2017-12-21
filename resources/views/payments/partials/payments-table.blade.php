@@ -9,7 +9,6 @@
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
-			{{ model_name($payment->parent) }}
 			<tr>
 				<td>{{ date_formatted($payment->created_at) }}</td>
 				<td>{{ currency($payment->amount) }}</td>
