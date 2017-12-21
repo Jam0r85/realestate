@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\DepositPaymentWasUpdated;
+use App\Events\RentPaymentWasUpdated;
 use App\Http\Requests\UpdatePaymentRequest;
 use Illuminate\Http\Request;
 
@@ -84,6 +85,10 @@ class PaymentController extends BaseController
 
         if ($payment->present()->parentName == 'Deposit') {
             event(new DepositPaymentWasUpdated($payment));
+        }
+
+        if ($payment->present()->parentName == 'Tenancy') {
+            event (new RentPaymentWasUpdated($payment));
         }
 
         return back();

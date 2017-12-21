@@ -31,27 +31,6 @@ class PaymentObserver
 	}
 
 	/**
-	 * Listen to the Payment created event.
-	 * 
-	 * @param  \App\Payment  $payment
-	 * @return void
-	 */
-	public function created(Payment $payment)
-	{
-		if ($payment->present()->parentName == 'Invoice') {
-			event(new InvoicePaymentWasCreated($payment));
-		}	
-
-		if ($payment->present()->parentName == 'Tenancy') {
-			event(new RentPaymentWasCreated($payment));
-		}
-
-		if ($payment->present()->parentName == 'Deposit') {
-			event(new DepositPaymentWasCreated($payment));
-		}
-	}
-
-	/**
 	 * Listen to the Payment deleted event.
 	 * 
 	 * @param  \App\Payment  $payment

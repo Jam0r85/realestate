@@ -37,6 +37,8 @@ class RentPaymentController extends BaseController
 
     	$tenancy->storeRentPayment($payment);
 
+        event(new RentPaymentWasCreated($payment));
+
         if ($request->has('send_notifications')) {
             Notification::send($payment->users, new TenantRentPaymentReceived($payment));
         }

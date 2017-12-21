@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvoicePaymentWasCreated;
 use App\Http\Requests\InvoicePaymentStoreRequest;
 use App\Invoice;
 use Illuminate\Http\Request;
@@ -33,6 +34,8 @@ class InvoicePaymentController extends BaseController
 
     	$invoice
             ->storePayment($payment);
+
+        event(new InvoicePaymentWasCreated($payment));
 
     	return back();
     }

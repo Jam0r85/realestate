@@ -62,13 +62,18 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\InvoiceListener@statementPaymentSent',
         ],
 
-        // Payments
+        // Rent Payments
         'App\Events\RentPaymentWasCreated' => [
             'App\Listeners\TenancyListener@rentPaymentCreated'
+        ],
+        'App\Events\RentPaymentWasUpdated' => [
+            'App\Listeners\TenancyListener@rentPaymentUpdated'
         ],
         'App\Events\RentPaymentWasDeleted' => [
             'App\Listeners\TenancyListener@rentPaymentDeleted'
         ],
+
+        // Deposit Payments
         'App\Events\DepositPaymentWasCreated' => [
             'App\Listeners\DepositListener@paymentCreated'
         ],
@@ -78,6 +83,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\DepositPaymentWasDeleted' => [
             'App\Listeners\DepositListener@paymentDeleted'
         ],
+
+        // Invoice Payments
         'App\Events\InvoicePaymentWasCreated' => [
             'App\Listeners\InvoiceListener@paymentCreated'
         ],

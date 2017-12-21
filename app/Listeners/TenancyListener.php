@@ -6,6 +6,7 @@ use App\Events\DepositPaymentWasCreated;
 use App\Events\DepositPaymentWasDeleted;
 use App\Events\RentPaymentWasCreated;
 use App\Events\RentPaymentWasDeleted;
+use App\Events\RentPaymentWasUpdated;
 use App\Events\StatementWasCreated;
 use App\Events\StatementWasSent;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -59,6 +60,20 @@ class TenancyListener
      * @return void
      */
     public function rentPaymentCreated(RentPaymentWasCreated $event)
+    {
+        $payment = $event->payment;
+        $tenancy = $payment->parent;
+
+        $tenancy->updateRentBalance();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  RentPaymentWasCreated  $event
+     * @return void
+     */
+    public function rentPaymentUpdated(RentPaymentWasUpdated $event)
     {
         $payment = $event->payment;
         $tenancy = $payment->parent;

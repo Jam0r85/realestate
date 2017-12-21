@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Deposit;
+use App\Events\DepositPaymentWasCreated;
 use App\Http\Requests\DepositPaymentStoreRequest;
 use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ class DepositPaymentController extends BaseController
             ->fill($request->input());
 
         $deposit->storePayment($payment);
+
+        event (new DepositPaymentWasCreated($payment));
 
         return back();
     }
