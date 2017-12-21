@@ -115,9 +115,24 @@ class BankAccountController extends BaseController
             ->fill($request->input())
             ->save();
 
-        $account
-            ->users()->sync($request->users);
+        if ($request->has('users')) {
+            $account
+                ->users()->sync($request->users);
+        }
 
+        return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        parent::destroy($request, $id);
         return back();
     }
 }
