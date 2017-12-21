@@ -8,14 +8,14 @@ use Laracasts\Presenter\Presenter;
 class TenancyPresenter extends Presenter
 {
 	/**
+	 * The tenancy name consists of the tenant's names.
+	 * 
 	 * @return string
 	 */
 	public function name()
 	{
-		if (count($this->users)) {
-			foreach ($this->users as $user) {
-				$names[] = $user->present()->fullName;
-			}
+		foreach ($this->users as $user) {
+			$names[] = $user->present()->fullName;
 		}
 
 		if (isset($names) && count($names)) {
@@ -23,6 +23,16 @@ class TenancyPresenter extends Presenter
 		} else {
 			return 'Tenancy #' . $this->id;
 		}
+	}
+
+	/**
+	 * The name for select dropdown menus.
+	 * 
+	 * @return  string
+	 */
+	public function selectName()
+	{
+		return $this->name . ' (' . $this->property->present()->shortAddress . ')';
 	}
 
 	/**

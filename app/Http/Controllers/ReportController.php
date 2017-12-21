@@ -9,18 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ReportController extends BaseController
+class ReportController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display the reports index page.
      * 
@@ -33,7 +23,8 @@ class ReportController extends BaseController
 
     public function landlordTaxReport(Request $request)
     {
-        $tenancy = Tenancy::withTrashed()->findOrFail($request->tenancy_id);
+        $tenancy = Tenancy::withTrashed()
+            ->findOrFail($request->tenancy_id);
 
         $statements = $tenancy->statements()
             ->where('period_start', '>=', $request->from)

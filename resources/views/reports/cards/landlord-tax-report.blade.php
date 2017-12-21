@@ -24,7 +24,7 @@
 				<select name="tenancy_id" id="tenancy_id" class="form-control">
 					@foreach (tenancies() as $tenancy)
 						<option value="{{ $tenancy->id }}">
-							{{ $tenancy->name }} ({{ $tenancy->property->short_name }})
+							{!! $tenancy->present()->selectName !!}
 						</option>
 					@endforeach
 				</select>
