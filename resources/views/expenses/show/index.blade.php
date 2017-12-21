@@ -32,6 +32,18 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
+			{{ $expense->present()->contractorPaidNotificationMethod }}
+			@slot('title')
+				Notification Method
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $expense->present()->contractorPaymentMethod }}
+			@slot('title')
+				Payment Method
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
 			<a href="{{ route('properties.show', $expense->property_id) }}">
 				{{ $expense->property->present()->fullAddress }}
 			</a>

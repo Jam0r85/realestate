@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\BankAccount;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter;
 
@@ -25,7 +26,31 @@ class ExpensePresenter extends Presenter
 		if ($this->contractor) {
 			return '<span class="badge badge-secondary">' . $this->contractor->present()->fullName . '</span>';
 		}
-	}	
+	}
+
+	/**
+	 * @return  string
+	 */
+	public function contractorPaymentMethod()
+	{
+		if ($this->contractor && $this->contractor->getSetting('contractor_bank_account_id')) {
+			return BankAccount::findOrFail($this->contractor->getSetting('contractor_bank_account_id'))->present()->inline;
+		} else {
+			return 'Cash/Cheque';
+		}
+	}
+
+	/**
+	 * @return  string
+	 */
+	public function contractorPaidNotificationMethod()
+	{
+		if ($this->contractor && $this->contractor->getSetting('expense_paid_notifications')) {
+			return $this->contractor->getSetting('expense_paid_notifications');
+		} else {
+			return 'n/a';
+		}
+	}
 
 	/**
 	 * @return  integer
