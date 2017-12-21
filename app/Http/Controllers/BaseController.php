@@ -75,34 +75,24 @@ class BaseController extends Controller
 	}
 
 	/**
-	 * Archive a record in storage.
+     * Remove the specified resource from storage.
 	 * 
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  integer  $id
-	 * @return  \Illuminate\Http\Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(Request $request, $id)
 	{
+		// Find the model
         $model = $this->repository
         	->findOrFail($id);
 
+       	// Destroy it
         $model
         	->delete();
 
-        if ($request->has('from_modal')) {
-            $data['alert'] = [
-                'class' => 'alert-success',
-                'message' => $model->messageDeleted()
-            ];
-
-            return $data;
-        }
-
-        if ($this->repository->checkSoftDeletes()) {
-        	return back();
-        } else {
-        	return redirect()->route($this->indexView);
-        }
+        // Return the model
+        return $model;
 	}
 
 	/**

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DepositPaymentWasDeleted;
 use App\Events\DepositPaymentWasUpdated;
+use App\Events\InvoicePaymentWasDeleted;
+use App\Events\RentPaymentWasDeleted;
 use App\Events\RentPaymentWasUpdated;
 use App\Http\Requests\UpdatePaymentRequest;
 use Illuminate\Http\Request;
@@ -92,5 +95,31 @@ class PaymentController extends BaseController
         }
 
         return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $payment = parent::destroy($request, $id);
+
+        if ($payment->present()->parentName == 'Invoice') {
+            event(new InvoicePaymentWasDeleted($payment));
+        }   
+
+        if ($payment->present()->parentName == 'Tenancy') {
+            event(new RentPaymentWasDeleted($payment));
+        }
+
+        if ($payment->present()->parentName == 'Deposit') {
+            event(new DepositPaymentWasDeleted($payment));
+        }
+
+        return redirect()->route($this->indexView);
     }
 }

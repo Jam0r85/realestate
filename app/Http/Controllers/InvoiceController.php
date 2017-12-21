@@ -135,6 +135,18 @@ class InvoiceController extends BaseController
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $parent = parent::destroy($request, $id);
+        return back();
+    }
+
+    /**
      * Clone the given invoice.
      * 
      * @param  \App\Invoice  $id
