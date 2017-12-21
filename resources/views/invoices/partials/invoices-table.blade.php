@@ -22,7 +22,7 @@
 						View
 					</a>
 					<a href="{{ route('downloads.invoice', $invoice->id) }}" class="btn btn-info btn-sm" target="_blank">
-						Download
+						<i class="fa fa-download"></i>
 					</a>
 				</td>
 			</tr>
