@@ -103,12 +103,52 @@
 
 				<div class="card mb-3">
 					@component('partials.card-header')
+						Statement Paid
+					@endcomponent
+
+					<div class="card-body">
+
+						@if (count($statement->unsentPayments) || !count($statement->payments))
+
+							@component('partials.alerts.warning')
+								No payments have been created for this statement or it has unsent payments.
+							@endcomponent
+
+						@else
+
+							<form method="POST" action="{{ route('statements.update', $statement->id) }}">
+								{{ csrf_field() }}
+								{{ method_field('PUT') }}
+
+								<div class="form-group">
+									<label for="paid_at">Date Paid</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</span>
+										<input type="date" name="paid_at" id="paid_at" value="{{ $statement->paid_at ? $statement->paid_at->format('Y-m-d') : old('sent_at') }}" class="form-control">
+									</div>
+								</div>
+
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+
+							</form>
+
+						@endif
+
+					</div>
+				</div>
+
+				<div class="card mb-3">
+					@component('partials.card-header')
 						Statement Sent
 					@endcomponent
 
 					<div class="card-body">
 
-
+						@if ($statement->paid_at)
 
 							@component('partials.alerts.info')
 
@@ -124,7 +164,7 @@
 
 							@endcomponent
 
-
+						@endif
 
 						<form method="POST" action="{{ route('statements.update', $statement->id) }}">
 							{{ csrf_field() }}
