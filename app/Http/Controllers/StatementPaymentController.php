@@ -173,11 +173,11 @@ class StatementPaymentController extends BaseController
         $payment
             ->users()->sync($request->users);
 
-        if ($payment->present()->parentName == 'Invoice') {
+        if (model_name($payment->parent) == 'Invoice') {
             event(new InvoiceStatementPaymentWasSaved($payment));
         }
 
-        if ($payment->present()->parentName == 'Expense') {
+        if (model_name($payment->parent) == 'Expense') {
             event(new ExpenseStatementPaymentWasSaved($payment));
         }
 

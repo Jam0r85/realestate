@@ -5,26 +5,21 @@ namespace App\Presenters;
 use Laracasts\Presenter\Presenter;
 
 class StatementPaymentPresenter extends Presenter
-{
-    /**
-     * 
-     * @return string
-     */
-    public function parentName()
-    {
-        return parentModel($this->parent_type);
-    }
-    
+{    
     /**
      * @return string
      */
     public function name()
     {
-        if ($this->parent_type == 'invoices') {
+        if (plural_from_model($this->parent) == 'invoices') {
             return 'Invoice Payment';
-        } elseif ($this->parent_type == 'expenses') {
+        }
+
+        if (plural_from_model($this->parent) == 'expenses') {
             return 'Expense Payment';
-        } else {
+        }
+
+        if (!plural_from_model($this->parent)) {
             return 'Landlord Payment';
         }
     }
@@ -36,8 +31,6 @@ class StatementPaymentPresenter extends Presenter
     {
         if ($this->bank_account) {
             return 'BACS: ' . $this->bank_account->account_name;
-        } elseif ($this->parent_type == 'invoices') {
-            return 'n/a';
         } else {
             return 'Cash or Cheque';
         }
@@ -56,9 +49,7 @@ class StatementPaymentPresenter extends Presenter
      */
     public function propertyName()
     {
-        if ($this->statement) {
-            return $this->statement->tenancy->property->present()->shortAddress;
-        }
+        return $this->statement->tenancy->property->present()->shortAddress;
     }
 
     /**
@@ -74,7 +65,7 @@ class StatementPaymentPresenter extends Presenter
      */
     public function invoiceName()
     {
-        if ($this->parent_type == 'invoices') {
+        if (plural_from_model($this->parent) == 'invoices') {
             return $this->parent->present()->name;
         }
     }
@@ -84,7 +75,7 @@ class StatementPaymentPresenter extends Presenter
      */
     public function expenseName()
     {
-        if ($this->parent_type == 'expenses') {
+        if (plural_from_model($this->parent) == 'expenses') {
             $name = $this->parent->name;
 
             if ($this->parent->contractor) {

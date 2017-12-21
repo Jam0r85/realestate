@@ -86,11 +86,11 @@ class PaymentController extends BaseController
                 ->sync($request->users);
         }
 
-        if ($payment->present()->parentName == 'Deposit') {
+        if (model_name($payment->parent) == 'Deposit') {
             event(new DepositPaymentWasUpdated($payment));
         }
 
-        if ($payment->present()->parentName == 'Tenancy') {
+        if (model_name($payment->parent) == 'Tenancy') {
             event (new RentPaymentWasUpdated($payment));
         }
 
@@ -108,15 +108,15 @@ class PaymentController extends BaseController
     {
         $payment = parent::destroy($request, $id);
 
-        if ($payment->present()->parentName == 'Invoice') {
+        if (model_name($payment->parent) == 'Invoice') {
             event(new InvoicePaymentWasDeleted($payment));
         }   
 
-        if ($payment->present()->parentName == 'Tenancy') {
+        if (model_name($payment->parent) == 'Tenancy') {
             event(new RentPaymentWasDeleted($payment));
         }
 
-        if ($payment->present()->parentName == 'Deposit') {
+        if (model_name($payment->parent) == 'Deposit') {
             event(new DepositPaymentWasDeleted($payment));
         }
 

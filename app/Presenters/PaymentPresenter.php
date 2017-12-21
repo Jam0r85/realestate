@@ -7,15 +7,6 @@ use Laracasts\Presenter\Presenter;
 class PaymentPresenter extends Presenter
 {
 	/**
-	 * 
-	 * @return string
-	 */
-	public function parentName()
-	{
-		return parentModel($this->parent_type);
-	}
-
-	/**
 	 * @return string
 	 */
 	public function name()
@@ -24,7 +15,7 @@ class PaymentPresenter extends Presenter
 			return 'Rent';
 		}
 
-		return $this->parentName();
+		return model_name($this->parent);
 	}
 
 	/**
