@@ -175,7 +175,7 @@ class User extends UserBaseModel
     public function expenses()
     {
         return $this
-            ->hasMany('App\Expense')
+            ->hasMany('App\Expense', 'contractor_id')
             ->latest();
     }
 
