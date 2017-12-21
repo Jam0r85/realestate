@@ -200,7 +200,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * Check whether we can send the paid notification to the contractor.
+     * Can we send a paid notification to the contractor?
      * 
      * @return  bool
      */
@@ -223,6 +223,26 @@ class Expense extends BaseModel
 
         // Contractor does not have expense notification settings set
         if (!$this->contractor->getSetting('expense_paid_notifications')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Can we send a received notification to the contractor?
+     * 
+     * @return  bool
+     */
+    public function canSendReceivedNotification()
+    {
+        // No contractor assigned to the expense
+        if (!$this->contractor) {
+            return false;
+        }
+
+        // Contractor does not want to receive these notifications
+        if (!$this->contractor->getSetting('expense_received_notifications')) {
             return false;
         }
 

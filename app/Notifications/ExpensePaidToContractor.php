@@ -51,7 +51,7 @@ class ExpensePaidToContractor extends Notification
     {
         $via = [];
 
-        if ($notifiable->getSetting('expense_notifications') == 'email') {
+        if ($notifiable->getSetting('expense_paid_notifications') == 'email') {
             $via[] = 'mail';
         }
 

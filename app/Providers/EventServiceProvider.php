@@ -19,6 +19,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\DepositListener@forceDeleted',
         ],
 
+        // Expenses
+        'App\Events\ExpenseWasCreated' => [
+            'App\Listeners\ExpenseListener@created'
+        ],
+
         // Notifications
         'Illuminate\Notifications\Events\NotificationSent' => [
             'App\Listeners\LogSmsNotification'

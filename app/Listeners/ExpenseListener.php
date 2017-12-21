@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use App\Events\ExpenseStatementPaymentWasSaved;
 use App\Events\ExpenseStatementPaymentWasSent;
+use App\Events\ExpenseWasCreated;
 use App\Notifications\ExpensePaidToContractor;
+use App\Notifications\ExpenseWasReceivedToContractor;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -18,6 +20,21 @@ class ExpenseListener
     public function __construct()
     {
         //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  ExpenseWasCreated  $event
+     * @return void
+     */
+    public function created(ExpenseWasCreated $event)
+    {
+        $expense = $event->expense;
+
+        if ($expense->canSendReceivedNotification()) {
+            $expense->contractor->notify(new ExpenseWasReceivedToContractor($expense));
+        }
     }
 
     /**

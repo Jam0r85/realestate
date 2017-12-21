@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExpenseWasCreated;
 use App\Http\Requests\ExpenseDeleteRequest;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\ExpenseUpdateRequest;
@@ -60,7 +61,7 @@ class ExpenseController extends BaseController
         // Set the balance to the same amount as the cost
         $data['balance'] = $data['cost'];
 
-        $this->repository
+        $expense = $this->repository
             ->fill($data)
             ->setData($data)
             ->save();
@@ -70,6 +71,8 @@ class ExpenseController extends BaseController
                 $this->repository->storeDocument($file);
             }
         }
+
+        event(new ExpenseWasCreated($expense));
 
         return back();
     }
