@@ -22,7 +22,11 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $expense->present()->contractorName }}
+			@if ($expense->contractor)
+				<a href="{{ show_route($expense->contractor) }}">
+					{{ $expense->present()->contractorName }}
+				</a>
+			@endif
 			@slot('title')
 				Contractor
 			@endslot

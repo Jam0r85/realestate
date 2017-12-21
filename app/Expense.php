@@ -205,7 +205,7 @@ class Expense extends BaseModel
      * @return  bool
      */
     public function canSendPaidNotificationToContractor()
-    {
+    {       
         // Notification disabled
         if ($this->getData('disable_paid_notification') == 'yes') {
             return false;
@@ -213,11 +213,6 @@ class Expense extends BaseModel
 
         // Expense has already been paid, do not send out the notification
         if ($this->getData('already_paid') == 'yes') {
-            return false;
-        }
-
-        // Do not send the notification if the expense has not been paid
-        if (!$this->isPaid()) {
             return false;
         }
 

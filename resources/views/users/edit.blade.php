@@ -280,7 +280,7 @@
 								<label for="expense_notifications">
 									Bank Account
 								</label>
-								<select name="contractor_bank_account_id" id="contractor_bank_account_id" class="form-control">
+								<select name="contractor_bank_account_id" id="contractor_bank_account_id" class="form-control select2">
 									<option value="">None</option>
 									@foreach (bank_accounts([$user->id]) as $account)
 										<option @if ($user->getSetting('contractor_bank_account_id') == $account->id) selected @endif value="{{ $account->id }}">

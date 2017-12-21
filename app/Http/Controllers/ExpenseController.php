@@ -55,9 +55,14 @@ class ExpenseController extends BaseController
      */
     public function store(ExpenseStoreRequest $request)
     {
+        $data = $request->input();
+
+        // Set the balance to the same amount as the cost
+        $data['balance'] = $data['cost'];
+
         $this->repository
             ->fill($request->input())
-            ->setData($request->input())
+            ->setData($data)
             ->save();
 
         if ($request->hasFile('files')) {

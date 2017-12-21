@@ -26,9 +26,21 @@
 	@component('partials.section-with-container')
 
 		@if ($expense->isPaid())
+
 			@component('partials.alerts.success')
 				This expense was paid {{ date_formatted($expense->paid_at) }}
 			@endcomponent
+
+		@else
+
+			@if ($expense->canSendPaidNotificationToContractor())
+
+				@component('partials.alerts.info')
+					When this expense has been paid, the contractor will be notified via their appropirate settings.
+				@endcomponent
+
+			@endif
+
 		@endif
 
 		<ul class="nav nav-pills">

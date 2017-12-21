@@ -125,7 +125,7 @@ if (!function_exists('bank_accounts')) {
 			});
 		}
 
-		return $accounts->get();
+		return $accounts->latest()->get();
 	}
 }
 
