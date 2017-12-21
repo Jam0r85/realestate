@@ -216,6 +216,16 @@ class Expense extends BaseModel
             return false;
         }
 
+        // No contractor assigned to the expense
+        if (!$this->contractor) {
+            return false;
+        }
+
+        // Contractor does not have expense notification settings set
+        if (!$this->contractor->getSetting('expense_notifications')) {
+            return false;
+        }
+
         return true;
     }
 }
