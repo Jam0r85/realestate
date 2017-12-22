@@ -59,69 +59,8 @@ class StatementPaymentController extends BaseController
      */
     public function store(StatementPaymentStoreRequest $request, Statement $statement)
     {
-        $sent_at = $request->has('sent_at') ? $request->sent_at : null;
-
-        // Invoice Payments
-        if (count($statement->invoices)) {
-            foreach ($statement->invoices as $invoice) {
-                $payment = $this->repository::updateOrCreate(
-                    ['statement_id' => $statement->id, 'parent_type' => 'invoices', 'parent_id' => $invoice->id],
-                    [
-                        'amount' => $statement->present()->invoicesTotal,
-                        'sent_at' => $sent_at,
-                        'bank_account_id' => get_setting('company_bank_account_id')
-                    ]
-                );
-
-                // Attach the invoice users to this payment
-                $payment->users()->sync(get_setting('company_user_id'));
-
-                event (new InvoiceStatementPaymentWasSaved($payment));
-            }
-        } else {
-            $this->repository
-                ->where('statement_id', $statement->id)
-                ->where('parent_type', 'invoices')
-                ->delete();
-        }
-
-        // Expense Payments
-        if (count($statement->expenses)) {
-            foreach ($statement->expenses as $expense) {
-
-                $payment = $this->repository::updateOrCreate(
-                    ['statement_id' => $statement->id, 'parent_type' => 'expenses', 'parent_id' => $expense->id],
-                    [
-                        'amount' => $expense->pivot->amount,
-                        'sent_at' => $sent_at,
-                        'bank_account_id' => $expense->contractor->getSetting('contractor_bank_account_id')
-                    ]
-                );
-
-                // Attach the expense contractor to this payment
-                $payment->users()->sync($expense->contractor);
-
-                event (new ExpenseStatementPaymentWasSaved($payment));
-            }
-        } else {
-            $this->repository
-                ->where('statement_id', $statement->id)
-                ->where('parent_type', 'expenses')
-                ->delete();
-        }
-
-        // Landlord Payment
-        $payment = $this->repository::updateOrCreate(
-            ['statement_id' => $statement->id, 'parent_type' => null],
-            [
-                'amount' => $statement->present()->landlordBalanceTotal,
-                'sent_at' => $sent_at,
-                'bank_account_id' => $statement->property()->bank_account_id
-            ]
-        );
-
-        // Attach the statement users to this payment
-        $payment->users()->sync($statement->users);
+        $this->repository
+            ->createPayments($statement);
 
         return back();
     }

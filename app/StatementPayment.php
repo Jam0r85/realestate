@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\ExpenseStatementPaymentWasSaved;
+use App\Events\InvoiceStatementPaymentWasSaved;
+use App\Statement;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -99,5 +102,148 @@ class StatementPayment extends BaseModel
         }
 
         return $this->parent_type;
+    }
+
+    /**
+     * Create and store the statement payments for the given statement.
+     * 
+     * @param  \App\Statement  $statement
+     * @return \App\Statement
+     */
+    public function createPayments(Statement $statement)
+    {
+        $this->createInvoicePayment($statement);
+        $this->createExpensePayment($statement);
+        $this->createLandlordPayment($statement);
+
+        return $statement;
+    }
+
+    /**
+     * Create and store the invoice statement payments for the given statement.
+     * 
+     * @param  \App\Statement  $statement
+     * @return \App\Statement
+     */
+    public function createInvoicePayment(Statement $statement)
+    {
+        $delete = true;
+
+        // Does the statement have invoices?
+        if (count($statement->invoices)) {
+
+            // Loop through all of the invoices attached to the statement
+            foreach ($statement->invoices as $invoice) {
+
+                // Make sure the invoice has items
+                if (count($invoice->items)) {
+
+                    $delete = false;
+
+                    // Update or create the payment
+                    $payment = StatementPayment::updateOrCreate(
+                        [
+                            'statement_id' => $statement->id,
+                            'parent_type' => plural_from_model($invoice),
+                            'parent_id' => $invoice->id
+                        ],
+                        [
+                            'amount' => $statement->present()->invoicesTotal,
+                            'sent_at' => $statement->sent_at,
+                            'bank_account_id' => get_setting('company_bank_account_id')
+                        ]
+                    );
+
+                    // Invoice payments are paid to the company and so should be linked
+                    // to the company user as set in the application settings
+                    if ($users = get_setting('company_user_id')) {
+                        $payment->users()->sync($users);
+                    }
+
+                    event (new InvoiceStatementPaymentWasSaved($payment));
+                }
+            }
+        }
+        
+        if ($delete) {
+            StatementPayment::where('statement_id', $statement->id)
+                ->where('parent_type', 'invoices')
+                ->delete();
+        }
+
+        return $statement;
+    }
+
+    /**
+     * Create the expense statement payments for the given statement.
+     * 
+     * @param  \App\Statement  $statement
+     * @return \App\Statement
+     */
+    public function createExpensePayment(Statement $statement)
+    {
+        // Check for attached statement expenses
+        if (count($statement->expenses)) {
+
+            // Loop through each expense
+            foreach ($statement->expenses as $expense) {
+
+                // Update or create the expense payment
+                $payment = StatementPayment::updateOrCreate(
+                    [
+                        'statement_id' => $statement->id,
+                        'parent_type' => plural_from_model($expense),
+                        'parent_id' => $expense->id
+                    ],
+                    [
+                        'amount' => $expense->pivot->amount,
+                        'sent_at' => $statement->sent_at,
+                        'bank_account_id' => $expense->contractor ? $expense->contractor->getSetting('contractor_bank_account_id') : null
+                    ]
+                );
+
+                // Attach the contractor to the payment
+                if ($expense->contractor) {
+                    $payment->users()->sync($expense->contractor);
+                }
+
+                event (new ExpenseStatementPaymentWasSaved($payment));
+            }
+        }
+
+        if (!count($statement->expenses)) {
+            StatementPayment::where('statement_id', $statement->id)
+                ->where('parent_type', 'expenses')
+                ->delete();
+        }
+
+        return $statement;
+    }
+
+    /**
+     * Create the landlord statement payment for the given statement.
+     * 
+     * @param  \App\Statement  $statement
+     * @return \App\Statement
+     */
+    public function createLandlordPayment(Statement $statement)
+    {
+        // Update or create the payment
+        $payment = StatementPayment::updateOrCreate(
+            [
+                'statement_id' => $statement->id,
+                'parent_type' => null
+            ],
+            [
+                'amount' => $statement->present()->landlordBalanceTotal,
+                'sent_at' => $statement->sent_at,
+                'bank_account_id' => $statement->tenancy->property->bank_account_id ?? null
+            ]
+        );
+
+        // Attach the statement users to this payment
+        $payment->users()->sync($statement->users);
+
+        return $statement;
     }
 }
