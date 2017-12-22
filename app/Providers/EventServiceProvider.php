@@ -44,7 +44,8 @@ class EventServiceProvider extends ServiceProvider
 
         // Statements
         'App\Events\StatementWasCreated' => [
-            'App\Listeners\TenancyListener@statementCreated'
+            'App\Listeners\TenancyListener@statementCreated',
+            'App\Listeners\StatementPaymentListener@statementCreated'
         ],
         'App\Events\StatementWasSent' => [
             'App\Listeners\TenancyListener@statementSent'
