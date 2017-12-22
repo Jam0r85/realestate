@@ -158,7 +158,7 @@ class Payment extends PdfModel
      */
     public function isRent()
     {
-        if ($this->present()->parentName == 'Tenancy') {
+        if (model_name($this->parent) == 'Tenancy') {
             return true;
         }
 
@@ -172,7 +172,7 @@ class Payment extends PdfModel
      */
     public function isInvoice()
     {
-        if ($this->present()->parentName == 'Invoice') {
+        if (model_name($this->parent) == 'Invoice') {
             return true;
         }
 
@@ -186,7 +186,7 @@ class Payment extends PdfModel
      */
     public function isDeposit()
     {
-        if ($this->present()->parentName == 'Deposit') {
+        if (model_name($this->parent) == 'Deposit') {
             return true;
         }
 

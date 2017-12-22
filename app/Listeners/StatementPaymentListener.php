@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\StatementWasCreated;
+use App\Events\StatementWasDeleted;
 use App\StatementPayment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,5 +32,17 @@ class StatementPaymentListener
 
         $repository = new StatementPayment();
         $repository->createPayments($statement);
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  StatementWasDeleted  $event
+     * @return void
+     */
+    public function statementDeleted(StatementWasDeleted $event)
+    {
+        $statement = $event->statement;
+
     }
 }

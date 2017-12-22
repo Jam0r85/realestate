@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StatementWasCreated;
+use App\Events\StatementWasDeleted;
 use App\Events\StatementWasSent;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\ExpenseStoreRequest;
@@ -117,6 +118,22 @@ class StatementController extends BaseController
             ->save();
 
         return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $statement = parent::destroy($request, $id);
+
+        event(new StatementWasDeleted($statement));
+
+        return redirect()->route($this->indexView);
     }
 
     /**
