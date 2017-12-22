@@ -103,14 +103,14 @@ class StatementPaymentController extends BaseController
     public function update(StatementPaymentUpdateRequest $request, $id)
     {
         $payment = $this->repository
-            ->findOrFail($id);
-
-        $payment
+            ->findOrFail($id)
             ->fill($request->input())
             ->save();
 
-        $payment
-            ->users()->sync($request->users);
+        if ($request->has('users')) {
+            $payment
+                ->users()->sync($request->users);
+        }
 
         if (model_name($payment->parent) == 'Invoice') {
             event(new InvoiceStatementPaymentWasSaved($payment));
