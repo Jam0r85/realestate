@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\StatementWasCreated;
 use App\Events\StatementWasDeleted;
 use App\Events\StatementWasSent;
 use App\Events\Tenancies\TenancyUpdateStatus;
@@ -31,7 +30,7 @@ class StatementController extends BaseController
     public $model = 'App\Statement';
 
     /**
-     * Display a listing of the statements.
+     * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -52,7 +51,7 @@ class StatementController extends BaseController
     }
 
     /**
-     * Store a new statement into storage.
+     * Show the form for creating a new resource.
      *
      * @param  \App\Http\Requests\StatementStoreRequest  $request
      * @return.\Illuminate\Http\Response
@@ -67,24 +66,23 @@ class StatementController extends BaseController
 
         $tenancy->storeStatement($statement);
 
-        event(new StatementWasCreated($statement));
-
         return back();
     }
 
     /**
-     * Display the specified statement.
+     * Display the specified resource.
      *
-     * @param  \App\Statement  $id
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @param  string  $show
+     * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $show = 'items')
     {
         $statement = $this->repository
             ->withTrashed()
             ->findOrFail($id);
 
-        return view('statements.show.' . $section, compact('statement'));
+        return view('statements.show', compact('statement','show'));
     }
 
     /**

@@ -69,7 +69,7 @@ class OldStatementController extends BaseController
         $this->statement->amount = $request->amount;
         $this->statement->created_at = $this->statement->updated_at = $this->statement->paid_at = $this->statement->sent_at = Carbon::createFromFormat('Y-m-d', $request->created_at);
 
-        $this->tenancy->storeStatement($this->statement);
+        $this->tenancy->storeOldstatement($this->statement);
 
         if ($request->has('users')) {
         	$this->statement->users()->sync($request->users);

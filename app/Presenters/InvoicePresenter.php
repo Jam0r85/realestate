@@ -9,7 +9,8 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function name()
 	{
-		return $this->number;
+		$number = str_replace('{{number}}', $this->number, $this->invoiceGroup->format);
+		return 'Invoice ' . $number;
 	}
 
 	/**

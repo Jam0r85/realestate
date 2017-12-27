@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Agreement;
+use App\Events\StatementWasCreated;
 use App\Statement;
 use App\TenancyRent;
 use Carbon\Carbon;
@@ -664,12 +665,24 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Store an old statement to this tenancy.
+     * 
+     * @param  Statement $statement [description]
+     * @return \App\Statement
+     */
+    public function storeOldStatement(Statement $statement)
+    {
+        return $this->storeStatement($statement, true);
+    }
+
+    /**
      * Store a statement to this tenancy.
      * 
      * @param  \App\Statement  $statement
-     * @return  \App\Statement
+     * @param  bool  $old
+     * @return \App\Statement
      */
-    public function storeStatement(Statement $statement)
+    public function storeStatement(Statement $statement, $old = false)
     {
         // Save the statement
         $this->statements()->save($statement);
@@ -682,6 +695,10 @@ class Tenancy extends BaseModel
             $invoice = new Invoice();
             $invoice->property_id = $this->property->id;
             $invoice = $statement->storeInvoice($invoice);
+        }
+
+        if ($old == false) {
+            event(new StatementWasCreated($statement));
         }
 
         return $statement;

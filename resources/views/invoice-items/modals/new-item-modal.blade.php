@@ -11,7 +11,7 @@
 				</div>
 				<div class="modal-body">
 
-					<input type="hidden" name="invoice_id" id="invoice_id" value="{{ $invoice->id }}" />
+					<input type="hidden" name="invoice_id" id="invoice_id" value="{{ isset($invoice) ? $invoice->id : '' }}" />
 
 					@include('invoice-items.partials.form')
 

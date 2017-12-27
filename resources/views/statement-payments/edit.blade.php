@@ -5,11 +5,14 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+
 			@component('partials.return-button')
+				Return
 				@slot('url')
 					{{ route('statement-payments.index') }}
 				@endslot
 			@endcomponent
+
 		</div>
 
 		@component('partials.header')
