@@ -6,6 +6,7 @@
 
 		<div class="float-right">
 			@component('partials.return-button')
+				Return
 				@slot('url')
 					{{ route('statements.show', $statement->id) }}
 				@endslot

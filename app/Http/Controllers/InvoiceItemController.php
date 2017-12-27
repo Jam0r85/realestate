@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvoiceItemWasDeleted;
 use App\Events\InvoiceItemWasUpdated;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\UpdateInvoiceItemRequest;
@@ -16,6 +17,11 @@ class InvoiceItemController extends BaseController
      * @var string
      */
     public $model = 'App\InvoiceItem';
+
+    /**
+     * The index view
+     */
+    public $indexView = null;
 
     /**
      * Show the form for creating a new resource.
@@ -79,5 +85,21 @@ class InvoiceItemController extends BaseController
         event(new InvoiceItemWasUpdated($item));
 
         return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $item = parent::destroy($request, $id);
+
+        event(new InvoiceItemWasDeleted($item));
+        
+        return redirect()->route('invoices.show', $item->invoice_id);
     }
 }

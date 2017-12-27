@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\InvoiceItemWasCreated;
+use App\Events\InvoiceItemWasDeleted;
 use App\Events\InvoiceItemWasUpdated;
 use App\Events\InvoicePaymentWasCreated;
 use App\Events\InvoicePaymentWasDeleted;
@@ -29,7 +30,7 @@ class InvoiceListener
      * @param  InvoiceItemWasCreated  $event
      * @return void
      */
-    public function itemCreated(InvoiceItemWasCreated $event)
+    public function itemWasCreated(InvoiceItemWasCreated $event)
     {
         $item = $event->item;
         $invoice = $item->invoice;
@@ -43,7 +44,21 @@ class InvoiceListener
      * @param  InvoiceItemWasUpdated  $event
      * @return void
      */
-    public function itemUpdated(InvoiceItemWasUpdated $event)
+    public function itemWasUpdated(InvoiceItemWasUpdated $event)
+    {
+        $item = $event->item;
+        $invoice = $item->invoice;
+
+        $invoice->updateBalances();
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  InvoiceItemWasDeleted  $event
+     * @return void
+     */
+    public function itemWasDeleted(InvoiceItemWasDeleted $event)
     {
         $item = $event->item;
         $invoice = $item->invoice;
