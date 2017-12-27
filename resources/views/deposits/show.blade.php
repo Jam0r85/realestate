@@ -32,6 +32,12 @@
 
 		@include('partials.errors-block')
 
+		@if ($deposit->tenancy->deleted_at)
+			@component('partials.alerts.warning')
+				The tenancy that this deposit relates to has been archived.
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'deposits.show', $deposit->id, 'index') !!}

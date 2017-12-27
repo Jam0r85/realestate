@@ -20,8 +20,11 @@
 					<td>{!! $payment->present()->userBages !!}</td>
 					<td class="text-right">{{ currency($payment->amount) }}</td>
 					<td class="text-right">
-						<a href="{{ route('payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
-							Edit
+						<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">
+							View
+						</a>
+						<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
+							<i class="fa fa-download"></i>
 						</a>
 					</td>
 				</tr>
@@ -62,11 +65,8 @@
 			{{ csrf_field() }}
 
 			<div class="form-group">
-				<label for="created_at">Date Received (optional)</label>
-				<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') }}" />
-				<small class="form-text text-muted">
-					Leave blank to use the current date and time.
-				</small>
+				<label for="created_at">Date Received</label>
+				<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? date('Y-m-d') }}" />
 			</div>
 
 			<div class="form-group">

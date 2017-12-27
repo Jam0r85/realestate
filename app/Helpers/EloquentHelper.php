@@ -37,8 +37,8 @@
     | Model from Plural
     |--------------------------------------------------------------------------
     |
-    | The alternative to the above, returning the model name from the given
-    | plural string. For example 'users' would become 'User'
+    | The alternative to the above, returning the model name from the plural
+    | as used in belongsToMany instances. For example 'users' would become 'User'
     |
     */
    
@@ -54,7 +54,7 @@
     | Model Name
     |--------------------------------------------------------------------------
     |
-    | Return the model name from the given model.
+    | Return the model name from the given model instance.
     |
     */
    

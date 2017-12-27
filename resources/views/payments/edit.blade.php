@@ -6,32 +6,7 @@
 
 		<div class="float-right">
 
-			@if ($payment->present()->parentName == 'Deposit')
-				@component('partials.return-button')
-					Deposit #{{ $payment->parent->id }}
-					@slot('url')
-						{{ route('deposits.show', [$payment->parent->id, 'payments']) }}
-					@endslot
-				@endcomponent
-			@endif
-
-			@if ($payment->present()->parentName == 'Tenancy')
-				@component('partials.return-button')
-					Tenancy #{{ $payment->parent->id }}
-					@slot('url')
-						{{ route('tenancies.show', $payment->parent->id) }}
-					@endslot
-				@endcomponent
-			@endif
-
-			@if ($payment->present()->parentName == 'Invoice')
-				@component('partials.return-button')
-					Invoice #{{ $payment->parent->id }}
-					@slot('url')
-						{{ route('invoices.show', $payment->parent->id) }}
-					@endslot
-				@endcomponent
-			@endif
+			@include('payments.partials.return-buttons')
 
 			@component('partials.return-button')
 				Payments

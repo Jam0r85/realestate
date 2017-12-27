@@ -35,8 +35,6 @@ class InvoicePaymentController extends BaseController
     	$invoice
             ->storePayment($payment);
 
-        event(new InvoicePaymentWasCreated($payment));
-
     	return back();
     }
 }

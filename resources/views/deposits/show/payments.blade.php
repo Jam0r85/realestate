@@ -4,36 +4,7 @@
 		Payments History
 	@endcomponent
 
-	@component('partials.table')
-		@slot('header')
-			<th>Date</th>
-			<th>Method</th>
-			<th>User(s)</th>
-			<th class="text-right">Amount</th>
-			<th></th>
-		@endslot
-		@slot('body')
-			@foreach ($deposit->payments as $payment)
-				<tr>
-					<td>{{ date_formatted($payment->created_at) }}</td>
-					<td>{{ $payment->method->name }}</td>
-					<td>{!! $payment->present()->userBadges !!}</td>
-					<td class="text-right">{{ currency($payment->amount) }}</td>
-					<td class="text-right">
-						<a href="{{ route('payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
-							Edit
-						</a>
-					</td>
-				</tr>
-			@endforeach
-		@endslot
-		@slot('footer')
-			<tr>
-				<td colspan="3">Total</td>
-				<td class="text-right"></td>
-			</tr>
-		@endslot
-	@endcomponent
+	@include('payments.partials.payments-table', ['payments' => $deposit->payments])
 
 </div>
 
@@ -49,11 +20,8 @@
 			{{ csrf_field() }}
 
 			<div class="form-group">
-				<label for="created_at">Date Received (optional)</label>
-				<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') }}" />
-				<small class="form-text text-muted">
-					Leave blank to use the current date and time.
-				</small>
+				<label for="created_at">Date Received</label>
+				<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? date('Y-m-d') }}" />
 			</div>
 
 			<div class="form-group">
@@ -81,7 +49,7 @@
 			@if (count($deposit->tenancy->users))
 				<div class="form-group">
 					<p class="text-muted">
-						Select the user's that made this payment.
+						Select the user's to attach to this payment.
 					</p>
 					@foreach ($deposit->tenancy->users as $user)
 						<label class="custom-control custom-checkbox">

@@ -5,9 +5,12 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+
+			@include('payments.partials.return-buttons')
+
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="paymentOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Options
+					<i class="fa fa-cogs"></i> Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="paymentOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('payments.edit', $payment->id) }}" title="Edit Payment Details">

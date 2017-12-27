@@ -129,7 +129,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="usersDropdown">
                                 <a class="dropdown-item" href="{{ route('tenancies.index') }}">
-                                    All Tenancies
+                                    Tenancies List
                                 </a>
                                 <a class="dropdown-item" href="{{ route('services.index') }}" title="Tenancy Services">
                                     Tenancy Services
