@@ -73,7 +73,7 @@ class ExpensePresenter extends Presenter
 	 */
 	public function remainingStatementBalance()
 	{
-		$this->cost - $this->statements->sum('pivot.amount');
+		return $this->cost - ($this->payments->sum('amount') + $this->statements->sum('pivot.amount'));
 	}
 
 	/**
