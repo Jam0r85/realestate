@@ -71,6 +71,10 @@ class Invoice extends PdfModel
     protected $casts = [
         'property_id' => 'integer'
     ];
+
+    protected $with = [
+        'invoiceGroup'
+    ];
     
     /**
      * The attributes that should be mutated to dates.
