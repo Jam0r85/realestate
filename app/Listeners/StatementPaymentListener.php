@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ExpenseWasAttachedToStatement;
 use App\Events\StatementWasCreated;
 use App\Events\StatementWasDeleted;
 use App\StatementPayment;
@@ -44,5 +45,19 @@ class StatementPaymentListener
     {
         $statement = $event->statement;
 
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  StatementWasCreated  $event
+     * @return void
+     */
+    public function expenseWasAttached(ExpenseWasAttachedToStatement $event)
+    {
+        $statement = $event->statement;
+
+        $repository = new StatementPayment();
+        $repository->createPayments($statement);
     }
 }

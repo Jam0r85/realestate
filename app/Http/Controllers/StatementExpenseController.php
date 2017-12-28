@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExpenseWasAttachedToStatement;
 use App\Expense;
 use App\Http\Requests\AttachExpenseToStatementRequest;
 use App\Statement;
@@ -21,6 +22,8 @@ class StatementExpenseController extends Controller
     	$statement->expenses()->attach($request->expense_id, ['amount' => $request->amount]);
 
         flash_message('Expense #' . $request->expense_id . ' attached to Statement #' . $request->statement_id . ' with the amount ' . currency($request->amount));
+
+        event (new ExpenseWasAttachedToStatement($statement));
 
     	return back();
     }

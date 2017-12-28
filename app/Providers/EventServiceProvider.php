@@ -53,8 +53,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\StatementWasDeleted' => [
             'App\Listeners\StatementPaymentListener@statementDeleted'
         ],
-
-        // Statement Payments
+        'App\Events\ExpenseWasAttachedToStatement' => [
+            'App\Listeners\StatementPaymentListener@expenseWasAttached'
+        ],
         'App\Events\StatementPaymentWasSent' => [
             'App\Listeners\StatementListener@paymentSent'
         ],

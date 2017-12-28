@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ExpenseWasAttachedToStatement;
 use App\Events\StatementPaymentWasSent;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
