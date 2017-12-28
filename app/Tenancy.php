@@ -690,16 +690,15 @@ class Tenancy extends BaseModel
         // Attach property owners to the statement
         $statement->users()->attach($this->property->owners);
 
-        // Create invoice and items here
-        if ($statement->needsInvoiceCheck()) {
-            $invoice = new Invoice();
-            $invoice->property_id = $this->property->id;
-            $invoice = $statement->storeInvoice($invoice);
+        if ($old == false) {
+            if ($statement->needsInvoiceCheck()) {
+                $invoice = new Invoice();
+                $invoice->property_id = $this->property->id;
+                $invoice = $statement->storeInvoice($invoice);
+            }
         }
 
-        if ($old == false) {
-            event(new StatementWasCreated($statement));
-        }
+        event(new StatementWasCreated($statement));
 
         return $statement;
     }

@@ -45,13 +45,21 @@ class OldStatementController extends BaseController
 	 */
     public function store(OldStatementStoreRequest $request, $id)
     {
+        // Find the tenancy
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
 
-        $this->storeStatement($request);
-        $this->addInvoiceItems($request);
-        $this->addExpenses($request);
+        // Build up the statement data
+        $data = $request->only('created_at','period_start','period_end','amount');
+        $data['sent_at'] = $data['created_at'];
+        $data['paid_at'] = $data['created_at'];
 
-        $this->statement = $this->statement->fresh();
+        $statement = $this->repository
+            ->fill($data);
+
+        $tenancy->storeOldstatement($statement);
+
+        $this->addInvoiceItems($statement, $request);
+        $this->addExpenses($statement, $request);
 
         // Landlord Payment
         $payment = new StatementPayment();
@@ -79,42 +87,41 @@ class OldStatementController extends BaseController
         $this->statement->amount = $request->amount;
         $this->statement->created_at = $this->statement->updated_at = $this->statement->paid_at = $this->statement->sent_at = Carbon::createFromFormat('Y-m-d', $request->created_at);
 
-        $this->tenancy->storeOldstatement($this->statement);
-
-        if ($request->has('users')) {
-        	$this->statement->users()->sync($request->users);
-        } else {
-        	$this->statement->users()->sync($this->tenancy->property->owners);
-        }
     }
 
     /**
      * Add an invoice and it's items to the statement.
-     * 
-     * @param \Illuminate\Http\Request $request
+     *
+     * @param  \App\Statement  $statement
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Statement
      */
-    private function addInvoiceItems(Request $request)
+    private function addInvoiceItems(Statement $statement, Request $request)
     {
-    	if (!$this->statement) {
-    		return;
-    	}
-
-        $this->statement = $this->statement->fresh();
-
+        // Make sure the request has a valid invoice number
     	if ($request->has('invoice_number')) {
 
     		$total_items = count($request->item_name);
 
+            // Make sure we have invoice items to add
+            if ($total_items > 0) {
+                // Does the statement have an invoice?
+                if (!count($statement->invoices)) {
+                    $invoice = new Invoice();
+                    $invoice->created_at = $invoice->updated_at = $invoice->sent_at = $statement->created_at;
+                    $invoice->property_id = $statement->tenancy->property_id;
+                    $invoice->number = $request->invoice_number;
+
+                    // Save the invoice to the statement
+                    $statement->invoices()->save($invoice);
+
+                    // Attach the users to the invoice
+                    $invoice->users()->sync($request->users);
+                }
+            }
+
     		for ($i = 0; $i < $total_items; $i++) {
 		  		if ($request->item_amount[$i]) {
-
-	        		if (!$this->invoice) {
-                        $this->invoice = new Invoice();
-	        			$this->invoice->created_at = $this->invoice->updated_at = $this->invoice->sent_at = $this->statement->created_at;
-	        			$this->invoice->property_id = $this->tenancy->property->id;
-	        			$this->invoice->number = $request->invoice_number;
-	        			$this->statement->storeInvoice($this->invoice);
-	        		}
 
 	        		$item = new InvoiceItem();
 	        		$item->name = $request->item_name[$i];
@@ -123,20 +130,8 @@ class OldStatementController extends BaseController
 	        		$item->quantity = $request->item_quantity[$i];
 	        		$item->tax_rate_id = $request->item_tax_rate_id[$i];
 
-	        		$this->invoice->storeItem($item);
+	        		$invoice->storeItem($item);
 	        	}
-    		}
-
-    		if ($this->invoice) {
-                $this->invoice->fresh();
-
-	            $payment = new StatementPayment();
-	            $payment->statement_id = $this->statement->id;
-	            $payment->amount = $this->invoice->total;
-	            $payment->sent_at = $this->statement->created_at;
-	            $payment->bank_account_id = get_setting('company_bank_account_id', null);
-
-	            $this->invoice->storeStatementPayment($payment);
     		}
     	}
     }
