@@ -19,7 +19,7 @@
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
-						Edit User
+						<i class="fa fa-edit"></i> Edit User
 					</a>
 				</div>
 			</div>
