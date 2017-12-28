@@ -151,7 +151,7 @@ class Property extends BaseModel
 	/**
 	 * A property can have many expenses.
 	 */
-	public function unpaid_expenses()
+	public function unpaidExpenses()
 	{
 		return $this
 			->hasMany('App\Expense')

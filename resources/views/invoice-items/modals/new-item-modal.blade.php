@@ -4,7 +4,7 @@
 			{{ csrf_field() }}
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="newInvoiceItemModal">New Item</h5>
+					<h5 class="modal-title" id="newInvoiceItemModal">New Invoice Item</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

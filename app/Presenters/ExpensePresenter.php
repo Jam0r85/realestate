@@ -11,6 +11,14 @@ class ExpensePresenter extends Presenter
 	/**
 	 * @return  string
 	 */
+	public function selectName()
+	{
+		return $this->name . ' (Remaining Balance: ' . currency($this->remainingStatementBalance) . ')';
+	}
+
+	/**
+	 * @return  string
+	 */
 	public function contractorName()
 	{
 		if ($this->contractor) {
@@ -53,11 +61,19 @@ class ExpensePresenter extends Presenter
 	}
 
 	/**
-	 * @return  integer
+	 * @return  int
 	 */
 	public function remainingBalance()
 	{
 		return $this->cost - $this->payments->sum('amount');
+	}
+
+	/**
+	 * @return  int
+	 */
+	public function remainingStatementBalance()
+	{
+		$this->cost - $this->statements->sum('pivot.amount');
 	}
 
 	/**

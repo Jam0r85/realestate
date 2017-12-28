@@ -128,11 +128,13 @@ class Statement extends PdfModel
     }
 
     /**
-     * A statement can have many expenses.
+     * A statement can have many expenses with an amount paid.
      */
     public function expenses()
     {
-        return $this->belongsToMany('App\Expense')->withPivot('amount');
+        return $this
+            ->belongsToMany('App\Expense')
+            ->withPivot('amount');
     }
 
     /**

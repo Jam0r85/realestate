@@ -51,6 +51,7 @@
 					<th>Contractor</th>
 					<th>Expense Cost</th>
 					<th>Amount</th>
+					<th></th>
 				</thead>
 			@endslot
 			@slot('body')
@@ -60,6 +61,11 @@
 						<td>{{ $expense->present()->contractorName }}</td>
 						<td>{{ currency($expense->cost) }}</td>
 						<td>{{ currency($expense->pivot->amount) }}</td>
+						<td class="text-right">
+							<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
+								View
+							</a>
+						</td>
 					</tr>
 				@endforeach
 			@endslot

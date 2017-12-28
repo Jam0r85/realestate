@@ -5,12 +5,19 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+
 			@if (count($statement->invoices))
 				@foreach ($statement->invoices as $invoice)
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newInvoiceItemModal" data-invoice="{{ $invoice->id }}">
-						<i class="fa fa-plus"></i> New Item
+						<i class="fa fa-plus"></i> New Invoice Item
 					</button>
 				@endforeach
+			@endif
+
+			@if (count($statement->tenancy->property->unpaidExpenses))
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#statementExpenseAttachModal">
+					<i class="fa fa-plus"></i> New Expense Item
+				</button>
 			@endif
 
 			<div class="btn-group">
@@ -71,6 +78,9 @@
 	@endcomponent
 
 	@include('invoice-items.modals.new-item-modal')
+	@if (count($statement->tenancy->property->unpaidExpenses))
+		@include('expenses.modals.statement-expense-attach-modal')
+	@endif
 
 @endsection
 

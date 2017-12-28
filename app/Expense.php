@@ -126,12 +126,13 @@ class Expense extends BaseModel
     }
 
     /**
-     * An expense can belong to many statements.
+     * An expense can belong to many statements with an amount.
      */
     public function statements()
     {
         return $this
-            ->belongsToMany('App\Statement');
+            ->belongsToMany('App\Statement')
+            ->withPivot('amount');
     }
 
     /**
