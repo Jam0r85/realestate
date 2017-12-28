@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ExpenseWasAttachedToStatement;
 use App\Events\StatementWasCreated;
 use App\Events\StatementWasDeleted;
+use App\Events\StatementWasUpdated;
 use App\StatementPayment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,6 +29,20 @@ class StatementPaymentListener
      * @return void
      */
     public function statementCreated(StatementWasCreated $event)
+    {
+        $statement = $event->statement;
+
+        $repository = new StatementPayment();
+        $repository->createPayments($statement);
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  StatementWasUpdated  $event
+     * @return void
+     */
+    public function statementWasUpdated(StatementWasUpdated $event)
     {
         $statement = $event->statement;
 

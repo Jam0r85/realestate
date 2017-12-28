@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\StatementWasDeleted;
 use App\Events\StatementWasSent;
+use App\Events\StatementWasUpdated;
 use App\Events\Tenancies\TenancyUpdateStatus;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\StatementDestroyRequest;
@@ -114,6 +115,8 @@ class StatementController extends BaseController
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
+
+        event (new StatementWasUpdated($statement));
 
         return back();
     }

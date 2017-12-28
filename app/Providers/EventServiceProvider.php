@@ -47,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\TenancyListener@statementCreated',
             'App\Listeners\StatementPaymentListener@statementCreated'
         ],
+        'App\Events\StatementWasUpdated' => [
+            'App\Listeners\StatementPaymentListener@statementWasUpdated'
+        ],
         'App\Events\StatementWasSent' => [
             'App\Listeners\TenancyListener@statementSent'
         ],
