@@ -62,6 +62,35 @@
 					</div>
 				</div>
 
+				<div class="card mb-3">
+					@component('partials.card-header')
+						Tenancy Dates
+					@endcomponent
+					<div class="card-body">
+
+						<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
+
+							<div class="form-group">
+								<label for="vacated_on">Tenancy Vacated</label>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</span>
+									<input type="date" name="vacated_on" id="vacated_on" class="form-control" value="{{ $tenancy->vacated_on ? $tenancy->vacated_on->format('Y-m-d') : old('vacated_on') }}" />
+								</div>
+							</div>
+
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+
+						</form>
+
+					</div>
+				</div>
+
 			</div>
 			<div class="col-12 col-lg-6">
 

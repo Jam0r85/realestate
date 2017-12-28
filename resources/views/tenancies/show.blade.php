@@ -27,7 +27,7 @@
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="tenanciesOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('tenancies.edit', $tenancy->id) }}" title="Edit Tenancy">
-						Edit Tenancy
+						<i class="fa fa-edit"></i> Edit Tenancy
 					</a>
 				</div>
 			</div>
