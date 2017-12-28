@@ -34,7 +34,7 @@ class StatementPaymentController extends BaseController
     public function index()
     {
         $unsent_payments = $this->repository
-                ->with('statement','statement.tenancy','statement.tenancy.property','bank_account','parent')
+                ->with('statement','statement.tenancy','statement.tenancy.property','bank_account','parent','users')
                 ->whereNull('sent_at')
                 ->latest()
                 ->get()
