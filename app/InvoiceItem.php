@@ -38,7 +38,8 @@ class InvoiceItem extends BaseModel
      */
     public function taxRate()
     {
-    	return $this->belongsTo('App\TaxRate')
+    	return $this
+            ->belongsTo('App\TaxRate')
             ->withTrashed();
     }
 
@@ -50,14 +51,10 @@ class InvoiceItem extends BaseModel
     public function getTotalTaxAttribute()
     {
         if (!$this->taxRate) {
-            $amount = 0;
-        } else {
-            $amount = $this->taxRate->amount;
+            return 0;
         }
 
-        $amount = ($amount / 100) * $this->total_net;
-
-        return number_format($amount, 2);
+        return number_format(($this->taxRate->amount / 100) * $this->total_net, 2);
     }
 
     /**
