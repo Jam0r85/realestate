@@ -141,11 +141,11 @@ class StatementPaymentController extends BaseController
 
         event(new StatementPaymentWasSent($payment));
 
-        if (model_from_plural($payment->parent) == 'Invoice') {
+        if (model_name($payment->parent) == 'Invoice') {
             event(new InvoiceStatementPaymentWasSent($payment));
         }
 
-        if (model_from_plural($payment->parent) == 'Expense') {
+        if (model_name($payment->parent) == 'Expense') {
             event(new ExpenseStatementPaymentWasSent($payment));
         }
 
