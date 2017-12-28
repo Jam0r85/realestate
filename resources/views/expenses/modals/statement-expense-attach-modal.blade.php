@@ -17,9 +17,11 @@
 						<label for="expense_id">Expense</label>
 						<select name="expense_id" id="expense_id" class="form-control">
 							@foreach ($statement->tenancy->property->unpaidExpenses as $expense)
-								<option value="{{ $expense->id }}">
-									{{ $expense->present()->selectName }}
-								</option>
+								@if (!$statement->expenses->contains($expense->id))
+									<option value="{{ $expense->id }}">
+										{{ $expense->present()->selectName }}
+									</option>
+								@endif
 							@endforeach
 						</select>
 					</div>

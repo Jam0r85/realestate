@@ -20,6 +20,8 @@ class StatementExpenseController extends Controller
     	$statement = Statement::withTrashed()->findOrFail($request->statement_id);
     	$statement->expenses()->attach($request->expense_id, ['amount' => $request->amount]);
 
+        flash_message('Expense #' . $request->expense_id . ' attached to Statement #' . $request->statement_id . ' with the amount ' . currency($request->amount));
+
     	return back();
     }
 }
