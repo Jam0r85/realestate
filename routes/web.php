@@ -125,11 +125,6 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 	});
 
-	Route::prefix('statements/old')->group(function () {
-		Route::get('{id}', 'OldStatementController@create')->name('old-statements.create'); // Create an old rental statement
-		Route::post('old-statement', 'OldStatementController@store')->name('old-statements.store'); // Store the old rental statement
-	});
-
 	Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('rent-payments.print');
 	Route::get('{tenancy}/rent-payments/print-with-statements', 'RentPaymentController@printWithStatements')->name('rent-payments.print-with-statements');
 
@@ -143,6 +138,12 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'ServiceController@update')->name('services.update'); // Update the service
 		Route::delete('{id}', 'ServiceController@destroy')->name('services.destroy'); // Delete the service
 		Route::put('{id}/restore', 'ServiceController@restore')->name('services.restore'); // Restore the service
+	});
+
+	// Old statements
+	Route::prefix('statements/old')->group(function () {
+		Route::get('{id}', 'OldStatementController@create')->name('old-statements.create'); // Create an old rental statement
+		Route::post('{id}', 'OldStatementController@store')->name('old-statements.store'); // Store the old rental statement
 	});
 
 	// Statements

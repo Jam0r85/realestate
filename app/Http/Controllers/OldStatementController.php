@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Auth;
 class OldStatementController extends BaseController
 {
     /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    public $model = 'App\Statement';
+
+    /**
      * Show the form for creating a new resource.
      * 
      * @param  int $id
@@ -26,17 +33,20 @@ class OldStatementController extends BaseController
         $tenancy = Tenancy::withTrashed()
             ->findOrFail($id);
 
-        return view('statements-old.create', compact('tenancy'));
+        return view('old-statements.create', compact('tenancy'));
     }
 
 	/**
 	 * Store the old statement into storage.
 	 * 
-	 * @param \Illuminate\Http\Request $request
+	 * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
 	 * @return void
 	 */
-    public function store(OldStatementStoreRequest $request)
+    public function store(OldStatementStoreRequest $request, $id)
     {
+        $tenancy = Tenancy::withTrashed()->findOrFail($id);
+
         $this->storeStatement($request);
         $this->addInvoiceItems($request);
         $this->addExpenses($request);

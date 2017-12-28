@@ -53,7 +53,6 @@
 			<div class="col-12 col-lg-4">
 
 				<div class="card mb-3">
-
 					@component('partials.card-header')
 						Latest Users
 					@endcomponent
@@ -65,6 +64,8 @@
 							</a>
 						@endforeach
 					</div>
+
+				</div>
 
 			</div>
 		</div>
