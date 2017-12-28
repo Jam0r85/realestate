@@ -42,6 +42,18 @@
 
 		@include('partials.errors-block')
 
+		@if ($statement->paid_at)
+			@component('partials.alerts.success')
+				This statement was paid on {{ date_formatted($statement->paid_at) }}
+			@endcomponent
+		@endif
+
+		@if ($statement->sent_at)
+			@component('partials.alerts.success')
+				This statement was sent on {{ date_formatted($statement->sent_at) }}
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'statements.show', $statement->id, 'index') !!}

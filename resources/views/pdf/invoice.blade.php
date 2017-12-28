@@ -20,7 +20,7 @@
 
 			<div class="section">
 				<h3 class="m-0 {{ $invoice->present()->status('class') }}">
-					Invoice {{ $invoice->present()->name }}
+					{{ $invoice->present()->name }}
 				</h3>
 				<h5 class="m-0">
 					{{ $invoice->present()->fullDate }}
