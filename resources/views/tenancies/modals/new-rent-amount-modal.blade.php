@@ -19,11 +19,8 @@
 							<span class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</span>
-							<input type="date" class="form-control" name="starts_at" id="starts_at" value="{{ old('starts_at') }}" required>
+							<input type="date" class="form-control" name="starts_at" id="starts_at" value="{{ old('starts_at') ?? date('Y-m-d') }}" required>
 						</div>
-						<small class="form-text text-muted">
-							Enter the date that this rent amount should start from.
-						</small>
 					</div>
 
 					<div class="form-group">
