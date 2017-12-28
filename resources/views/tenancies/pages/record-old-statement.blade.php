@@ -41,49 +41,7 @@
 
 						<div class="card-body">
 
-							<div class="form-group">
-								<label for="created_at">Date Created</label>
-								<input type="date" name="created_at" class="form-control" value="{{ old('created_at') }}" />
-								<small class="form-text text-muted">
-									The date of the statement when it was originally created.
-								</small>
-							</div>
 
-							<div class="form-group">
-								<label for="period_start">Date Start</label>
-								<input type="date" name="period_start" class="form-control" value="{{ old('period_start') }}" />
-								<small class="form-text text-muted">
-									The start date of the statement.
-								</small>
-							</div>
-
-							<div class="form-group">
-								<label for="period_end">Date End</label>
-								<input type="date" name="period_end" class="form-control" value="{{ old('period_end') }}" />
-								<small class="form-text text-muted">
-									The end date of the statement.
-								</small>
-							</div>
-
-							<div class="form-group">
-								<label for="amount">Amount</label>
-								<input type="number" step="any" name="amount" class="form-control" value="{{ old('amount') }}" />
-								<small class="form-text text-muted">
-									Enter the rent amount of the statement.
-								</small>
-							</div>
-
-							<div class="form-group">
-								<label for="users">Users</label>
-								<select name="users[]" class="form-control select2" multiple>
-									@foreach (users() as $user)
-										<option value="{{ $user->id }}">{{ $user->name }}</option>
-									@endforeach
-								</select>
-								<small class="form-text text-muted">
-									Set the user's of this statement manually of leave blank for it to select the property owners by default.
-								</small>
-							</div>
 
 						</div>
 					</div>
@@ -92,124 +50,13 @@
 						Save Changes
 					@endcomponent
 
-					<div class="card mt-3 mb-3">
-
-						@component('partials.card-header')
-							<button type="button" class="btn btn-secondary btn-sm float-right" id="cloneInvoiceItem">
-								<i class="fa fa-plus"></i> Invoice Item
-							</button>
-							Add Invoice
-						@endcomponent
-
-						<div class="card-body">
-
-							<div class="form-group">
-								<label for="invoice_number">Invoice Number</label>
-								<input type="text" name="invoice_number" id="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
-								<small class="form-text text-muted">
-									Invoice number is when adding invoice items.
-								</small>
-							</div>
-
-						</div>
-
-						<div id="invoiceItems">
-							<div class="card-body" id="invoiceItemColumn">
-
-								<h5 class="text-info mb-3">Invoice Item</h5>
-
-								<div class="form-group">
-									<label for="item_name">Name</label>
-									<input type="text" name="item_name[]" class="form-control" value="{{ $tenancy->service ? $tenancy->service->name : '' }}" />
-								</div>
-
-								<div class="form-group">
-									<label for="item_description">Description (optional)</label>
-									<textarea rows="6" name="item_description[]" class="form-control">{{ $tenancy->service ? $tenancy->service->description : '' }}</textarea>
-								</div>
-
-								<div class="form-group">
-									<label for="item_amount">Amount Per Item</label>
-									<input type="number" step="any" name="item_amount[]" class="form-control" />
-								</div>
-
-								<div class="form-group">
-									<label for="item_quantity">Quantity</label>
-									<input type="number" name="item_quantity[]" class="form-control" value="1" />
-								</div>
-
-								<div class="form-group">
-									<label for="item_tax_rate_id">Tax Rate</label>
-									<select name="item_tax_rate_id[]" class="form-control">
-										<option value="0" selected>None</option>
-										@foreach (tax_rates() as $rate)
-											<option @if (get_setting('default_tax_rate_id') == $rate->id) selected @endif value="{{ $rate->id }}">
-												{{ $rate->name }}
-											</option>
-										@endforeach
-									</select>
-								</div>
-
-							</div>
-						</div>
-
-					</div>
+					
 
 					@component('partials.save-button')
 						Save Changes
 					@endcomponent
 
-					<div class="card mt-3 mb-3">
 
-						@component('partials.card-header')
-							<button type="button" class="btn btn-secondary btn-sm float-right" id="cloneExpenseItem">
-								<i class="fa fa-plus"></i> Expense Item
-							</button>
-							Expense Items
-						@endcomponent
-
-						<div class="card-body">
-
-							<div id="expenseItems">
-								<div id="expenseItemColumn">
-									<div class="card border-warning mb-3">
-										<div class="card-header">
-											Expense Item
-										</div>
-										<div class="card-body">
-
-											<div class="form-group">
-												<label for="expense_name">Name</label>
-												<input class="form-control" type="text" name="expense_name[]" id="expense_name" />
-											</div>
-
-											<div class="form-group">
-												<label for="expense_cost">Cost</label>
-												<input class="form-control" type="number" step="any" name="expense_cost[]" id="expense_cost" />
-											</div>
-
-											<div class="form-group">
-												<label for="expense_contractor">Contractor</label>
-												<select name="expense_contractor_id[]" id="expense_contractor_id" class="form-control select2">
-													@foreach (users() as $user)
-														<option value="{{ $user->id }}">
-															{{ $user->name }}
-														</option>
-													@endforeach
-												</select>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							@component('partials.save-button')
-								Record Old Statement
-							@endcomponent
-
-						</div>
-					</div>
 
 				</div>
 				<div class="col-7">
