@@ -42,7 +42,7 @@ class StatementPaymentController extends BaseController
                 ->sortBy('bank_account.account_name');
 
     	$sent_payments = $this->repository
-            ->with('statement','statement.tenancy','statement.tenancy.property','users','bank_account')
+            ->with('statement','statement.tenancy','statement.tenancy.property','parent','users','bank_account')
             ->whereNotNull('sent_at')
             ->latest('sent_at')
             ->paginate();
