@@ -42,8 +42,10 @@
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
 
-							<div class="form-group">
-								<label for="service_id">Service</label>
+							@component('partials.form-group')
+								@slot('label')
+									Service
+								@endslot
 								<select name="service_id" id="service_id" class="form-control">
 									@foreach (services() as $service)
 										<option @if ($tenancy->service->id == $service->id) selected @endif value="{{ $service->id }}">
@@ -51,7 +53,7 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
 							@component('partials.save-button')
 								Save Changes
@@ -72,15 +74,17 @@
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
 
-							<div class="form-group">
-								<label for="vacated_on">Tenancy Vacated</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Date Vacated
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@lang('icons.calendar')
+									@endslot
 									<input type="date" name="vacated_on" id="vacated_on" class="form-control" value="{{ $tenancy->vacated_on ? $tenancy->vacated_on->format('Y-m-d') : old('vacated_on') }}" />
-								</div>
-							</div>
+								@endcomponent
+							@endcomponent
 
 							@component('partials.save-button')
 								Save Changes

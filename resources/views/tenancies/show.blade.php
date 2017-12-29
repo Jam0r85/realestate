@@ -45,6 +45,26 @@
 
 	@component('partials.bootstrap.section-with-container')
 
+		@include('partials.errors-block')
+
+		@if ($tenancy->vacated_on && $tenancy->vacated_on <= \Carbon\Carbon::now())
+			@component('partials.alerts.warning')
+				@component('partials.icon')
+					@lang('icons.calendar')
+				@endcomponent
+				Tenancy ending on {{ date_formatted($tenancy->vacated_on) }}
+			@endcomponent
+		@endif
+
+		@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
+			@component('partials.icon')
+				@lang('icons.calendar')
+			@endcomponent
+			@component('partials.alerts.warning')
+				Tenancy ended on {{ date_formatted($tenancy->vacated_on) }}
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'tenancies.show', $tenancy->id, 'index') !!}
