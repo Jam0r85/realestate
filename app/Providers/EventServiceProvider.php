@@ -115,6 +115,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\InvoiceItemWasDeleted' => [
             'App\Listeners\InvoiceListener@itemWasDeleted'
+            'App\Listeners\StatementListener@invoiceItemWasDeleted'
         ]
     ];
 

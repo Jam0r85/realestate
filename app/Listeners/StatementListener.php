@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ExpenseWasAttachedToStatement;
+use App\Events\InvoiceItemWasDeleted;
 use App\Events\InvoiceItemWasUpdated;
 use App\Events\StatementPaymentWasSent;
 use App\StatementPayment;
@@ -29,6 +30,26 @@ class StatementListener
      * @return void
      */
     public function invoiceItemWasUpdated(InvoiceItemWasUpdated $event)
+    {
+        $item = $event->item;
+        $invoice = $item->invoice;
+
+        if (count($invoice->statements)) {
+            foreach ($invoice->statements as $statement) {
+                $repository = new StatementPayment();
+                $repository->createInvoicePayment($statement);
+                $repository->createLandlordPayment($statement);
+            }
+        }
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  InvoiceItemWasDeleted  $event
+     * @return void
+     */
+    public function invoiceItemWasDeleted(InvoiceItemWasDeleted $event)
     {
         $item = $event->item;
         $invoice = $item->invoice;
