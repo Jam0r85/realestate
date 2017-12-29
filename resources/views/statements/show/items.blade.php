@@ -42,45 +42,37 @@
 		Expense Items
 	@endcomponent
 
-	@if (count($statement->expenses))
-
-		@component('partials.table')
-			@slot('header')
-				<thead>
-					<th>Name</th>
-					<th>Contractor</th>
-					<th>Expense Cost</th>
-					<th>Amount</th>
-					<th></th>
-				</thead>
-			@endslot
-			@slot('body')
-				@foreach ($statement->expenses as $expense)
-					<tr>
-						<td>{{ $expense->name }}</td>
-						<td>{{ $expense->present()->contractorName }}</td>
-						<td>{{ currency($expense->cost) }}</td>
-						<td>{{ currency($expense->pivot->amount) }}</td>
-						<td class="text-right">
-							<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
-								View
-							</a>
-						</td>
-					</tr>
-				@endforeach
-			@endslot
-		@endcomponent
-
-	@else
-
-		<div class="card-body">
-
-			@component('partials.alerts.primary')
-				This statement has no expense items attached to it.
-			@endcomponent
-
-		</div>
-
-	@endif
+	@component('partials.table')
+		@slot('header')
+			<th>Name</th>
+			<th>Contractor</th>
+			<th>Expense Cost</th>
+			<th>Amount</th>
+			<th></th>
+		@endslot
+		@slot('body')
+			@foreach ($statement->expenses as $expense)
+				<tr>
+					<td>{{ $expense->name }}</td>
+					<td>{{ $expense->present()->contractorName }}</td>
+					<td>{{ currency($expense->cost) }}</td>
+					<td>{{ currency($expense->pivot->amount) }}</td>
+					<td class="text-right">
+						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
+							View
+						</a>
+					</td>
+				</tr>
+			@endforeach
+		@endslot
+		@slot('footer')
+			<tr>
+				<td colspan="2">Total</td>
+				<td>{{ currency($statement->expenses->sum('cost')) }}</td>
+				<td>{{ currency($statement->expenses->sum('pivot.amount')) }}</td>
+				<td></td>
+			</tr>
+		@endslot
+	@endcomponent
 
 </div>

@@ -1,4 +1,5 @@
 @if (count($expenses))
+
 	@component('partials.table')
 		@slot('header')
 			<th>Status</th>
@@ -32,7 +33,9 @@
 			@endforeach
 		@endslot
 	@endcomponent
+
 @else
+
 	@component('partials.alerts.warning')
 		No expenses found.
 	@endcomponent

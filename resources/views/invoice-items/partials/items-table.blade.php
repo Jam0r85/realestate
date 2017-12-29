@@ -32,6 +32,7 @@
 			<td class="text-right">{{ currency($invoice->net) }}</td>			
 			<td class="text-right">{{ currency($invoice->tax) }}</td>
 			<td class="text-right">{{ currency($invoice->total) }}</td>
+			<td></td>
 		</tr>
 	@endslot
 @endcomponent

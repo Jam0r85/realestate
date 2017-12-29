@@ -1,6 +1,6 @@
 <table class="table table-bordered">
 	@if (isset($header))
-		<thead>
+		<thead class="thead-light">
 			{{ $header }}
 		</thead>
 	@endif

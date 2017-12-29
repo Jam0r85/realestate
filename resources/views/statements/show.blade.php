@@ -38,7 +38,7 @@
 		@component('partials.header')
 			Statement #{{ $statement->id }}
 			<span class="badge badge-secondary">
-				{{ currency($statement->present()->landlordBalanceTotal) }} balance
+				{{ currency($statement->present()->landlordBalanceTotal) }} to landlord
 			</span>
 		@endcomponent
 

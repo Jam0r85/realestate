@@ -104,8 +104,14 @@ nav.navbar {
 	border-top-width: 2px;
 	color: $gray-600;
 }
-.card table.table-bordered {
+.card .table-bordered {
 	border: 0 !important;
+}
+.card .table-bordered th:first-child, .card .table-bordered td:first-child {
+	border-left: 0 !important;
+}
+.card .table-bordered th:last-child, .card .table-bordered td:last-child {
+	border-right: 0 !important;
 }
 
 /**
