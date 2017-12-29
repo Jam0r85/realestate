@@ -52,16 +52,16 @@
 				@component('partials.icon')
 					@lang('icons.calendar')
 				@endcomponent
-				Tenancy ending on {{ date_formatted($tenancy->vacated_on) }}
+				Tenancy ended on {{ date_formatted($tenancy->vacated_on) }}
 			@endcomponent
 		@endif
 
 		@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
-			@component('partials.icon')
-				@lang('icons.calendar')
-			@endcomponent
 			@component('partials.alerts.warning')
-				Tenancy ended on {{ date_formatted($tenancy->vacated_on) }}
+				@component('partials.icon')
+					@lang('icons.calendar')
+				@endcomponent
+				Tenancy ending on {{ date_formatted($tenancy->vacated_on) }}
 			@endcomponent
 		@endif
 
