@@ -8,8 +8,10 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'plus' => 'plus',
-    'money' => 'money-bill',
     'calendar' => 'calendar',
+    'cogs' => 'cogs',
+    'edit' => 'edit',
+    'plus' => 'plus',
+    'money' => 'money-bill',    
 
 ];

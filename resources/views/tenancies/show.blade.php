@@ -6,28 +6,28 @@
 
 		<div class="mb-3 text-right">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tenancyRentPaymentModal">
-				<i class="fa fa-plus"></i> Payment
+				@icon('plus') Payment
 			</button>
 
 			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#newStatementModal">
-				<i class="fa fa-plus"></i> Statement
+				@icon('plus') Statement
 			</button>
 
 			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newRentAmount">
-				<i class="fa fa-plus"></i> Rent
+				@icon('plus') Rent
 			</button>
 
 			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newTenancyAgreement">
-				<i class="fa fa-plus"></i> Agreement
+				@icon('plus') Agreement
 			</button>
 
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="tenanciesOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-cogs"></i> Options
+					@icon('cogs') Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="tenanciesOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('tenancies.edit', $tenancy->id) }}" title="Edit Tenancy">
-						<i class="fa fa-edit"></i> Edit Tenancy
+						@icon('edit') Edit Tenancy
 					</a>
 				</div>
 			</div>
@@ -49,18 +49,14 @@
 
 		@if ($tenancy->vacated_on && $tenancy->vacated_on <= \Carbon\Carbon::now())
 			@component('partials.alerts.warning')
-				@component('partials.icon')
-					@lang('icons.calendar')
-				@endcomponent
+				@icon('calendar')
 				Tenancy ended on {{ date_formatted($tenancy->vacated_on) }}
 			@endcomponent
 		@endif
 
 		@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
 			@component('partials.alerts.warning')
-				@component('partials.icon')
-					@lang('icons.calendar')
-				@endcomponent
+				@icon('calendar')
 				Tenancy ending on {{ date_formatted($tenancy->vacated_on) }}
 			@endcomponent
 		@endif
