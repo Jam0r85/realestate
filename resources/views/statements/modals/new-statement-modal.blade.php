@@ -30,9 +30,6 @@
 							</span>
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
 						</div>
-						<small class="form-text text-muted">
-							Leave this blank to use the current rent amount.
-						</small>
 					</div>
 
 					<div class="form-group">
@@ -43,13 +40,10 @@
 							</span>
 							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
 						</div>
-						<small class="form-text text-muted">
-							Leave blank to automatically use the next statement date. ({{ date_formatted($tenancy->present()->nextStatementStartDate) }})
-						</small>
 					</div>
 
 					<div class="form-group">
-						<label for="period_end">End Date (optional)</label>
+						<label for="period_end">End Date</label>
 						<div class="input-group">
 							<span class="input-group-addon">
 								<i class="fa fa-calendar"></i>
