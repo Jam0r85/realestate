@@ -2,7 +2,7 @@
 	@slot('header')
 		<th>Name</th>
 		<th class="text-right">Owners</th>
-		<td></td>
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($properties as $property)
