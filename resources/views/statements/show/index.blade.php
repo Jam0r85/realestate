@@ -21,3 +21,29 @@
 		@endcomponent
 	</ul>
 </div>
+
+<div class="card mb-3">
+	@component('partials.card-header')
+		System Information
+	@endcomponent
+	<ul class="list-group list-group-flush">
+		@component('partials.list-group-item')
+			{{ $statement->owner->present()->fullName }}
+			@slot('title')
+				Created By
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ date_formatted($statement->created_at) }}
+			@slot('title')
+				Created
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ datetime_formatted($statement->updated_at) }}
+			@slot('title')
+				Last Updated
+			@endslot
+		@endcomponent
+	</ul>
+</div>
