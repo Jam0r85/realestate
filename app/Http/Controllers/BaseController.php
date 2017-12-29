@@ -79,19 +79,14 @@ class BaseController extends Controller
 	 * 
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  integer  $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Database\Eloquent\Model
 	 */
 	public function destroy(Request $request, $id)
 	{
-		// Find the model
         $model = $this->repository
-        	->findOrFail($id);
-
-       	// Destroy it
-        $model
+        	->findOrFail($id)
         	->delete();
 
-        // Return the model
         return $model;
 	}
 

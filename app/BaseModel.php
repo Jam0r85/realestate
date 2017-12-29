@@ -77,6 +77,8 @@ class BaseModel extends Model
 		} else {
 			$this->flashMessage('deleted');
 		}
+
+		return $this;
 	}
 
 	/**
