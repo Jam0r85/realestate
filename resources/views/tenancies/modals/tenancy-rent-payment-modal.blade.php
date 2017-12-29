@@ -11,39 +11,47 @@
 				</div>
 				<div class="modal-body">
 
-					<div class="form-group">
-						<label for="created_at">Received</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</span>
+					@component('partials.form-group')
+						@slot('label')
+							Received
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								calendar
+							@endslot
 							<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? date('Y-m-d') }}" />
-						</div>
-					</div>
+						@endcomponent
+					@endcomponent
 
-					<div class="form-group">
-						<label for="amount">Amount</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-money-bill"></i>
-							</span>
+					@component('partials.form-group')
+						@slot('label')
+							Amount
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								money-bill
+							@endslot
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
-						</div>
-					</div>
+						@endcomponent
+					@endcomponent
 
-					<div class="form-group">
-						<label for="payment_method_id">Method</label>
+					@component('partials.form-group')
+						@slot('label')
+							Method
+						@endslot
 						<select name="payment_method_id" id="payment_method_id" class="form-control" required>
 							@foreach (payment_methods() as $method)
 								<option value="{{ $method->id }}">{{ $method->name }}</option>
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="note">Note</label>
+					@component('partials.form-group')
+						@slot('label')
+							Note
+						@endslot
 						<textarea name="note" id="note" class="form-control" rows="4"></textarea>
-					</div>
+					@endcomponent
 
 				</div>
 				<div class="modal-footer">

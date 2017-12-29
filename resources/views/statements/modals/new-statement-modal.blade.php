@@ -22,38 +22,44 @@
 
 					<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
 
-					<div class="form-group">
-						<label for="amount">Statement Amount</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-money-bill"></i>
-							</span>
+					@component('partials.form-group')
+						@slot('label')
+							Statement Rent Amount
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								money-bill
+							@endslot
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
-						</div>
-					</div>
+						@endcomponent
+					@endcomponent
 
-					<div class="form-group">
-						<label for="period_start">Start Date</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</span>
+					@component('partials.form-group')
+						@slot('label')
+							Start Date
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								calendar
+							@endslot
 							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
-						</div>
-					</div>
+						@endcomponent
+					@endcomponent
 
-					<div class="form-group">
-						<label for="period_end">End Date</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</span>
-							<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
-						</div>
-						<small class="form-text text-muted">
+					@component('partials.form-group')
+						@slot('label')
+							End Date
+						@endslot
+						@slot('help')
 							Leave blank to use the default time frame eg. one month
-						</small>
-					</div>
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								calendar
+							@endslot
+							<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
+						@endcomponent
+					@endcomponent
 
 				</div>
 				<div class="modal-footer">
