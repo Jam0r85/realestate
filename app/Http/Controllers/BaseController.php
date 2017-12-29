@@ -83,11 +83,7 @@ class BaseController extends Controller
 	 */
 	public function destroy(Request $request, $id)
 	{
-        $model = $this->repository
-        	->findOrFail($id)
-        	->delete();
-
-        return $model;
+        return $this->repository->findOrFail($id)->delete();
 	}
 
 	/**
