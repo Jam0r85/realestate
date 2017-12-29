@@ -13,8 +13,10 @@
 
 					<input type="hidden" name="statement_id" id="statement_id" value="{{ $statement->id }}" />
 
-					<div class="form-group">
-						<label for="expense_id">Expense</label>
+					@component('partials.form-group')
+						@slot('label')
+							Expense
+						@endslot
 						<select name="expense_id" id="expense_id" class="form-control">
 							@foreach ($statement->tenancy->property->unpaidExpenses as $expense)
 								@if (!$statement->expenses->contains($expense->id))
@@ -24,20 +26,19 @@
 								@endif
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="amount">Amount</label>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-money-bill"></i>
-							</span>
+					@component('partials.form-group')
+						@slot('label')
+							Amount
+						@endslot
+						@component('partials.input-group')
+							@slot('icon')
+								@lang('icons.money')
+							@endslot
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" required />
-						</div>
-						<small class="form-text text-muted">
-							Required
-						</small>
-					</div>
+						@endcomponent
+					@endcomponent
 
 				</div>
 				<div class="modal-footer">

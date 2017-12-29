@@ -28,7 +28,7 @@
 						@endslot
 						@component('partials.input-group')
 							@slot('icon')
-								money-bill
+								@lang('icons.money')
 							@endslot
 							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
 						@endcomponent
@@ -40,7 +40,7 @@
 						@endslot
 						@component('partials.input-group')
 							@slot('icon')
-								calendar
+								@lang('icons.calendar')
 							@endslot
 							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
 						@endcomponent
@@ -55,7 +55,7 @@
 						@endslot
 						@component('partials.input-group')
 							@slot('icon')
-								calendar
+								@lang('icons.calendar')
 							@endslot
 							<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
 						@endcomponent
