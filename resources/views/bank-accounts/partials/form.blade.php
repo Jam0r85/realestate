@@ -1,19 +1,27 @@
-<div class="form-group">
-	<label for="bank_name">Bank Name</label>
+@component('partials.form-group')
+	@slot('label')
+		Bank Name
+	@endslot
 	<input type="text" name="bank_name" id="bank_name" class="form-control" value="{{ isset($account) ? $account->bank_name : old('bank_name') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="account_name">Account Name</label>
+@component('partials.form-group')
+	@slot('label')
+		Account Name
+	@endslot
 	<input type="text" name="account_name" id="account_name" class="form-control" value="{{ isset($account) ? $account->account_name : old('account_name') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="account_number">Account Number</label>
+@component('partials.form-group')
+	@slot('label')
+		Account Number
+	@endslot
 	<input type="text" name="account_number" id="account_number" class="form-control" value="{{ isset($account) ? $account->account_number : old('account_number') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="sort_code">Sort Code</label>
+@component('partials.form-group')
+	@slot('label')
+		Sort Code
+	@endslot
 	<input type="text" name="sort_code" id="sort_code" class="form-control" value="{{ isset($account) ? $account->sort_code : old('sort_code') }}" />
-</div>
+@endcomponent

@@ -10,44 +10,84 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
 		<div class="row">
 			<div class="col-12 col-lg-8">
 
-				<div class="card mb-3">
+				<form action="{{ route('users.store') }}" method="POST">
+					{{ csrf_field() }}
 
-					@component('partials.card-header')
-						User Details
-					@endcomponent
+					<div class="card mb-3">
+						@component('partials.card-header')
+							User E-Mail
+						@endcomponent
+						<div class="card-body">
 
-					<div class="card-body">
+							<p class="card-text">
+								A user requires a valid, unqiue e-mail address before they can login to the website.
+							</p>
 
-						<form action="{{ route('users.store') }}" method="POST">
-							{{ csrf_field() }}
+							@component('partials.form-group')
+								@slot('label')
+									E-Mail Address
+								@endslot
+								<input type="email" name="email" class="form-control" value="{{ old('email') }}" />
+							@endcomponent
+
+						</div>
+					</div>
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							User Details
+						@endcomponent
+						<div class="card-body">
 
 							@include('users.partials.form')
 
-							<div class="form-group">
-								<label for="password">Password <small>(optional)</small></label>
-								<input type="password" name="password" id="password" class="form-control" />
-							</div>
-
-							<div class="form-group">
-								<label for="password_confirmation">Confirm Password</label>
-								<input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
-							</div>
-
-							@component('partials.bootstrap.save-submit-button')
+						</div>
+						<div class="card-footer">
+							@component('partials.save-button')
 								Create User
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							User Password
+						@endcomponent
+						<div class="card-body">
+
+							@component('partials.form-group')
+								@slot('label')
+									Password
+								@endslot
+								@slot('help')
+									You can set manually set a password for this user
+								@endslot
+								<input type="password" name="password" id="password" class="form-control" />
+							@endcomponent
+
+							@component('partials.form-group')
+								@slot('label')
+									Password Confirmation
+								@endslot
+								<input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
+							@endcomponent
+
+						</div>
+						<div class="card-footer">
+							@component('partials.save-button')
+								Create User
+							@endcomponent
+						</div>
+					</div>
+
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-4">

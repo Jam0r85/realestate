@@ -1,5 +1,5 @@
 @component('partials.bootstrap.save-submit-button')
-	{{ $slot }}
+	@icon('save') {{ $slot }}
 
 	@if (isset($disabled))
 		@slot('disabled')

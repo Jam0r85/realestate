@@ -6,6 +6,7 @@
 
 		<div class="float-right">
 			@component('partials.return-button')
+				Return
 				@slot('url')
 					{{ route('users.show', $user->id) }}
 				@endslot
@@ -29,154 +30,154 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-
-					@component('partials.card-header')
-						Update Details
-					@endcomponent
-
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('users.update', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}			
-
-							@include('users.partials.form')
-
-							@component('partials.save-button')
-								Save Changes
-							@endcomponent
-
-						</form>
-
-					</div>
-				</div>
-
-				@if ($user->email)
+				<form method="POST" action="{{ route('users.update', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}	
 
 					<div class="card mb-3">
 
 						@component('partials.card-header')
-							Current E-Mail
+							Update Details
+						@endcomponent
+
+						<div class="card-body">		
+
+							@include('users.partials.form')
+
+						</div>
+						<div class="card-footer">
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						</div>
+					</div>
+
+				</form>
+
+				@if ($user->email)
+
+					<form method="POST" action="{{ route('users.update', $user->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
+
+						<div class="card mb-3">
+
+							@component('partials.card-header')
+								Current E-Mail
+							@endcomponent
+
+							<div class="card-body">
+
+								@component('partials.form-group')
+									<input type="text" name="current_email" id="current_email" class="form-control" value="{{ $user->email }}" disabled />
+								@endcomponent
+
+								<input type="hidden" name="email" value="" />
+
+							</div>
+							<div class="card-footer">
+								<button type="submit" class="btn btn-danger" name="remove_email" value="true">
+									<i class="fa fa-times"></i> Remove E-Mail
+								</button>
+							</div>
+						</div>
+
+					</form>
+
+				@endif
+
+				<form method="POST" action="{{ route('users.update-email', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					<div class="card mb-3">
+
+						@component('partials.card-header')
+							Change User E-Mail
 						@endcomponent
 
 						<div class="card-body">
 
-							<div class="form-group">
-								<input type="text" name="current_email" id="current_email" class="form-control" value="{{ $user->email }}" disabled />
-							</div>
+							@component('partials.form-group')
+								@slot('label')
+									New E-Mail
+								@endslot
+								<input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" />
+							@endcomponent
 
-							<form method="POST" action="{{ route('users.update', $user->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
-
-								<input type="hidden" name="email" value="" />
-
-								<button type="submit" class="btn btn-danger" name="remove_email" value="true">
-									<i class="fa fa-times"></i> Remove E-Mail
-								</button>
-
-							</form>
+							@component('partials.form-group')
+								@slot('label')
+									Confirm New E-Mail
+								@endslot
+								<input type="email" name="email_confirmation" id="email_confirmation" class="form-control" />
+							@endcomponent
 
 						</div>
-					</div>
-
-				@endif
-
-				<div class="card mb-3">
-
-					@component('partials.card-header')
-						Change User E-Mail
-					@endcomponent
-
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('users.update-email', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
-
-							<div class="form-group">
-								<label for="email">New E-Mail</label>
-								<input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" />
-							</div>
-
-							<div class="form-group">
-								<label for="email_confirmation">Confirm New E-Mail</label>
-								<input type="email" name="email_confirmation" id="email_confirmation" class="form-control" />
-							</div>
-
+						<div class="card-footer">
 							@component('partials.save-button')
 								Update E-Mail
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
 
-				<div class="card mb-3">
+				</form>
 
-					@component('partials.card-header')
-						Change Password
-					@endcomponent
+				<form method="POST" action="{{ route('users.update-password', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					<div class="card-body">
+					<div class="card mb-3">
 
-						<form method="POST" action="{{ route('users.update-password', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+						@component('partials.card-header')
+							Change Password
+						@endcomponent
 
-							<div class="form-group">
-								<label for="password">New Password</label>
+						<div class="card-body">
+
+							@component('partials.form-group')
+								@slot('label')
+									New Password
+								@endslot
 								<input type="password" class="form-control" name="password" id="password" />
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="password_confirmation">Confirm New Password</label>
+							@component('partials.form-group')
+								@slot('label')
+									Confirm New Password
+								@endslot
 								<input type="password" class="form-control" name="password_confirmation" id="password_confirmation" />
-							</div>
+							@endcomponent
 
-							<div class="form-check">
-								<label class="form-check-label">
-									<input type="checkbox" class="form-check-input" name="notify_user" value="true" checked >
-									Notify the user that their password has been changed?
-								</label>
-							</div>
-
-							<div class="form-group">
-								<label for="notify_message">Message to User (optional)</label>
-								<textarea name="notify_message" id="notify_message" class="form-control" rows="4"></textarea>
-								<small class="form-text text-muted">
-									Send the user a custom message letting them know why their password was changed.
-								</small>
-							</div>
-
+						</div>
+						<div class="card-footer">
 							@component('partials.save-button')
 								Change Password
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('users.update', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Set Home Address
-					@endcomponent
+					<div class="card mb-3">
 
-					<div class="card-body">
+						@component('partials.card-header')
+							Set Home Address
+						@endcomponent
 
-						<form method="POST" action="{{ route('users.update', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+						<div class="card-body">
 
-							<div class="form-group">
-								<label for="property_id">Property</label>
+							<p class="card-text">
+								Select the property where this user is currently living eg. their home address.
+							</p>
+
+							@component('partials.form-group')
 								<select name="property_id" id="property_id" class="form-control select2">
 									<option value="">None</option>
 									@foreach (properties() as $property)
@@ -185,115 +186,133 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
+						</div>
+						<div class="card-footer">
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
 
-				<div class="card mb-3">
+				</form>
 
-					@component('partials.card-header')
-						Rental Settings
-					@endcomponent
+				<form method="POST" action="{{ route('users.update', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					<div class="card-body">
+					<div class="card mb-3">
 
-						@component('partials.alerts.warning')
-							Overrwite the charges for new tenancies created for properties this user is the owner of.
+						@component('partials.card-header')
+							Rental Settings
 						@endcomponent
 
-						<form method="POST" action="{{ route('users.update', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+						<div class="card-body">
 
-							<div class="form-group">
-								<label for="tenancy_service_management_discount">Tenancy Management Discount</label>
+							@component('partials.alerts.info')
+								You can set default management discounts or letting and re-letting fees for new tenancies created for properties that this user is the owner of.
+							@endcomponent
+
+							@component('partials.form-group')
+								@slot('label')
+									Default Management Discount
+								@endslot
 								<select name="tenancy_service_management_discount" id="tenancy_service_management_discount" class="form-control">
 									<option value="">None</option>
 									@foreach (discounts() as $discount)
 										<option @if (array_has($user->settings, 'tenancy_service_management_discount') && $user->settings['tenancy_service_management_discount'] == $discount->id) selected @endif value="{{ $discount->id }}">{{ $discount->name }}</option>
 									@endforeach
 								</select>
-								<small class="form-text text-muted">
-									Set a discount to be applied to the management fee of all new tenancies.
-								</small>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="tenancy_service_letting_fee">Override Letting Fee</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-money-bill"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Default Letting Fee
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
 									<input type="text" name="tenancy_service_letting_fee" id="tenancy_service_letting_fee" class="form-control" value="{{ array_has($user->settings, 'tenancy_service_letting_fee') ? $user->settings['tenancy_service_letting_fee'] : '' }}" />
-								</div>
-								<small class="form-text text-muted">
-									Enter the amount that we want to charge this landlord for letting their property.
-								</small>
-							</div>
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="tenancy_service_re_letting_fee">Override Re-Letting Fee</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-money-bill"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Default Re-Letting Fee
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
 									<input type="text" name="tenancy_service_re_letting_fee" id="tenancy_service_re_letting_fee" class="form-control" value="{{ array_has($user->settings, 'tenancy_service_re_letting_fee') ? $user->settings['tenancy_service_re_letting_fee'] : '' }}" />
-								</div>
-								<small class="form-text text-muted">
-									Enter the amount that we want to charge this landlord for re-letting their property.
-								</small>
-							</div>
+								@endcomponent
+							@endcomponent
 
+						</div>
+						<div class="card-footer">
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+				</form>
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('users.update', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Contractor Settings
-					@endcomponent
+					<div class="card mb-3">
 
-					<div class="card-body">
-
-						@component('partials.alerts.warning')
-							When this user is assigned as a contractor for an expense the following settings are used.
+						@component('partials.card-header')
+							Contractor Settings
 						@endcomponent
 
-						<form method="POST" action="{{ route('users.update', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+						<div class="card-body">
 
-							<div class="form-group">
-								<label for="expense_notifications">
+							@component('partials.alerts.info')
+								When this user is set as the contractor for an expense, the following settings will apply.
+							@endcomponent
+
+							@component('partials.form-group')
+								@slot('label')
 									Bank Account
-								</label>
+								@endslot
 								<select name="contractor_bank_account_id" id="contractor_bank_account_id" class="form-control select2">
-									<option value="">None</option>
+									<option value="">None (Cheque/Cash)</option>
 									@foreach (bank_accounts([$user->id]) as $account)
 										<option @if ($user->getSetting('contractor_bank_account_id') == $account->id) selected @endif value="{{ $account->id }}">
 											{{ $account->present()->selectName }}
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="expense_notifications">
-									Expense Paid Notification
-								</label>
+						</div>
+						<div class="card-footer">
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						</div>
+					</div>
+
+				</form>
+
+				<form method="POST" action="{{ route('users.update', $user->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					<div class="card mb-3">
+						@component('partials.card-header')
+							User Notifications
+						@endcomponent
+						<div class="card-body">
+
+							@component('partials.form-group')
+								@slot('label')
+									Expense has been paid to contractor
+								@endslot
 								<select name="expense_paid_notifications" id="expense_paid_notifications" class="form-control">
 									<option @if (!$user->getSetting('expense_paid_notifications')) selected @endif value="">
 										None
@@ -305,12 +324,12 @@
 										SMS
 									</option>
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="expense_notifications">
-									Expense Received Notification
-								</label>
+							@component('partials.form-group')
+								@slot('label')
+									Expense has been received to contractor
+								@endslot
 								<select name="expense_received_notifications" id="expense_received_notifications" class="form-control">
 									<option @if (!$user->getSetting('expense_received_notifications')) selected @endif value="">
 										None
@@ -322,33 +341,12 @@
 										SMS
 									</option>
 								</select>
-							</div>
-
-							@component('partials.save-button')
-								Save Changes
 							@endcomponent
 
-						</form>
-
-					</div>
-				</div>
-
-				<div class="card mb-3">
-
-					@component('partials.card-header')
-						Rental Settings
-					@endcomponent
-
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('users.update', $user->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
-
-							<div class="form-group">
-								<label for="expense_notifications">
-									Rent Payment Notifications
-								</label>
+							@component('partials.form-group')
+								@slot('label')
+									Rent payment received for tenancy
+								@endslot
 								<select name="rent_payment_notifications" id="rent_payment_notifications" class="form-control">
 									<option  @if (!$user->getSetting('rent_payment_notifications')) selected @endif value="">
 										None
@@ -360,16 +358,17 @@
 										SMS
 									</option>
 								</select>
-							</div>
+							@endcomponent
 
+						</div>
+						<div class="card-footer">
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+
+				</form>
 
 			</div>
 		</div>

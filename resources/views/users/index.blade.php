@@ -5,7 +5,7 @@
 	@component('partials.page-header')
 
 		<a href="{{ route('users.create') }}" class="btn btn-primary float-right">
-			<i class="fa fa-user-plus"></i> Register User
+			@icon('user-plus') Register User
 		</a>
 
 		@component('partials.header')

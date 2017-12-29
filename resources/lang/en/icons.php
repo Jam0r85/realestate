@@ -10,8 +10,15 @@ return [
 
     'calendar' => 'calendar',
     'cogs' => 'cogs',
+    'download' => 'download',
     'edit' => 'edit',
+    'email' => 'envelope',
+    'info' => 'info-circle',
+    'money' => 'money-bill',
+    'options' => 'cogs',
     'plus' => 'plus',
-    'money' => 'money-bill',    
-
+    'return' => 'history',
+    'save' => 'save',
+    'sms' => 'comment',
+    'user-plus' => 'user-plus',
 ];

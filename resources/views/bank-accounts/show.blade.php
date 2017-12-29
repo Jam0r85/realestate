@@ -4,14 +4,14 @@
 
 	@component('partials.page-header')
 
-		<div class="float-right">
+		<div class="mb-2 text-right">
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="bankAccountOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Options
+					@icon('options') Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="bankAccountOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('bank-accounts.edit', $account->id) }}">
-						<i class="fa fa-edit"></i> Edit Bank Account
+						@icon('edit') Edit Bank Account
 					</a>
 				</div>
 			</div>

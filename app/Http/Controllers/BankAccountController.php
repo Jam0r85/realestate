@@ -61,8 +61,7 @@ class BankAccountController extends BaseController
             ->save();
 
         if ($request->has('users')) {
-            $account
-                ->users()->attach($request->users);
+            $account->users()->attach($request->users);
         }
 
         return back();
@@ -109,15 +108,12 @@ class BankAccountController extends BaseController
     public function update(UpdateBankAccountRequest $request, $id)
     {
         $account = $this->repository
-            ->findOrFail($id);
-
-        $account
+            ->findOrFail($id)
             ->fill($request->input())
             ->save();
 
         if ($request->has('users')) {
-            $account
-                ->users()->sync($request->users);
+            $account->users()->sync($request->users);
         }
 
         return back();

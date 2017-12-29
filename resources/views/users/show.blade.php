@@ -4,22 +4,22 @@
 
 	@component('partials.page-header')
 
-		<div class="float-right">
+		<div class="mb-2 text-right">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userSendSmsMessage">
-				<i class="fa fa-comment"></i> Send SMS
+				@icon('sms') Send SMS
 			</button>
 
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userSendEmailModal">
-				<i class="fa fa-envelope"></i> Send E-Mail
+				@icon('email') Send E-Mail
 			</button>
 
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="userOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-cogs"></i> Options
+					@icon('options') Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
-						<i class="fa fa-edit"></i> Edit User
+						@icon('edit') Edit User
 					</a>
 				</div>
 			</div>

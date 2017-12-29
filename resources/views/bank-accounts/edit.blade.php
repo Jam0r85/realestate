@@ -6,6 +6,7 @@
 
 		<div class="float-right">
 			@component('partials.return-button')
+				Return
 				@slot('url')
 					{{ route('bank-accounts.show', $account->id) }}
 				@endslot
@@ -24,31 +25,36 @@
 
 	@component('partials.section-with-container')
 
-		@component('partials.alerts.info')
-			<i class="fa fa-info-circle"></i> <b>Important Note</b><br />When a landlord is changing their bank account it is better to archive their original account and create a new one as opposed to updating the account number and sort code.
-		@endcomponent
-
 		@include('partials.errors-block')
+
+		@component('partials.alerts.info')
+			<h5>
+				@icon('info') <b>Important</b>
+			</h5>
+			When a landlord changes their bank account you should archive their current account and create a new one.
+		@endcomponent
 
 		<div class="row">
 			<div class="col-sm-12 col-lg-6">
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('bank-accounts.update', $account->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Bank Account Details
-					@endcomponent
+					<div class="card mb-3">
 
-					<div class="card-body">
+						@component('partials.card-header')
+							Bank Account Details
+						@endcomponent
 
-						<form method="POST" action="{{ route('bank-accounts.update', $account->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+						<div class="card-body">
 
 							@include('bank-accounts.partials.form')
 
-							<div class="form-group">
-								<label for="users">Attached Users</label>
+							@component('partials.form-group')
+								@slot('label')
+									Attached Users
+								@endslot
 								<select name="users[]" id="users" class="form-control select2" multiple>
 									@foreach (users() as $user)
 										<option @if ($account->users->contains($user->id)) selected @endif value="{{ $user->id }}">
@@ -56,8 +62,10 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
+						</div>
+						<div class="card-footer">
 							@component('partials.save-button')
 								Save Changes
 								@if ($account->trashed())
@@ -66,62 +74,70 @@
 									@endslot
 								@endif
 							@endcomponent
-
-						</form>
-
+						</div>
 					</div>
-				</div>
+
+				</form>
 
 			</div>
 			<div class="col-sm-12 col-lg-6">
 
 				@if ($account->deleted_at)
 
-					<div class="card mb-3">
+					<form method="POST" action="{{ route('bank-accounts.restore', $account->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
-						@component('partials.card-header')
-							Restore Bank Account
-						@endcomponent
+						<div class="card mb-3">
 
-						<div class="card-body">
+							@component('partials.card-header')
+								Restore Bank Account
+							@endcomponent
 
-							<form method="POST" action="{{ route('bank-accounts.restore', $account->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
+							<div class="card-body">
 
+								<p class="card-text">
+									You can restore this bank account allowing it to be used again.
+								</p>
+
+							</div>
+							<div class="card-footer">
 								@component('partials.save-button')
 									Restore Bank Account
 								@endcomponent
-
-							</form>
-
+							</div>
 						</div>
 
-					</div>
+					</form>
 
 				@else
 
-					<div class="card mb-3">
+					<form method="POST" action="{{ route('bank-accounts.destroy', $account->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
 
-						@component('partials.card-header')
-							Delete Bank Account
-						@endcomponent
+						<div class="card mb-3">
 
-						<div class="card-body">
+							@component('partials.card-header')
+								Delete Bank Account
+							@endcomponent
 
-							<form method="POST" action="{{ route('bank-accounts.destroy', $account->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
+							<div class="card-body">
 
+								<p class="card-text">
+									You can delete this bank account and prevent it form being used in the future.
+								</p>
+
+							</div>
+							<div class="card-footer">
 								@component('partials.save-button')
 									Delete Bank Account
 								@endcomponent
-
-							</form>
+							</div>
 
 						</div>
 
-					</div>
+					</form>
 
 				@endif
 

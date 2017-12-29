@@ -27,7 +27,11 @@
 						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
 							View
 						</a>
-						{!! $expense->present()->invoiceDownloadButtons !!}
+						@foreach ($expense->documents as $document)
+							<a href="{{ Storage::url($document->path) }}" target="_blank" class="btn btn-secondary btn-sm">
+								@icon('download')
+							</a>
+						@endforeach
 					</td>
 				</tr>
 			@endforeach

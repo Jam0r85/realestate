@@ -1,5 +1,8 @@
 <div class="form-group">
-	<label>{{ $label }}</label>
+
+	@if (isset($label))
+		<label for="{{ $label }}">{{ $label }}</label>
+	@endif
 
 	{{ $slot }}
 
@@ -8,4 +11,5 @@
 			{{ $help }}
 		</small>
 	@endif
+	
 </div>

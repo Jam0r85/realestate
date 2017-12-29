@@ -79,20 +79,6 @@ class ExpensePresenter extends Presenter
 	/**
 	 * @return  string
 	 */
-	public function invoiceDownloadButtons()
-	{
-		foreach ($this->documents as $document) {
-			$buttons[] = '<a href="' . Storage::url($document->path) . '" target="_blank" class="btn btn-secondary btn-sm"><i class="fa fa-download"></i></a>';
-		}
-
-		if (isset($buttons) && count($buttons)) {
-			return implode(' ', $buttons);
-		}
-	}
-
-	/**
-	 * @return  string
-	 */
 	public function status()
 	{
 		if ($this->paid_at) {

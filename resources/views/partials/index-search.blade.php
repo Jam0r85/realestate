@@ -8,11 +8,11 @@
 
 		<div class="input-group">
 			<input type="text" name="search_term" class="form-control" placeholder="Search for..." value="{{ isset($session) ? session()->get($session) : '' }}" />
-			<span class="input-group-btn">
-				<button type="submit" class="btn btn-secondary">
-					<i class="fa fa-search"></i>
+			<div class="input-group-append">
+				<button type="submit" class="btn btn-outline-secondary">
+					Search
 				</button>
-			</span>
+			</div>
 		</div>
 
 		{{-- Clear Search Button --}}

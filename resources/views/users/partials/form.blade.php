@@ -1,31 +1,30 @@
-<div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" name="title" class="form-control" value="{{ isset($user) ? $user->title : old('title') }}" />
-</div>
+@component('partials.form-group')
+    @slot('label')
+        Title
+    @endslot
+    <input type="text" name="title" id="title" class="form-control" value="{{ isset($user) ? $user->title : old('title') }}" />
+@endcomponent
 
-<div class="form-group">
-    <label for="first_name">First Name</label>
-    <input type="text" name="first_name" class="form-control" value="{{ isset($user) ? $user->first_name : old('first_name') }}" />
-</div>
+@component('partials.form-group')
+    @slot('label')
+        First Name
+    @endslot
+    <input type="text" name="first_name" id="first_name" class="form-control" value="{{ isset($user) ? $user->first_name : old('first_name') }}" />
+@endcomponent
 
-<div class="form-group">
-    <label for="last_name">Last Name</label>
+@component('partials.form-group')
+    @slot('label')
+        Last Name
+    @endslot
     <input type="text" name="last_name" class="form-control" value="{{ isset($user) ? $user->last_name : old('last_name') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-    <label for="company_name">Company Name</label>
+@component('partials.form-group')
+    @slot('label')
+        Company Name
+    @endslot
     <input type="text" name="company_name" class="form-control" value="{{ isset($user) ? $user->company_name : old('company_name') }}" />
-</div>
-
-@if (!isset($user))
-    <div class="form-group">
-        <label for="email">E-Mail Address</label>
-
-        <input type="email" name="email" class="form-control" value="{{ old('email') }}" />
-
-    </div>
-@endif
+@endcomponent
 
 <div class="form-group">
     <label for="phone_number">Mobile Phone</label>
