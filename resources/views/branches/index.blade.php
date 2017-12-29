@@ -2,23 +2,25 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<div class="page-title">
-				<h1>
-					Branches List
-					<a href="{{ route('branches.create') }}" class="btn btn-primary">
-						<i class="fa fa-plus"></i> New Branch
-					</a>
-				</h1>
-			</div>
+		<a href="{{ route('branches.create') }}" class="btn btn-primary float-right">
+			@icon('plus') Register Branch
+		</a>
 
-			<table class="table table-striped table-responsive">
-				<thead>
-					<th>Name</th>
-				</thead>
-				<tbody>
+		@component('partials.header')
+			Branches
+		@endcomponent
+
+	@endcomponent
+
+	@component('partials.section-with-container')
+
+		@component('partials.table')
+			@slot('header')
+				<th>Name</th>
+			@endslot
+			@slot('body')
 				@foreach ($branches as $branch)
 					<tr>
 						<td>
@@ -28,9 +30,9 @@
 						</td>
 					</tr>
 				@endforeach
-			</tbody>
+			@endslot
+		@endcomponent
 
-		</div>
-	</section>
+	@endcomponent
 
 @endsection

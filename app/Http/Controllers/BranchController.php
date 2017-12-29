@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Branch;
 use App\Http\Requests\BranchUpdateRequest;
 use App\Http\Requests\StoreBranchRequest;
 use Illuminate\Http\Request;
@@ -10,14 +9,11 @@ use Illuminate\Http\Request;
 class BranchController extends BaseController
 {
     /**
-     * Create a new controller instance.
+     * The eloquent model for this controller.
      * 
-     * @return  void
+     * @var string
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    public $model = 'App\Branch';
     
     /**
      * Display a listing of the resource.
@@ -26,7 +22,8 @@ class BranchController extends BaseController
      */
     public function index()
     {
-        $branches = Branch::get();
+        $branches = $this->repository->get();
+
         return view('branches.index', compact('branches'));
     }
 
@@ -48,11 +45,9 @@ class BranchController extends BaseController
      */
     public function store(StoreBranchRequest $request)
     {
-        $branch = new Branch();
-        $branch->fill($request->input());
-        $branch->save();
-
-        $this->successMessage('The branch was created');
+        $this->repository
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
@@ -60,30 +55,33 @@ class BranchController extends BaseController
     /**
      * Display the specified resource.
      * 
-     * @param integer $id
-     * @param string $section
+     * @param  integer  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $section = 'layout')
+    public function show($id, $show = 'index')
     {
-        $branch = Branch::findOrFail($id);
-        return view('branches.show.' . $section, compact('branch'));
+        $branch = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('branches.show', compact('branch','show'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Request\BranchUpdateRequest $request
-     * @param integer $id
+     * @param  \App\Http\Request\BranchUpdateRequest  $request
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
     public function update(BranchUpdateRequest $request, $id)
     {
-        $branch = Branch::findOrFail($id);
-        $branch->fill($request->input());
-        $branch->save();
-
-        $this->successMessage('Changes were saved');
+        $this->repository
+            ->withTrashed()
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
         return back();
     }
@@ -91,11 +89,13 @@ class BranchController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Branch  $branch
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Branch $branch)
+    public function destroy(Request $request, $id)
     {
-        //
+        parent::destroy($request, $id);
+        return back();
     }
 }

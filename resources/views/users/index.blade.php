@@ -14,7 +14,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.index-search', ['route' => 'users.search', 'session' => 'user_search_term'])
 
