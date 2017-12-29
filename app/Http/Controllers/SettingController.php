@@ -68,6 +68,8 @@ class SettingController extends BaseController
 
         Cache::forget('app_settings');
 
+        flash_message('The settings were updated');
+
         return back();
     }
 

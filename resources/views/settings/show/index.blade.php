@@ -1,20 +1,41 @@
-<div class="card mb-3">
-	@component('partials.card-header')
-		Company Settings
-	@endcomponent
-	<div class="card-body">
+<form method="POST" action="{{ route('settings.update') }}">
+	{{ csrf_field() }}
+	{{ method_field('PUT') }}
 
-		<form role="form" method="POST" action="{{ route('settings.update') }}">
-			{{ csrf_field() }}
-			{{ method_field('PUT') }}
+	<div class="card mb-3">
+		@component('partials.card-header')
+			Company Name
+		@endcomponent
+		<div class="card-body">
 
-			<div class="form-group">
-				<label for="company_name">Company Name</label>
-				<input type="text" name="company_name" class="form-control" value="{{ get_setting('company_name') }}" />
-			</div>
+			@component('partials.form-group')
+				@slot('label')
+					Company Name
+				@endslot
+				<input type="text" name="company_name" id="company_name" class="form-control" value="{{ get_setting('company_name') }}" />
+			@endcomponent
 
-			<div class="form-group">
-				<label for="company_user_id">Company User Account</label>
+		</div>
+		<div class="card-footer">
+			@component('partials.save-button')
+				Save Changes
+			@endcomponent
+		</div>
+	</div>
+
+	<div class="card mb-3">
+		@component('partials.card-header')
+			Company User
+		@endcomponent
+		<div class="card-body">
+
+			@component('partials.form-group')
+				@slot('label')
+					Company User
+				@endslot
+				@slot('help')
+					Select the user account to be used as the business user.
+				@endslot
 				<select name="company_user_id" id="company_user_id" class="form-control select2">
 					<option value="">None</option>
 					@foreach (users() as $user)
@@ -23,10 +44,29 @@
 						</option>
 					@endforeach
 				</select>
-			</div>
+			@endcomponent
 
-			<div class="form-group">
-				<label for="company_bank_account_id">Company Bank Account</label>
+		</div>
+		<div class="card-footer">
+			@component('partials.save-button')
+				Save Changes
+			@endcomponent
+		</div>
+	</div>
+
+	<div class="card mb-3">
+		@component('partials.card-header')
+			Company Bank Account
+		@endcomponent
+		<div class="card-body">
+
+			@component('partials.form-group')
+				@slot('label')
+					Company Bank Account
+				@endslot
+				@slot('help')
+					Select the bank account to be used as the primary business bank account. This is attached to invoices.
+				@endslot
 				<select name="company_bank_account_id" id="company_bank_account_id" class="form-control select2">
 					<option value="">None</option>
 					@foreach (bank_accounts() as $account)
@@ -35,16 +75,17 @@
 						</option>
 					@endforeach
 				</select>
-			</div>
+			@endcomponent
 
+		</div>
+		<div class="card-footer">
 			@component('partials.save-button')
 				Save Changes
 			@endcomponent
-
-		</form>
-
+		</div>
 	</div>
-</div>
+
+</form>
 
 <div class="card mb-3">
 	@component('partials.card-header')
