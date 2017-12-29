@@ -110,7 +110,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\InvoiceListener@itemWasCreated'
         ],
         'App\Events\InvoiceItemWasUpdated' => [
-            'App\Listeners\InvoiceListener@itemWasUpdated'
+            'App\Listeners\InvoiceListener@itemWasUpdated',
+            'App\Listeners\StatementListener@invoiceItemWasUpdated'
         ],
         'App\Events\InvoiceItemWasDeleted' => [
             'App\Listeners\InvoiceListener@itemWasDeleted'

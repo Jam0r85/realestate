@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\ExpenseWasAttachedToStatement;
+use App\Events\InvoiceItemWasUpdated;
 use App\Events\StatementPaymentWasSent;
+use App\StatementPayment;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,6 +20,26 @@ class StatementListener
     public function __construct()
     {
         //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  InvoiceItemWasUpdated  $event
+     * @return void
+     */
+    public function invoiceItemWasUpdated(InvoiceItemWasUpdated $event)
+    {
+        $item = $event->item;
+        $invoice = $item->invoice;
+
+        if (count($invoice->statements)) {
+            foreach ($invoice->statements as $statement) {
+                $repository = new StatementPayment();
+                $repository->createInvoicePayment($statement);
+                $repository->createLandlordPayment($statement);
+            }
+        }
     }
 
     /**
