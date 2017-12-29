@@ -1,4 +1,4 @@
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
 	@if (isset($header))
 		<thead class="thead-light">
 			{{ $header }}
