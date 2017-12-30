@@ -186,7 +186,7 @@ class User extends UserBaseModel
     public function unpaidExpenses()
     {
         return $this
-            ->hasMany('App\Expenses', 'contractor_id')
+            ->hasMany('App\Expense', 'contractor_id')
             ->whereNull('paid_at')
             ->latest();
     }
