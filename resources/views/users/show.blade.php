@@ -70,6 +70,9 @@
 			<li class="nav-item">
 				{!! Menu::showLink('SMS History', 'users.show', $user->id) !!}
 			</li>
+			<li class="nav-item">
+				{!! Menu::showLink('Notifications', 'users.show', $user->id) !!}
+			</li>
 		</ul>
 
 		@include('users.show.' . $show)
