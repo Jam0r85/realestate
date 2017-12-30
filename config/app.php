@@ -168,8 +168,8 @@ return [
          * Package Service Providers...
          */
         
-        'App\Providers\HelperServiceProvider',
-        'App\Providers\SettingsServiceProvider',
+        App\Providers\HelperServiceProvider::class,
+        App\Providers\SettingsServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         EloquentFilter\ServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
