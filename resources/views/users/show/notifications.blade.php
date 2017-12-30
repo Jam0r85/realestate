@@ -2,7 +2,9 @@
 
 	@component('partials.card')
 
-		@include('users.notifications.' . snake_case(class_basename($notification->type)))
+		@include('users.notifications.' . snake_case(class_basename($notification->type)), [
+			'notification' => $notification
+		])
 
 	@endcomponent
 
