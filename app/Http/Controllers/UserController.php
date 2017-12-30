@@ -35,8 +35,7 @@ class UserController extends BaseController
             ->latest()
             ->paginateFilter();
             
-        $title = 'Users List';
-        return view('users.index', compact('users','title','sections'));
+        return view('users.index', compact('users'));
     }
 
     /**

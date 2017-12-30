@@ -307,12 +307,17 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{user}', 'SmsController@toUser')->name('sms.user'); // Send a SMS to a user
 	});
 	
-
+	// Appearances
 	Route::prefix('appearances')->group(function () {
 		Route::get('/', 'AppearanceController@index')->name('appearances.index');
 		Route::get('create', 'AppearanceController@create')->name('appearances.create');
 		Route::post('/', 'AppearanceController@store')->name('appearances.store');
 		Route::get('{appearance}/{section?}', 'AppearanceController@show')->name('appearances.show');
+	});
+
+	// Reminder Types
+	Route::prefix('reminder-types')->group(function () {
+		Route::post('/', 'ReminderTypeController@store')->name('reminder-types.store');
 	});
 
 });

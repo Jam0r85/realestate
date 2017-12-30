@@ -177,3 +177,11 @@ if (!function_exists('tax_bands')) {
 		return \App\TaxBand::get();
 	}
 }
+
+if (!function_exists('reminder_types')) {
+	function reminder_types($parent = null)
+	{
+		$types = new \App\ReminderType();		
+		return $types->getByParent($parent);
+	}
+}

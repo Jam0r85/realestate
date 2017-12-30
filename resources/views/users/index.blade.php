@@ -9,7 +9,11 @@
 		</a>
 
 		@component('partials.header')
-			{{ $title }}
+			@if (isset($title))
+				{{ $title }}
+			@else
+				@lang('navbar.users')
+			@endif
 		@endcomponent
 
 	@endcomponent
