@@ -171,12 +171,23 @@ class User extends UserBaseModel
     }
 
     /**
-     * A user can be the contractor of many expenses.
+     * A user can have many expenses.
      */
     public function expenses()
     {
         return $this
             ->hasMany('App\Expense', 'contractor_id')
+            ->latest();
+    }
+
+    /**
+     * A user can have many unpaid expenses.
+     */
+    public function unpaidExpenses()
+    {
+        return $this
+            ->hasMany('App\Expenses', 'contractor_id')
+            ->whereNull('paid_at')
             ->latest();
     }
 

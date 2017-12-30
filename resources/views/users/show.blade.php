@@ -39,6 +39,12 @@
 
 		@include('partials.errors-block')
 
+		@if ($unpaidExpenses = count($user->unpaidExpenses))
+			@component('partials.alerts.warning')
+				This user has <b>{{ $unpaidExpenses }} unpaid</b> expenses.
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				{!! Menu::showLink('Details', 'users.show', $user->id, 'index') !!}
