@@ -21,7 +21,7 @@
 							{{ truncate($expense->property->present()->shortAddress) }}
 						</a>
 					</td>
-					<td>{{ $expense->present()->contractorBadge }}</td>
+					<td>{!! $expense->present()->contractorBadge !!}</td>
 					<td>{{ currency($expense->cost) }}</td>
 					<td class="text-right">
 						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
