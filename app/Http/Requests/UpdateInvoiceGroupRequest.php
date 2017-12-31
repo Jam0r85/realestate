@@ -27,7 +27,7 @@ class UpdateInvoiceGroupRequest extends FormRequest
             'name' => 'required|unique:invoice_groups,name,' . $this->id,
             'next_number' => 'required|numeric',
             'format' => 'required',
-            'branch_id' => 'required'
+            'branch_id' => 'required|sometimes'
         ];
     }
 }

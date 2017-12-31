@@ -1,36 +1,66 @@
 @extends('layouts.app')
 
-@section('breadcrumbs')
-	<li><a href="{{ route('settings.index') }}">Settings</a></li>
-	<li><a href="{{ route('settings.invoice-groups') }}">Invoice Groups</a></li>
-	<li><a href="{{ route('invoice-groups.show', $invoice_group->id) }}">{{ $invoice_group->name }}</a></li>
-	<li class="is-active"><a>Edit</a></li>
-@endsection
-
 @section('content')
 
-	@component('partials.sections.hero.container')
-		@slot('title')
-			{{ $invoice_group->name }}
-		@endslot
-	@endcomponent
+	@component('partials.page-header')
 
-	<form role="form" method="POST" action="{{ route('invoice-groups.update', $invoice_group->id) }}">
-		{{ csrf_field() }}
-		{{ method_field('PUT') }}
+		<div class="float-right">
+			@component('partials.return-button')
+				Return
+				@slot('url')
+					{{ route('invoice-groups.show', $group->id) }}
+				@endslot
+			@endcomponent
+		</div>
 
-		@component('partials.sections.section')
-
-			@include('partials.errors-block')
-
-			@include('invoice-groups.partials.form')
-
-			<button type="submit" class="button is-primary is-outlined">
-				Update
-			</button>
-
+		@component('partials.header')
+			{{ $group->name }}
 		@endcomponent
 
-	</form>
+		@component('partials.sub-header')
+			Edit Invoice Group
+		@endcomponent
+
+	@endcomponent
+
+	@component('partials.bootstrap.section-with-container')
+
+		@include('partials.errors-block')
+
+		<div class="row">
+			<div class="col-12 col-lg-6">
+
+				<form method="POST" action="{{ route('invoice-groups.update', $group->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}	
+
+					<div class="card mb-3">
+
+						@component('partials.card-header')
+							Update Details
+						@endcomponent
+
+						<div class="card-body">		
+
+							@include('invoice-groups.partials.form')
+
+						</div>
+						<div class="card-footer">
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+
+			</div>
+		</div>
+
+	@endcomponent
 
 @endsection

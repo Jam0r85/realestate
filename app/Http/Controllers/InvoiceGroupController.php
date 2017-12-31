@@ -73,6 +73,21 @@ class InvoiceGroupController extends BaseController
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $group = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('invoice-groups.edit', compact('group'));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateInvoiceGroupRequest  $request
