@@ -178,7 +178,8 @@ class Invoice extends PdfModel
      */
     public function payments()
     {
-        return $this->morphMany('App\Payment', 'parent');
+        return $this
+            ->morphMany('App\Payment', 'parent');
     }
 
     /**

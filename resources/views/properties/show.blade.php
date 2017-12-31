@@ -41,6 +41,9 @@
 			<li class="nav-item">
 				{!! Menu::showLink('Expenses', 'properties.show', $property->id) !!}
 			</li>
+			<li class="nav-item">
+				{!! Menu::showLink('Reminders', 'properties.show', $property->id) !!}
+			</li>
 		</ul>
 
 		@include('properties.show.' . $show)

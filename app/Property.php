@@ -5,6 +5,7 @@ namespace App;
 use App\Settings\PropertySettings;
 use App\Tenancy;
 use App\Traits\DataTrait;
+use App\Traits\RemindersTrait;
 use App\Traits\SettingsTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +20,7 @@ class Property extends BaseModel
 	use DataTrait;
 	use Filterable;
 	use SettingsTrait;
+	use RemindersTrait;
 
 	/**
 	 * The presenter for this model.

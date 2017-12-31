@@ -56,35 +56,48 @@ class ReminderTypeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\ReminderType  $reminderType
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ReminderType $reminderType)
+    public function show($id, $show = 'index')
     {
-        //
+        $type = $this->repository
+            ->findOrFail($id);
+
+        return view('reminder-types.show', compact('type','show'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ReminderType  $reminderType
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ReminderType $reminderType)
+    public function edit($id)
     {
-        //
+        $type = $this->repository
+            ->findOrFail($id);
+
+        return view('reminder-types.edit', compact('type'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ReminderType  $reminderType
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ReminderType $reminderType)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->input();
+
+        $this->repository
+            ->findOrFail($id)
+            ->fill($data)
+            ->save();
+
+        return back();
     }
 
     /**

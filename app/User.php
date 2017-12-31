@@ -116,7 +116,8 @@ class User extends UserBaseModel
      */
     public function scopeHasEmail($query)
     {
-        return $query->whereNotNull('email');
+        return $query
+            ->whereNotNull('email');
     }
 
     /**
@@ -124,7 +125,8 @@ class User extends UserBaseModel
      */
     public function home()
     {
-        return $this->belongsTo('App\Property', 'property_id');
+        return $this
+            ->belongsTo('App\Property', 'property_id');
     }
 
     /**
@@ -132,7 +134,8 @@ class User extends UserBaseModel
      */
     public function branch()
     {
-        return $this->belongsTo('App\Branch');
+        return $this
+            ->belongsTo('App\Branch');
     }
 
     /**
@@ -140,7 +143,8 @@ class User extends UserBaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -148,7 +152,9 @@ class User extends UserBaseModel
      */
     public function properties()
     {
-        return $this->belongsToMany('App\Property')->withTrashed();
+        return $this
+            ->belongsToMany('App\Property')
+            ->withTrashed();
     }
 
     /**
@@ -167,7 +173,9 @@ class User extends UserBaseModel
      */
     public function invoices()
     {
-        return $this->belongsToMany('App\Invoice')->latest();
+        return $this
+            ->belongsToMany('App\Invoice')
+            ->latest();
     }
 
     /**
@@ -196,7 +204,8 @@ class User extends UserBaseModel
      */
     public function gas()
     {
-        return $this->belongsToMany('App\Gas');
+        return $this
+            ->belongsToMany('App\Gas');
     }
 
     /**
@@ -204,7 +213,8 @@ class User extends UserBaseModel
      */
     public function bankAccounts()
     {
-        return $this->belongsToMany('App\BankAccount');
+        return $this
+            ->belongsToMany('App\BankAccount');
     }
 
     /**
@@ -212,7 +222,8 @@ class User extends UserBaseModel
      */
     public function logins()
     {
-        return $this->hasMany('App\UserLogin')->latest();
+        return $this
+            ->hasMany('App\UserLogin')->latest();
     }
 
     /**
@@ -220,7 +231,8 @@ class User extends UserBaseModel
      */
     public function sms()
     {
-        return $this->hasMany('App\SmsHistory')->latest();
+        return $this
+            ->hasMany('App\SmsHistory')->latest();
     }
 
     /**
@@ -228,7 +240,8 @@ class User extends UserBaseModel
      */
     public function emails()
     {
-        return $this->belongsToMany('App\Email');
+        return $this
+            ->belongsToMany('App\Email');
     }
 
     /**

@@ -37,6 +37,10 @@ trait DataTrait
 	 */
 	public function setData(array $data)
 	{
+		if (!$this->dataKeys) {
+			
+		}
+
 		$column = $this->dataColumn;
 		$existing_data = $this->$column;
 

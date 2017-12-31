@@ -4,9 +4,11 @@ namespace App;
 
 use App\Traits\DataTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reminder extends BaseModel
 {
+    use SoftDeletes;
     use DataTrait;
 
     /**
@@ -16,6 +18,15 @@ class Reminder extends BaseModel
      */
     public $casts = [
         'data' => 'array'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     * 
+     * @var array
+     */
+    public $dates = [
+        'due_at','deleted_at'
     ];
 
     /**

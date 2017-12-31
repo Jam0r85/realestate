@@ -317,7 +317,10 @@ Route::middleware(['staff'])->group(function () {
 
 	// Reminder Types
 	Route::prefix('reminder-types')->group(function () {
-		Route::post('/', 'ReminderTypeController@store')->name('reminder-types.store');
+		Route::post('/', 'ReminderTypeController@store')->name('reminder-types.store'); // Store the new reminder type
+		Route::get('{id}/edit', 'ReminderTypeController@edit')->name('reminder-types.edit'); // Edit the reminder type
+		Route::get('{id}/{show?}', 'ReminderTypeController@show')->name('reminder-types.show'); // Show the reminder type
+		Route::put('{id}', 'ReminderTypeController@update')->name('reminder-types.update'); // Update the reminder
 	});
 
 });

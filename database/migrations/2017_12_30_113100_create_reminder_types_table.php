@@ -20,6 +20,7 @@ class CreateReminderTypesTable extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->string('parent_type')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
         });
     }

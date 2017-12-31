@@ -2,23 +2,40 @@
 
 namespace App\Traits;
 
+use App\Reminder;
+use App\ReminderType;
+
 trait RemindersTrait
 {
 	/**
-	 * Eloquent model has many reminders.
+	 * Get the reminder types for this eloquent model.
+	 * 
+	 * @return \App\ReminderType
 	 */
-	public function reminders()
+	public function reminderTypes()
 	{
-		return $this->morphMany('App\Reminder', 'parent')
-			->latest();
+		return ReminderType::where('parent_type', plural_from_model($this))->get();
 	}
 
 	/**
-	 * ELoquent model has a latest reminder.
+	 * Get the reminder type ID's.
+	 * 
+	 * @return array
 	 */
-	public function latestReminder()
+	public function reminderTypeIds()
 	{
-		return $this->morphOne('App\Reminder', 'parent')
-			->latest();
+		return $this->reminderTypes()->pluck('id')->toArray();
+	}
+
+	/**
+	 * Get the reminders for this eloquent model.
+	 * 
+	 * @return \App\Reminder
+	 */
+	public function reminders()
+	{
+		return $this
+			->morphMany('App\Reminder', 'parent')
+			->whereIn('reminder_type_id', $this->reminderTypeIds());
 	}
 }

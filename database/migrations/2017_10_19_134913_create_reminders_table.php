@@ -20,6 +20,7 @@ class CreateRemindersTable extends Migration
             $table->integer('parent_id');
             $table->string('parent_type');
             $table->text('data')->nullable();
+            $table->timestamp('due_at');
             $table->timestamps();
         });
     }

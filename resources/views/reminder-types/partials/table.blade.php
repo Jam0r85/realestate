@@ -10,7 +10,7 @@
 				<td>{{ $type->name }}</td>
 				<td>{{ $type->description }}</td>
 				<td class="text-right">
-					<a href="#" class="btn btn-secondary btn-sm">
+					<a href="{{ route('reminder-types.show', $type->id) }}" class="btn btn-secondary btn-sm">
 						View
 					</a>
 				</td>

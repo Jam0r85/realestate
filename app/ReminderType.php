@@ -2,10 +2,29 @@
 
 namespace App;
 
+use App\Traits\DataTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ReminderType extends BaseModel
 {
+    use DataTrait;
+
+    /**
+     * The keys to be allowed in the data column.
+     * 
+     * @var array
+     */
+    public $dataKeys = [];
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    public $casts = [
+        'data' => 'array'
+    ];
+    
     /**
      * The attributes that are mass assignable.
      * 
