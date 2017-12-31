@@ -18,6 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('property_id')->unsigned()->default(0);
             $table->integer('invoice_group_id')->unsigned();
+            $table->integer('invoice_recurring_id')->unsigned()->default(0);
             $table->string('number');
             $table->text('recipient')->nullable();
             $table->decimal('net', 13, 3)->default(0);

@@ -20,6 +20,7 @@ class CreateInvoiceGroupsTable extends Migration
             $table->string('slug');
             $table->integer('next_number')->default(0);
             $table->string('format');
+            $table->timestamps();
             $table->softDeletes();
         });
     }

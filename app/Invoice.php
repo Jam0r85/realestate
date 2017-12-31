@@ -215,7 +215,8 @@ class Invoice extends PdfModel
      */
     public function recurring()
     {
-        return $this->hasOne('App\InvoiceRecurring');
+        return $this
+            ->hasOne('App\InvoiceRecurring');
     }
 
     /**
@@ -223,7 +224,8 @@ class Invoice extends PdfModel
      */
     public function recur()
     {
-        return $this->belongsTo('App\InvoiceRecurring', 'recur_id');
+        return $this
+            ->belongsTo('App\InvoiceRecurring');
     }
 
     /**
