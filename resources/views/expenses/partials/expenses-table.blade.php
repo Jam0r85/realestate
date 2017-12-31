@@ -10,6 +10,13 @@
 			<th>Cost</th>
 			<th class="text-right"></th>
 		@endslot
+		@slot('footer')
+			<tr>
+				<td colspan="5">Total</td>
+				<td>{{ currency($expenses->sum('cost')) }}</td>
+				<td></td>
+			</tr>
+		@endslot
 		@slot('body')
 			@foreach ($expenses as $expense)
 				<tr>
