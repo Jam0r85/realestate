@@ -67,22 +67,28 @@ class ExpenseWasReceivedToContractor extends Notification
             ]
         );
 
-        // Check whether we can attach documents to the email
+        // Check whether we can attach documents to the email.
         if (count($this->expense->documents)) {
 
             $documentFileNumber = 0;
 
+            // Loop through all of the documents.
             foreach ($this->expense->documents as $document) {
 
-                $documentFileNumber++;
-                
-                $documentFileName = snake_case($this->expense->name . '_' . $documentFileNumber) . '.' . $document->extension;
+                // Make sure the document exists in storage.
+                if (Storage::exists($document->path)) {
 
-                $mail->attach(
-                    Storage::url($document->path), [
-                        'as' => $documentFileName
-                    ]
-                );
+                    $documentFileNumber++;
+                    
+                    // Set the document name.
+                    $documentFileName = snake_case($this->expense->name . '_' . $documentFileNumber) . '.' . $document->extension;
+
+                    $mail->attach(
+                        Storage::url($document->path), [
+                            'as' => $documentFileName
+                        ]
+                    );
+                }
             }
         }
 
