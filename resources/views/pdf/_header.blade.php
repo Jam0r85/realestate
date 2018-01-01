@@ -25,7 +25,7 @@
 				padding-bottom: 1rem;
 			}
 			.logo {
-				max-height: 120px;
+				max-height: 100px;
 			}
 			.footer {
 				font-size: 0.9rem;
