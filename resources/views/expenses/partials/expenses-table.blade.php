@@ -35,9 +35,7 @@
 							View
 						</a>
 						@foreach ($expense->documents as $document)
-							<a href="{{ Storage::url($document->path) }}" target="_blank" class="btn btn-secondary btn-sm">
-								@icon('download')
-							</a>
+							@include('partials.document-download-button', ['path' => $document->path])
 						@endforeach
 					</td>
 				</tr>
