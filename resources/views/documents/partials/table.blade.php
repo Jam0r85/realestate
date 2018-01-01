@@ -19,7 +19,6 @@
 					{{ $document->present()->parentName }}
 				</td>
 				<td class="text-right">
-					@include('partials.document-download-button', ['path' => $document->path])
 					<a href="{{ route('documents.edit', $document->id) }}" class="btn btn-warning btn-sm">
 						@icon('edit')
 					</a>
