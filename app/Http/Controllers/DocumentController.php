@@ -25,6 +25,7 @@ class DocumentController extends BaseController
     public function index(Request $request)
     {
         $documents = $this->repository
+            ->with('parent')
             ->filter($request->all())
             ->latest()
             ->paginateFilter();
