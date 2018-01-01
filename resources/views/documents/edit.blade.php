@@ -34,7 +34,7 @@
 
 		@if (!Storage::exists($document->path))
 			@component('partials.alerts.warning')
-				The file cannot be located for this document.
+				The file cannot be located for this document. Please either delete this document or re-upload it using the form below.
 			@endcomponent
 		@endif
 
