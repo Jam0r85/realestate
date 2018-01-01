@@ -78,7 +78,7 @@ class Invoice extends PdfModel
      * @var array
      */
     protected $with = [
-        //
+        'invoiceGroup',
     ];
     
     /**

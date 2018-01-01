@@ -55,7 +55,7 @@ class Deposit extends BaseModel
      * @var array
      */
     public $with = [
-        //
+        'tenancy'
     ];
 
 	/**
