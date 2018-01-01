@@ -40,6 +40,10 @@ class Expense extends BaseModel
      */
     protected $documentPath = 'expenses';
 
+    public $with = [
+        'contractor'
+    ];
+
     /**
      * Get the indexable data array for the model.
      *
