@@ -33,7 +33,7 @@
 
 		@else
 
-			@if ($expense->canSendPaidNotificationToContractor())
+			@if ($expense->canSendPaidNotification())
 
 				@component('partials.alerts.info')
 					When this expense has been paid, the contractor will be notified via their appropirate settings.
