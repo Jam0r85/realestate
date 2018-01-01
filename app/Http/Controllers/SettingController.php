@@ -107,8 +107,8 @@ class SettingController extends BaseController
             });
 
         // Upload the logos
-        Storage::put($small_logo_path, $small_logo);
-        Storage::put($medium_logo_path, $medium_logo);
+        Storage::putFile('logos/small', $small_logo);
+        Storage::putFile('logos', $medium_logo);
 
         if ($this->repository->where('key', 'company_logo')->count()) {
             $this->repository
