@@ -251,10 +251,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('landlord-tax-report', 'ReportController@landlordTaxReport')->name('reports.landlord-tax-report');
 	});
 
+	// Application Settings
 	Route::prefix('settings')->group(function () {
-		Route::get('/{show?}', 'SettingController@index')->name('settings.index');
-		Route::post('logo', 'SettingController@updateLogo')->name('settings.update-logo');
-		Route::delete('logo', 'SettingController@destroyLogo')->name('settings.destroy-logo');
+		Route::get('/{show?}', 'SettingController@index')->name('settings.index'); // Get the settings
+		Route::post('logo', 'SettingController@uploadLogo')->name('settings.upload-logo'); // Upload a new logo
+		Route::delete('logo', 'SettingController@destroyLogo')->name('settings.destroy-logo'); // Destroy the logo
 		Route::get('tax-rates', 'SettingController@taxRates')->name('settings.tax-rates');
 		Route::post('tax-rates', 'SettingController@storeTaxRate')->name('settings.store-tax-rate');
 		Route::get('tax-rates/{id}', 'SettingController@editTaxRate')->name('settings.edit-tax-rate');

@@ -9,9 +9,6 @@
 		<div class="card-body">
 
 			@component('partials.form-group')
-				@slot('label')
-					Company Name
-				@endslot
 				<input type="text" name="company_name" id="company_name" class="form-control" value="{{ get_setting('company_name') }}" />
 			@endcomponent
 
@@ -29,13 +26,11 @@
 		@endcomponent
 		<div class="card-body">
 
+			<p class="card-text">
+				Select a user account to become the business user. Any invoice payments or other business related items will be attached to this user.
+			</p>
+
 			@component('partials.form-group')
-				@slot('label')
-					Company User
-				@endslot
-				@slot('help')
-					Select the user account to be used as the business user.
-				@endslot
 				<select name="company_user_id" id="company_user_id" class="form-control select2">
 					<option value="">None</option>
 					@foreach (users() as $user)
@@ -60,13 +55,11 @@
 		@endcomponent
 		<div class="card-body">
 
+			<p class="card-text">
+				You can select a bank account which should be used for all invoice payments to the business eg. Rental statement invoice payments. This account is also added as the 'pay into' account on invoices sent to users.
+			</p>
+
 			@component('partials.form-group')
-				@slot('label')
-					Company Bank Account
-				@endslot
-				@slot('help')
-					Select the bank account to be used as the primary business bank account. This is attached to invoices.
-				@endslot
 				<select name="company_bank_account_id" id="company_bank_account_id" class="form-control select2">
 					<option value="">None</option>
 					@foreach (bank_accounts() as $account)
@@ -87,11 +80,34 @@
 
 </form>
 
-<div class="card mb-3">
-	@component('partials.card-header')
-		Company Logo
-	@endcomponent
-	<div class="card-body">
+<form method="POST" action="{{ route('settings.upload-logo') }}" enctype="multipart/form-data">
+	{{ csrf_field() }}
 
-	</div>
-</div>
+	@component('partials.card')
+		@slot('header')
+			Company Logo
+		@endslot
+
+		<div class="card-body">
+
+			@if (get_setting('company_logo'))
+
+			@endif
+
+			@component('partials.form-group')
+				@slot('label')
+					Upload @if (get_setting('company_logo')) &amp; replace @endif Logo
+				@endslot
+				<input type="file" name="company_logo" id="company_logo" class="form-control" />
+			@endcomponent
+
+		</div>
+
+		@slot('footer')
+			@component('partials.save-button')
+				Upload Logo
+			@endcomponent
+		@endslot
+	@endcomponent
+
+</form>

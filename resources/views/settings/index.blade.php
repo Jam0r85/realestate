@@ -12,6 +12,8 @@
 
 	@component('partials.section-with-container')
 
+		@include('partials.errors-block')
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				<a href="{{ route('settings.index') }}" class="nav-link @if (!Request::segment(2)) active @endif">

@@ -10,9 +10,12 @@ use App\Http\Requests\UpdateLogoRequest;
 use App\Http\Requests\UpdateTaxRateRequest;
 use App\Setting;
 use App\TaxRate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class SettingController extends BaseController
 {
@@ -45,9 +48,9 @@ class SettingController extends BaseController
      */
     public function update(Request $request)
     {
-        $newSettings = $request->except('_token','_method');
+        $data = $request->except('_token','_method');
 
-        foreach ($newSettings as $key => $value) {
+        foreach ($data as $key => $value) {
 
             $setting = $this->repository
                 ->where('key', $key)
@@ -79,20 +82,55 @@ class SettingController extends BaseController
      * @param \App\Http\Requests\UpdateLogoRequest $request
      * @return \Illuminate\Http\Request
      */
-    public function updateLogo(UpdateLogoRequest $request)
+    public function uploadLogo(UpdateLogoRequest $request)
     {
-        $path = Storage::putFile('logos', $request->file('image'));
+        $file_extension = $request->file('company_logo')->getClientOriginalExtension();
+        $file_name = time();
+        $path = 'logos';
 
-        $exists = Setting::where('key', 'company_logo')->count();
+        // Used for PDFs
+        $small_logo_name = $file_name . '_small.' . $file_extension;
+        $small_logo_path = $path . '/' . $small_logo_name;
+        $small_logo = Image::make($request->file('company_logo'))
+            ->resize(null, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->response('jpg');
 
-        if ($exists) {
-            Setting::where('key', 'company_logo')
-                ->update(['value' => $path]);
+        // Used everywhere else
+        $medium_logo_name = $file_name . '.' . $file_extension;
+        $medium_logo_path = $path . '/' . $medium_logo_name;
+        $medium_logo = Image::make($request->file('company_logo'))
+            ->resize(null, 800, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->response('jpg');
+
+        // Upload the logos
+        Storage::put($small_logo_path, $small_logo);
+        Storage::put($medium_logo_path, $medium_logo);
+
+        if ($this->repository->where('key', 'company_logo')->count()) {
+            $this->repository
+                ->where('key', 'company_logo')
+                ->update(['value' => $medium_logo_path]);
         } else {
-            Setting::create(['key' => 'company_logo', 'value' => $path]);
+            $this->repository
+                ->create(['key' => 'company_logo', 'value' => $medium_logo_path]);
         }
 
-        $this->successMessage('The new logo was uploaded and saved');
+        if ($this->repository->where('key', 'company_logo_small')->count()) {
+            $this->repository
+                ->where('key', 'company_logo_small')
+                ->update(['value' => $small_logo_path]);
+        } else {
+            $this->repository
+                ->create(['key' => 'company_logo_small', 'value' => $small_logo_path]);
+        }
+
+        flash_message('The logo was uploaded');
 
         return back();
     }
