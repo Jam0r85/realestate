@@ -16,6 +16,10 @@ class DocumentPresenter extends BasePresenter
 		if (model_name($this->parent) == 'Tenancy') {
 			return $this->parent->present()->name;
 		}
+
+		if (model_name($this->parent) == 'Deposit') {
+			return $this->parent->tenancy->present()->name;
+		}
 	}
 
 	/**
