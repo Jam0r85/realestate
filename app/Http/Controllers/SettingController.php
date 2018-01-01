@@ -87,58 +87,52 @@ class SettingController extends BaseController
         // The path we are storing logos
         $folder_path = 'logos';
 
+        // The small folder path
+        $small_folder_path = 'logos/small';
+
         // Temp folder
         $temp_folder = storage_path();
  
         // Store the logo as it is
-        $path = $request->file('company_logo')->store($folder_path);
+        $logo_path = $request->file('company_logo')->store($folder_path);
 
         // Set the visability to public
-        Storage::setVisibility($path, 'public');
+        Storage::setVisibility($logo_path, 'public');
 
-        // Get the new hashed file name of the logo
-        $file_name = file_name($path);
+        // Get the file name provided by Storage
+        $logo_file_name = file_name($logo_path);
 
-        // Create a path and name for the smaller logo
-        $small_logo_path = 'logos/small/' . $file_name;
+        // Create a new image instance from the original logo
+        $small_logo = Image::cache(function ($image) use ($logo_path) {
 
-        // The full string for the temp file
-        $small_logo_temp_file = $temp_folder . '/' . $file_name;
+            $image
+                ->make(Storage::get($logo_path))
+                ->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
 
-        // Create a new re-sized image from the original
-        $small_logo = Image::make(Storage::get($path))
-            ->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+        });
 
-        // Save the small logo to a temp folder
-        $small_logo->save($small_logo_temp_file);
-
-        // Store the small logo to storage
-        if (Storage::putFileAs($small_logo_path, $small_logo_temp_file, $file_name)) {
-            // Set the small logo as pubic in storage
-            Storage::setVisibility($small_logo_path, 'public');
-            // Destroy the temp file
-            File::delete($small_logo_temp_file);
-        }
+        // Store the small logo
+        Storage::put($small_folder_path . '/' . $logo_file_name, $small_logo);
 
         if ($this->repository->where('key', 'company_logo')->count()) {
             $this->repository
                 ->where('key', 'company_logo')
-                ->update(['value' => $path]);
+                ->update(['value' => $logo_path]);
         } else {
             $this->repository
-                ->create(['key' => 'company_logo', 'value' => $path]);
+                ->create(['key' => 'company_logo', 'value' => $logo_path]);
         }
 
         if ($this->repository->where('key', 'company_logo_small')->count()) {
             $this->repository
                 ->where('key', 'company_logo_small')
-                ->update(['value' => $small_logo_path]);
+                ->update(['value' => $small_folder_path . '/' . $logo_file_name]);
         } else {
             $this->repository
-                ->create(['key' => 'company_logo_small', 'value' => $small_logo_path]);
+                ->create(['key' => 'company_logo_small', 'value' => $small_folder_path . '/' . $logo_file_name]);
         }
 
         Cache::forget('app_settings');
