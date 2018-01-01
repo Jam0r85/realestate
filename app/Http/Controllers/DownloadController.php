@@ -59,8 +59,10 @@ class DownloadController extends Controller
     {
         $document = Document::withTrashed()->findOrFail($id);
 
-        if (Storage::exists($document->path)) {
-            return Storage::response($document->path);
+        if (!Storage::exists($document->path)) {
+            abort(404); 
         }
+
+        return Storage::response($document->path);
     }
 }
