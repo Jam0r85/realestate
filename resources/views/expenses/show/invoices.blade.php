@@ -4,6 +4,7 @@
 
 @component('partials.table')
 	@slot('header')
+		<th>Status</th>
 		<th>Uploaded</th>
 		<th>Name</th>
 		<th></th>
@@ -11,6 +12,7 @@
 	@slot('body')
 		@foreach ($expense->documents as $document)
 			<tr>
+				<td>{{ $document->present()->status }}</td>
 				<td>{{ date_formatted($document->created_at) }}</td>
 				<td>{{ $document->name }}</td>
 				<td class="text-right">

@@ -83,7 +83,9 @@ class BaseController extends Controller
 	 */
 	public function destroy(Request $request, $id)
 	{
-        return $this->repository->findOrFail($id)->delete();
+        return $this->repository
+        	->findOrFail($id)
+        	->delete();
 	}
 
 	/**
@@ -108,15 +110,13 @@ class BaseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  integer $id
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function forceDestroy(Request $request, $id)
     {
-        $record = $this->repository
+        return $this->repository
         	->onlyTrashed()
         	->findOrFail($id)
         	->forceDelete();
-
-        return redirect()->route($this->indexView);
     }
 }

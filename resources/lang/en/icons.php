@@ -21,6 +21,7 @@ return [
     'edit' => 'edit',
     'email' => 'envelope',
     'expense' => 'money-bill',
+    'hidden' => 'eye-slash',
     'history' => 'history',
     'house' => 'home',
     'info' => 'info-circle',
@@ -42,4 +43,5 @@ return [
     'user' => 'user',
     'users' => 'users',
     'user-plus' => 'user-plus',
+    'visible' => 'eye'
 ];

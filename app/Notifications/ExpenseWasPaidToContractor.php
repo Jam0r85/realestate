@@ -51,13 +51,10 @@ class ExpenseWasPaidToContractor extends Notification
     {
         $via = [];
 
+        // Make sure the user wants to receive this type of notification.
         if ($notifiable->getSetting('expense_paid_notifications') == 'email') {
             $via[] = 'mail';
         }
-
-        // if ($notifiable->getSetting('expense_notifications') == 'sms') {
-        //     $via[] = CustomSmsChannel::class;
-        // }
 
         return $via;
     }
@@ -80,12 +77,12 @@ class ExpenseWasPaidToContractor extends Notification
         );
 
         // Check whether we can attach documents to the email
-        if (count($this->expense->documents)) {
+        if (count($this->expense->publicDocuments)) {
 
             $documentFileNumber = 0;
 
             // Loop through all of the documents.
-            foreach ($this->expense->documents as $document) {
+            foreach ($this->expense->publicDocuments as $document) {
 
                 // Make sure the document exists in storage.
                 if (Storage::exists($document->path)) {

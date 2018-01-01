@@ -66,7 +66,19 @@ trait DocumentsTrait
 	 */
 	public function documents()
 	{
-		return $this->morphMany('App\Document', 'parent')
+		return $this
+            ->morphMany('App\Document', 'parent')
+            ->withTrashed()
 			->latest();
 	}
+
+    /**
+     * Eloquent model can have many public documents.
+     */
+    public function publicDocuments()
+    {
+        return $this
+            ->morphMany('App\Document', 'parent')
+            ->latest();
+    }
 }

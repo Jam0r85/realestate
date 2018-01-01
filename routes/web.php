@@ -297,11 +297,17 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}/delete-certificate', 'DepositController@destroyCertificate')->name('deposit.destroy-certificate');
 	});
 
+	// Documents
 	Route::prefix('documents')->group(function () {
-		Route::post('/', 'DocumentController@store')->name('documents.store');
-		Route::get('{id}/edit', 'DocumentController@edit')->name('documents.edit');
-		Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show');
-		Route::put('{id}', 'DocumentController@update')->name('documents.update');
+		Route::get('/', 'DocumentController@index')->name('documents.index');
+		Route::post('/search', 'DocumentController@search')->name('documents.search');
+		Route::post('/', 'DocumentController@store')->name('documents.store'); // Store a new document
+		Route::get('{id}/edit', 'DocumentController@edit')->name('documents.edit'); // Edit the document
+		Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show'); // Show the document
+		Route::put('{id}', 'DocumentController@update')->name('documents.update'); // Update the document
+		Route::delete('{id}', 'DocumentController@destroy')->name('documents.destroy'); // Delete the document
+		Route::put('{id}/restore', 'DocumentController@restore')->name('documents.restore'); // Store the document
+		Route::delete('{id}/forceDestroy', 'DocumentController@forceDestroy')->name('documents.forceDestroy'); // Force destroy a document
 	});
 
 	// SMS
