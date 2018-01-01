@@ -107,7 +107,7 @@ class SettingController extends BaseController
 
             $image
                 ->make(Storage::get($logo_path))
-                ->resize(null, 300, function ($constraint) {
+                ->resize(null, 200, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
@@ -115,7 +115,10 @@ class SettingController extends BaseController
         });
 
         // Store the small logo
-        Storage::put($small_folder_path . '/' . $logo_file_name, $small_logo);
+        if (Storage::put($small_folder_path . '/' . $logo_file_name, $small_logo)) {
+            // Set the visability to public
+            Storage::setVisibility($small_folder_path . '/' . $logo_file_name, 'public');
+        }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
             $this->repository
