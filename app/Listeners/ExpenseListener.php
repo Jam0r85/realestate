@@ -32,6 +32,7 @@ class ExpenseListener
     {
         $expense = $event->expense;
 
+        // Notify contractor that the expense was recorded
         if ($expense->canSendReceivedNotification()) {
             $expense->contractor->notify(new ExpenseWasReceivedToContractor($expense));
         }

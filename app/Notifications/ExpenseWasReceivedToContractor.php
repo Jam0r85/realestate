@@ -15,7 +15,7 @@ class ExpenseWasReceivedToContractor extends Notification
     /**
      * The expense we are dealing with.
      * 
-     * @var  \App\Expense
+     * @var \App\Expense
      */
     public $expense;
 
@@ -65,6 +65,25 @@ class ExpenseWasReceivedToContractor extends Notification
                 'expense' => $this->expense
             ]
         );
+
+        // Check whether we can attach documents to the email
+        if (count($this->expense->documents)) {
+
+            $documentFileNumber = 0;
+
+            foreach ($this->expense->documents as $document) {
+
+                $documentFileNumber++;
+                
+                $documentFileName = snake_case($this->expense->name . '_' . $documentFileNumber) . '.' . $document->extension;
+
+                $mail->attach(
+                    Storage::url($document->path), [
+                        'as' => $documentFileName
+                    ]
+                );
+            }
+        }
 
         return $mail;
     }
