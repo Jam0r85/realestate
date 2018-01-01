@@ -49,6 +49,15 @@ class Deposit extends BaseModel
         'data' => 'array'
     ];
 
+    /**
+     * The attributes that should be eager loaded.
+     * 
+     * @var array
+     */
+    public $with = [
+        'tenancy'
+    ];
+
 	/**
 	 * A deposit was recorded by an owner.
 	 */
