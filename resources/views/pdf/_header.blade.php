@@ -24,6 +24,9 @@
 				font-size: 1.6rem;
 				padding-bottom: 1rem;
 			}
+			.logo {
+				max-height: 150px;
+			}
 			.footer {
 				font-size: 0.9rem;
 				position: fixed;
@@ -191,7 +194,7 @@
 						<td class="text-right" nowrap>
 
 							@if (get_setting('company_logo'))
-								<img src="{{ Storage::url(get_setting('company_logo_small')) }}" />
+								<img src="{{ Storage::url(get_setting('company_logo_small')) }}" class="logo" />
 							@else
 								<h1>{{ get_setting('company_name') }}</h1>
 							@endif
