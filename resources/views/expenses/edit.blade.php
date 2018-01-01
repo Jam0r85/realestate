@@ -64,12 +64,11 @@
 							{{ csrf_field() }}
 							{{ method_field('PUT') }}
 
-
 							<div class="form-check">
 								<label class="form-check-label">
 									<input type="hidden" name="disable_paid_notification" value="no">
 									<input class="form-check-input" type="checkbox" name="disable_paid_notification" value="yes" @if ($expense->getData('disable_paid_notification') == 'yes') checked @endif />
-									Disable the notification to the contractor when this expense has been paid in full.
+									Disable paid notification to the contractor?
 								</label>
 							</div>
 
@@ -77,7 +76,7 @@
 								<label class="form-check-label">
 									<input type="hidden" name="already_paid" value="no">
 									<input class="form-check-input" type="checkbox" id="already_paid" name="already_paid" value="yes" @if ($expense->getData('already_paid') == 'yes') checked @endif />
-									Has this expense already been paid?
+									Has this expense been pre-paid?
 								</label>
 							</div>
 

@@ -7,11 +7,11 @@
 		<div class="float-right">
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="expenseOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Options
+					@icon('options') Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="expenseOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('expenses.edit', $expense->id) }}">
-						<i class="fa fa-edit"></i> Edit Expense
+						@icon('edit') Edit Expense
 					</a>
 				</div>
 			</div>
