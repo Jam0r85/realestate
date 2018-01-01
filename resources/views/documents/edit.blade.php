@@ -32,6 +32,12 @@
 
 		@include('partials.errors-block')
 
+		@if (!Storage::exists($document->path))
+			@component('partials.alerts.warning')
+				The file cannot be located for this document.
+			@endcomponent
+		@endif
+
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
