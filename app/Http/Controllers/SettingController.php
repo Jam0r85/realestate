@@ -102,6 +102,9 @@ class SettingController extends BaseController
         // Create a path and name for the smaller logo
         $small_logo_path = 'logos/small/' . $file_name;
 
+        // The full string for the temp file
+        $small_logo_temp_file = $temp_folder . '/' . $file_name;
+
         // Create a new re-sized image from the original
         $small_logo = Image::make(Storage::get($path))
             ->resize(null, 300, function ($constraint) {
@@ -110,16 +113,14 @@ class SettingController extends BaseController
             });
 
         // Save the small logo to a temp folder
-        $small_logo->save($temp_folder . '/' . $file_name);
-
-        $small_logo_temp_path = $temp_folder . '/' . $file_name;
+        $small_logo->save($small_logo_temp_file);
 
         // Store the small logo to storage
-        if (Storage::putFile($small_logo_path, $small_logo_temp_path)) {
+        if (Storage::putFileAs($small_logo_path, $small_logo_temp_file, $file_name)) {
             // Set the small logo as pubic in storage
             Storage::setVisibility($small_logo_path, 'public');
             // Destroy the temp file
-            File::delete($temp_folder . $file_name);
+            File::delete($small_logo_temp_file);
         }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
