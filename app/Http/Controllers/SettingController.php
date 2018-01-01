@@ -86,6 +86,9 @@ class SettingController extends BaseController
     {
         // The path we are storing logos
         $folder_path = 'logos';
+
+        // Temp folder
+        $temp_folder = public_path();
  
         // Store the logo as it is
         $path = $request->file('company_logo')->store($folder_path);
@@ -107,14 +110,14 @@ class SettingController extends BaseController
             });
 
         // Save the small logo to a temp folder
-        $small_logo->save(public_path('storage/') . $file_name);
+        $small_logo->save($temp_folder . $file_name);
 
         // Store the small logo to storage
         if (Storage::put($small_logo_path, $small_logo)) {
             // Set the small logo as pubic in storage
             Storage::setVisibility($small_logo_path, 'public');
             // Destroy the temp file
-            File::delete(public_path('storage/') . $file_name);
+            File::delete($temp_folder . $file_name);
         }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
