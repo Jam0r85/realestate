@@ -12,7 +12,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Storage;
 
-class ExpensePaidToContractor extends Notification
+class ExpenseWasPaidToContractor extends Notification
 {
     use Queueable;
 
