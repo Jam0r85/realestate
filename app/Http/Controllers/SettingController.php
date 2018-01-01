@@ -104,14 +104,12 @@ class SettingController extends BaseController
 
         // Create a new image instance from the original logo
         $small_logo = Image::cache(function ($image) use ($logo_path) {
-
             $image
                 ->make(Storage::get($logo_path))
                 ->resize(null, 200, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
-
         });
 
         // Store the small logo

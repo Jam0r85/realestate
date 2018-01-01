@@ -91,7 +91,18 @@
 		<div class="card-body">
 
 			@if (get_setting('company_logo'))
+				<div class="row mb-3">
+					<div class="col-12 col-lg-5">
+						<img class="img-fluid img-thumbnail" src="{{ Storage::url(get_setting('company_logo')) }}" />
+					</div>
+					@if (get_setting('company_logo_small'))
+						<div class="col-12 col-lg-7">
+							<img class="img-thumbnail" src="{{ Storage::url(get_setting('company_logo_small')) }}" />
+						</div>
+					@endif
+				</div>
 
+				<hr />
 			@endif
 
 			@component('partials.form-group')
