@@ -1,7 +1,7 @@
 <div class="card mb-3">
 
 	@component('partials.card-header')
-		User's Information
+		@icon('address-card') User's Information
 	@endcomponent
 
 	<ul class="list-group list-group-flush">

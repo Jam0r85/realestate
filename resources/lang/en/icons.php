@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'address-card' => 'address-card',
     'appearance' => 'globe',
     'bank' => 'university',
     'bell' => 'bell',
