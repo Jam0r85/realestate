@@ -16,8 +16,8 @@ trait DocumentsTrait
      */
     public function getDocumentPath()
     {
-        $path = rstrim($this->documentPath, '/') ?? 'documents';
-        
+        $path = rtrim($this->documentPath, '/') ?? 'documents';
+
         return $path . '/' . $this->id;
     }
 
