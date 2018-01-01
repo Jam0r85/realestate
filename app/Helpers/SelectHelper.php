@@ -146,6 +146,10 @@ if (!function_exists('tenancies')) {
 if (!function_exists('staff')) {
 	function staff()
 	{
+		if (is_null(config('system.staff'))) {
+			return null
+		}
+
 		return \App\User::whereIn('id', config('system.staff'))->get();
 	}
 }

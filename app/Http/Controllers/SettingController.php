@@ -96,7 +96,7 @@ class SettingController extends BaseController
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->response('jpg');
+            ->stream('jpg');
 
         // Used everywhere else
         $medium_logo_name = $file_name . '.' . $file_extension;
@@ -106,7 +106,7 @@ class SettingController extends BaseController
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->response('jpg');
+            ->stream('jpg');
 
         // Upload the logos
         Storage::put($small_logo_path, $small_logo);
