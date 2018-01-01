@@ -46,7 +46,7 @@ class Expense extends BaseModel
      * @var array
      */
     public $with = [
-        'contractor'
+        //
     ];
 
     /**
