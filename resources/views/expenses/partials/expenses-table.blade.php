@@ -35,7 +35,7 @@
 							View
 						</a>
 						@foreach ($expense->documents as $document)
-							@include('partials.document-download-button', ['path' => $document->path])
+							@include('partials.document-download-button')
 						@endforeach
 					</td>
 				</tr>

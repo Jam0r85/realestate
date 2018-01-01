@@ -19,7 +19,7 @@
 					<a href="{{ route('documents.edit', $document->id) }}" class="btn btn-warning btn-sm">
 						Edit
 					</a>
-					@include('partials.document-download-button', ['path' => $document->path])
+					@include('partials.document-download-button')
 				</td>
 			</tr>
 		@endforeach

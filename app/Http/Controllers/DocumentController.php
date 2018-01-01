@@ -6,6 +6,7 @@ use App\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class DocumentController extends BaseController
 {
@@ -106,6 +107,34 @@ class DocumentController extends BaseController
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
+
+        return back();
+    }
+
+    /**
+     * Upload and store a new document.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Document  $document
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request, $id)
+    {
+        $document = $this->repository
+            ->findOrFail($id);
+
+        // Destroy the existing file.
+        if (Storage::exists($document->path)) {
+            Storage::delete($document->path);
+            flash_message('The existing file was destroyed');
+        }
+
+        if ($request->hasFile('file')) {
+            if ($new_path = $request->file('file')->store(dirname($document->path))) {
+                $document->update(['path' => $new_path]);
+                flash_message('The new file was uploaded');
+            }
+        }
 
         return back();
     }

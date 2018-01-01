@@ -2,24 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Document;
 use App\Invoice;
 use App\Payment;
 use App\Statement;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class DownloadController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return  void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Download a rental statement.
      * 
@@ -55,5 +47,20 @@ class DownloadController extends Controller
     {
         $payment = Payment::findOrFail($id);
         return $payment->streamPdf();
+    }
+
+    /**
+     * Download a document.
+     * 
+     * @param  int  $id
+     * @return
+     */
+    public function document($id)
+    {
+        $document = Document::withTrashed()->findOrFail($id);
+
+        if (Storage::exists($document->path)) {
+            return Storage::response($document->path);
+        }
     }
 }

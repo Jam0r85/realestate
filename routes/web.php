@@ -239,6 +239,7 @@ Route::middleware(['staff'])->group(function () {
 	Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloads.invoice');
 	Route::get('download/statement/{id}', 'DownloadController@statement')->name('downloads.statement');
 	Route::get('download/payment/{id}', 'DownloadController@payment')->name('downloads.payment');
+	Route::get('download/document/{id}', 'DownloadController@document')->name('downloads.document');
 
 	// Emails
 	Route::prefix('emails')->group(function () {
@@ -305,6 +306,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/edit', 'DocumentController@edit')->name('documents.edit'); // Edit the document
 		Route::get('{id}/{section?}', 'DocumentController@show')->name('documents.show'); // Show the document
 		Route::put('{id}', 'DocumentController@update')->name('documents.update'); // Update the document
+		Route::put('{id}/upload', 'DocumentController@upload')->name('documents.upload'); // Re-Upload the file
 		Route::delete('{id}', 'DocumentController@destroy')->name('documents.destroy'); // Delete the document
 		Route::put('{id}/restore', 'DocumentController@restore')->name('documents.restore'); // Store the document
 		Route::delete('{id}/forceDestroy', 'DocumentController@forceDestroy')->name('documents.forceDestroy'); // Force destroy a document

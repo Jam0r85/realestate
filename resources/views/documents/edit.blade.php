@@ -26,6 +26,10 @@
 			Document #{{ $document->id }}
 		@endcomponent
 
+		@component('partials.sub-header')
+			{{ $document->path }}
+		@endcomponent
+
 	@endcomponent
 
 	@component('partials.section-with-container')
@@ -41,15 +45,16 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Document Details
-					@endcomponent
-					<div class="card-body">
+				<form method="POST" action="{{ route('documents.update', $document->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-						<form method="POST" action="{{ route('documents.update', $document->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+					@component('partials.card')
+						@slot('header')
+							Document Details
+						@endslot
+
+						<div class="card-body">
 
 							@component('partials.form-group')
 								@slot('name')
@@ -58,14 +63,49 @@
 								<input type="text" name="name" id="name" class="form-control" value="{{ $document->name }}" />
 							@endcomponent
 
+						</div>
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
+				</form>
 
-					</div>
-				</div>
+				<form method="POST" action="{{ route('documents.upload', $document->id) }}" enctype="multipart/form-data">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							Re-Upload Document
+						@endslot
+
+						<div class="card-body">
+
+							@component('partials.alerts.warning')
+								This will replace the existing file with a new one.
+							@endcomponent
+
+							@component('partials.form-group')
+								@slot('name')
+									Select file..
+								@endslot
+								<input type="file" name="file" id="file" class="form-control" />
+							@endcomponent
+
+						</div>
+
+						@slot('footer')
+							@component('partials.save-button')
+								Upload File
+							@endcomponent
+						@endslot
+					@endcomponent
+
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
