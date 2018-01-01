@@ -130,6 +130,8 @@ class SettingController extends BaseController
                 ->create(['key' => 'company_logo_small', 'value' => $small_logo_path]);
         }
 
+        Cache::forget('app_settings');
+
         flash_message('The logo was uploaded');
 
         return back();

@@ -11,7 +11,7 @@ return [
     */
 
     'staff' => [
-    	'1'
+    	env('STAFF')
     ],
 
 ];
