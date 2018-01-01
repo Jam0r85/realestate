@@ -105,7 +105,7 @@ class SettingController extends BaseController
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->stream('jpg', 100);
+            ->response('jpg', 100);
 
         if (Storage::put($small_logo_path, $small_logo)) {
             Storage::setVisibility($small_logo_path, 'public');
