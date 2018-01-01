@@ -90,6 +90,9 @@ class SettingController extends BaseController
         // Store the logo as it is
         $path = $request->file('company_logo')->store($folder_path);
 
+        // Set the visability to public
+        Storage::setVisibility($path, 'public');
+
         // Get the new hashed file name of the logo
         $file_name = file_name($path);
 
@@ -103,6 +106,9 @@ class SettingController extends BaseController
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
+
+            // Set the visability to public
+            Storage::setVisibility($small_logo_path, 'public');
         }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
