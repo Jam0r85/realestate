@@ -17,9 +17,7 @@
 					<a href="{{ route('documents.edit', $document->id) }}" class="btn btn-warning btn-sm">
 						Edit
 					</a>
-					<a href="{{ Storage::url($document->path) }}" class="btn btn-secondary btn-sm" target="_blank">
-						Download
-					</a>
+					@include('partials.document-download-button', ['path' => $document->path])
 				</td>
 			</tr>
 		@endforeach
