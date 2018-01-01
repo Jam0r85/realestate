@@ -38,7 +38,7 @@ class Expense extends BaseModel
      * 
      * @var string
      */
-    protected $documentPath = 'documents/expenses/';
+    protected $documentPath = 'expenses';
 
     /**
      * Get the indexable data array for the model.
