@@ -109,12 +109,12 @@ class SettingController extends BaseController
         // Save the small logo to a temp folder
         $small_logo->save(public_path('storage/') . $file_name);
 
-        // Store the small logo
+        // Store the small logo to storage
         if (Storage::put($small_logo_path, $small_logo)) {
-            // Set the small logo as pubic
+            // Set the small logo as pubic in storage
             Storage::setVisibility($small_logo_path, 'public');
             // Destroy the temp file
-            File::delete($small_logo);
+            File::delete(public_path('storage/') . $file_name);
         }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
