@@ -84,39 +84,34 @@ class SettingController extends BaseController
      */
     public function uploadLogo(UpdateLogoRequest $request)
     {
-        $file_extension = $request->file('company_logo')->getClientOriginalExtension();
-        $file_name = time();
-        $path = 'logos';
+        // The path we are storing logos
+        $folder_path = 'logos';
+ 
+        // Store the logo as it is
+        $path = $request->file('company_logo')->store($folder_path);
 
-        // Used for PDFs
-        $small_logo_name = $file_name . '_small.' . $file_extension;
-        $small_logo_path = $path . '/' . $small_logo_name;
-        $small_logo = Image::make($request->file('company_logo'))
-            ->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+        // Get the new hashed file name of the logo
+        $file_name = file_name($path);
 
-        // Used everywhere else
-        $medium_logo_name = $file_name . '.' . $file_extension;
-        $medium_logo_path = $path . '/' . $medium_logo_name;
-        $medium_logo = Image::make($request->file('company_logo'))
-            ->resize(null, 800, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+        // Create a path and name for the smaller logo
+        $small_logo_path = 'logos/small/' . $file_name;
 
-        // Upload the logos
-        Storage::putFile('logos/small', $small_logo);
-        Storage::putFile('logos', $medium_logo);
+        // Copy the original logo and resize it
+        if (Storage::copy($path, $small_logo_path)) {
+            Image::make(Storage::get($small_logo_path))
+                ->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+        }
 
         if ($this->repository->where('key', 'company_logo')->count()) {
             $this->repository
                 ->where('key', 'company_logo')
-                ->update(['value' => $medium_logo_path]);
+                ->update(['value' => $path]);
         } else {
             $this->repository
-                ->create(['key' => 'company_logo', 'value' => $medium_logo_path]);
+                ->create(['key' => 'company_logo', 'value' => $path]);
         }
 
         if ($this->repository->where('key', 'company_logo_small')->count()) {

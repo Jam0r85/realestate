@@ -191,7 +191,7 @@
 						<td class="text-right" nowrap>
 
 							@if (get_setting('company_logo'))
-								<img src="{{ get_file(get_setting('company_logo')) }}" />
+								<img src="{{ get_file(get_setting('company_logo_small')) }}" />
 							@else
 								<h1>{{ get_setting('company_name') }}</h1>
 							@endif

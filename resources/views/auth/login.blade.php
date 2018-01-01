@@ -9,7 +9,7 @@
                 @if (get_setting('company_logo'))
                     <div class="row mb-5">
                         <div class="col-sm-12 col-lg-6 ml-lg-auto mr-lg-auto">
-                            <img src="{{ Storage::url(get_setting('company_logo')) }}" class="img-fluid" />
+                            <img src="{{ get_file(get_setting('company_logo')) }}" class="img-fluid" />
                         </div>
                     </div>
                 @endif

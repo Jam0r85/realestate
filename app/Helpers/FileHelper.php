@@ -1,16 +1,12 @@
 <?php
 
 function get_file($path)
-{
-	return Storage::url($path);
-	
-	if (env('FILESYSTEM_DRIVER') == 'public') {
-		return asset('storage/' . $path);
+{	
+	if (config('filesystems.default') == 'public') {
+		return Storage::disk('public')->url($path);
 	}
 
-	if (env('FILESYSTEM_DRIVER') == 'local') {
-		return Storage::url($path);
-	}
+	return Storage::url($path);
 }
 
 function file_name($file)
