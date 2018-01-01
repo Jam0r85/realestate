@@ -17,6 +17,7 @@ return [
     'events' => 'calendar-alt',
     'cogs' => 'cogs',
     'deposit' => 'university',
+    'document' => 'file',
     'download' => 'download',
     'edit' => 'edit',
     'email' => 'envelope',

@@ -13,6 +13,7 @@ return [
     'branches' => 'Branches',
     'calendars' => 'Calendars',
     'deposits' => 'Deposits',
+    'documents' => 'Documents',
     'email_history' => 'Email History',
     'expenses' => 'Expenses',
     'events' => 'Events',

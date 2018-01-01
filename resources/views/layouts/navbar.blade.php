@@ -75,6 +75,14 @@
                 </li>
                 <!-- End Payments -->
 
+                <!-- Documents -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('documents.index') }}">
+                        @icon('document') @lang('navbar.documents')
+                    </a>
+                </li>
+                <!-- End Documents -->
+
                 <!-- Tenancies -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarTenanciesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
