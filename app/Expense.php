@@ -40,6 +40,11 @@ class Expense extends BaseModel
      */
     protected $documentPath = 'expenses';
 
+    /**
+     * The attributes that should be eager loaded.
+     * 
+     * @var array
+     */
     public $with = [
         'contractor'
     ];

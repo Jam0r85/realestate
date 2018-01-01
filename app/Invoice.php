@@ -72,6 +72,11 @@ class Invoice extends PdfModel
         'property_id' => 'integer'
     ];
 
+    /**
+     * The attributes that should be eager loaded.
+     * 
+     * @var array
+     */
     protected $with = [
         'invoiceGroup',
     ];
