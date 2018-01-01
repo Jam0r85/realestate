@@ -21,6 +21,7 @@ class CreateBranchesTable extends Migration
             $table->text('address')->nullable();
             $table->string('vat_number')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

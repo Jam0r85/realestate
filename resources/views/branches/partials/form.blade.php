@@ -1,34 +1,34 @@
-<div class="form-group">
-	<label for="name">
+@component('partials.form-group')
+	@slot('label')
 		Branch Name
-	</label>
+	@endslot
 	<input type="text" name="name" id="name" class="form-control" value="{{ isset($branch) ? $branch->name : old('name') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="email">
-		E-Mail Address
-	</label>
+@component('partials.form-group')
+	@slot('label')
+		Contact E-Mail
+	@endslot
 	<input type="email" name="email" id="email" class="form-control" value="{{ isset($branch) ? $branch->email : old('email') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="phone_number">
-		Phone Number
-	</label>
+@component('partials.form-group')
+	@slot('label')
+		Contact Phone Number
+	@endslot
 	<input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ isset($branch) ? $branch->phone_number : old('phone_number') }}" />
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="address">
+@component('partials.form-group')
+	@slot('label')
 		Address
-	</label>
+	@endslot
 	<textarea name="address" rows="6" id="address" class="form-control">{{ isset($branch) ? $branch->address : old('address') }}</textarea>
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="vat_number">
+@component('partials.form-group')
+	@slot('label')
 		VAT Number
-	</label>
+	@endslot
 	<input type="text" name="vat_number" id="vat_number" class="form-control" value="{{ isset($branch) ? $branch->vat_number : old('vat_number') }}" />
-</div>
+@endcomponent

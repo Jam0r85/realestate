@@ -220,11 +220,13 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'UserGroupController@update')->name('user-groups.update');
 	});
 
+	// Branches
 	Route::prefix('branches')->group(function () {
 		Route::get('/', 'BranchController@index')->name('branches.index');
-		Route::get('create', 'BranchController@create')->name('branches.create');
-		Route::post('/', 'BranchController@store')->name('branches.store');
-		Route::get('{id}/{section?}', 'BranchController@show')->name('branches.show');
+		Route::get('create', 'BranchController@create')->name('branches.create'); // Create a new branch
+		Route::post('/', 'BranchController@store')->name('branches.store'); // Store the branch
+		Route::get('{id}/edit', 'BranchController@edit')->name('branches.edit'); // Edit the branch
+		Route::get('{id}/{show?}', 'BranchController@show')->name('branches.show'); // Show the brance
 		Route::put('{id}', 'BranchController@update')->name('branches.update');
 	});
 

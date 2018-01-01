@@ -22,7 +22,9 @@ class BranchController extends BaseController
      */
     public function index()
     {
-        $branches = $this->repository->get();
+        $branches = $this->repository
+            ->orderBy('name')
+            ->get();
 
         return view('branches.index', compact('branches'));
     }
@@ -66,6 +68,21 @@ class BranchController extends BaseController
             ->findOrFail($id);
 
         return view('branches.show', compact('branch','show'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $branch = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('branches.edit', compact('branch'));
     }
 
     /**

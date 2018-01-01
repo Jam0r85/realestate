@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 class Branch extends BaseModel
 {
     use PresentableTrait;
+    use SoftDeletes;
 
     /**
      * The presenter for this model.
@@ -29,7 +31,8 @@ class Branch extends BaseModel
      */
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this
+            ->belongsToMany('App\Role');
     }
 
     /**
@@ -37,7 +40,8 @@ class Branch extends BaseModel
      */
     public function calendars()
     {
-        return $this->hasMany('App\Calendar');
+        return $this
+            ->hasMany('App\Calendar');
     }
 
     /**
@@ -45,6 +49,7 @@ class Branch extends BaseModel
      */
     public function events()
     {
-        return $this->hasManyThrough('App\Event', 'App\Calendar');
+        return $this
+            ->hasManyThrough('App\Event', 'App\Calendar');
     }
 }
