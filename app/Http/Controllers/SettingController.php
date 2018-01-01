@@ -100,14 +100,14 @@ class SettingController extends BaseController
         $small_logo_path = 'logos/small/' . $file_name;
 
         // Copy the original logo and resize it
-        if (Storage::copy($path, $small_logo_path)) {
-            Image::make(Storage::get($small_logo_path))
-                ->resize(null, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
+        $small_logo = Image::make(Storage::get($path))
+            ->resize(null, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->stream('jpg', 100);
 
-            // Set the visability to public
+        if (Storage::put($small_logo_path, $small_logo)) {
             Storage::setVisibility($small_logo_path, 'public');
         }
 
