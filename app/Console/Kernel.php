@@ -2,10 +2,6 @@
 
 namespace App\Console;
 
-use App\Jobs\ArchivePastTenancyRents;
-use App\Jobs\GenerateRecurringInvoices;
-use App\Jobs\SendUnsentStatements;
-use App\Jobs\UpdateTenancyDepositBalances;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new GenerateRecurringInvoices)->daily();
+        // Horizon snapshot
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
         // Running backups
         $schedule->command('backup:clean')->daily()->at('01:00');
