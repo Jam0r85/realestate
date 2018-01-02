@@ -19,7 +19,7 @@ return [
     'deposit' => 'university',
     'document' => 'file',
     'download' => 'download',
-    'edit' => 'edit',
+    'edit' => 'pencil',
     'email' => 'envelope',
     'expense' => 'money-bill',
     'hidden' => 'eye-slash',
