@@ -20,10 +20,11 @@
 				<form action="{{ route('users.store') }}" method="POST">
 					{{ csrf_field() }}
 
-					<div class="card mb-3">
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							User E-Mail
-						@endcomponent
+						@endslot
+
 						<div class="card-body">
 
 							<p class="card-text">
@@ -38,28 +39,31 @@
 							@endcomponent
 
 						</div>
-					</div>
+					@endcomponent
 
-					<div class="card mb-3">
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							User Details
-						@endcomponent
+						@endslot
+
 						<div class="card-body">
 
 							@include('users.partials.form')
 
 						</div>
-						<div class="card-footer">
+
+						@slot('footer')
 							@component('partials.save-button')
 								Create User
 							@endcomponent
-						</div>
-					</div>
+						@endslot
+					@endcomponent
 
-					<div class="card mb-3">
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							User Password
-						@endcomponent
+						@endslot
+
 						<div class="card-body">
 
 							@component('partials.form-group')
@@ -80,22 +84,22 @@
 							@endcomponent
 
 						</div>
-						<div class="card-footer">
+						@slot('footer')
 							@component('partials.save-button')
 								Create User
 							@endcomponent
-						</div>
-					</div>
+						@endslot
+					@endcomponent
 
 				</form>
 
 			</div>
 			<div class="col-12 col-lg-4">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
+				@component('partials.card')
+					@slot('header')
 						Latest Users
-					@endcomponent
+					@endslot
 
 					<div class="list-group list-group-flush">
 						@foreach ($latestUsers as $user)
@@ -105,7 +109,7 @@
 						@endforeach
 					</div>
 
-				</div>
+				@endcomponent
 
 			</div>
 		</div>
