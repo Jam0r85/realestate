@@ -36,7 +36,7 @@
 				{!! Menu::showLink('Details', 'bank-accounts.show', $account->id, 'index') !!}
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Payments', 'bank-accounts.show', $account->id) !!}
+				{!! Menu::showLink('Statement Payments', 'bank-accounts.show', $account->id) !!}
 			</li>
 			<li class="nav-item">
 				{!! Menu::showLink('Properties', 'bank-accounts.show', $account->id) !!}
