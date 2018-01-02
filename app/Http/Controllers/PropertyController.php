@@ -24,6 +24,10 @@ class PropertyController extends BaseController
      */
     public function index(Request $request)
     {
+        if (!$request->all()) {
+            $request->request->add(['notArchived' => true]);
+        }
+        
         $properties = $this->repository
             ->with('owners')
             ->withTrashed()

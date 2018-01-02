@@ -5,6 +5,7 @@ namespace App;
 use App\AppearancePrice;
 use App\Traits\DataTrait;
 use Carbon\Carbon;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -13,6 +14,7 @@ class Appearance extends BaseModel
 	use SoftDeletes;
 	use PresentableTrait;
 	use DataTrait;
+	use Filterable;
 
 	/**
 	 * The presenter for this model.

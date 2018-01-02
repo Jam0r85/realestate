@@ -28,6 +28,10 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
+        if (!$request->all()) {
+            $request->request->add(['notArchived' => true]);
+        }
+        
         $users = $this->repository
             ->with('home','tenancies','tenancies.property')
             ->withTrashed()

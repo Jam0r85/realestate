@@ -39,7 +39,7 @@ class StatementController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            $request->request->add(['sent' => false]);
+            $request->request->add(['sent' => false, 'notArchived' => true]);
         }
 
         $statements = $this->repository

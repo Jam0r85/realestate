@@ -28,6 +28,10 @@ class BankAccountController extends BaseController
      */
     public function index(Request $request)
     {
+        if (!$request->all()) {
+            $request->request->add(['notArchived' => true]);
+        }
+
         $bank_accounts = $this->repository
             ->with('owner')
             ->withTrashed()

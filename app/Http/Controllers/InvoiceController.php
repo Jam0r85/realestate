@@ -27,19 +27,22 @@ class InvoiceController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            $request->request->add(['paid' => false]);
+            // Show unpaid and not archived invoices by default
+            $request->request->add(['paid' => false, 'notArchived' => true]);
         }
 
+        $invoices = $this->repository->filter($request->all());
+
+        // Get the invoice totals
         $totals = [
-            'net' => $this->repository->filter($request->all())->sum('net'),
-            'tax' => $this->repository->filter($request->all())->sum('tax'),
-            'total' => $this->repository->filter($request->all())->sum('total')
+            'net' => $invoices->sum('net'),
+            'tax' => $invoices->sum('tax'),
+            'total' => $invoices->sum('total')
         ];
 
-        $invoices = $this->repository
+        $invoices = $invoices
             ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->withTrashed()
-            ->filter($request->all())
             ->latest()
             ->paginateFilter();
 

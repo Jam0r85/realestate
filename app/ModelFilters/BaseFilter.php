@@ -37,13 +37,23 @@ class BaseFilter extends ModelFilter
     }
 
     /**
-     * Filter results by their deleted_at column
+     * Filter archived results
      * 
-     * @return  $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function archived()
     {
         return $this->whereNotNull('deleted_at');
+    }
+
+    /**
+     * Filter non archived results.
+     * 
+     * @return \Illuimnate\Database\Eloquent\Model
+     */
+    public function notArchived()
+    {
+        return $this->whereNull('deleted_at');
     }
 
     /**

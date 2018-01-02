@@ -11,16 +11,4 @@ class UserFilter extends BaseFilter
     * @var array
     */
     public $relations = [];
-
-    /**
-     * Setup the filter.
-     * 
-     * @return  $this
-     */
-    public function setup()
-    {
-        if (!request('archived')) {
-            return $this->whereNull('deleted_at');
-        }
-    }
 }

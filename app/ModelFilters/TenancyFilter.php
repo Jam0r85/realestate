@@ -22,19 +22,6 @@ class TenancyFilter extends BaseFilter
     public $relations = [];
 
     /**
-     * Setup the filter.
-     * 
-     * @return  $this
-     */
-    public function setup()
-    {
-        if (!request('archived')) {
-            return $this
-                ->whereNull('deleted_at');
-        }
-    }
-
-    /**
      * Filter results by service slug.
      * 
      * @param  string  $slug
