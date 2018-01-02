@@ -10,31 +10,33 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
-		<div class="card mb-3">
-			@component('partials.card-header')
-				Invoice Details
-			@endcomponent
 
-			<div class="card-body">
+		<form method="POST" action="{{ route('invoices.store') }}">
+			{{ csrf_field() }}
 
-				<form method="POST" action="{{ route('invoices.store') }}">
-					{{ csrf_field() }}					
+			@component('partials.card')
 
-					<div class="form-group">
-						<label for="invoice_group_id">Invoice Group</label>
+				<div class="card-body">
+
+					@component('partials.form-group')
+						@slot('label')
+							Invoice Group
+						@endslot
 						<select name="invoice_group_id" class="form-control">
 							@foreach (invoiceGroups() as $invoice_group)
 								<option @if (old('invoice_group_id') == $invoice_group->id) selected @endif value="{{ $invoice_group->id }}">{{ $invoice_group->name }}</option>
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="property_id">Property</label>
+					@component('partials.form-group')
+						@slot('label')
+							Property
+						@endslot
 						<select name="property_id" class="form-control select2">
 							<option value="" disabled selected></option>
 							@foreach (properties() as $property)
@@ -43,10 +45,12 @@
 								</option>
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="users">Users</label>
+					@component('partials.form-group')
+						@slot('label')
+							Attach Users
+						@endslot
 						<select name="users[]" class="form-control select2" multiple>
 							@foreach (users() as $user)
 								<option @if (old('users') && in_array($user->id, old('users'))) selected @endif value="{{ $user->id }}">
@@ -54,29 +58,34 @@
 								</option>
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="number">Invoice Number (optional)</label>
+					@component('partials.form-group')
+						@slot('label')
+							Invoice Number
+						@endslot
+						@slot('help')
+							Manually enter an invoice number if required.
+						@endslot
 						<input type="text" name="number" class="form-control" value="{{ old('number') }}" />
-						<small class="form-text text-muted">
-							Enter a number to use for this invoice instead of using the next avaliable number.
-						</small>
-					</div>
+					@endcomponent
 
-					<div class="form-group">
-						<label for="terms">Terms</label>
+					@component('partials.form-group')
+						@slot('label')
+							Terms
+						@endslot
 						<textarea name="terms" id="terms" class="form-control" rows="7">{{ old('terms') ?? get_setting('invoice_default_terms') }}</textarea>
-					</div>
+					@endcomponent
 
+				</div>
+				@slot('footer')
 					@component('partials.save-button')
 						Create Invoice
 					@endcomponent
+				@endslot
+			@endcomponent
 
-				</form>
-
-			</div>
-		</div>
+		</form>
 
 	@endcomponent
 
