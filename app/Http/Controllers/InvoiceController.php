@@ -28,7 +28,7 @@ class InvoiceController extends BaseController
     {
         if (!$request->all()) {
             // Show unpaid and not archived invoices by default
-            $request->request->add(['paid' => false, 'notArchived' => true]);
+            $request->request->add(['paid' => false, 'archived' => false]);
         }
 
         $invoices = $this->repository->filter($request->all());

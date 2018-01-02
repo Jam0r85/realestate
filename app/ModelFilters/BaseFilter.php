@@ -41,19 +41,13 @@ class BaseFilter extends ModelFilter
      * 
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function archived()
+    public function archived($status)
     {
-        return $this->whereNotNull('deleted_at');
-    }
-
-    /**
-     * Filter non archived results.
-     * 
-     * @return \Illuimnate\Database\Eloquent\Model
-     */
-    public function notArchived()
-    {
-        return $this->whereNull('deleted_at');
+        if ($status == false) {
+            return $this->whereNull('deleted_at');
+        } else {
+            return $this->whereNotNull('deleted_at');
+        }
     }
 
     /**

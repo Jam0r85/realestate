@@ -38,7 +38,7 @@ class TenancyController extends BaseController
     {
         if (!$request->all()) {
             // Hide archived tenancies by default
-            $request->request->add(['notArchived' => true]);
+            $request->request->add(['archived' => false]);
         }
 
         $tenancies = $this->repository

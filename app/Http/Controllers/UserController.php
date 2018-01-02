@@ -29,7 +29,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            $request->request->add(['notArchived' => true]);
+            $request->request->add(['archived' => false]);
         }
         
         $users = $this->repository
