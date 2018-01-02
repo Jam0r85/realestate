@@ -25,7 +25,7 @@
 				@endif
 				<td class="text-right">
 					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-primary btn-sm">
-						View
+						@icon('view')
 					</a>
 				</td>
 			</tr>

@@ -37,9 +37,9 @@
 						<td>{{ currency($service->re_letting_fee) }}</td>
 						<td>{{ $service->present()->serviceChargeFormatted }}</td>
 						<td>{{ $service->taxRate ? $service->taxRate->name : '-' }}</td>
-						<td>
+						<td class="text-right">
 							<a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning btn-sm">
-								Edit
+								@icon('edit')
 							</a>
 						</td>
 					</tr>

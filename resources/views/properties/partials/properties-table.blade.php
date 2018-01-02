@@ -11,7 +11,7 @@
 				<td class="text-right">{!! $property->present()->ownerBadges !!}</td>
 				<td class="text-right">
 					<a href="{{ route('properties.show', $property->id) }}" class="btn btn-primary btn-sm">
-						View
+						@icon('view')
 					</a>
 				</td>
 			</tr>

@@ -19,10 +19,10 @@
 				<td>{!! $invoice->present()->userBadges !!}</td>
 				<td class="text-right">
 					<a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-primary btn-sm">
-						View
+						@icon('view')
 					</a>
 					<a href="{{ route('downloads.invoice', $invoice->id) }}" class="btn btn-info btn-sm" target="_blank">
-						<i class="fa fa-download"></i>
+						@icon('download')
 					</a>
 				</td>
 			</tr>

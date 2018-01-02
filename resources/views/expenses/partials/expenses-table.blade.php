@@ -32,7 +32,7 @@
 					<td>{{ currency($expense->cost) }}</td>
 					<td class="text-right">
 						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
-							View
+							@icon('view')
 						</a>
 						@foreach ($expense->documents as $document)
 							@include('partials.document-download-button')

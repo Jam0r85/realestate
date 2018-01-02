@@ -19,11 +19,11 @@
 					<td>{{ $deposit->unique_id }}</td>
 					<td class="text-right">
 						<a href="{{ route('deposits.show', $deposit->id) }}" class="btn btn-primary btn-sm">
-							View
+							@icon('view')
 						</a>
 						@if ($deposit->certificate)
 							<a href="{{ Storage::url($deposit->certificate->path) }}" target="_blank" class="btn btn-secondary btn-sm" >
-								<i class="fa fa-download"></i>
+								@icon('download')
 							</a>
 						@endif
 					</td>

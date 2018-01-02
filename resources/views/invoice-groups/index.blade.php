@@ -31,7 +31,7 @@
 						<td>{{ $group->format }}</td>
 						<td class="text-right">
 							<a href="{{ route('invoice-groups.show', $group->id) }}" class="btn btn-primary btn-sm">
-								View
+								@icon('view')
 							</a>
 						</td>
 					</tr>

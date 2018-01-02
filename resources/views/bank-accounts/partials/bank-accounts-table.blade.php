@@ -21,7 +21,7 @@
 				@endif
 				<td class="text-right">
 					<a href="{{ route('bank-accounts.show', $account->id) }}" class="btn btn-primary btn-sm">
-						View
+						@icon('view')
 					</a>
 				</td>
 			</tr>

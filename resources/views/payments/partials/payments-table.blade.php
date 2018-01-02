@@ -16,8 +16,8 @@
 				<td>{!! $payment->present()->badge !!} {{ truncate($payment->present()->forName) }}</td>
 				<td>{!! $payment->present()->userBadges !!}</td>
 				<td class="text-right">
-					<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">
-						View
+					<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm" title="View">
+						@icon('view')
 					</a>
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
 						<i class="fa fa-download"></i>
