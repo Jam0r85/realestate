@@ -153,13 +153,13 @@
 
 							@component('partials.alerts.info')
 
-								<p>This statement has been paid and can be sent to the landlord(s).</p>
+								<p>This statement has been paid and can be {{ $statement->sent_at ? 'Resent' : 'Sent' }} to the landlord(s).</p>
 
 								<form method="POST" action="{{ route('statements.send', $statement->id) }}">
 									{{ csrf_field() }}
 
 									<button type="submit" class="btn btn-secondary btn-block">
-										Send Statement
+										{{ $statement->sent_at ? 'Resend' : 'Send' }} Statement
 									</button>
 								</form>
 
