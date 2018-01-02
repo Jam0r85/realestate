@@ -47,14 +47,14 @@
 					@if ($statement->present()->status == 'Paid')
 						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 							{{ csrf_field() }}
-							<button type="submit" class="btn btn-info btn-sm">
+							<button type="submit" class="btn btn-info btn-sm" title="Send">
 								@icon('sent')
 							</button>
 						</form>
 					@endif
 
-					<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-primary btn-sm">
-						View
+					<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-primary btn-sm" title="View">
+						@icon('view')
 					</a>
 
 				</td>
