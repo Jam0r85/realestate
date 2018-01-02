@@ -36,7 +36,7 @@
 
 					@component('partials.card')
 						@slot('header')
-							Branch
+							@icon('branch') Branch
 						@endslot
 
 						<div class="card-body">
@@ -75,53 +75,62 @@
 
 				</form>
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('properties.update', $property->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Property Details
-					@endcomponent
+					@component('partials.card')
+						@slot('header')
+							Property Details
+						@endslot
 
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('properties.update', $property->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}				
+						<div class="card-body">
 
 							@include('properties.partials.form')
 
+						</div>
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Tenancy Settings
-					@endcomponent
+				<form method="POST" action="{{ route('properties.update', $property->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					<div class="card-body">
+					@component('partials.card')
+						@slot('header')
+							@icon('tenancy') Tenancy Settings
+						@endslot
 
-						<form method="POST" action="{{ route('properties.update', $property->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}	
+						<div class="card-body">
 
-							<div class="form-group">
-								<label for="statement_send_method">Statement Send Method</label>
+							@component('partials.alerts.info')
+								The following settings will be applied automatically to new tenancies created for this property.
+							@endcomponent
+
+							@component('partials.form-group')
+								@slot('label')
+									Send Method
+								@endslot
 								<select name="statement_send_method" id="statement_send_method" class="form-control">
 									<option @if ($property->getSetting('statement_send_method') == 'email') selected @endif value="email">E-Mail</option>
 									<option @if ($property->getSetting('statement_send_method') == 'post') selected @endif value="post">Post</option>
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="bank_account_id">Payment Method</label>
+							@component('partials.form-group')
+								@slot('label')
+									Payment Method
+								@endslot
 								<select name="bank_account_id" id="bank_account_id" class="form-control select2">
 									<option value="0">Cheque or Cash</option>
 									@foreach (bank_accounts($property->owners->pluck('id')->toArray()) as $account)
@@ -130,32 +139,35 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
+						</div>
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
 
-						</form>
-
-					</div>
-
-				</div>
-
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Building Information
 					@endcomponent
-					<div class="card-body">
 
-						<form method="POST" action="{{ route('properties.update', $property->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}	
+				</form>
 
-							<div class="form-group">
-								<label for="bedrooms">
+				<form method="POST" action="{{ route('properties.update', $property->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							@icon('list') Further Information
+						@endslot
+
+						<div class="card-body">
+
+							@component('partials.form-group')
+								@slot('label')
 									Bedrooms
-								</label>
+								@endslot
 								<select name="bedrooms" id="bedrooms" class="form-control">
 									@for($i = 0; $i <= 10; $i++)
 										<option @if ($property->getData('bedrooms') == $i) selected @endif value="{{ $i }}">
@@ -167,12 +179,12 @@
 										</option>
 									@endfor
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="bathrooms">
+							@component('partials.form-group')
+								@slot('label')
 									Bathrooms
-								</label>
+								@endslot
 								<select name="bathrooms" id="bathrooms" class="form-control">
 									@for($i = 0; $i <= 10; $i++)
 										<option @if ($property->getData('bathrooms') == $i) selected @endif value="{{ $i }}">
@@ -184,12 +196,12 @@
 										</option>
 									@endfor
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="reception_rooms">
+							@component('partials.form-group')
+								@slot('label')
 									Reception Rooms
-								</label>
+								@endslot
 								<select name="reception_rooms" id="reception_rooms" class="form-control">
 									@for($i = 0; $i <= 10; $i++)
 										<option @if ($property->getData('reception_rooms') == $i) selected @endif value="{{ $i }}">
@@ -201,77 +213,76 @@
 										</option>
 									@endfor
 								</select>
-							</div>
+							@endcomponent
 
+						</div>
+						
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 				@if ($property->deleted_at)
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Restore Property
-						@endcomponent
-						<div class="card-body">
+					<form method="POST" action="{{ route('properties.restore', $property->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
-							<form method="POST" action="{{ route('properties.restore', $property->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
+						@component('partials.card')
+							@slot('header')
+								@icon('restore') Restore Property
+							@endslot
 
+							@slot('footer')
 								@component('partials.save-button')
 									Restore Property
 								@endcomponent
-
-							</form>
-
-						</div>
-					</div>
-
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Destroy Property
+							@endslot
 						@endcomponent
-						<div class="card-body">
 
-							<form method="POST" action="{{ route('properties.forceDestroy', $property->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
+					</form>
 
+					<form method="POST" action="{{ route('properties.forceDestroy', $property->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						@component('partials.card')
+							@slot('header')
+								@icon('destroy') Destroy Property
+							@endslot
+
+							@slot('footer')
 								@component('partials.save-button')
 									Destroy Property
 								@endcomponent
+							@endslot
+						@endcomponent
 
-							</form>
-
-						</div>
-					</div>
+					</form>
 
 				@else
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Delete Property
-						@endcomponent
-						<div class="card-body">
+					<form method="POST" action="{{ route('properties.destroy', $property->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
 
-							<form method="POST" action="{{ route('properties.destroy', $property->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
+						@component('partials.card')
+							@slot('header')
+								@icon('delete') Delete Property
+							@endslot
 
+							@slot('footer')
 								@component('partials.save-button')
 									Delete Property
 								@endcomponent
+							@endslot
+						@endcomponent
 
-							</form>
-
-						</div>
-					</div>
+					</form>
 
 				@endif
 
