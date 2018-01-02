@@ -45,6 +45,6 @@ return [
     'user' => 'user',
     'users' => 'users',
     'user-plus' => 'user-plus',
-    'view' => 'info-square',
+    'view' => 'info',
     'visible' => 'eye'
 ];
