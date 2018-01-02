@@ -30,6 +30,43 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
+				<form method="POST" action="{{ route('properties.update', $property->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}	
+
+					@component('partials.card')
+						@slot('header')
+							Branch
+						@endslot
+
+						<div class="card-body">
+							<p class="card-text">
+								You can change the branch assigned to deal with this property by selecting the a new branch below.
+							</p>
+
+							@component('partials.form-group')
+								@slot('label')
+									Branch
+								@endslot
+								<select name="branch_id" id="branch_id" class="form-control">
+									@foreach (branches() as $branch)
+										<option @if ($property->branch_id == $branch->id) selected @endif value="{{ $branch->id }}">
+											{{ $branch->name }}
+										</option>
+									@endforeach
+								</select>
+							@endcomponent
+
+						</div>
+						@slot('footer')
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						@endslot
+					@endcomponent
+
+				</form>
+
 				<div class="card mb-3">
 
 					@component('partials.card-header')

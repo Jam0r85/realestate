@@ -21,6 +21,6 @@ Your invoice total was {{ currency($expense->cost) }}.
 The remaining balance is {{ currency($expense->balance) }}.
 @endif
 
-Thanks,<br />
-{{ get_setting('company_name', config('app.name')) }}
+@include('email-templates.footer')
+
 @endcomponent

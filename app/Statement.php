@@ -102,6 +102,17 @@ class Statement extends PdfModel
     }
 
     /**
+     * A statement belongs to a branch.
+     */
+    public function branch()
+    {
+        return $this
+            ->tenancy
+            ->property
+            ->branch;
+    }
+
+    /**
      * A statement can belong to many invoices.
      */
     public function invoices()

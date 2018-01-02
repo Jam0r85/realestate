@@ -69,8 +69,8 @@ class StatementSentNotification extends Notification
                 // Loop through the expenses
                 foreach ($this->statement->expenses as $expense) {
                     // Check whether the expense has an invoice
-                    if (count($expense->documents)) {
-                        foreach ($expense->documents as $invoice) {
+                    if (count($expense->publicDocuments)) {
+                        foreach ($expense->publicDocuments as $invoice) {
                             $email->attach(
                                 Storage::url($invoice->path), [
                                     'as' => $invoice->name . '.' . $invoice->extension
@@ -86,7 +86,9 @@ class StatementSentNotification extends Notification
         if ($method == 'post') {
             return (new MailMessage)
                 ->subject('Your Rental Statement')
-                ->markdown('email-templates.statement-by-post', ['statement' => $this->statement]);
+                ->markdown('email-templates.statement-by-post', [
+                    'statement' => $this->statement
+                ]);
         }
     }
 }

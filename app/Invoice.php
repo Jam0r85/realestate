@@ -145,6 +145,16 @@ class Invoice extends PdfModel
 		return $this->belongsTo('App\User', 'user_id');
 	}
 
+    /**
+     * An invoice belongs to a branch.
+     */
+    public function branch()
+    {
+        return $this
+            ->property
+            ->branch;
+    }
+
 	/**
 	 * An invoice belongs to a property.
 	 */

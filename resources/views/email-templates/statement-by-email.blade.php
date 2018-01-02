@@ -7,8 +7,7 @@ Please find attached the rental statement for the property <b>{{ $statement->pro
 The amount of {{ currency($statement->present()->landlordBalanceTotal) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
 @endif
 
-Thanks,<br>
-{{ get_setting('company_name', config('app.name')) }}
+@include('email-templates.footer')
 
 @if (!$statement->sent_at)
 @component('mail::subcopy')

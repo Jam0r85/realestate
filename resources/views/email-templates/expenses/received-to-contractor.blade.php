@@ -5,6 +5,6 @@ We acknowledge receipt of your invoice {{ $expense->getData('contractor_referenc
 
 Balance Due: {{ currency($expense->cost) }}
 
-Thanks,<br />
-{{ get_setting('company_name', config('app.name')) }}
+@include('email-templates.footer')
+
 @endcomponent

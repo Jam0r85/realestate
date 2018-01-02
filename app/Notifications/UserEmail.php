@@ -59,6 +59,8 @@ class UserEmail extends Notification
     {
         return (new MailMessage)
             ->subject($this->subject)
-            ->markdown('email-templates.user-email-message', ['message' => $this->message]);
+            ->markdown('email-templates.user-email-message', [
+                'message' => $this->message
+            ]);
     }
 }

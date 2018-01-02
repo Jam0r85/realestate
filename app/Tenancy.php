@@ -312,6 +312,16 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * A tenancy belongs to a branch.
+     */
+    public function branch()
+    {
+        return $this
+            ->property
+            ->branch;
+    }
+
+    /**
      * A tenancy can belong to many discounts.
      */
     public function discounts()
