@@ -36,6 +36,7 @@ return [
     'report' => 'file',
     'return' => 'backward',
     'save' => 'save',
+    'sent' => 'envelope-open',
     'settings' => 'wrench',
     'sms' => 'comment',
     'statement' => 'file-alt',

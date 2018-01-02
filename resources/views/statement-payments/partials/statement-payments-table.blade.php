@@ -33,7 +33,7 @@
 				@endif
 				<td class="text-right">
 					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-warning btn-sm">
-						Edit
+						@icon('edit')
 					</a>
 				</td>
 			</tr>

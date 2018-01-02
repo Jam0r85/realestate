@@ -2,10 +2,10 @@
 	{{ csrf_field() }}
 	{{ method_field('PUT') }}
 	<button type="submit" class="btn btn-primary btn-sm">
-		Sent
+		@icon('sent')
 	</button>
 </form>
 
 <a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-warning btn-sm">
-	Edit
+	@icon('edit')
 </a>
