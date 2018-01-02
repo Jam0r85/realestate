@@ -40,19 +40,27 @@
 						@endslot
 
 						<div class="card-body">
+
 							<p class="card-text">
 								You can change the branch assigned to deal with this property by selecting the a new branch below.
 							</p>
 
+							@component('partials.alerts.info')
+								Branch assigned is currently <b>{{ $property->branch->name }}</b>
+							@endcomponent
+
 							@component('partials.form-group')
 								@slot('label')
-									Branch
+									New Branch
 								@endslot
 								<select name="branch_id" id="branch_id" class="form-control">
+									<option value="{{ $property->branch_id }}">Please select..</option>
 									@foreach (branches() as $branch)
-										<option @if ($property->branch_id == $branch->id) selected @endif value="{{ $branch->id }}">
-											{{ $branch->name }}
-										</option>
+										@if ($branch->id != $property->branch_id)
+											<option value="{{ $branch->id }}">
+												{{ $branch->name }}
+											</option>
+										@endif
 									@endforeach
 								</select>
 							@endcomponent
