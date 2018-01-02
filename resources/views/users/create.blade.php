@@ -27,9 +27,9 @@
 
 						<div class="card-body">
 
-							<p class="card-text">
-								A user requires a valid, unqiue e-mail address before they can login to the website.
-							</p>
+							@component('partials.alerts.info')
+								A user requires a valid and unqiue e-mail address before they can login to the website.
+							@endcomponent
 
 							@component('partials.form-group')
 								@slot('label')
