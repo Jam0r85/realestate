@@ -46,6 +46,7 @@ return [
     'statement' => 'file-alt',
     'tenancy' => 'briefcase',
     'tenancy_service' => 'book',
+    'upload' => 'cloud-upload',
     'user' => 'user',
     'users' => 'users',
     'user-plus' => 'user-plus',

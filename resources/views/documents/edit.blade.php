@@ -5,6 +5,8 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+
+			{{-- Return back to the Expense --}}
 			@if (model_name($document->parent) == 'Expense')
 				@component('partials.return-button')
 					Expense #{{ $document->parent_id }}
@@ -80,7 +82,7 @@
 
 					@component('partials.card')
 						@slot('header')
-							Re-Upload Document
+							@icon('upload') Re-Upload Document
 						@endslot
 
 						<div class="card-body">
@@ -112,64 +114,58 @@
 
 				@if ($document->deleted_at)
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Restore Document
-						@endcomponent
-						<div class="card-body">
+					<form method="POST" action="{{ route('documents.restore', $document->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
-							<form method="POST" action="{{ route('documents.restore', $document->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
-
+						@component('partials.card')
+							@slot('header')
+								@icon('restore') Restore Document
+							@endslot
+							@slot('footer')
 								@component('partials.save-button')
 									Restore Document
 								@endcomponent
-
-							</form>
-
-						</div>
-					</div>
-
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Destroy Document
+							@endslot
 						@endcomponent
-						<div class="card-body">
 
-							<form method="POST" action="{{ route('documents.forceDestroy', $document->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
+					</form>
 
+					<form method="POST" action="{{ route('documents.forceDestroy', $document->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						@component('partials.card')
+							@slot('header')
+								@icon('destroy') Destroy Document
+							@endslot
+							@slot('footer')
 								@component('partials.save-button')
 									Destroy Document
 								@endcomponent
+							@endslot
+						@endcomponent
 
-							</form>
-
-						</div>
-					</div>
+					</form>
 
 				@else
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Delete Document
-						@endcomponent
-						<div class="card-body">
+					<form method="POST" action="{{ route('documents.destroy', $document->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
 
-							<form method="POST" action="{{ route('documents.destroy', $document->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
-
+						@component('partials.card')
+							@slot('header')
+								@icon('delete') Delete Document
+							@endslot
+							@slot('footer')
 								@component('partials.save-button')
 									Delete Document
 								@endcomponent
+							@endslot
+						@endcomponent
 
-							</form>
-
-						</div>
-					</div>
+					</form>
 
 				@endif
 
