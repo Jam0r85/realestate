@@ -32,7 +32,7 @@ class Branch extends BaseModel
     public function roles()
     {
         return $this
-            ->belongsToMany('App\Role');
+            ->hasMany('App\Role');
     }
 
     /**

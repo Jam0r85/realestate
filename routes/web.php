@@ -230,10 +230,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'BranchController@update')->name('branches.update');
 	});
 
+	// Roles
 	Route::prefix('roles')->group(function () {
-		Route::post('/', 'RoleController@store')->name('roles.store');
-		Route::get('{id}', 'RoleController@show')->name('roles.show');
-		Route::put('{id}', 'RoleController@update')->name('roles.update');
+		Route::get('/', 'RoleController@index')->name('roles.index');
+		Route::get('{id}/edit', 'RoleController@edit')->name('roles.edit'); // Edit the role
+		Route::put('{id}', 'RoleController@update')->name('roles.update'); // Update the role
 	});
 
 	Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloads.invoice');

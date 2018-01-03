@@ -3,27 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBranchRoleRequest;
-use App\Repositories\EloquentRolesRepository;
 use Illuminate\Http\Request;
 
 class RoleController extends BaseController
 {
     /**
-     * @var  App\Repositories\EloquentRolesRepository
-     */
-    protected $roles;
-
-    /**
-     * Create a new controller instance.
+     * The eloquent model for this controller.
      * 
-     * @param   EloquentRolesRepository $users
-     * @return  void
+     * @var string
      */
-    public function __construct(EloquentRolesRepository $roles)
-    {
-        $this->middleware('auth');
-        $this->roles = $roles;
-    }
+    public $model = 'App\Role';
 
     /**
      * Display a listing of the resource.
@@ -32,8 +21,8 @@ class RoleController extends BaseController
      */
     public function index()
     {
-        $roles = $this->roles->getAllPaged();
-        return view('settings.roles', compact('roles'));
+        $roles = $this->repository->latest()->get();
+        return view('roles.index', compact('roles'));
     }
 
     /**
@@ -65,34 +54,31 @@ class RoleController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\BranchRole  $branchRole
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BranchRole $branchRole)
+    public function edit($id)
     {
-        //
+        $role = $this->repository
+            ->findOrFail($id);
+
+        return view('roles.edit', compact('role'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BranchRole  $branchRole
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BranchRole $branchRole)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\BranchRole  $branchRole
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BranchRole $branchRole)
-    {
-        //
+        return back();
     }
 }

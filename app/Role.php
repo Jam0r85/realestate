@@ -18,7 +18,8 @@ class Role extends BaseModel
 	 */
     public function branch()
     {
-    	return $this->belongsTo('App\Branch');
+    	return $this
+            ->belongsTo('App\Branch');
     }
 
     /**
@@ -26,7 +27,8 @@ class Role extends BaseModel
      */
     public function users()
     {
-    	return $this->belongsToMany('App\User');
+    	return $this
+            ->belongsToMany('App\User');
     }
 
     /**
@@ -34,6 +36,7 @@ class Role extends BaseModel
      */
     public function permissions()
     {
-        return $this->belongsToMany('App\Permission');
+        return $this
+            ->belongsToMany('App\Permission');
     }
 }
