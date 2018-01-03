@@ -13,6 +13,16 @@ class Role extends BaseModel
         'name', 'description', 'branch_id'
     ];
 
+    /**
+     * Get the model created message.
+     * 
+     * @return  string
+     */
+    public function messageCreated()
+    {
+        return 'New role ' . $this->name . ' created for the branch ' . $this->branch->name;
+    }
+
 	/**
 	 * A role can belong to many branches.
 	 */

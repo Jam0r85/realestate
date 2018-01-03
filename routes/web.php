@@ -110,6 +110,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('{id}/deposit', 'DepositPaymentController@store')->name('deposits.store-payment'); // Store a new deposit payment
 	});
 
+	// Tenancies
 	Route::prefix('tenancies')->group(function () {
 		Route::get('/', 'TenancyController@index')->name('tenancies.index');
 		Route::post('search', 'TenancyController@search')->name('tenancies.search'); // Search tenancies
@@ -125,11 +126,14 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
 	});
 
+	// Tenancy Rent Payments
 	Route::get('{tenancy}/rent-payments/print', 'RentPaymentController@print')->name('rent-payments.print');
 	Route::get('{tenancy}/rent-payments/print-with-statements', 'RentPaymentController@printWithStatements')->name('rent-payments.print-with-statements');
 
+	// Tenancy Rent Amounts
 	Route::resource('tenancy-rents', 'TenancyRentController');
-	
+
+	// Tenancy Services	
 	Route::prefix('services')->group(function () {
 		Route::get('/', 'ServiceController@index')->name('services.index');
 		Route::get('create', 'ServiceController@create')->name('services.create'); // Create a new service
@@ -336,6 +340,17 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/edit', 'ReminderTypeController@edit')->name('reminder-types.edit'); // Edit the reminder type
 		Route::get('{id}/{show?}', 'ReminderTypeController@show')->name('reminder-types.show'); // Show the reminder type
 		Route::put('{id}', 'ReminderTypeController@update')->name('reminder-types.update'); // Update the reminder
+	});
+
+	// Maintenance Issues
+	Route::prefix('maintenance')->group(function () {
+		Route::get('/', 'MaintenanceController@index')->name('maintenances.index');
+		Route::post('/search', 'MaintenanceController@search')->name('maintenances.search');
+		Route::get('create', 'MaintenanceController@create')->name('maintenances.create'); // Create a new maintenance issue
+		Route::post('/', 'MaintenanceController@store')->name('maintenances.store'); // Store a new maintenance issue
+		Route::get('{id}/edit', 'MaintenanceController@edit')->name('maintenances.edit'); // Edit the maintenance issue
+		Route::put('{id}', 'MaintenanceController@update')->name('maintenances.update'); // Update the maintenance issue
+		Route::get('{id}/{show?}', 'MaintenanceController@show')->name('maintenances.show'); // Show the maintenance issue
 	});
 
 });

@@ -46,7 +46,7 @@ class BaseModel extends Model
 
 		parent::save($options);
 
-		// Set the correct action
+		// Decide whether we updated or created this record
 		if ($this->wasRecentlyCreated) {
 			$action = 'created';
 		} else {

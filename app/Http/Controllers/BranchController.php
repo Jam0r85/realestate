@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BranchStoreRequest;
 use App\Http\Requests\BranchUpdateRequest;
-use App\Http\Requests\StoreBranchRequest;
 use Illuminate\Http\Request;
 
 class BranchController extends BaseController
@@ -42,10 +42,10 @@ class BranchController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\BranchStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBranchRequest $request)
+    public function store(BranchStoreRequest $request)
     {
         $this->repository
             ->fill($request->input())

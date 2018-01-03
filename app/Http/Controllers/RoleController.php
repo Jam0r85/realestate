@@ -22,7 +22,10 @@ class RoleController extends BaseController
      */
     public function index()
     {
-        $roles = $this->repository->latest()->get();
+        $roles = $this->repository
+            ->latest()
+            ->get();
+
         return view('roles.index', compact('roles'));
     }
 
@@ -44,8 +47,17 @@ class RoleController extends BaseController
      */
     public function store(RoleStoreRequest $request)
     {
-        $role = $this->repository
-            ->fill($request->all());
+        $data = $request->only('name','description');
+
+        // Loop through the given branch IDs and store the role for each branch
+        foreach ($request->branch_id as $branch_id) {
+
+            $data['branch_id'] = $branch_id;
+
+            $this->repository
+                ->fill($data)
+                ->save();
+        }
 
         return back();
     }

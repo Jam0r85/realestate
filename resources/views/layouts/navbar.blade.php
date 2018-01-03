@@ -92,8 +92,8 @@
                         <a class="dropdown-item" href="{{ route('tenancies.index') }}">
                             @icon('tenancy') @lang('navbar.tenancies')
                         </a>
-                        <a class="dropdown-item" href="{{ route('services.index') }}">
-                            @icon('tenancy_service') @lang('navbar.tenancy_services')
+                        <a class="dropdown-item" href="{{ route('maintenances.index') }}">
+                            @icon('maintenance') @lang('navbar.maintenance')
                         </a>
                         <a class="dropdown-item" href="{{ route('statements.index') }}">
                             @icon('statement') @lang('navbar.statements')
@@ -101,10 +101,11 @@
                         <a class="dropdown-item" href="{{ route('statement-payments.index') }}">
                             @icon('payment') @lang('navbar.statement_payments')
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <h6 class="dropdown-header">Deposits</h6>
                         <a class="dropdown-item" href="{{ route('deposits.index') }}">
                             @icon('deposit') @lang('navbar.deposits')
+                        </a>
+                        <a class="dropdown-item" href="{{ route('services.index') }}">
+                            @icon('tenancy_service') @lang('navbar.tenancy_services')
                         </a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Management</h6>

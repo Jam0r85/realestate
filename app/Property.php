@@ -207,10 +207,12 @@ class Property extends BaseModel
 	 */
 	public function currentResidents()
 	{
+		// Active tenancy, tenants are living at the property
 		if ($this->activeTenancy) {
 			return $this->activeTenancy->users;
 		}
 
+		// This property has been assigned as the home address for a user(s)
 		if ($this->residents) {
 			return $this->residents;
 		}
