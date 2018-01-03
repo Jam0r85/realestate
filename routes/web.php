@@ -234,6 +234,7 @@ Route::middleware(['staff'])->group(function () {
 	Route::prefix('roles')->group(function () {
 		Route::get('/', 'RoleController@index')->name('roles.index');
 		Route::get('{id}/edit', 'RoleController@edit')->name('roles.edit'); // Edit the role
+		Route::get('{id}/{show?}', 'RoleController@show')->name('roles.show'); // Show the role
 		Route::put('{id}', 'RoleController@update')->name('roles.update'); // Update the role
 	});
 

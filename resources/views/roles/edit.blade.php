@@ -8,7 +8,7 @@
 			@component('partials.return-button')
 				Return
 				@slot('url')
-					{{ route('roles.index') }}
+					{{ route('roles.show', $role->id) }}
 				@endslot
 			@endcomponent
 		</div>

@@ -20,6 +20,10 @@
 		@component('partials.header')
 			{{ $branch->name }}
 		@endcomponent
+
+		@component('partials.sub-header')
+			{{ $branch->present()->addressInline }}
+		@endcomponent
 		
 	@endcomponent
 

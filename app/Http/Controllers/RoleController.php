@@ -42,13 +42,16 @@ class RoleController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\BranchRole  $branchRole
+     * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $show = 'index')
     {
-        $branch = $this->branches->find($id);
-        return view('branches.show', compact('branch'));
+        $role = $this->repository
+            ->findOrFail($id);
+
+        return view('roles.show', compact('role','show'));
     }
 
     /**
