@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleStoreRequest;
 use App\Http\Requests\StoreBranchRoleRequest;
 use Illuminate\Http\Request;
 
@@ -26,15 +27,25 @@ class RoleController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the form for creating a new resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBranchRoleRequest $request)
+    public function create()
     {
-        $data = $request->except('_token');
-        $this->roles->createRole($data);
+        return view('roles.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\RoleStoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(RoleStoreRequest $request)
+    {
+        $role = $this->repository
+            ->fill($request->all());
 
         return back();
     }

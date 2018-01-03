@@ -16,7 +16,7 @@ class BladeServiceProvider extends ServiceProvider
     {
         Blade::directive('icon', function ($icon) {
             $icon = __('icons.'. str_replace("'", "", $icon));
-        	return "<?php echo '<i class=\"fa fa-{$icon}\"></i>'; ?>";
+        	return "<?php echo '<i class=\"fa fa-fw fa-{$icon}\"></i>'; ?>";
         });
     }
 

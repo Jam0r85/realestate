@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBranchRoleRequest extends FormRequest
+class RoleStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +25,8 @@ class StoreBranchRoleRequest extends FormRequest
     {
         return [
             'name' => [
-                'required',
-                'unique'
+                'required'
             ],
-            'branch_id' => 'required',
-            'permission_id[]' => 'required'
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the rules.
-     * 
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'permission_id[].required' => 'Please select at least one permission for this role'
         ];
     }
 }

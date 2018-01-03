@@ -26,6 +26,7 @@ return [
     'profile' => 'My Profile',
     'properties' => 'Properties',
     'reports' => 'Reports',
+    'roles' => 'Roles',
     'settings' => 'Settings',
     'sms_history' => 'SMS History',
     'statements' => 'Statements',

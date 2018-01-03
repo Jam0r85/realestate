@@ -39,6 +39,7 @@ return [
     'report' => 'file',
     'restore' => 'undo',
     'return' => 'backward',
+    'role' => 'users',
     'save' => 'save',
     'sent' => 'envelope-open',
     'settings' => 'wrench',

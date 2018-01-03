@@ -36,6 +36,9 @@
 				{!! Menu::showLink('Details', 'branches.show', $branch->id, 'index') !!}
 			</li>
 			<li class="nav-item">
+				{!! Menu::showLink('Staff', 'branches.show', $branch->id) !!}
+			</li>
+			<li class="nav-item">
 				{!! Menu::showLink('Roles', 'branches.show', $branch->id) !!}
 			</li>
 		</ul>

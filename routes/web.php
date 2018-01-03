@@ -233,6 +233,8 @@ Route::middleware(['staff'])->group(function () {
 	// Roles
 	Route::prefix('roles')->group(function () {
 		Route::get('/', 'RoleController@index')->name('roles.index');
+		Route::get('create', 'RoleController@create')->name('roles.create'); // Create a new role
+		Route::post('/', 'RoleController@store')->name('roles.store'); // Store the role
 		Route::get('{id}/edit', 'RoleController@edit')->name('roles.edit'); // Edit the role
 		Route::get('{id}/{show?}', 'RoleController@show')->name('roles.show'); // Show the role
 		Route::put('{id}', 'RoleController@update')->name('roles.update'); // Update the role

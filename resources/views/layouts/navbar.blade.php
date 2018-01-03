@@ -180,9 +180,13 @@
                         <a class="dropdown-item" href="{{ route('branches.index') }}">
                             @icon('branch') @lang('navbar.branches')
                         </a>
+                        <a class="dropdown-item" href="{{ route('roles.index') }}">
+                            @icon('role') @lang('navbar.roles')
+                        </a>
                         <a class="dropdown-item" href="{{ route('reports.index') }}">
                             @icon('report') @lang('navbar.reports')
                         </a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('emails.index') }}">
                             @icon('email') @lang('navbar.email_history')
                         </a>
