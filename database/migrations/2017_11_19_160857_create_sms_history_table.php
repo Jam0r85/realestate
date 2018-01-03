@@ -20,7 +20,7 @@ class CreateSmsHistoryTable extends Migration
             $table->boolean('inbound')->default(0);
             $table->string('phone_number');
             $table->text('body');
-            $table->text('messages');
+            $table->text('messages')->nullable();
             $table->timestamps();
         });
     }
