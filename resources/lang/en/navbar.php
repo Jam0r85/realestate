@@ -20,7 +20,7 @@ return [
     'invoices' => 'Invoices',
     'invoice_groups' => 'Invoice Groups',
     'logout' => 'Logout',
-    'maintenance' => 'Service Issues',
+    'maintenance' => 'Maintenance Issues',
     'options' => 'Options',
     'payments' => 'Payments',
     'planner' => 'Planner',

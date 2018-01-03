@@ -9,7 +9,7 @@
 		</a>
 
 		@component('partials.header')
-			Maintenances
+			Maintenance Issues
 		@endcomponent
 
 	@endcomponent

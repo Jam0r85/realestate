@@ -139,7 +139,9 @@ if (!function_exists('services')) {
 if (!function_exists('tenancies')) {
 	function tenancies()
 	{
-		return \App\Tenancy::with('users','property')->get();
+		return \App\Tenancy::with('users','property')
+			->latest()
+			->get();
 	}
 }
 
