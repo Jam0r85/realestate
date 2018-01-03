@@ -2,27 +2,39 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<div class="page-title">
-				<h1>New Branch</h1>
-			</div>
+		@component('partials.header')
+			Create branch
+		@endcomponent
 
-			@include('partials.errors-block')
+	@endcomponent
 
-			<form role="form" action="{{ route('branches.store') }}" method="POST">
-				{{ csrf_field() }}
+	@component('partials.section-with-container')
 
-				@include('branches.partials.form')
+		@include('partials.errors-block')
 
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> Create Branch
-				</button>
+		<form action="{{ route('branches.store') }}" method="POST">
+			{{ csrf_field() }}
 
-			</form>
+			@component('partials.card')
 
-		</div>
-	</section>
+				<div class="card-body">
+
+					@include('branches.partials.form')
+
+				</div>
+
+				@slot('footer')
+					@component('partials.save-button')
+						Create Branch
+					@endcomponent
+				@endslot
+
+			@endcomponent
+
+		</form>
+
+	@endcomponent
 
 @endsection
