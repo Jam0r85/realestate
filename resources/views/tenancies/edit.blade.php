@@ -30,17 +30,28 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Service
-					@endcomponent
+					@component('partials.card')
+						@slot('header')
+							Service
+						@endslot
 
-					<div class="card-body">
+						<div class="card-body">
 
-						<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+							@component('partials.form-group')
+								@slot('label')
+									Date Started
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="started_on" id="started_on" class="form-control" value="{{ $tenancy->started_on ? $tenancy->started_on->format('Y-m-d') : old('started_on') }}" />
+								@endcomponent
+							@endcomponent
 
 							@component('partials.form-group')
 								@slot('label')
@@ -55,48 +66,53 @@
 								</select>
 							@endcomponent
 
+						</div>
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-
-						</form>
-
-					</div>
-				</div>
-
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Tenancy Dates
+						@endslot
 					@endcomponent
-					<div class="card-body">
 
-						<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+				</form>
+
+			</div>
+			<div class="col-12 col-lg-6">
+
+				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							Vacating or Vacated
+						@endslot
+
+						<div class="card-body">
 
 							@component('partials.form-group')
 								@slot('label')
-									Date Vacated
+									Date Vacated/Vacating
 								@endslot
 								@component('partials.input-group')
 									@slot('icon')
-										@lang('icons.calendar')
+										@icon('calendar')
 									@endslot
 									<input type="date" name="vacated_on" id="vacated_on" class="form-control" value="{{ $tenancy->vacated_on ? $tenancy->vacated_on->format('Y-m-d') : old('vacated_on') }}" />
 								@endcomponent
 							@endcomponent
 
+						</div>
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
-
-			</div>
-			<div class="col-12 col-lg-6">
+				</form>
 
 
 			</div>
