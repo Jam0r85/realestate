@@ -56,7 +56,8 @@ class Tenancy extends BaseModel
 		'service_id',
         'is_overdue',
 		'vacated_on',
-        'rent_balance'
+        'rent_balance',
+        'started_on'
 	];
 
     /**

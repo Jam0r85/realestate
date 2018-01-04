@@ -47,19 +47,7 @@
 
 		@include('partials.errors-block')
 
-		@if ($tenancy->vacated_on && $tenancy->vacated_on <= \Carbon\Carbon::now())
-			@component('partials.alerts.warning')
-				@icon('calendar')
-				Tenancy ended on {{ date_formatted($tenancy->vacated_on) }}
-			@endcomponent
-		@endif
-
-		@if ($tenancy->vacated_on && $tenancy->vacated_on > \Carbon\Carbon::now())
-			@component('partials.alerts.warning')
-				@icon('calendar')
-				Tenancy ending on {{ date_formatted($tenancy->vacated_on) }}
-			@endcomponent
-		@endif
+		@include('tenancies.partials.quick-alerts')
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">

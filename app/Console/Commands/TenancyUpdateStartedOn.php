@@ -38,18 +38,17 @@ class TenancyUpdateStartedOn extends Command
      */
     public function handle()
     {
-        foreach (Tenancy::all() as $tenancy) {
+        $tenancies = Tenancy::whereNull('started_on')->get();
 
-            // Get the started date from the first agreement or set it to null if none present
-            $started = $tenancy->firstAgreement ? $tenancy->firstAgreement->starts_at : null;
+        if (count($tenancies)) {
+            foreach ($tenancies as $tenancy) {
 
-            // Does the new started at date match the one set? If not we update it
-            if ($tenancy->started_on != $started) {
-                $tenancy->started_on = $started;
-                $tenancy->save();
+                if ($tenancy->firstAgreement) {
+                    $tenancy->update(['started_on' => $tenancy->firstAgreement->starts_at]);
+                }
             }
         }
 
-        $this->info('Tenancies updated');
+        $this->info('Checked tenancy started on dates');
     }
 }

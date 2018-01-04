@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Tenancy;
 use Illuminate\Console\Command;
 
-class TenanciesCheckOverdue extends Command
+class TenancyCheckOverdue extends Command
 {
     /**
      * The name and signature of the console command.
@@ -43,5 +43,7 @@ class TenanciesCheckOverdue extends Command
         foreach ($tenancies as $tenancy) {
             $tenancy->setOverdue();
         }
+
+        $this->info('Checked tenancy overdue');
     }
 }
