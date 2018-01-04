@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -37,7 +38,8 @@ class TenancyRent extends Model
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -45,6 +47,20 @@ class TenancyRent extends Model
      */
     public function tenancy()
     {
-        return $this->belongsTo('App\Tenancy');
+        return $this
+            ->belongsTo('App\Tenancy');
+    }
+
+    /**
+     * Check to see whether this rent has a newer active rent.
+     * 
+     * @return boolean
+     */
+    public function hasNewerRent()
+    {
+        return TenancyRent::where('tenancy_id', $this->tenancy_id)
+            ->where('starts_at', '>', $this->starts_at)
+            ->where('starts_at', '<=', Carbon::now())
+            ->count();
     }
 }
