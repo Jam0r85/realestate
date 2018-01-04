@@ -112,7 +112,7 @@ class DocumentController extends BaseController
     }
 
     /**
-     * Upload and store a new document.
+     * Re-Upload and replace the document file.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Document  $document
@@ -130,8 +130,20 @@ class DocumentController extends BaseController
         }
 
         if ($request->hasFile('file')) {
-            if ($new_path = $request->file('file')->store(dirname($document->path))) {
-                $document->update(['path' => $new_path]);
+
+            // Set the folder path to the old file path.
+            $folderPath = dirname($document->path);
+
+            // Should the parent model have a document path, use that instead.
+            if ($document->parent) {
+                if ($modelPath = $document->parent->getDocumentPath()) {
+                    $folderPath = $modelPath;
+                }
+            }
+
+            // Upload the file
+            if ($filePath = $request->file('file')->store($folderPath)) {
+                $document->update(['path' => $filePath]);
                 flash_message('The new file was uploaded');
             }
         }

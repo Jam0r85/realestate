@@ -60,6 +60,7 @@ class Document extends BaseModel
 	 */
     public function parent()
     {
-    	return $this->morphTo();
+    	return $this
+            ->morphTo();
     }
 }
