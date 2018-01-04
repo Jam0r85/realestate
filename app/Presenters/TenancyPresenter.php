@@ -207,33 +207,28 @@ class TenancyPresenter extends Presenter
 	 * @param  string  $return
 	 * @return  string
 	 */
-	public function status($return = 'value')
+	public function status()
 	{
 		if (!$this->started_on) {
 			if (!$this->firstAgreement) {
-				$data['value'] = 'No Agreement';
+				return 'No Agreement';
 			} else {
-				$data['value'] = 'Starting ' . date_formatted($this->firstAgreement->starts_at);
+				return 'Starting ' . date_formatted($this->firstAgreement->starts_at);
 			}
 		}
 
 		if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
-			$data['value'] = 'Vacated';
+			return 'Vacated';
 		}
 
 		if ($this->vacated_on && $this->vacated_on > Carbon::now()) {
-			$data['value'] = 'Vacating';
-		}
-
-		if (!$this->vacated_on) {
-			$data['value'] = 'Active';
+			return 'Vacating';
 		}
 
 		if ($this->deleted_at) {
-			$data['value'] = 'Archived';
-			$data['class'] = 'secondary';
+			return 'Archived';
 		}
 
-		return $data[$return];
+		return 'Active';
 	}
 }
