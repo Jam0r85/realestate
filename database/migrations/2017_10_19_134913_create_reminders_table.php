@@ -22,6 +22,7 @@ class CreateRemindersTable extends Migration
             $table->text('data')->nullable();
             $table->timestamp('due_at');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,7 +14,11 @@ class ReminderType extends BaseModel
      * 
      * @var array
      */
-    public $dataKeys = [];
+    public $dataKeys = [
+        'automatic_reminders',
+        'frequency',
+        'frequency_type'
+    ];
 
     /**
      * The attributes that should be cast to native types.
