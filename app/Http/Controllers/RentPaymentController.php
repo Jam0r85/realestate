@@ -25,23 +25,18 @@ class RentPaymentController extends BaseController
 	 * Store a rent payment into storage.
 	 * 
 	 * @param  \App\Http\Requests\RentPaymentStoreRequest  $request
-	 * @param  \App\Tenancy  $tenancy
-	 * @return  \Illuminate\Http\Response
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
 	 */
-    public function store(RentPaymentStoreRequest $request, Tenancy $tenancy)
+    public function store(RentPaymentStoreRequest $request, $id)
     {
-    	$payment = $this->repository;
-    	$payment->amount = $request->amount ?? $tenancy->currentRent->amount;
-    	$payment->payment_method_id = $request->payment_method_id;
-    	$payment->note = $request->note;
+        $tenancy = Tenancy::withTrashed()->findOrFail($id);
 
-    	$tenancy->storeRentPayment($payment);
+    	$payment = $tenancy->storeRentPayment(
+            $this->repository->fill($request->all())
+        );
 
         event(new RentPaymentWasCreated($payment));
-
-        if ($request->has('send_notifications')) {
-            Notification::send($payment->users, new TenantRentPaymentReceived($payment));
-        }
 
     	return back();
     }

@@ -86,15 +86,16 @@ Route::middleware(['staff'])->group(function () {
 		Route::delete('{id}/forceDelete', 'PropertyController@forceDestroy')->name('properties.forceDestroy');// Destroy the property
 	});
 
+	// Expenses
 	Route::prefix('expenses')->group(function () {
 		Route::get('/', 'ExpenseController@index')->name('expenses.index');
 		Route::post('search', 'ExpenseController@search')->name('expenses.search');
-		Route::get('create', 'ExpenseController@create')->name('expenses.create');
-		Route::post('/', 'ExpenseController@store')->name('expenses.store');
-		Route::get('{id}/edit', 'ExpenseController@edit')->name('expenses.edit');
-		Route::get('{id}/{section?}', 'ExpenseController@show')->name('expenses.show');
-		Route::put('{id}', 'ExpenseController@update')->name('expenses.update');
-		Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy');
+		Route::get('create', 'ExpenseController@create')->name('expenses.create'); // Create an expense
+		Route::post('/', 'ExpenseController@store')->name('expenses.store'); // Store an expense
+		Route::get('{id}/edit', 'ExpenseController@edit')->name('expenses.edit'); // Edit the expense
+		Route::get('{id}/{show?}', 'ExpenseController@show')->name('expenses.show'); // Show the expense
+		Route::put('{id}', 'ExpenseController@update')->name('expenses.update'); // Update the expense
+		Route::delete('{id}', 'ExpenseController@destroy')->name('expenses.destroy'); // Destroy the expense
 	});
 
 	// Payments (App\Payments)
@@ -106,6 +107,7 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'PaymentController@update')->name('payments.update'); // Update the payment
 		Route::delete('{payment}', 'PaymentController@destroy')->name('payments.destroy'); // Destroy the payment
 
+		Route::post('{id}/rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment'); // Store a new tenancy rent payment
 		Route::post('{id}/invoice', 'InvoicePaymentController@store')->name('invoices.store-payment'); // Store a new invoice payment
 		Route::post('{id}/deposit', 'DepositPaymentController@store')->name('deposits.store-payment'); // Store a new deposit payment
 	});
@@ -119,7 +121,6 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/edit', 'TenancyController@edit')->name('tenancies.edit'); // Edit the tenancy
 		Route::put('{id}', 'TenancyController@update')->name('tenancies.update'); // Update the tenancy
 		Route::get('{id}/{show?}', 'TenancyController@show')->name('tenancies.show'); // Show the tenancy
-		Route::post('{tenancy}/create-rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment');
 		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
 		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
 		Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');

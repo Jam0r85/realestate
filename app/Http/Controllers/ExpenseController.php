@@ -82,7 +82,7 @@ class ExpenseController extends BaseController
      *
      * @param  int  $id
      * @param  string  $show
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id, $show = 'index')
     {
