@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Tenancy;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class TenancyUpdateStartedOn extends Command
@@ -43,7 +44,8 @@ class TenancyUpdateStartedOn extends Command
         if (count($tenancies)) {
             foreach ($tenancies as $tenancy) {
 
-                if ($tenancy->firstAgreement) {
+                // Make sure the tenancy has a first agreement and that the start date has been passed
+                if ($tenancy->firstAgreement && $tenancy->firstAgreement->starts_at <= Carbon::now()) {
                     $tenancy->update(['started_on' => $tenancy->firstAgreement->starts_at]);
                 }
             }
