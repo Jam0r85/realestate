@@ -1,7 +1,7 @@
 @component('partials.table')
 	@slot('header')
 		<th>Name</th>
-		<th>Reminders</th>
+		<th class="text-right">Reminders</th>
 		<th></th>
 	@endslot
 	@slot('body')
@@ -11,7 +11,7 @@
 					{{ $type->name }}<br />
 					{{ $type->description }}
 				</td>
-				<td>{{ $type->present()->autoReminderPeriod }}</td>
+				<td class="text-right">{{ $type->present()->autoReminderPeriod }}</td>
 				<td class="text-right">
 					<a href="{{ route('reminder-types.show', $type->id) }}" class="btn btn-primary btn-sm">
 						@icon('view')

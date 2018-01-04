@@ -26,8 +26,8 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a href="{{ route('settings.index', 'reminders') }}" class="nav-link @if (Request::segment(2) == 'reminders') active @endif">
-					Reminders
+				<a href="{{ route('settings.index', 'reminder-types') }}" class="nav-link @if (Request::segment(2) == 'reminder-types') active @endif">
+					Reminder Types
 				</a>
 			</li>
 		</ul>
