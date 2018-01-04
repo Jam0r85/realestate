@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Reminder;
 use App\ReminderType;
+use Illuminate\Support\Facades\Auth;
 
 trait RemindersTrait
 {
@@ -37,5 +38,18 @@ trait RemindersTrait
 		return $this
 			->morphMany('App\Reminder', 'parent')
 			->whereIn('reminder_type_id', $this->reminderTypeIds());
+	}
+
+	/**
+	 * Store a reminder to the model.
+	 * 
+	 * @param  \App\Reminder  $reminder
+	 * @return \App\Reminder
+	 */
+	public function storeReminder(Reminder $reminder)
+	{
+		$reminder->user_id = Auth::user()->id;
+		
+		return $this->reminders()->save($reminder);
 	}
 }

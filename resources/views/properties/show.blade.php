@@ -5,6 +5,10 @@
 	@component('partials.page-header')
 
 		<div class="float-right">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newPropertyReminderModal">
+				@icon('plus') New Reminder
+			</button>
+
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="propertyOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fa fa-cogs"></i> Options
@@ -49,5 +53,7 @@
 		@include('properties.show.' . $show)
 
 	@endcomponent
+
+	@include('reminders.modals.new-property-reminder')
 
 @endsection

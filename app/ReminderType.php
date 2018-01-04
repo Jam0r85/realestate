@@ -72,7 +72,12 @@ class ReminderType extends BaseModel
     		return $this->get();
     	}
 
-    	return $this->where('parent_type', $parent)->get();
+        $parentTypes = [
+            model_from_plural($parent),
+            plural_from_model($parent)
+        ];
+
+    	return $this->whereIn('parent_type', $parentTypes)->get();
     }
 
     /**

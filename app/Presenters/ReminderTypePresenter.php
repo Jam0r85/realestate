@@ -7,6 +7,14 @@ class ReminderTypePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
+	public function selectName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function autoReminderPeriod()
 	{
 		if (!$this->entity->hasAutoReminders()) {

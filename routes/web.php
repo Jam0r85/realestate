@@ -343,6 +343,11 @@ Route::middleware(['staff'])->group(function () {
 		Route::put('{id}', 'ReminderTypeController@update')->name('reminder-types.update'); // Update the reminder
 	});
 
+	// Reminders
+	Route::prefix('reminders')->group(function() {
+		Route::post('/', 'ReminderController@store')->name('reminders.store'); // Store a new reminder
+	});
+
 	// Maintenance Issues
 	Route::prefix('maintenance')->group(function () {
 		Route::get('/', 'MaintenanceController@index')->name('maintenances.index');

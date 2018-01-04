@@ -12,6 +12,15 @@ class Reminder extends BaseModel
     use DataTrait;
 
     /**
+     * The keys to be allowed in the data column.
+     * 
+     * @var array
+     */
+    public $dataKeys = [
+        //
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      * 
      * @var array
@@ -26,13 +35,26 @@ class Reminder extends BaseModel
      * @var array
      */
     public $dates = [
-        'due_at','deleted_at'
+        'due_at',
+        'deleted_at'
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'reminder_type_id',
+        'data',
+        'due_at'
     ];
 
     /**
      * A reminder has a type.
      */
-    public function type()
+    public function reminderType()
     {
         return $this
             ->belongsTo('App\ReminderType');
