@@ -346,6 +346,7 @@ Route::middleware(['staff'])->group(function () {
 	// Reminders
 	Route::prefix('reminders')->group(function() {
 		Route::post('/', 'ReminderController@store')->name('reminders.store'); // Store a new reminder
+		Route::get('{id}/{show?}', 'ReminderController@show')->name('reminders.show'); // Show the reminder
 	});
 
 	// Maintenance Issues

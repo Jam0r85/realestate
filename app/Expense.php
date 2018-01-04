@@ -258,4 +258,19 @@ class Expense extends BaseModel
 
         return true;
     }
+
+    /**
+     * Get the bank account used by the contractor of this expense to pay them.
+     * 
+     * @return mixed
+     */
+    public function getBankAccount()
+    {
+        // Expense does not have a contractor
+        if (!$this->contractor) {
+            return null;
+        }
+
+        return $this->contractor->getContractorBankAccountId();
+    }
 }

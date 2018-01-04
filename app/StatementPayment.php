@@ -198,7 +198,7 @@ class StatementPayment extends BaseModel
                     [
                         'amount' => $expense->pivot->amount,
                         'sent_at' => $statement->sent_at,
-                        'bank_account_id' => $expense->contractor ? $expense->contractor->getSetting('contractor_bank_account_id') : null
+                        'bank_account_id' => $expense->getBankAccount()
                     ]
                 );
 
@@ -211,6 +211,7 @@ class StatementPayment extends BaseModel
             }
         }
 
+        // No current expenses were found attached to this statement so we delete any existing payments
         if (!count($statement->expenses)) {
             StatementPayment::where('statement_id', $statement->id)
                 ->where('parent_type', 'expenses')

@@ -254,4 +254,30 @@ class User extends UserBaseModel
     {
         $this->attributes['phone_number'] = !empty($value) ? phone($value, 'GB') : $value;
     }
+
+    /**
+     * Get the contractor bank account ID for this user.
+     * 
+     * @return mixed
+     */
+    public function getContractorBankAccountId()
+    {
+        // Find the contractor_bank_account_id in the user's settings
+        return $this->getSetting('contractor_bank_account_id');
+    }
+
+    /**
+     * Get the contractor bank account for this user.
+     * 
+     * @return mixed
+     */
+    public function getContractorBankAccount()
+    {
+        // We have found a bank account so we return it
+        if ($account = BankAccount::find($this->getContractorBankAccountId())) {
+            return $account;
+        }
+
+        return null;
+    }
 }
