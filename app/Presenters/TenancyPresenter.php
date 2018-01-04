@@ -209,6 +209,14 @@ class TenancyPresenter extends Presenter
 	 */
 	public function status($return = 'value')
 	{
+		if (!$this->started_on) {
+			if (!$this->firstAgreement) {
+				$data['value'] = 'No Agreement';
+			} else {
+				$data['value'] = 'Starting ' . date_formatted($this->firstAgreement->starts_at);
+			}
+		}
+
 		if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
 			$data['value'] = 'Vacated';
 		}
