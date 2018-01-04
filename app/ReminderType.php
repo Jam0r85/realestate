@@ -4,10 +4,19 @@ namespace App;
 
 use App\Traits\DataTrait;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class ReminderType extends BaseModel
 {
     use DataTrait;
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\ReminderTypePresenter';
 
     /**
      * The keys to be allowed in the data column.
@@ -64,5 +73,43 @@ class ReminderType extends BaseModel
     	}
 
     	return $this->where('parent_type', $parent)->get();
+    }
+
+    /**
+     * Has this reminder type been setup to automatically create reminders?
+     * 
+     * @return boolean
+     */
+    public function hasAutoReminders()
+    {
+        if (!$this->getData('automatic_reminders')) {
+            return false;
+        }
+
+        if (!$this->getAutoReminderFrequency() || !$this->getAutoReminderFrequencyType()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the frequency for automatically creating reminders.
+     * 
+     * @return string
+     */
+    public function getAutoReminderFrequency()
+    {
+        return $this->getData('frequency');
+    }
+
+    /**
+     * Get the frequency type for automatically creating reminders.
+     * 
+     * @return string
+     */
+    public function getAutoReminderFrequencyType()
+    {
+        return $this->getData('frequency_type');
     }
 }
