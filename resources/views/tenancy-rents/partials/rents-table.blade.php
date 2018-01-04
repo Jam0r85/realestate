@@ -8,7 +8,7 @@
 	@slot('body')
 		@foreach ($rents as $rent)
 			<tr>
-				<td></td>
+				<td>{{ $rent->present()->status }}</td>
 				<td>{{ currency($rent->amount) }}</td>
 				<td>{{ date_formatted($rent->starts_at) }}</td>
 				<td>{{ $rent->tenancy->present()->name }}</td>

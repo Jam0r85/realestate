@@ -2,7 +2,7 @@
 
 namespace App\ModelFilters;
 
-class BankAccountFilter extends BaseFilter
+class AppearanceFilter extends BaseFilter
 {
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter
