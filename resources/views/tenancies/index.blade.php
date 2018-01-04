@@ -39,6 +39,27 @@
 			{!! (new Filter())->monthDropdown() !!}
 			{!! (new Filter())->yearDropdown('App\Tenancy') !!}
 
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{ request('status') ? slug_to_name(request('status')) : 'Status' }}
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item @if (!request('status')) active @endif" href="{{ Filter::link(['status' => null]) }}">
+						All Statuses
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item @if (request('status') == 'starting') active @endif" href="{{ Filter::link(['status' => 'starting']) }}">
+						Starting
+					</a>
+					<a class="dropdown-item @if (request('status') == 'vacating') active @endif" href="{{ Filter::link(['status' => 'vacating']) }}">
+						Vacating
+					</a>
+					<a class="dropdown-item @if (request('status') == 'vacated') active @endif" href="{{ Filter::link(['status' => 'vacated']) }}">
+						Vacated
+					</a>
+				</div>
+			</li>
+
 			<li class="nav-item">
 				<a class="nav-link @if (request('overdue')) active @endif" href="{{ request('overdue') ? Filter::link(['overdue' => null]) : Filter::link(['overdue' => true]) }}">
 					Overdue
@@ -54,18 +75,6 @@
 			<li class="nav-item">
 				<a class="nav-link @if (request('owes_rent')) active @endif" href="{{ request('owes_rent') ? Filter::link(['owes_rent' => null]) : Filter::link(['owes_rent' => true]) }}">
 					Owes Rent
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a class="nav-link @if (request('vacated')) active @endif" href="{{ request('vacated') ? Filter::link(['vacated' => null]) : Filter::link(['vacated' => true]) }}">
-					Vacated
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a class="nav-link @if (request('vacating')) active @endif" href="{{ request('vacating') ? Filter::link(['vacating' => null]) : Filter::link(['vacating' => true]) }}">
-					Vacating
 				</a>
 			</li>
 

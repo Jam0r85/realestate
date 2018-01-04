@@ -85,7 +85,7 @@ class Filter
 			}
 		}
 
-		return ['2017'];
+		return ['2017','2018'];
 	}
 
 	/**
@@ -204,6 +204,8 @@ class Filter
 	 */
 	public static function clearButton()
 	{
+		return '';
+		
 		if (request()->query()) {
 			return '
 				<li class="nav-item">

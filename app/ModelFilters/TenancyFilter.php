@@ -25,7 +25,7 @@ class TenancyFilter extends BaseFilter
      * Filter results by service slug.
      * 
      * @param  string  $slug
-     * @return 
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function service($slug)
     {
@@ -36,7 +36,7 @@ class TenancyFilter extends BaseFilter
     /**
      * Show only rent balance results.
      * 
-     * @return  $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function hasRentBalance()
     {
@@ -48,7 +48,7 @@ class TenancyFilter extends BaseFilter
     /**
      * Show only negative rent balance results.
      * 
-     * @return  $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function owesRent()
     {
@@ -65,7 +65,7 @@ class TenancyFilter extends BaseFilter
     /**
      * Show only overdue results.
      * 
-     * @return  $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function overdue()
     {
@@ -75,9 +75,19 @@ class TenancyFilter extends BaseFilter
     }
 
     /**
+     * Filter results by their status
+     * 
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function status($status)
+    {
+        return $this->$status();
+    }
+
+    /**
      * Show only vacated results.
      * 
-     * @return  $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function vacated()
     {
@@ -89,12 +99,23 @@ class TenancyFilter extends BaseFilter
     /**
      * Show only vacating results.
      * 
-     * @return. $this
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function vacating()
     {
         return $this
             ->whereNotNull('vacated_on')
             ->where('vacated_on', '>', Carbon::now());
+    }
+
+    /**
+     * Show tenancies which have not started yet.
+     * 
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function starting()
+    {
+        return $this
+            ->whereNull('started_on');
     }
 }
