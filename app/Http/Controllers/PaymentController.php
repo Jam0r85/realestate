@@ -74,16 +74,12 @@ class PaymentController extends BaseController
     public function update(UpdatePaymentRequest $request, $id)
     {
         $payment = $this->repository
-            ->findOrFail($id);
-
-        $payment
+            ->findOrFail($id)
             ->fill($request->input())
             ->save();
 
         if ($request->has('users')) {
-            $payment
-                ->users()
-                ->sync($request->users);
+            $payment->users()->sync($request->users);
         }
 
         if (model_name($payment->parent) == 'Deposit') {
