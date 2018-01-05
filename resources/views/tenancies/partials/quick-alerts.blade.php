@@ -30,8 +30,8 @@
 @if ($tenancy->is_overdue > 0)
 	@component('partials.alerts.warning')
 		This tenancy is <b>{{ $tenancy->is_overdue }} {{ str_plural('day', $tenancy->is_overdue) }}</b> overdue.
-		@if ($tenancy->lastStatement)
-			Last statement ended {{ date_formatted($tenancy->latestStatement->period_end) }}
+		@if ($tenancy->latestStatement)
+			Latest statement end date was {{ date_formatted($tenancy->latestStatement->period_end) }}
 		@endif
 	@endcomponent
 @endif
