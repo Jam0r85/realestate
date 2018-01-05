@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "af2f2d762b545f3f67dba447600b22d6",
+    "content-hash": "5ec23ffbed1927d088d771a92446976d",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
