@@ -517,10 +517,15 @@ class Tenancy extends BaseModel
     /**
      * Set and store whether this tenancy is overdue.
      */
-    public function setOverdue()
+    public function setOverdue($save = true)
     {
         $this->is_overdue = $this->checkWhetherOverdue();
-        $this->save();
+
+        if ($save == true) {
+            $this->save();
+        }
+
+        return $this;
     }
 
     /**

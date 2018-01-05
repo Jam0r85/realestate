@@ -140,10 +140,9 @@ class TenancyController extends BaseController
     {
         $tenancy = $this->repository
             ->withTrashed()
-            ->findOrFail($id);
-
-        $tenancy
+            ->findOrFail($id)
             ->fill($request->input())
+            ->setOverdue(false)
             ->save();
 
         return back();
