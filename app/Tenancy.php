@@ -251,12 +251,22 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * The rental statements for this tenancy.
+     * A tenancy can have many rental statements.
      */
     public function statements()
     {
         return $this
             ->hasMany('App\Statement')
+            ->latest('period_start');
+    }
+
+    /**
+     * A tenancy can have a latest rental statement.
+     */
+    public function latestStatement()
+    {
+        return $this
+            ->hasOne('App\Statement')
             ->latest('period_start');
     }
 
@@ -484,30 +494,26 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether the tenancy is overdue.
+     *
+     * @param  int  $overdue
+     * @return int
      */
-    public function checkWhetherOverdue()
+    public function checkWhetherOverdue($overdue = 0)
     {
-        $overdue = 0;
+        if (!$this->hasVacated()) {
 
-        // Make sure the property is managed first.
-        if ($this->isManaged()) {
+            if ($this->isManaged()) {
 
-            // Secondly make sure there have been previous rental statements.
-            if (count($this->statements)) {
+                // Secondly make sure there have been previous rental statements.
+                if ($this->latestStatement) {
 
-                // Create a next statement date variable and add 3 days
-                $lastStatement = $this->statements->first();
-                $next_statement_date = $lastStatement->period_end->addDay();
+                    $overdueCheckDate = $this->latestStatement->period_end->addDay();
 
-                // Check whether the next statement date has been passed.
-                if ($next_statement_date < Carbon::now()) {
-                    $overdue = $next_statement_date->diffInDays(Carbon::now());
+                    // Check whether the next statement date has been passed.
+                    if ($overdueCheckDate < Carbon::now()) {
+                        $overdue = $this->latestStatement->period_end->diffInDays(Carbon::now());
+                    }
                 }
-            }
-
-            // Has the tenant vacated?
-            if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
-                $overdue = 0;
             }
         }
 
@@ -815,5 +821,19 @@ class Tenancy extends BaseModel
     {
         $this->rent_balance = $this->getRentBalance();
         $this->saveWithMessage('balances updated');
+    }
+
+    /**
+     * Has this tenancy vacated?
+     * 
+     * @return boolean
+     */
+    public function hasVacated()
+    {
+        if ($this->vacated_on && $this->vacated_on <= Carbon::now()) {
+            return true;
+        }
+
+        return false;
     }
 }
