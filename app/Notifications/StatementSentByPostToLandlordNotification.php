@@ -2,10 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Statement;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class StatementSentByPostToLandlordNotification extends Notification
 {
