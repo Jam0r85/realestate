@@ -5,7 +5,8 @@ namespace App;
 use App\Expense;
 use App\Invoice;
 use App\InvoiceItem;
-use App\Jobs\SendStatementToOwners;
+use App\Notifications\StatementSentByEmailToLandlordNotification;
+use App\Notifications\StatementSentByPostToLandlordNotification;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -209,7 +210,20 @@ class Statement extends PdfModel
      */
     public function send()
     {
-        SendStatementToOwners::dispatch($this);
+        if ($this->send_by == 'email') {
+            Notification::send($this->users, new StatementSentByEmailToLandlordNotification($this));
+        }
+
+        if ($this->send_by == 'post') {
+            Notification::send($this->users, new StatementSentByPostToLandlordNotification($this));
+        }
+
+        // Update the statement as having been sent
+        if (!$this->sent_at) {
+            $this->sent_at = Carbon::now();
+            $this->saveWithMessage('has been dispatched');
+        }
+
         return $this;
     }
 
