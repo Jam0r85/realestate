@@ -47,22 +47,49 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'users.show', $user->id, 'index') !!}
+				<a class="nav-link @if (!Request::segment('3')) active @endif" href="{{ route('users.show', $user->id) }}">
+					Details
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Properties', 'users.show', $user->id) !!}
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'properties']) }}">
+					Properties
+					<span class="badge badge-dark">
+						{{ count($user->properties) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Tenancies', 'users.show', $user->id) !!}
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'tenancies']) }}">
+					Tenancies
+					<span class="badge badge-dark">
+						{{ count($user->tenancies) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Invoices', 'users.show', $user->id) !!}
+				<a class="nav-link @if (Request::segment('3') == 'invoices') active @endif" href="{{ route('users.show', [$user->id, 'invoices']) }}">
+					Invoices
+					<span class="badge badge-dark">
+						{{ count($user->invoices) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Expenses', 'users.show', $user->id) !!}
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'expenses']) }}">
+					Expenses
+					<span class="badge badge-dark">
+						{{ count($user->expenses) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Bank Accounts', 'users.show', $user->id) !!}
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'bank-accounts']) }}">
+					Bank Accounts
+					<span class="badge badge-dark">
+						{{ count($user->bankAccounts) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
 				{!! Menu::showLink('E-Mail History', 'users.show', $user->id, 'emails-history') !!}

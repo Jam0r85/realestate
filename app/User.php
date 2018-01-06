@@ -109,6 +109,15 @@ class User extends UserBaseModel
     ];
 
     /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+    }
+
+    /**
      * Scope a query to filter results who have a valid email.
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
