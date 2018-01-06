@@ -145,7 +145,8 @@ nav.navbar {
 }
 .nav-pills .nav-link {
 	margin-right: 0.3rem;
-	background-color: #f8f8f8;
+	margin-bottom: 0.3rem;
+	background-color: $light;
 }
 .nav-pills .nav-link:hover:not(.active) {
 	background-color: #e8e8e8;
