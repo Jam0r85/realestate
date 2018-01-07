@@ -1,6 +1,6 @@
 <div class="modal fade" id="statementExpenseAttachModal" tabindex="-1" role="dialog" aria-labelledby="statementExpenseAttachModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form role="form" method="POST" action="{{ route('statement-expense.store') }}">
+		<form role="form" method="POST" action="{{ route('statement-expense.store', $statement->id) }}">
 			{{ csrf_field() }}
 			<div class="modal-content">
 				<div class="modal-header">
@@ -10,8 +10,6 @@
 					</button>
 				</div>
 				<div class="modal-body">
-
-					<input type="hidden" name="statement_id" id="statement_id" value="{{ $statement->id }}" />
 
 					@component('partials.form-group')
 						@slot('label')

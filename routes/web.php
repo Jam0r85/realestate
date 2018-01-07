@@ -168,7 +168,7 @@ Route::middleware(['staff'])->group(function () {
 
 	// Statement Expenses
 	Route::prefix('statement-expenses')->group(function () {
-		Route::post('/', 'StatementExpenseController@store')->name('statement-expense.store'); // Store an expense to the statement
+		Route::post('/{id}', 'StatementExpenseController@store')->name('statement-expense.store'); // Store an expense to the statement
 	});
 
 	Route::prefix('statement-payments')->group(function () {
