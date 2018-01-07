@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use App\Settings\UserSettings;
 use App\Traits\SettingsTrait;
 use EloquentFilter\Filterable;
@@ -178,6 +179,18 @@ class User extends UserBaseModel
     }
 
     /**
+     * A user can have many active tenancies.
+     */
+    public function activeTenancy()
+    {
+        return $this
+            ->belongsTo('App\Tenancy')
+            ->whereNull('vacated_on')
+            ->orWhere('vacated_on', '<=', Carbon::now())
+            ->latest();
+    }
+
+    /**
      * A user can have many invoices.
      */
     public function invoices()
@@ -232,7 +245,8 @@ class User extends UserBaseModel
     public function logins()
     {
         return $this
-            ->hasMany('App\UserLogin')->latest();
+            ->hasMany('App\UserLogin')
+            ->latest();
     }
 
     /**
@@ -241,7 +255,8 @@ class User extends UserBaseModel
     public function sms()
     {
         return $this
-            ->hasMany('App\SmsHistory')->latest();
+            ->hasMany('App\SmsHistory')
+            ->latest();
     }
 
     /**

@@ -1,3 +1,3 @@
-@foreach ($user->sms as $message)
-	@include('sms.partials.sms-message')
-@endforeach
+@include('sms.partials.messages-list', [
+	'messages' => $messages = $user->sms()->with('user','owner')->get()
+])

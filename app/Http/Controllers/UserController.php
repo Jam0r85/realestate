@@ -88,7 +88,6 @@ class UserController extends BaseController
     public function show($id, $show = 'index')
     {
         $user = $this->repository
-            ->with('properties.owners','tenancies.users','sms.user','sms.owner')
             ->withTrashed()
             ->findOrFail($id);
 

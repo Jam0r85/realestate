@@ -1,1 +1,3 @@
-@include('tenancies.partials.tenancies-table', ['tenancies' => $user->tenancies])
+@include('tenancies.partials.tenancies-table', [
+    'tenancies' => $user->tenancies
+])

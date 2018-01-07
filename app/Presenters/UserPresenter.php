@@ -19,18 +19,14 @@ class UserPresenter extends Presenter
 	 */
 	public function location($length = 'short', $data = false)
 	{
-		$length = $length . 'Address';
-
-		foreach ($this->tenancies as $tenancy) {
-			if ($tenancy->isActive()) {
-				$model = $tenancy->property;
-				$value = $tenancy->property->present()->$length;
-			}
+		if ($this->activeTenancy) {
+			$model = $this->activeTenancy->property;
+			$value = $this->activeTenancy->property->present()->shortAddress;
 		}
 
 		if ($this->home) {
 			$model = $this->home;
-			$value = $this->home->present()->$length;
+			$value = $this->home->present()->shortAddress;
 		}
 
 		if ($data == true && isset($value) && isset($model)) {

@@ -13,9 +13,7 @@
 	@component('partials.bootstrap.section-with-container')
 
 		<div id="messages">
-			@foreach ($messages as $message)
-				@include('sms.partials.sms-message')
-			@endforeach
+			@include('sms.partials.messages-list')
 		</div>
 
 		@include('partials.pagination', ['collection' => $messages])
