@@ -60,20 +60,19 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\UserStoreRequest $request
+     * @param  \App\Http\Requests\UserStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserStoreRequest $request)
     {
-        $user = $this->repository;
-        $user->title = $request->title;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->company_name = $request->company_name;
-        $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->phone_number_other = $request->phone_number_other;
-        $user->password = bcrypt($request->password ?? str_random(10));
+        $user = $this->repository
+            ->fill($request->all());
+
+        // Set the password when found in the request
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
         $user->save();
 
         return redirect()->route('users.show', $user->id);
@@ -82,7 +81,7 @@ class UserController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  int  $id
      * @param  string  $page
      * @return \Illuminate\Http\Response
      */
@@ -115,8 +114,8 @@ class UserController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
