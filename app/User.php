@@ -10,16 +10,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends UserBaseModel
 {
-    use Notifiable;
-    use SoftDeletes;
-    use Searchable;
-    use PresentableTrait;
-    use SettingsTrait;
-    use Filterable;
-
+    use Notifiable,
+        SoftDeletes,
+        Searchable,
+        PresentableTrait,
+        SettingsTrait,
+        Filterable,
+        HasRolesAndAbilities;
+    
     /**
      * Get the indexable data array for the model.
      *
@@ -303,5 +305,19 @@ class User extends UserBaseModel
         }
 
         return null;
+    }
+
+    /**
+     * Check whether this user is a tenant of a tenancy.
+     * 
+     * @return bool
+     */
+    public function isTenant()
+    {
+        if ($this->activeTenancy) {
+            return true;
+        }
+
+        return false;
     }
 }

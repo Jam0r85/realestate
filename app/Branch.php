@@ -27,12 +27,12 @@ class Branch extends BaseModel
 	];
 
     /**
-     * A branch can have many roles.
+     * A branch can have many staff
      */
-    public function roles()
+    public function staff()
     {
         return $this
-            ->hasMany('App\Role');
+            ->hasMany('App\User');
     }
 
     /**

@@ -1,1 +1,0 @@
-@include('roles.partials.table', ['roles' => $branch->roles])

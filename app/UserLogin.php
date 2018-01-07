@@ -17,7 +17,7 @@ class UserLogin extends BaseModel
     /**
      * Overwrite the created message.
      * 
-     * @return  null
+     * @return string
      */
     public function messageCreated()
     {
@@ -29,6 +29,7 @@ class UserLogin extends BaseModel
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this
+            ->belongsTo('App\User');
     }
 }

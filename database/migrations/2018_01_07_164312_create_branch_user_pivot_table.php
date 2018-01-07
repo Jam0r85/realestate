@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class CreateBranchUserPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        // Create the branch roles table
-        Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('branch_id')->unsigned();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->timestamps();
+        Schema::create('branch_user', function (Blueprint $table) {
+            $table->integer('branch_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
 
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +29,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('branch_user');
     }
 }
