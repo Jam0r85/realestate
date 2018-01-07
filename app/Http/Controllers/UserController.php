@@ -126,28 +126,4 @@ class UserController extends BaseController
 
         return back();
     }
-
-    /**
-     * Update the user's email address in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserEmailRequest  $request
-     * @param  \App\User  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateEmail(UpdateUserEmailRequest $request, $id)
-    {
-        $user = $this->repository
-            ->findOrFail($id);
-
-        if ($user->email && $request->has('remove_email')) {
-            $service = new UserService();
-            $service->removeUserEmail($user);
-            return back();
-        }
-
-        $user->email = $request->email;
-        $user->save();
-
-        return back();
-    }
 }
