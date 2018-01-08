@@ -180,15 +180,25 @@ class User extends UserBaseModel
     }
 
     /**
-     * A user can have many active tenancies.
+     * A user can have an active tenancy.
      */
     public function activeTenancy()
     {
         return $this
-            ->belongsTo('App\Tenancy')
-            ->where('vacated_on', '<=', Carbon::now())
+            ->belongsToMany('App\Tenancy')
             ->whereNull('vacated_on')
-            ->latest();
+            ->first();
+    }
+
+    /**
+     * A user can have a tenancy which they are vacating.
+     */
+    public function vacatingTenancy()
+    {
+        return $this
+            ->belongsToMany('App\Tenancy')
+            ->where('vacated_on', '<=', Carbon::now())
+            ->first();
     }
 
     /**
@@ -313,8 +323,12 @@ class User extends UserBaseModel
      */
     public function getCurrentLocation()
     {
-        if ($this->activeTenancy) {
-            return $this->activeTenancy->property;
+        if ($this->activeTenancy()) {
+            return $this->activeTenancy()->property;
+        }
+
+        if ($this->vacatingTenancy()) {
+            return $this->vacatingTenancy()->property;
         }
 
         if ($this->home) {
@@ -332,6 +346,10 @@ class User extends UserBaseModel
     public function isTenant()
     {
         if ($this->activeTenancy()) {
+            return true;
+        }
+
+        if ($this->vacatingTenancy()) {
             return true;
         }
 

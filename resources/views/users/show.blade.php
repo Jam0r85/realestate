@@ -30,7 +30,9 @@
 		@endcomponent
 
 		@component('partials.sub-header')
-			{{ $user->present()->location('full') }}
+			@if ($user->getCurrentLocation())
+				{{ $user->getCurrentLocation()->present()->fullAddress }}
+			@endif
 		@endcomponent
 		
 	@endcomponent
