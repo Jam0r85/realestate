@@ -107,6 +107,9 @@
                         <a class="dropdown-item" href="{{ route('deposits.index') }}">
                             @icon('deposit') @lang('navbar.deposits')
                         </a>
+                        <a class="dropdown-item" href="{{ route('agreements.index') }}">
+                            @icon('agreement') @lang('navbar.agreements')
+                        </a>
                         <a class="dropdown-item" href="{{ route('services.index') }}">
                             @icon('tenancy_service') @lang('navbar.tenancy_services')
                         </a>

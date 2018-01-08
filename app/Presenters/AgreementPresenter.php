@@ -34,7 +34,7 @@ class AgreementPresenter extends BasePresenter
 	{
 		$parts = explode('-', $this->length);
 
-		if (!$parts[0]) {
+		if (! $parts[0]) {
 			return 'SPT';
 		}
 
@@ -43,25 +43,18 @@ class AgreementPresenter extends BasePresenter
 
 	/**
 	 * @param  string  $return  
-	 * @return  string
+	 * @return string
 	 */
-	public function status($return = 'label')
+	public function status()
 	{
 		if ($this->starts_at > Carbon::now()) {
-			$data['label'] = 'Pending';
-			$data['class'] = 'info';
+			return 'Pending';
 		}
 
-		if ($this->starts_at <= Carbon::now()) {
-			$data['label'] = 'Active';
-			$data['class'] = 'success';
+		if ($this->deleted_at) {
+			return 'Archived';
 		}
 
-		if ($this->ends_at && $this->ends_at < Carbon::now()) {
-			$data['label'] = 'Ended';
-			$data['class'] = 'secondary';
-		}
-
-		return $data[$return];
+		return 'Active';
 	}
 }

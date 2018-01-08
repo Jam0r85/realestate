@@ -18,6 +18,11 @@ class BaseController extends Controller
 	protected $model;
 
 	/**
+	 * The default path to the eloquent model.
+	 */
+	protected $modelPath = 'App';
+
+	/**
 	 * The search term session name for this model.
 	 */
 	protected $searchSessionName;
@@ -143,7 +148,7 @@ class BaseController extends Controller
 	public function setRepository()
 	{
 		if (! $this->model) {
-			
+			$this->model = $this->modelPath . '\\' . str_replace('Controller', '', class_basename($this));
 		}
 
 		$this->repository = new $this->model();

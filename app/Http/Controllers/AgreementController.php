@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Agreement;
+use App\Tenancy;
 use Illuminate\Http\Request;
 
-class AgreementController extends Controller
+class AgreementController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if (!$request->all()) {
+            $request->request->add(['archived' => false]);
+        }
+        
+        $agreements = $this->repository
+            ->withTrashed()
+            ->filter($request->all())
+            ->latest()
+            ->paginateFilter();
+
+        return view('agreements.index', compact('agreements'));
     }
 
     /**
@@ -31,11 +42,17 @@ class AgreementController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Tenancy  $tenancy
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Tenancy $tenancy)
     {
-        //
+        $agreement = $this->repository
+            ->fill($request->input());
+
+        $tenancy->storeAgreement($agreement);
+
+        return back();
     }
 
     /**
@@ -75,11 +92,12 @@ class AgreementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Agreement  $agreement
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agreement $agreement)
+    public function destroy(Request $request, $id)
     {
-        //
+        parent::destroy($request, $id);
     }
 }

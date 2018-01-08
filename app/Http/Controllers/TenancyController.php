@@ -22,13 +22,6 @@ use Illuminate\Support\Facades\Session;
 class TenancyController extends BaseController
 {
     /**
-     * The model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Tenancy';
-
-    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request

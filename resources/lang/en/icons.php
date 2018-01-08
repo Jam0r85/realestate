@@ -9,6 +9,7 @@ return [
     */
 
     'address-card' => 'address-card',
+    'agreement' => 'file-alt',
     'appearance' => 'globe',
     'bank' => 'university',
     'bell' => 'bell',

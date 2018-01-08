@@ -17,7 +17,7 @@
 				@icon('plus') Rent
 			</button>
 
-			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newTenancyAgreement">
+			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newAgreementModal">
 				@icon('plus') Agreement
 			</button>
 
@@ -74,5 +74,6 @@
 	@include('tenancies.modals.tenancy-rent-payment-modal')
 	@include('statements.modals.new-statement-modal')
 	@include('tenancies.modals.new-rent-amount-modal')
+	@include('agreements.modals.new-agreement-modal')
 
 @endsection

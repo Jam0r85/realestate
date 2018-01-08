@@ -277,6 +277,18 @@ class Tenancy extends BaseModel
     {
         return $this
             ->hasMany('App\Agreement')
+            ->withTrashed()
+            ->latest('starts_at');
+    }
+
+    /**
+     * A tenancy can have many pending agreements.
+     */
+    public function pendingAgreements()
+    {
+        return $this
+            ->hasMany('App\Agreement')
+            ->where('starts_at', '>', Carbon::now())
             ->latest('starts_at');
     }
 
@@ -288,10 +300,7 @@ class Tenancy extends BaseModel
         return $this
             ->hasOne('App\Agreement')
             ->where('starts_at', '<=', Carbon::now())
-            ->where('ends_at', '>', Carbon::now())
-            ->orWhere('starts_at', '<=', Carbon::now())
-            ->whereNull('ends_at')
-            ->latest();
+            ->whereNull('deleted_at');
     }
 
     /**
@@ -729,7 +738,7 @@ class Tenancy extends BaseModel
      * Store a rent amount to this tenancy.
      * 
      * @param  \App\TenancyRent  $rent  the rent amount we are storing.
-     * @return  \App\TenancyRent
+     * @return \App\TenancyRent
      */
     public function storeRentAmount(TenancyRent $rent)
     {
@@ -739,12 +748,14 @@ class Tenancy extends BaseModel
     /**
      * Store an agreement to this tenancy.
      * 
-     * @param  \App\Agreement  $agreement  the agreement we are storing.
-     * @return  \App\Agreement
+     * @param  \App\Agreement  $agreement
+     * @return \App\Agreement
      */
     public function storeAgreement(Agreement $agreement)
     {
-        return $this->agreements()->save($agreement);
+        return $this
+            ->agreements()
+            ->save($agreement);
     }
 
     /**

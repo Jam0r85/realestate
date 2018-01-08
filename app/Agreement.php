@@ -3,13 +3,15 @@
 namespace App;
 
 use Carbon\Carbon;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 class Agreement extends BaseModel
 {
-	use SoftDeletes;
-    use PresentableTrait;
+    use SoftDeletes,
+        PresentableTrait,
+        Filterable;
 
     /**
      * The presenter for this model.
@@ -30,7 +32,11 @@ class Agreement extends BaseModel
 	 * 
 	 * @var array
 	 */
-    protected $fillable = ['user_id','tenancy_id','starts_at','length','ends_at'];
+    protected $fillable = [
+        'starts_at',
+        'length',
+        'ends_at'
+    ];
 
 	/**
      * The "booting" method of the model.

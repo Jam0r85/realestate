@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'agreements' => 'Agreements',
     'appearances' => 'Appearances',
     'bank_accounts' => 'Bank Accounts',
     'branches' => 'Branches',

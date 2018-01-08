@@ -364,6 +364,13 @@ Route::middleware(['staff'])->group(function () {
 	Route::prefix('valuations')->group(function () {
 		Route::get('/', 'ValuationController@index')->name('valuations.index');
 	});
+
+	// Tenancy Agreements
+	Route::prefix('agreements')->group(function () {
+		Route::get('/', 'AgreementController@index')->name('agreements.index');
+		Route::get('search', 'AgreementController@search')->name('agreements.search');
+		Route::post('/{tenancy}', 'AgreementController@store')->name('agreements.store'); // Store an agreement (tenancy_id)
+	});
 });
 
 // Public SMS routes for deliery updates

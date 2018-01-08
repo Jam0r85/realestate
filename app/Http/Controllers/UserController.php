@@ -8,13 +8,6 @@ use Illuminate\Http\Request;
 class UserController extends BaseController
 {
     /**
-     * The model for this controller.
-     * 
-     * @var string
-     */
-    protected $model = 'App\User';
-
-    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
