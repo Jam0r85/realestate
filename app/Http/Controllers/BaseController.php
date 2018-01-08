@@ -8,58 +8,49 @@ use Illuminate\Http\Request;
 class BaseController extends Controller
 {
 	/**
-	 * The model that this controler deals with.
+	 * The repository for this controller.
 	 */
 	protected $repository;
 
 	/**
-	 * The model name for the Eloquent Model.
+	 * The eloquent model for this controller's repository.
 	 */
-	public $model = null;
+	protected $model;
 
 	/**
-	 * The session name for this model (used for searching)
+	 * The search term session name for this model.
 	 */
-	public $searchSessionName = null;
+	protected $searchSessionName;
 
 	/**
-	 * The string name which we use to send the results to the view.
+	 * The name used to send the search results to the view.
 	 */
-	public $resultsName = null;
+	protected $resultsName;
 
 	/**
-	 * The index view
-	 */
-	public $indexView = null;
-
-	/**
-	 * Build the controller instance.
+	 * Build the controller.
 	 * 
 	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->repository = new $this->model();
-		$this->searchSessionName = snake_case($this->repository->className()) . '_search_term';
-		$this->resultsName = str_plural(snake_case($this->repository->className()));
-
-		if (!$this->indexView) {
-			$this->indexView = $this->repository->classViewName() . '.index';
-		}
+		$this->setRepository();
+		$this->setSearchResultsVariable();
+		$this->setSearchSessionName();
 	}
 
 	/**
 	 * Search through the repository.
 	 * 
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return  \Illuminate\Http\Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function search(SearchRequest $request)
 	{
 		// Clear the search term from the session name
         if ($request->has('clear_search')) {
             session()->forget($this->searchSessionName);
-            return redirect()->route($this->indexView);
+            return back();
         }
 
         // Store the search term to the session name
@@ -71,7 +62,7 @@ class BaseController extends Controller
         // Include the results in the data
         $data[$this->resultsName] = $this->repository->search(session()->get($this->searchSessionName))->get();
 
-        return view($this->indexView, $data);
+        return back();
 	}
 
 	/**
@@ -109,7 +100,7 @@ class BaseController extends Controller
      * Destroy a record in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  integer $id
+     * @param  integer  $id
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function forceDestroy(Request $request, $id)
@@ -118,5 +109,43 @@ class BaseController extends Controller
         	->onlyTrashed()
         	->findOrFail($id)
         	->forceDelete();
-    }
+	}
+	
+	/**
+	 * Get the name to be used for the search term stored in sessions.
+	 * 
+	 * @return string;
+	 */
+	public function setSearchSessionName()
+	{
+		if (! $this->searchSessionName) {
+			$this->searchSessionName = plural_from_model($this->repository) . '_search_term';
+		}		
+
+		$this->searchSessionName;
+	}
+
+	/**
+	 * Set the search results variable.
+	 * 
+	 * @return string
+	 */
+	public function setSearchResultsVariable()
+	{				
+		$this->resultsName = str_plural(snake_case($this->repository->className()));
+	}
+
+	/**
+	 * Set the repository instance.
+	 * 
+	 * @return void
+	 */
+	public function setRepository()
+	{
+		if (! $this->model) {
+			
+		}
+
+		$this->repository = new $this->model();
+	}
 }

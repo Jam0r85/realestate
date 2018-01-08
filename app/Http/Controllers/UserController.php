@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserEmailRequest;
-use App\Http\Requests\UpdateUserPhoneRequest;
 use App\Http\Requests\{UserStoreRequest, UserUpdateRequest};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends BaseController
 {
@@ -18,7 +12,7 @@ class UserController extends BaseController
      * 
      * @var string
      */
-    public $model = 'App\User';
+    protected $model = 'App\User';
 
     /**
      * Display a listing of the resource.
@@ -116,7 +110,7 @@ class UserController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->repository
             ->findOrFail($id)

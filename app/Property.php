@@ -269,9 +269,18 @@ class Property extends BaseModel
 	}
 
 	/**
+	 * A property can have many valuations.
+	 */
+	public function valuations()
+	{
+		return $this
+			->hasMany('App\Valuation');
+	}
+
+	/**
 	 * Store an expense to this property.
 	 * 
-	 * @param \App\Expense $expense
+	 * @param  \App\Expense $expense
 	 * @return \App\Expense
 	 */
     public function storeExpense(Expense $expense)

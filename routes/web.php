@@ -360,6 +360,10 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('{id}/{show?}', 'MaintenanceController@show')->name('maintenances.show'); // Show the maintenance issue
 	});
 
+	// Valuations
+	Route::prefix('valuations')->group(function () {
+		Route::get('/', 'ValuationController@index')->name('valuations.index');
+	});
 });
 
 // Public SMS routes for deliery updates

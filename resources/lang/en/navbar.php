@@ -35,5 +35,6 @@ return [
     'tenancies' => 'Tenancies',
     'tenancy_services' => 'Tenancy Services',
     'users' => 'Users',
-    'users_login_history' => 'Login History',    
+    'users_login_history' => 'Login History',
+    'valuations' => 'Valuations'
 ];

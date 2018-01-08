@@ -54,6 +54,9 @@
                         @icon('house') @lang('navbar.properties')
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarPropertiesDropdown">
+                        <a class="dropdown-item" href="{{ route('valuations.index') }}">
+                            @icon('valuation') @lang('navbar.valuations')
+                        </a>
                         <a class="dropdown-item" href="{{ route('properties.index') }}">
                             @icon('house') @lang('navbar.properties')
                         </a>
