@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Session;
 
 class InvoiceController extends BaseController
 {
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @return string;
+     */
     public $model = 'App\Invoice';
 
     /**
@@ -27,13 +32,11 @@ class InvoiceController extends BaseController
     public function index(Request $request)
     {
         if (!$request->all()) {
-            // Show unpaid and not archived invoices by default
             $request->request->add(['paid' => false, 'archived' => false]);
         }
 
         $invoices = $this->repository->filter($request->all());
 
-        // Get the invoice totals
         $totals = [
             'net' => $invoices->sum('net'),
             'tax' => $invoices->sum('tax'),
@@ -62,17 +65,17 @@ class InvoiceController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\InvoiceStoreRequest $request
+     * @param  \App\Http\Requests\InvoiceStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(InvoiceStoreRequest $request)
     {
         $invoiceGroup = InvoiceGroup::findOrFail($request->invoice_group_id);
 
-        $invoice = $this->repository;
-        $invoice->property_id = $request->property_id;
-        $invoice->number = $request->number;
-        $invoice->terms = $request->terms;
+        $data = $request->input();
+
+        $invoice = $this->repository
+            ->fill($data);
 
         $invoiceGroup->storeInvoice($invoice);
 

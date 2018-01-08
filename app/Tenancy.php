@@ -16,10 +16,10 @@ use Laravel\Scout\Searchable;
 
 class Tenancy extends BaseModel
 {
-	use SoftDeletes;
-	use Searchable;
-    use PresentableTrait;
-    use Filterable;
+    use SoftDeletes,
+        Searchable,
+        PresentableTrait,
+        Filterable;
 
     /**
      * The presenter for this model.

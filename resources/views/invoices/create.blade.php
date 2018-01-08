@@ -24,6 +24,13 @@
 
 					@component('partials.form-group')
 						@slot('label')
+							Date
+						@endslot
+						<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? \Carbon\Carbon::now()->format('Y-m-d') }}" />
+					@endcomponent
+
+					@component('partials.form-group')
+						@slot('label')
 							Invoice Group
 						@endslot
 						<select name="invoice_group_id" class="form-control">
@@ -38,7 +45,7 @@
 							Property
 						@endslot
 						<select name="property_id" class="form-control select2">
-							<option value="" disabled selected></option>
+							<option value="0" selected>None</option>
 							@foreach (properties() as $property)
 								<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
 									{{ $property->present()->selectName }}
@@ -74,7 +81,9 @@
 						@slot('label')
 							Terms
 						@endslot
-						<textarea name="terms" id="terms" class="form-control" rows="7">{{ old('terms') ?? get_setting('invoice_default_terms') }}</textarea>
+						<textarea name="terms" id="terms" class="form-control" rows="7">
+							{{ old('terms') ?? get_setting('invoice_default_terms') }}
+						</textarea>
 					@endcomponent
 
 				</div>

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Payment;
+use App\Events\DepositWasForceDeleted;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -12,21 +13,6 @@ class Deposit extends BaseModel
     use Searchable;
     use SoftDeletes;
     use Filterable;
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->only('amount','unique_id');
-
-        $array['tenancy'] = $this->tenancy->present()->name;
-        $array['property'] = $this->tenancy->property->present()->fullAddress;
-
-        return $array;
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +44,37 @@ class Deposit extends BaseModel
         'tenancy'
     ];
 
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($model) {
+            if ($model->forceDeleting) {
+                event (new DepositWasForceDeleted($model));
+            }
+        });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('amount','unique_id');
+
+        $array['tenancy'] = $this->tenancy->present()->name;
+        $array['property'] = $this->tenancy->property->present()->fullAddress;
+
+        return $array;
+    }
+    
 	/**
 	 * A deposit was recorded by an owner.
 	 */

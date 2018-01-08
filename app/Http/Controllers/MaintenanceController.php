@@ -57,8 +57,7 @@ class MaintenanceController extends BaseController
     {
         $data = $request->input();
 
-        $data['key'] = Uuid::uuid1()->toString();
-
+        // Should no property ID be present, we grab it from the tenancy instead.
         if (!in_array('property_id', $data)) {
             $data['property_id'] = Tenancy::findOrFail($data['tenancy_id'])->property_id;
         }

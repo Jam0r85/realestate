@@ -29,21 +29,6 @@ class Statement extends PdfModel
     protected $presenter = 'App\Presenters\StatementPresenter';
 
     /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->only('amount','period_start','period_end','sent_at','paid_at');
-        $array['property'] = $this->tenancy->property->present()->fullAddress;
-        $array['tenancy'] = $this->tenancy->present()->name;
-        $array['amount'] = $this->amount;
-
-        return $array;
-    }
-    
-    /**
      * The attributes that should be mutated to dates.
      * 
      * @var array
@@ -64,8 +49,47 @@ class Statement extends PdfModel
 		'amount',
 		'paid_at',
 		'sent_at'
-	];
+    ];
 
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->send_by = $model->tenancy->property->getSetting('statement_send_method') ?? 'email';
+            $model->period_end ?? $model->period_end = $model->period_start->addMonth()->subDay();
+            $model->amount ?? $model->amount = $model->tenancy->present()->rentAmountPlain;
+        });
+
+        static::deleted(function ($model) {
+            if ($model->forceDeleting) {
+                $model->payments()->whereNotNull('sent_at')->delete();
+                $model->payments()->whereNull('sent_at')->delete();
+                $model->invoices()->forceDelete();
+            }
+        });
+    }    
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('amount','period_start','period_end','sent_at','paid_at');
+        $array['property'] = $this->tenancy->property->present()->fullAddress;
+        $array['tenancy'] = $this->tenancy->present()->name;
+        $array['amount'] = $this->amount;
+
+        return $array;
+    }
+    
 	/**
 	 * A statement can belong to a tenancy.
 	 */

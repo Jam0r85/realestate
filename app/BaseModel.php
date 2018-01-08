@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class BaseModel extends Model
 {
@@ -15,35 +16,89 @@ class BaseModel extends Model
 	protected $perPage = 30;
 
 	/**
-	 * Save an Eloquent model but overwrite the flash alert shown.
+	 * The UUID column required for public access to a record.
+	 */
+	public $publicKeyColumn = 'key';
+
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+		parent::boot();
+		
+		// When creating a new model
+		static::creating(function ($model) {
+
+			$tableColumns = $model->getTableColumns();
+
+			// Set the owner of this record.
+			if (in_array('user_id', $tableColumns)) {
+				$model->user_id = auth()->user()->id;
+			}
+
+			// Set the public key for this record.
+			if (in_array($model->publicKeyColumn, $tableColumns)) {
+				$column = $model->publicKeyColumn;
+
+				$model->$column = Uuid::uuid1()->toString();
+			}
+		});
+	}
+
+	/**
+	 * Get the table name for this model.
+	 * 
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		return $this->getTable();
+	}
+
+	/**
+	 * Get the table columns for this model.
+	 * 
+	 * @return array
+	 */
+	public function getTableColumns()
+	{
+		return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTableName());
+	}
+	
+	/**
+	 * Save an eloquent instance along with a custom message.
 	 * 
 	 * @param  string  $message
 	 * @param  array  $options
-	 * @return  void
+	 * @return \Illuminate\Database\Eloquent\Model
 	 */
 	public function saveWithMessage($message, array $options = []) {
 		$options = array_add($options, 'flash_message', $message);
 		return $this->save($options);
 	}
 
-	/**
-	 * Overwrite the Eloquent save method.
-	 * 
-	 * @param  array  $options
-	 * @return void
-	 */
+    /**
+     * Save the model to the database.
+     *
+     * @param  array  $options
+     * @return bool
+     */
 	public function save (array $options = [])
 	{
-		// Update settings column
+		// Check if we have the SettingsTrait, attach the data to that column.
 		if (method_exists($this, 'setSetting')) {
 			$this->setSetting(request()->input());
 		}
 
-		// Update data column
+		// Check if we have the DataTrait, attach the data to that column.
 		if (method_exists($this, 'setData')) {
 			$this->setData(request()->input());
 		}
 
+		// Save the model
 		parent::save($options);
 
 		// Decide whether we updated or created this record
@@ -85,9 +140,10 @@ class BaseModel extends Model
 	 * Flash the message to the screen using the correct message method.
 	 * 
 	 * @param  string  $action
+	 * @param  string  $class
 	 * @return void
 	 */
-	public function flashMessage($action)
+	public function flashMessage($action, $class = 'success')
 	{
 		// Set the correct method name
 		$method = 'message' . ucwords($action);
@@ -101,7 +157,7 @@ class BaseModel extends Model
 
 		// Providing we have a valid message, flash an alert for it
 		if ($message) {
-			flash($message)->success();
+			flash_message($message, $class);
 		}
 	}
 

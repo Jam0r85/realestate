@@ -107,7 +107,24 @@ class Invoice extends PdfModel
 		'due_at',
 		'sent_at',
 		'paid_at'
-	];
+    ];
+
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->invoice_group_id ?? $model->invoice_group_id = get_setting('invoice_default_group');
+            $model->created_at ?? $model->created_at = Carbon::now();
+            $model->due_at = Carbon::parse($model->created_at)->addDay(get_setting('invoice_due_after'), 30);
+            $model->terms ?? $model->terms = get_setting('invoice_default_terms');    
+        });
+    }
 
     /**
      * Scope a query to only include paid invoices.

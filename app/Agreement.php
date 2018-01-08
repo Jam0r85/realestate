@@ -32,6 +32,20 @@ class Agreement extends BaseModel
 	 */
     protected $fillable = ['user_id','tenancy_id','starts_at','length','ends_at'];
 
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->ends_at = calculate_end_date($model->starts_at, $model->length);
+        });
+    }
+
     /**
      * An agreement belongs to a tenancy.
      */

@@ -21,24 +21,6 @@ class User extends UserBaseModel
         SettingsTrait,
         Filterable,
         HasRolesAndAbilities;
-    
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        return $this->only(
-            'title',
-            'first_name',
-            'last_name',
-            'company_name',
-            'email',
-            'phone_number',
-            'phone_number_other'
-        );
-    }
 
     /**
      * The presenter for this model.
@@ -117,7 +99,24 @@ class User extends UserBaseModel
     protected static function boot()
     {
         parent::boot();
+    }
 
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        return $this->only(
+            'title',
+            'first_name',
+            'last_name',
+            'company_name',
+            'email',
+            'phone_number',
+            'phone_number_other'
+        );
     }
 
     /**

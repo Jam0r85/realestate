@@ -79,12 +79,8 @@ class AppearanceController extends BaseController
         $status = AppearanceStatus::findOrFail($request->status_id);
         $qualifier = AppearancePriceQualifier::findOrFail($request->qualifier_id);
 
-        $appearance = new Appearance();
-        $appearance->live_at = $request->live_at;
-        $appearance->summary = $request->summary;
-        $appearance->description = $request->description;
-        $appearance->live_at = $request->live_at;
-        $appearance->setData($request->input());
+        $appearance = $this->repository
+            ->fill($request->all());
 
         $appearance->status()->associate($status);
         $appearance->property()->associate($property);
@@ -98,7 +94,6 @@ class AppearanceController extends BaseController
 
         $appearance->storePrice($price);
 
-        $this->successMessage('The new appearance was saved');
         return back();
     }
 

@@ -15,7 +15,7 @@ class Maintenance extends BaseModel
 		DataTrait,
 		Filterable,
 		Searchable,
-		PresentableTrait;
+        PresentableTrait;
 
     /**
      * The presenter for this model.
@@ -71,10 +71,8 @@ class Maintenance extends BaseModel
      * @var array
      */
     protected $fillable = [
-    	'user_id',
         'property_id',
         'tenancy_id',
-        'key',
         'name',
         'description',
         'data'

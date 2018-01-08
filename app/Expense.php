@@ -8,6 +8,7 @@ use App\Traits\DataTrait;
 use App\Traits\DocumentsTrait;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
+use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -48,6 +49,20 @@ class Expense extends BaseModel
     public $with = [
         'contractor'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        
+        static::deleted(function ($model) {
+
+            foreach ($model->documents as $document) {
+                Storage::delete($document->path);
+                $document->forceDelete();
+            }
+            
+        });
+    }
 
     /**
      * Get the indexable data array for the model.

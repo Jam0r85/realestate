@@ -45,8 +45,12 @@ class ServiceController extends BaseController
      */
     public function store(Request $request)
     {
+        $data = $request->input();
+        
+        $data['slug'] = str_slug($data['name']);
+
         $this->repository
-            ->fill($request->input())
+            ->fill($data)
             ->save();
 
         return back();

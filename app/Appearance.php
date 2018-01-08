@@ -24,6 +24,18 @@ class Appearance extends BaseModel
 	protected $presenter = 'App\Presenters\AppearancePresenter';
 
 	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+	protected $fillable = [
+		'slug',
+		'summary',
+		'description',
+		'live_at'
+	];
+
+	/**
 	 * The attributes that should be mutated to dates.
 	 * 
 	 * @var array
@@ -51,6 +63,22 @@ class Appearance extends BaseModel
 		'new_home',
 		'display_address'
 	];
+
+	/**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+	public static function boot()
+	{
+		parent::boot();
+
+		static::creating(function ($model) {
+			$model->slug = $model->setSlug();
+
+			return dd($model);
+		});
+	}
 
     /**
      * Scope a query to eager load the relations needed when showing a list of appearances.
@@ -169,7 +197,7 @@ class Appearance extends BaseModel
 	 * Store a price to this appearance.
 	 * 
 	 * @param  \App\AppearancePrice  $price
-	 * @return  \App\AppearancePrice
+	 * @return \App\AppearancePrice
 	 */
 	public function storePrice(AppearancePrice $price)
 	{
@@ -177,6 +205,22 @@ class Appearance extends BaseModel
 			$price->starts_at = $this->live_at;
 		}
 		return $this->prices()->save($price);
+	}
+
+	/**
+	 * Set the slug for this appearance.
+	 * 
+	 * @return string
+	 */
+	public function setSlug()
+	{
+		$section = $this->section->slug;
+		$town = str_slug($this->property->town);
+		$address = $this->property->slug;
+
+		$this->slug = $section . '/' . $town . '/' . $address;
+
+		return $this;
 	}
 
 }
