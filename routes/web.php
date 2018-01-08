@@ -370,6 +370,9 @@ Route::middleware(['staff'])->group(function () {
 		Route::get('/', 'AgreementController@index')->name('agreements.index');
 		Route::get('search', 'AgreementController@search')->name('agreements.search');
 		Route::post('/{tenancy}', 'AgreementController@store')->name('agreements.store'); // Store an agreement (tenancy_id)
+		Route::get('{id}/edit', 'AgreementController@edit')->name('agreements.edit'); // Edit the agreement
+		Route::put('{id}', 'AgreementController@update')->name('agreements.update'); // Update the agreements
+		Route::delete('{id}', 'AgreementController@forceDestroy')->name('agreements.forceDestroy'); // Destroy the agreement
 	});
 });
 

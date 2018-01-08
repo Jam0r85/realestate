@@ -7,6 +7,7 @@
 		<th>Starts</th>
 		<th>Ends</th>
 		<th>Length</th>
+		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($agreements as $agreement)
@@ -18,6 +19,11 @@
 				<td>{{ $agreement->present()->startDateFormatted }}</td>
 				<td>{{ $agreement->present()->endDateFormatted }}</td>
 				<td>{{ $agreement->present()->lengthFormatted }}</td>
+				<td class="text-right">
+					<a href="{{ route('agreements.edit', $agreement->id) }}" class="btn btn-warning btn-sm">
+						@icon('edit')
+					</a>
+				</td>
 			</tr>
 		@endforeach
 	@endslot

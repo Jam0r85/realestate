@@ -111,7 +111,7 @@ class BaseController extends Controller
     public function forceDestroy(Request $request, $id)
     {
         return $this->repository
-        	->onlyTrashed()
+        	->withTrashed()
         	->findOrFail($id)
         	->forceDelete();
 	}

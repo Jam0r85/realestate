@@ -69,24 +69,33 @@ class AgreementController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Agreement  $agreement
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agreement $agreement)
+    public function edit($id)
     {
-        //
+        $agreement = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('agreements.edit', compact('agreement'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Agreement  $agreement
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Agreement $agreement)
+    public function update(Request $request, $id)
     {
-        //
+        $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
+
+        return back();
     }
 
     /**
@@ -96,8 +105,9 @@ class AgreementController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function forceDestroy(Request $request, $id)
     {
-        parent::destroy($request, $id);
+        parent::forceDestroy($request, $id);
+        return redirect()->route('agreements.index');
     }
 }
