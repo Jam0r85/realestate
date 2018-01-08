@@ -42,7 +42,7 @@ class BaseModel extends Model
 			// Set the public key for this record.
 			if (in_array($model->publicKeyColumn, $tableColumns)) {
 				$column = $model->publicKeyColumn;
-				$model->$column = Uuid::uuid5(Uuid::NAMESPACE_DNS, config('url'))->toString();
+				$model->$column = Uuid::uuid1()->toString();
 			}
 		});
 	}
