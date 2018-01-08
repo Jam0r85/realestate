@@ -72,10 +72,8 @@ class TenancyController extends BaseController
         $property = Property::withTrashed()
             ->findOrFail($request->property_id);
 
-        $data = $request->input();
-
         $tenancy = $this->repository
-            ->fill($data);
+            ->fill($request->input());
 
         $property
             ->storeTenancy($tenancy);

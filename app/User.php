@@ -133,7 +133,7 @@ class User extends UserBaseModel
     }
 
     /**
-     * A user can have a home.
+     * A user can have a home address.
      */
     public function home()
     {
