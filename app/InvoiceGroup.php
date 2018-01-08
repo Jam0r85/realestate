@@ -63,13 +63,9 @@ class InvoiceGroup extends BaseModel
      */
     public function storeInvoice(Invoice $invoice)
     {
-        $invoice->number ?? $invoice->number = $this->next_number;
-
         $this
             ->invoices()
             ->save($invoice);
-
-        $this->increment('next_number');
 
         return $invoice;
     }

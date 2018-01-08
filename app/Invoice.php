@@ -120,9 +120,20 @@ class Invoice extends PdfModel
 
         static::creating(function ($model) {
             $model->invoice_group_id ?? $model->invoice_group_id = get_setting('invoice_default_group');
+            $model->number ?? $model->number = $model->invoiceGroup->next_number;
             $model->created_at ?? $model->created_at = Carbon::now();
             $model->due_at = Carbon::parse($model->created_at)->addDay(get_setting('invoice_due_after'), 30);
             $model->terms ?? $model->terms = get_setting('invoice_default_terms');    
+        });
+
+        static::created(function ($model) {
+            $model->invoiceGroup->increment('next_number');
+        });
+
+        static::deleted(function ($model) {
+            if ($model->number == $model->invoiceGroup->next_number - 1) {
+                $model->InvoiceGroup->decrement('next_number');
+            }
         });
     }
 
