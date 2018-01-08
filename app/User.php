@@ -186,8 +186,8 @@ class User extends UserBaseModel
     {
         return $this
             ->belongsTo('App\Tenancy')
+            ->where('vacated_on', '<=', Carbon::now())
             ->whereNull('vacated_on')
-            ->orWhere('vacated_on', '<=', Carbon::now())
             ->latest();
     }
 
@@ -307,13 +307,31 @@ class User extends UserBaseModel
     }
 
     /**
+     * Get the current location for this user.
+     * 
+     * @return mixed
+     */
+    public function getCurrentLocation()
+    {
+        if ($this->activeTenancy) {
+            return $this->activeTenancy->property;
+        }
+
+        if ($this->home) {
+            return $this->home;
+        }
+
+        return null;
+    }
+
+    /**
      * Check whether this user is a tenant of a tenancy.
      * 
      * @return bool
      */
     public function isTenant()
     {
-        if ($this->activeTenancy) {
+        if ($this->activeTenancy()) {
             return true;
         }
 

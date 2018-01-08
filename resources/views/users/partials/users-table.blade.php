@@ -4,9 +4,7 @@
 		<th>Email</th>
 		<th>Mobile Phone</th>
 		<th>Other Phone</th>
-		@if (!isset($tenancy))
-			<th>Address</th>
-		@endif
+		<th>Address</th>
 		<th></th>
 	@endslot
 	@slot('body')
@@ -16,9 +14,13 @@
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->phone_number }}</td>
 				<td>{{ $user->phone_number_other }}</td>
-				@if (!isset($tenancy))
-					<td>{!! $user->present()->locationLink !!}</td>
-				@endif
+				<td>
+					@if ($user->getCurrentLocation())
+						<a href="{{ route('properties.show', $user->getCurrentLocation()->id) }}">
+							{{ $user->getCurrentLocation()->present()->shortAddress }}
+						</a>
+					@endif
+				</td>
 				<td class="text-right">
 					<a href="{{ route('users.show', $user->id) }}" class="btn btn-primary btn-sm">
 						@icon('view')
