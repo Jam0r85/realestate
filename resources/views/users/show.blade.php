@@ -86,6 +86,14 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'payments']) }}">
+					Payments
+					<span class="badge badge-dark">
+						{{ count($user->payments) }}
+					</span>
+				</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link" href="{{ route('users.show', [$user->id, 'bank-accounts']) }}">
 					Bank Accounts
 					<span class="badge badge-dark">

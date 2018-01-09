@@ -222,6 +222,16 @@ class User extends UserBaseModel
     }
 
     /**
+     * A user can have many payments.
+     */
+    public function payments()
+    {
+        return $this
+            ->belongsToMany('App\Payment')
+            ->latest();
+    }
+
+    /**
      * A user can have many unpaid expenses.
      */
     public function unpaidExpenses()
