@@ -186,8 +186,7 @@ class User extends UserBaseModel
     {
         return $this
             ->belongsToMany('App\Tenancy')
-            ->whereNull('vacated_on')
-            ->first();
+            ->whereNull('vacated_on');
     }
 
     /**
@@ -197,8 +196,7 @@ class User extends UserBaseModel
     {
         return $this
             ->belongsToMany('App\Tenancy')
-            ->where('vacated_on', '<=', Carbon::now())
-            ->first();
+            ->where('vacated_on', '<=', Carbon::now());
     }
 
     /**
@@ -333,12 +331,16 @@ class User extends UserBaseModel
      */
     public function getCurrentLocation()
     {
-        if ($this->activeTenancy()) {
-            return $this->activeTenancy()->property;
+        if (count($this->activeTenancy)) {
+            foreach ($this->activeTenancy as $active) {
+                return $active->property;
+            }            
         }
 
-        if ($this->vacatingTenancy()) {
-            return $this->vacatingTenancy()->property;
+        if (count($this->vacatingTenancy)) {
+            foreach ($this->vacatingTenancy as $vacating) {
+                return $vacating->property;
+            }           
         }
 
         if ($this->home) {

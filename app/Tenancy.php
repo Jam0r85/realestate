@@ -77,7 +77,7 @@ class Tenancy extends BaseModel
      * @var array
      */
     protected $with = [
-        'users'
+        //
     ];
 
     /**
