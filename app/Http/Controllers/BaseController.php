@@ -124,10 +124,10 @@ class BaseController extends Controller
 	public function setSearchSessionName()
 	{
 		if (! $this->searchSessionName) {
-			$this->searchSessionName = plural_from_model($this->repository) . '_search_term';
+			$this->searchSessionName = snake_case(model_name($this->repository)) . '_search_term';
 		}		
 
-		$this->searchSessionName;
+		return $this->searchSessionName;
 	}
 
 	/**
