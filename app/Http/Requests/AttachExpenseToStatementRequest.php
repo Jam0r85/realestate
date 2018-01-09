@@ -25,7 +25,6 @@ class AttachExpenseToStatementRequest extends FormRequest
     {
         return [
             'expense_id' => 'required',
-            'statement_id' => 'required',
             'amount' => 'required'
         ];
     }

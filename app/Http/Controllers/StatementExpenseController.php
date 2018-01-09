@@ -14,12 +14,12 @@ class StatementExpenseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\AttachExpenseToStatementRequest  $request
-     * @param  int  $id
+     * @param  int  $statement_id
      * @return \Illuminate\Http\Response
      */
-    public function store(AttachExpenseToStatementRequest $request, $id)
+    public function store(AttachExpenseToStatementRequest $request, $statement_id)
     {
-        $statement = Statement::withTrashed()->findOrFail($id);
+        $statement = Statement::withTrashed()->findOrFail($statement_id);
         
     	$statement->expenses()->attach($request->expense_id, ['amount' => $request->amount]);
 
