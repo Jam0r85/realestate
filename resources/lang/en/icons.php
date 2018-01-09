@@ -36,6 +36,7 @@ return [
     'maintenance' => 'wrench',
     'money' => 'money-bill',
     'options' => 'cogs',
+    'paid' => 'credit-card',
     'payment' => 'credit-card',
     'plus' => 'plus',
     'report' => 'file',

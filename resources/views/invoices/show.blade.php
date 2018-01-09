@@ -12,14 +12,14 @@
 
 			<div class="btn-group">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="invoiceOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Options
+					@icon('options') Options
 				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="invoiceOptionsDropdown">
 					<a class="dropdown-item" href="{{ route('invoices.edit', $invoice->id) }}">
-						<i class="fa fa-edit"></i> Edit Invoice
+						@icon('edit') Edit Invoice
 					</a>
 					<a class="dropdown-item" href="{{ route('downloads.invoice', $invoice->id) }}" title="Download Invoice" target="_blank">
-						<i class="fa fa-download"></i> Download as PDF
+						@icon('download') Download as PDF
 					</a>
 				</div>
 			</div>
@@ -42,15 +42,21 @@
 
 	@component('partials.section-with-container')
 
+		@if ($invoice->deleted_at)
+			@component('partials.alerts.dark')
+				@icon('delete') This invoice was deleted <b>{{ date_formatted($invoice->deleted_at) }}</b>
+			@endcomponent
+		@endif
+
 		@if ($invoice->isPaid())
 			@component('partials.alerts.success')
-				This invoice was paid {{ date_formatted($invoice->paid_at) }}
+				@icon('paid') This invoice was paid <b>{{ date_formatted($invoice->paid_at) }}</b>
 			@endcomponent
 		@endif
 
 		@if ($invoice->isSent())
 			@component('partials.alerts.success')
-				This invoice was sent {{ date_formatted($invoice->sent_at) }}
+				@icon('sent') This invoice was sent <b>{{ date_formatted($invoice->sent_at) }}</b>
 			@endcomponent
 		@endif
 

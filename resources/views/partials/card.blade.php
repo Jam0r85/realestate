@@ -8,6 +8,12 @@
 
 	{{ $slot }}
 
+	@if (isset($body))
+		<div class="card-body">
+			{{ $body }}
+		</div>
+	@endif
+
 	@if (isset($footer))
 		<div class="card-footer">
 			{{ $footer }}
