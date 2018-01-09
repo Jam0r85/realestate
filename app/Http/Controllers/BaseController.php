@@ -33,6 +33,13 @@ class BaseController extends Controller
 	protected $resultsName;
 
 	/**
+	 * The index route for this controller.
+	 * 
+	 * @var string
+	 */
+	protected $indexRoute;
+
+	/**
 	 * Build the controller.
 	 * 
 	 * @return void
@@ -40,6 +47,7 @@ class BaseController extends Controller
 	public function __construct()
 	{
 		$this->setRepository();
+		$this->setIndexRoute();
 		$this->setSearchResultsVariable();
 		$this->setSearchSessionName();
 	}
@@ -55,19 +63,16 @@ class BaseController extends Controller
 		// Clear the search term from the session name
         if ($request->has('clear_search')) {
             session()->forget($this->searchSessionName);
-            return back();
+            return redirect()->route($this->indexRoute);
         }
 
         // Store the search term to the session name
         session()->put($this->searchSessionName, $request->search_term);
 
-        // Set the page title in the data
-        $data['title'] = 'Search Results';
-
-        // Include the results in the data
-        $data[$this->resultsName] = $this->repository->search(session()->get($this->searchSessionName))->get();
-
-        return back();
+        return view($this->indexRoute, [
+        	'title' => 'Search Results',
+        	$this->resultsName => $this->repository->search(session()->get($this->searchSessionName))->get()
+        ]);
 	}
 
 	/**
@@ -125,9 +130,7 @@ class BaseController extends Controller
 	{
 		if (! $this->searchSessionName) {
 			$this->searchSessionName = snake_case(model_name($this->repository)) . '_search_term';
-		}		
-
-		return $this->searchSessionName;
+		}
 	}
 
 	/**
@@ -152,5 +155,17 @@ class BaseController extends Controller
 		}
 
 		$this->repository = new $this->model();
+	}
+
+	/**
+	 * Set the index route for this controller.
+	 *
+	 * @return void
+	 */
+	public function setIndexRoute()
+	{
+		if (! $this->indexRoute) {
+			$this->indexRoute = plural_from_model($this->repository) . '.index';
+		}
 	}
 }

@@ -334,7 +334,7 @@ class User extends UserBaseModel
         if (count($this->activeTenancy)) {
             foreach ($this->activeTenancy as $active) {
                 return $active->property;
-            }            
+            }
         }
 
         if (count($this->vacatingTenancy)) {
