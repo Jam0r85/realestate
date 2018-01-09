@@ -471,7 +471,7 @@ class Invoice extends PdfModel
      */
     public function isPaid()
     {
-        if (!$this->paid_at) {
+        if (! $this->paid_at) {
             return false;
         }
 

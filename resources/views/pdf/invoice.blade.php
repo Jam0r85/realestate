@@ -73,8 +73,8 @@
 			</div>
 
 			<section class="section">
-				@if ($invoice->present()->status == 'Paid')
-					<h5 class="text-success">Paid</h5>
+				@if ($invoice->isPaid())
+					<h5 class="text-success mb-2">Paid {{ date_formatted($invoice->paid_at) }}</h5>
 				@endif
 				{{ $invoice->present()->paperTerms }}
 			</section>

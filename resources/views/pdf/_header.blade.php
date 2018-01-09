@@ -100,6 +100,9 @@
 			.mb-0 {
 				margin-bottom: 0 !important;
 			}
+			.mb-2 {
+				margin-bottom: 0.5rem;
+			}
 			table {
 				width: 100%;
 			}
