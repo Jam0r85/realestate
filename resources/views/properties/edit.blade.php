@@ -119,7 +119,7 @@
 
 							@component('partials.form-group')
 								@slot('label')
-									Send Method
+									Statement Send Method
 								@endslot
 								<select name="statement_send_method" id="statement_send_method" class="form-control">
 									<option @if ($property->getSetting('statement_send_method') == 'email') selected @endif value="email">E-Mail</option>
@@ -129,7 +129,10 @@
 
 							@component('partials.form-group')
 								@slot('label')
-									Payment Method
+									Statement Payment Method
+								@endslot
+								@slot('help')
+									Select the bank account to send the landlords payment to.
 								@endslot
 								<select name="bank_account_id" id="bank_account_id" class="form-control select2">
 									<option value="0">Cheque or Cash</option>
