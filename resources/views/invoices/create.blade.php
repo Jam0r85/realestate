@@ -81,17 +81,17 @@
 						@slot('label')
 							Terms
 						@endslot
-						<textarea name="terms" id="terms" class="form-control" rows="7">
-							{{ old('terms') ?? get_setting('invoice_default_terms') }}
-						</textarea>
+						<textarea name="terms" id="terms" class="form-control" rows="7">{{ old('terms') ?? get_setting('invoice_default_terms') }}</textarea>
 					@endcomponent
 
 				</div>
+
 				@slot('footer')
 					@component('partials.save-button')
 						Create Invoice
 					@endcomponent
 				@endslot
+				
 			@endcomponent
 
 		</form>
