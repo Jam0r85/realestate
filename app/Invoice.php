@@ -110,15 +110,17 @@ class Invoice extends PdfModel
      */
     public function toSearchableArray()
     {
-        // Filter the model.
-        $array = $this->only('number','created_at','paid_at','net','tax','total','recipient');
+        $array = $this->only('number','net','tax','total','recipient');
+        $array['created_at'] = date_formatted($this->created_at);
 
-        // Get the property name.
+        if ($this->paid_at) {
+            $array['paid'] = date_formatted($this->created_at);
+        }
+
         if ($this->property) {
             $array['property'] = $this->property->present()->fullAddress;
         }
 
-        // Get the attached users to the invoice.
         if (count($this->users)) {
             foreach ($this->users as $user) {
                 $users[] = $user->present()->name;
