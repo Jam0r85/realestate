@@ -111,6 +111,8 @@ class Invoice extends PdfModel
     public function toSearchableArray()
     {
         $array = $this->only('number','net','tax','total','recipient');
+
+        $array['group'] = $this->invoiceGroup->name;
         $array['created_at'] = date_formatted($this->created_at);
 
         if ($this->paid_at) {
