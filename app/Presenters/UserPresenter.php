@@ -7,6 +7,16 @@ use Laracasts\Presenter\Presenter;
 class UserPresenter extends Presenter
 {
 	/**
+	 * The basic name of the user.
+	 * 
+	 * @return string
+	 */
+	public function name()
+	{
+		return $this->fullName();
+	}
+
+	/**
 	 * @return string
 	 */
 	public function fullName()
