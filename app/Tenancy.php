@@ -29,24 +29,6 @@ class Tenancy extends BaseModel
     protected $presenter = 'App\Presenters\TenancyPresenter';    
 
     /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->only('vacated_on');
-        $array['name'] = $this->present()->name;
-        $array['property'] = $this->property->present()->fullAddress;
-        $array['rent'] = $this->present()->rentAmountPlain;
-        $array['started'] = $this->first_agreement ? $this->first_agreement->starts_at : null;
-        $array['landlords'] = $this->property->owners->pluck('name');
-        $array['service'] = $this->service->name;
-
-        return $array;
-    }
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -80,6 +62,21 @@ class Tenancy extends BaseModel
         'users',
         'property'
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        $array['name'] = $this->present()->name;
+        $array['property'] = $this->property->present()->fullAddress;
+        $array['rent'] = $this->currentRent ? $this->currentRent->amount : null;
+        $array['service'] = $this->service->name;
+
+        return $array;
+    }
 
     /**
      * Scope a query to include eager loading dependencies.
