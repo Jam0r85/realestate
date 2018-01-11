@@ -7,52 +7,43 @@ use Laracasts\Presenter\Presenter;
 class PropertyPresenter extends Presenter
 {
 	/**
+     * The full address of this property separated by commas. Eg
+     * 123 Smith Street, Example Road, New Town, Middle Earth, B12 3GH
+     * 
 	 * @return string
 	 */
-	public function fullAddress($postcode = true)
+	public function fullAddress()
 	{
 		$name = $this->shortAddress;
+
 		$name .= $this->address2 ? ', ' . $this->address2 : null;
 		$name .= $this->address3 ? ', ' . $this->address3 : null;
 		$name .= $this->town ? ', ' . $this->town : null;
 		$name .= $this->county ? ', ' . $this->county : null;
-
-        if ($postcode == true) {
-		  $name .= $this->postcode ? ', ' . $this->postcode : null;
-        }
+		$name .= $this->postcode ? ', ' . $this->postcode : null;
 
 		return $name;
 	}
 
 	/**
+     * The short address or name for this property. Eg
+     * 123 Smith Street or Basic House
+     * 
 	 * @return string
 	 */
 	public function shortAddress()
 	{
-    	// House name is present, we return that.
-    	if ($this->house_name) {
-    		// Add the house name.
-    		$name = $this->house_name;
+    	if ($name = $this->house_name) {
 
-    		// Add the house number if we have one.
-    		if ($this->house_number) {
-    			$name .= ', ' . $this->house_number;
+    		if ($this->house_number && $this->address1) {
+    			$name .= ', ' . $this->house_number . ' ' . $this->address1;
     		}
-
-    		// Add the address line 1 if we have one.
-    		if ($this->address1) {
-    			if ($this->house_number) {
-    				$name .= ' ' . $this->address1;
-    			} else {
-    				$name .= ', ' . $this->address1;
-    			}
-    		}
-
-    		return trim($name);
     	}
 
     	// Otherwise we return the house number and the first line of the address.
-    	return trim($this->house_number . ' ' . $this->address1 ?: '');
+    	$name = $this->house_number . ' ' . $this->address1;
+
+        return trim($name);
 	}
 
     /**

@@ -21,6 +21,11 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a href="{{ route('settings.index', 'company') }}" class="nav-link @if (Request::segment(2) == 'company') active @endif">
+					Company
+				</a>
+			</li>
+			<li class="nav-item">
 				<a href="{{ route('settings.index', 'invoices') }}" class="nav-link @if (Request::segment(2) == 'invoices') active @endif">
 					Invoices
 				</a>

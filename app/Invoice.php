@@ -17,10 +17,10 @@ use Laravel\Scout\Searchable;
 
 class Invoice extends PdfModel
 {
-    use SoftDeletes;
-    use Searchable;
-    use PresentableTrait;
-    use Filterable;
+    use SoftDeletes,
+        Searchable,
+        PresentableTrait,
+        Filterable;
 
     /**
      * The presenter for this model
@@ -28,40 +28,6 @@ class Invoice extends PdfModel
      * @var string
      */
     protected $presenter = 'App\Presenters\InvoicePresenter';
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-        // Filter the model.
-        $array = $this->only('number','created_at','paid_at');
-
-        // Get the property name.
-        if ($this->property) {
-            $array['property'] = $this->property->name;
-        }
-
-        // Get the recipient of the invoice.
-        $array['recipient'] = $this->recipient;
-
-        // Get the attached users to the invoice.
-        $array['users'] = count($this->users) ? $this->users->pluck('name')->toArray() : null;
-
-        // Get the amounts of the invoice.
-        $array['amount'] = [
-            'total' => $this->total,
-            'net' => $this->total_net,
-            'tax' => $this->total_tax
-        ];
-
-        // Get the item names and descriptions.
-        $array['items'] = count($this->items) ? $this->items->pluck('name','description')->toArray() : null;
-
-        return $array;
-    }
 
     /**
      * The attributes that should be cast to native types.
@@ -135,6 +101,33 @@ class Invoice extends PdfModel
                 $model->InvoiceGroup->decrement('next_number');
             }
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+        // Filter the model.
+        $array = $this->only('number','created_at','paid_at','net','tax','total','recipient');
+
+        // Get the property name.
+        if ($this->property) {
+            $array['property'] = $this->property->present()->fullAddress;
+        }
+
+        // Get the attached users to the invoice.
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                $users[] = $user->present()->name;
+            }
+
+            $array['users'] = array_filter($users);
+        }
+
+        return $array;
     }
 
     /**
