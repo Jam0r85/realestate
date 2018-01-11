@@ -18,50 +18,53 @@
 
 	@component('partials.bootstrap.section-with-container')
 
-		<div class="row">
-			<div class="col-12 col-lg-4">
+		{{-- Invoice Totals --}}
+		@if (isset($totals))
+			<div class="row">
+				<div class="col-12 col-lg-4">
 
-				<div class="card text-white bg-dark mb-3">
-					<div class="card-body text-center">
+					<div class="card text-white bg-dark mb-3">
+						<div class="card-body text-center">
 
-						<h2>{{ currency($totals['net']) }}</h2>
-						<span class="text-muted">
-							<b>NET</b>
-						</span>
+							<h2>{{ currency($totals['net']) }}</h2>
+							<span class="text-muted">
+								<b>NET</b>
+							</span>
 
+						</div>
 					</div>
+
 				</div>
+				<div class="col-12 col-lg-4">
 
-			</div>
-			<div class="col-12 col-lg-4">
+					<div class="card text-white bg-dark mb-3">
+						<div class="card-body text-center">
 
-				<div class="card text-white bg-dark mb-3">
-					<div class="card-body text-center">
+							<h2>{{ currency($totals['tax']) }}</h2>
+							<span class="text-muted">
+								<b>TAX</b>
+							</span>
 
-						<h2>{{ currency($totals['tax']) }}</h2>
-						<span class="text-muted">
-							<b>TAX</b>
-						</span>
-
+						</div>
 					</div>
+
 				</div>
+				<div class="col-12 col-lg-4">
 
-			</div>
-			<div class="col-12 col-lg-4">
+					<div class="card text-white bg-dark mb-3">
+						<div class="card-body text-center">
 
-				<div class="card text-white bg-dark mb-3">
-					<div class="card-body text-center">
+							<h2>{{ currency($totals['total']) }}</h2>
+							<span class="text-muted">
+								<b>TOTAL</b>
+							</span>
 
-						<h2>{{ currency($totals['total']) }}</h2>
-						<span class="text-muted">
-							<b>TOTAL</b>
-						</span>
-
+						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
-		</div>
+		@endif
 
 		@include('partials.index-search', ['route' => 'invoices.search', 'session' => 'invoice_search_term'])
 
