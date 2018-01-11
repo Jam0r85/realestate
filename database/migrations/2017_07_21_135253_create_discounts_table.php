@@ -17,7 +17,7 @@ class CreateDiscountsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->decimal('amount', 12, 2);
+            $table->decimal('amount', 12, 4);
             $table->timestamps();
             $table->softDeletes();
         });

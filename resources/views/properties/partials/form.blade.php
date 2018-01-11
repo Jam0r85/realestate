@@ -38,6 +38,23 @@
 	<input type="text" name="postcode" id="postcode" class="form-control" value="{{ isset($property) ? $property->postcode : old('postcode') }}" required />
 </div>
 
+@component('partials.form-group')
+	@slot('label')
+		Country
+	@endslot
+	<select name="country" id="country" class="form-control select2">
+		@foreach (countries() as $country)
+			<option 
+				@if (isset($property) && $property->country == $country->name->common) selected
+				@elseif (get_setting('default_country') == $country->name->common) selected
+				@endif
+				>
+				{{ $country->name->common }}
+			</option>
+		@endforeach
+	</select>
+@endcomponent
+
 <div class="form-group">
 	<label for="tax_band_id">
 		Tax Band

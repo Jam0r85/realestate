@@ -234,10 +234,12 @@ class Statement extends PdfModel
      */
     public function send()
     {
+        // Send the statement by E-Mail
         if ($this->send_by == 'email') {
             Notification::send($this->users, new StatementSentByEmailToLandlordNotification($this));
         }
 
+        // Send the statement by Post
         if ($this->send_by == 'post') {
             Notification::send($this->users, new StatementSentByPostToLandlordNotification($this));
         }

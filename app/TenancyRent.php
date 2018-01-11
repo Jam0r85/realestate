@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
-class TenancyRent extends Model
+class TenancyRent extends BaseModel
 {
-    use SoftDeletes;
-    use PresentableTrait;
+    use SoftDeletes,
+        PresentableTrait;
 
     /**
      * The presenter for this model.
@@ -24,7 +24,10 @@ class TenancyRent extends Model
      *
      * @var array
      */
-	protected $fillable = ['user_id','tenancy_id','amount','starts_at'];
+	protected $fillable = [
+        'amount',
+        'starts_at'
+    ];
 
     /**
      * The attributes that should be mutated to dates.

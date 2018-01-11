@@ -191,3 +191,10 @@ if (!function_exists('reminder_types')) {
 		return $types->getByParent($parent);
 	}
 }
+
+if (!function_exists('countries')) {
+	function countries()
+	{
+		return Countries::all()->sortBy('name.common');
+	}
+}
