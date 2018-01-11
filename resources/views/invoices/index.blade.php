@@ -68,30 +68,33 @@
 
 		@include('partials.index-search', ['route' => 'invoices.search', 'session' => 'invoice_search_term'])
 
-		<ul class="nav nav-pills">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{{ request('group') ? slug_to_name(request('group')) : 'Group' }}
-				</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item @if (!request('group')) active @endif" href="{{ Filter::link(['group' => null]) }}">
-						All Groups
+		{{-- Hide the filters when searching invoices --}}
+		@if (!session()->has('invoice_search_term'))
+			<ul class="nav nav-pills">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{ request('group') ? slug_to_name(request('group')) : 'Group' }}
 					</a>
-					<div class="dropdown-divider"></div>
-					@foreach (invoiceGroups() as $group)
-						<a class="dropdown-item @if (request('group') == $group->slug) active @endif" href="{{ Filter::link(['group' => $group->slug]) }}">
-							{{ $group->name }}
+					<div class="dropdown-menu">
+						<a class="dropdown-item @if (!request('group')) active @endif" href="{{ Filter::link(['group' => null]) }}">
+							All Groups
 						</a>
-					@endforeach
-				</div>
-			</li>
-			{!! (new Filter())->monthDropdown() !!}
-			{!! (new Filter())->yearDropdown('App\Invoice') !!}
-			{!! Filter::paidPill() !!}
-			{!! Filter::unpaidPill() !!}
-			{!! Filter::archivePill() !!}
-			{!! Filter::clearButton() !!}
-		</ul>
+						<div class="dropdown-divider"></div>
+						@foreach (invoiceGroups() as $group)
+							<a class="dropdown-item @if (request('group') == $group->slug) active @endif" href="{{ Filter::link(['group' => $group->slug]) }}">
+								{{ $group->name }}
+							</a>
+						@endforeach
+					</div>
+				</li>
+				{!! (new Filter())->monthDropdown() !!}
+				{!! (new Filter())->yearDropdown('App\Invoice') !!}
+				{!! Filter::paidPill() !!}
+				{!! Filter::unpaidPill() !!}
+				{!! Filter::archivePill() !!}
+				{!! Filter::clearButton() !!}
+			</ul>
+		@endif
 
 		@include('invoices.partials.invoices-table')
 		@include('partials.pagination', ['collection' => $invoices])
