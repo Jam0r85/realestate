@@ -74,6 +74,12 @@
 						Postcode
 					@endslot
 				@endcomponent
+				@component('partials.bootstrap.list-group-item')
+					{{ $property->country }}
+					@slot('title')
+						Country
+					@endslot
+				@endcomponent
 			</ul>
 		</div>
 
