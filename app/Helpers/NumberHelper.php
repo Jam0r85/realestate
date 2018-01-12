@@ -91,7 +91,7 @@ if (!function_exists('calculateTenancyServiceCharge')) {
 		if (count($tenancy->serviceDiscountsPercent)) {
 			foreach ($tenancy->serviceDiscountsPercent as $discount) {
 				if ($fee_type == 'percent') {
-					$fee = $fee - ($discount->amount / 100);
+					$fee = $fee - $discount->amount;
 				}
 			}
 		}
