@@ -72,7 +72,8 @@ class Expense extends BaseModel
      */
     public function setCostAttribute($value)
     {
-        $this->attributes['cost'] = pounds_to_pence($value);
+        // $this->attributes['cost'] = pounds_to_pence($value);
+        $this->attributes['cost'] = $value;
     }
 
     /**

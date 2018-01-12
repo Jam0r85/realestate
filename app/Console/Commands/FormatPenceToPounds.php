@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Payment;
+use App\Expense;
 use Illuminate\Console\Command;
 
 class FormatPenceToPounds extends Command
@@ -38,12 +38,15 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $payments = Payment::all();
+        $records = Expense::all();
 
-        foreach ($payments as $payment) {
-            $payment->update(['amount' => $payment->amount / 10]);
+        foreach ($records as $record) {
+            $record->update([
+                'amount' => $record->amount / 100,
+                'balance' => $record->balance / 100
+            ]);
         }
 
-        $this->info('Updated Payments');
+        $this->info('Updated Records');
     }
 }
