@@ -66,7 +66,7 @@ class InvoiceItem extends BaseModel
             return 0;
         }
 
-        return number_format(($this->taxRate->amount / 100) * $this->total_net, 2);
+        return ($this->taxRate->amount / 100) * $this->total_net;
     }
 
     /**
