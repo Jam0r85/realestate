@@ -407,13 +407,7 @@ class Tenancy extends BaseModel
      */
     public function getServiceChargeNetAmount($rentAmount = null)
     {
-        if (is_null($rentAmount)) {
-            $rentAmount = $this
-                ->present()
-                ->rentAmountPlain;
-        }
-
-        return $rentAmount * $this->getServiceChargeWithDiscounts();
+        return calculateServiceCharge($this);
     }
 
     /**

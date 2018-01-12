@@ -375,7 +375,7 @@ class Statement extends PdfModel
         $service = $tenancy->service;
 
         // Do we have a valid service charge amount?
-        if ($tenancy->getServiceChargeNetAmount() > 0) {
+        if ($charge = $tenancy->getServiceChargeNetAmount()) {
 
             // Format the description
             $description = $service->name . ' service at ' . $service->charge_formatted;
@@ -395,7 +395,7 @@ class Statement extends PdfModel
             $item = new InvoiceItem();
             $item->name = $service->name;
             $item->description = $description;
-            $item->amount = $tenancy->getServiceChargeNetAmount($this->amount);
+            $item->amount = pence_to_pounds($charge);
             $item->quantity = 1;
             $item->tax_rate_id = $service->tax_rate_id;
 

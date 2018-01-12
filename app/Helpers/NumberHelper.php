@@ -65,7 +65,7 @@ if (!function_exists('calculateTax')) {
 /**
  * Calculate the service charge for a tenancy.
  */
-if (!function_exists('calculateTenancyServiceCharge')) {
+if (!function_exists('calculateServiceCharge')) {
 	function calculateServiceCharge(Tenancy $tenancy, $amount = 0, $fee = 0)
 	{
 		// Tenancy does not have a service set
