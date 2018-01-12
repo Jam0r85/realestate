@@ -14,8 +14,8 @@
 					<td>{{ date_formatted($deposit->created_at) }}</td>
 					<td>{{ truncate($deposit->tenancy->present()->name) }}</td>
 					<td>{{ truncate($deposit->tenancy->property->present()->shortAddress) }}</td>
-					<td>{{ currency($deposit->amount) }}</td>
-					<td>{{ currency($deposit->balance) }}</td>
+					<td>{{ money_formatted($deposit->amount) }}</td>
+					<td>{{ money_formatted($deposit->balance) }}</td>
 					<td>{{ $deposit->unique_id }}</td>
 					<td class="text-right">
 						<a href="{{ route('deposits.show', $deposit->id) }}" class="btn btn-primary btn-sm">
