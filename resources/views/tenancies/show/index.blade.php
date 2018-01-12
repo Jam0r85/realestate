@@ -31,6 +31,12 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->present()->rentAmount }}
+			@slot('title')
+				Current Rent
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->service->present()->monthlyChargeFormatted }} 
 			<span class="badge badge-dark">
 				{{ $tenancy->present()->monthlyServiceChargeCost }}
