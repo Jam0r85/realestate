@@ -16,7 +16,7 @@ if (!function_exists('money_formatted')) {
 		$country = Countries::where('name.common', get_setting('default_country', 'United Kingdom'))->first();
 		$currencyCode = $country->currency[0]['ISO4217Code'];
 
-		$money = new Money ($amount, new Currency ($currencyCode));
+		$money = new Money (round($amount), new Currency ($currencyCode));
 		$currencies = new ISOCurrencies();
 
 		$numberFormatter = new \NumberFormatter('en_GB', \NumberFormatter::CURRENCY);
