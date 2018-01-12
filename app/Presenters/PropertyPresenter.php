@@ -40,7 +40,10 @@ class PropertyPresenter extends Presenter
     	}
 
         if ($this->house_number && $this->address1) {
-            $name .= ', ' . $this->house_number . ' ' . $this->address1;
+            if ($this->house_name) {
+                $name .= ', ';
+            }
+            $name .= $this->house_number . ' ' . $this->address1;
         }
 
         return trim($name);
