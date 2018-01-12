@@ -16,7 +16,7 @@ if (!function_exists('money_formatted')) {
 		$country = Countries::where('name.common', get_setting('default_country', 'United Kingdom'))->first();
 		$currencyCode = $country->currency[0]['ISO4217Code'];
 
-		$money = new Money (round($amount), new Currency ($currencyCode));
+		$money = new Money ($amount, new Currency ($currencyCode));
 		$currencies = new ISOCurrencies();
 
 		$numberFormatter = new \NumberFormatter('en_GB', \NumberFormatter::CURRENCY);
@@ -58,7 +58,7 @@ if (!function_exists('calculateTax')) {
 			return 0;
 		}
 
-		return $amount * ($tax->amount / 100);
+		return round($amount * ($tax->amount / 100));
 	}
 }
 
@@ -98,6 +98,6 @@ if (!function_exists('calculateServiceCharge')) {
 
 		$charge = $amount * $fee;
 
-		return $charge;
+		return round($charge);
 	}
 }
