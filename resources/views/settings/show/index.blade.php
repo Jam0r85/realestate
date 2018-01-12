@@ -19,8 +19,8 @@
 
 				<select name="default_country" id="default_country" class="form-control select2">
 					@foreach (countries() as $country)
-						<option @if (get_setting('default_country') == $country->name->common) selected @endif>
-							{{ $country->name->common }}
+						<option @if (get_setting('default_country') == $country['common']) selected @endif>
+							{{ $country['common'] }}
 						</option>
 					@endforeach
 				</select>

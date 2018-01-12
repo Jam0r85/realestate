@@ -45,11 +45,11 @@
 	<select name="country" id="country" class="form-control select2">
 		@foreach (countries() as $country)
 			<option 
-				@if (isset($property) && $property->country == $country->name->common) selected
-				@elseif (get_setting('default_country') == $country->name->common) selected
+				@if (isset($property) && $property->country == $country['common']) selected
+				@elseif (get_setting('default_country') == $country['common']) selected
 				@endif
 				>
-				{{ $country->name->common }}
+				{{ $country['common'] }}
 			</option>
 		@endforeach
 	</select>

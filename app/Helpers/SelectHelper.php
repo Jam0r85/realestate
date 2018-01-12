@@ -193,8 +193,8 @@ if (!function_exists('reminder_types')) {
 }
 
 if (!function_exists('countries')) {
-	function countries()
+	function countries($pluck = 'name')
 	{
-		return Countries::all()->sortBy('name.common');
+		return Countries::all()->pluck($pluck)->sortBy('name.common');
 	}
 }
