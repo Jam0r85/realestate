@@ -61,6 +61,17 @@ class Deposit extends BaseModel
     }
 
     /**
+     * Set the amount for this deposit.
+     * 
+     * @param  integer  $value
+     * @return void
+     */
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = pounds_to_pence($value);
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return  array

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Deposit;
+use App\Statement;
 use Illuminate\Console\Command;
 
 class FormatPenceToPounds extends Command
@@ -38,7 +38,7 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $records = Deposit::all();
+        $records = Statement::all();
 
         foreach ($records as $record) {
             $record->update([
