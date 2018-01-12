@@ -45,6 +45,19 @@
 				Monthly Service Charge
 			@endslot
 		@endcomponent
+		@if (count($tenancy->discounts))
+			@component('partials.bootstrap.list-group-item')
+				<ul>
+					@foreach ($tenancy->discounts as $discount)
+						<li>
+							{{ $discount->name }} - {{ $discount->amount }}
+						</li>
+					@endforeach
+				@slot('title')
+					Discounts
+				@endslot
+			@endcomponent
+		@endif
 		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : '' }}
 			@slot('title')
