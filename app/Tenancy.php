@@ -369,6 +369,37 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Get the monthly service charge for this tenancy.
+     *
+     * @param  int  $amount
+     * @return integer
+     */
+    public function getMonthlyServiceCharge($amount)
+    {
+        if (! $amount) {
+            return null;
+        }
+
+        // No service, no charge
+        if (! $this->service) {
+            return null;
+        }
+
+        // No charge set in the service
+        if (! $this->service->charge) {
+            return null;
+        }
+
+        // Fixed rate charge per month
+        if (! $this->service->is_percent) {
+            return $this->service->charge;
+        }
+
+        // Charge is a percent of the rent received
+        return $amount * ($this->service->charge / 100);
+    }
+
+    /**
      * Get the service charge net amount for this tenancy by multiplying
      * the current rent amount with the calculated service charge.
      * 

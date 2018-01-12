@@ -204,6 +204,14 @@ class TenancyPresenter extends Presenter
 	}
 
 	/**
+	 * @return string
+	 */
+	public function standardMonthlyServiceChargeCost()
+	{
+		return money_formatted($this->entity->getMonthlyServiceCharge($this->currentRent->amount));
+	}
+
+	/**
 	 * Present the status of this tenancy.
 	 * 
 	 * @param  string  $return
