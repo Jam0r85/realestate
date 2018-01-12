@@ -27,9 +27,9 @@
 					<td>{{ truncate($statement->present()->tenancyName) }}</td>
 					<td>{{ truncate($statement->present()->propertyAddress) }}</td>
 				@endif
-				<td>{{ money_formatted($statement->amount) }}</td>
+				<td>{{ $statement->amount }}</td>
 				@if (isset($tenancy))
-					<td>{{ money_formatted($statement->present()->landlordBalanceTotal) }}</td>
+					<td>{{ $statement->present()->landlordBalanceTotal }}</td>
 					<td>
 						@if (count($statement->invoices))
 							@foreach ($statement->invoices as $invoice)
