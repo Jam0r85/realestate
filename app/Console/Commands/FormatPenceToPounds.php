@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Statement;
+use App\Tenancy;
 use Illuminate\Console\Command;
 
 class FormatPenceToPounds extends Command
@@ -38,11 +38,11 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $records = Statement::onlyTrashed()->get();
+        $records = Tenancy::all();
 
         foreach ($records as $record) {
             $record->update([
-                'amount' => $record->amount * 100
+                'rent_balance' => $record->rent_balance / 100
             ]);
         }
 

@@ -33,7 +33,11 @@ class PropertyPresenter extends Presenter
 	 */
 	public function shortAddress()
 	{
-    	if ($name = $this->house_name) {
+        $name = '';
+
+    	if ($this->house_name) {
+
+            $name .= $this->house_name;
 
     		if ($this->house_number && $this->address1) {
     			$name .= ', ' . $this->house_number . ' ' . $this->address1;
@@ -41,7 +45,7 @@ class PropertyPresenter extends Presenter
     	}
 
     	// Otherwise we return the house number and the first line of the address.
-    	$name = $this->house_number . ' ' . $this->address1;
+    	$name .= $this->house_number . ' ' . $this->address1;
 
         return trim($name);
 	}

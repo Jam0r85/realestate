@@ -83,8 +83,7 @@ class Statement extends PdfModel
      */
     public function setAmountAttribute($value)
     {
-        $this->attributes['amount'] = $value;
-        // $this->attributes['amount'] = pounds_to_pence($value);
+        $this->attributes['amount'] = pounds_to_pence($value);
     }
 
     /**
