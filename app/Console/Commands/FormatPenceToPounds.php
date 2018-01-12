@@ -41,8 +41,7 @@ class FormatPenceToPounds extends Command
         $payments = Payment::all();
 
         foreach ($payments as $payment) {
-            $payment->amount = $payment->amount / 1000;
-            $payment->save();
+            $payment->update(['amount' => $payment->amount / 10]);
         }
 
         $this->info('Updated Payments');
