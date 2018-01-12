@@ -206,9 +206,17 @@ class TenancyPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function standardMonthlyServiceChargeCost()
+	public function monthlyServiceChargeCost()
 	{
-		return money_formatted($this->entity->getMonthlyServiceCharge($this->currentRent->amount));
+		$amount = $this->currentRent->amount;
+
+		$return = money_formatted($this->entity->getMonthlyServiceCharge($amount));
+
+		if ($this->service->taxRate) {
+			$return .= ' + ' . money_formatted($this->service->taxRate->getTaxAmount($tamount));
+		}
+
+		return $return;
 	}
 
 	/**

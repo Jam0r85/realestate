@@ -21,4 +21,30 @@ class TaxRate extends BaseModel
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Calculate tax for the given amount.
+     *
+     * @param  int  $amount
+     * @return int
+     */
+    public function getTaxAmount($net = 0)
+    {
+        if (! $this->amount) {
+            return 0;
+        }
+        
+        return $net * ($this->amount / 100);
+    }
+
+    /**
+     * Return the amount including the tax amount.
+     * 
+     * @param  int  $net
+     * @return int
+     */
+    public function getAmountIncludingTax($net = 0)
+    {
+        return $this->net + $this->getTaxAmount($net);
+    }
 }
