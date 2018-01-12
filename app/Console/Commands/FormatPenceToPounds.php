@@ -38,14 +38,14 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $records = Tenancy::all();
+        // $records = Tenancy::all();
 
-        foreach ($records as $record) {
-            $record->update([
-                'rent_balance' => $record->rent_balance / 100
-            ]);
-        }
+        // foreach ($records as $record) {
+        //     $record->update([
+        //         'rent_balance' => $record->rent_balance / 100
+        //     ]);
+        // }
 
-        $this->info('Updated Records');
+        // $this->info('Updated Records');
     }
 }
