@@ -98,6 +98,7 @@ if (!function_exists('calculateTenancyServiceCharge')) {
 
 		$charge = $amount * $fee;
 
+		return dd($charge);
 		return $charge;
 	}
 }
