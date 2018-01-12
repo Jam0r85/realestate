@@ -352,22 +352,10 @@ class Tenancy extends BaseModel
     /**
      * A tenancy can have many service discounts applied to it.
      */
-    public function serviceDiscountsFixed()
+    public function serviceDiscounts()
     {
         return $this
             ->belongsToMany('App\Discount')
-            ->where('is_percent', false)
-            ->wherePivot('for', 'service');
-    }
-
-    /**
-     * A tenancy can have many service discounts applied to it.
-     */
-    public function serviceDiscountsPercent()
-    {
-        return $this
-            ->belongsToMany('App\Discount')
-            ->where('is_percent', true)
             ->wherePivot('for', 'service');
     }
 
