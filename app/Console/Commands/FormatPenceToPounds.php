@@ -42,7 +42,7 @@ class FormatPenceToPounds extends Command
 
         foreach ($records as $record) {
             $record->update([
-                'amount' => $record->amount / 100
+                'amount' => $record->amount * 100
             ]);
         }
 
