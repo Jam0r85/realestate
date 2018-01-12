@@ -17,7 +17,7 @@
 				<td>
 					@if ($user->getCurrentLocation())
 						<a href="{{ route('properties.show', $user->getCurrentLocation()->id) }}">
-							{{ $user->getCurrentLocation()->present()->shortAddress }}
+							{{ truncate($user->getCurrentLocation()->present()->shortAddress) }}
 						</a>
 					@endif
 				</td>
