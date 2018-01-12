@@ -11,7 +11,7 @@
 		@foreach ($payments as $payment)
 			<tr>
 				<td>{{ date_formatted($payment->created_at) }}</td>
-				<td>{{ currency($payment->amount) }}</td>
+				<td>{{ money_formatted($payment->amount) }}</td>
 				<td>{{ $payment->method->name }}</td>
 				<td>{!! $payment->present()->badge !!} {{ truncate($payment->present()->forName) }}</td>
 				<td>{!! $payment->present()->userBadges !!}</td>

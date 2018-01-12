@@ -1,54 +1,41 @@
-<div class="form-group">
-	<label for="{{ isset($array) ? 'item_name' : 'name' }}">Name</label>
-	<input type="text" name="{{ isset($array) ? 'item_name[]' : 'name' }}" class="form-control" required 
-		@if (!isset($array))
-			value="{{ isset($item) ? $item->name : old('name') }}"
-		@endif
-		@if (isset($data))
-			value="{{ $data['name'] }}"
-		@endif
-	/>
-</div>
+@component('partials.form-group')
+	@slot('label')
+		Item Name
+	@endslot
+	<input type="text" name="name" id="name" class="form-control" required value="{{ isset($item) ? $item->name : old('name') }}" />
+@endcomponent
 
-<div class="form-group">
-	<label for="{{ isset($array) ? 'item_description' : 'description' }}">Description (optional)</label>
-	<textarea rows="6" name="{{ isset($array) ? 'item_description[]' : 'description' }}" class="form-control">{{ isset($item) ? $item->description : old('description') }}{{ isset($data) ? $data['description'] : '' }}</textarea>
-</div>
+@component('partials.form-group')
+	@slot('label')
+		Description
+	@endslot
+	<textarea rows="6" name="description" id="description" class="form-control">{{ isset($item) ? $item->description : old('description') }}</textarea>
+@endcomponent
 
-<div class="form-group">
-	<label for="{{ isset($array) ? 'item_amount[]' : 'amount' }}">Amount Per Item</label>
-	<input type="number" step="any" name="{{ isset($array) ? 'item_amount[]' : 'amount' }}" class="form-control" required
-		@if (!isset($array))
-			value="{{ isset($item) ? $item->amount : old('amount') }}"
-		@endif
-		@if (isset($data))
-			value="{{ $data['amount'] }}"
-		@endif
-	/>
-</div>
+@component('partials.form-group')
+	@slot('label')
+		Amount Per Item
+	@endslot
+	<input type="number" step="any" name="amount" id="amount" class="form-control" required value="{{ pence_to_pounds(isset($item) ? $item->amount : old('amount')) }}" />
+@endcomponent
 
-<div class="form-group">
-	<label for="{{ isset($array) ? 'item_quantity' : 'quantity' }}">Quantity</label>
-	<input type="number" name="{{ isset($array) ? 'item_quantity[]' : 'quantity' }}" class="form-control" required 
-		@if (!isset($array))
-			value="{{ isset($item) ? $item->quantity : old('quantity') }}"
-		@endif
-		@if (isset($data))
-			value="{{ $data['quantity'] }}"
-		@endif
-	/>
-</div>
+@component('partials.form-group')
+	@slot('label')
+		Quantity
+	@endslot
+	<input type="number" name="quantity" id="quantity" class="form-control" required value="{{ isset($item) ? $item->quantity : old('quantity') }}" />
+@endcomponent
 
-<div class="form-group">
-	<label for="{{ isset($array) ? 'item_tax_rate_id[]' : 'tax_rate_id' }}">Tax Rate</label>
-	<select name="{{ isset($array) ? 'item_tax_rate_id[]' : 'tax_rate_id' }}" class="form-control" required>
+@component('partials.form-group')
+	@slot('label')
+		Tax Rate
+	@endslot
+	<select name="tax_rate_id" id="tax_rate_id" class="form-control" required>
 		<option value="0" selected>None</option>
 		@foreach (tax_rates() as $rate)
-			<option 
-				@if (isset($item) && $item->tax_rate_id == $rate->id) selected @endif
-				@if (get_setting('default_tax_rate_id') == $rate->id) selected @endif
-				value="{{ $rate->id }}">{{ $rate->name }}
+			<option @if (isset($item) && $item->tax_rate_id == $rate->id) selected @endif value="{{ $rate->id }}">
+				{{ $rate->name }}
 			</option>
 		@endforeach
 	</select>
-</div>
+@endcomponent

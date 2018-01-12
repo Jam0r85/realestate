@@ -43,7 +43,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>{{ currency($statement->amount) }}</td>
+							<td>{{ money_formatted($statement->amount) }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -72,9 +72,9 @@
 												@endforeach
 											@endif
 										</td>
-										<td>{{ currency($item->total_net) }}</td>
-										<td>{{ currency($item->total_tax) }}</td>
-										<td>{{ currency($item->total) }}</td>
+										<td>{{ money_formatted($item->total_net) }}</td>
+										<td>{{ money_formatted($item->total_tax) }}</td>
+										<td>{{ money_formatted($item->total) }}</td>
 									</tr>
 								@endforeach
 							@endforeach
@@ -91,9 +91,9 @@
 										<small>(Part Payment)</small>
 									@endif
 								</td>
-								<td>{{ currency($expense->pivot->amount) }}</td>
+								<td>{{ money_formatted($expense->pivot->amount) }}</td>
 								<td></td>
-								<td>{{ currency($expense->pivot->amount) }}</td>
+								<td>{{ money_formatted($expense->pivot->amount) }}</td>
 							</tr>
 						@endforeach
 
@@ -101,9 +101,9 @@
 					<tfoot>
 						<tr>
 							<th>Sub Totals</th>
-							<th>{{ currency($statement->present()->netTotal) }}</th>
-							<th>{{ currency($statement->present()->taxTotal) }}</th>
-							<th>{{ currency($statement->present()->total) }}</th>
+							<th>{{ money_formatted($statement->present()->netTotal) }}</th>
+							<th>{{ money_formatted($statement->present()->taxTotal) }}</th>
+							<th>{{ money_formatted($statement->present()->total) }}</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -117,7 +117,7 @@
 							{{ $statement->present()->sendBy }}
 						</td>
 						<td class="text-right">
-							Balance to Landlord - <b>{{ currency($statement->present()->landlordBalanceTotal) }}</b>
+							Balance to Landlord - <b>{{ money_formatted($statement->present()->landlordBalanceTotal) }}</b>
 						</td>
 					</tr>
 				</table>

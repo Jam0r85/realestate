@@ -65,6 +65,17 @@ class Expense extends BaseModel
     }
 
     /**
+     * Set the cost of the expense.
+     * 
+     * @param  integer  $value
+     * @return void
+     */
+    public function setCostAttribute($value)
+    {
+        $this->attributes['cost'] = pounds_to_pence($value);
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return  array

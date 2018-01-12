@@ -17,7 +17,7 @@ class CreateStatementPaymentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('statement_id')->unsigned();
-            $table->decimal('amount', 12, 3);
+            $table->integer('amount');
             $table->string('parent_type')->nullable();
             $table->string('parent_id')->nullable();
             $table->integer('bank_account_id')->unsigned()->nullable();

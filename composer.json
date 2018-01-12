@@ -11,6 +11,7 @@
         "barryvdh/laravel-debugbar": "^2.4",
         "barryvdh/laravel-dompdf": "^0.8.1",
         "bugsnag/bugsnag-laravel": "^2.0",
+        "cknow/laravel-money": "^2.3",
         "dompdf/dompdf": "^0.8.1",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",

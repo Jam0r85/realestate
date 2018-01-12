@@ -18,7 +18,7 @@ class CreateStatementsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('tenancy_id')->unsigned();
             $table->string('key');
-            $table->decimal('amount', 12, 2);
+            $table->integer('amount');
             $table->date('period_start');
             $table->date('period_end');
             $table->string('send_by');

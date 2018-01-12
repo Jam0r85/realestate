@@ -17,8 +17,8 @@ class CreateDepositsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('tenancy_id')->unsigned();
-            $table->decimal('amount', 12, 3);
-            $table->decimal('balance', 13, 3)->default(0);
+            $table->integer('amount');
+            $table->integer('balance')->default(0);
             $table->string('unique_id')->nullable();
             $table->timestamps();
             $table->softdeletes();

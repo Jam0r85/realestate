@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AppearancePrice extends Model
 {
+    public $fillable = ['amount'];
+    
 	/**
 	 * A price belongs to an appearance.
 	 */

@@ -20,6 +20,19 @@ class Payment extends PdfModel
     protected $presenter = 'App\Presenters\PaymentPresenter';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'created_at',
+        'key',
+        'amount',
+        'payment_method_id',
+        'note'
+    ];
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return  array
@@ -60,17 +73,15 @@ class Payment extends PdfModel
     }
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * Set the amount of this payment.
+     * 
+     * @param  integer  $value
+     * @return void
      */
-    protected $fillable = [
-        'created_at',
-        'key',
-        'amount',
-        'payment_method_id',
-        'note'
-    ];
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = pounds_to_pence($value);
+    }
 
     /**
      * Scope a query to only include rent payments.
@@ -117,7 +128,7 @@ class Payment extends PdfModel
     public function messageCreated()
     {
         return $this
-            ->present()->name . ' payment of ' . currency($this->amount) . ' created';
+            ->present()->name . ' payment of ' . money_formatted($this->amount) . ' created';
     }
 
     /**

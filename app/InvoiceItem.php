@@ -34,6 +34,17 @@ class InvoiceItem extends BaseModel
     }
 
     /**
+     * Set the amount of this invoice item.
+     * 
+     * @param  integer  $value
+     * @return void
+     */
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = pounds_to_pence($value);
+    }
+
+    /**
      * An invoice item can have a tax rate.
      */
     public function taxRate()

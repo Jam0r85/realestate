@@ -51,22 +51,22 @@
 								<td>
 									<b>{{ $item->name }}</b>
 									@if ($item->quantity > 1)
-										({{ $item->quantity }}x {{ currency($item->amount) }})
+										({{ $item->quantity }}x {{ money_formatted($item->amount) }})
 									@endif
 									{!! $item->description ? '<br />' . $item->description : '' !!}
 								</td>
-								<td>{{ currency($item->total_net) }}</td>
-								<td>{{ currency($item->total_tax) }}</td>
-								<td>{{ currency($item->total) }}</td>
+								<td>{{ money_formatted($item->total_net) }}</td>
+								<td>{{ money_formatted($item->total_tax) }}</td>
+								<td>{{ money_formatted($item->total) }}</td>
 							</tr>
 						@endforeach
 					</tbody>
 					<tfoot>
 						<tr>
 							<th>Totals</th>
-							<th>{{ currency($invoice->present()->itemsTotalNet) }}</th>
-							<th>{{ currency($invoice->present()->itemsTotalTax) }}</th>
-							<th>{{ currency($invoice->present()->total) }}</th>
+							<th>{{ money_formatted($invoice->present()->itemsTotalNet) }}</th>
+							<th>{{ money_formatted($invoice->present()->itemsTotalTax) }}</th>
+							<th>{{ money_formatted($invoice->present()->total) }}</th>
 						</tr>
 					</tfoot>
 				</table>

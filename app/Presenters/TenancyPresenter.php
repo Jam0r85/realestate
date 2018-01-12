@@ -45,7 +45,7 @@ class TenancyPresenter extends Presenter
 		$rent = $this->currentRent ? $this->currentRent->amount : 0;
 
 		if ($formatting == true) {
-			return currency($rent);
+			return money_formatted($rent);
 		}
 
 		return $rent;
@@ -56,7 +56,7 @@ class TenancyPresenter extends Presenter
 	 */
 	public function rentAmountPlain()
 	{
-		return $this->rentAmount(false);
+		return pence_to_pounds($this->rentAmount(false));
 	}
 
 	/**
@@ -67,7 +67,7 @@ class TenancyPresenter extends Presenter
 		$payments = $this->rent_payments->sum('amount');
 
 		if ($formatting == true) {
-			return currency($payments);
+			return money_formatted($payments);
 		}
 
 		return $payments;
@@ -81,7 +81,7 @@ class TenancyPresenter extends Presenter
 		$balance = $this->rentBalanceTotal(false) - $this->statementTotal(false);
 
 		if ($formatting == true) {
-			return currency($balance);
+			return money_formatted($balance);
 		}
 
 		return $balance;

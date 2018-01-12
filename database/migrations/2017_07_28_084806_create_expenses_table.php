@@ -19,8 +19,8 @@ class CreateExpensesTable extends Migration
             $table->integer('property_id')->unsigned();
             $table->integer('contractor_id')->unsigned();
             $table->string('name');
-            $table->decimal('cost', 13, 3);
-            $table->decimal('balance', 13, 3)->default(0);
+            $table->integer('cost');
+            $table->integer('balance')->default(0);
             $table->date('paid_at')->nullable();
             $table->text('data')->nullable();
             $table->timestamps();

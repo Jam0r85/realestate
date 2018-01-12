@@ -13,7 +13,7 @@ class ExpensePresenter extends Presenter
 	 */
 	public function selectName()
 	{
-		return $this->name . ' (Remaining Balance: ' . currency($this->remainingStatementBalance) . ')';
+		return $this->name . ' (Remaining Balance: ' . money_formatted($this->remainingStatementBalance) . ')';
 	}
 
 	/**

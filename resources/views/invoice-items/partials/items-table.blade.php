@@ -12,10 +12,10 @@
 			<tr>
 				<td><b>{{ $item->name }}</b><br />{{ $item->description }}</td>
 				<td>{{ $item->quantity }}</td>
-				<td class="text-right">{{ currency($item->amount) }}</td>
-				<td class="text-right">{{ currency($item->total_tax) }}</td>
+				<td class="text-right">{{ money_formatted($item->amount) }}</td>
+				<td class="text-right">{{ money_formatted($item->total_tax) }}</td>
 				<td class="text-right">
-					{{ currency($item->total) }}
+					{{ money_formatted($item->total) }}
 				</td>
 				<td class="text-right">
 					<a href="{{ route('invoice-items.edit', $item->id) }}" class="btn btn-warning btn-sm">
@@ -29,9 +29,9 @@
 		<tr>
 			<td>Totals</td>
 			<td></td>
-			<td class="text-right">{{ currency($invoice->net) }}</td>			
-			<td class="text-right">{{ currency($invoice->tax) }}</td>
-			<td class="text-right">{{ currency($invoice->total) }}</td>
+			<td class="text-right">{{ money_formatted($invoice->net) }}</td>			
+			<td class="text-right">{{ money_formatted($invoice->tax) }}</td>
+			<td class="text-right">{{ money_formatted($invoice->total) }}</td>
 			<td></td>
 		</tr>
 	@endslot

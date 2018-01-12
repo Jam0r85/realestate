@@ -18,7 +18,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->integer('invoice_id')->unsigned();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->decimal('amount', 12,3)->default(0);
+            $table->integer('amount')->default(0);
             $table->integer('quantity')->unsigned();
             $table->integer('tax_rate_id')->unsigned();
             $table->timestamps();

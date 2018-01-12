@@ -13,6 +13,13 @@ class Setting extends BaseModel
     protected $primaryKey = null;
 
     /**
+     * Set the public key column to null.
+     * 
+     * @var null
+     */
+    public $publicKeyColumn = null;
+
+    /**
      * Indicates if the IDs are auto-incrementing.
      *
      * @var bool

@@ -73,7 +73,18 @@ class Statement extends PdfModel
                 $model->invoices()->forceDelete();
             }
         });
-    }    
+    }
+
+    /**
+     * Set the amount of this statement.
+     * 
+     * @param  integer  $value
+     * @return void
+     */
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = pounds_to_pence($value);
+    }
 
     /**
      * Get the indexable data array for the model.

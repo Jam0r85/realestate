@@ -11,7 +11,7 @@
 	@slot('footer')
 		<tr>
 			<td colspan="5">Total</td>
-			<td>{{ currency($expenses->sum('cost')) }}</td>
+			<td>{{ money_formatted($expenses->sum('cost')) }}</td>
 			<td></td>
 		</tr>
 	@endslot
@@ -27,7 +27,7 @@
 					</a>
 				</td>
 				<td>{!! $expense->present()->contractorBadge !!}</td>
-				<td>{{ currency($expense->cost) }}</td>
+				<td>{{ money_formatted($expense->cost) }}</td>
 				<td class="text-right">
 					<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
 						@icon('view')

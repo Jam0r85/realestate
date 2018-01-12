@@ -26,7 +26,7 @@
 					<div class="card text-white bg-dark mb-3">
 						<div class="card-body text-center">
 
-							<h2>{{ currency($totals['net']) }}</h2>
+							<h2>{{ money_formatted($totals['net']) }}</h2>
 							<span class="text-muted">
 								<b>NET</b>
 							</span>
@@ -40,7 +40,7 @@
 					<div class="card text-white bg-dark mb-3">
 						<div class="card-body text-center">
 
-							<h2>{{ currency($totals['tax']) }}</h2>
+							<h2>{{ money_formatted($totals['tax']) }}</h2>
 							<span class="text-muted">
 								<b>TAX</b>
 							</span>
@@ -54,7 +54,7 @@
 					<div class="card text-white bg-dark mb-3">
 						<div class="card-body text-center">
 
-							<h2>{{ currency($totals['total']) }}</h2>
+							<h2>{{ money_formatted($totals['total']) }}</h2>
 							<span class="text-muted">
 								<b>TOTAL</b>
 							</span>

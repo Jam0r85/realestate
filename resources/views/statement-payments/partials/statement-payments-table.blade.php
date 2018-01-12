@@ -27,7 +27,7 @@
 				@endif
 				<td>{{ $payment->present()->name }}</td>
 				<td>{{ $payment->present()->method }}</td>
-				<td>{{ currency($payment->amount) }}</td>
+				<td>{{ money_formatted($payment->amount) }}</td>
 				@if (isset($statement))
 					<td>{!! $payment->present()->recipientNames !!}</td>
 				@endif

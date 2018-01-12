@@ -28,7 +28,7 @@
 		@component('partials.header')
 			{{ $invoice->present()->name }}
 			<span class="badge badge-secondary">
-				{{ currency($invoice->balance) }} balance
+				{{ money_formatted($invoice->balance) }} balance
 			</span>
 		@endcomponent
 

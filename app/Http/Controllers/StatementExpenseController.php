@@ -21,9 +21,11 @@ class StatementExpenseController extends Controller
     {
         $statement = Statement::withTrashed()->findOrFail($statement_id);
         
-    	$statement->expenses()->attach($request->expense_id, ['amount' => $request->amount]);
+    	$statement->expenses()->attach($request->expense_id, [
+            'amount' => pounds_to_pence($request->amount)
+        ]);
 
-        flash_message('Expense #' . $request->expense_id . ' attached to Statement #' . $request->statement_id . ' with the amount ' . currency($request->amount));
+        flash_message('Expense #' . $request->expense_id . ' attached to Statement #' . $request->statement_id . ' with the amount ' . money_formatted(pounds_to_pence($request->amount)));
 
         event (new ExpenseWasAttachedToStatement($statement));
 

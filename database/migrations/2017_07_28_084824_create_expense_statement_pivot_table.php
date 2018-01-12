@@ -16,7 +16,7 @@ class CreateExpenseStatementPivotTable extends Migration
         Schema::create('expense_statement', function (Blueprint $table) {
             $table->integer('expense_id')->unsigned()->index();
             $table->integer('statement_id')->unsigned()->index();
-            $table->decimal('amount', 12, 2);
+            $table->integer('amount');
 
             $table->foreign('expense_id')->references('id')->on('expenses');
             $table->foreign('statement_id')->references('id')->on('statements');

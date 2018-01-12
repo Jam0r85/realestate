@@ -11,7 +11,7 @@
 			<tr>
 				<td>{{ $payment->present()->propertyName }}</td>
 				<td>{{ $payment->present()->method }}</td>
-				<td class="text-right">{{ currency($payment->amount) }}</td>
+				<td class="text-right">{{ money_formatted($payment->amount) }}</td>
 				<td class="text-right d-print-none">{!! $payment->present()->recipientBadges !!}</td>
 				<td class="text-right d-print-none">
 					@include('statement-payments.partials.payment-checkbox')

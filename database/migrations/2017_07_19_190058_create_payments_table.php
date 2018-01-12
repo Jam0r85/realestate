@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->string('key');
             $table->string('parent_type');
             $table->integer('parent_id');
-            $table->decimal('amount', 12, 2);
+            $table->integer('amount');
             $table->text('note')->nullable();
             $table->timestamps();
         });

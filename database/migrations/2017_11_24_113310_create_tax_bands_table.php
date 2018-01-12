@@ -16,7 +16,7 @@ class CreateTaxBandsTable extends Migration
         Schema::create('tax_bands', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->decimal('amount', 13, 3);
+            $table->integer('amount');
         });
     }
 

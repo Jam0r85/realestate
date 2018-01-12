@@ -9,7 +9,7 @@
 		">
 	<div class="card-body">
 		<h2 class="card-title">
-			{{ currency($tenancy->deposit ? $tenancy->deposit->balance : 0) }}
+			{{ money_formatted($tenancy->deposit ? $tenancy->deposit->balance : 0) }}
 		</h2>
 		<p class="card-text">
 			Deposit Balance

@@ -55,8 +55,8 @@
 				<tr>
 					<td>{{ $expense->name }}</td>
 					<td>{{ $expense->present()->contractorName }}</td>
-					<td>{{ currency($expense->cost) }}</td>
-					<td>{{ currency($expense->pivot->amount) }}</td>
+					<td>{{ money_formatted($expense->cost) }}</td>
+					<td>{{ money_formatted($expense->pivot->amount) }}</td>
 					<td class="text-right">
 						<a href="{{ route('expenses.show', $expense->id) }}" class="btn btn-primary btn-sm">
 							View
@@ -68,8 +68,8 @@
 		@slot('footer')
 			<tr>
 				<td colspan="2">Total</td>
-				<td>{{ currency($statement->expenses->sum('cost')) }}</td>
-				<td>{{ currency($statement->expenses->sum('pivot.amount')) }}</td>
+				<td>{{ money_formatted($statement->expenses->sum('cost')) }}</td>
+				<td>{{ money_formatted($statement->expenses->sum('pivot.amount')) }}</td>
 				<td></td>
 			</tr>
 		@endslot
