@@ -38,7 +38,7 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $records = Statement::all();
+        $records = Statement::onlyTrashed()->get();
 
         foreach ($records as $record) {
             $record->update([
