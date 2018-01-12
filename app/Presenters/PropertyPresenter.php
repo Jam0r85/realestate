@@ -36,16 +36,12 @@ class PropertyPresenter extends Presenter
         $name = '';
 
     	if ($this->house_name) {
-
             $name .= $this->house_name;
-
-    		if ($this->house_number && $this->address1) {
-    			$name .= ', ' . $this->house_number . ' ' . $this->address1;
-    		}
     	}
 
-    	// Otherwise we return the house number and the first line of the address.
-    	$name .= $this->house_number . ' ' . $this->address1;
+        if ($this->house_number && $this->address1) {
+            $name .= ', ' . $this->house_number . ' ' . $this->address1;
+        }
 
         return trim($name);
 	}

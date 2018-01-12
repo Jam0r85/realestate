@@ -30,27 +30,6 @@ class Property extends BaseModel
 	protected $presenter = 'App\Presenters\PropertyPresenter';
 
     /**
-     * Get the indexable data array for the model.
-     *
-     * @return  array
-     */
-    public function toSearchableArray()
-    {
-    	$array = $this->only('house_name','house_number','address1','address2','address3','county','town','postcode','country');
-    	$array['branch'] = $this->branch->name;
-
-    	foreach ($this->owners as $owner) {
-    		$names[] = $owner->present()->fullName;
-    	}
-
-    	if (isset($names) && count($names)) {
-    		$array['owners'] = $names;
-    	}
-
-    	return $array;
-    }
-
-    /**
      * The attributes that should be cast to native types.
      * 
      * @var array
@@ -108,6 +87,27 @@ class Property extends BaseModel
      * @var array
      */
 	protected $dates = ['deleted_at'];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return  array
+     */
+    public function toSearchableArray()
+    {
+    	$array = $this->only('house_name','house_number','address1','address2','address3','county','town','postcode','country');
+    	
+    	$array['branch'] = $this->branch->name;
+
+    	if (count($this->owners)) {
+	    	foreach ($this->owners as $owner) {
+	    		$owners[] = $owner->present()->fullName;
+	    	}
+	    	$array['owners'] = $owners;
+	    }
+
+    	return $array;
+    }
 
 	/**
 	 * A property can have invoices.
