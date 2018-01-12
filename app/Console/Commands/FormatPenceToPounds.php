@@ -38,11 +38,12 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        Payment::chunk(200, function ($payments) {
-            foreach ($payments as $payment) {
-                $payment->update(['amount' => $payment->amount / 100]);
-            }
-        });
+        $payments = Payment::all();
+        
+        foreach ($payments as $payment) {
+            $payment->amount = $payment->amount / 100;
+            $payment->save();
+        }
 
         $this->info('Updated Payments');
     }
