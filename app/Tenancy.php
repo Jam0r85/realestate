@@ -392,9 +392,11 @@ class Tenancy extends BaseModel
      */
     public function getServiceChargeWithDiscounts()
     {
-        if ($this->service) {
-            return $this->service->charge - $this->serviceDiscounts->sum('amount');
+        if (! $this->service) {
+            return null;
         }
+
+        return $this->service->getChargePerMonth() + $this->serviceDiscounts->sum('amount');
     }
 
     /**
@@ -717,7 +719,9 @@ class Tenancy extends BaseModel
         $this->statements()->save($statement);
 
         // Attach property owners to the statement
-        $statement->users()->attach($this->property->owners);
+        if (count($this->property->owners)) {
+            $statement->users()->attach($this->property->owners);
+        }
 
         if ($old == false) {
             if ($statement->needsInvoiceCheck()) {

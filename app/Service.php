@@ -7,8 +7,8 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Service extends BaseModel
 {
-    use PresentableTrait;
-    use SoftDeletes;
+    use PresentableTrait,
+        SoftDeletes;
 
     /**
      * The presenter for this model.
@@ -16,6 +16,10 @@ class Service extends BaseModel
      * @var string
      */
     protected $presenter = 'App\Presenters\ServicePresenter';
+
+    public $casts = [
+        'is_percent' => 'boolean'
+    ];
 
 	/**
 	 * The attrbites that should be included in the collection.
@@ -50,17 +54,17 @@ class Service extends BaseModel
     }
 
     /**
-     * Get the service's charge formatted.
+     * Get the monthly charge for this service.
      * 
-     * @return string
+     * @return int
      */
-    public function getChargeFormattedAttribute()
+    public function getChargePerMonth()
     {
-    	if ($this->charge < 1) {
-    		return $this->charge * 100 . '%';
-    	} else {
-    		return currency($this->charge);
-    	}
+        if ($this->is_percent) {
+            return $this->charge / 100;
+        }
+
+        return $this->charge;
     }
 
     /**

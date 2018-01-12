@@ -23,13 +23,13 @@ class ServicePresenter extends BasePresenter
 	/**
 	 * @return  string
 	 */
-	public function serviceChargeFormatted()
+	public function monthlyChargeFormatted()
 	{
-		if ($this->charge < 1) {
-			return $this->charge * 100 . '%';
-		} else {
-			return currency($this->charge);
+		if ($this->is_percent) {
+			return $this->charge . '%';
 		}
+
+		return money_formatted($this->charge);
 	}
 
 	/**

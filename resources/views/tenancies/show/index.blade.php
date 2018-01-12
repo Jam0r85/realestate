@@ -19,11 +19,23 @@
 	@include('users.partials.users-table', ['users' => $tenancy->users])
 </div>
 
-<div class="card mb-3">
-	@component('partials..card-header')
+@component('partials.card')
+	@slot('header')
 		Tenancy Details
-	@endcomponent
-	<ul class="list-group list-group-flush">		
+	@endslot
+	<ul class="list-group list-group-flush">
+		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->service->name }}
+			@slot('title')
+				Service
+			@endslot
+		@endcomponent
+		@component('partials.bootstrap.list-group-item')
+			{{ $tenancy->service->present()->monthlyChargeFormatted }}
+			@slot('title')
+				Monthly Service Charge
+			@endslot
+		@endcomponent
 		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : '' }}
 			@slot('title')
@@ -31,7 +43,7 @@
 			@endslot
 		@endcomponent
 	</ul>
-</div>
+@endcomponent
 
 <div class="card mb-3">
 	@component('partials.card-header')

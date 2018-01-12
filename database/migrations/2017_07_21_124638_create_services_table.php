@@ -18,9 +18,10 @@ class CreateServicesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->decimal('charge', 12, 2);
-            $table->decimal('letting_fee', 12, 2)->default(0);
-            $table->decimal('re_letting_fee', 12, 2)->default(0);
+            $table->integer('charge')->default(0);
+            $table->boolean('is_percent')->default(1);
+            $table->integer('letting_fee')->default(0);
+            $table->integer('re_letting_fee')->default(0);
             $table->integer('tax_rate_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
