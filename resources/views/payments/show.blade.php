@@ -39,7 +39,7 @@
 
 			<ul class="list-group list-group-flush">
 				@component('partials.bootstrap.list-group-item')
-					{{ currency($payment->amount) }}
+					{{ money_formatted($payment->amount) }}
 					@slot('title')
 						Amount
 					@endslot

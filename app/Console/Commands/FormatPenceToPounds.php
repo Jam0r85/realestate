@@ -39,9 +39,9 @@ class FormatPenceToPounds extends Command
     public function handle()
     {
         $payments = Payment::all();
-        
+
         foreach ($payments as $payment) {
-            $payment->amount = $payment->amount / 100;
+            $payment->amount = $payment->amount / 1000;
             $payment->save();
         }
 
