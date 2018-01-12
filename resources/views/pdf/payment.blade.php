@@ -37,7 +37,7 @@
 				
 				<p>Method - {{ $payment->method->name }}</p>
 				<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
-				<p><b>Amount - {{ currency($payment->amount) }}</b></p>
+				<p><b>Amount - {{ money_formatted($payment->amount) }}</b></p>
 			</div>
 
 			<hr />
