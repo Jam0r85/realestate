@@ -210,7 +210,7 @@ class TenancyPresenter extends Presenter
 	{
 		// Get the service charge amount
 		$amount = calculateServiceCharge($this->entity);
-		$tax = calculateTax($amount, $this->taxRate);
+		$tax = calculateTax($amount, $this->service->taxRate);
 
 		return money_formatted($amount) . ' (+' . money_formatted($tax) . ')';
 	}
