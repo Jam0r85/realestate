@@ -61,11 +61,7 @@ class InvoiceItem extends BaseModel
      */
     public function getTotalTaxAttribute()
     {
-        if (!$this->taxRate) {
-            return 0;
-        }
-
-        return ($this->taxRate->amount / 100) * $this->total_net;
+        return calculateTax($this->total_net, $this->taxRate);
     }
 
     /**

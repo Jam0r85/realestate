@@ -41,7 +41,7 @@
 				<div class="card mb-3">
 
 					@component('partials.bootstrap.card-header')
-						<b>{{ ucwords($name) }}</b> {{ currency($payments->sum('amount')) }}
+						<b>{{ ucwords($name) }}</b> {{ money_formatted($payments->sum('amount')) }}
 					@endcomponent
 
 					@include('statement-payments.partials.'.$name.'-table')

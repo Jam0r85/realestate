@@ -208,15 +208,11 @@ class TenancyPresenter extends Presenter
 	 */
 	public function monthlyServiceChargeCost()
 	{
-		$amount = $this->currentRent->amount;
+		// Get the service charge amount
+		$amount = calculateServiceCharge($this->entity);
+		$tax = calculateTax($amount, $this->taxRate);
 
-		$return = money_formatted($this->entity->getMonthlyServiceCharge($amount));
-
-		if ($this->service->taxRate) {
-			$return .= ' + ' . money_formatted($this->service->taxRate->getTaxAmount(pence_to_pounds($amount)));
-		}
-
-		return $return;
+		return money_formatted($amount) . ' (+' . money_formatted($tax) . ')';
 	}
 
 	/**

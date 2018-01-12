@@ -18,7 +18,7 @@
 					<td>{{ date_formatted($payment->created_at) }}</td>
 					<td>{{ $payment->method->name }}</td>
 					<td>{!! $payment->present()->userBages !!}</td>
-					<td class="text-right">{{ currency($payment->amount) }}</td>
+					<td class="text-right">{{ money_formatted($payment->amount) }}</td>
 					<td class="text-right">
 						<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">
 							View
@@ -34,7 +34,7 @@
 					<td>{{ date_formatted($payment->created_at) }}</td>
 					<td>Statement #{{ $payment->statement->id }}</td>
 					<td>{!! $payment->present()->recipientNames !!}
-					<td class="text-right">{{ currency($payment->amount) }}</td>
+					<td class="text-right">{{ money_formatted($payment->amount) }}</td>
 					<td class="text-right">
 						<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
 							Edit
@@ -46,7 +46,7 @@
 		@slot('footer')
 			<tr>
 				<td colspan="3">Total</td>
-				<td class="text-right">{{ currency($invoice->present()->paymentsTotal) }}</td>
+				<td class="text-right">{{ money_formatted($invoice->present()->paymentsTotal) }}</td>
 			</tr>
 		@endslot
 	@endcomponent

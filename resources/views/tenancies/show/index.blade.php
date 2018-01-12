@@ -31,7 +31,10 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service->present()->monthlyChargeFormatted }} ({{ $tenancy->present()->monthlyServiceChargeCost }})
+			{{ $tenancy->service->present()->monthlyChargeFormatted }} 
+			<span class="badge badge-dark">
+				{{ $tenancy->present()->monthlyServiceChargeCost }}
+			</span>
 			@slot('title')
 				Monthly Service Charge
 			@endslot

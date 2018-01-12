@@ -9,6 +9,10 @@ class Discount extends Model
 {
     use SoftDeletes;
 
+    public $cast = [
+        'is_percent' => 'boolean'
+    ];
+
     /**
      * Get the discount amount formatted.
      * 

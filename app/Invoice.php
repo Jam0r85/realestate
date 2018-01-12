@@ -419,9 +419,9 @@ class Invoice extends PdfModel
      */
     public function updateBalances()
     {
-        $this->net = $this->present()->itemsTotalNet;
-        $this->tax = $this->present()->itemsTotalTax;
-        $this->total = $this->present()->itemsTotal;
+        $this->net = $this->items->sum('total_net');
+        $this->tax = $this->items->sum('total_tax');
+        $this->total = $this->items->sum('total');
         $this->balance = $this->present()->remainingBalanceTotal;
 
         if ($this->balance <= '0' && count($this->items)) {
