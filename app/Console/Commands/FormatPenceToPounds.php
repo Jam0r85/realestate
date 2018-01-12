@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Expense;
+use App\InvoiceItem;
 use Illuminate\Console\Command;
 
 class FormatPenceToPounds extends Command
@@ -38,11 +38,11 @@ class FormatPenceToPounds extends Command
      */
     public function handle()
     {
-        $records = Expense::all();
+        $records = InvoiceItem::all();
 
         foreach ($records as $record) {
             $record->update([
-                'cost' => $record->cost / 100,
+                'amount' => $record->amount / 100
             ]);
         }
 
