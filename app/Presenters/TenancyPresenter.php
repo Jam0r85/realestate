@@ -213,7 +213,7 @@ class TenancyPresenter extends Presenter
 		$return = money_formatted($this->entity->getMonthlyServiceCharge($amount));
 
 		if ($this->service->taxRate) {
-			$return .= ' + ' . money_formatted($this->service->taxRate->getTaxAmount(pence_to_pounds($amount));
+			$return .= ' + ' . money_formatted($this->service->taxRate->getTaxAmount(pence_to_pounds($amount)));
 		}
 
 		return $return;
