@@ -90,9 +90,7 @@ if (!function_exists('calculateServiceCharge')) {
 		// Remember to include any percentage service discounts before working out the charge
 		if (count($tenancy->serviceDiscounts)) {
 			foreach ($tenancy->serviceDiscounts as $discount) {
-				if ($fee_type == 'percent') {
-					$fee = $fee - $discount->amount;
-				}
+				$fee = $fee - $discount->amount;
 			}
 		}
 
