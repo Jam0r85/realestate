@@ -12,27 +12,27 @@
 	<div class="list-group list-group-flush">
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($commission_total) }}
+				{{ money_formatted($commission_total) }}
 			</span>
 			Commission
 			<br /><small class="text-muted">Management, letting and re-letting fees</small>
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($invoice_total) }}
+				{{ money_formatted($invoice_total) }}
 			</span>
 			Invoice Income
 			<br /><small class="text-muted">Application invoices, sale invoices, etc</small>
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($commission_total + $invoice_total) }}
+				{{ money_formatted($commission_total + $invoice_total) }}
 			</span>
 			Combined Income
 		</div>
 		<div class="list-group-item">
 			<span class="float-right">
-				{{ currency($rent_received) }}
+				{{ money_formatted($rent_received) }}
 			</span>
 			Rent Received
 		</div>
