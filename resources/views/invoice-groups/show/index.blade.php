@@ -9,13 +9,13 @@
 		@endslot
 	@endcomponent
 	@component('partials.bootstrap.list-group-item')
-		{{ count($group->paidInvoices) }}
+		{{ $group->getPaidInvoicesCount() }}
 		@slot('title')
 			Paid Invoices
 		@endslot
 	@endcomponent
 	@component('partials.bootstrap.list-group-item')
-		{{ count($group->unpaidInvoices) }}
+		{{ $group->getUnpaidInvoicesCount() }}
 		@slot('title')
 			Unpaid Invoices
 		@endslot

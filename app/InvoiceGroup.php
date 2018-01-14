@@ -56,6 +56,7 @@ class InvoiceGroup extends BaseModel
     {
         return $this
             ->hasMany(Invoice::class)
+            ->with('property','users')
             ->whereNotNull('paid_at')
             ->latest();
     }
@@ -67,8 +68,29 @@ class InvoiceGroup extends BaseModel
     {
         return $this
             ->hasMany(Invoice::class)
+            ->with('property','users')
             ->whereNull('paid_at')
             ->latest();
+    }
+
+    /**
+     * Get the number of paid invoices for this group.
+     *
+     * @return int
+     */
+    public function getPaidInvoicesCount()
+    {
+        return $this->invoices->where('paid_at', '!=', null)->count();
+    }
+
+    /**
+     * Get the number of unpaid invoices for this group.
+     *
+     * @return int
+     */
+    public function getUnpaidInvoicesCount()
+    {
+        return $this->invoices->where('paid_at', null)->count();
     }
 
     /**

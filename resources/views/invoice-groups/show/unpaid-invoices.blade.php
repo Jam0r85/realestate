@@ -1,5 +1,5 @@
 @include('invoices.partials.invoices-table', [
-	'invoices' => $invoices = $group->unpaidInvoices()->with('property','users')->paginate()
+	'invoices' => $invoices = $group->unpaidInvoices()->paginate()
 ])
 
 @include('partials.pagination', [
