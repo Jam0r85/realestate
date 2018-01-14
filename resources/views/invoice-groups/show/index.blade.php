@@ -3,19 +3,19 @@
 		Finances
 	@endslot
 	@component('partials.bootstrap.list-group-item')
-		{{ $group->invoices->count() }}
+		{{ count($group->invoices) }}
 		@slot('title')
 			All Invoices
 		@endslot
 	@endcomponent
 	@component('partials.bootstrap.list-group-item')
-		{{ $group->paidInvoices->count() }}
+		{{ count($group->paidInvoices) }}
 		@slot('title')
 			Paid Invoices
 		@endslot
 	@endcomponent
 	@component('partials.bootstrap.list-group-item')
-		{{ $group->unpaidInvoices->count() }}
+		{{ count($group->unpaidInvoices) }}
 		@slot('title')
 			Unpaid Invoices
 		@endslot
