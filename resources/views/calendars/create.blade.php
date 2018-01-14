@@ -10,20 +10,36 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
-		@include('partials.errors-block')
-
-		<form method="POST" action="{{ route('calendars.store') }}">
-			{{ csrf_field() }}
-
-			@include('calendars.partials.form')
-
-			@component('partials.save-button')
-				Create Calendar
+		@if (!commonCount('branches'))
+			@component('partials.alerts.warning')
+				@icon('warning') Please create a <a href="{{ route('branches.create') }}">branch</a> before you create a calendar.
 			@endcomponent
+		@else
 
-		</form>
+			@include('partials.errors-block')
+
+			<form method="POST" action="{{ route('calendars.store') }}">
+				{{ csrf_field() }}
+
+				@component('partials.card')
+					@slot('body')
+
+						@include('calendars.partials.form')
+
+					@endslot
+
+					@slot('footer')
+						@component('partials.save-button')
+							Create Calendar
+						@endcomponent
+					@endslot
+				@endcomponent
+
+			</form>
+
+		@endif
 
 	@endcomponent
 

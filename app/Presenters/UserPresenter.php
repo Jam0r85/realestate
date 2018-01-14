@@ -37,4 +37,32 @@ class UserPresenter extends Presenter
 
 		return $value;
 	}
+
+	/**
+	 * Get the owner name for this user.
+	 * 
+	 * @return string
+	 */
+	public function ownerName()
+	{
+		if ($this->owner) {
+			return $this->owner->present()->fullName();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the owner profile link.
+	 * 
+	 * @return string
+	 */
+	public function ownerProfileLink()
+	{
+		if ($this->owner) {
+			return '<a href="' . route('users.show', $this->owner_id) . '">' . $this->ownerName . '</a>';
+		}
+
+		return null;
+	}
 }

@@ -15,7 +15,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	.scripts([
 		'public/fontawesome/js/packs/regular.js',
 		'public/fontawesome/js/packs/solid.js',
-		'public/fontawesome/js/fontawesome.js'
+		'public/fontawesome/js/fontawesome.js',
+		'resources/assets/js/custom.js'
 		], 'public/js/fontawesome.js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js/fullcalendar.js')

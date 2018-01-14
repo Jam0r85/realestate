@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BaseController extends Controller
 {
@@ -84,9 +85,11 @@ class BaseController extends Controller
 	 */
 	public function destroy(Request $request, $id)
 	{
-        return $this->repository
+        $record = $this->repository
         	->findOrFail($id)
         	->delete();
+
+       	return $record;
 	}
 
 	/**
@@ -115,10 +118,12 @@ class BaseController extends Controller
      */
     public function forceDestroy(Request $request, $id)
     {
-        return $this->repository
+       	$record = $this->repository
         	->withTrashed()
         	->findOrFail($id)
         	->forceDelete();
+
+       	return $record;
 	}
 	
 	/**

@@ -18,9 +18,9 @@
 				@endslot
 
 				<select name="default_country" id="default_country" class="form-control select2">
-					@foreach (countries() as $country)
-						<option @if (get_setting('default_country') == $country['common']) selected @endif>
-							{{ $country['common'] }}
+					@foreach (Countries::all()->pluck('name.common')->sortBy('name.common') as $country)
+						<option @if (get_setting('default_country') == $country) selected @endif>
+							{{ $country }}
 						</option>
 					@endforeach
 				</select>

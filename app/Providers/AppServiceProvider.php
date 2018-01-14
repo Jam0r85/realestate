@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
             Deposit::class,
             Gas::class
         ]);
+
+        Cashier::useCurrency('gbp', '£');
     }
 
     /**

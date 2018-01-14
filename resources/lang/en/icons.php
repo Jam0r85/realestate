@@ -37,6 +37,7 @@ return [
     'money' => 'money-bill',
     'options' => 'cogs',
     'paid' => 'credit-card',
+    'password' => 'lock',
     'payment' => 'credit-card',
     'plus' => 'plus',
     'report' => 'file',
@@ -46,6 +47,7 @@ return [
     'save' => 'save',
     'sent' => 'envelope-open',
     'settings' => 'cog',
+    'sign-in' => 'sign-in-alt',
     'sms' => 'comment',
     'statement' => 'file-alt',
     'tenancy' => 'briefcase',
@@ -56,5 +58,6 @@ return [
     'user-plus' => 'user-plus',
     'valuation' => 'calculator',
     'view' => 'info',
-    'visible' => 'eye'
+    'visible' => 'eye',
+    'warning' => 'exclamation-circle'
 ];

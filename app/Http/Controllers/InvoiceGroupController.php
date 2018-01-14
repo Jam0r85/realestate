@@ -2,21 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreInvoiceGroupRequest;
-use App\Http\Requests\UpdateInvoiceGroupRequest;
-use App\InvoiceGroup;
+use App\Http\Requests\InvoiceGroup\InvoiceGroupStoreRequest;
+use App\Http\Requests\InvoiceGroup\InvoiceGroupUpdateRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class InvoiceGroupController extends BaseController
 {
-    /**
-     * The eloquent model for this controller.
-     * 
-     * @var  string
-     */
-    public $model = 'App\InvoiceGroup';
-
     /**
      * Display a listing of the resource.
      *
@@ -44,10 +35,10 @@ class InvoiceGroupController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreInvoiceGroupRequest  $request
+     * @param  \App\Http\Requests\InvoiceGroupStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceGroupRequest $request)
+    public function store(InvoiceGroupStoreRequest $request)
     {
         $group = $this->repository
             ->fill($request->input())
@@ -90,11 +81,11 @@ class InvoiceGroupController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateInvoiceGroupRequest  $request
+     * @param  \App\Http\Requests\InvoiceGroupUpdateRequest  $request
      * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInvoiceGroupRequest $request, $id)
+    public function update(InvoiceGroupUpdateRequest $request, $id)
     {
         $this->repository
             ->withTrashed()

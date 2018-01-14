@@ -7,14 +7,7 @@ use App\Http\Requests\BranchUpdateRequest;
 use Illuminate\Http\Request;
 
 class BranchController extends BaseController
-{
-    /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Branch';
-    
+{    
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +16,7 @@ class BranchController extends BaseController
     public function index()
     {
         $branches = $this->repository
+            ->withTrashed()
             ->orderBy('name')
             ->get();
 

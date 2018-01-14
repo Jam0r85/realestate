@@ -23,6 +23,24 @@
 
         @include('layouts.navbar')
 
+        @if (auth()->check())
+            @if (!get_setting('settings_updated'))
+                @component('partials.alerts.danger')
+                    @slot('style')
+                        mb-0
+                    @endslot
+                    <div class="text-center">
+                        <p>
+                            <b>Fresh install detected</b> - please complete setup by clicking the button below.
+                        </p>
+                        <a href="#" class="btn btn-danger">
+                            @icon('cogs') Complete Setup
+                        </a>
+                    </div>
+                @endcomponent
+            @endif
+        @endif
+
         <div class="mb-5">
             @yield('content')
         </div>

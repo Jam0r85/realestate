@@ -1,7 +1,3 @@
-body {
-	font-size: 15px;
-}
-
 section.section {
 	margin: 2rem 0;
 }
@@ -91,6 +87,9 @@ nav.navbar {
 /**
  * Tables
  */
+tr.clickable-row {
+	cursor: pointer;
+}
 .table-dark td {
 	color: rgba(255,255,255,0.7);
 }

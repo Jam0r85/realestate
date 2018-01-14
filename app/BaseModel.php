@@ -29,14 +29,16 @@ class BaseModel extends Model
     {
 		parent::boot();
 		
-		// When creating a new model
+		// Model Creating
 		static::creating(function ($model) {
 
 			$tableColumns = $model->getTableColumns();
 
 			// Set the owner of this record.
-			if (in_array('user_id', $tableColumns)) {
-				$model->user_id = auth()->user()->id;
+			if (auth()->check()) {
+				if (in_array('user_id', $tableColumns)) {
+					$model->user_id = auth()->user()->id;
+				}
 			}
 
 			// Set the public key for this record.
@@ -45,6 +47,11 @@ class BaseModel extends Model
 				$model->$column = Uuid::uuid1()->toString();
 			}
 		});
+
+		// Model updated
+		static::saved(function ($model) {
+			cache()->forget(plural_from_model($model));
+		});
 	}
 
 	/**
@@ -52,7 +59,7 @@ class BaseModel extends Model
 	 * 
 	 * @return string
 	 */
-	public function getTableName()
+	protected function getTableName()
 	{
 		return $this->getTable();
 	}
@@ -62,7 +69,7 @@ class BaseModel extends Model
 	 * 
 	 * @return array
 	 */
-	public function getTableColumns()
+	protected function getTableColumns()
 	{
 		return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTableName());
 	}
@@ -74,9 +81,13 @@ class BaseModel extends Model
 	 * @param  array  $options
 	 * @return \Illuminate\Database\Eloquent\Model
 	 */
-	public function saveWithMessage($message, array $options = []) {
+	protected function saveWithMessage($message, array $options = []) {
+
 		$options = array_add($options, 'flash_message', $message);
-		return $this->save($options);
+
+		$this->save($options);
+
+		return $this;
 	}
 
     /**
@@ -165,9 +176,13 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function messageCreated()
+	protected function messageCreated()
 	{
-		return 'New ' . $this->classNameFormatted() . ' #' . $this->id . ' created';
+		if ($this->name) {
+			return 'New ' . model_name($this) . ' <b>' . $this->name . '</b> created';
+		}
+
+		return 'New ' . model_name($this) . ' #' . $this->id . ' created';
 	}
 
 	/**
@@ -175,9 +190,13 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function messageUpdated()
+	protected function messageUpdated()
 	{
-		return $this->classNameFormatted() . ' #' . $this->id . ' was updated';
+		if ($this->name) {
+			return model_name($this) . ' <b>' . $this->name . '</b> was updated';
+		}
+
+		return model_name($this) . ' #' . $this->id . ' was updated';
 	}
 
 	/**
@@ -185,9 +204,13 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function messageDeleted()
+	protected function messageDeleted()
 	{
-		return $this->classNameFormatted() . ' #' . $this->id . ' was deleted';
+		if ($this->name) {
+			return model_name($this) . ' <b>' . $this->name . '</b> was deleted';
+		}
+
+		return model_name($this) . ' #' . $this->id . ' was deleted';
 	}
 
 	/**
@@ -195,9 +218,13 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function messageForceDeleted()
+	protected function messageForceDeleted()
 	{
-		return $this->classNameFormatted() . ' #' . $this->id . ' was destroyed';
+		if ($this->name) {
+			return model_name($this) . ' <b>' . $this->name . '</b> was destroyed';
+		}
+
+		return model_name($this) . ' #' . $this->id . ' was destroyed';
 	}
 
 	/**
@@ -205,9 +232,13 @@ class BaseModel extends Model
 	 * 
 	 * @return  string
 	 */
-	public function messageRestored()
+	protected function messageRestored()
 	{
-		return $this->classNameFormatted() . ' #' . $this->id . ' was restored';
+		if ($this->name) {
+			return model_name($this) . ' <b>' . $this->name . '</b> was restored';
+		}
+
+		return model_name($this) . ' #' . $this->id . ' was restored';
 	}
 
 	/**
@@ -258,18 +289,6 @@ class BaseModel extends Model
 	public function classNamePlural()
 	{
 		return str_plural($this->classNameLower());
-	}
-
-	/**
-	 * Get the formatted class name eg. BankAccount becomes Bank Account
-	 * 
-	 * @return [type] [description]
-	 */
-	public function classNameFormatted()
-	{
-		$slug = snake_case($this->className());
-		$clean = str_replace('_', ' ', $slug);
-		return ucfirst($clean);
 	}
 
 	/**

@@ -19,9 +19,7 @@
     "jquery": "^3.2.1",
     "select2": "^4.0.3",
     "fullcalendar": "^3.5.0",
-    "trumbowyg": "^2.8.1"
-  },
-  "dependencies": {
+    "trumbowyg": "^2.8.1",
     "@fortawesome/fontawesome": "0.0.21"
   }
 }

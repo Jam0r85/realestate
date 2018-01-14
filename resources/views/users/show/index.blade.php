@@ -72,21 +72,19 @@
 
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $user->branch ? $user->branch->name : '-' }}
+			{!! $user->present()->branchLink !!}
 			@slot('title')
 				Registered Branch
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('users.show', $user->owner->id) }}">
-				{{ $user->owner->present()->fullName }}
-			</a>
+			{!! $user->present()->ownerProfileLink !!}
 			@slot('title')
-				Created By
+				Registered By
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($user->created_at) }}
+			{{ $user->present()->createdDate }}
 			@slot('title')
 				Registered
 			@endslot

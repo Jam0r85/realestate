@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="container mt-5">
+
         <div class="row">
             <div class="col-sm-12 col-lg-6 ml-lg-auto mr-lg-auto">
 
@@ -14,55 +15,67 @@
                     </div>
                 @endif
 
-                <div class="card">
-                    @component('partials.card-header')
-                        Staff Login
-                    @endcomponent
-                    <div class="card-body">
+                <form role="form" method="POST" action="{{ route('login') }}">
+                    {{ csrf_field() }}
+
+                    @component('partials.card')
+                        @slot('header')
+                            Staff Login
+                        @endslot
+
+                        @slot('body')
 
                         @include('partials.errors-block')
 
-                        <form role="form" method="POST" action="{{ route('login') }}">
-                            {{ csrf_field() }}
+                            @component('partials.form-group')
+                                @slot('label')
+                                    E-Mail
+                                @endslot
+                                @component('partials.input-group')
+                                    @slot('icon')
+                                        @icon('email')
+                                    @endslot
+                                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required />
+                                @endcomponent
+                            @endcomponent
 
-                            <div class="form-group">
-                                <label for="email">E-Mail Address</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required />
-                            </div>
+                            @component('partials.form-group')
+                                @slot('label')
+                                    Password
+                                @endslot
+                                @component('partials.input-group')
+                                    @slot('icon')
+                                        @icon('password')
+                                    @endslot
+                                    <input type="password" name="password" id="password" class="form-control" required />
+                                @endcomponent
+                            @endcomponent
 
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
+                            @component('partials.form-group')
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="true" name="remember_me" id="remember_me">
+                                    <label class="form-check-label" for="remember_me">
+                                        Remember me?
+                                    </label>
+                                </div>
+                            @endcomponent
 
-                            <div class="form-group">
-                                <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="remember_me" value="true" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Remember me?</span>
-                                </label>
-                            </div>
+                        @endslot
+
+                        @slot('footer')
 
                             <div class="float-right">
-                                <a href="{{ route('password.request') }}" class="btn btn-light">
+                                <a href="{{ route('password.request') }}" class="btn btn-secondary">
                                     Forgotten Password?
                                 </a>
                             </div>
 
-                            @component('partials.save-button')
-                                Login
-                            @endcomponent
-                        </form>
+                            @include('partials.forms.login-button')
+                        @endslot
 
-                    </div>
-                </div>
+                    @endcomponent
 
-                <ul class="list-inline small text-muted mt-3">
-                    <li class="list-inline-item"><b>Staff:</b></li>
-                    @foreach (staff() as $user)
-                        <li class="list-inline-item">{{ $user->present()->fullName }}</li>
-                    @endforeach
-                </ul>
+                </form>
 
             </div>
         </div>

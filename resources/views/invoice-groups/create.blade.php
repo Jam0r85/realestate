@@ -12,37 +12,51 @@
 
 	@component('partials.section-with-container')
 
-		@include('partials.errors-block')
-
-		<div class="card mb-3">
-			@component('partials.card-header')
-				Group Details
+		@if (!commonCount('branches'))
+			@component('partials.alerts.warning')
+				@icon('warning') Please create a <a href="{{ route('branches.create') }}">branch</a> before you create an invoice group.
 			@endcomponent
+		@else
 
-			<div class="card-body">
+			@include('partials.errors-block')
 
-				<form method="POST" action="{{ route('invoice-groups.store') }}">
-					{{ csrf_field() }}
+			<form method="POST" action="{{ route('invoice-groups.store') }}">
+				{{ csrf_field() }}
 
-					<div class="form-group">
-						<label for="branch_id">Branch</label>
-						<select class="form-control" name="branch_id">
-							@foreach(branches() as $branch)
-								<option value="{{ $branch->id }}">{{ $branch->name }}</option>
-							@endforeach
-						</select>
-					</div>
+				@component('partials.card')
+					@slot('header')
+						Group Details
+					@endslot
 
-					@include('invoice-groups.partials.form')
+					@slot('body')
 
-					@component('partials.save-button')
-						Create Group
-					@endcomponent
+						@component('partials.form-group')
+							@slot('label')
+								Branch
+							@endslot
+							<select class="form-control" name="branch_id" id="branch_id" required>
+								<option value="" selected>Please select..</option>
+								@foreach(common('branches') as $branch)
+									<option value="{{ $branch->id }}">{{ $branch->name }}</option>
+								@endforeach
+							</select>
+						@endcomponent
 
-				</form>
+						@include('invoice-groups.partials.form')
 
-			</div>
-		</div>
+					@endslot
+
+					@slot('footer')
+						@component('partials.save-button')
+							Create Group
+						@endcomponent
+					@endslot
+
+				@endcomponent
+
+			</form>
+
+		@endif
 
 	@endcomponent
 

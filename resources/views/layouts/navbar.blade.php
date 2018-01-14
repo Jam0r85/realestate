@@ -209,9 +209,16 @@
             @guest
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">
-                        Login
+                        @icon('sign-in') Login
                     </a>
                 </li>
+                @if (!count(users()))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">
+                            Register
+                        </a>
+                    </li>
+                @endif
             @endguest
 
         </ul>

@@ -23,7 +23,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
@@ -32,32 +32,82 @@
 
 				<form method="POST" action="{{ route('branches.update', $branch->id) }}">
 					{{ csrf_field() }}
-					{{ method_field('PUT') }}	
+					{{ method_field('PUT') }}
 
-					<div class="card mb-3">
-
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							Branch Details
-						@endcomponent
+						@endslot
 
-						<div class="card-body">		
+						@slot('body')	
 
 							@include('branches.partials.form')
 
-						</div>
-						<div class="card-footer">
+						@endslot
+
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-						</div>
-					</div>
+						@endslot
+
+					@endcomponent
 
 				</form>
-
 
 			</div>
 			<div class="col-12 col-lg-6">
 
+				@if ($branch->deleted_at)
+
+					<form method="POST" action="{{ route('branches.restore', $branch->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
+
+						@component('partials.card')
+							@slot('header')
+								Restore Branch
+							@endslot
+							@slot('footer')
+								@include('partials.forms.restore-button')
+							@endslot
+						@endcomponent
+
+					</form>
+
+					<form method="POST" action="{{ route('branches.forceDestroy', $branch->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						@component('partials.card')
+							@slot('header')
+								Destroy Branch
+							@endslot
+							@slot('footer')
+								@include('partials.forms.destroy-button')
+							@endslot
+						@endcomponent
+
+					</form>
+
+				@else
+
+					<form method="POST" action="{{ route('branches.destroy', $branch->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						@component('partials.card')
+							@slot('header')
+								Delete Branch
+							@endslot
+							@slot('footer')
+								@include('partials.forms.delete-button')
+							@endslot
+						@endcomponent
+
+					</form>
+
+				@endif
 
 			</div>
 		</div>

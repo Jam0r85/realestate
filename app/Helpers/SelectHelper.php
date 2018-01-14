@@ -3,8 +3,10 @@
 if (!function_exists('branches')) {
 	function branches()
 	{
-		return cache()->tags('branches')->remember('branches', 60, function () {
-			return \App\Branch::orderBy('name')->get();
+		$branches = new \App\Branch();
+
+		return cache()->remember(plural_from_model($branches), 60, function () {
+			return $branches->orderBy('name')->get();
 		});		
 	}
 }
@@ -142,17 +144,6 @@ if (!function_exists('tenancies')) {
 		return \App\Tenancy::with('users','property')
 			->latest()
 			->get();
-	}
-}
-
-if (!function_exists('staff')) {
-	function staff()
-	{
-		if (is_null(config('system.staff'))) {
-			return null;
-		}
-
-		return \App\User::whereIn('id', config('system.staff'))->get();
 	}
 }
 

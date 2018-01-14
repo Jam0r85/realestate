@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use App\Settings\UserSettings;
 use App\Traits\SettingsTrait;
+use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
+use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
@@ -20,7 +21,8 @@ class User extends UserBaseModel
         PresentableTrait,
         SettingsTrait,
         Filterable,
-        HasRolesAndAbilities;
+        HasRolesAndAbilities,
+        Billable;
 
     /**
      * The presenter for this model.
@@ -58,6 +60,7 @@ class User extends UserBaseModel
         'email',
         'phone_number',
         'phone_number_other',
+        'password',
         'settings',
         'property_id'
     ];
@@ -366,5 +369,23 @@ class User extends UserBaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Check whether this user is the master user for this application.
+     * 
+     * @return boolean
+     */
+    public function isMaster()
+    {
+        if (! env('APP_MASTER_USER')) {
+            return false;
+        }
+
+        if (env('APP_MASTER_USER') != $this->id) {
+            return false;
+        }
+
+        return true;
     }
 }

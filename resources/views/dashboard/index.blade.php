@@ -2,24 +2,30 @@
 
 @section('content')
 
-	<section class="section">
-		<div class="container">
+	@component('partials.page-header')
 
-			<div class="row">
-				<div class="col-sm-12 col-lg-6">
+		@component('partials.header')
+			Dashboard
+		@endcomponent
 
-					@include('dashboard.cards.tenancies')
-					@include('dashboard.cards.tenancies-management')
+	@endcomponent
 
-				</div>
-				<div class="col-sm-12 col-lg-6">
+	@component('partials.section-with-container')
 
-					@include('dashboard.cards.income')
+		<div class="row">
+			<div class="col-12 col-lg-6">
 
-				</div>
+				@include('dashboard.cards.tenancies')
+				@include('dashboard.cards.tenancies-management')
+
 			</div>
+			<div class="col-sm-12 col-lg-6">
 
+				@include('dashboard.cards.income')
+
+			</div>
 		</div>
-	</section>
+
+	@endcomponent
 
 @endsection

@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Response;
 class CalendarController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Calendar';
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,12 +41,9 @@ class CalendarController extends BaseController
      */
     public function store(StoreCalendarRequest $request)
     {
-        $calendar = $this->repository;
-        $calendar->user_id = Auth::user()->id;
-        $calendar->name = $request->name;
-        $calendar->branch_id = $request->branch_id;
-        $calendar->is_private = $request->is_private;
-        $calendar->save();
+        $this->repository
+            ->fill($request->all())
+            ->save();
 
         return back();
     }

@@ -2,90 +2,73 @@
 
 @section('content')
 
-    @component('partials.sections.section')
+    @component('partials.page-header')
 
-        <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
+        @component('partials.header')
+            Register
+        @endcomponent
+
+    @endcomponent
+    
+    @component('partials.section-with-container')
+
+        <div class="row">
+            <div class="col-12 col-lg-4">
 
                 @include('partials.errors-block')
 
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Register
-                        </p>
-                    </header>
-                    <div class="card-content">
+                <form role="form" method="POST" action="{{ route('register') }}">
+                    {{ csrf_field() }}
 
-                        <form role="form" method="POST" action="{{ route('register') }}">
-                            {{ csrf_field() }}
+                    @component('partials.card')
+                        @slot('body')
 
-                            @component('partials.forms.field')
+                            @component('partials.form-group')
                                 @slot('label')
-                                    Name
+                                    First Name
                                 @endslot
-                                @slot('name')
-                                    name
-                                @endslot
-                                @slot('iconLeft')
-                                    user
-                                @endslot
+                                <input type="text" name="first_name" id="first_name" class="form-control" value="{{ old('first_name') }}" />
                             @endcomponent
 
-                            @component('partials.forms.field')
+                            @component('partials.form-group')
+                                @slot('label')
+                                    Last Name
+                                @endslot
+                                <input type="text" name="last_name" id="last_name" class="form-control" value="{{ old('last_name') }}" />
+                            @endcomponent
+
+                            @component('partials.form-group')
                                 @slot('label')
                                     E-Mail Address
                                 @endslot
-                                @slot('name')
-                                    email
-                                @endslot
-                                @slot('iconLeft')
-                                    envelope
-                                @endslot
+                                <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}" />
                             @endcomponent
 
-                            @component('partials.forms.field')
-                                @slot('type')
-                                    password
-                                @endslot
+                            @component('partials.form-group')
                                 @slot('label')
                                     Password
                                 @endslot
-                                @slot('name')
-                                    password
-                                @endslot
-                                @slot('iconLeft')
-                                    lock
-                                @endslot
+                                <input type="password" name="password" id="password" class="form-control" required />
                             @endcomponent
 
-                            @component('partials.forms.field')
-                                @slot('type')
-                                    password
-                                @endslot
+                            @component('partials.form-group')
                                 @slot('label')
                                     Confirm Password
                                 @endslot
-                                @slot('name')
-                                    password_confirmation
-                                @endslot
-                                @slot('iconLeft')
-                                    lock
-                                @endslot
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required />
                             @endcomponent
 
-                            <a href="{{ route('login') }}" class="is-pulled-right button is-link">
-                                Back to Login
-                            </a>
+                        @endslot
 
-                            @component('partials.forms.buttons.save')
+                        @slot('footer')
+                            @component('partials.save-button')
                                 Register
                             @endcomponent
+                        @endslot
 
-                        </form>
+                    @endcomponent
 
-                    </div>
-                </div>
+                </form>
 
             </div>
         </div>

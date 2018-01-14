@@ -29,13 +29,19 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'invoice-groups.show', $group->id, 'index') !!}
+				<a class="nav-link @if (!Request::segment(3)) active @endif" href="{{ route('invoice-groups.show', $group->id) }}">
+					Details
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Unpaid Invoices', 'invoice-groups.show', $group->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'unpaid-invoices') active @endif" href="{{ route('invoice-groups.show', [$group->id, 'unpaid-invoices']) }}">
+					Unpaid Invoices
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Paid Invoices', 'invoice-groups.show', $group->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'paid-invoices') active @endif" href="{{ route('invoice-groups.show', [$group->id, 'paid-invoices']) }}">
+					Paid Invoices
+				</a>
 			</li>
 		</ul>
 

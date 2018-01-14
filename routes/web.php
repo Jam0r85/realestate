@@ -6,10 +6,7 @@ Horizon::auth(function ($request) {
     return true;
 });
 
-Route::get('/setup', 'SetupController@index')->name('setup');
-Route::post('/setup', 'SetupController@store')->name('setup.store');
-
-Route::middleware(['staff'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
 	Route::get('/', 'DashboardController@index')->name('dashboard');
 
@@ -232,7 +229,10 @@ Route::middleware(['staff'])->group(function () {
 		Route::post('/', 'BranchController@store')->name('branches.store'); // Store the branch
 		Route::get('{id}/edit', 'BranchController@edit')->name('branches.edit'); // Edit the branch
 		Route::get('{id}/{show?}', 'BranchController@show')->name('branches.show'); // Show the brance
-		Route::put('{id}', 'BranchController@update')->name('branches.update');
+		Route::put('{id}', 'BranchController@update')->name('branches.update'); // Update the branch
+		Route::delete('{id}', 'BranchController@destroy')->name('branches.destroy'); // Delete the branch
+		Route::put('{id}/restore', 'BranchController@restore')->name('branches.restore'); // Restore the branch
+		Route::put('{id}/forceDestroy', 'BranchController@forceDestroy')->name('branches.forceDestroy'); // Foce delete the branch
 	});
 
 	// Roles

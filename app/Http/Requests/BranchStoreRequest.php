@@ -24,8 +24,11 @@ class BranchStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:branches,name',
-            'email' => 'email|unique:branches,email|nullable'
+            'name' => 'required|string|max:255|unique:branches',
+            'email' => 'required|string|email|max:255|unique:branches',
+            'phone_number' => 'required|string|max:255|unique:branches',
+            'address' => 'required|string|unique:branches',
+            'vat_number' => 'string|nullable|unique:branches'
         ];
     }
 }

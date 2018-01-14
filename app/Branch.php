@@ -7,8 +7,8 @@ use Laracasts\Presenter\PresentableTrait;
 
 class Branch extends BaseModel
 {
-    use PresentableTrait;
-    use SoftDeletes;
+    use PresentableTrait,
+        SoftDeletes;
 
     /**
      * The presenter for this model.

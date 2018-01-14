@@ -1,9 +1,3 @@
-@component('partials.bootstrap.save-submit-button')
+<button type="submit" class="btn btn-primary" {{ isset($disabled) ? 'disabled' : '' }}>
 	@icon('save') {{ $slot }}
-
-	@if (isset($disabled))
-		@slot('disabled')
-			{{ $disabled }}
-		@endslot
-	@endif
-@endcomponent
+</button>

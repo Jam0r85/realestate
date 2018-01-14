@@ -170,6 +170,7 @@ return [
         
         App\Providers\HelperServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
+        App\Providers\CommonRequestsProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         EloquentFilter\ServiceProvider::class,
         App\Providers\BladeServiceProvider::class,

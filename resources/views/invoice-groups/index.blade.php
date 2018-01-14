@@ -16,28 +16,28 @@
 
 	@component('partials.section-with-container')
 
-		@component('partials.table')
-			@slot('header')
-				<th>Name</th>
-				<th>Next Number</th>
-				<th>Format</th>
-				<th></th>
-			@endslot
-			@slot('body')
-				@foreach ($groups as $group)
-					<tr>
-						<td>{{ $group->name }}</td>
-						<td>{{ $group->next_number }}</td>
-						<td>{{ $group->format }}</td>
-						<td class="text-right">
-							<a href="{{ route('invoice-groups.show', $group->id) }}" class="btn btn-primary btn-sm">
-								@icon('view')
-							</a>
-						</td>
-					</tr>
-				@endforeach
-			@endslot
-		@endcomponent
+		@if (!count($groups))
+			@include('partials.alerts.no-records', ['message' => 'invoice groups'])
+		@else
+
+			@component('partials.table')
+				@slot('header')
+					<th>Name</th>
+					<th>Next Number</th>
+					<th>Format</th>
+				@endslot
+				@slot('body')
+					@foreach ($groups as $group)
+						<tr class="clickable-row" data-href="{{ route('invoice-groups.show', $group->id) }}">
+							<td>{{ $group->name }}</td>
+							<td>{{ $group->next_number }}</td>
+							<td>{{ $group->format }}</td>
+						</tr>
+					@endforeach
+				@endslot
+			@endcomponent
+
+		@endif
 
 	@endcomponent
 
