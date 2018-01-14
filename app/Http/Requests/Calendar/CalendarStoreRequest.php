@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Calendar;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCalendarRequest extends FormRequest
+class CalendarStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class StoreCalendarRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'branch_id' => 'required'
+            'name' => 'required|string|max:191|unique:calendars',
+            'branch_id' => 'required|int'
         ];
     }
 

@@ -19,21 +19,17 @@
 		@component('partials.table')
 			@slot('header')
 				<th>Name</th>
+				<th>Branch</th>
 				<th>Events</th>
 				<th>Archived Events</th>
-				<th>Access</th>
 			@endslot
 			@slot('body')
 				@foreach ($calendars as $calendar)
-					<tr>
-						<td>
-							<a href="{{ route('calendars.show', $calendar->id) }}" title="{{ $calendar->name }}">
-								{{ $calendar->name }}
-							</a>
-						</td>
+					<tr class="clickable-row" data-href="{{ route('calendars.show', $calendar->id) }}">
+						<td>{{ $calendar->name }}</td>
+						<td>{{ $calendar->branch->name }}</td>
 						<td>{{ $calendar->events->count() }}</td>
 						<td>{{ $calendar->archivedEvents->count() }}</td>
-						<td></td>
 					</tr>
 				@endforeach
 			@endslot

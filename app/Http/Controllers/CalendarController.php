@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCalendarRequest;
-use App\Http\Requests\UpdateCalendarRequest;
+use App\Http\Requests\Calendar\CalendarStoreRequest;
+use App\Http\Requests\Calendar\CalendarUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -36,10 +36,10 @@ class CalendarController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return  \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Calendar\CalendarStoreRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(StoreCalendarRequest $request)
+    public function store(CalendarStoreRequest $request)
     {
         $this->repository
             ->fill($request->all())
@@ -51,8 +51,9 @@ class CalendarController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Calendar  $calendar
-     * @return  \Illuminate\Http\Response
+     * @param  int  $id
+     * @param  string  $show
+     * @return \Illuminate\Http\Response
      */
     public function show($id, $section = 'show')
     {
@@ -63,47 +64,13 @@ class CalendarController extends BaseController
     }
 
     /**
-     * Display the calendar and events in an iCal format for mobile devices.
-     * 
-     * @param integer $id
-     * @return \Illuminate\Http\Response
-     */
-    public function iCalFeed($id)
-    {
-        $calendar = $this->repository
-            ->findOrFail($id);
-
-        // Build the calendar
-        $vCalendar = new \Eluceo\iCal\Component\Calendar(config('app.url'));
-
-        // Loop through the events and build a vEvent and add it to the vCalendar
-        foreach ($calendar->events as $event) {
-            $vEvent = new \Eluceo\iCal\Component\Event();
-            $vEvent
-                ->setUniqueId($event->id)
-                ->setDtStart($event->start)
-                ->setDtEnd($event->end)
-                ->setSummary($event->title)
-                ->setDescription($event->body);
-
-            $vCalendar->addComponent($vEvent);
-        }
-
-        $iCal = $vCalendar->render();
-
-        return Response::make($vCalendar->render(), '200')
-            ->header('Content-type', 'text/calendar; charset=utf-8')
-            ->header('Content-disposition', 'attachment; filename="cal.ics"');
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Calendar  $calendar
+     * @param  \App\Http\Requests\Calendar\CalendarUpdateRequest  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCalendarRequest $request, $id)
+    public function update(CalendarUpdateRequest $request, $id)
     {
         $this->repository
             ->findOrFail($id)
