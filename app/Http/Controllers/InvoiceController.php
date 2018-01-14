@@ -35,7 +35,8 @@ class InvoiceController extends BaseController
             $request->request->add(['paid' => false, 'archived' => false]);
         }
 
-        $invoices = $this->repository->filter($request->all());
+        $invoices = $this->repository
+            ->filter($request->all());
 
         $totals = [
             'net' => $invoices->sum('net'),

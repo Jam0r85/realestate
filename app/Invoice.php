@@ -143,7 +143,6 @@ class Invoice extends PdfModel
     public function scopePaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->whereNotNull('paid_at')
             ->latest();
     }
@@ -157,7 +156,6 @@ class Invoice extends PdfModel
     public function scopeUnpaid($query)
     {
         return $query
-            ->with('invoiceGroup','property','users','items','items.taxRate','statementPayments','statements')
             ->whereNull('paid_at')
             ->latest();
     }

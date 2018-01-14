@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Branch;
+use App\Invoice;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,12 +39,35 @@ class InvoiceGroup extends BaseModel
     }
 	
 	/**
-	 * An invoice group has many invoices.
+	 * An invoice group can have many invoices.
 	 */
     public function invoices()
     {
     	return $this
-            ->hasMany('App\Invoice')
+            ->hasMany(Invoice::class)
+            ->withTrashed()
+            ->latest();
+    }
+
+    /**
+     * An invoice group can have many paid invoices.
+     */
+    public function paidInvoices()
+    {
+        return $this
+            ->hasMany(Invoice::class)
+            ->whereNotNull('paid_at')
+            ->latest();
+    }
+
+    /**
+     * An invoice group can have many unpaid invoices.
+     */
+    public function unpaidInvoices()
+    {
+        return $this
+            ->hasMany(Invoice::class)
+            ->whereNull('paid_at')
             ->latest();
     }
 
@@ -52,7 +77,7 @@ class InvoiceGroup extends BaseModel
     public function branch()
     {
     	return $this
-            ->belongsTo('App\Branch');
+            ->belongsTo(Branch::class);
     }
 
     /**
