@@ -8,8 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class CommonRequestsProvider extends ServiceProvider
 {
-    protected $defer = true;
-
     /**
      * Bootstrap the application services.
      *

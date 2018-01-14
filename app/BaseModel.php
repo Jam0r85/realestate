@@ -48,8 +48,13 @@ class BaseModel extends Model
 			}
 		});
 
-		// Model updated
+		// Model Saved
 		static::saved(function ($model) {
+			cache()->forget(plural_from_model($model));
+		});
+
+		// Model Deleted
+		static::deleted(function ($model) {
 			cache()->forget(plural_from_model($model));
 		});
 	}
