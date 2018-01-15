@@ -81,6 +81,9 @@
 								@icon('warning') Destroying this invoice item will delete it permenantly.
 							@endcomponent
 						@endslot
+						@slot('footer')
+							@include('partials.forms.destroy-button')
+						@endslot
 					@endcomponent
 
 				</form>
