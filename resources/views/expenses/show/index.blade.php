@@ -10,13 +10,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($expense->cost) }}
+			{{ money_formatted($expense->cost) }}
 			@slot('title')
 				Cost
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ currency($expense->balance) }}
+			{{ money_formatted($expense->balance) }}
 			@slot('title')
 				Balance
 			@endslot
