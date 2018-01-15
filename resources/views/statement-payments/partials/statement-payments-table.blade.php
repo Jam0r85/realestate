@@ -3,14 +3,11 @@
 		<th>Status</th>
 		@if (!isset($statement))
 			<th>Property</th>
-			<th>Statement</th>
 		@endif
 		<th>Name</th>
 		<th>Method</th>
 		<th>Amount</th>
-		@if (isset($statement))
-			<th>Users</th>
-		@endif
+		<th>Users</th>
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
@@ -18,18 +15,11 @@
 				<td>{{ $payment->present()->status }}</td>
 				@if (!isset($statement))
 					<td>{{ truncate($payment->present()->propertyName) }}</td>
-					<td>
-						<a href="{{ route('statements.show', $payment->statement->id) }}">
-							{{ $payment->present()->statementName }}
-						</a>
-					</td>
 				@endif
 				<td>{{ $payment->present()->name }}</td>
-				<td>{{ $payment->present()->method }}</td>
+				<td>{{ truncate($payment->present()->method) }}</td>
 				<td>{{ money_formatted($payment->amount) }}</td>
-				@if (isset($statement))
-					<td>{!! $payment->present()->recipientNames !!}</td>
-				@endif
+				<td>{!! $payment->present()->recipientNames !!}</td>
 			</tr>
 		@endforeach
 	@endslot
