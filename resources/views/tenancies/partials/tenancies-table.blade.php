@@ -9,11 +9,10 @@
 		@if (request('overdue'))
 			<th>Days</th>
 		@endif
-		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($tenancies as $tenancy)
-			<tr>
+			<tr class="clickable-row" data-href="{{ route('tenancies.show', $tenancy->id) }}" data-toggle="tooltip" data-placement="left" title="View Tenancy {{ $tenancy->id }}">
 				<td>{{ $tenancy->present()->status }}</td>
 				<td>{{ truncate($tenancy->present()->name) }}</td>
 				<td>{{ truncate($tenancy->property->present()->shortAddress) }}</td>
@@ -23,11 +22,6 @@
 				@if (request('overdue'))
 					<td>{{ $tenancy->is_overdue }}</td>
 				@endif
-				<td class="text-right">
-					<a href="{{ route('tenancies.show', $tenancy->id) }}" class="btn btn-primary btn-sm">
-						@icon('view')
-					</a>
-				</td>
 			</tr>
 		@endforeach
 	@endslot
