@@ -206,7 +206,7 @@
 
 								@component('partials.alerts.warning')
 									@if ($invoice->balance > 0)
-										Invoice has an outstanding balance of {{ currency($invoice->balance) }} which must be cleared before it can be marked as paid.
+										Invoice has an outstanding balance of {{ money_formatted($invoice->balance) }} which must be cleared before it can be marked as paid.
 									@else
 										Invoice has no items and so cannot have been paid.
 									@endif
