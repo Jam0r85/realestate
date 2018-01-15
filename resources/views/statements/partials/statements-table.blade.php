@@ -15,11 +15,10 @@
 		@if (!request('sent'))
 			<th>Send By</th>
 		@endif
-		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($statements as $statement)
-			<tr>
+			<tr class="clickable-row" data-href="{{ route('statements.show', $statement->id) }}" data-toggle="tooltip" data-placement="left" title="View Statement {{ $statement->id }}">
 				<td>{{ $statement->present()->statusWithDate() }}</td>
 				<td>{{ date_formatted($statement->period_start) }}</td>
 				<td>{{ date_formatted($statement->period_end) }}</a></td>
@@ -52,10 +51,6 @@
 							</button>
 						</form>
 					@endif
-
-					<a href="{{ route('statements.show', $statement->id) }}" class="btn btn-primary btn-sm" title="View">
-						@icon('view')
-					</a>
 
 				</td>
 			</tr>

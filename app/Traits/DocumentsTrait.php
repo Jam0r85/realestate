@@ -56,6 +56,7 @@ trait DocumentsTrait
     public function uploadDocument($file)
     {
         $path = Storage::putFile($this->getDocumentPath(), $file);
+        
         Storage::setVisibility($path, 'public');
 
         return $path;
