@@ -17,7 +17,7 @@
 		Name
 	@endslot
 	<input class="form-control" type="text" name="name" id="name" value="{{ isset($expense) ? $expense->name : old('name') }}" />
-@endslot
+@endcomponent
 
 @component('partials.form-group')
 	@slot('label')
