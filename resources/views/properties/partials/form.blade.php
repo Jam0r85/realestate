@@ -69,13 +69,15 @@
 	</select>
 </div>
 
-<div class="form-group">
-	<label for="owners">Owners</label>
+@component('partials.form-group')
+	@slot('label')
+		Owners
+	@endslot
 	<select name="owners[]" id="owners" class="form-control select2" multiple>
-		@foreach (users() as $user)
+		@foreach (common('users') as $user)
 			<option @if (isset($property) && $property->owners->contains($user->id)) selected @endif value="{{ $user->id }}">
 				{{ $user->present()->selectName }}
 			</option>
 		@endforeach
 	</select>
-</div>
+@endcomponent

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Branch;
 use App\InvoiceGroup;
 use App\Property;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class CommonRequestsProvider extends ServiceProvider
@@ -30,6 +31,13 @@ class CommonRequestsProvider extends ServiceProvider
         $this->app->singleton('branches', function ($app) {
             return cache()->rememberForever('branches', function () {
                 return Branch::select('id','name')->orderBy('name')->get();
+            });
+        });
+
+        // Users
+        $this->app->singleton('users', function ($app) {
+            return cache()->rememberForever('users', function () {
+                return User::select('id','title','first_name','last_name','company_name','email')->orderBy('company_name')->orderBy('last_name')->orderBy('first_name')->get();
             });
         });
 

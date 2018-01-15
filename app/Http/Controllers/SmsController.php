@@ -143,9 +143,9 @@ class SmsController extends BaseController
 
 		Log::info('Successful inbound SMS ' . $message->id);
 
-		foreach (staff() as $user) {
-			$user->notify(new SmsMessageInboundStaffNotification($message));
-		}
+		// foreach (staff() as $user) {
+		// 	$user->notify(new SmsMessageInboundStaffNotification($message));
+		// }
 
 		return response('OK', 200);
 
