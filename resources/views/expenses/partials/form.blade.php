@@ -10,7 +10,7 @@
 			</option>
 		@endforeach
 	</select>
-@endforeach
+@endcomponent
 
 @component('partials.form-group')
 	@slot('label')
