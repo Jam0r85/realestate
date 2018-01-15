@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::delete('{id}/force-destroy', 'EventController@forceDestroy')->name('events.force-destroy'); // Destroy the event
 	});
 
+	// Invoices
 	Route::prefix('invoices')->group(function () {
 		Route::get('/', 'InvoiceController@index')->name('invoices.index');
 		Route::get('create', 'InvoiceController@create')->name('invoices.create');
@@ -46,9 +47,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('{id}/create-recurring', 'InvoiceRecurringController@store')->name('invoices.create-recurring');
 		Route::post('{id}/clone', 'InvoiceController@clone')->name('invoices.clone');
 		Route::post('{id}/send', 'InvoiceController@send')->name('invoices.send');
-		Route::put('{id}/restore', 'InvoiceController@restore')->name('invoices.restore');
-		Route::delete('{id}', 'InvoiceController@destroy')->name('invoices.destroy');
-		Route::put('{id}/destroy', 'InvoiceController@forceDestroy')->name('invoices.forceDestroy');
+		Route::delete('{id}', 'InvoiceController@delete')->name('invoices.delete'); // Delete the invoice
+		Route::put('{id}/restore', 'InvoiceController@restore')->name('invoices.restore'); // Restore the invoice
+		Route::delete('{id}/force-delete', 'InvoiceController@forceDelete')->name('invoices.forceDelete'); // Destroy the invoice
 	});
 
 	// Invoice Item

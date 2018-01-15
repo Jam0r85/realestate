@@ -147,17 +147,30 @@ class InvoiceController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function delete(Request $request, $id)
     {
-        $parent = parent::destroy($request, $id);
+        parent::destroy($request, $id);
         return back();
+    }
+
+    /**
+     * Destroy a record in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function forceDelete(Request $request, $id)
+    {
+        parent::forceDelete($request, $id);
+        return redirect()->route($this->indexRoute);
     }
 
     /**
      * Clone the given invoice.
      * 
      * @param  \App\Invoice  $id
-     * @return  \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function clone($id)
     {

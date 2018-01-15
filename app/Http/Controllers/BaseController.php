@@ -132,12 +132,10 @@ class BaseController extends Controller
      */
     public function forceDestroy(Request $request, $id)
     {
-       	$record = $this->repository
+       	return $this->repository
         	->withTrashed()
         	->findOrFail($id)
         	->forceDelete();
-
-       	return $record;
 	}
 
     /**

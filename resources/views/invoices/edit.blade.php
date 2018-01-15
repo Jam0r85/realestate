@@ -270,9 +270,9 @@
 
 					</form>
 
-					<form method="POST" action="{{ route('invoices.forceDestroy', $invoice->id) }}">
+					<form method="POST" action="{{ route('invoices.forceDelete', $invoice->id) }}">
 						{{ csrf_field() }}
-						{{ method_field('PUT') }}
+						{{ method_field('DELETE') }}
 
 						@component('partials.card')
 							@slot('header')
