@@ -23,7 +23,7 @@
 
 				<div class="card mb-3">
 					<div class="card-header">
-						{{ ucwords($name) }} {{ currency($payments->sum('amount')) }}
+						{{ ucwords($name) }} {{ money_formatted($payments->sum('amount')) }}
 					</div>
 
 					@include('statement-payments.partials.'.$name.'-table')
