@@ -50,7 +50,7 @@
 							@endslot
 							<select name="property_id" class="form-control select2">
 								<option value="0" selected>None</option>
-								@foreach (properties() as $property)
+								@foreach (common('properties') as $property)
 									<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
 										{{ $property->present()->selectName }}
 									</option>
