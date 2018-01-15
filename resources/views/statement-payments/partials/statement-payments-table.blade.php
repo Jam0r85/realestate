@@ -19,7 +19,7 @@
 				<td>{{ $payment->present()->name }}</td>
 				<td>{{ truncate($payment->present()->method) }}</td>
 				<td>{{ money_formatted($payment->amount) }}</td>
-				<td>{!! $payment->present()->recipientNames !!}</td>
+				<td>{!! $payment->present()->recipientBadges !!}</td>
 			</tr>
 		@endforeach
 	@endslot
