@@ -86,7 +86,7 @@ class BaseModel extends Model
 	 * @param  array  $options
 	 * @return \Illuminate\Database\Eloquent\Model
 	 */
-	protected function saveWithMessage($message, array $options = []) {
+	public function saveWithMessage($message, array $options = []) {
 
 		$options = array_add($options, 'flash_message', $message);
 

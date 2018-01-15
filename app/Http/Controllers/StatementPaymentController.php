@@ -133,9 +133,7 @@ class StatementPaymentController extends BaseController
     public function send(Request $request, $id)
     {
         $payment = $this->repository
-            ->findOrFail($id);
-
-        $payment
+            ->findOrFail($id)
             ->fill(['sent_at' => Carbon::now()])
             ->saveWithMessage('was sent');
 
