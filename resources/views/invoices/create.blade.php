@@ -63,7 +63,7 @@
 								Attach Users
 							@endslot
 							<select name="users[]" class="form-control select2" multiple>
-								@foreach (users() as $user)
+								@foreach (common('users') as $user)
 									<option @if (old('users') && in_array($user->id, old('users'))) selected @endif value="{{ $user->id }}">
 										{{ $user->present()->selectName }}
 									</option>
