@@ -24,10 +24,6 @@
 						<i class="fa fa-print"></i> Print
 					</a>
 
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-check"></i> Mark as Sent
-					</button>
-
 				</div>
 
 				@component('partials.sub-header')

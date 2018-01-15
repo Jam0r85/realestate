@@ -11,11 +11,10 @@
 		@if (isset($statement))
 			<th>Users</th>
 		@endif
-		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
-			<tr>
+			<tr class="clickable-row" data-href="{{ route('statement-payments.edit', $payment->id) }}" data-toggle="tooltip" data-placement="left" title="Edit this Payment">
 				<td>{{ $payment->present()->status }}</td>
 				@if (!isset($statement))
 					<td>{{ truncate($payment->present()->propertyName) }}</td>
@@ -31,11 +30,6 @@
 				@if (isset($statement))
 					<td>{!! $payment->present()->recipientNames !!}</td>
 				@endif
-				<td class="text-right">
-					<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-warning btn-sm">
-						@icon('edit')
-					</a>
-				</td>
 			</tr>
 		@endforeach
 	@endslot
