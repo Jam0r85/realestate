@@ -10,35 +10,40 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
-		@include('partials.errors-block')
-
-		<div class="card mb-3">
-			@component('partials.card-header')
-				Create Expense
+		@if (!commonCount('properties'))
+			@component('partials.alerts.warning')
+				@icon('warning') No properties found, please <a href="{{ route('properties.create') }}">create a property</a> before creating an expense.
 			@endcomponent
+		@else
 
-			<div class="card-body">
+			@include('partials.errors-block')
 
-				<form method="POST" action="{{ route('expenses.store') }}" enctype="multipart/form-data">
-					{{ csrf_field() }}
+			<form method="POST" action="{{ route('expenses.store') }}" enctype="multipart/form-data">
+				{{ csrf_field() }}
 
-					@include('expenses.partials.form')
+				@component('partials.card')
+					@slot('body')
 
-					<div class="form-group">
-						<label for="files">Upload Invoice(s)</label>
-						<input type="file" id="files" class="form-control-file" name="files[]" multiple />
-					</div>
+						@include('expenses.partials.form')
 
-					@component('partials.save-button')
-						Create Expense
-					@endcomponent
+						<div class="form-group">
+							<label for="files">Upload Invoice(s)</label>
+							<input type="file" id="files" class="form-control-file" name="files[]" multiple />
+						</div>
 
-				</form>
+					@endslot
+					@slot('footer')
+						@component('partials.save-button')
+							Create Expense
+						@endcomponent
+					@endslot
+				@endcomponent
 
-			</div>
-		</div>
+			</form>
+
+		@endif
 
 	@endcomponent
 

@@ -10,40 +10,54 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
-		<div class="card mb-3">
+		<form method="POST" action="{{ route('properties.store') }}">
+			{{ csrf_field() }}
 
-			@component('partials.card-header')
-				Property Details
-			@endcomponent
+			@component('partials.card')
+				@slot('header')
+					Branch
+				@endslot
+				@slot('body')
 
-			<div class="card-body">
+					<p class="card-text">
+						Please select the branch that you wish to register this property to. Properties can be access by all branches within the system.
+					</p>
 
-				<form method="POST" action="{{ route('properties.store') }}">
-					{{ csrf_field() }}
-
-					<div class="form-group">
-						<label for="branch_id">Branch</label>
-						<select name="branch_id" class="form-control">
-							@foreach (branches() as $branch)
-								<option value="{{ $branch->id }}">{{ $branch->name }}</option>
+					@component('partials.form-group')
+						<select name="branch_id" id="branch_id" class="form-control" required>
+							<option value="">Please select..</option>
+							@foreach (common('branches') as $branch)
+								<option value="{{ $branch->id }}">
+									{{ $branch->name }}
+								</option>
 							@endforeach
 						</select>
-					</div>
+					@endcomponent
+
+				@endslot
+			@endcomponent
+
+			@component('partials.card')
+				@slot('header')
+					Details
+				@endslot
+				@slot('body')
 
 					@include('properties.partials.form')
 
+				@endslot
+				@slot('footer')
 					@component('partials.save-button')
 						Create Property
 					@endcomponent
+				@endslot
+			@endcomponent
 
-				</form>
-
-			</div>
-		</div>
+		</form>
 
 	@endcomponent
 

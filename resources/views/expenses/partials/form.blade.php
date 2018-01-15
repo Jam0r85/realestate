@@ -4,7 +4,7 @@
 	@endslot
 	<select name="property_id" id="property_id" class="form-control select2">
 		<option value="">Please select..</option>
-		@foreach(properties() as $property)
+		@foreach (common('properties') as $property)
 			<option @if (isset($expense) && $expense->property_id == $property->id) selected @endif value="{{ $property->id }}">
 				{{ $property->present()->selectName }}
 			</option>
@@ -23,7 +23,12 @@
 	@slot('label')
 		Cost
 	@endslot
-	<input class="form-control" type="number" step="any" name="cost" id="cost" value="{{ isset($expense) ? pence_to_pounds($expense->cost) : old('cost') }}" />
+	@component('partials.input-group')
+		@slot('icon')
+			@icon('money')
+		@endslot
+		<input class="form-control" type="number" step="any" name="cost" id="cost" value="{{ isset($expense) ? pence_to_pounds($expense->cost) : old('cost') }}" />
+	@endcomponent
 @endcomponent
 
 @component('partials.form-group')

@@ -43,13 +43,13 @@
 		Country
 	@endslot
 	<select name="country" id="country" class="form-control select2">
-		@foreach (countries() as $country)
+		@foreach (Countries::all()->pluck('name.common')->sortBy('name.common') as $country)
 			<option 
-				@if (isset($property) && $property->country == $country['common']) selected
-				@elseif (get_setting('default_country') == $country['common']) selected
+				@if (isset($property) && $property->country == $country) selected
+				@elseif (get_setting('default_country') == $country) selected
 				@endif
 				>
-				{{ $country['common'] }}
+				{{ $country }}
 			</option>
 		@endforeach
 	</select>
