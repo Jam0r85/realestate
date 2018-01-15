@@ -65,7 +65,7 @@ class Expense extends BaseModel
     }
 
     /**
-     * Set the cost of the expense.
+     * Set the cost of the expense to pence.
      * 
      * @param  integer  $value
      * @return void

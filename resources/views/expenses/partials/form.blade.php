@@ -1,5 +1,7 @@
-<div class="form-group">
-	<label for="property_id">Property</label>
+@component('partials.form-group')
+	@slot('label')
+		Property
+	@endslot
 	<select name="property_id" id="property_id" class="form-control select2">
 		<option value="">Please select..</option>
 		@foreach(properties() as $property)
@@ -8,20 +10,26 @@
 			</option>
 		@endforeach
 	</select>
-</div>	
+@endforeach
 
-<div class="form-group">
-	<label for="name">Name</label>
+@component('partials.form-group')
+	@slot('label')
+		Name
+	@endslot
 	<input class="form-control" type="text" name="name" id="name" value="{{ isset($expense) ? $expense->name : old('name') }}" />
-</div>
+@endslot
 
-<div class="form-group">
-	<label for="cost">Cost</label>
-	<input class="form-control" type="number" step="any" name="cost" id="cost" value="{{ isset($expense) ? $expense->cost : old('cost') }}" />
-</div>
+@component('partials.form-group')
+	@slot('label')
+		Cost
+	@endslot
+	<input class="form-control" type="number" step="any" name="cost" id="cost" value="{{ isset($expense) ? pence_to_pounds($expense->cost) : old('cost') }}" />
+@endcomponent
 
-<div class="form-group">
-	<label for="contractor_id">Contractor</label>
+@component('partials.form-group')
+	@slot('label')
+		Contractor
+	@endslot
 	<select name="contractor_id" id="contractor_id" class="form-control select2">
 		<option value="">None</option>
 		@foreach (users() as $user)
@@ -30,12 +38,14 @@
 			</option>
 		@endforeach
 	</select>
-</div>
+@endcomponent
 
-<div class="form-group">
-	<label for="contractor_reference">Invoice Number (optional)</label>
+@component('partials.form-group')
+	@slot('label')
+		Invoice Number
+	@endslot
+	@slot('help')
+		The invoice number or reference on the invoice received.
+	@endslot
 	<input class="form-control" type="text" name="contractor_reference" id="contractor_reference" value="{{ isset($expense) ? $expense->getData('contractor_reference') : old('contractor_reference') }}" />
-	<small class="form-text text-muted">
-		Enter the invoice or reference number for this expense received from the contractor.
-	</small>
-</div>
+@endcomponent

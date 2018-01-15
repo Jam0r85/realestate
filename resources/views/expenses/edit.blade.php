@@ -30,26 +30,27 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Expense Details
-					@endcomponent
-					<div class="card-body">
+				<form method="POST" action="{{ route('expenses.update', $expense->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-						<form method="POST" action="{{ route('expenses.update', $expense->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+					@component('partials.card')
+						@slot('header')
+							Expense Details
+						@endslot
+						@slot('body')
 
 							@include('expenses.partials.form')
 
+						@endslot
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
