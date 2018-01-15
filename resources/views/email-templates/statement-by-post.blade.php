@@ -3,7 +3,7 @@
 
 Quick email to let you know that the latest rental statement for <b>{{ $statement->property()->present()->fullAddress }}</b> has been posted to you today.
 
-The amount of {{ currency($statement->present()->landlordBalanceTotal) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
+The amount of {{ money_formatted($statement->present()->landlordBalanceTotal) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
 
 @include('email-templates.footer')
 

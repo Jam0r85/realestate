@@ -1,7 +1,7 @@
 @component('mail::message')
 # Invoice Received
 
-We acknowledge receipt of your <b>{{ currency($expense->cost) }}</b> invoice {{ $expense->getData('contractor_reference') ? '(' . $expense->getData('contractor_reference') . ')' : '' }} for the property <b>{{ $expense->property->present()->fullAddress }}</b>.
+We acknowledge receipt of your <b>{{ money_formatted($expense->cost) }}</b> invoice {{ $expense->getData('contractor_reference') ? '(' . $expense->getData('contractor_reference') . ')' : '' }} for the property <b>{{ $expense->property->present()->fullAddress }}</b>.
 
 @if ($expense->getBankAccount())
 Payment will be made by Bank Transfer into the following account:-
