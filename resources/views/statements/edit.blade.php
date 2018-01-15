@@ -192,53 +192,41 @@
 
 				@if ($statement->deleted_at)
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Restore Statement
+					<form method="POST" action="{{ route('statements.restore', $statement->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
+
+						@component('partials.card')
+							@slot('header')
+								Restore Statement
+							@endslot
+							@slot('footer')
+								@include('partials.forms.restore-button')
+							@endslot
 						@endcomponent
 
-						<div class="card-body">
+					</form>
 
-							<form method="POST" action="{{ route('statements.restore', $statement->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('PUT') }}
+					<form method="POST" action="{{ route('statements.forceDestroy', $statement->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
 
-								<p class="card-text">
-									Do you want to restore this statement?
-								</p>
-
-								@component('partials.save-button')
-									Restore Statement
-								@endcomponent
-
-							</form>
-
-						</div>
-					</div>
-
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Destroy Statement
-						@endcomponent
-						<div class="card-body">
-
-							<form method="POST" action="{{ route('statements.forceDestroy', $statement->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
-
+						@component('partials.card')
+							@slot('header')
+								Destroy Statement
+							@endslot
+							@slot('body')
 								@component('partials.alerts.warning')
-									<b>Warning</b>, this cannot be undone.
+									@icon('warning') Destroying this statement will delete it permenantly.
 								@endcomponent
+							@endslot
+							@slot('footer')
+								@include('partials.forms.destroy-button')
+							@endslot
+						@endcomponent
 
-								@component('partials.save-button')
-									Destroy Statement
-								@endcomponent
-
-							</form>
-
-						</div>
-					</div>
-
+					</form>
+					
 				@else
 
 					<div class="card mb-3">
