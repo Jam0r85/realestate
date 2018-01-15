@@ -67,6 +67,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::put('{id}', 'InvoiceGroupController@update')->name('invoice-groups.update'); // Update the invoice group
 		Route::get('{id}/edit', 'InvoiceGroupController@edit')->name('invoice-groups.edit'); // Edit the invoice group
 		Route::get('{id}/{section?}', 'InvoiceGroupController@show')->name('invoice-groups.show'); // Show the invoice group
+		Route::delete('{id}', 'InvoiceGroupController@delete')->name('invoice-groups.delete'); // Delete the invoice group
+		Route::put('{id}/restore', 'InvoiceGroupController@restore')->name('invoice-groups.restore'); // Restore the invoice group
+		Route::delete('{id}/forceDelete', 'InvoiceGroupController@forceDelete')->name('invoice-groups.forceDelete'); // Destroy the invoice group
 	});
 
 	// Properties

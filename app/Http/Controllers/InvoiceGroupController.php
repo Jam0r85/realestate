@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceGroup\InvoiceGroupStoreRequest;
 use App\Http\Requests\InvoiceGroup\InvoiceGroupUpdateRequest;
+use App\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceGroupController extends BaseController
@@ -16,6 +17,7 @@ class InvoiceGroupController extends BaseController
     public function index()
     {
         $groups = $this->repository
+            ->withTrashed()
             ->orderBy('name')
             ->paginate();
 
@@ -94,5 +96,45 @@ class InvoiceGroupController extends BaseController
             ->save();
 
         return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function delete(Request $request, $id)
+    {
+        parent::delete($request, $id);
+        return back();
+    }
+
+    /**
+     * Destroy a record in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function forceDelete(Request $request, $id)
+    {
+        $this->authorize('forceDelete', $this->repository);
+
+        $group = parent::forceDelete($request, $id);
+
+        // Move assigned invoices to another group
+        if (is_numeric($request->related_invoices)) {
+            Invoice::where('invoice_group_id', $id)
+                ->update(['invoice_group_id' => $request->related_invoices]);
+        }
+
+        // Force delete all the invoices
+        if ($request->related_invoices == 'delete') {
+            $group->invoices()->forceDelete();
+        }
+
+        return redirect()->route('invoice-groups.index');
     }
 }

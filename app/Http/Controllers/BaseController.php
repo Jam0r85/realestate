@@ -93,6 +93,20 @@ class BaseController extends Controller
 	}
 
 	/**
+     * Remove the specified resource from storage.
+	 * 
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  integer  $id
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
+	public function delete(Request $request, $id)
+	{
+        return $this->repository
+        	->findOrFail($id)
+        	->delete();
+	}
+
+	/**
 	 * Restore a record in storage.
 	 * 
 	 * @param  \Illuminate\Http\Request  $request
@@ -124,6 +138,21 @@ class BaseController extends Controller
         	->forceDelete();
 
        	return $record;
+	}
+
+    /**
+     * Destroy a record in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function forceDelete(Request $request, $id)
+    {
+       	return $this->repository
+        	->withTrashed()
+        	->findOrFail($id)
+        	->forceDelete();
 	}
 	
 	/**

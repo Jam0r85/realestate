@@ -6,15 +6,8 @@
 	@endslot
 	@slot('body')
 		@foreach ($branches as $branch)
-			<tr class="clickable-row {{ $branch->deleted_at ? 'table-secondary' : '' }}" data-href="{{ route('branches.show', $branch->id) }}">
-				<td>
-					{{ $branch->name }}
-					@if ($branch->deleted_at)
-						<span class="text-muted">
-							@icon('delete')
-						</span>
-					@endif
-				</td>
+			<tr class="clickable-row {{ $branch->deleted_at ? 'table-secondary text-muted' : '' }}" data-href="{{ route('branches.show', $branch->id) }}">
+				<td>{{ $branch->name }} @if ($branch->deleted_at) @icon('delete') @endif</td>
 				<td>{{ $branch->email }}</td>
 				<td>{{ $branch->phone_number }}</td>
 			</tr>

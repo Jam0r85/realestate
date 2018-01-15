@@ -1,9 +1,21 @@
-@extends('errors.template')
+@extends('layouts.app')
 
 @section('content')
 
-	<p class="lead">
-		{{ $exception->getMessage() }}
-	</p>
+	@component('partials.section-with-container')
+
+		<h2>
+			Unauthorized
+		</h2>
+
+		<p class="lead">
+			{{ $exception->getMessage() }}
+		</p>
+
+		<a href="{{ url()->previous() }}" class="btn btn-secondary">
+			Go Back
+		</a>
+
+	@endcomponent
 
 @endsection

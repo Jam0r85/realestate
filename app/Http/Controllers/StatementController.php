@@ -134,7 +134,7 @@ class StatementController extends BaseController
 
         event(new StatementWasDeleted($statement));
 
-        return redirect()->route($this->indexView);
+        return redirect()->route($this->indexRoute);
     }
 
     /**

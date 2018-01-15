@@ -28,8 +28,8 @@
 				@endslot
 				@slot('body')
 					@foreach ($groups as $group)
-						<tr class="clickable-row" data-href="{{ route('invoice-groups.show', $group->id) }}">
-							<td>{{ $group->name }}</td>
+						<tr class="clickable-row {{ $group->deleted_at ? 'table-secondary text-muted' : '' }}" data-href="{{ route('invoice-groups.show', $group->id) }}">
+							<td>{{ $group->name }} @if ($group->deleted_at) @icon('delete') @endif</td>
 							<td>{{ $group->next_number }}</td>
 							<td>{{ $group->format }}</td>
 						</tr>
