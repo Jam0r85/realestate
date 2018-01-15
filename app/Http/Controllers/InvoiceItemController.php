@@ -38,7 +38,7 @@ class InvoiceItemController extends BaseController
         $invoice = Invoice::withTrashed()
             ->findOrFail($request->invoice_id);
 
-        $invoice->storeItem($this->repository->fill($reauest->input()));
+        $invoice->storeItem($this->repository->fill($request->input()));
 
         return back();
     }

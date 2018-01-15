@@ -5,11 +5,10 @@
 		<th>Mobile Phone</th>
 		<th>Other Phone</th>
 		<th>Address</th>
-		<th></th>
 	@endslot
 	@slot('body')
 		@foreach ($users as $user)
-			<tr>
+			<tr class="clickable-row" data-href="{{ route('users.show', $user->id) }}" data-toggle="tooltip" data-placement="left" title="View {{ $user->present()->fullName }}'s Profile">
 				<td>{{ $user->present()->fullName }}</td>
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->phone_number }}</td>
@@ -20,11 +19,6 @@
 							{{ truncate($user->getCurrentLocation()->present()->shortAddress) }}
 						</a>
 					@endif
-				</td>
-				<td class="text-right">
-					<a href="{{ route('users.show', $user->id) }}" class="btn btn-primary btn-sm">
-						@icon('view')
-					</a>
 				</td>
 			</tr>
 		@endforeach
