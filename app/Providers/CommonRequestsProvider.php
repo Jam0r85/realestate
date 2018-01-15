@@ -36,7 +36,7 @@ class CommonRequestsProvider extends ServiceProvider
         // Properties
         $this->app->singleton('properties', function ($app) {
             return cache()->rememberForever('properties', function () {
-                return Property::select('id')->latest()->get();
+                return Property::select('id','house_name','house_number','address1','address2','address3','town','county','postcode')->with('owners')->latest()->get();
             });
         });
 
