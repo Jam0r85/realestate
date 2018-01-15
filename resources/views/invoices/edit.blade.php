@@ -279,8 +279,8 @@
 								Destroy Invoice
 							@endslot
 							@slot('body')
-								@component('partials.alerts.warning')
-									<b>Warning!</b> This action cannot be reversed.
+								@component('partials.alerts.danger')
+									@icon('warning') Destroying this invoice will delete it permenantly.
 								@endcomponent
 							@endslot
 							@slot('footer')
