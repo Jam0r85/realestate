@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/', 'InvoiceItemController@store')->name('invoice-items.store'); // Store a new invoice item
 		Route::get('{id}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit'); // Edit an invoice item
 		Route::put('{id}', 'InvoiceItemController@update')->name('invoice-items.update'); // Update an invoice item
-		Route::delete('{id}', 'InvoiceItemController@destroy')->name('invoice-items.destroy'); // Destroy an invoice item
+		Route::delete('{id}', 'InvoiceItemController@delete')->name('invoice-items.delete'); // Delete an invoice item
 	});
 
 	// Invoice Groups

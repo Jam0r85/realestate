@@ -12,13 +12,6 @@ use Illuminate\Http\Request;
 class InvoiceItemController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\InvoiceItem';
-
-    /**
      * The index view
      */
     public $indexView = null;
@@ -42,12 +35,11 @@ class InvoiceItemController extends BaseController
      */
     public function store(StoreInvoiceItemRequest $request)
     {
-        $invoice = Invoice::withTrashed()->findOrFail($request->invoice_id);
+        $invoice = Invoice::withTrashed()
+            ->findOrFail($request->invoice_id);
 
-        $item = $this->repository
-            ->fill($request->input());
+        $invoice->storeItem($this->repository->fill($reauest->input()));
 
-        $invoice->storeItem($item);
         return back();
     }
 
@@ -76,9 +68,7 @@ class InvoiceItemController extends BaseController
     {
         $item = $this
             ->repository
-            ->findOrFail($id);
-
-        $item
+            ->findOrFail($id)
             ->fill($request->input())
             ->save();
 
@@ -94,9 +84,9 @@ class InvoiceItemController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function delete(Request $request, $id)
     {
-        $item = parent::destroy($request, $id);
+        $item = parent::delete($request, $id);
 
         event(new InvoiceItemWasDeleted($item));
         

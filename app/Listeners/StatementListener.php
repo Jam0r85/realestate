@@ -34,6 +34,7 @@ class StatementListener
         $item = $event->item;
         $invoice = $item->invoice;
 
+        // Check whether we have statements attached to this invoice
         if (count($invoice->statements)) {
             foreach ($invoice->statements as $statement) {
                 $repository = new StatementPayment();

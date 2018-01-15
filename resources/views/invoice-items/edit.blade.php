@@ -42,50 +42,48 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
+				<form method="POST" action="{{ route('invoice-items.update', $item->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					@component('partials.card-header')
-						Item Details
-					@endcomponent
-
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('invoice-items.update', $item->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+					@component('partials.card')
+						@slot('header')
+							Invoice Item Details
+						@endslot
+						@slot('body')
 
 							@include('invoice-items.partials.form')
 
+						@endslot
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
 
-						</form>
+					@endcomponent
 
-					</div>
-				</div>
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Delete Invoice Item
-					@endcomponent
-					<div class="card-body">
+				<form method="POST" action="{{ route('invoice-items.delete', $item->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('DELETE') }}
 
-						<form method="POST" action="{{ route('invoice-items.destroy', $item->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
-
-							@component('partials.save-button')
-								Delete Invoice Item
+					@component('partials.card')
+						@slot('header')
+							Destroy Invoice Item
+						@endslot
+						@slot('body')
+							@component('partials.alerts.danger')
+								@icon('warning') Destroying this invoice item will delete it permenantly.
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 			</div>
 		</div>
