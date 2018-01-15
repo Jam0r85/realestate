@@ -57,6 +57,7 @@
 									Property
 								@endslot
 								<select name="property_id" id="property_id" class="form-control select2">
+									<option value="0">None</option>
 									@foreach (properties() as $property)
 										<option @if ($invoice->property_id == $property->id) selected @endif value="{{ $property->id }}">
 											{{ $property->present()->selectName }}
@@ -292,7 +293,7 @@
 
 				@else
 
-					<form method="POST" action="{{ route('invoices.destroy', $invoice->id) }}">
+					<form method="POST" action="{{ route('invoices.delete', $invoice->id) }}">
 						{{ csrf_field() }}
 						{{ method_field('DELETE') }}
 
