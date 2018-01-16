@@ -8,43 +8,39 @@ use Illuminate\Http\Request;
 
 class UserPasswordController extends BaseController
 {
+    /**
+     * The eloquent model for this controller.
+     * 
+     * @var string
+     */
+    protected $model = 'App\User';
+
 	/**
 	 * Change the user's password in storage.
 	 * 
-	 * @param \App\Http\Requests\UserPasswordUpdateRequest $request
-	 * @param integer $id
+	 * @param  \App\Http\Requests\UserPasswordUpdateRequest  $request
+	 * @param  integer  $id
 	 * @return \Illuminate\Http\Response
 	 */
     public function changePassword(UserPasswordUpdateRequest $request, $id)
     {
-    	$user = User::findOrFail($id);
+    	$user = $this->repository->withTrashed()->findOrFail($id);
 
     	$this->storePassword($user, $request->password);
 
-    	$this->response($request);
     	return back();
     }
 
     /**
      * Store the updated password in storage.
      * 
-     * @param string $user
-     * @param string $password
+     * @param  \App\User  $user
+     * @param  string  $password
      * @return void
      */
-    public function storePassword($user, $password)
+    public function storePassword(User $user, $password)
     {
     	$user->password = bcrypt($password);
-    	$user->save();
-    }
-
-    /**
-     * The response when the password is changed.
-     * 
-     * @return string
-     */
-    public function response()
-    {
-        $this->successMessage('The password was updated');
+    	$user->saveWithMessage('password was updated');
     }
 }
