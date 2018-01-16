@@ -19,7 +19,7 @@ class StatementPolicy
      */
     public function before (User $user, $ability)
     {
-        if ($user->isMaster()) {
+        if ($user->isSuperAdmin()) {
             return true;
         }
     }

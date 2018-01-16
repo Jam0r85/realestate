@@ -376,7 +376,7 @@ class User extends UserBaseModel
      * 
      * @return boolean
      */
-    public function isMaster()
+    public function isSuperAdmin()
     {
         if (! env('APP_MASTER_USER')) {
             return false;
