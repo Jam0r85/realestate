@@ -112,16 +112,9 @@
 
 							@component('partials.form-group')
 								@slot('label')
-									Recipient (optional)
+									Recipient
 								@endslot
-								@slot('help')
-									@if (count($invoice->statements))
-										This invoice is attached to rental statements and will inherit the rental statement's address.
-									@else
-										Enter the recipient address for this invoice. If the invoice has users attached to it, their names will automatically be added above the address for you.
-									@endif
-								@endslot
-								<textarea @if ($invoice->statement) disabled @endif name="recipient" class="form-control" rows="5">{{ $invoice->recipient }}</textarea>
+								<textarea name="recipient" id="recipient" class="form-control" rows="5">{{ $invoice->recipient }}</textarea>
 							@endcomponent
 
 							@component('partials.form-group')
