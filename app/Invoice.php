@@ -103,8 +103,8 @@ class Invoice extends PdfModel
         });
 
         static::created(function ($model) {
-            $model->update(['recipient' => $model->buildRecipient()]);
             $model->invoiceGroup->increment('next_number');
+            $model->update(['recipient' => $model->buildRecipient()]);
         });
 
         static::deleted(function ($model) {
@@ -275,16 +275,6 @@ class Invoice extends PdfModel
     {
         return $this
             ->belongsTo('App\InvoiceRecurring');
-    }
-
-    /**
-     * Get the name of this invoice.
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return str_replace('{{number}}', $this->number, $this->invoiceGroup->format);
     }
 
     /**

@@ -2,14 +2,25 @@
 
 namespace App;
 
+use Laracasts\Presenter\PresentableTrait;
+
 class InvoiceItem extends BaseModel
 {
+    use PresentableTrait;
+
+    /**
+     * The presenter for this model
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\InvoicePresenter';
+
     /**
      * The attrbites that should be included in the collection.
      * 
      * @var array
      */
-    protected $appends = ['total','total_net','total_tax'];
+    protected $appends = ['total','net','tax'];
 
     /**
      * The attributes that are mass assignable.
@@ -55,23 +66,23 @@ class InvoiceItem extends BaseModel
     }
 
     /**
-     * Get the invoice item's total tax cost.
-     * 
-     * @return integer
-     */
-    public function getTotalTaxAttribute()
-    {
-        return calculateTax($this->total_net, $this->taxRate);
-    }
-
-    /**
      * Get an invoice item's net cost.
      * 
      * @return integer
      */
-    public function getTotalNetAttribute()
+    public function getNetAttribute()
     {
         return $this->amount * $this->quantity;
+    }
+
+    /**
+     * Get the invoice item's total tax cost.
+     * 
+     * @return integer
+     */
+    public function getTaxAttribute()
+    {
+        return calculateTax($this->net, $this->taxRate);
     }
 
     /**
@@ -81,6 +92,6 @@ class InvoiceItem extends BaseModel
      */
     public function getTotalAttribute()
     {
-        return $this->total_net + $this->total_tax;
+        return $this->net + $this->tax;
     }
 }

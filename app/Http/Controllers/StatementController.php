@@ -52,7 +52,7 @@ class StatementController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StatementStoreRequest  $request
      * @return.\Illuminate\Http\Response

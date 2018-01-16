@@ -5,12 +5,13 @@ namespace App\Presenters;
 class InvoicePresenter extends BasePresenter
 {
 	/**
+	 * Get the name for this invoice.
+	 * 
 	 * @return string
 	 */
 	public function name()
 	{
-		$number = str_replace('{{number}}', $this->number, $this->invoiceGroup->format);
-		return 'Invoice ' . $number;
+		return 'Invoice ' . str_replace('{{number}}', $this->number, $this->invoiceGroup->format);
 	}
 
 	/**
@@ -24,26 +25,16 @@ class InvoicePresenter extends BasePresenter
 	}
 
 	/**
-	 * @return string
-	 */
-	public function usersList()
-	{
-		foreach ($this->users as $user) {
-			$names[] = $user->present()->fullName;
-		}
-
-		if (isset($names) && count($names)) {
-			return implode(' & ', $names);
-		}
-	}
-
-	/**
+	 * Get the user badges for this invoice.
+	 * 
 	 * @return string
 	 */
 	public function userBadges()
 	{
-		foreach ($this->users as $user) {
-			$names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
+		if (count($this->users)) {
+			foreach ($this->users as $user) {
+				$names[] = $this->badge($user->present()->fullName);
+			}
 		}
 
 		if (isset($names) && count($names)) {
@@ -52,104 +43,42 @@ class InvoicePresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the invoice terms for the letter.
+	 * 
 	 * @return string
 	 */
-	public function fullDate($date = 'created_at')
-	{
-		return longdate_formatted($this->$date);
-	}
-
-	/**
-	 * Get the invoice total
-	 * 
-	 * @return  integer
-	 */
-	public function total()
-	{
-		return $this->itemsTotal();
-	}
-
-	/**
-	 * Get the invoice items total
-	 * 
-	 * @return  integer
-	 */
-	public function itemsTotal()
-	{
-		return $this->items->sum('total');
-	}
-
-	/**
-	 * Get the invoice items net total
-	 * 
-	 * @return  integer
-	 */
-	public function itemsTotalNet()
-	{
-		return $this->items->sum('total_net');
-	}
-
-	/**
-	 * Get the invoice items tax total
-	 * 
-	 * @return  integer
-	 */
-	public function itemsTotalTax()
-	{
-		return $this->items->sum('total_tax');
-	}
-
-	/**
-	 * Get the invoice payments total
-	 * 
-	 * @return  integer
-	 */
-	public function paymentsTotal()
-	{
-		return $this->payments->sum('amount') + $this->statementPayments->sum('amount');
-	}
-
-	/**
-	 * Get the invoice remaining balance total
-	 * 
-	 * @return  integer
-	 */
-	public function remainingBalanceTotal()
-	{
-		return $this->total() - $this->paymentsTotal();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function terms()
+	public function termsLetter()
 	{
 		return nl2br($this->entity->terms);
 	}
 
 	/**
+	 * Get the property address for property that this invoice is linked to.
+	 * 
 	 * @return string
 	 */
-	public function propertyAddress($length = 'short')
+	public function propertyAddress()
 	{
-		$method = $length . 'Address';
-
 		if ($this->property) {
-			return $this->property->present()->$method;
+			return $this->property->present()->inline;
 		}
+
+		return null;
 	}
 
 	/**
+	 * Get the branch address for this invoice.
+	 * 
 	 * @return string
 	 */
 	public function branchAddress()
 	{
-		if ($this->property) {
-			return $this->property->branch->present()->location;
-		}
+		return $this->invoiceGroup->branch->present()->location;
 	}
 
 	/**
+	 * Get the VAT number for this invoice.
+	 * 
 	 * @return string
 	 */
 	public function vatNumber()
@@ -159,30 +88,5 @@ class InvoicePresenter extends BasePresenter
 		}
 
 		return null;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function status($return = 'value')
-	{
-		if ($this->statement && $this->statement->paid_at) {
-			$data['value'] = 'Paid';
-			$data['class'] = 'text-success';
-		} elseif ($this->statement && !$this->statement->paid_at) {
-			$data['value'] = 'Unpaid';
-			$data['class'] = '';
-		} elseif ($this->paid_at) {
-			$data['value'] = 'Paid';
-			$data['class'] = 'text-success';
-		} elseif ($this->deleted_at) {
-			$data['value'] = 'Archived';
-			$data['class'] = 'secondary';
-		} else {
-			$data['value'] = 'Unpaid';
-			$data['class'] = '';
-		}
-
-		return $data[$return];
 	}
 }

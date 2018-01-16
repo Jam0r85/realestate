@@ -25,6 +25,16 @@ class PropertyPresenter extends Presenter
 		return $name;
 	}
 
+    /**
+     * Get the inline property address.
+     * 
+     * @return string
+     */
+    public function inline()
+    {
+        return $this->fullAddress;
+    }
+
 	/**
      * The short address or name for this property. Eg
      * 123 Smith Street or Basic House

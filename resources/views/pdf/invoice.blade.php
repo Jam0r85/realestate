@@ -17,20 +17,20 @@
 			</div>
 
 			<div class="section">
-				<h3 class="m-0 {{ $invoice->present()->status('class') }}">
+				<h3 class="m-0 {{ $invoice->present()->statusClass }}">
 					{{ $invoice->present()->name }}
 				</h3>
 				<h5 class="m-0">
-					{{ $invoice->present()->fullDate }}
+					{{ $invoice->present()->dateCreated }}
 				</h5>
 			</div>
 
-			@if ($address = $invoice->present()->propertyAddress('full'))
-			<div class="section">
-				<ul class="list-unstyled">
-					<li><strong>Property:</strong> {{ $address }}</li>
-				</ul>
-			</div>
+			@if ($invoice->property)
+				<div class="section">
+					<ul class="list-unstyled">
+						<li><strong>Property:</strong> {{ $invoice->present()->propertyAddress }}</li>
+					</ul>
+				</div>
 			@endif
 
 			<div class="section">
@@ -53,28 +53,28 @@
 									@endif
 									{!! $item->description ? '<br />' . $item->description : '' !!}
 								</td>
-								<td>{{ money_formatted($item->total_net) }}</td>
-								<td>{{ money_formatted($item->total_tax) }}</td>
-								<td>{{ money_formatted($item->total) }}</td>
+								<td>{{ $item->present()->money('net') }}</td>
+								<td>{{ $item->present()->money('tax') }}</td>
+								<td>{{ $item->present()->money('total') }}</td>
 							</tr>
 						@endforeach
 					</tbody>
 					<tfoot>
 						<tr>
 							<th>Totals</th>
-							<th>{{ money_formatted($invoice->present()->itemsTotalNet) }}</th>
-							<th>{{ money_formatted($invoice->present()->itemsTotalTax) }}</th>
-							<th>{{ money_formatted($invoice->present()->total) }}</th>
+							<th>{{ $invoice->present()->money('net') }}</th>
+							<th>{{ $invoice->present()->money('tax') }}</th>
+							<th>{{ $invoice->present()->money('total') }}</th>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
 
 			<section class="section">
-				@if ($invoice->isPaid())
-					<h5 class="text-success mb-2">Paid {{ date_formatted($invoice->paid_at) }}</h5>
+				@if ($invoice->paid_at)
+					<h5 class="text-success mb-2">Paid {{ $invoice->present()->date('paid_at') }}</h5>
 				@endif
-				{!! $invoice->present()->terms !!}
+				{!! $invoice->present()->termsLetter !!}
 			</section>
 
 		</div>
