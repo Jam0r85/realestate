@@ -97,14 +97,13 @@ class Invoice extends PdfModel
             }
 
             $model->number ?? $model->number = $invoiceGroup->next_number;
-
             $model->created_at ?? $model->created_at = Carbon::now();
             $model->due_at = Carbon::parse($model->created_at)->addDay(get_setting('invoice_due_after'), 30);
             $model->terms ?? $model->terms = get_setting('invoice_default_terms');
-            $model->recipient ?? $model->recipient = $model->buildRecipient();
         });
 
         static::created(function ($model) {
+            $model->recipient ?? $model->recipient = $model->buildRecipient();
             $model->invoiceGroup->increment('next_number');
         });
 
