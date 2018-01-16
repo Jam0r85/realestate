@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Branch;
 use App\InvoiceGroup;
+use App\PaymentMethod;
 use App\Property;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -52,6 +53,13 @@ class CommonRequestsProvider extends ServiceProvider
         $this->app->singleton('invoice-groups', function ($app) {
             return cache()->rememberForever('invoice-groups', function () {
                 return InvoiceGroup::select('id','name')->orderBy('name')->get();
+            });
+        });
+
+        // Payment Methods
+        $this->app->singleton('payment-methods', function ($app) {
+            return cache()->rememberForever('payment-methods', function () {
+                return PaymentMethod::select('id','name')->orderBy('name')->get();
             });
         });
     }

@@ -73,10 +73,12 @@ class StatementPaymentPresenter extends Presenter
     /**
      * @return string
      */
-    public function recipientBadges()
+    public function userBadges()
     {
-        foreach ($this->users as $user) {
-            $names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                $names[] = $this->badge($user->present()->fullName);
+            }
         }
 
         if (isset($names) && count($names)) {

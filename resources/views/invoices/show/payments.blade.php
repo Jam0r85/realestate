@@ -14,103 +14,114 @@
 		@endslot
 		@slot('body')
 			@foreach ($invoice->payments as $payment)
-				<tr>
-					<td>{{ date_formatted($payment->created_at) }}</td>
+				<tr class="clickable-row" data-href="{{ route('payments.edit', $payment->id) }}" data-toggle="tooltip" data-placement="left" title="Edit Payment">
+					<td>{{ $payment->present()->dateCreated }}</td>
 					<td>{{ $payment->method->name }}</td>
-					<td>{!! $payment->present()->userBages !!}</td>
-					<td class="text-right">{{ money_formatted($payment->amount) }}</td>
-					<td class="text-right">
-						<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm">
-							View
-						</a>
-						<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
-							<i class="fa fa-download"></i>
-						</a>
-					</td>
+					<td>{!! $payment->present()->userBadges !!}</td>
+					<td class="text-right">{{ $payment->present()->money('amount') }}</td>
 				</tr>
 			@endforeach
 			@foreach ($invoice->statementPayments as $payment)
-				<tr>
-					<td>{{ date_formatted($payment->created_at) }}</td>
+				<tr class="clickable-row" data-href="{{ route('statement-payments.edit', $payment->id) }}" data-toggle="tooltip" data-placement="left" title="Edit Statement Payment">
+					<td>{{ $payment->present()->dateCreated }}</td>
 					<td>Statement #{{ $payment->statement->id }}</td>
-					<td>{!! $payment->present()->recipientNames !!}
-					<td class="text-right">{{ money_formatted($payment->amount) }}</td>
-					<td class="text-right">
-						<a href="{{ route('statement-payments.edit', $payment->id) }}" class="btn btn-primary btn-sm">
-							Edit
-						</a>
-					</td>
+					<td>{!! $payment->present()->userBadges !!}
+					<td class="text-right">{{ $payment->present()->money('amount') }}</td>
 				</tr>
 			@endforeach
 		@endslot
-		@slot('footer')
-			<tr>
-				<td colspan="3">Total</td>
-				<td class="text-right">{{ money_formatted($invoice->present()->paymentsTotal) }}</td>
-			</tr>
-		@endslot
 	@endcomponent
 
 </div>
 
-<div class="card mb-3">
+<form method="POST" action="{{ route('invoices.store-payment', $invoice->id) }}">
+	{{ csrf_field() }}
 
-	@component('partials.card-header')
-		Record Payment
-	@endcomponent
+	@component('partials.card')
+		@slot('header')
+			Record Payment
+		@endslot
+		@slot('body')
 
-	<div class="card-body">
+			@if (! commonCount('payment-methods'))
+				@component('partials.alerts.warning')
+					@icon('warning') You must create at least one <a href="{{ route('payment-methods.create') }}">payment method</a> before you can record any payments.
+				@endcomponent
+			@else
 
-		<form method="POST" action="{{ route('invoices.store-payment', $invoice->id) }}">
-			{{ csrf_field() }}
+				@component('partials.form-group')
+					@slot('label')
+						Date
+					@endslot
+					@component('partials.input-group')
+						@slot('icon')
+							@icon('calendar')
+						@endslot
+						<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? date('Y-m-d') }}" />
+					@endcomponent
+				@endcomponent
 
-			<div class="form-group">
-				<label for="created_at">Date Received</label>
-				<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') ?? date('Y-m-d') }}" />
-			</div>
+				@component('partials.form-group')
+					@slot('label')
+						Amount
+					@endslot
+					@component('partials.input-group')
+						@slot('icon')
+							@icon('money')
+						@endslot
+						<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" required />
+					@endcomponent
+				@endcomponent
 
-			<div class="form-group">
-				<label for="amount">Amount</label>
-				<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" required />
-			</div>
+				@component('partials.form-group')
+					@slot('label')
+						Payment Method
+					@endslot
+					<select name="payment_method_id" id="payment_method_id" class="form-control" required>
+						@foreach (common('payment-methods') as $method)
+							<option value="{{ $method->id }}">
+								{{ $method->name }}
+							</option>
+						@endforeach
+					</select>
+				@endcomponent
 
-			<div class="form-group">
-				<label for="payment_method_id">Payment Method</label>
-				<select name="payment_method_id" id="payment_method_id" class="form-control" required>
-					@foreach (payment_methods() as $method)
-						<option value="{{ $method->id }}">{{ $method->name }}</option>
-					@endforeach
-				</select>
-			</div>
+				@component('partials.form-group')
+					@slot('label')
+						Note
+					@endslot
+					@slot('help')
+						Enter a private note for this payment.
+					@endslot
+					<textarea name="note" id="note" class="form-control" rows="6">{{ old('note') }}</textarea>
+				@endcomponent
 
-			<div class="form-group">
-				<label class="label">Payment Note (optional)</label>
-				<textarea name="note" id="note" class="form-control" rows="6">{{ old('note') }}</textarea>
-				<small class="form-text text-muted">
-					Enter a note for this payment.
-				</small>
-			</div>
+				@if (count($invoice->users))
+					@component('partials.form-group')
+						<p class="text-muted">
+							Select the user's that made this payment.
+						</p>
+						@foreach ($invoice->users as $user)
+							<div class="form-check">
+								<input class="form-check-inputt" type="checkbox" name="user_id[]" id="user_{{ $user->id }}" value="{{ $user->id }}" checked />
+								<label class="form-check-label" for="user_{{ $user->id }}">
+									{{ $user->present()->fullName }}
+								</label>
+							</div>
+						@endforeach
+					@endcomponent
+				@endif
 
-			@if (count($invoice->users))
-				<div class="form-group">
-					<p class="text-muted">
-						Select the user's that made this payment.
-					</p>
-					@foreach ($invoice->users as $user)
-						<label class="custom-control custom-checkbox">
-							<input class="custom-control-input" type="checkbox" name="user_id[]" value="{{ $user->id }}" checked />
-							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">{{ $user->present()->fullName }}</span>
-						</label>
-					@endforeach
-				</div>
 			@endif
 
-			@component('partials.save-button')
-				Record Payment
-			@endcomponent
+		@endslot
+		@if (commonCount('payment-methods'))
+			@slot('footer')
+				@component('partials.save-button')
+					Record Payment
+				@endcomponent
+			@endslot
+		@endif
+	@endcomponent
 
-		</form>
-
-	</div>
-</div>
+</form>

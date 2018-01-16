@@ -378,6 +378,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::put('{id}', 'AgreementController@update')->name('agreements.update'); // Update the agreements
 		Route::delete('{id}', 'AgreementController@forceDestroy')->name('agreements.forceDestroy'); // Destroy the agreement
 	});
+
+	// Payment Methods
+	Route::resource('payment-methods', 'PaymentMethodController');
 });
 
 // Public SMS routes for deliery updates

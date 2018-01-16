@@ -21,9 +21,9 @@ class PaymentPresenter extends Presenter
 	/**
 	 * @return string
 	 */
-	public function badge()
+	public function nameBadge()
 	{
-		return '<span class="badge badge-info">' . $this->name() . '</span>';
+		return $this->badge($this->name);
 	}
 
 	/**
@@ -51,8 +51,10 @@ class PaymentPresenter extends Presenter
 	 */
 	public function userBadges()
 	{
-		foreach ($this->users as $user) {
-			$names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
+		if (count($this->users)) {
+			foreach ($this->users as $user) {
+				$names[] = $this->badge($user->present()->fullName);
+			}
 		}
 
 		if (isset($names) && count($names)) {
