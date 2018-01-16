@@ -2,9 +2,7 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
-
-class StatementPaymentPresenter extends Presenter
+class StatementPaymentPresenter extends BasePresenter
 {    
     /**
      * @return string
