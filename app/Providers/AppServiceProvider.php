@@ -34,8 +34,6 @@ class AppServiceProvider extends ServiceProvider
             Deposit::class,
             Gas::class
         ]);
-
-        Cashier::useCurrency('gbp', '£');
     }
 
     /**

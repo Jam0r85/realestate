@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserEmailRequest extends FormRequest
+class UserEmailUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class UpdateUserEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => 'required|string|max:255|email|confirmed|unique:users'
         ];
     }
 }

@@ -202,7 +202,8 @@ class Invoice extends PdfModel
      */
     public function invoiceGroup()
     {
-    	return $this->belongsTo('App\InvoiceGroup');
+    	return $this
+            ->belongsTo(InvoiceGroup::class);
     }
 
     /**

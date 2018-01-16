@@ -190,7 +190,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/', 'UserController@store')->name('users.store'); // Store a new user
 		Route::get('{id}/edit', 'UserController@edit')->name('users.edit'); // Edit the user
 		Route::get('{id}/{section?}', 'UserController@show')->name('users.show'); // Show the user
-		Route::put('{id}/update-email', 'UserController@updateEmail')->name('users.update-email'); // Update the users email
+		Route::put('{id}/update-email', 'UserEmailController@update')->name('users.update-email'); // Update the users email
 		Route::put('{id}/update-password', 'UserPasswordController@changePassword')->name('users.update-password'); // Update the users password
 		Route::put('{id}', 'UserController@update')->name('users.update'); // Update the user
 		Route::post('{id}/destroy', 'UserController@archive')->name('users.destroy'); // Delete the user

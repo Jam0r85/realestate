@@ -99,7 +99,10 @@
 
 							@component('partials.form-group')
 								@slot('label')
-									Attached Users
+									Users
+								@endslot
+								@slot('help')
+									The attached users can download this invoice when they login to their profile.
 								@endslot
 								<select name="users[]" class="form-control select2" multiple>
 									@foreach (users() as $user)
