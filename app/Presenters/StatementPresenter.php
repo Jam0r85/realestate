@@ -240,6 +240,10 @@ class StatementPresenter extends BasePresenter
 	 */
 	public function statusLabel()
 	{
+		if ($this->sent_at) {
+			return 'Sent';
+		}
+		
 		if (! $this->paid_at && count($this->unsentPayments)) {
 			return 'Unpaid';
 		}
