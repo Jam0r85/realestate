@@ -28,13 +28,13 @@
 		@component('partials.header')
 			{{ $invoice->present()->name }}
 			<span class="badge badge-secondary">
-				{{ money_formatted($invoice->balance) }} balance
+				{{ $invoice->present()->money('balance') }} balance
 			</span>
 		@endcomponent
 
 		@if ($invoice->property)
 			@component('partials.sub-header')
-				{{ $invoice->property ? $invoice->property->present()->fullAddress : '' }}
+				{{ $invoice->present()->propertyAddress }}
 			@endcomponent
 		@endif
 
@@ -44,19 +44,25 @@
 
 		@if ($invoice->deleted_at)
 			@component('partials.alerts.dark')
-				@icon('delete') This invoice was deleted <b>{{ date_formatted($invoice->deleted_at) }}</b>
+				@icon('delete') This invoice was deleted <b>{{ $invoice->present()->dateDeleted }} }}</b>
 			@endcomponent
 		@endif
 
-		@if ($invoice->isPaid())
+		@if ($invoice->paid_at)
 			@component('partials.alerts.success')
-				@icon('paid') This invoice was paid <b>{{ date_formatted($invoice->paid_at) }}</b>
+				@icon('paid') This invoice was paid <b>{{ $invoice->present()->datePaid }}</b>
 			@endcomponent
 		@endif
 
-		@if ($invoice->isSent())
+		@if ($invoice->sent_at)
 			@component('partials.alerts.success')
-				@icon('sent') This invoice was sent <b>{{ date_formatted($invoice->sent_at) }}</b>
+				@icon('sent') This invoice was sent <b>{{ $invoice->present()->dateSent }}</b>
+			@endcomponent
+		@endif
+
+		@if ($invoice->isOverdue())
+			@component('partials.alerts.warning')
+				@icon('calendar') This invoice is overdue.
 			@endcomponent
 		@endif
 
@@ -77,10 +83,14 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'invoices.show', $invoice->id, 'index') !!}
+				<a class="nav-link @if (!Request::segment(3)) active @endif" href="{{ route('invoices.show', $invoice->id) }}">
+					Details
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Payments', 'invoices.show', $invoice->id, 'payments') !!}
+				<a class="nav-link @if (Request::segment(3) == 'payments') active @endif" href="{{ route('invoices.show', [$invoice->id, 'payments']) }}">
+					Payments
+				</a>
 			</li>
 		</ul>
 

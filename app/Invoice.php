@@ -490,6 +490,24 @@ class Invoice extends PdfModel
     }
 
     /**
+     * Check whether this invoice is overdue.
+     * 
+     * @return boolean
+     */
+    public function isOverdue()
+    {
+        if (! $this->paid_at) {
+            return false;
+        }
+
+        if (! $this->deleted_at) {
+            return false;
+        }
+
+        return $this->due_at <= Carbon::now();
+    }
+
+    /**
      * Build the correctly formatted recipient for this invoice
      *
      * @return string

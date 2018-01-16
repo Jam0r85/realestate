@@ -51,6 +51,46 @@ class BasePresenter extends Presenter
 	}
 
 	/**
+	 * Get the updated at date for this record.
+	 * 
+	 * @return srting
+	 */
+	public function dateUpdated()
+	{
+		return $this->date('updated_at');
+	}
+
+	/**
+	 * Get the deleted at date for this record.
+	 * 
+	 * @return srting
+	 */
+	public function dateDeleted()
+	{
+		return $this->date('deleted_at');
+	}
+
+	/**
+	 * Get the paid date for this record.
+	 * 
+	 * @return srting
+	 */
+	public function datePaid()
+	{
+		return $this->date('paid_at');
+	}
+
+	/**
+	 * Get the sent date for this record.
+	 * 
+	 * @return srting
+	 */
+	public function dateSent()
+	{
+		return $this->date('sent_at');
+	}
+
+	/**
 	 * Get the invoice status label.
 	 * 
 	 * @return string

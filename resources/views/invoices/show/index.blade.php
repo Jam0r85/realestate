@@ -57,13 +57,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($invoice->created_at) }}
+			{{ $invoice->present()->dateCreated }}
 			@slot('title')
 				Created On
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($invoice->updated_at) }}
+			{{ $invoice->present()->dateUpdated }}
 			@slot('title')
 				Updated On
 			@endslot
