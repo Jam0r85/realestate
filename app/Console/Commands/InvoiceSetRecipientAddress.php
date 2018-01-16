@@ -44,7 +44,7 @@ class InvoiceSetRecipientAddress extends Command
         // Check for attached users to the invoice
         foreach ($invoices as $invoice) {
             if (! $invoice->recipient) {
-                $invoice->buildRecipient();
+                $invoice->setRecipient();
                 $invoice->save();
             }
         }

@@ -89,7 +89,8 @@ class Invoice extends PdfModel
             $model->number ?? $model->number = $model->invoiceGroup->next_number;
             $model->created_at ?? $model->created_at = Carbon::now();
             $model->due_at = Carbon::parse($model->created_at)->addDay(get_setting('invoice_due_after'), 30);
-            $model->terms ?? $model->terms = get_setting('invoice_default_terms');    
+            $model->terms ?? $model->terms = get_setting('invoice_default_terms');
+            $model->recipient ?? $model->recipient = $model->buildRecipient();
         });
 
         static::created(function ($model) {
@@ -548,7 +549,17 @@ class Invoice extends PdfModel
         
         $newRecipient = implode(PHP_EOL, array_unique(explode(PHP_EOL, $newRecipient)));
 
-        $this->recipient = $newRecipient;
+        return $newRecipient;
+    }
+
+    /**
+     * Set the recipient.
+     *
+     * @return $this
+     */
+    public function setRecipient()
+    {
+        $this->recipient = $this->buildRecipient();
 
         return $this;
     }
