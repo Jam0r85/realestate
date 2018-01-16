@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\InvoiceItemWasCreated;
 use App\Events\InvoicePaymentWasCreated;
+use App\InvoiceGroup;
 use App\InvoiceItem;
 use App\Jobs\SendInvoiceToUsers;
 use App\Payment;
@@ -85,8 +86,18 @@ class Invoice extends PdfModel
         parent::boot();
 
         static::creating(function ($model) {
-            $model->invoice_group_id ?? $model->invoice_group_id = get_setting('invoice_default_group');
-            $model->number ?? $model->number = $model->invoiceGroup->next_number;
+
+            $model->invoice_group_id = get_setting('invoice_default_group');
+
+            if (! $model->invoice_group_id) {
+                $invoiceGroup = InvoiceGroup::first();
+                $model->invoice_group_id = $invoiceGroup->id;
+            } else {
+                $invoiceGroup = InvoiceGroup::find($model->invoice_group_id);
+            }
+
+            $model->number ?? $model->number = $invoiceGroup->next_number;
+
             $model->created_at ?? $model->created_at = Carbon::now();
             $model->due_at = Carbon::parse($model->created_at)->addDay(get_setting('invoice_due_after'), 30);
             $model->terms ?? $model->terms = get_setting('invoice_default_terms');

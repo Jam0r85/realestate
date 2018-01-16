@@ -17,7 +17,7 @@ class CreateTenancyRentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('tenancy_id')->unsigned();
-            $table->decimal('amount', 12, 2);
+            $table->integer('amount');
             $table->date('starts_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

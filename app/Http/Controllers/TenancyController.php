@@ -73,7 +73,7 @@ class TenancyController extends BaseController
 
         // Rent
         $rent = new TenancyRent;
-        $rent->amount = $request->rent_amount;
+        $rent->amount = pounds_to_pence($request->rent_amount);
         $rent->starts_at = $request->start_date;
         $tenancy->storeRentAmount($rent);
 
