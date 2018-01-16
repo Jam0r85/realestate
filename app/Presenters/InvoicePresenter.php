@@ -122,9 +122,9 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function paperTerms()
+	public function terms()
 	{
-		return $this->terms;
+		return nl2br($this->entity->terms);
 	}
 
 	/**
@@ -152,11 +152,13 @@ class InvoicePresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function branchVatNumber()
+	public function vatNumber()
 	{
-		if ($this->property) {
-			return 'VAT No. ' . $this->property->branch->vat_number;
+		if ($number = $this->invoiceGroup->branch->vat_number) {
+			return '<b>VAT No.</b>' . $number;
 		}
+
+		return null;
 	}
 
 	/**

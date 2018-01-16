@@ -10,9 +10,7 @@
 						<td>{!! $invoice->present()->recipient !!}</td>
 						<td class="text-right">
 							{!! $invoice->present()->branchAddress !!}
-							@if ($vat_number = $invoice->present()->branchVatNumber)
-								<p>{{ $vat_number }}</p>
-							@endif
+							<p>{!! $invoice->present()->vatNumber !!}</p>
 						</td>
 					</tr>
 				</table>
@@ -76,7 +74,7 @@
 				@if ($invoice->isPaid())
 					<h5 class="text-success mb-2">Paid {{ date_formatted($invoice->paid_at) }}</h5>
 				@endif
-				{{ $invoice->present()->paperTerms }}
+				{!! $invoice->present()->terms !!}
 			</section>
 
 		</div>
