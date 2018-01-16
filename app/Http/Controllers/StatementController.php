@@ -144,8 +144,9 @@ class StatementController extends BaseController
     public function forceDelete(Request $request, $id)
     {
         $statement = parent::forceDelete($request, $id);
+
         event(new StatementWasDeleted($statement));
-        
+
         return redirect()->route($this->indexRoute);
     }
 

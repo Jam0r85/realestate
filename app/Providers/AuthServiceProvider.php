@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\InvoiceGroup;
 use App\Policies\InvoiceGroupPolicy;
+use App\Policies\StatementPolicy;
+use App\Statement;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         InvoiceGroup::class => InvoiceGroupPolicy::class,
+        Statement::class => StatementPolicy::class
     ];
 
     /**
