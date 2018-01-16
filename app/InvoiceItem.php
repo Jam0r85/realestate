@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Invoice;
+use App\TaxRate;
 use Laracasts\Presenter\PresentableTrait;
 
 class InvoiceItem extends BaseModel
@@ -41,7 +43,9 @@ class InvoiceItem extends BaseModel
 	 */
     public function invoice()
     {
-    	return $this->belongsTo('App\Invoice');
+    	return $this
+            ->belongsTo(Invoice::class)
+            ->withTrashed();
     }
 
     /**
@@ -61,7 +65,7 @@ class InvoiceItem extends BaseModel
     public function taxRate()
     {
     	return $this
-            ->belongsTo('App\TaxRate')
+            ->belongsTo(TaxRate::class)
             ->withTrashed();
     }
 
