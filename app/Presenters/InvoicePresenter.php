@@ -155,7 +155,7 @@ class InvoicePresenter extends BasePresenter
 	public function vatNumber()
 	{
 		if ($number = $this->invoiceGroup->branch->vat_number) {
-			return '<b>VAT No.</b>' . $number;
+			return '<b>VAT No.</b> ' . $number;
 		}
 
 		return null;
