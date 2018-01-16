@@ -53,6 +53,20 @@ class InvoicePresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the property name for the property that this invoice is linked to.
+	 * 
+	 * @return string
+	 */
+	public function propertyName()
+	{
+		if ($this->property) {
+			return $this->property->present()->shortAddress;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get the property address for property that this invoice is linked to.
 	 * 
 	 * @return string
