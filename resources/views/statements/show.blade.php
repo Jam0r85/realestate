@@ -52,15 +52,21 @@
 
 		@include('partials.errors-block')
 
+		@if ($statement->deleted_at)
+			@component('partials.alerts.secondary')
+				@icon('delete') This statement was deleted <b>{{ $statement->present()->dateDeleted }}</b>
+			@endcomponent
+		@endif
+
 		@if ($statement->paid_at)
 			@component('partials.alerts.success')
-				This statement was paid on {{ date_formatted($statement->paid_at) }}
+				@icon('paid') This statement was paid <b>{{ $statement->present()->datePaid }}</b>
 			@endcomponent
 		@endif
 
 		@if ($statement->sent_at)
 			@component('partials.alerts.success')
-				This statement was sent on {{ date_formatted($statement->sent_at) }}
+				@icon('sent') This statement was sent <b>{{ $statement->present()->dateSent }}</b>
 			@endcomponent
 		@endif
 
