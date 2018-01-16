@@ -20,7 +20,7 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function recipient()
 	{
-		return nl2br($this->recipient);
+		return nl2br($this->entity->recipient);
 	}
 
 	/**
