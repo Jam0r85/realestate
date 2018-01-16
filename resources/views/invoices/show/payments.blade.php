@@ -10,7 +10,6 @@
 			<th>Method</th>
 			<th>User(s)</th>
 			<th class="text-right">Amount</th>
-			<th></th>
 		@endslot
 		@slot('body')
 			@foreach ($invoice->payments as $payment)
