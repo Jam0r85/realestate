@@ -162,9 +162,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('{id}/create-payments', 'StatementController@createPayments')->name('statements.create-payments');
 		Route::post('{id}/send', 'StatementController@send')->name('statements.send');
 		Route::put('{id}', 'StatementController@update')->name('statements.update'); // Update the statement
-		Route::delete('{id}/archive', 'StatementController@destroy')->name('statements.destroy'); // Delete the statement
+		Route::delete('{id}', 'StatementController@delete')->name('statements.delete'); // Delete the statement
 		Route::put('{id}/restore', 'StatementController@restore')->name('statements.restore'); // Restore the statement
-		Route::delete('{id}/destroy', 'StatementController@forceDestroy')->name('statements.forceDestroy'); // Destroy the statement
+		Route::delete('{id}/force-delete', 'StatementController@forceDelete')->name('statements.forceDelete'); // Destroy the statement
 	});
 
 	// Statement Expenses

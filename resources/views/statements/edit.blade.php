@@ -207,7 +207,7 @@
 
 					</form>
 
-					<form method="POST" action="{{ route('statements.forceDestroy', $statement->id) }}">
+					<form method="POST" action="{{ route('statements.forceDelete', $statement->id) }}">
 						{{ csrf_field() }}
 						{{ method_field('DELETE') }}
 
@@ -229,33 +229,20 @@
 					
 				@else
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Delete Statement
+					<form method="POST" action="{{ route('statements.delete', $statement->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('DELETE') }}
+
+						@component('partials.card')
+							@slot('header')
+								Delete Statement
+							@endslot
+							@slot('footer')
+								@include('partials.forms.delete-button')
+							@endslot
 						@endcomponent
 
-						<div class="card-body">
-
-							<form method="POST" action="{{ route('statements.destroy', $statement->id) }}">
-								{{ csrf_field() }}
-								{{ method_field('DELETE') }}
-
-								<p class="card-text">
-									Are you sure you want to delete this statement?
-								</p>
-
-								<p class="card-text">
-									Users attached to this statement will be unable to view it in their profile.
-								</p>
-
-								@component('partials.save-button')
-									Delete Statement
-								@endcomponent
-
-							</form>
-
-						</div>
-					</div>
+					</form>
 
 				@endif
 

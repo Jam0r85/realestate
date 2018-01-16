@@ -128,12 +128,23 @@ class StatementController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function delete(Request $request, $id)
     {
-        $statement = parent::destroy($request, $id);
+        $statement = parent::delete($request, $id);
+        return back();
+    }
 
+    /**
+     * Destroy a record in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function forceDelete(Request $request, $id)
+    {
+        parent::forceDelete($request, $id);
         event(new StatementWasDeleted($statement));
-
         return redirect()->route($this->indexRoute);
     }
 
