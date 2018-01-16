@@ -9,16 +9,13 @@
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
-			<tr>
+			<tr class="clickable-row" data-href="{{ route('payments.show', $payment->id) }}" data-toggle="tooltip" data-placement="left" title="View Payment">
 				<td>{{ $payment->present()->dateCreated }}</td>
 				<td>{{ $payment->present()->money('amount') }}</td>
 				<td>{{ $payment->method->name }}</td>
-				<td>{!! $payment->present()->nameBadge !!} {{ truncate($payment->present()->for) }}</td>
+				<td>{{ truncate($payment->present()->for) }}</td>
 				<td>{!! $payment->present()->userBadges !!}</td>
 				<td class="text-right">
-					<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm" title="View">
-						@icon('view')
-					</a>
 					<a href="{{ route('downloads.payment', $payment->id) }}" target="_blank" class="btn btn-info btn-sm">
 						<i class="fa fa-download"></i>
 					</a>

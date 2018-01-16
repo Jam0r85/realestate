@@ -19,14 +19,6 @@ class PaymentPresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function nameBadge()
-	{
-		return $this->badge($this->name);
-	}
-
-	/**
-	 * @return string
-	 */
 	public function for()
 	{
 		if (model_name($this->parent) == 'Invoice') {

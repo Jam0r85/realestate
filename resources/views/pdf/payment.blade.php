@@ -17,7 +17,7 @@
 					Receipt #{{ $payment->id }}
 				</h2>
 				<h5>
-					{{ date_formatted($payment->created_at) }}
+					{{ $payment->present()->dateCreated }}
 				</h5>
 			</div>
 
@@ -37,7 +37,7 @@
 				
 				<p>Method - {{ $payment->method->name }}</p>
 				<p>Recorded By - {{ $payment->owner->present()->fullName }}</p>
-				<p><b>Amount - {{ money_formatted($payment->amount) }}</b></p>
+				<p><b>Amount - {{ $payment->present()->money('amount') }}</b></p>
 			</div>
 
 			<hr />
