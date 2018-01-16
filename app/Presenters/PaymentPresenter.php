@@ -65,8 +65,10 @@ class PaymentPresenter extends BasePresenter
 	 */
 	public function userNames()
 	{
-		foreach ($this->users as $user) {
-			$names[] = $user->present()->fullName;
+		if (count($this->users)) {
+			foreach ($this->users as $user) {
+				$names[] = $user->present()->fullName;
+			}
 		}
 
 		if (isset($names) && count($names)) {

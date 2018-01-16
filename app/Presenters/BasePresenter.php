@@ -139,8 +139,12 @@ class BasePresenter extends Presenter
 	 * 
 	 * @return string
 	 */
-	public function badge($value, $class = 'secondary')
+	public function badge($value = null, $class = 'secondary')
 	{
+		if (is_null($value)) {
+			return null;
+		}
+		
 		return '<span class="badge badge-' . $class . '">' . $value . '</span>';
 	}
 
