@@ -66,14 +66,19 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'statements.show', $statement->id, 'index') !!}
+				<a class="nav-link @if (!Request::segment(3)) active @endif" href="{{ route('statements.show', $statement->id) }}">
+					Details
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Items', 'statements.show', $statement->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'items') active @endif" href="{{ route('statements.show', [$statement->id, 'items']) }}">
+					Items
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Payments', 'statements.show', $statement->id) !!}
-			</li>
+				<a class="nav-link @if (Request::segment(3) == 'payments') active @endif" href="{{ route('statements.show', [$statement->id, 'payments']) }}">
+					Payments
+				</a>			</li>
 		</ul>
 
 		@include('statements.show.' . $show)

@@ -77,7 +77,7 @@ class StatementController extends BaseController
      * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $show = 'items')
+    public function show($id, $show = 'index')
     {
         $statement = $this->repository
             ->withTrashed()
