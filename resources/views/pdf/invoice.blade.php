@@ -7,7 +7,7 @@
 			<div class="section">
 				<table>
 					<tr>
-						<td>{!! $invoice->present()->letterRecipient !!}</td>
+						<td>{!! $invoice->present()->recipient !!}</td>
 						<td class="text-right">
 							{!! $invoice->present()->branchAddress !!}
 							@if ($vat_number = $invoice->present()->branchVatNumber)

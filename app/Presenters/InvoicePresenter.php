@@ -14,16 +14,13 @@ class InvoicePresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the recipient for this invoice.
+	 * 
 	 * @return string
 	 */
-	public function letterRecipient()
+	public function recipient()
 	{
-		if (count($this->statements)) {
-			$statement = $this->statements->first();
-			return $statement->present()->letterRecipient;
-		}
-
-		return $this->usersList . '<br />' . nl2br($this->recipient);
+		return nl2br($this->recipient);
 	}
 
 	/**
