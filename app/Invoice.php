@@ -103,7 +103,7 @@ class Invoice extends PdfModel
         });
 
         static::created(function ($model) {
-            $model->recipient ?? $model->recipient = $model->buildRecipient();
+            $model->update(['recipient' => $model->buildRecipient()]);
             $model->invoiceGroup->increment('next_number');
         });
 
