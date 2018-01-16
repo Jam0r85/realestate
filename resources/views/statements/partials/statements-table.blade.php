@@ -10,35 +10,21 @@
 		<th>Amount</th>
 		@if (isset($tenancy))
 			<th>Landlord</th>
-			<th>Invoice</th>
-		@endif
-		@if (!request('sent'))
-			<th>Send By</th>
 		@endif
 	@endslot
 	@slot('body')
 		@foreach ($statements as $statement)
 			<tr class="clickable-row" data-href="{{ route('statements.show', $statement->id) }}" data-toggle="tooltip" data-placement="left" title="View Statement {{ $statement->id }}">
-				<td>{{ $statement->present()->statusWithDate() }}</td>
-				<td>{{ date_formatted($statement->period_start) }}</td>
-				<td>{{ date_formatted($statement->period_end) }}</a></td>
+				<td>{{ $statement->present()->statusLabel }}</td>
+				<td>{{ $statement->present()->dateStart }}</td>
+				<td>{{ $statement->present()->dateEnd }}</a></td>
 				@if (!isset($tenancy))
 					<td>{{ truncate($statement->present()->tenancyName) }}</td>
 					<td>{{ truncate($statement->present()->propertyAddress) }}</td>
 				@endif
-				<td>{{ money_formatted($statement->amount) }}</td>
+				<td>{{ $statement->present()->money('amount') }}</td>
 				@if (isset($tenancy))
 					<td>{{ money_formatted($statement->present()->landlordBalanceTotal) }}</td>
-					<td>
-						@if (count($statement->invoices))
-							@foreach ($statement->invoices as $invoice)
-								{{ $invoice->present()->name }}
-							@endforeach
-						@endif
-					</td>
-				@endif
-				@if (!request('sent'))
-					<td>{{ $statement->present()->sendBy(null) }}</td>
 				@endif
 				<td class="text-right text-nowrap">
 						

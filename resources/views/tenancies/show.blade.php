@@ -51,19 +51,28 @@
 
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				{!! Menu::showLink('Details', 'tenancies.show', $tenancy->id, 'index') !!}
+				<a class="nav-link @if (!Request::segment(3)) active @endif" href="{{ route('tenancies.show', $tenancy->id) }}">
+					Details
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Payments', 'tenancies.show', $tenancy->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'payments') active @endif" href="{{ route('tenancies.show', [$tenancy->id, 'payments']) }}">
+					Payments
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Statements', 'tenancies.show', $tenancy->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'statements') active @endif" href="{{ route('tenancies.show', [$tenancy->id, 'statements']) }}">
+					Statements
+				</a>
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('Agreements', 'tenancies.show', $tenancy->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'agreements') active @endif" href="{{ route('tenancies.show', [$tenancy->id, 'agreements']) }}">
+					Agreements
+				</a>
 			</li>
-			<li class="nav-item">
-				{!! Menu::showLink('Rents', 'tenancies.show', $tenancy->id) !!}
+				<a class="nav-link @if (Request::segment(3) == 'rents') active @endif" href="{{ route('tenancies.show', [$tenancy->id, 'rents']) }}">
+					Rents
+				</a>
 			</li>
 		</ul>
 

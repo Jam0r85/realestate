@@ -8,6 +8,26 @@ class StatementPresenter extends BasePresenter
 	{
 		return 'Statement #' . $this->id;
 	}
+
+	/**
+	 * Get the statement start date.
+	 * 
+	 * @return string
+	 */
+	public function dateStart()
+	{
+		return $this->date('period_start');
+	}
+
+	/**
+	 * Get the statement end date.
+	 * 
+	 * @return string
+	 */
+	public function dateEnd()
+	{
+		return $this->date('period_end');
+	}
 	
 	/**
 	 * Get the payment method name
@@ -214,29 +234,21 @@ class StatementPresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the status label for this statement.
+	 * 
 	 * @return string
 	 */
-	public function status()
+	public function statusLabel()
 	{
-		if ($this->sent_at) {
-			return 'Sent';
-		} elseif ($this->paid_at) {
-			return 'Paid';
-		} elseif (count($this->payments)) {
-			$return = 'Pending';
-			foreach ($this->payments as $payment) {
-				if (!$payment->sent_at) {
-					$return = 'Unpaid';
-				}
-			}
-			return $return;
-		} elseif (!count($this->payments)) {
-			return 'No Payments';
-		} elseif ($this->delete_at) {
-			return 'Archived';
-		} else {
+		if (count($this->unsentPayments)) {
 			return 'Unpaid';
 		}
+
+		if (count($this->payments)) {
+			return 'Pending';
+		}
+
+		return parent::statusLabel();
 	}
 
 	/**

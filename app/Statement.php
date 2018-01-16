@@ -7,6 +7,7 @@ use App\Invoice;
 use App\InvoiceItem;
 use App\Notifications\StatementSentByEmailToLandlordNotification;
 use App\Notifications\StatementSentByPostToLandlordNotification;
+use App\StatementPayment;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -162,7 +163,7 @@ class Statement extends PdfModel
     public function payments()
     {
         return $this
-            ->hasMany('App\StatementPayment');
+            ->hasMany(StatementPayment::class);
     }
 
     /**
@@ -171,7 +172,7 @@ class Statement extends PdfModel
     public function unsentPayments()
     {
         return $this
-            ->hasMany('App\StatementPayment')
+            ->hasMany(StatementPayment::class)
             ->whereNull('sent_at');
     }
 
