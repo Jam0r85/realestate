@@ -534,7 +534,7 @@ class Invoice extends PdfModel
          */
 
         if (count($this->statements) && isset($home)) {
-            $recipient .= $home;
+            $newRecipient .= $home;
         }
 
         /**
