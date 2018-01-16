@@ -38,7 +38,7 @@ class StatementController extends BaseController
      */
     public function index(Request $request)
     {
-        if (!$request->archived) {
+        if (!$request->all()) {
             $request->request->add(['sent' => false, 'archived' => false]);
         }
 
