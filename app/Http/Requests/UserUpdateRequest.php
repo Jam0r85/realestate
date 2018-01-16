@@ -26,9 +26,10 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required_without_all:company_name,last_name',
-            'last_name' => 'required_without_all:company_name,first_name',
+            'first_name' => 'sometimes|required_without_all:company_name,last_name',
+            'last_name' => 'sometimes|required_without_all:company_name,first_name',
             'company_name' => [
+                'sometimes',
                 'required_without_all:first_name,last_name',
                 'nullable',
                 'unique:users,company_name,' . Request::segment(2)

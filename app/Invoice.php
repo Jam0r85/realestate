@@ -486,4 +486,70 @@ class Invoice extends PdfModel
 
         return true;
     }
+
+    /**
+     * Build the correctly formatted recipient for this invoice
+     *
+     * @return string
+     */
+    public function buildRecipient($fresh = false)
+    {
+        /**
+         * Check whether we want to start a fresh and replace the existing recipient.
+         */
+        
+        if (! $fresh) {
+            $newRecipient = $this->recipient;
+        }
+
+        /**
+         * Check for linked users and build up an array of user names whilst also
+         * getting the home address of the first user found.
+         */
+
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                $names[] = $user->present()->fullName;
+                // Grab the first home address
+                if (!isset($home)) {
+                    if ($user->home) {
+                        $home = $user->home->present()->letter;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Should we have any user names, store them into the new recipient.
+         */
+
+        if (isset($names) && count($names)) {
+            $newRecipient = implode(' & ', $names) . '<br />' . $newRecipient;
+        }
+
+        /**
+         * If this invoice has been linked to a statement then we 
+         * add the users home address. 
+         */
+
+        if (count($this->statements) && isset($home)) {
+            $recipient .= $home;
+        }
+
+        /**
+         * Correctly format the string with line breaks.
+         */
+        
+        $newRecipient = str_replace('<br />', PHP_EOL, $newRecipient);
+
+        /**
+         * Remove duplicate lines from the string.
+         */
+        
+        $newRecipient = implode(PHP_EOL, array_unique(explode(PHP_EOL, $newRecipient)));
+
+        $this->recipient = $newRecipient;
+
+        return $this;
+    }
 }
