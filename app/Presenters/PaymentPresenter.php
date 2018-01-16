@@ -27,10 +27,18 @@ class PaymentPresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function forName()
+	public function for()
 	{
 		if (model_name($this->parent) == 'Invoice') {
 			return $this->parent->present()->name;
+		}
+
+		if (model_name($this->parent) == 'Tenancy') {
+			return 'Rent';
+		}
+
+		if (model_name($this->parent) == 'Deposit') {
+			return 'Deposit';
 		}
 	}
 

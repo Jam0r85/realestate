@@ -10,10 +10,10 @@
 	@slot('body')
 		@foreach ($payments as $payment)
 			<tr>
-				<td>{{ date_formatted($payment->created_at) }}</td>
-				<td>{{ money_formatted($payment->amount) }}</td>
+				<td>{{ $payment->present()->dateCreated }}</td>
+				<td>{{ $payment->present()->money('amount') }}</td>
 				<td>{{ $payment->method->name }}</td>
-				<td>{!! $payment->present()->badge !!} {{ truncate($payment->present()->forName) }}</td>
+				<td>{!! $payment->present()->nameBadge !!} {{ truncate($payment->present()->for) }}</td>
 				<td>{!! $payment->present()->userBadges !!}</td>
 				<td class="text-right">
 					<a href="{{ route('payments.show', $payment->id) }}" class="btn btn-primary btn-sm" title="View">
