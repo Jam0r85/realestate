@@ -4,10 +4,6 @@ namespace App\Presenters;
 
 use Carbon\Carbon;
 use Laracasts\Presenter\Presenter;
-use Money\Currencies\ISOCurrencies;
-use Money\Currency;
-use Money\Formatter\IntlMoneyFormatter;
-use Money\Money;
 
 class BasePresenter extends Presenter
 {
@@ -180,15 +176,6 @@ class BasePresenter extends Presenter
 			$amount = 0;
 		}
 
-		$country = \Countries::where('name.common', get_setting('default_country', 'United Kingdom'))->first();
-		$currencyCode = $country->currency[0]['ISO4217Code'];
-
-		$money = new Money ($amount, new Currency ($currencyCode));
-		$currencies = new ISOCurrencies();
-
-		$numberFormatter = new \NumberFormatter('en_GB', \NumberFormatter::CURRENCY);
-		$moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-
-		return $moneyFormatter->format($money);
+		return money_formatted($amount);
 	}
 }

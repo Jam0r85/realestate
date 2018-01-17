@@ -91,9 +91,9 @@
 										<small>(Part Payment)</small>
 									@endif
 								</td>
-								<td>{{ $expense->present()->money('amount') }}</td>
+								<td>{{ money_formatted($expense->pivot->amount) }}</td>
 								<td></td>
-								<td>{{ $expense->present()->money('amount') }}</td>
+								<td>{{ money_formatted($expense->pivot->amount) }}</td>
 							</tr>
 						@endforeach
 
