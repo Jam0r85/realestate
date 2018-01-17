@@ -183,6 +183,16 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the start date for this tenancy.
+	 * 
+	 * @return string
+	 */
+	public function dateStart()
+	{
+		return $this->date('start_date');
+	}
+
+	/**
 	 * @return [type] [description]
 	 */
 	public function nextStatementStartDate($format = null)

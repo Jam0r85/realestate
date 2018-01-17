@@ -55,7 +55,7 @@
 								@endslot
 								<select name="branch_id" id="branch_id" class="form-control">
 									<option value="{{ $property->branch_id }}">Please select..</option>
-									@foreach (branches() as $branch)
+									@foreach (common('branches') as $branch)
 										@if ($branch->id != $property->branch_id)
 											<option value="{{ $branch->id }}">
 												{{ $branch->name }}

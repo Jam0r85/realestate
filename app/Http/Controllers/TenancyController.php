@@ -135,7 +135,7 @@ class TenancyController extends BaseController
             ->fill($request->input())
             ->setOverdue(false)
             ->save();
-
+            
         return back();
     }
 

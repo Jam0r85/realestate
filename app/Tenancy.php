@@ -40,6 +40,15 @@ class Tenancy extends BaseModel
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'array'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -50,7 +59,8 @@ class Tenancy extends BaseModel
         'is_overdue',
 		'vacated_on',
         'rent_balance',
-        'started_on'
+        'started_on',
+        'settings'
 	];
 
     /**
@@ -440,8 +450,12 @@ class Tenancy extends BaseModel
      * 
      * @return string
      */
-    public function getStartedAtAttribute()
+    public function getStartDateAttribute()
     {
+        if ($this->started_on) {
+            return $this->started_on;
+        }
+
         if ($this->firstAgreement) {
             return $this->firstAgreement->starts_at;
         }
@@ -963,7 +977,7 @@ class Tenancy extends BaseModel
      * 
      * @return mixed
      */
-    public function getPrefferedLandlordProperty()
+    public function getPreferredLandlordProperty()
     {
         if ($this->hasPreferredLandlordProperty()) {
             return Property::findOrFail($this->getSetting('preferred_landlord_property_id'));
@@ -980,7 +994,7 @@ class Tenancy extends BaseModel
     public function getLandlordProperty()
     {
         if ($this->hasPreferredLandlordProperty()) {
-            return $this->getPrefferedLandlordProperty();
+            return $this->getPreferredLandlordProperty();
         }
 
         if ($this->hasOneLandlordProperty()) {
@@ -997,7 +1011,11 @@ class Tenancy extends BaseModel
      */
     public function getLandlordPropertyAddress()
     {
-        return $this->getLandlordProperty()->present()->letter;
+        if ($this->getLandlordProperty()) {
+            return $this->getLandlordProperty()->present()->letter;
+        }
+
+        return null;
     }
 
     /**

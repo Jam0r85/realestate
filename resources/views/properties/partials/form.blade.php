@@ -73,6 +73,7 @@
 	@slot('label')
 		Owners
 	@endslot
+	<input type="hidden" name="owners" id="owners" value="" />
 	<select name="owners[]" id="owners" class="form-control select2" multiple>
 		@foreach (common('users') as $user)
 			<option @if (isset($property) && $property->owners->contains($user->id)) selected @endif value="{{ $user->id }}">

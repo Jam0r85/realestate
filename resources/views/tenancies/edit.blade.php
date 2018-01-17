@@ -105,55 +105,73 @@
 						@endslot
 						@slot('body')
 
-							@if (!$tenancy->hasOneLandlordAddress())
-								@component('partials.alerts.waring')
-									@icon('warning') No correspondence address could be found for this tenancy.
+							{{-- No property owners --}}
+							@if (! count($tenancy->property->owners))
+
+								{{-- No users added as owners warning --}}
+								@component('partials.alerts.warning')
+									@icon('warning') No users have been added as owners for the property <a href="{{ route('properties.show', $tenancy->property_id) }}">{{ $tenancy->property->present()->shortAddress }}</a>
 								@endcomponent
+
 							@else
 
-								<p class="card-text">
-									The following address will be used when creating new statements and invoices for this tenancy.
-								</p>
+								@if ($tenancy->hasMultipleLandlordProperties())
 
-								@component('partials.alerts.info')
-									@icon('house') {{ $tenancy->getLandlordAddress()->present()->fullAddress }}
-								@endcomponent
+									@if (! $tenancy->hasPreferredLandlordProperty())
 
-							@endif
+										@component('partials.alerts.warning')
+											@icon('warning') Property owners have different home addresses and no preferred address has been choosen for this tenancy.
+										@endcomponent
 
-							@if ($tenancy->hasMultipleLandlordAddresses())
+									@else
 
-								@if (!$tenancy->hasPreferredLandlordAddress())
+										@component('partials.alerts.info')
+											{!! $tenancy->getLandlordPropertyAddress() !!}
+										@endcomponent
 
-									@component('partials.alerts.warning')
-										@icon('warning') No preffered landlord address has been choosen for this tenancy.
+									@endif
+
+									@component('partials.form-group')
+										@slot('label')
+											Change Preferred Address
+										@endslot
+										<select name="preferred_landlord_property_id" id="preferred_landlord_property_id" class="form-control">
+											<option value="" selected>Please select..</option>
+											@foreach ($tenancy->getLandlordPropertiesList() as $property)
+												<option value="{{ $property->id }}">
+													{{ $property->present()->selectName }}
+												</option>
+											@endforeach
+										</select>
 									@endcomponent
 
 								@else
 
-									@component('partials.alerts.info')
-										@icon('house') {{ $tenancy->getPreferredLandlordAddress()->present()->fullAddress }}
-									@endcomponent
+									{{-- No single property--}}
+									@if (! $tenancy->hasOneLandlordProperty())
+
+										@component('partials.alerts.warning')
+											@icon('warning') The property owners '<b>{{ $tenancy->present()->landlordNames }}</b>' do not have a home address set between them.
+										@endcomponent
+
+									@else
+
+										<p class="card-text">
+											The following address will be used when creating new statements and invoices for this tenancy.
+										</p>
+
+										@component('partials.alerts.info')
+											{!! $tenancy->getLandlordPropertyAddress() !!}
+										@endcomponent
+
+									@endif
 
 								@endif
-
-								@component('partials.form-group')
-									@slot('label')
-										Change Preferred Address
-									@endslot
-									<select name="preferred_landlord_address" id="preferred_landlord_address" class="form-control">
-										@foreach ($tenancy->getLandlordAddressList() as $property)
-											<option value="{{ $property->id }}">
-												{{ $property->present()->selectName }}
-											</option>
-										@endforeach
-									</select>
-								@endcomponent
 
 							@endif
 
 						@endslot
-						@if ($tenancy->hasMultipleLandlordAddresses())
+						@if ($tenancy->hasMultipleLandlordProperties())
 							@slot('footer')
 								@component('partials.save-button')
 									Save Changes
