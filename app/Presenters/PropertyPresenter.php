@@ -2,9 +2,7 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
-
-class PropertyPresenter extends Presenter
+class PropertyPresenter extends BasePresenter
 {
 	/**
      * The full address of this property separated by commas. Eg
@@ -114,7 +112,7 @@ class PropertyPresenter extends Presenter
     {
         if (count($this->owners)) {
             foreach ($this->owners as $user) {
-                $names[] = '<span class="badge badge-secondary">' . $user->present()->fullName . '</span>';
+                $names[] = $this->badge($user->present()->fullName);
             }
         }
 

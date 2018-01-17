@@ -59,7 +59,7 @@
 			@endcomponent
 		@endif
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->first_agreement ? date_formatted($tenancy->first_agreement->starts_at) : '' }}
+			{{ $tenancy->present()->startDate }}
 			@slot('title')
 				Started
 			@endslot
