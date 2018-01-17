@@ -70,6 +70,21 @@
 			@endcomponent
 		@endif
 
+		@if (count($statement->invoices))
+			@component('partials.alerts.info')
+				<p>This statement has the following invoices attached:</p>
+				<ul>
+					@foreach ($statement->invoices as $invoice)
+						<li>
+							<a href="{{ route('invoices.show', $invoice->id) }}">
+								{{ $invoice->present()->name }}
+							</a>
+						</li>
+					@endforeach
+				</ul>
+			@endcomponent
+		@endif
+
 		<ul class="nav nav-pills">
 			<li class="nav-item">
 				<a class="nav-link @if (!Request::segment(3)) active @endif" href="{{ route('statements.show', $statement->id) }}">

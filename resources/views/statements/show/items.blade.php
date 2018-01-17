@@ -1,18 +1,3 @@
-@if (count($statement->invoices))
-	@component('partials.alerts.info')
-		<p>This statement has the following invoices attached:</p>
-		<ul>
-			@foreach ($statement->invoices as $invoice)
-				<li>
-					<a href="{{ route('invoices.show', $invoice->id) }}">
-						{{ $invoice->present()->name }}
-					</a>
-				</li>
-			@endforeach
-		</ul>
-	@endcomponent
-@endif
-
 <div class="card mb-3">
 	@component('partials.card-header')
 		Invoice Items
