@@ -4,7 +4,7 @@
 Please find attached the rental statement for the property <b>{{ $statement->property()->present()->fullAddress }}</b> {{ !$statement->sent_at ? ' which was prosessed today' : '' }}.
 
 @if (!$statement->sent_at)
-The amount of {{ money_formatted($statement->present()->landlordBalanceTotal) }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
+The amount of {{ $statement->present()->money('landlord_payment') }} was sent to you by {{ $statement->bank_account ? 'Bank Transfer' : 'Cheque' }}.
 @endif
 
 @include('email-templates.footer')
