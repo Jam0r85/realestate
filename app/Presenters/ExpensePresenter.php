@@ -9,11 +9,13 @@ use Laracasts\Presenter\Presenter;
 class ExpensePresenter extends Presenter
 {
 	/**
-	 * @return  string
+	 * Get the formatted name for select dropdown boxes.
+	 * 
+	 * @return string
 	 */
 	public function selectName()
 	{
-		return $this->name . ' (Remaining Balance: ' . money_formatted($this->remainingStatementBalance) . ')';
+		return $this->name . ' (Remaining Balance: ' . $this->money('balance') . ')';
 	}
 
 	/**
