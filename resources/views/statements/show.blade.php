@@ -59,7 +59,7 @@
 					<div class="col-12 col-lg-8">
 						Statement has been paid and needs to be sent by <b>{{ $statement->send_by }}</b> to {{ $statement->tenancy->present()->landlordNames }}
 					</div>
-					<div class="col-12 col-lg-2 text-right">
+					<div class="col-12 col-lg-4 text-right">
 						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 							{{ csrf_field() }}
 							<button type="submit" class="btn btn-info float-right">
