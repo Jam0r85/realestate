@@ -10,7 +10,7 @@
 	@endslot
 	@slot('body')
 		@foreach ($invoices as $invoice)
-			<tr class="clickable-row" data-href="{{ route('invoices.show', $invoice->id) }}">
+			<tr class="clickable-row" data-href="{{ route('invoices.show', $invoice->id) }}" data-toggle="tooltip" data-placement="left" title="View {{ $invoice->present()->name }}">
 				<td>{{ $invoice->present()->statusLabel }}</td>
 				<td>{{ $invoice->present()->name }}</td>
 				<td>{{ $invoice->present()->dateCreated }}</td>
