@@ -4,9 +4,8 @@ namespace App\Presenters;
 
 use App\BankAccount;
 use Illuminate\Support\Facades\Storage;
-use Laracasts\Presenter\Presenter;
 
-class ExpensePresenter extends Presenter
+class ExpensePresenter extends BasePresenter
 {
 	/**
 	 * Get the formatted name for select dropdown boxes.
