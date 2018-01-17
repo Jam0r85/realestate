@@ -2,9 +2,7 @@
 
 namespace App\Presenters;
 
-use Laracasts\Presenter\Presenter;
-
-class UserPresenter extends Presenter
+class UserPresenter extends BasePresenter
 {
 	/**
 	 * The basic name of the user.

@@ -33,6 +33,20 @@ class ServicePresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the tax rate name for this service.
+	 * 
+	 * @return string
+	 */
+	public function taxRateName()
+	{
+		if ($this->taxRate) {
+			return $this->taxRate->name;
+		}
+
+		return null;
+	}
+
+	/**
 	 * @return  string
 	 */
 	public function statusLabel()
