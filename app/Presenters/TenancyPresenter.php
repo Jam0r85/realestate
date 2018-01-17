@@ -244,4 +244,14 @@ class TenancyPresenter extends BasePresenter
 
 		return 'Active';
 	}
+
+	/**
+	 * Get the landlord names for this tenancy.
+	 * 
+	 * @return string
+	 */
+	public function landlordNames($seperator = ' & ')
+	{
+		return implode($seperator, $this->entity->getLandlordNames());
+	}
 }
