@@ -44,9 +44,12 @@ class TenancyUpdateStartedOn extends Command
         if (count($tenancies)) {
             foreach ($tenancies as $tenancy) {
 
-                // Make sure the tenancy has a first agreement and that the start date has been passed
-                if ($tenancy->firstAgreement && $tenancy->firstAgreement->starts_at <= Carbon::now()) {
-                    $tenancy->update(['started_on' => $tenancy->firstAgreement->starts_at]);
+                if ($tenancy->firstAgreement) {
+                    if ($tenancy->firstAgreement->starts_at <= Carbon::now()) {
+                        $tenancy->update([
+                            'started_on' => $tenancy->firstAgreement->starts_at
+                        ]);
+                    }
                 }
             }
         }
