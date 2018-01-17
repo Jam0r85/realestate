@@ -28,12 +28,14 @@ class ExpensePresenter extends BasePresenter
 	}
 
 	/**
-	 * @return  string
+	 * Get the contractor name in a badge.
+	 * 
+	 * @return string
 	 */
 	public function contractorBadge()
 	{
 		if ($this->contractor) {
-			return '<span class="badge badge-secondary">' . $this->contractor->present()->fullName . '</span>';
+			$this->badge($this->contractorName);
 		}
 	}
 

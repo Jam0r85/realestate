@@ -176,7 +176,7 @@ class BasePresenter extends Presenter
 	public function money($field)
 	{
 		// Find the correct field
-		if (! $amount = $this->$field) {
+		if (! $amount = $this->entity->$field) {
 			$amount = 0;
 		}
 
