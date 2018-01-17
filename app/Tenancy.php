@@ -997,7 +997,7 @@ class Tenancy extends BaseModel
      */
     public function getLandlordPropertyAddress()
     {
-        return $this->getLandlordProperty()->present()->fullAddress;
+        return $this->getLandlordProperty()->present()->letter;
     }
 
     /**

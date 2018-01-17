@@ -68,7 +68,7 @@
 								<p>
 									@icon('house') <b>Statement &amp; Invoice Address</b>
 								</p>
-								{{ $tenancy->getLandlordPropertyAddress() }}
+								{!! $tenancy->getLandlordPropertyAddress() !!}
 							@endcomponent
 
 							@component('partials.card')
