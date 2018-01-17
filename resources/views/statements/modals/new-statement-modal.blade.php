@@ -18,7 +18,10 @@
 
 							@component('partials.form-group')
 								@slot('label')
-									Statement Rent Amount
+									Amount
+								@endslot
+								@slot('help')
+									The amount of rent received for this statement.
 								@endslot
 								@component('partials.input-group')
 									@slot('icon')
@@ -31,6 +34,9 @@
 							@component('partials.form-group')
 								@slot('label')
 									Start Date
+								@endslot
+								@slot('help')
+									The start date of this statement.
 								@endslot
 								@component('partials.input-group')
 									@slot('icon')
@@ -45,7 +51,7 @@
 									End Date
 								@endslot
 								@slot('help')
-									Leave blank to use the default time frame eg. one month
+									The end date of this statement. Leave blank to use the default time frame eg. one month
 								@endslot
 								@component('partials.input-group')
 									@slot('icon')
