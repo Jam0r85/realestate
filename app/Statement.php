@@ -167,6 +167,16 @@ class Statement extends PdfModel
     }
 
     /**
+     * A statement can have many sent payments.
+     */
+    public function sentPayments()
+    {
+        return $this
+            ->hasMany(StatementPayment::class)
+            ->whereNotNull('sent_at');
+    }
+
+    /**
      * A statement can have unsent payments
      */
     public function unsentPayments()
@@ -514,5 +524,15 @@ class Statement extends PdfModel
     public function getLandlordPaymentAttribute()
     {
         return $this->amount - $this->total_cost;
+    }
+
+    /**
+     * Get the total amount paid out of this statement.
+     * 
+     * @return int
+     */
+    public function getTotalPaidAttribute()
+    {
+        return $this->sentPayments->sum('amount');
     }
 }

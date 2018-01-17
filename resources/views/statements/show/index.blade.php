@@ -4,6 +4,48 @@
 	@endcomponent
 	<ul class="list-group list-group-flush">
 		@component('partials.list-group-item')
+			{{ $statement->present()->money('amount') }}
+			@slot('title')
+				Amount
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('invoices_net') }}
+			@slot('title')
+				Invoices Net
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('invoices_tax') }}
+			@slot('title')
+				Invoices Tax
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('expenses_total') }}
+			@slot('title')
+				Expenses Total
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('total_cost') }}
+			@slot('title')
+				Total Cost
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('landlord_payment') }}
+			@slot('title')
+				Landlord Payment
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
+			{{ $statement->present()->money('total_paid') }}
+			@slot('title')
+				Total Paid
+			@endslot
+		@endcomponent
+		@component('partials.list-group-item')
 			<a href="{{ route('tenancies.show', $statement->tenancy_id) }}">
 				{{ $statement->tenancy->present()->name }}
 			</a>
