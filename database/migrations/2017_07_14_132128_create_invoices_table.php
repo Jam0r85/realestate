@@ -27,7 +27,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('balance')->default(0);
             $table->text('terms')->nullable();
             $table->string('key');
-            $table->timestamp('due_at')->nullable();
+            $table->date('due_at')->nullable();
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();

@@ -32,7 +32,7 @@
 					@if ($statement->canSend())
 						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 							{{ csrf_field() }}
-							<button type="submit" class="btn btn-info btn-sm" title="Send">
+							<button type="submit" class="btn btn-info btn-sm" title="Send {{ $statement->present()->name }}" data-toggle="tooltip" data-placement="bottom">
 								@icon('sent')
 							</button>
 						</form>
