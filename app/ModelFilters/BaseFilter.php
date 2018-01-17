@@ -11,7 +11,7 @@ class BaseFilter extends ModelFilter
      * 
      * @var string
      */
-    public $filterDateColumn = 'created_at';
+    protected $filterDateColumn = 'create_at';
 
     /**
      * Filter results by month.
