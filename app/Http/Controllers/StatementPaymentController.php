@@ -20,13 +20,6 @@ use Illuminate\Http\Request;
 class StatementPaymentController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\StatementPayment';
-
-    /**
      * Display a listing of statement payments.
      * 
      * @return  \Illuminate\Http\Response

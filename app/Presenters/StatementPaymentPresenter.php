@@ -63,7 +63,7 @@ class StatementPaymentPresenter extends BasePresenter
      */
     public function invoiceName()
     {
-        if (plural_from_model($this->parent) == 'invoices') {
+        if (model_name($this->parent) == 'Invoice') {
             return $this->parent->present()->name;
         }
     }
@@ -82,20 +82,6 @@ class StatementPaymentPresenter extends BasePresenter
         if (isset($names) && count($names)) {
             return implode(' ', $names);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function status($return = 'value')
-    {
-        if ($this->sent_at) {
-            $data['value'] = 'Sent ' . date_formatted($this->sent_at);
-        } else {
-            $data['value'] = 'Unsent';
-        }
-
-        return $data[$return];
     }
 
     /**
