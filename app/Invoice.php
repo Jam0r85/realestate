@@ -104,7 +104,6 @@ class Invoice extends PdfModel
 
         static::created(function ($model) {
             $model->invoiceGroup->increment('next_number');
-            $model->update(['recipient' => $model->buildRecipient()]);
         });
 
         static::deleted(function ($model) {
@@ -538,36 +537,25 @@ class Invoice extends PdfModel
             }
         }
 
-        /**
-         * Should we have any user names, store them into the new recipient.
-         */
+        return $this->formatRecipient($names, $newRecipient);
+    }
 
-        if (isset($names) && count($names)) {
-            $newRecipient = implode(' & ', $names) . '<br />' . $newRecipient;
+    /**
+     * Format the recipient address for storing in the text field.
+     * 
+     * @param  array  $names
+     * @param  string  $address
+     * @return string
+     */
+    public function formatRecipient(array $names = [], $address = null)
+    {
+        if (count($names)) {
+            $address = implode(' & ', $names) . '<br />' . $address;
         }
 
-        /**
-         * If this invoice has been linked to a statement then we 
-         * add the users home address. 
-         */
+        $address = str_replace('<br />', PHP_EOL, $address);
 
-        if (count($this->statements) && isset($home)) {
-            $newRecipient .= $home;
-        }
-
-        /**
-         * Correctly format the string with line breaks.
-         */
-        
-        $newRecipient = str_replace('<br />', PHP_EOL, $newRecipient);
-
-        /**
-         * Remove duplicate lines from the string.
-         */
-        
-        $newRecipient = implode(PHP_EOL, array_unique(explode(PHP_EOL, $newRecipient)));
-
-        return $newRecipient;
+        return implode(PHP_EOL, array_unique(explode(PHP_EOL, $address)));
     }
 
     /**

@@ -1,5 +1,5 @@
 <div class="modal fade" id="newStatementModal" tabindex="-1" role="dialog" aria-labelledby="tenancyStatementModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<form method="POST" action="{{ route('statements.store') }}">
 			{{ csrf_field() }}
 			<div class="modal-content">
@@ -11,55 +11,73 @@
 				</div>
 				<div class="modal-body">
 
-					@component('partials.alerts.info')
-						<p class="text-center">
-							Want to record an old statement instead?
-						</p>
-						<a href="{{ route('old-statements.create', $tenancy->id) }}" class="btn btn-secondary btn-block">
-							Record Old Statement
-						</a>
-					@endcomponent
+					<div class="row">
+						<div class="col-12 col-lg-6">
 
-					<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
+							<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
 
-					@component('partials.form-group')
-						@slot('label')
-							Statement Rent Amount
-						@endslot
-						@component('partials.input-group')
-							@slot('icon')
-								@icon('money')
-							@endslot
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
-						@endcomponent
-					@endcomponent
+							@component('partials.form-group')
+								@slot('label')
+									Statement Rent Amount
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
+									<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
+								@endcomponent
+							@endcomponent
 
-					@component('partials.form-group')
-						@slot('label')
-							Start Date
-						@endslot
-						@component('partials.input-group')
-							@slot('icon')
-								@icon('calendar')
-							@endslot
-							<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
-						@endcomponent
-					@endcomponent
+							@component('partials.form-group')
+								@slot('label')
+									Start Date
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
+								@endcomponent
+							@endcomponent
 
-					@component('partials.form-group')
-						@slot('label')
-							End Date
-						@endslot
-						@slot('help')
-							Leave blank to use the default time frame eg. one month
-						@endslot
-						@component('partials.input-group')
-							@slot('icon')
-								@icon('calendar')
-							@endslot
-							<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
-						@endcomponent
-					@endcomponent
+							@component('partials.form-group')
+								@slot('label')
+									End Date
+								@endslot
+								@slot('help')
+									Leave blank to use the default time frame eg. one month
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
+								@endcomponent
+							@endcomponent
+
+						</div>
+						<div class="col-12 col-lg-6">
+
+							@component('partials.alerts.info')
+								<p>
+									@icon('house') <b>Statement &amp; Invoice Address</b>
+								</p>
+								{{ $tenancy->getLandlordPropertyAddress() }}
+							@endcomponent
+
+							@component('partials.card')
+								@slot('body')
+									<p class="card-text">
+										Want to record an old statement instead?
+									</p>
+									<a href="{{ route('old-statements.create', $tenancy->id) }}" class="btn btn-secondary btn-block">
+										Record Old Statement
+									</a>
+								@endslot
+							@endcomponent
+
+						</div>
+					</div>
 
 				</div>
 				<div class="modal-footer">

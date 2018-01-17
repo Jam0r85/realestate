@@ -36,7 +36,7 @@ class Tenancy extends BaseModel
      * @var array
      */
     protected $settingKeys = [
-        'preferred_landlord_address'
+        'preferred_landlord_property_id'
     ];
 
     /**
@@ -763,7 +763,7 @@ class Tenancy extends BaseModel
             if ($statement->needsInvoiceCheck()) {
                 $invoice = new Invoice();
                 $invoice->property_id = $this->property->id;
-                $invoice->recipient = $this->buildInvoiceRecipient();
+                $invoice->recipient = $invoice->formatRecipient($this->getLandlordNames(), $this->getLandlordPropertyAddress());
                 $invoice = $statement->storeInvoice($invoice);
             }
         }
@@ -888,11 +888,11 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get a collection of landlord home addresses.
+     * Get a collection of landlord propeties.
      * 
      * @return mixed
      */
-    public function getLandlordAddressesList(array $properties = [])
+    public function getLandlordPropertiesList(array $properties = [])
     {
         $landlords = $this->property->owners;
 
@@ -913,14 +913,14 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Check whether this tenancy has a single landlord address.
+     * Check whether this tenancy has a single landlord property.
      * 
      * @return bool
      */
-    public function hasOneLandlordAddress()
+    public function hasOneLandlordProperty()
     {
-        if ($this->getLandlordAddressesList()) {
-            if (count($this->getLandlordAddressesList()) == 1) {
+        if ($this->getLandlordPropertiesList()) {
+            if (count($this->getLandlordPropertiesList()) == 1) {
                 return true;
             }
         }
@@ -929,14 +929,14 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Check whether this tenancy has multiple landlord addresses.
+     * Check whether this tenancy has multiple landlord property.
      * 
      * @return bool
      */
-    public function hasMultipleLandlordAddresses()
+    public function hasMultipleLandlordProperties()
     {
-        if ($this->getLandlordAddressesList()) {
-            if (count($this->getLandlordAddressesList()) > 1) {
+        if ($this->getLandlordPropertiesList()) {
+            if (count($this->getLandlordPropertiesList()) > 1) {
                 return true;
             }
         }
@@ -945,13 +945,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Check whether this tenancy has a preferred landlord address in settings.
+     * Check whether this tenancy has a preferred landlord property in settings.
      * 
      * @return bool
      */
-    public function hasPreferredLandlordAddress()
+    public function hasPreferredLandlordProperty()
     {
-        if ($this->getSetting('preferred_landlord_address')) {
+        if ($this->getSetting('preferred_landlord_property_id')) {
             return true;
         }
 
@@ -963,36 +963,49 @@ class Tenancy extends BaseModel
      * 
      * @return mixed
      */
-    public function getPrefferedLandlordAddress()
+    public function getPrefferedLandlordProperty()
     {
-        if ($this->hasPreferredLandlordAddress()) {
-            return Property::findOrFail($this->getSetting('preferred_landlord_address'));
+        if ($this->hasPreferredLandlordProperty()) {
+            return Property::findOrFail($this->getSetting('preferred_landlord_property_id'));
         }
 
         return null;
     }
 
     /**
-     * Check whether we have multiple or a single landlord address and
-     * return the single address.
+     * Get the landlord property for this tenancy.
      * 
      * @return mixed
      */
-    public function getLandlordAddress()
+    public function getLandlordProperty()
     {
-        if ($this->hasOneLandlordAddress()) {
-            return $this->getLandlordAddressesList()->first();
+        if ($this->hasPreferredLandlordProperty()) {
+            return $this->getPrefferedLandlordProperty();
+        }
+
+        if ($this->hasOneLandlordProperty()) {
+            return $this->getLandlordPropertiesList()->first();
         }
 
         return null;
+    }
+
+    /**
+     * Get the landlord property address for this tenancy.
+     * 
+     * @return string
+     */
+    public function getLandlordPropertyAddress()
+    {
+        return $this->getLandlordProperty()->present()->fullAddress;
     }
 
     /**
      * Build the recipient address for the a invoice.
      * 
-     * @return string
+     * @return array
      */
-    public function buildInvoiceRecipient()
+    public function getLandlordNames(array $names = [])
     {
         $users = $this->property->owners;
 
@@ -1002,6 +1015,6 @@ class Tenancy extends BaseModel
             }
         }
 
-
+        return array_unique($names);
     }
 }
