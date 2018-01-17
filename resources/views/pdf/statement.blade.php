@@ -103,7 +103,7 @@
 							<th>Sub Totals</th>
 							<th>{{ $statement->present()->money('net') }}</th>
 							<th>{{ $statement->present()->money('tax') }}</th>
-							<th>{{ $statement->present()->money('total') }}</th>
+							<th>{{ $statement->present()->money('total_cost') }}</th>
 						</tr>
 					</tfoot>
 				</table>
