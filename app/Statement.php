@@ -535,4 +535,22 @@ class Statement extends PdfModel
     {
         return $this->sentPayments->sum('amount');
     }
+
+    /**
+     * Can this statement be sent?
+     * 
+     * @return bool
+     */
+    public function canSend()
+    {
+        if ($this->sent_at) {
+            return false;
+        }
+
+        if (! $this->paid_at) {
+            return false;
+        }
+
+        return true;
+    }
 }

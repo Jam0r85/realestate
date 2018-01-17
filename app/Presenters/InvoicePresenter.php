@@ -103,4 +103,16 @@ class InvoicePresenter extends BasePresenter
 
 		return null;
 	}
+
+	/**
+	 * Get the status label for this invoice.
+	 * 
+	 * @return string
+	 */
+	public function statusLabel()
+	{
+		parent::statusLabel();
+
+		return 'Unpaid';
+	}
 }

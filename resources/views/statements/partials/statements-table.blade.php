@@ -29,7 +29,7 @@
 				<td class="text-right text-nowrap">
 						
 					{{-- Send the Statement Form --}}
-					@if ($statement->present()->status == 'Paid')
+					@if ($statement->canSend())
 						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 							{{ csrf_field() }}
 							<button type="submit" class="btn btn-info btn-sm" title="Send">
