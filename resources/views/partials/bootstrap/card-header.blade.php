@@ -1,5 +1,5 @@
-<h5 class="card-header">
-	<span class="text-primary">
+<div class="card-header">
+	<span>
 		{{ $slot }}
 	</span>
 
@@ -9,4 +9,4 @@
 		</small>
 	@endif
 
-</h5>
+</div>

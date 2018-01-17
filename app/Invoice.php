@@ -447,15 +447,13 @@ class Invoice extends PdfModel
      * 
      * @return  bool
      */
-    public function noBalance()
+    public function canBePaid()
     {
-        // Invoice has no items, cannot possibly have a balance
-        if (!count($this->items)) {
+        if (! count($this->items)) {
             return false;
         }
 
-        // Invoice balance is bigger than 0
-        if ($this->balance > 0) {
+        if ($this->hasOutstandingBalance()) {
             return false;
         }
 
@@ -582,5 +580,19 @@ class Invoice extends PdfModel
         $this->recipient = $this->buildRecipient();
 
         return $this;
+    }
+
+    /**
+     * Check whether this invoice has an outstanding balance.
+     * 
+     * @return bool
+     */
+    public function hasOutstandingBalance()
+    {
+        if ($this->balance > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -199,13 +199,15 @@
 
 						<div class="card-body">
 
-							@if (!$invoice->noBalance())
+							@if (!$invoice->canBePaid())
 
 								@component('partials.alerts.warning')
-									@if ($invoice->balance > 0)
-										Invoice has an outstanding balance of {{ $invoice->present()->money('balance') }} which must be cleared before it can be marked as paid.
+									@if ($invoice->hasOutstandingBalance())
+										@icon('warning') Invoice has an outstanding balance of {{ $invoice->present()->money('balance') }} which must be cleared before it can be marked as paid.
 									@else
-										Invoice has no items and so cannot have been paid.
+										@if (! count($invoice->items))
+											@icon('warning') Invoice has no items and so cannot have been paid.
+										@endif
 									@endif
 								@endcomponent
 
