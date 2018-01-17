@@ -36,10 +36,9 @@
 
 					@component('partials.card')
 						@slot('header')
-							Service
+							Tenancy Details
 						@endslot
-
-						<div class="card-body">
+						@slot('body')
 
 							@component('partials.form-group')
 								@slot('label')
@@ -49,9 +48,29 @@
 									@slot('icon')
 										@icon('calendar')
 									@endslot
-									<input type="date" name="started_on" id="started_on" class="form-control" value="{{ $tenancy->started_on ? $tenancy->started_on->format('Y-m-d') : old('started_on') }}" />
+									<input type="date" name="started_on" id="started_on" class="form-control" value="{{ $tenancy->present()->dateInput('started_on', old('started_on')) }}" />
 								@endcomponent
 							@endcomponent
+
+						@endslot
+						@slot('footer')
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						@endslot
+					@endcomponent
+
+				</form>
+
+				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							Service
+						@endslot
+						@slot('body')
 
 							@component('partials.form-group')
 								@slot('label')
@@ -66,12 +85,42 @@
 								</select>
 							@endcomponent
 
-						</div>
-
+						@endslot
 						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
+
+				</form>
+
+				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							Correspondence Address
+						@endslot
+						@slot('body')
+
+							@if (!$tenancy->getLandlordAddress())
+								@component('partials.alerts.waring')
+									@icon('warning') No correspondence address could be found.
+								@endcomponent
+							@else
+
+								<p class="card-text">
+									The following address will be used when creating new statements and invoices for this tenancy.
+								</p>
+
+								@component('partials.alerts.info')
+									@icon('house') {{ $tenancy->getLandlordAddress()->present()->fullAddress }}
+								@endcomponent
+
+							@endif
+
 						@endslot
 					@endcomponent
 
@@ -99,7 +148,7 @@
 									@slot('icon')
 										@icon('calendar')
 									@endslot
-									<input type="date" name="vacated_on" id="vacated_on" class="form-control" value="{{ $tenancy->vacated_on ? $tenancy->vacated_on->format('Y-m-d') : old('vacated_on') }}" />
+									<input type="date" name="vacated_on" id="vacated_on" class="form-control" value="{{ $tenancy->present()->dateInput('vacated_on', old('vacated_on')) }}" />
 								@endcomponent
 							@endcomponent
 

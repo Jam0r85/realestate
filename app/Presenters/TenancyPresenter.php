@@ -2,10 +2,7 @@
 
 namespace App\Presenters;
 
-use Carbon\Carbon;
-use Laracasts\Presenter\Presenter;
-
-class TenancyPresenter extends Presenter
+class TenancyPresenter extends BasePresenter
 {
 	/**
 	 * The tenancy name consists of the tenant's names.

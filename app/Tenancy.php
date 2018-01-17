@@ -752,6 +752,7 @@ class Tenancy extends BaseModel
             if ($statement->needsInvoiceCheck()) {
                 $invoice = new Invoice();
                 $invoice->property_id = $this->property->id;
+                $invoice->recipient = $this->buildInvoiceRecipient();
                 $invoice = $statement->storeInvoice($invoice);
             }
         }
@@ -873,5 +874,65 @@ class Tenancy extends BaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Get a collection of landlord home addresses.
+     * 
+     * @return mixed
+     */
+    public function getLandlordAddressesList(array $properties = [])
+    {
+        $landlords = $this->property->owners;
+
+        if (count($landlords)) {
+            foreach ($landlords as $landlord) {
+                if ($landlord->home) {
+                    $properties[] = $landlord->home->id;
+                }
+            }
+        }
+
+        if (count($properties)) {
+            $unique = array_unique($properties);
+            return Property::whereIn('id', $properties)->get();
+        }
+
+        return null;
+    }
+
+    /**
+     * Check whether we have multiple or a single landlord address and
+     * return the single address.
+     * 
+     * @return mixed
+     */
+    public function getLandlordAddress()
+    {
+        if ($this->getLandlordAddressesList()) {
+            if (count($this->getLandlordAddressesList()) == 1) {
+                return $this->getLandlordAddressesList()->first();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Build the recipient address for the a invoice.
+     * 
+     * @return string
+     */
+    public function buildInvoiceRecipient()
+    {
+        $users = $this->property->owners;
+
+        if (count($users)) {
+            foreach ($users as $user) {
+                $names[] = $user->present()->fullName;
+            }
+        }
+
+
     }
 }
