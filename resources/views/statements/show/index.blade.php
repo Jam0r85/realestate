@@ -76,13 +76,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.list-group-item')
-			{{ date_formatted($statement->created_at) }}
+			{{ $statement->present()->dateCreated }}
 			@slot('title')
 				Created
 			@endslot
 		@endcomponent
 		@component('partials.list-group-item')
-			{{ datetime_formatted($statement->updated_at) }}
+			{{ $statement->present()->dateUpdated }}
 			@slot('title')
 				Last Updated
 			@endslot
