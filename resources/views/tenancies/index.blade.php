@@ -37,7 +37,7 @@
 			</li>
 
 			{!! (new Filter())->monthDropdown() !!}
-			{!! (new Filter())->yearDropdown('App\Tenancy', 'started_at') !!}
+			{!! (new Filter())->yearDropdown('App\Tenancy', 'started_on') !!}
 
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
