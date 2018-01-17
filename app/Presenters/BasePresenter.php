@@ -129,8 +129,6 @@ class BasePresenter extends Presenter
 		if ($this->sent_at) {
 			return 'Sent';
 		}
-
-		return 'Unpaid';
 	}
 
 	/**

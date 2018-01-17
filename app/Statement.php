@@ -389,7 +389,7 @@ class Statement extends PdfModel
         if ($charge = $tenancy->getServiceChargeNetAmount()) {
 
             // Format the description
-            $description = $service->name . ' service at ' . $service->charge_formatted;
+            $description = $service->name . ' service at ' . $service->present()->monthlyChargeFormatted;
 
             // If there is a tax rate add it to the description as well
             if ($service->taxRate) {

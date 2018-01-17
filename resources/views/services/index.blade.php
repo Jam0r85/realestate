@@ -31,7 +31,7 @@
 			@slot('body')
 				@foreach ($services as $service)
 					<tr>
-						<td>{{ $service->present()->status }}</td>
+						<td>{{ $service->present()->statusLabel }}</td>
 						<td>{{ $service->name }}<br />{{ $service->description }}</td>
 						<td>{{ currency($service->letting_fee) }}</td>
 						<td>{{ currency($service->re_letting_fee) }}</td>

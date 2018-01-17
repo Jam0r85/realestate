@@ -29,20 +29,16 @@ class ServicePresenter extends BasePresenter
 			return $this->charge . '%';
 		}
 
-		return money_formatted($this->charge);
+		return $this->money('charge');
 	}
 
 	/**
 	 * @return  string
 	 */
-	public function status()
+	public function statusLabel()
 	{
-		if ($this->deleted_at) {
-			return 'Archived';
-		}
+		parent::statusLabel();
 
-		if (!$this->deleted_at) {
-			return 'Active';
-		}
+		return 'Active';
 	}
 }
