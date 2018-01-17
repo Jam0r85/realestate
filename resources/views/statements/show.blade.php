@@ -52,18 +52,34 @@
 
 		@include('partials.errors-block')
 
+		{{-- Send Statement Alert --}}
+		@if ($statement->canSend())
+			@component('partials.alerts.info')
+				<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
+					{{ csrf_field() }}
+					<button type="submit" class="btn btn-info">
+						@icon('sent') Send Statement
+					</button>
+				</form>
+			@endcomponent
+		@endif
+
+		{{-- Statement Deleted Alert --}}
 		@if ($statement->deleted_at)
 			@component('partials.alerts.secondary')
 				@icon('delete') This statement was deleted <b>{{ $statement->present()->dateDeleted }}</b>
 			@endcomponent
 		@endif
 
+		{{-- Statement Paid Alert --}}
 		@if ($statement->paid_at)
 			@component('partials.alerts.success')
 				@icon('paid') This statement was paid <b>{{ $statement->present()->datePaid }}</b>
 			@endcomponent
 		@endif
 
+
+		{{-- Statement Sent Alert --}}
 		@if ($statement->sent_at)
 			@component('partials.alerts.success')
 				@icon('sent') This statement was sent <b>{{ $statement->present()->dateSent }}</b>

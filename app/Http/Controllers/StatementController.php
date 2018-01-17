@@ -151,7 +151,7 @@ class StatementController extends BaseController
     }
 
     /**
-     * Send the statements to the owners.
+     * Send a statement to it's users.
      * 
      * @param  \App\Http\Requests\StatementSendRequest  $request
      * @param  int  $id

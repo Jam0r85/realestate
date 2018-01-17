@@ -551,6 +551,10 @@ class Statement extends PdfModel
             return false;
         }
 
+        if ($this->deleted_at) {
+            return false;
+        }
+
         return true;
     }
 }
