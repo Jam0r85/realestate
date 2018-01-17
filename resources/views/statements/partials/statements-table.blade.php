@@ -24,7 +24,7 @@
 				@endif
 				<td>{{ $statement->present()->money('amount') }}</td>
 				@if (isset($tenancy))
-					<td>{{ money_formatted($statement->present()->landlordBalanceTotal) }}</td>
+					<td>{{ $statement->present()->money('landlord_payment') }}</td>
 				@endif
 				<td class="text-right text-nowrap">
 						

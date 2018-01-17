@@ -435,4 +435,84 @@ class Statement extends PdfModel
 
         return true;
     }
+
+    /**
+     * Get the invoices net total for this statement.
+     * 
+     * @return int
+     */
+    public function getInvoicesNetTotalAttribute()
+    {
+        return $this->invoices->sum('net');
+    }
+
+    /**
+     * Get the invoices tax total for this statement.
+     * 
+     * @return int
+     */
+    public function getInvoicesTaxTotalAttribute()
+    {
+        return $this->invoices->sum('tax');
+    }
+
+    /**
+     * Get the invoices total for this statement.
+     * 
+     * @return int
+     */
+    public function getInvoicesTotalAttribute()
+    {
+        return $this->invoices_net_total + $this->invoices_tax_total;
+    }
+
+    /**
+     * Get the expenses total for this statement.
+     * 
+     * @return int
+     */
+    public function getExpensesTotalAttribute()
+    {
+        return $this->expenses->sum('pivot.amount');
+    }
+
+    /**
+     * Get the net amount for this statement.
+     * 
+     * @return int
+     */
+    public function getNetAttribute()
+    {
+        return $this->invoices_net_total + $this->expenses_total;
+    }
+
+    /**
+     * Get the tax amount for this statement.
+     * 
+     * @return int
+     */
+    public function getTaxAttribute()
+    {
+        return $this->invoices_tax_total;
+    }
+
+    /**
+     * Get the total cost for this statement.
+     * 
+     * @return int
+     */
+    public function getTotalCostAttribute()
+    {
+        return $this->net + $this->tax;
+    }
+
+    /**
+     * Get the landlord payment for this statement.
+     * 
+     * @return int
+     */
+    public function getLandlordPaymentAttribute()
+    {
+        return $this->amount - $this->total_cost;
+    }
 }

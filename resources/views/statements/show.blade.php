@@ -38,7 +38,7 @@
 		@component('partials.header')
 			Statement #{{ $statement->id }}
 			<span class="badge badge-secondary">
-				{{ money_formatted($statement->present()->landlordBalanceTotal) }} to landlord
+				{{ $statement->present()->money('landlord_payment') }} to landlord
 			</span>
 		@endcomponent
 
@@ -99,7 +99,8 @@
 			<li class="nav-item">
 				<a class="nav-link @if (Request::segment(3) == 'payments') active @endif" href="{{ route('statements.show', [$statement->id, 'payments']) }}">
 					Payments
-				</a>			</li>
+				</a>
+			</li>
 		</ul>
 
 		@include('statements.show.' . $show)

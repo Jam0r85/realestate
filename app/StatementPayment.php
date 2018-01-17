@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\BankAccount;
 use App\Events\ExpenseStatementPaymentWasSaved;
 use App\Events\InvoiceStatementPaymentWasSaved;
 use App\Statement;
+use App\User;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -55,7 +57,9 @@ class StatementPayment extends BaseModel
 	 */
     public function statement()
     {
-    	return $this->belongsTo('App\Statement')->withTrashed();
+    	return $this
+            ->belongsTo(Statement::class)
+            ->withTrashed();
     }
 
     /**
@@ -63,7 +67,9 @@ class StatementPayment extends BaseModel
      */
     public function bank_account()
     {
-        return $this->belongsTo('App\BankAccount')->withTrashed();
+        return $this
+            ->belongsTo(BankAccount::class)
+            ->withTrashed();
     }
 
     /**
@@ -71,7 +77,8 @@ class StatementPayment extends BaseModel
      */
     public function parent()
     {
-        return $this->morphTo();
+        return $this
+            ->morphTo();
     }
 
     /**
@@ -79,7 +86,8 @@ class StatementPayment extends BaseModel
      */
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this
+            ->belongsToMany(User::class);
     }
 
     /**
@@ -87,7 +95,8 @@ class StatementPayment extends BaseModel
      */
     public function owner()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this
+            ->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -148,7 +157,7 @@ class StatementPayment extends BaseModel
                             'parent_id' => $invoice->id
                         ],
                         [
-                            'amount' => $statement->present()->invoicesTotal,
+                            'amount' => $statement->invoices_total,
                             'sent_at' => $statement->sent_at,
                             'bank_account_id' => get_setting('company_bank_account_id')
                         ]
@@ -236,7 +245,7 @@ class StatementPayment extends BaseModel
                 'parent_type' => null
             ],
             [
-                'amount' => $statement->present()->landlordBalanceTotal,
+                'amount' => $statement->landlord_payment,
                 'sent_at' => $statement->sent_at,
                 'bank_account_id' => $statement->tenancy->property->bank_account_id ?? null
             ]
