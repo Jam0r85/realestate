@@ -22,6 +22,7 @@ class CreateTenanciesTable extends Migration
             $table->integer('is_overdue')->default(0);
             $table->date('started_on')->nullable();
             $table->date('vacated_on')->nullable();
+            $table->text('settings')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,6 +6,7 @@ use App\Agreement;
 use App\Events\StatementWasCreated;
 use App\Statement;
 use App\TenancyRent;
+use App\Traits\SettingsTrait;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,8 @@ class Tenancy extends BaseModel
     use SoftDeletes,
         Searchable,
         PresentableTrait,
-        Filterable;
+        Filterable,
+        SettingsTrait;
 
     /**
      * The presenter for this model.
@@ -27,6 +29,15 @@ class Tenancy extends BaseModel
      * @var string
      */
     protected $presenter = 'App\Presenters\TenancyPresenter';    
+
+    /**
+     * The keys which are allowed in the settings column.
+     * 
+     * @var array
+     */
+    protected $settingKeys = [
+        'preferred_landlord_address'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -902,6 +913,66 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Check whether this tenancy has a single landlord address.
+     * 
+     * @return bool
+     */
+    public function hasOneLandlordAddress()
+    {
+        if ($this->getLandlordAddressesList()) {
+            if (count($this->getLandlordAddressesList()) == 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether this tenancy has multiple landlord addresses.
+     * 
+     * @return bool
+     */
+    public function hasMultipleLandlordAddresses()
+    {
+        if ($this->getLandlordAddressesList()) {
+            if (count($this->getLandlordAddressesList()) > 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether this tenancy has a preferred landlord address in settings.
+     * 
+     * @return bool
+     */
+    public function hasPreferredLandlordAddress()
+    {
+        if ($this->getSetting('preferred_landlord_address')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the preferred landlord address for this tenancy.
+     * 
+     * @return mixed
+     */
+    public function getPrefferedLandlordAddress()
+    {
+        if ($this->hasPreferredLandlordAddress()) {
+            return Property::findOrFail($this->getSetting('preferred_landlord_address'));
+        }
+
+        return null;
+    }
+
+    /**
      * Check whether we have multiple or a single landlord address and
      * return the single address.
      * 
@@ -909,10 +980,8 @@ class Tenancy extends BaseModel
      */
     public function getLandlordAddress()
     {
-        if ($this->getLandlordAddressesList()) {
-            if (count($this->getLandlordAddressesList()) == 1) {
-                return $this->getLandlordAddressesList()->first();
-            }
+        if ($this->hasOneLandlordAddress()) {
+            return $this->getLandlordAddressesList()->first();
         }
 
         return null;

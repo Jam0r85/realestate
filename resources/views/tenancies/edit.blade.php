@@ -105,9 +105,9 @@
 						@endslot
 						@slot('body')
 
-							@if (!$tenancy->getLandlordAddress())
+							@if (!$tenancy->hasOneLandlordAddress())
 								@component('partials.alerts.waring')
-									@icon('warning') No correspondence address could be found.
+									@icon('warning') No correspondence address could be found for this tenancy.
 								@endcomponent
 							@else
 
@@ -121,7 +121,45 @@
 
 							@endif
 
+							@if ($tenancy->hasMultipleLandlordAddresses())
+
+								@if (!$tenancy->hasPreferredLandlordAddress())
+
+									@component('partials.alerts.warning')
+										@icon('warning') No preffered landlord address has been choosen for this tenancy.
+									@endcomponent
+
+								@else
+
+									@component('partials.alerts.info')
+										@icon('house') {{ $tenancy->getPreferredLandlordAddress()->present()->fullAddress }}
+									@endcomponent
+
+								@endif
+
+								@component('partials.form-group')
+									@slot('label')
+										Change Preferred Address
+									@endslot
+									<select name="preferred_landlord_address" id="preferred_landlord_address" class="form-control">
+										@foreach ($tenancy->getLandlordAddressList() as $property)
+											<option value="{{ $property->id }}">
+												{{ $property->present()->selectName }}
+											</option>
+										@endforeach
+									</select>
+								@endcomponent
+
+							@endif
+
 						@endslot
+						@if ($tenancy->hasMultipleLandlordAddresses())
+							@slot('footer')
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+							@endslot
+						@endif
 					@endcomponent
 
 				</form>
