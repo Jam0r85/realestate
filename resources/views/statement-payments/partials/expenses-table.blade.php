@@ -12,7 +12,7 @@
 			<tr>
 				<td>{{ $payment->present()->propertyName }}</td>
 				<td>{{ $payment->parent->name }}</td>
-				<td>{{ money_formatted($payment->amount) }}</td>
+				<td>{{ $payment->present()->money('amount') }}</td>
 				<td>{!! $payment->parent->present()->contractorBadge !!}</td>
 				<td>{{ $payment->present()->method }}</td>
 				<td class="text-right d-print-none">

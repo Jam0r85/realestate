@@ -11,8 +11,8 @@
 			<tr>
 				<td>{{ $payment->present()->propertyName }}</td>
 				<td>{{ $payment->present()->invoiceName }}</td>
-				<td class="text-right">{{ money_formatted($payment->amount) }}</td>
-				<td class="text-right d-print-none">{!! $payment->present()->recipientBadges !!}</td>
+				<td class="text-right">{{ $payment->present()->money('amount') }}</td>
+				<td class="text-right d-print-none">{!! $payment->present()->userBadges !!}</td>
 				<td class="text-right d-print-none">
 					@include('statement-payments.partials.payment-checkbox')
 				</td>
