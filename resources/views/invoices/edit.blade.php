@@ -74,7 +74,7 @@
 									@slot('icon')
 										@icon('calendar')
 									@endslot
-									<input type="date" class="form-control" name="created_at" value="{{ $invoice->created_at->format('Y-m-d') }}" />
+									<input type="date" class="form-control" name="created_at" value="{{ $invoice->present()->dateInput('created_at') }}" />
 								@endcomponent
 							@endcomponent
 
@@ -86,7 +86,7 @@
 									@slot('icon')
 										@icon('calendar')
 									@endslot
-									<input type="date" class="form-control" name="due_at" value="{{ $invoice->due_at ? $invoice->due_at->format('Y-m-d') : null }}" />
+									<input type="date" class="form-control" name="due_at" value="{{ $invoice->present()->dateInput('due_at') }}" />
 								@endcomponent
 							@endcomponent
 
@@ -158,7 +158,7 @@
 									@foreach ($invoice->statements as $statement)
 										<li>
 											{{ $statement->present()->name }}
-											<em>{{ $statement->sent_at ? date_formatted($statement->sent_at) : 'Not sent' }}</em>
+											<em>{{ $statement->present()->dateSent('Not sent') }}</em>
 										</li>
 									@endforeach
 									</ul>
@@ -173,7 +173,7 @@
 									@slot('icon')
 										@icon('calendar')
 									@endslot
-									<input type="date" name="sent_at" id="sent_at" value="{{ $invoice->sent_at ? $invoice->sent_at->format('Y-m-d') : old('sent_at') }}" class="form-control">
+									<input type="date" name="sent_at" id="sent_at" value="{{ $invoice->present()->dateInput('sent_at', old('sent_at')) }}" class="form-control">
 								@endcomponent
 							@endcomponent
 
@@ -203,7 +203,7 @@
 
 								@component('partials.alerts.warning')
 									@if ($invoice->balance > 0)
-										Invoice has an outstanding balance of {{ money_formatted($invoice->balance) }} which must be cleared before it can be marked as paid.
+										Invoice has an outstanding balance of {{ $invoice->present()->money('balance') }} which must be cleared before it can be marked as paid.
 									@else
 										Invoice has no items and so cannot have been paid.
 									@endif
@@ -218,7 +218,7 @@
 										@foreach ($invoice->statements as $statement)
 											<li>
 												{{ $statement->present()->name }}
-												<em>{{ $statement->paid_at ? date_formatted($statement->paid_at) : 'Not paid' }}</em>
+												<em>{{ $statement->present()->datePaid('Not paid') }}</em>
 											</li>
 										@endforeach
 										</ul>
@@ -233,7 +233,7 @@
 										@slot('icon')
 											@icon('calendar')
 										@endslot
-										<input type="date" name="paid_at" id="paid_at" value="{{ $invoice->paid_at ? $invoice->paid_at->format('Y-m-d') : old('paid_at') }}" class="form-control">
+										<input type="date" name="paid_at" id="paid_at" value="{{ $invoice->present()->dateInput('paid_at', old('paid_at')) }}" class="form-control">
 									@endcomponent
 								@endcomponent
 

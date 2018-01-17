@@ -26,18 +26,35 @@ class BasePresenter extends Presenter
 	}
 
 	/**
-	 * Get the given field as a formatted date.
+	 * Return the given date field as a formatted date or return the alternative value.
 	 * 
 	 * @param  string  $field
+	 * @param  string  $alternative
 	 * @return string
 	 */
-	public function date($field)
+	public function date($field, $alternative = null)
 	{
 		if (! $this->$field) {
-			return null;
+			return $alternative;
 		}
 
 		return $this->$field->format(get_setting('date_format', 'Y-m-d'));
+	}
+
+	/**
+	 * Return the given date column as a date field.
+	 * 
+	 * @param  string  $field
+	 * @param  string  $alternative
+	 * @return string
+	 */
+	public function dateInput($field, $alternative = null)
+	{
+		if (! $this->$field) {
+			return $alternative;
+		}
+
+		return $this->$field->format('Y-m-d');
 	}
 
 	/**
@@ -75,9 +92,9 @@ class BasePresenter extends Presenter
 	 * 
 	 * @return srting
 	 */
-	public function datePaid()
+	public function datePaid($alternative = null)
 	{
-		return $this->date('paid_at');
+		return $this->date('paid_at', $alternative);
 	}
 
 	/**
@@ -85,9 +102,9 @@ class BasePresenter extends Presenter
 	 * 
 	 * @return srting
 	 */
-	public function dateSent()
+	public function dateSent($alternative = null)
 	{
-		return $this->date('sent_at');
+		return $this->date('sent_at', $alternative);
 	}
 
 	/**
