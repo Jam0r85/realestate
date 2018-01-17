@@ -6,8 +6,8 @@
 		@endif
 		<th>Name</th>
 		<th>Method</th>
-		<th>Amount</th>
-		<th>Users</th>
+		<th class="text-right">Users</th>
+		<th class="text-right">Amount</th>
 	@endslot
 	@slot('body')
 		@foreach ($payments as $payment)
@@ -18,8 +18,8 @@
 				@endif
 				<td>{{ $payment->present()->name }}</td>
 				<td>{{ truncate($payment->present()->method) }}</td>
-				<td>{{ $payment->present()->money('amount') }}</td>
-				<td>{!! $payment->present()->userBadges !!}</td>
+				<td class="text-right">{!! $payment->present()->userBadges !!}</td>
+				<td class="text-right">{{ $payment->present()->money('amount') }}</td>
 			</tr>
 		@endforeach
 	@endslot
