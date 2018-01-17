@@ -67,7 +67,7 @@
 		@endif
 
 		@if (count($invoice->statements))
-			@component('partials.alerts.info')
+			@component('partials.alerts.dark')
 				Invoice attached to the following statements:-
 				<ul>
 					@foreach ($invoice->statements as $statement)

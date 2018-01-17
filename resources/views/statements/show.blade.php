@@ -55,13 +55,19 @@
 		{{-- Send Statement Alert --}}
 		@if ($statement->canSend())
 			@component('partials.alerts.info')
-				Statement has been paid and can now be sent.
-				<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-info float-right">
-						@icon('sent') Send Statement
-					</button>
-				</form>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						Statement has been paid and can now be sent.
+					</div>
+					<div class="col-12 col-lg-6 text-right">
+						<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
+							{{ csrf_field() }}
+							<button type="submit" class="btn btn-info float-right">
+								@icon('sent') Send Statement
+							</button>
+						</form>
+					</div>
+				</div>
 			@endcomponent
 		@endif
 
@@ -88,7 +94,7 @@
 		@endif
 
 		@if (count($statement->invoices))
-			@component('partials.alerts.info')
+			@component('partials.alerts.dark')
 				<p>This statement has the following invoices attached:</p>
 				<ul>
 					@foreach ($statement->invoices as $invoice)
