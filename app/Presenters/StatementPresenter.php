@@ -170,11 +170,7 @@ class StatementPresenter extends BasePresenter
 	 * @return string
 	 */
 	public function statusLabel()
-	{
-		if ($this->sent_at) {
-			return 'Sent';
-		}
-		
+	{		
 		if (! $this->paid_at && count($this->unsentPayments)) {
 			return 'Unpaid';
 		}
@@ -183,7 +179,9 @@ class StatementPresenter extends BasePresenter
 			return 'Pending';
 		}
 
-		return parent::statusLabel();
+		if ($string = parent::statusLabel()) {
+			return $string;
+		}
 	}
 
 	/**

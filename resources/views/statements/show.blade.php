@@ -55,9 +55,10 @@
 		{{-- Send Statement Alert --}}
 		@if ($statement->canSend())
 			@component('partials.alerts.info')
+				Statement has been paid and can now be sent.
 				<form method="POST" action="{{ route('statements.send', $statement->id) }}" class="d-inline">
 					{{ csrf_field() }}
-					<button type="submit" class="btn btn-info">
+					<button type="submit" class="btn btn-info float-right">
 						@icon('sent') Send Statement
 					</button>
 				</form>
