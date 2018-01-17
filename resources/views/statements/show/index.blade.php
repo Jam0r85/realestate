@@ -10,13 +10,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.list-group-item')
-			{{ $statement->present()->money('invoices_net') }}
+			{{ $statement->present()->money('invoices_net_total') }}
 			@slot('title')
 				Invoices Net
 			@endslot
 		@endcomponent
 		@component('partials.list-group-item')
-			{{ $statement->present()->money('invoices_tax') }}
+			{{ $statement->present()->money('invoices_tax_total') }}
 			@slot('title')
 				Invoices Tax
 			@endslot
