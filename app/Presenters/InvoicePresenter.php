@@ -111,7 +111,9 @@ class InvoicePresenter extends BasePresenter
 	 */
 	public function statusLabel()
 	{
-		parent::statusLabel();
+		if ($string = parent::statusLabel()) {
+			return $string;
+		}
 
 		return 'Unpaid';
 	}

@@ -118,9 +118,11 @@ class BasePresenter extends Presenter
 			return 'Paid';
 		}
 
-		if (! $this->paid_at && $this->due_at < Carbon::now()) {
-			return 'Overdue';
-		}
+		if ($this->due_at) {
+			if (! $this->paid_at && $this->due_at < Carbon::now()) {
+				return 'Overdue';
+			}
+		}	
 
 		if ($this->sent_at) {
 			return 'Sent';
