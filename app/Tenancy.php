@@ -6,6 +6,7 @@ use App\Agreement;
 use App\Deposit;
 use App\Discount;
 use App\Events\StatementWasCreated;
+use App\Payment;
 use App\Property;
 use App\Service;
 use App\Statement;
@@ -231,7 +232,7 @@ class Tenancy extends BaseModel
     public function currentRent()
     {
         return $this
-            ->hasOne('App\TenancyRent')
+            ->hasOne(TenancyRent::class)
             ->where('starts_at', '<=', Carbon::now())
             ->latest('starts_at');
     }
@@ -251,7 +252,7 @@ class Tenancy extends BaseModel
     public function rent_payments()
     {
     	return $this
-            ->morphMany('App\Payment', 'parent')
+            ->morphMany(Payment::class, 'parent')
             ->latest();
     }
 
@@ -261,8 +262,8 @@ class Tenancy extends BaseModel
     public function latestRentPayment()
     {
         return $this
-            ->rent_payments
-            ->first();
+            ->morphOne(Payment::class, 'parent')
+            ->latest();
     }
 
     /**
@@ -271,7 +272,7 @@ class Tenancy extends BaseModel
     public function statements()
     {
         return $this
-            ->hasMany('App\Statement')
+            ->hasMany(Statement::class)
             ->latest('period_start');
     }
 
@@ -281,7 +282,7 @@ class Tenancy extends BaseModel
     public function latestStatement()
     {
         return $this
-            ->hasOne('App\Statement')
+            ->hasOne(Statement::class)
             ->latest('period_start');
     }
 

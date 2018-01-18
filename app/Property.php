@@ -2,11 +2,21 @@
 
 namespace App;
 
+use App\Appearance;
+use App\BankAccount;
+use App\Branch;
+use App\Expense;
+use App\Gas;
+use App\Invoice;
 use App\Settings\PropertySettings;
+use App\Statement;
+use App\TaxBand;
 use App\Tenancy;
 use App\Traits\DataTrait;
 use App\Traits\RemindersTrait;
 use App\Traits\SettingsTrait;
+use App\User;
+use App\Valuation;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -115,7 +125,7 @@ class Property extends BaseModel
 	public function invoices()
 	{
 		return $this
-			->hasMany('App\Invoice')
+			->hasMany(Invoice::class)
 			->latest();
 	}
 
@@ -125,7 +135,7 @@ class Property extends BaseModel
 	public function tenancies()
 	{
 		return $this
-			->hasMany('App\Tenancy')
+			->hasMany(Tenancy::class)
 			->withTrashed()
 			->latest();
 	}
@@ -136,7 +146,7 @@ class Property extends BaseModel
 	public function activeTenancy()
 	{
 		return $this
-			->hasOne('App\Tenancy')
+			->hasOne(Tenancy::class)
 			->active();
 	}
 
@@ -146,7 +156,7 @@ class Property extends BaseModel
 	public function expenses()
 	{
 		return $this
-			->hasMany('App\Expense')
+			->hasMany(Expense::class)
 			->latest();
 	}
 
@@ -156,7 +166,7 @@ class Property extends BaseModel
 	public function unpaidExpenses()
 	{
 		return $this
-			->hasMany('App\Expense')
+			->hasMany(Expense::class)
 			->whereNull('paid_at')
 			->latest();
 	}
@@ -167,26 +177,26 @@ class Property extends BaseModel
 	public function statements()
 	{
 		return $this
-			->hasManyThrough('App\Statement', 'App\Tenancy')
+			->hasManyThrough(Statement::class, Tenancy::class)
 			->latest('period_start');
 	}
 
 	/**
-	 * A property was created by an owner.
+	 * A property was created by a user.
 	 */
 	public function owner()
 	{
 		return $this
-			->belongsTo('App\User', 'user_id');
+			->belongsTo(User::class, 'user_id');
 	}
 
 	/**
-	 * A property can belong to many users.
+	 * A property can have many owners.
 	 */
 	public function owners()
 	{
 		return $this
-			->belongsToMany('App\User');
+			->belongsToMany(User::class);
 	}
 
 	/**
@@ -195,7 +205,64 @@ class Property extends BaseModel
 	public function residents()
 	{
 		return $this
-			->hasMany('App\User');
+			->hasMany(User::class);
+	}
+
+	/**
+	 * A property belongs to a branch.
+	 */
+	public function branch()
+	{
+		return $this
+			->belongsTo(Branch::class);
+	}
+
+	/**
+	 * A property can have a bank account.
+	 */
+	public function bank_account()
+	{
+		return $this
+			->belongsTo(BankAccount::class);
+	}
+
+	/**
+	 * A property can have many gas reminders.
+	 */
+	public function gas()
+	{
+		return $this
+			->hasMany(Gas::class)
+			->latest();
+	}
+
+	/**
+	 * A property can have many appearances.
+	 */
+	public function appearances()
+	{
+		return $this
+			->hasMany(Appearance::class)
+			->withTrashed()
+			->latest();
+	}
+
+	/**
+	 * A property can have a tax band.
+	 */
+	public function band()
+	{
+		return $this
+			->belongsTo(TaxBand::class);
+	}
+
+	/**
+	 * A property can have many valuations.
+	 */
+	public function valuations()
+	{
+		return $this
+			->hasMany(Valuation::class);
 	}
 
 	/**
@@ -205,9 +272,9 @@ class Property extends BaseModel
 	 * 
 	 * @return array
 	 */
-	public function currentResidents()
+	public function getCurrentResidents()
 	{
-		// Active tenancy, tenants are living at the property
+		// There is an active tenancy
 		if ($this->activeTenancy) {
 			return $this->activeTenancy->users;
 		}
@@ -221,63 +288,6 @@ class Property extends BaseModel
 	}
 
 	/**
-	 * A property belongs to a branch.
-	 */
-	public function branch()
-	{
-		return $this
-			->belongsTo('App\Branch');
-	}
-
-	/**
-	 * A property can have a bank account.
-	 */
-	public function bank_account()
-	{
-		return $this
-			->belongsTo('App\BankAccount');
-	}
-
-	/**
-	 * A property can have many gas reminders.
-	 */
-	public function gas()
-	{
-		return $this
-			->hasMany('App\Gas')
-			->latest();
-	}
-
-	/**
-	 * A property can have many appearances.
-	 */
-	public function appearances()
-	{
-		return $this
-			->hasMany('App\Appearance')
-			->withTrashed()
-			->latest();
-	}
-
-	/**
-	 * A property can have a tax band.
-	 */
-	public function band()
-	{
-		return $this
-			->belongsTo('App\TaxBand');
-	}
-
-	/**
-	 * A property can have many valuations.
-	 */
-	public function valuations()
-	{
-		return $this
-			->hasMany('App\Valuation');
-	}
-
-	/**
 	 * Store an expense to this property.
 	 * 
 	 * @param  \App\Expense $expense
@@ -285,18 +295,22 @@ class Property extends BaseModel
 	 */
     public function storeExpense(Expense $expense)
     {
-    	return $this->expenses()->save($expense);
+    	return $this
+    		->expenses()
+    		->save($expense);
     }
 
     /**
      * Store a tenancy to this property.
      * 
      * @param  \App\Tenancy  $tenancy
-     * @return  \App\Tenancy
+     * @return \App\Tenancy
      */
     public function storeTenancy(Tenancy $tenancy)
     {
-    	$this->tenancies()->save($tenancy);
+    	$this
+    		->tenancies()
+    		->save($tenancy);
 
         // Add discounts to the tenancy
         foreach ($this->owners as $user) {

@@ -11,8 +11,8 @@
 		Current Residents
 	@endcomponent
 
-	@if ($property->currentResidents())
-		@include('users.partials.users-table', ['users' => $property->currentResidents()])
+	@if ($property->getCurrentResidents())
+		@include('users.partials.users-table', ['users' => $property->getCurrentResidents()])
 	@endif
 </div>
 
