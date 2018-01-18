@@ -80,16 +80,6 @@ class Tenancy extends BaseModel
     ];
 
     /**
-     * The attributes that should be eager loaded.
-     * 
-     * @var array
-     */
-    protected $with = [
-        'users',
-        'property'
-    ];
-
-    /**
      * Get the indexable data array for the model.
      *
      * @return  array
