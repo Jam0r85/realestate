@@ -123,6 +123,8 @@ class TenancyController extends BaseController
             ->withTrashed()
             ->findOrFail($id);
 
+        $this->authorize('update', $tenancy);
+
         return view('tenancies.edit', compact('tenancy'));
     }
 
@@ -137,7 +139,11 @@ class TenancyController extends BaseController
     {
         $tenancy = $this->repository
             ->withTrashed()
-            ->findOrFail($id)
+            ->findOrFail($id);
+
+        $this->authorize('update', $tenancy);
+
+        $tenancy
             ->fill($request->input())
             ->setOverdue(false)
             ->save();

@@ -46,6 +46,26 @@ class TenancyPolicy
     }
 
     /**
+     * Determine if the given tenancy can be updated by the user.
+     * 
+     * @param  \App\User  $user
+     * @param  \App\Tenancy  $tenancy
+     * @return bool
+     */
+    public function show(User $user, Tenancy $tenancy)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user == $tenancy->owner->id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if the given tenancy can be deleted by the user.
      * 
      * @param  \App\User  $user

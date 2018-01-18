@@ -101,9 +101,15 @@ class BaseController extends Controller
 	 */
 	public function delete(Request $request, $id)
 	{
-        return $this->repository
-        	->findOrFail($id)
-        	->delete();
+    	$model = $this->repository
+    		->withTrashed()
+    		->findOrFail($id);
+
+    	$this->authorize('delete', $model);
+
+    	$model->delete();
+
+    	return $model;
 	}
 
 	/**
