@@ -200,9 +200,11 @@
                         <a class="dropdown-item" href="{{ route('branches.index') }}">
                             @icon('branch') @lang('navbar.branches')
                         </a>
-                        <a class="dropdown-item" href="{{ route('permissions.index') }}">
-                            @icon('permissions') @lang('navbar.permissions')
-                        </a>
+                        @can('list', App\Permission::class)
+                            <a class="dropdown-item" href="{{ route('permissions.index') }}">
+                                @icon('permissions') @lang('navbar.permissions')
+                            </a>
+                        @endcan
                         <a class="dropdown-item" href="{{ route('reports.index') }}">
                             @icon('report') @lang('navbar.reports')
                         </a>
