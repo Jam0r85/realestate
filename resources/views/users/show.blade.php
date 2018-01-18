@@ -41,6 +41,12 @@
 
 		@include('partials.errors-block')
 
+		@if ($user->isSuperAdmin())
+			@component('partials.alerts.danger')
+				@icon('info') <b>{{ $user->present()->fullName }} is a Super Admin</b>
+			@endcomponent
+		@endif
+
 		@if ($unpaidExpenses = count($user->unpaidExpenses))
 			@component('partials.alerts.warning')
 				This user has <b>{{ $unpaidExpenses }} unpaid</b> expenses.

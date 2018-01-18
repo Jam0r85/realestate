@@ -378,14 +378,10 @@ class User extends UserBaseModel
      */
     public function isSuperAdmin()
     {
-        if (! env('APP_MASTER_USER')) {
-            return false;
+        if (env('APP_MASTER_USER') == $this->id) {
+            return true;
         }
 
-        if (env('APP_MASTER_USER') != $this->id) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 }

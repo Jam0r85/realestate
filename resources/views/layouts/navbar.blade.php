@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
     <a class="navbar-brand" href="{{ route('dashboard') }}">
         {{ get_setting('company_name', config('app.name')) }}
@@ -159,7 +159,9 @@
                 <!-- Profile -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @icon('user') {{ Auth::user()->present()->fullName }}
+                        <span class="{{ Auth::user()->isSuperAdmin() ? 'text-danger' : '' }}">
+                            @icon('user') {{ Auth::user()->present()->fullName }}
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarProfileDropdown">
                         <a class="dropdown-item" href="{{ route('users.show', Auth::user()->id) }}">

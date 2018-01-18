@@ -122,10 +122,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{id}/edit', 'TenancyController@edit')->name('tenancies.edit'); // Edit the tenancy
 		Route::put('{id}', 'TenancyController@update')->name('tenancies.update'); // Update the tenancy
 		Route::get('{id}/{show?}', 'TenancyController@show')->name('tenancies.show'); // Show the tenancy
-		Route::post('{id}/create-rent-amount', 'TenancyController@createRentAmount')->name('tenancies.create-rent-amount');
-		Route::post('{id}/update-discounts', 'TenancyController@updateDiscounts')->name('tenancies.update-discounts');
-		Route::post('{id}/tenants-vacated', 'TenancyController@tenantsVacated')->name('tenancies.tenants-vacated');
-		Route::delete('{id}/archive', 'TenancyController@archive')->name('tenancies.archive');
+		Route::delete('{id}', 'TenancyController@delete')->name('tenancies.delete'); // Delete the tenancy
+		Route::put('{id}/restore', 'TenancyController@restore')->name('tenancies.restore'); // Restore the tenancy
+		Route::delete('{id}/force-delete', 'TenancyController@forceDelete')->name('tenancies.force-delete'); // Force delete a tenancy
 	});
 
 	// Tenancy Rent Payments

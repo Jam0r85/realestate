@@ -8,7 +8,7 @@
 	@endslot
 	@slot('body')
 		@foreach ($users as $user)
-			<tr class="clickable-row" data-href="{{ route('users.show', $user->id) }}" data-toggle="tooltip" data-placement="left" title="View {{ $user->present()->fullName }}'s Profile">
+			<tr class="clickable-row {{ $user->isSuperAdmin() ? 'table-danger' : '' }}" data-href="{{ route('users.show', $user->id) }}" data-toggle="tooltip" data-placement="left" title="View {{ $user->present()->fullName }}'s Profile">
 				<td>{{ $user->present()->fullName }}</td>
 				<td>{{ $user->email }}</td>
 				<td>{{ $user->phone_number }}</td>

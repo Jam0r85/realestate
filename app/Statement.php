@@ -154,7 +154,8 @@ class Statement extends PdfModel
      */
     public function invoices()
     {
-        return $this->belongsToMany('App\Invoice');
+        return $this
+            ->belongsToMany(Invoice::class);
     }
 
     /**

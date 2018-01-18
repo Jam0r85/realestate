@@ -3,10 +3,14 @@
 namespace App;
 
 use App\Agreement;
+use App\Deposit;
+use App\Discount;
 use App\Events\StatementWasCreated;
+use App\Service;
 use App\Statement;
 use App\TenancyRent;
 use App\Traits\SettingsTrait;
+use App\User;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
@@ -224,7 +228,7 @@ class Tenancy extends BaseModel
     public function rents()
     {
     	return $this
-            ->hasMany('App\TenancyRent')
+            ->hasMany(TenancyRent::class)
             ->withTrashed()
             ->latest('starts_at');
     }
@@ -290,12 +294,12 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * The tenancy agreements for this tenancy.
+     * A tenancy can have many agreements.
      */
     public function agreements()
     {
         return $this
-            ->hasMany('App\Agreement')
+            ->hasMany(Agreement::class)
             ->withTrashed()
             ->latest('starts_at');
     }
@@ -306,87 +310,85 @@ class Tenancy extends BaseModel
     public function pendingAgreements()
     {
         return $this
-            ->hasMany('App\Agreement')
+            ->hasMany(Agreement::class)
             ->where('starts_at', '>', Carbon::now())
             ->latest('starts_at');
     }
 
     /**
-     * The current agreement for this tenancy.
+     * A tenancy can have a current agreement.
      */
     public function currentAgreement()
     {
         return $this
-            ->hasOne('App\Agreement')
+            ->hasOne(Agreement::class)
             ->where('starts_at', '<=', Carbon::now())
             ->whereNull('deleted_at');
     }
 
     /**
-     * The first agreement for this tenancy.
+     * A tenancy can have a first agreement.
      */
     public function firstAgreement()
     {
         return $this
-            ->hasOne('App\Agreement')
+            ->hasOne(Agreement::class)
             ->oldest('starts_at');
     }
 
     /**
-     * A tenancy can belong to a service.
+     * A tenancy belongs to a service.
      */
     public function service()
     {
         return $this
-            ->belongsTo('App\Service');
+            ->belongsTo(Service::class);
     }
 
     /**
-     * A tenancy has an owner.
+     * A tenancy was created by a user.
      */
     public function owner()
     {
         return $this
-            ->belongsTo('App\User', 'user_id');
+            ->belongsTo(User::class, 'user_id');
     }
 
     /**
-     * A tenancy belongs to a branch.
+     * A tenancy can have a branch.
      */
     public function branch()
     {
-        return $this
-            ->property
-            ->branch;
+        return $this->property->branch;
     }
 
     /**
-     * A tenancy can belong to many discounts.
+     * A tenancy can have discounts.
      */
     public function discounts()
     {
         return $this
-            ->belongsToMany('App\Discount')
+            ->belongsToMany(Discount::class)
             ->withPivot('for');
     }
 
     /**
-     * A tenancy can have many service discounts applied to it.
+     * A tenancy can have discounts applied to it's service charge.
      */
     public function serviceDiscounts()
     {
         return $this
-            ->belongsToMany('App\Discount')
+            ->belongsToMany(Discount::class)
             ->wherePivot('for', 'service');
     }
 
     /**
-     * A tenancy can have a single deposit.
+     * A tenancy can have a deposit.
      */
     public function deposit()
     {
         return $this
-            ->hasOne('App\Deposit');
+            ->hasOne(Deposit::class);
     }
 
     /**

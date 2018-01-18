@@ -140,6 +140,45 @@ class TenancyController extends BaseController
     }
 
     /**
+     * Remove the specified resource from storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function delete(Request $request, $id)
+    {
+        parent::delete($request, $id);
+
+        return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function forceDelete(Request $request, $id)
+    {
+        $tenancy = parent::forceDelete($request, $id);
+
+        $tenancy->rents()->delete();
+        $tenancy->agreements()->delete();
+
+        if (count($tenancy->statements)) {
+            foreach ($tenancy->statements as $statement) {
+                $statement->invoices()->forceDelete();
+                $statement->payments()->delete();
+                $statement->forceDelete();
+            }
+        }
+
+        return redirect()->route($this->indexRoute);
+    }
+
+    /**
      * Record the tenants having vacated a tenancy.
      * 
      * @param  TenantsVacatedRequest $request
