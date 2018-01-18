@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Branch;
 use App\InvoiceGroup;
 use App\PaymentMethod;
+use App\Permission;
 use App\Property;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +29,13 @@ class CommonRequestsProvider extends ServiceProvider
      */
     public function register()
     {
+        // Permissions
+        $this->app->singleton('permissions', function ($app) {
+            return cache()->rememberForever('permissions', function () {
+                return Permission::orderBy('name')->get();
+            });
+        });
+
         // Branches
         $this->app->singleton('branches', function ($app) {
             return cache()->rememberForever('branches', function () {

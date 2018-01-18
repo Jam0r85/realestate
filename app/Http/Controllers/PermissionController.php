@@ -13,7 +13,7 @@ class PermissionController extends BaseController
      */
     public function index()
     {
-        $permissions = $this->repository->get();
+        $permissions = $this->repository->orderBy('slug')->get();
 
         return view('permissions.index', compact('permissions'));
     }

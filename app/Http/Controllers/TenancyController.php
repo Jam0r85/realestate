@@ -29,6 +29,8 @@ class TenancyController extends BaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view', $this->repository);
+        
         if (!$request->all()) {
             // Hide archived tenancies by default
             $request->request->add(['archived' => false]);

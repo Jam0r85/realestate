@@ -21,6 +21,9 @@
 					<a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
 						@icon('edit') Edit User
 					</a>
+					<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'permissions']) }}">
+						@icon('permissions') Change Permissions
+					</a>
 				</div>
 			</div>
 		</div>
@@ -40,12 +43,6 @@
 	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
-
-		@if ($user->isSuperAdmin())
-			@component('partials.alerts.danger')
-				@icon('info') <b>{{ $user->present()->fullName }} is a Super Admin</b>
-			@endcomponent
-		@endif
 
 		@if ($unpaidExpenses = count($user->unpaidExpenses))
 			@component('partials.alerts.warning')

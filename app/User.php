@@ -2,8 +2,8 @@
 
 namespace App;
 
+use App\Permission;
 use App\Settings\UserSettings;
-use App\Traits\PermissionsTrait;
 use App\Traits\SettingsTrait;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
@@ -21,8 +21,7 @@ class User extends UserBaseModel
         PresentableTrait,
         SettingsTrait,
         Filterable,
-        Billable,
-        PermissionsTrait;
+        Billable;
 
     /**
      * The presenter for this model.
@@ -291,6 +290,15 @@ class User extends UserBaseModel
     }
 
     /**
+     * A user can have permissions.
+     */
+    public function permissions()
+    {
+        return $this
+            ->belongsToMany(Permission::class);
+    }
+
+    /**
      * Set the users mobile phone number.
      * 
      * @param  string  $value
@@ -383,5 +391,16 @@ class User extends UserBaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Check whether a permission exists with the given slug.
+     * 
+     * @param  string  $slug
+     * @return boolean
+     */
+    public function hasPermission(string $slug)
+    {
+        return $this->permissions()->where('slug', $slug)->exists();
     }
 }

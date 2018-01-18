@@ -11,6 +11,25 @@ class TenancyPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if tenancies can be viewed by this user.
+     * 
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function view(User $user)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->hasPermission('tenancies-view')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if a tenancy can be created.
      * 
      * @param  \App\User  $user
