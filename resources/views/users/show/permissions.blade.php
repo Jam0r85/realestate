@@ -16,7 +16,7 @@
 		@endslot
 		@slot('body')
 			@foreach (common('permissions') as $permission)
-				<tr>
+				<tr class="row-toggle">
 					<td>
 						<label for="{{ $permission->slug }}">
 							{{ $permission->name }}
@@ -39,3 +39,33 @@
 	@endif
 
 </form>
+
+@push('footer_scripts')
+<script>
+	function checkboxRowClass()
+	{
+		var row = $(this).closest('tr');
+
+		if ($(this).is(':checked')) {
+			row.addClass('table-success');
+		} else {
+			row.removeClass('table-success');
+		}
+	}
+
+	// Set the correct row classes on page load
+	$('input[type=checkbox]:checked').each(function () {
+		$(this).closest('tr').addClass('table-success');
+	});
+
+	// Toggle the checkbox on row click
+	$('.row-toggle').click(function(event) {
+		if (event.target.type !== 'checkbox') {
+			$(':checkbox', this).trigger('click');
+		}
+	});
+
+	// Toggle the row class change when the checkbox value is changed
+	$(':checkbox').change(checkboxRowClass);
+</script>
+@endpush
