@@ -18,6 +18,7 @@ class CreateTenanciesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('property_id')->unsigned();
             $table->integer('service_id')->unsigned();
+            $table->string('name');
             $table->integer('rent_balance')->default(0);
             $table->integer('is_overdue')->default(0);
             $table->date('started_on')->nullable();

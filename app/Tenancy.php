@@ -60,6 +60,7 @@ class Tenancy extends BaseModel
 	protected $fillable = [
 		'property_id',
 		'service_id',
+        'name',
         'is_overdue',
 		'vacated_on',
         'rent_balance',
