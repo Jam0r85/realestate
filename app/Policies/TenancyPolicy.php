@@ -52,7 +52,7 @@ class TenancyPolicy
      * @param  \App\Tenancy  $tenancy
      * @return bool
      */
-    public function show(User $user, Tenancy $tenancy)
+    public function update(User $user, Tenancy $tenancy)
     {
         if ($user->isSuperAdmin()) {
             return true;
