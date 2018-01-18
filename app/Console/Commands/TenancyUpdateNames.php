@@ -39,7 +39,9 @@ class TenancyUpdateNames extends Command
     public function handle()
     {
         foreach (Tenancy::withTrashed()->get() as $tenancy) {
-            $tenancy->update(['name' => $tenancy->present()->name]);
+            $tenancy
+                ->setName()
+                ->save();
         }
 
         $this->info('Tenancy names were updated');

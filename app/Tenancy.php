@@ -1038,4 +1038,24 @@ class Tenancy extends BaseModel
 
         return array_unique($names);
     }
+
+    /**
+     * Set the name for this tenancy.
+     *
+     * @return void
+     */
+    public function setName()
+    {
+        if (count($this->users)) {
+            foreach ($this->users as $user) {
+                $names[] = $user->present()->fullName;
+            }
+        }
+
+        if (isset($names) && count($names)) {
+            $this->name = implode(' & ', $names);
+        }
+
+        return $this;
+    }
 }

@@ -7,23 +7,17 @@ use Carbon\Carbon;
 class TenancyPresenter extends BasePresenter
 {
 	/**
-	 * The tenancy name consists of the tenant's names.
+	 * Get the tenancy name.
 	 * 
 	 * @return string
 	 */
 	public function name()
 	{
-		if (count($this->users)) {
-			foreach ($this->users as $user) {
-				$names[] = $user->present()->fullName;
-			}
+		if ($this->name) {
+			return $this->name;
 		}
 
-		if (isset($names) && count($names)) {
-			return implode(' & ', $names);
-		} else {
-			return 'Tenancy #' . $this->id;
-		}
+		return 'Tenancy ' . $this->id;
 	}
 
 	/**
