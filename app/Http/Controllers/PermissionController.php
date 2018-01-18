@@ -65,24 +65,32 @@ class PermissionController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Permission  $permission
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $permission)
+    public function edit($id)
     {
-        //
+        $permission = $this->repository
+            ->findOrFail($id);
+
+        return view('permissions.edit', compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Permission  $permission
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, $id)
     {
-        //
+        $this->repository
+            ->findOrFail($id)
+            ->fill($request->input())
+            ->save();
+
+        return back();
     }
 
     /**

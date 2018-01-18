@@ -6,7 +6,7 @@
 	@endslot
 	@slot('body')
 		@foreach ($permissions as $permission)
-			<tr class="clickable-row" data-href="{{ route('permissions.edit', $permission->id) }}" data-toggle="tooltop" data-placement="left" title="Edit Permission">
+			<tr class="clickable-row" data-href="{{ route('permissions.edit', $permission->id) }}" data-toggle="tooltip" data-placement="left" title="Edit Permission">
 				<td>{{ $permission->name }}</td>
 				<td>{{ $permission->description }}</td>
 				<td class="text-right">{{ $permission->slug }}</td>
