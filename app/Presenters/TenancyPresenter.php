@@ -14,7 +14,7 @@ class TenancyPresenter extends BasePresenter
 	public function name()
 	{
 		if ($this->entity->name) {
-			return $this->name;
+			return $this->entity->name;
 		}
 
 		return 'Tenancy ' . $this->id;
