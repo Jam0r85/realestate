@@ -121,10 +121,13 @@ class BaseController extends Controller
 	 */
 	public function restore(Request $request, $id)
 	{
-        $record = $this->repository
+        $model = $this->repository
         	->onlyTrashed()
-        	->findOrFail($id)
-        	->restore();
+        	->findOrFail($id);
+
+        $this->authorize('restore', $model);
+
+        $model->restore();
 
         return back();
 	}
