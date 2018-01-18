@@ -164,6 +164,17 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarProfileDropdown">
+                        @if (count(Auth::user()->staffBranches))
+                            <h5 class="dropdown-header">
+                                Branches
+                            </h5>
+                            @foreach (Auth::user()->staffBranches as $branch)
+                                <a class="dropdown-item" href="{{ route('branches.show', $branch->id) }}">
+                                    @icon('branch') {{ $branch->name }}
+                                </a>
+                            @endforeach
+                            <div class="dropdown-divider"></div>
+                        @endif
                         <a class="dropdown-item" href="{{ route('users.show', Auth::user()->id) }}">
                             @icon('user') @lang('navbar.profile')
                         </a>
