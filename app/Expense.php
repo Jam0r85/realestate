@@ -3,9 +3,12 @@
 namespace App;
 
 use App\Document;
+use App\Property;
+use App\Statement;
 use App\StatementPayment;
 use App\Traits\DataTrait;
 use App\Traits\DocumentsTrait;
+use App\User;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Support\Facades\Storage;
@@ -14,11 +17,11 @@ use Laravel\Scout\Searchable;
 
 class Expense extends BaseModel
 {
-    use Searchable;
-    use DocumentsTrait;
-    use PresentableTrait;
-    use Filterable;
-    use DataTrait;
+    use Searchable,
+        DocumentsTrait,
+        PresentableTrait,
+        Filterable,
+        DataTrait;
 
     /**
      * The presenter for this model.
@@ -50,12 +53,18 @@ class Expense extends BaseModel
         'contractor'
     ];
 
+    /**
+     * Boot the eloquent model.
+     * 
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
         
         static::deleted(function ($model) {
 
+            // Delete all documents associated with this model
             foreach ($model->documents as $document) {
                 Storage::delete($document->path);
                 $document->forceDelete();
@@ -82,9 +91,9 @@ class Expense extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('name', 'cost', 'created_at', 'paid_at');
-        $array['property'] = $this->property->name;
-        $array['contractor'] = $this->contractor ? $this->contractor->name : '';
+        $array = $this->only('name','cost','created_at','paid_at');
+        $array['property'] = $this->property->present()->fullAddress;
+        $array['contractor'] = $this->contractor ? $this->contractor->name : null;
 
         return $array;
     }
@@ -139,7 +148,7 @@ class Expense extends BaseModel
     public function contractor()
     {
         return $this
-            ->belongsTo('App\User', 'contractor_id');
+            ->belongsTo(User::class, 'contractor_id');
     }
 
     /**
@@ -148,7 +157,7 @@ class Expense extends BaseModel
     public function owner()
     {
         return $this
-            ->belongsTo('App\User', 'user_id');
+            ->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -157,7 +166,7 @@ class Expense extends BaseModel
     public function property()
     {
         return $this
-            ->belongsTo('App\Property');
+            ->belongsTo(Property::class);
     }
 
     /**
@@ -166,7 +175,7 @@ class Expense extends BaseModel
     public function statements()
     {
         return $this
-            ->belongsToMany('App\Statement')
+            ->belongsToMany(Statement::class)
             ->withPivot('amount');
     }
 
@@ -176,7 +185,7 @@ class Expense extends BaseModel
     public function payments()
     {
         return $this
-            ->morphMany('App\StatementPayment', 'parent');
+            ->morphMany(StatementPayment::class, 'parent');
     }
 
     /**
@@ -185,7 +194,7 @@ class Expense extends BaseModel
     public function paymentsSent()
     {
         return $this
-            ->morphMany('App\StatementPayment', 'parent')
+            ->morphMany(StatementPayment::class, 'parent')
             ->whereNotNull('sent_at');
     }
 
