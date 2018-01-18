@@ -11,18 +11,18 @@ class TenancyPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine if tenancies can be viewed by this user.
+     * Determine if the list of tenancies can be viewed by this user.
      * 
      * @param  \App\User  $user
      * @return bool
      */
-    public function view(User $user)
+    public function list(User $user)
     {
         if ($user->isSuperAdmin()) {
             return true;
         }
 
-        if ($user->hasPermission('tenancies-view')) {
+        if ($user->hasPermission('tenancies-list')) {
             return true;
         }
 
@@ -51,17 +51,17 @@ class TenancyPolicy
      * @param  \App\Tenancy  $tenancy
      * @return bool
      */
-    public function show(User $user, Tenancy $tenancy)
+    public function view(User $user, Tenancy $tenancy)
     {
         if ($user->isSuperAdmin()) {
             return true;
         }
 
-        if ($user->hasPermissionIsOwner('tenancies-show', $tenancy)) {
+        if ($user->hasPermissionIsOwner('tenancies-view', $tenancy)) {
             return true;
         }
 
-        if ($user->hasPermissionIsStaff('tenancies-show', $tenancy)) {
+        if ($user->hasPermissionIsStaff('tenancies-view', $tenancy)) {
             return true;
         }
 

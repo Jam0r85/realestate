@@ -6,7 +6,7 @@
 
 		<div class="text-center">
 			<h2 class="text-warning mb-5">
-				You cannot do that
+				Invalid Permissions
 			</h2>
 
 			@component('partials.alerts.warning')

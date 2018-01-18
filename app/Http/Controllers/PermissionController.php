@@ -13,6 +13,8 @@ class PermissionController extends BaseController
      */
     public function index()
     {
+        $this->authorize('list', $this->repository);
+
         $permissions = $this->repository->orderBy('slug')->get();
 
         return view('permissions.index', compact('permissions'));
@@ -25,6 +27,8 @@ class PermissionController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', $this->repository);
+
         $latestPermissions = $this->repository->limit(15)->get();
 
         return view('permissions.create', compact('latestPermissions'));
@@ -38,6 +42,8 @@ class PermissionController extends BaseController
      */
     public function store(Request $request)
     {
+        $this->authorize('create', $this->repository);
+
         $data = $request->input();
 
         if (!$data['slug']) {
@@ -52,17 +58,6 @@ class PermissionController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -72,6 +67,8 @@ class PermissionController extends BaseController
     {
         $permission = $this->repository
             ->findOrFail($id);
+
+        $this->authorize('update', $permission);
 
         return view('permissions.edit', compact('permission'));
     }
@@ -85,8 +82,12 @@ class PermissionController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $this->repository
-            ->findOrFail($id)
+        $permission = $this->repository
+            ->findOrFail($id);
+
+        $this->authorize('update', $permission);
+
+        $permission
             ->fill($request->input())
             ->save();
 

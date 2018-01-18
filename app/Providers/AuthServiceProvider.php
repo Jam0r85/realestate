@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\InvoiceGroup;
+use App\Permission;
 use App\Policies\InvoiceGroupPolicy;
+use App\Policies\PermissionPolicy;
 use App\Policies\StatementPolicy;
 use App\Policies\TenancyPolicy;
 use App\Statement;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Permission::class => PermissionPolicy::class,
         InvoiceGroup::class => InvoiceGroupPolicy::class,
         Statement::class => StatementPolicy::class,
         Tenancy::class => TenancyPolicy::class
