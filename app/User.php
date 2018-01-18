@@ -2,10 +2,19 @@
 
 namespace App;
 
+use App\BankAccount;
 use App\Branch;
+use App\Email;
+use App\Expense;
+use App\Gas;
+use App\Invoice;
+use App\Payment;
 use App\Permission;
 use App\Settings\UserSettings;
+use App\SmsHistory;
+use App\Tenancy;
 use App\Traits\SettingsTrait;
+use App\UserLogin;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -186,7 +195,7 @@ class User extends UserBaseModel
     public function tenancies()
     {
         return $this
-            ->belongsToMany('App\Tenancy')
+            ->belongsToMany(Tenancy::class)
             ->withTrashed()
             ->latest();
     }
@@ -194,21 +203,12 @@ class User extends UserBaseModel
     /**
      * A user can have an active tenancy.
      */
-    public function activeTenancy()
+    public function activeTenancies()
     {
         return $this
-            ->belongsToMany('App\Tenancy')
-            ->whereNull('vacated_on');
-    }
-
-    /**
-     * A user can have a tenancy which they are vacating.
-     */
-    public function vacatingTenancy()
-    {
-        return $this
-            ->belongsToMany('App\Tenancy')
-            ->where('vacated_on', '<=', Carbon::now());
+            ->belongsToMany(Tenancy::class)
+            ->whereNull('vacated_on')
+            ->orWhere('vacated_on', '<=', Carbon::now());
     }
 
     /**
@@ -217,7 +217,7 @@ class User extends UserBaseModel
     public function invoices()
     {
         return $this
-            ->belongsToMany('App\Invoice')
+            ->belongsToMany(Invoice::class)
             ->latest();
     }
 
@@ -227,17 +227,7 @@ class User extends UserBaseModel
     public function expenses()
     {
         return $this
-            ->hasMany('App\Expense', 'contractor_id')
-            ->latest();
-    }
-
-    /**
-     * A user can have many payments.
-     */
-    public function payments()
-    {
-        return $this
-            ->belongsToMany('App\Payment')
+            ->hasMany(Expense::class, 'contractor_id')
             ->latest();
     }
 
@@ -247,8 +237,18 @@ class User extends UserBaseModel
     public function unpaidExpenses()
     {
         return $this
-            ->hasMany('App\Expense', 'contractor_id')
+            ->hasMany(Expense::class, 'contractor_id')
             ->whereNull('paid_at')
+            ->latest();
+    }
+
+    /**
+     * A user can have many payments.
+     */
+    public function payments()
+    {
+        return $this
+            ->belongsToMany(Payment::class)
             ->latest();
     }
 
@@ -258,7 +258,7 @@ class User extends UserBaseModel
     public function gas()
     {
         return $this
-            ->belongsToMany('App\Gas');
+            ->belongsToMany(Gas::class);
     }
 
     /**
@@ -267,7 +267,7 @@ class User extends UserBaseModel
     public function bankAccounts()
     {
         return $this
-            ->belongsToMany('App\BankAccount');
+            ->belongsToMany(BankAccount::class);
     }
 
     /**
@@ -276,7 +276,7 @@ class User extends UserBaseModel
     public function logins()
     {
         return $this
-            ->hasMany('App\UserLogin')
+            ->hasMany(UserLogin::class)
             ->latest();
     }
 
@@ -286,7 +286,7 @@ class User extends UserBaseModel
     public function sms()
     {
         return $this
-            ->hasMany('App\SmsHistory')
+            ->hasMany(SmsHistory::class)
             ->latest();
     }
 
@@ -296,7 +296,7 @@ class User extends UserBaseModel
     public function emails()
     {
         return $this
-            ->belongsToMany('App\Email');
+            ->belongsToMany(Email::class);
     }
 
     /**
@@ -352,16 +352,8 @@ class User extends UserBaseModel
      */
     public function getCurrentLocation()
     {
-        if (count($this->activeTenancy)) {
-            foreach ($this->activeTenancy as $active) {
-                return $active->property;
-            }
-        }
-
-        if (count($this->vacatingTenancy)) {
-            foreach ($this->vacatingTenancy as $vacating) {
-                return $vacating->property;
-            }           
+        if (count($this->activeTenancies)) {
+            return $this->activeTenancies->first();
         }
 
         if ($this->home) {

@@ -7,6 +7,7 @@ use App\InvoiceGroup;
 use App\PaymentMethod;
 use App\Permission;
 use App\Property;
+use App\Service;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -54,6 +55,13 @@ class CommonRequestsProvider extends ServiceProvider
         $this->app->singleton('properties', function ($app) {
             return cache()->rememberForever('properties', function () {
                 return Property::select('id','house_name','house_number','address1','address2','address3','town','county','postcode')->with('owners')->latest()->get();
+            });
+        });
+
+        // Services
+        $this->app->singleton('services', function ($app) {
+            return cache()->rememberForever('services', function () {
+                return Service::select('id','name','charge')->orderBy('name')->get();
             });
         });
 

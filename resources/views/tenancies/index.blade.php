@@ -30,7 +30,7 @@
 						All Services
 					</a>
 					<div class="dropdown-divider"></div>
-					@foreach (services() as $service)
+					@foreach (common('services') as $service)
 						<a class="dropdown-item @if (request('service') == $service->slug) active @endif" href="{{ Filter::link(['service' => $service->slug]) }}">
 							{{ $service->name }}
 						</a>

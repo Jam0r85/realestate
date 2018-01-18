@@ -6,6 +6,7 @@ use App\Agreement;
 use App\Deposit;
 use App\Discount;
 use App\Events\StatementWasCreated;
+use App\Property;
 use App\Service;
 use App\Statement;
 use App\TenancyRent;
@@ -209,7 +210,7 @@ class Tenancy extends BaseModel
     public function property()
     {
     	return $this
-            ->belongsTo('App\Property')
+            ->belongsTo(Property::class)
             ->withTrashed();
     }
 
@@ -241,7 +242,7 @@ class Tenancy extends BaseModel
     public function users()
     {
     	return $this
-            ->belongsToMany('App\User');
+            ->belongsToMany(User::class);
     }
 
     /**
