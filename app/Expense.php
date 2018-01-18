@@ -91,7 +91,8 @@ class Expense extends BaseModel
      */
     public function toSearchableArray()
     {
-        $array = $this->only('name','cost','created_at','paid_at','data');
+        $array = $this->only('name','cost','created_at','paid_at');
+        $array['invoice'] = $this->getData('contractor_reference');
         $array['property'] = $this->property->present()->fullAddress;
         $array['contractor'] = $this->contractor ? $this->contractor->name : null;
 
