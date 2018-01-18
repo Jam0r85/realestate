@@ -28,7 +28,7 @@ return [
     'profile' => 'My Profile',
     'properties' => 'Properties',
     'reports' => 'Reports',
-    'roles' => 'Roles',
+    'permissions' => 'Permissions',
     'settings' => 'Settings',
     'sms_history' => 'SMS History',
     'statements' => 'Statements',

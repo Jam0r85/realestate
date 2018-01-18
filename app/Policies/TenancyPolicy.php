@@ -38,7 +38,11 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user == $tenancy->owner->id) {
+        if ($user->hasPermission('tenancies-show')) {
+            return true;
+        }
+
+        if ($user->id == $tenancy->owner->id) {
             return true;
         }
 
@@ -58,7 +62,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user == $tenancy->owner->id) {
+        if ($user->id == $tenancy->owner->id) {
             return true;
         }
 
@@ -78,7 +82,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user == $tenancy->owner->id) {
+        if ($user->id == $tenancy->owner->id) {
             return true;
         }
 
@@ -98,7 +102,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user == $tenancy->owner->id) {
+        if ($user->id == $tenancy->owner->id) {
             return true;
         }
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends BaseController
@@ -14,7 +13,9 @@ class PermissionController extends BaseController
      */
     public function index()
     {
-        //
+        $permissions = $this->repository->get();
+
+        return view('permissions.index', compact('permissions'));
     }
 
     /**
@@ -24,7 +25,9 @@ class PermissionController extends BaseController
      */
     public function create()
     {
-        //
+        $latestPermissions = $this->repository->limit(15)->get();
+
+        return view('permissions.create', compact('latestPermissions'));
     }
 
     /**
@@ -35,7 +38,17 @@ class PermissionController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->input();
+
+        if (!$data['slug']) {
+            $data['slug'] = $data['name'];
+        }
+
+        $this->repository
+            ->fill($data)
+            ->save();
+
+        return back();
     }
 
     /**
@@ -78,7 +91,7 @@ class PermissionController extends BaseController
      * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(Request $request, $id)
     {
         //
     }

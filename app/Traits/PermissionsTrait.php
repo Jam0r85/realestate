@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Permission;
+use Illuminate\Support\Facades\Cache;
 
 trait PermissionsTrait
 {
@@ -20,6 +21,6 @@ trait PermissionsTrait
 	 */
 	public function hasPermission(string $slug)
 	{
-		return $this->permissions->where('slug', $slug->exists());
+		return $this->permissions()->where('slug', $slug)->exists();
 	}
 }

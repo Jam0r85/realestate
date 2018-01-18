@@ -238,14 +238,14 @@ Route::middleware(['auth'])->group(function () {
 		Route::put('{id}/forceDestroy', 'BranchController@forceDestroy')->name('branches.forceDestroy'); // Foce delete the branch
 	});
 
-	// Roles
-	Route::prefix('roles')->group(function () {
-		Route::get('/', 'RoleController@index')->name('roles.index');
-		Route::get('create', 'RoleController@create')->name('roles.create'); // Create a new role
-		Route::post('/', 'RoleController@store')->name('roles.store'); // Store the role
-		Route::get('{id}/edit', 'RoleController@edit')->name('roles.edit'); // Edit the role
-		Route::get('{id}/{show?}', 'RoleController@show')->name('roles.show'); // Show the role
-		Route::put('{id}', 'RoleController@update')->name('roles.update'); // Update the role
+	// Permissions
+	Route::prefix('permissions')->group(function () {
+		Route::get('/', 'PermissionController@index')->name('permissions.index');
+		Route::get('create', 'PermissionController@create')->name('permissions.create'); // Create a new permission
+		Route::post('/', 'PermissionController@store')->name('permissions.store'); // Store the permission
+		Route::get('{id}/edit', 'PermissionController@edit')->name('permissions.edit'); // Edit the permission
+		Route::get('{id}/{show?}', 'PermissionController@show')->name('permissions.show'); // Show the permission
+		Route::put('{id}', 'PermissionController@update')->name('permissions.update'); // Update the permission
 	});
 
 	Route::get('download/invoice/{id}', 'DownloadController@invoice')->name('downloads.invoice');

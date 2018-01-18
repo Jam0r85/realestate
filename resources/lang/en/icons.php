@@ -43,7 +43,7 @@ return [
     'report' => 'file',
     'restore' => 'undo',
     'return' => 'backward',
-    'role' => 'users',
+    'permissions' => 'users',
     'save' => 'save',
     'sent' => 'envelope-open',
     'settings' => 'cog',
