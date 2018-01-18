@@ -4,9 +4,11 @@
 
 	@component('partials.page-header')
 
-		<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
-			<i class="fa fa-plus"></i> New Tenancy
-		</a>
+		@can('create', App\Tenancy::class)
+			<a href="{{ route('tenancies.create') }}" class="btn btn-primary float-right">
+				<i class="fa fa-plus"></i> New Tenancy
+			</a>
+		@endcan
 
 		@component('partials.header')
 			{{ isset($title) ? $title : 'Tenancies List' }}

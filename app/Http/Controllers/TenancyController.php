@@ -51,6 +51,8 @@ class TenancyController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', $this->repository);
+
         return view('tenancies.create');
     }
 
@@ -62,6 +64,8 @@ class TenancyController extends BaseController
      */
     public function store(TenancyStoreRequest $request)
     {
+        $this->authorize('create', $this->repository);
+
         $property = Property::withTrashed()
             ->findOrFail($request->property_id);
 
@@ -101,6 +105,8 @@ class TenancyController extends BaseController
         $tenancy = $this->repository
             ->withTrashed()
             ->findOrFail($id);
+
+        $this->authorize('show', $tenancy);
 
         return view('tenancies.show', compact('tenancy','show'));
     }

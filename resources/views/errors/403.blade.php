@@ -4,17 +4,19 @@
 
 	@component('partials.section-with-container')
 
-		<h2>
-			Unauthorized
-		</h2>
+		<div class="text-center">
+			<h2 class="text-warning mb-5">
+				You cannot do that
+			</h2>
 
-		<p class="lead">
-			{{ $exception->getMessage() }}
-		</p>
+			@component('partials.alerts.warning')
+				{{ $exception->getMessage() }}
+			@endcomponent
 
-		<a href="{{ url()->previous() }}" class="btn btn-secondary">
-			Go Back
-		</a>
+			<a href="{{ url()->previous() }}" class="btn btn-warning">
+				@icon('return') Go Back
+			</a>
+		</div>
 
 	@endcomponent
 

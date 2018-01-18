@@ -221,42 +221,46 @@
 
 				@if ($tenancy->deleted_at)
 
-					<form method="POST" action="{{ route('tenancies.restore', $tenancy->id) }}">
-						{{ csrf_field() }}
-						{{ method_field('PUT') }}
+					@can('restore', $tenancy)
+						<form method="POST" action="{{ route('tenancies.restore', $tenancy->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
 
-						@component('partials.card')
-							@slot('header')
-								Restore Tenancy
-							@endslot
-							@slot('footer')
-								@include('partials.forms.restore-button')
-							@endslot
-						@endcomponent
+							@component('partials.card')
+								@slot('header')
+									Restore Tenancy
+								@endslot
+								@slot('footer')
+									@include('partials.forms.restore-button')
+								@endslot
+							@endcomponent
 
-					</form>
+						</form>
+					@endcan
 
-					<form method="POST" action="{{ route('tenancies.force-delete', $tenancy->id) }}">
-						{{ csrf_field() }}
-						{{ method_field('DELETE') }}
+					@can('force-delete', $tenancy)
+						<form method="POST" action="{{ route('tenancies.force-delete', $tenancy->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
 
-						@component('partials.card')
-							@slot('header')
-								Destroy Tenancy
-							@endslot
-							@slot('body')
+							@component('partials.card')
+								@slot('header')
+									Destroy Tenancy
+								@endslot
+								@slot('body')
 
-								@component('partials.alerts.danger')
-									@icon('warning') Destroying this tenancy will also delete all rents, agreements, deposits and statements associated with it. <b>This cannot be undone.</b>
-								@endcomponent
+									@component('partials.alerts.danger')
+										@icon('warning') Destroying this tenancy will also delete all rents, agreements, deposits and statements associated with it. <b>This cannot be undone.</b>
+									@endcomponent
 
-							@endslot
-							@slot('footer')
-								@include('partials.forms.destroy-button')
-							@endslot
-						@endcomponent
+								@endslot
+								@slot('footer')
+									@include('partials.forms.destroy-button')
+								@endslot
+							@endcomponent
 
-					</form>
+						</form>
+					@endcan
 
 				@else
 

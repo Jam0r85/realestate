@@ -33,6 +33,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::resource('tenancies', 'TenancyPolicy', [
+            'show' => 'show',
+            'restore' => 'restore',
+            'force-delete' => 'forceDelete'
+        ]);
     }
 }
