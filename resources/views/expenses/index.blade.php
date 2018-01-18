@@ -18,10 +18,12 @@
 
 		@include('partials.index-search', ['route' => 'expenses.search', 'session' => 'expense_search_term'])
 
-		<ul class="nav nav-pills">
-			{!! Filter::paidPill() !!}
-			{!! Filter::unpaidPill() !!}
-		</ul>
+		@if (!session()->has('expense_search_term'))
+			<ul class="nav nav-pills">
+				{!! Filter::paidPill() !!}
+				{!! Filter::unpaidPill() !!}
+			</ul>
+		@endif
 
 		@include('expenses.partials.expenses-table')
 		@include('partials.pagination', ['collection' => $expenses])
