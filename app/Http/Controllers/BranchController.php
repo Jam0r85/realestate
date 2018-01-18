@@ -88,11 +88,15 @@ class BranchController extends BaseController
      */
     public function update(BranchUpdateRequest $request, $id)
     {
-        $this->repository
+        $branch = $this->repository
             ->withTrashed()
             ->findOrFail($id)
             ->fill($request->input())
             ->save();
+
+        if ($request->has('users')) {
+            $branch->staff()->sync($request->users);
+        }
 
         return back();
     }

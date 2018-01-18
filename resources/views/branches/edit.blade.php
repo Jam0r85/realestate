@@ -58,6 +58,39 @@
 			</div>
 			<div class="col-12 col-lg-6">
 
+				<form method="POST" action="{{ route('branches.update', $branch->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
+
+					@component('partials.card')
+						@slot('header')
+							Branch Staff
+						@endslot
+						@slot('body')
+
+							@component('partials.form-group')
+								@slot('label')
+									Users
+								@endslot
+								<select name="users[]" id="users[]" class="form-control select2" multiple>
+									@foreach(common('users') as $user)
+										<option @if ($branch->staff->contains($user->id)) selected @endif value="{{ $user->id }}">
+											{{ $user->present()->selectName }}
+										</option>
+									@endforeach
+								</select>
+							@endcomponent
+
+						@endslot
+						@slot('footer')
+							@component('partials.save-button')
+								Save Changes
+							@endcomponent
+						@endslot
+					@endcomponent
+
+				</form>
+
 				@if ($branch->deleted_at)
 
 					<form method="POST" action="{{ route('branches.restore', $branch->id) }}">

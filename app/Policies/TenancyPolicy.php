@@ -61,6 +61,10 @@ class TenancyPolicy
             return true;
         }
 
+        if ($user->hasPermissionIsStaff('tenancies-show', $tenancy)) {
+            return true;
+        }
+
         return false;
     }
 

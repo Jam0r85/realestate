@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Branch;
 use App\Permission;
 use App\Settings\UserSettings;
 use App\Traits\SettingsTrait;
@@ -143,12 +144,21 @@ class User extends UserBaseModel
     }
 
     /**
-     * A user can belong to a branch.
+     * A user can be registered to a branch.
      */
     public function branch()
     {
         return $this
-            ->belongsTo('App\Branch');
+            ->belongsTo(Branch::class);
+    }
+
+    /**
+     * A user can be a staff member to branches.
+     */
+    public function staffBranches()
+    {
+        return $this
+            ->belongsToMany(Branch::class);
     }
 
     /**
@@ -402,6 +412,25 @@ class User extends UserBaseModel
     public function hasPermission(string $slug)
     {
         return $this->permissions()->where('slug', $slug)->exists();
+    }
+
+    /**
+     * Check whether this user has permission and is a staff member.
+     * 
+     * @param  string  $slug
+     * @param  \Illuminate\Database\Eloquent\Builder  $model
+     * @param  \Illuminate\Database\Eloquent  $branch
+     * @return bool
+     */
+    public function hasPermissionIsStaff(string $slug, $model, $branch = null)
+    {
+        if ($this->hasPermission($slug)) {
+            if (count($this->staffBranches)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

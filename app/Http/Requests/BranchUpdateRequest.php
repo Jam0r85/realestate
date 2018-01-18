@@ -24,7 +24,7 @@ class BranchUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:branches,name,' . $this->id
+            'name' => 'sometimes|required|unique:branches,name,' . $this->id
         ];
     }
 }

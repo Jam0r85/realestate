@@ -35,7 +35,7 @@ class Branch extends BaseModel
     public function staff()
     {
         return $this
-            ->hasMany(User::class);
+            ->belongsToMany(User::class);
     }
 
     /**
