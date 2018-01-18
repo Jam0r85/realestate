@@ -13,7 +13,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function name()
 	{
-		if ($this->name) {
+		if ($this->entity->name) {
 			return $this->name;
 		}
 
