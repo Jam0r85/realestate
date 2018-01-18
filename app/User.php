@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Settings\UserSettings;
+use App\Traits\PermissionsTrait;
 use App\Traits\SettingsTrait;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
@@ -11,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Cashier\Billable;
 use Laravel\Scout\Searchable;
-use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends UserBaseModel
 {
@@ -21,8 +21,8 @@ class User extends UserBaseModel
         PresentableTrait,
         SettingsTrait,
         Filterable,
-        HasRolesAndAbilities,
-        Billable;
+        Billable,
+        PermissionsTrait;
 
     /**
      * The presenter for this model.

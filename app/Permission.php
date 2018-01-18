@@ -19,4 +19,14 @@ class Permission extends BaseModel
 	protected $fillable = [
 		'name', 'slug', 'description'
 	];
+
+	/**
+	 * Set the permission slug.
+	 * 
+	 * @param string  $value
+	 */
+	public function setSlugAttribute($value)
+	{
+		$this->attributes['slug'] = str_slug($value);
+	}
 }
