@@ -394,13 +394,32 @@ class User extends UserBaseModel
     }
 
     /**
-     * Check whether a permission exists with the given slug.
+     * Check whether this user has permission.
      * 
      * @param  string  $slug
-     * @return boolean
+     * @return bool
      */
     public function hasPermission(string $slug)
     {
         return $this->permissions()->where('slug', $slug)->exists();
+    }
+
+    /**
+     * Check whether this user has permission and is the owner.
+     * 
+     * @param  string  $slug
+     * @param  \Illuminate\Database\Eloquent\Builder  $model
+     * @param  string  $column
+     * @return bool
+     */
+    public function hasPermissionIsOwner(string $slug, $model, $column = 'user_id')
+    {
+        if ($this->hasPermission($slug)) {
+            if ($this->id == $model->$column) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

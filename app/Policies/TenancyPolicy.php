@@ -57,11 +57,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->hasPermission('tenancies-show')) {
-            return true;
-        }
-
-        if ($user->id == $tenancy->owner->id) {
+        if ($user->hasPermissionIsOwner('tenancies-show', $tenancy)) {
             return true;
         }
 
@@ -121,7 +117,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->id == $tenancy->owner->id) {
+        if ($user->hasPermissionIsOwner('tenancies-restore', $tenancy)) {
             return true;
         }
 

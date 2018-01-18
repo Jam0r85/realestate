@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Calendar;
+use App\Event;
+use App\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -32,7 +35,7 @@ class Branch extends BaseModel
     public function staff()
     {
         return $this
-            ->hasMany('App\User');
+            ->hasMany(User::class);
     }
 
     /**
@@ -41,7 +44,7 @@ class Branch extends BaseModel
     public function calendars()
     {
         return $this
-            ->hasMany('App\Calendar');
+            ->hasMany(Calendar::class);
     }
 
     /**
@@ -50,6 +53,6 @@ class Branch extends BaseModel
     public function events()
     {
         return $this
-            ->hasManyThrough('App\Event', 'App\Calendar');
+            ->hasManyThrough(Event::class, Calendar::class);
     }
 }
