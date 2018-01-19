@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Permission\PermissionStoreRequest;
 use Illuminate\Http\Request;
 
 class PermissionController extends BaseController
@@ -37,10 +38,10 @@ class PermissionController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PermissionStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PermissionStoreRequest $request)
     {
         $this->authorize('create', $this->repository);
 

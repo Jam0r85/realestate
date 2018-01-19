@@ -21,6 +21,16 @@ class Permission extends BaseModel
 	];
 
 	/**
+	 * Set the name.
+	 * 
+	 * @param string  $value
+	 */
+	public function setNameAttribute($value)
+	{
+		$this->attributes['name'] = ucfirst($value);
+	}
+
+	/**
 	 * Set the permission slug.
 	 * 
 	 * @param string  $value
