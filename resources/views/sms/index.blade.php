@@ -5,12 +5,12 @@
 	@component('partials.page-header')
 
 		@component('partials.header')
-			SMS History
+			SMS Messages History
 		@endcomponent
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		<div id="messages">
 			@include('sms.partials.messages-list')

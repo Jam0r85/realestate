@@ -3,15 +3,15 @@
 	@component('partials.card-header')
 		{{ $message->phone_number }}
 
-		@if ($message->user)
+		@if ($message->recipient)
 			- 
-			<a href="{{ route('users.show', $message->user_id) }}">
-				{{ $message->user->present()->fullName }}
+			<a href="{{ route('users.show', $message->recipient_id) }}">
+				{{ $message->recipient->present()->fullName }}
 			</a>
 		@endif
 
 		@slot('small')
-			{{ datetime_formatted($message->created_at) }}
+			{{ $message->present()->timeSince('created_at') }}
 		@endslot
 	@endcomponent
 
