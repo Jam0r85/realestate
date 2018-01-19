@@ -1,6 +1,6 @@
 @component('partials.card')
 	@slot('header')
-		@if ($message->isInbound())
+		@if ($message->inbound == 1)
 			@icon('received') from {{ $message->phone_number }}
 			@if ($message->recipient)
 				<span class="badge badge-secondary">
