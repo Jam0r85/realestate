@@ -40,6 +40,7 @@ return [
     'password' => 'lock',
     'payment' => 'credit-card',
     'plus' => 'plus',
+    'print' => 'print',
     'received' => 'inbox-in',
     'report' => 'file',
     'restore' => 'undo',

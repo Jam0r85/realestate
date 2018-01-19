@@ -22,7 +22,18 @@
 			<p class="card-text mb-1">
 				{{ $message->body }}
 			</p>
-			<small>{{ $message->status() }}</small>
+			<small>
+				<ul class="list-inline">
+					<li class="list-inline-item">
+						{{ $message->status() }}
+					</li>
+					<li class="list-inline-item">
+						<a href="{{ route('sms.print', $message->id) }}">
+							@icon('print') Print Message
+						</a>
+					</li>
+				</ul>
+			</small>
 		</div>
 	@endslot
 @endcomponent

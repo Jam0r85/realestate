@@ -35,6 +35,20 @@ class SmsController extends BaseController
 	}
 
 	/**
+	 * Find the message and print it.
+	 * 
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function print($id)
+	{
+		$message = $this->repository
+			->findOrFail($id);
+
+		return view('sms.print', compact('message'));
+	}
+
+	/**
 	 * Send an SMS message to the given user.
 	 *
 	 * @param  \App\Http\Requests\UserSendSmsMessageRequest  $request
@@ -148,6 +162,5 @@ class SmsController extends BaseController
 		// }
 
 		return response('OK', 200);
-
 	}
 }
