@@ -24,13 +24,6 @@ use Illuminate\Support\Facades\Session;
 class StatementController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Statement';
-
-    /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -59,6 +52,8 @@ class StatementController extends BaseController
      */
     public function store(StatementStoreRequest $request)
     {
+        $this->authorize('create', $this->repository);
+
         $tenancy = Tenancy::withTrashed()
             ->findOrFail($request->tenancy_id);
 
@@ -82,6 +77,8 @@ class StatementController extends BaseController
         $statement = $this->repository
             ->withTrashed()
             ->findOrFail($id);
+
+        $this->authorize('view', $statement);
 
         return view('statements.show', compact('statement','show'));
     }
@@ -112,7 +109,11 @@ class StatementController extends BaseController
     {
         $statement = $this->repository
             ->withTrashed()
-            ->findOrFail($id)
+            ->findOrFail($id);
+
+        $this->authorize('update', $statement);
+
+        $statement
             ->fill($request->input())
             ->save();
 
@@ -131,6 +132,7 @@ class StatementController extends BaseController
     public function delete(Request $request, $id)
     {
         $statement = parent::delete($request, $id);
+        
         return back();
     }
 

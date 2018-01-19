@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Statement;
 use App\User;
+use App\Statement;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StatementPolicy
@@ -11,28 +11,81 @@ class StatementPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can have access to all of the actions.
-     * 
+     * Determine whether the user can view the Statement.
+     *
      * @param  \App\User  $user
-     * @param  string  $ability
-     * @return bool
+     * @param  \App\Statement  $statement
+     * @return mixed
      */
-    public function before (User $user, $ability)
+    public function view(User $user, Statement $statement)
     {
         if ($user->isSuperAdmin()) {
             return true;
         }
+
+        if ($user->hasPermissionIsStaff()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Determine if the given statement can be force deleted by the user.
-     * 
+     * Determine whether the user can create Statements.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can update the Statement.
+     *
      * @param  \App\User  $user
      * @param  \App\Statement  $statement
-     * @return bool
+     * @return mixed
      */
-    public function forceDelete(User $user, Statement $statement)
+    public function update(User $user, Statement $statement)
     {
-        //
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can delete the Statement.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Statement  $statement
+     * @return mixed
+     */
+    public function delete(User $user, Statement $statement)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff()) {
+            return true;
+        }
+
+        return false;
     }
 }

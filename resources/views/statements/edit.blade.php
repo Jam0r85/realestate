@@ -23,81 +23,102 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
+				@can('update', $statement)
 
-					@component('partials.card-header')
-						Statement Details
+					<form method="POST" action="{{ route('statements.update', $statement->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
+
+						@component('partials.card')
+							@slot('header')
+								Statement Details
+							@endslot
+							@slot('body')
+
+								@component('partials.form-group')
+									@slot('label')
+										Created
+									@endslot
+									@component('partials.input-group')
+										@slot('icon')
+											@icon('calendar')
+										@endslot
+										<input type="date" name="created_at" id="created_at" class="form-control" value="{{ $statement->present()->dateInput('created_at') }}" />
+									@endcomponent
+								@endcomponent
+
+								@component('partials.form-group')
+									@slot('label')
+										Start Date
+									@endslot
+									@component('partials.input-group')
+										@slot('icon')
+											@icon('calendar')
+										@endslot
+										<input type="date" name="period_start" id="period_start" class="form-control" value="{{ $statement->present()->dateInput('period_start') }}" />
+									@endcomponent
+								@endcomponent
+
+								@component('partials.form-group')
+									@slot('label')
+										End Date
+									@endslot
+									@component('partials.input-group')
+										@slot('icon')
+											@icon('calendar')
+										@endslot
+										<input type="date" name="period_end" id="period_end" class="form-control" value="{{ $statement->present()->dateInput('period_end') }}" />
+									@endcomponent
+								@endcomponent
+
+								@component('partials.form-group')
+									@slot('label')
+										Amount
+									@endslot
+									@component('partials.input-group')
+										@slot('icon')
+											@icon('money')
+										@endslot
+										<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ pence_to_pounds($statement->amount) }}" />
+									@endcomponent
+								@endcomponent
+
+								@component('partials.form-group')
+									@slot('label')
+										Send to Landlord
+									@endslot
+									<select name="send_by" id="send_by" class="form-control">
+										<option @if ($statement->send_by == 'email') selected @endif value="email">E-Mail</option>
+										<option @if ($statement->send_by == 'post') selected @endif  value="post">Post</option>
+									</select>
+								@endcomponent
+
+							@endslot
+							@slot('footer')
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+							@endslot
+						@endcomponent
+
+					</form>
+				@else
+					@component('partials.card')
+						@slot('header')
+							Statement Details
+						@endslot
+						@slot('body')
+							@include('partials.errors.insufficient-permissions')
+						@endslot
 					@endcomponent
-
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('statements.update', $statement->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
-
-							<div class="form-group">
-								<label for="created_at">Created</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
-									<input type="date" name="created_at" id="created_at" class="form-control" value="{{ $statement->created_at->format('Y-m-d') }}" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="period_start">Date From</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
-									<input type="date" name="period_start" id="period_start" class="form-control" value="{{ $statement->period_start->format('Y-m-d') }}" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="period_end">Date End</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
-									<input type="date" name="period_end" id="period_end" class="form-control" value="{{ $statement->period_end->format('Y-m-d') }}" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="amount">Statement Amount</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-money-bill"></i>
-									</span>
-									<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ $statement->amount }}" />
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="send_by">Send Method</label>
-								<select name="send_by" id="send_by" class="form-control">
-									<option @if ($statement->send_by == 'email') selected @endif value="email">E-Mail</option>
-									<option @if ($statement->send_by == 'post') selected @endif  value="post">Post</option>
-								</select>
-							</div>
-
-							@component('partials.save-button')
-								Save Changes
-							@endcomponent
-
-						</form>
-
-					</div>
-				</div>
+				@endcan
 
 			</div>
 			<div class="col-12 col-lg-6">
@@ -192,20 +213,31 @@
 
 				@if ($statement->deleted_at)
 
-					<form method="POST" action="{{ route('statements.restore', $statement->id) }}">
-						{{ csrf_field() }}
-						{{ method_field('PUT') }}
+					@can('restore', $statement)
+						<form method="POST" action="{{ route('statements.restore', $statement->id) }}">
+							{{ csrf_field() }}
+							{{ method_field('PUT') }}
 
+							@component('partials.card')
+								@slot('header')
+									Restore Statement
+								@endslot
+								@slot('footer')
+									@include('partials.forms.restore-button')
+								@endslot
+							@endcomponent
+
+						</form>
+					@else
 						@component('partials.card')
 							@slot('header')
 								Restore Statement
 							@endslot
-							@slot('footer')
-								@include('partials.forms.restore-button')
+							@slot('body')
+								@include('partials.errors.insufficient-permissions')
 							@endslot
 						@endcomponent
-
-					</form>
+					@endcan
 
 					<form method="POST" action="{{ route('statements.forceDelete', $statement->id) }}">
 						{{ csrf_field() }}
