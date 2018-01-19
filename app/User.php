@@ -281,7 +281,7 @@ class User extends UserBaseModel
     }
 
     /**
-     * User has many SMS messages.
+     * A user can be sent many SMS messages.
      */
     public function smsSent()
     {
@@ -292,7 +292,7 @@ class User extends UserBaseModel
     }
 
     /**
-     * User has many SMS messages.
+     * A user can have many SMS replies.
      */
     public function smsReceived()
     {

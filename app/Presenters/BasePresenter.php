@@ -38,6 +38,21 @@ class BasePresenter extends Presenter
 	}
 
 	/**
+	 * Return the time since the given date field.
+	 * 
+	 * @param  string  $field
+	 * @return string
+	 */
+	public function timeSince($field)
+	{
+		if (! $this->$field) {
+			return null;
+		}
+
+		return $this->$field->diffForHumans();
+	}
+
+	/**
 	 * Return the given date column as a date field.
 	 * 
 	 * @param  string  $field
