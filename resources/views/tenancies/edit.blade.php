@@ -260,6 +260,15 @@
 							@endcomponent
 
 						</form>
+					@else
+						@component('partials.card')
+							@slot('header')
+								Destroy Tenancy
+							@endslot
+							@slot('body')
+								@include('partials.errors.insufficient-permissions')
+							@endslot
+						@endcomponent
 					@endcan
 
 				@else
