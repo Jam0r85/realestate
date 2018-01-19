@@ -35,6 +35,8 @@ class LogSmsNotification
 
         if ($channel == "App\Notifications\Channels\CustomSmsChannel") {
 
+            return dd($response);
+
             $data = [
                 'recipient_id' => $notifiable->id,
                 'phone_number' => $response['to'],
