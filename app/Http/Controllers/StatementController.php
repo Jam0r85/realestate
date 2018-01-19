@@ -132,7 +132,7 @@ class StatementController extends BaseController
     public function delete(Request $request, $id)
     {
         $statement = parent::delete($request, $id);
-        
+
         return back();
     }
 
