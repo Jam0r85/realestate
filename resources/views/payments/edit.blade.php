@@ -26,32 +26,44 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Payment Details
-					@endcomponent
+				<form role="form" method="POST" action="{{ route('payments.update', $payment->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('PUT') }}
 
-					<div class="card-body">
+					@component('partials.card')
+						@slot('header')
+							Payment Details
+						@endslot
+						@slot('body')
 
-						<form role="form" method="POST" action="{{ route('payments.update', $payment->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('PUT') }}
+							@component('partials.form-group')
+								@slot('label')
+									Date
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="created_at" id="create_id" class="form-control" value="{{ $payment->present()->dateInput('created_at') }}" />
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="created_at">Date Recorded</label>
-								<input type="date" name="created_at" class="form-control" value="{{ $payment->created_at->format('Y-m-d') }}" />
-							</div>
-
-							<div class="form-group">
-								<label for="amount">Amount</label>
-								<input type="number" name="amount" step="any" class="form-control" value="{{ $payment->amount }}">
+							@component('partials.form-group')
+								@slot('label')
+									Amount
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
+									<input type="number" name="amount" id="amount" step="any" class="form-control" value="{{ $payment->amount }}">
 							</div>
 
 							<div class="form-group">
