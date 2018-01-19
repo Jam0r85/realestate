@@ -3,7 +3,7 @@
 		@if ($message->isInbound())
 			@icon('received') <b>received</b> from {{ $message->phone_number }}
 			@if ($message->recipient)
-				{{ $message->recipient()->present()->fullName }}
+				{{ $message->recipient->present()->fullName }}
 			@endif
 		@else
 			@icon('sent') <b>sent</b> to {{ $message->phone_number }}
