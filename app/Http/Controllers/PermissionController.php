@@ -29,7 +29,7 @@ class PermissionController extends BaseController
     {
         $this->authorize('create', $this->repository);
 
-        $latestPermissions = $this->repository->limit(15)->latest()->get();
+        $latestPermissions = $this->repository->limit(15)->orderBy('id', 'desc')->get();
 
         return view('permissions.create', compact('latestPermissions'));
     }
