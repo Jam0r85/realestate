@@ -23,7 +23,7 @@ class StatementPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('statements-view')) {
             return true;
         }
 
@@ -42,7 +42,7 @@ class StatementPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('statements-create')) {
             return true;
         }
 
@@ -62,7 +62,7 @@ class StatementPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('statements-update')) {
             return true;
         }
 
@@ -82,7 +82,7 @@ class StatementPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('statements-delete')) {
             return true;
         }
 

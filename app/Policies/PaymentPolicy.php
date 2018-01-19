@@ -23,7 +23,7 @@ class PaymentPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('payments-view')) {
             return true;
         }
 
@@ -42,7 +42,7 @@ class PaymentPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('payments-create')) {
             return true;
         }
 
@@ -62,7 +62,7 @@ class PaymentPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('payments-update')) {
             return true;
         }
 
@@ -82,7 +82,7 @@ class PaymentPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff()) {
+        if ($user->hasPermissionIsStaff('payments-delete')) {
             return true;
         }
 

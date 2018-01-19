@@ -426,7 +426,7 @@ class User extends UserBaseModel
      * @param  \Illuminate\Database\Eloquent  $branch
      * @return bool
      */
-    public function hasPermissionIsStaff(string $slug, $model, $branch = null)
+    public function hasPermissionIsStaff(string $slug, $branch = null)
     {
         if ($this->hasPermission($slug)) {
             if (count($this->staffBranches)) {

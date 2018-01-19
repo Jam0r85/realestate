@@ -61,7 +61,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsStaff('tenancies-view', $tenancy)) {
+        if ($user->hasPermissionIsStaff('tenancies-view')) {
             return true;
         }
 
@@ -81,7 +81,11 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->id == $tenancy->owner->id) {
+        if ($user->hasPermissionIsOwner('tenancies-update', $tenancy)) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff('tenancies-update')) {
             return true;
         }
 
@@ -101,7 +105,11 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->id == $tenancy->owner->id) {
+        if ($user->hasPermissionIsOwner('tenancies-delete', $tenancy)) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff('tenancies-delete')) {
             return true;
         }
 
@@ -121,7 +129,7 @@ class TenancyPolicy
             return true;
         }
 
-        if ($user->hasPermissionIsOwner('tenancies-restore', $tenancy)) {
+        if ($user->hasPermissionIsStaff('tenancies-restore')) {
             return true;
         }
 
@@ -138,6 +146,10 @@ class TenancyPolicy
     public function forceDelete(User $user, Tenancy $tenancy)
     {
         if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->hasPermissionIsStaff('tenancies-force-delete')) {
             return true;
         }
 
