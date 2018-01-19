@@ -1,6 +1,6 @@
 @if ($user->isSuperAdmin())
 	@component('partials.alerts.danger')
-		@icon('info') The below permissions do not apply as this user is a Super Admin.
+		@icon('info') This user is a <b>super admin</b> and the permissions set below do not apply.
 	@endcomponent
 @endif
 
@@ -24,19 +24,17 @@
 					</td>
 					<td>{{ $permission->description }}</td>
 					<td class="text-right">
-						<input @if ($user->isSuperAdmin()) disabled @endif type="hidden" name="{{ $permission->slug }}" value="" />
-						<input @if ($user->isSuperAdmin()) disabled @endif @if ($user->permissions->contains($permission->id)) checked @endif type="checkbox" name="{{ $permission->slug }}" id="{{ $permission->slug }}" value="true" />
+						<input type="hidden" name="{{ $permission->slug }}" value="" />
+						<input @if ($user->permissions->contains($permission->id)) checked @endif type="checkbox" name="{{ $permission->slug }}" id="{{ $permission->slug }}" value="true" />
 					</td>
 				</tr>
 			@endforeach
 		@endslot
 	@endcomponent
 
-	@if (! $user->isSuperAdmin())
-		@component('partials.save-button')
-			Save Changes
-		@endcomponent
-	@endif
+	@component('partials.save-button')
+		Save Changes
+	@endcomponent
 
 </form>
 
