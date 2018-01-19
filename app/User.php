@@ -283,10 +283,22 @@ class User extends UserBaseModel
     /**
      * User has many SMS messages.
      */
-    public function sms()
+    public function smsSent()
     {
         return $this
-            ->hasMany(SmsHistory::class)
+            ->hasMany(SmsHistory::class, 'recipient_id')
+            ->where('inbound', false)
+            ->latest();
+    }
+
+    /**
+     * User has many SMS messages.
+     */
+    public function smsReceived()
+    {
+        return $this
+            ->hasMany(SmsHistory::class, 'recipient_id')
+            ->where('inbound', true)
             ->latest();
     }
 
