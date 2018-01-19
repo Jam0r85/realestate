@@ -30,70 +30,92 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
-					{{ csrf_field() }}
-					{{ method_field('PUT') }}
+				@can('update', $tenancy)
+					<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
+						@component('partials.card')
+							@slot('header')
+								Tenancy Details
+							@endslot
+							@slot('body')
+
+								@component('partials.form-group')
+									@slot('label')
+										Date Started
+									@endslot
+									@component('partials.input-group')
+										@slot('icon')
+											@icon('calendar')
+										@endslot
+										<input type="date" name="started_on" id="started_on" class="form-control" value="{{ $tenancy->present()->dateInput('started_on', old('started_on')) }}" />
+									@endcomponent
+								@endcomponent
+
+							@endslot
+							@slot('footer')
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+							@endslot
+						@endcomponent
+
+					</form>
+				@else
 					@component('partials.card')
 						@slot('header')
 							Tenancy Details
 						@endslot
 						@slot('body')
-
-							@component('partials.form-group')
-								@slot('label')
-									Date Started
-								@endslot
-								@component('partials.input-group')
-									@slot('icon')
-										@icon('calendar')
-									@endslot
-									<input type="date" name="started_on" id="started_on" class="form-control" value="{{ $tenancy->present()->dateInput('started_on', old('started_on')) }}" />
-								@endcomponent
-							@endcomponent
-
-						@endslot
-						@slot('footer')
-							@component('partials.save-button')
-								Save Changes
-							@endcomponent
+							@include('partials.errors.insufficient-permissions')
 						@endslot
 					@endcomponent
+				@endcan
 
-				</form>
+				@can('update', $tenancy)
+					<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
+						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
-				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
-					{{ csrf_field() }}
-					{{ method_field('PUT') }}
+						@component('partials.card')
+							@slot('header')
+								Service
+							@endslot
+							@slot('body')
 
+								@component('partials.form-group')
+									@slot('label')
+										Service
+									@endslot
+									<select name="service_id" id="service_id" class="form-control">
+										@foreach (services() as $service)
+											<option @if ($tenancy->service->id == $service->id) selected @endif value="{{ $service->id }}">
+												{{ $service->present()->selectName }}
+											</option>
+										@endforeach
+									</select>
+								@endcomponent
+
+							@endslot
+							@slot('footer')
+								@component('partials.save-button')
+									Save Changes
+								@endcomponent
+							@endslot
+						@endcomponent
+
+					</form>
+				@else
 					@component('partials.card')
 						@slot('header')
-							Service
+							Update Tenancy
 						@endslot
 						@slot('body')
-
-							@component('partials.form-group')
-								@slot('label')
-									Service
-								@endslot
-								<select name="service_id" id="service_id" class="form-control">
-									@foreach (services() as $service)
-										<option @if ($tenancy->service->id == $service->id) selected @endif value="{{ $service->id }}">
-											{{ $service->present()->selectName }}
-										</option>
-									@endforeach
-								</select>
-							@endcomponent
-
-						@endslot
-						@slot('footer')
-							@component('partials.save-button')
-								Save Changes
-							@endcomponent
+							@include('partials.errors.insufficient-permissions')
 						@endslot
 					@endcomponent
-
-				</form>
+				@endcan
 
 				<form method="POST" action="{{ route('tenancies.update', $tenancy->id) }}">
 					{{ csrf_field() }}
@@ -131,19 +153,23 @@
 
 									@endif
 
-									@component('partials.form-group')
-										@slot('label')
-											Change Preferred Address
-										@endslot
-										<select name="preferred_landlord_property_id" id="preferred_landlord_property_id" class="form-control">
-											<option value="" selected>Please select..</option>
-											@foreach ($tenancy->getLandlordPropertiesList() as $property)
-												<option value="{{ $property->id }}">
-													{{ $property->present()->selectName }}
-												</option>
-											@endforeach
-										</select>
-									@endcomponent
+									@can('update', $tenancy)
+										@component('partials.form-group')
+											@slot('label')
+												Change Preferred Address
+											@endslot
+											<select name="preferred_landlord_property_id" id="preferred_landlord_property_id" class="form-control">
+												<option value="" selected>Please select..</option>
+												@foreach ($tenancy->getLandlordPropertiesList() as $property)
+													<option value="{{ $property->id }}">
+														{{ $property->present()->selectName }}
+													</option>
+												@endforeach
+											</select>
+										@endcomponent
+									@else
+										@include('partials.errors.insufficient-permissions')
+									@endcan
 
 								@else
 
@@ -236,6 +262,15 @@
 							@endcomponent
 
 						</form>
+					@else
+						@component('partials.card')
+							@slot('header')
+								Restore Tenancy
+							@endslot
+							@slot('body')
+								@include('partials.errors.insufficient-permissions')
+							@endslot
+						@endcomponent
 					@endcan
 
 					@can('force-delete', $tenancy)
@@ -288,6 +323,15 @@
 							@endcomponent
 
 						</form>
+					@else
+						@component('partials.card')
+							@slot('header')
+								Delete Tenancy
+							@endslot
+							@slot('body')
+								@include('partials.errors.insufficient-permissions')
+							@endslot
+						@endcomponent
 					@endcan
 
 				@endif
