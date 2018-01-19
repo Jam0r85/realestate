@@ -27,7 +27,7 @@ class SmsHistory extends BaseModel
     public function toSearchableArray()
     {
         $array = $this->only('body','phone_number');
-        $array['recipient'] = $this->recipient ? $this->user->present()->fullName : null;
+        $array['recipient'] = $this->recipient ? $this->recipient->present()->fullName : null;
         $array['owner'] = $this->owner ? $this->owner->present()->fullName : null;
         return $array;
     }

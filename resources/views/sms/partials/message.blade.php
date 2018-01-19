@@ -20,14 +20,6 @@
 		<p class="card-text">
 			{{ $message->body }}
 		</p>
-
-		@if ($message->owner)
-			<p class="card-text text-muted">
-				<small>
-					<b>{{ $message->status() }}</b> by <a href="{{ route('users.show', $message->owner_id) }}">{{ $message->owner->present()->fullName }}</a>
-				</small>
-			</p>
-		@endif
 		
 	</div>
 
