@@ -24,6 +24,22 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can access the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\User  $model
+     * @return mixed
+     */
+    public function view(User $user)
+    {
+        if ($user->hasPermissionIsStaff('users')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user

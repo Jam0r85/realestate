@@ -30,22 +30,24 @@
                 <!-- End Planner -->
 
                 <!-- Users -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarUsersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @icon('users') @lang('navbar.users')
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
-                        <a class="dropdown-item" href="{{ route('users.index') }}">
+                @can('users', \App\User::class)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUsersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @icon('users') @lang('navbar.users')
                         </a>
-                        <a class="dropdown-item" href="{{ route('user-logins.index') }}">
-                            @icon('history') @lang('navbar.users_login_history')
-                        </a>
-                        <a class="dropdown-item" href="{{ route('bank-accounts.index') }}">
-                            @icon('bank') @lang('navbar.bank_accounts')
-                        </a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
+                            <a class="dropdown-item" href="{{ route('users.index') }}">
+                                @icon('users') @lang('navbar.users')
+                            </a>
+                            <a class="dropdown-item" href="{{ route('user-logins.index') }}">
+                                @icon('history') @lang('navbar.users_login_history')
+                            </a>
+                            <a class="dropdown-item" href="{{ route('bank-accounts.index') }}">
+                                @icon('bank') @lang('navbar.bank_accounts')
+                            </a>
+                        </div>
+                    </li>
+                @endcan
                 <!-- End Users -->
 
                 <!-- Properties -->
