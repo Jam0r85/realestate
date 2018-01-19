@@ -131,7 +131,7 @@ class SmsHistory extends BaseModel
     public function recipient()
     {
     	return $this
-            ->belongsTo(User::class);
+            ->belongsTo(User::class, 'recipient_id');
     }
 
     /**
@@ -140,16 +140,7 @@ class SmsHistory extends BaseModel
     public function owner()
     {
     	return $this
-            ->belongsTo(User::class);
-    }
-
-    /**
-     * The replies to this message.
-     */
-    public function replies()
-    {
-        return $this
-            ->hasMany(SmsHistory::class, 'parent_id');
+            ->belongsTo(User::class, 'user_id');
     }
 
     /**

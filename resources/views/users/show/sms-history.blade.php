@@ -3,7 +3,7 @@
 
 		@component('partials.card')
 			@slot('header')
-				Messages <b>sent</b> to {{ $user->present()->fullName }}
+				@icon('sent') Messages <b>sent</b> to {{ $user->present()->fullName }}
 			@endslot
 			<div class="list-group list-group-flush">
 				@foreach ($user->smsSent as $message)
@@ -30,7 +30,7 @@
 
 		@component('partials.card')
 			@slot('header')
-				Messages <b>received</b> from {{ $user->present()->fullName }}
+				@icon('received') Messages <b>received</b> from {{ $user->present()->fullName }}
 			@endslot
 			<div class="list-group list-group-flush">
 				@foreach ($user->smsReceived as $message)
