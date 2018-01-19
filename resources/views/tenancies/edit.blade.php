@@ -317,6 +317,11 @@
 								@slot('header')
 									Delete Tenancy
 								@endslot
+								@slot('body')
+									@component('partials.alerts.info')
+										@icon('info') Delete this tenancy when you no longer need it.
+									@endcomponent
+								@endslot
 								@slot('footer')
 									@include('partials.forms.delete-button')
 								@endslot
