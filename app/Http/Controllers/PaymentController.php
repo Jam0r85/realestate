@@ -40,6 +40,8 @@ class PaymentController extends BaseController
         $payment = $this->repository
             ->findOrFail($id);
 
+        $this->authorize('view', $payment);
+
         return view('payments.show', compact('payment'));
     }
 
@@ -67,7 +69,11 @@ class PaymentController extends BaseController
     public function update(UpdatePaymentRequest $request, $id)
     {
         $payment = $this->repository
-            ->findOrFail($id)
+            ->findOrFail($id);
+
+        $this->authorize('update', $payment);
+
+        $payment
             ->fill($request->input())
             ->save();
 
