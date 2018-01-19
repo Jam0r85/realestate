@@ -1034,12 +1034,19 @@ class Tenancy extends BaseModel
     /**
      * Set the name for this tenancy.
      *
+     * @param  array  $ids
      * @return void
      */
-    public function setName()
+    public function setName(array $ids = [])
     {
-        if (count($this->users)) {
-            foreach ($this->users as $user) {
+        $users = $this->users;
+
+        if (count($ids)) {
+            $users = User::whereIn('id', $ids)->get();
+        }
+
+        if (count($users)) {
+            foreach ($users as $user) {
                 $names[] = $user->present()->fullName;
             }
         }

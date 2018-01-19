@@ -72,7 +72,10 @@ class TenancyController extends BaseController
             ->findOrFail($request->property_id);
 
         $tenancy = $this->repository
-            ->fill($request->input());
+            ->fill($request->input())
+            ->setName($request->tenants);
+
+        return dd($tenancy);
 
         $property
             ->storeTenancy($tenancy);
