@@ -3,7 +3,7 @@
 
 		@component('partials.card')
 			@slot('header')
-				SMS Messages Sent
+				Messages <b>sent</b> to {{ $user->present()->fullName }}
 			@endslot
 
 			<div class="list-group list-group-flush">
@@ -24,6 +24,16 @@
 					</div>
 				@endforeach
 			</div>
+		@endcomponent
+
+	</div>
+	<div class="col-12 col-lg-6">
+
+		@component('partials.card')
+			@slot('header')
+				Messages <b>received</b> from {{ $user->present()->fullName }}
+			@endslot
+
 		@endcomponent
 
 	</div>
