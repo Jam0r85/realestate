@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-12 col-lg-6">
 
-				@can('update', App\Payment::class)
+				@can('update', $payment)
 					<form role="form" method="POST" action="{{ route('payments.update', $payment->id) }}">
 						{{ csrf_field() }}
 						{{ method_field('PUT') }}
@@ -112,7 +112,7 @@
 			</div>
 			<div class="col-12 col-lg-6">
 
-				@can('delete', App\Payment::class)
+				@can('delete', $payment)
 					<form method="POST" action="{{ route('payments.delete', $payment->id) }}">
 						{{ csrf_field() }}
 						{{ method_field('DELETE') }}
