@@ -1,5 +1,5 @@
 @component('partials.card')
-	@slot('card-header')
+	@slot('header')
 		@if ($message->isInbound())
 			@icon('received') <b>received</b> from {{ $message->phone_number }}
 			@if ($message->recipient)
