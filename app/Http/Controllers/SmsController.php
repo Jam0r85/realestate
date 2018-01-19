@@ -27,7 +27,7 @@ class SmsController extends BaseController
 	public function index()
 	{
 		$messages = $this->repository
-			->with('user','owner')
+			->with('recipient','owner')
 			->latest()
 			->paginate();
 
