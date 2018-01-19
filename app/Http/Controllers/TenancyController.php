@@ -108,7 +108,7 @@ class TenancyController extends BaseController
             ->withTrashed()
             ->findOrFail($id);
 
-        $this->authorize('show', $tenancy);
+        $this->authorize('view', $tenancy);
 
         return view('tenancies.show', compact('tenancy','show'));
     }
