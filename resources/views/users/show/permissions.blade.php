@@ -24,8 +24,8 @@
 					</td>
 					<td>{{ $permission->description }}</td>
 					<td class="text-right">
-						<input @cannot('updatePermissions', $user) disabled @endcannot type="hidden" name="{{ $permission->slug }}" value="" />
-						<input @cannot('updatePermissions', $user) disabled @endcannot @if ($user->permissions->contains($permission->id)) checked @endif type="checkbox" name="{{ $permission->slug }}" id="{{ $permission->slug }}" value="true" />
+						<input type="hidden" name="{{ $permission->slug }}" value="" />
+						<input @if ($user->permissions->contains($permission->id)) checked @endif type="checkbox" name="{{ $permission->slug }}" id="{{ $permission->slug }}" value="true" />
 					</td>
 				</tr>
 			@endforeach
