@@ -108,7 +108,12 @@
 				{!! Menu::showLink('E-Mail History', 'users.show', $user->id, 'emails-history') !!}
 			</li>
 			<li class="nav-item">
-				{!! Menu::showLink('SMS History', 'users.show', $user->id) !!}
+				<a class="nav-link" href="{{ route('users.show', [$user->id, 'sms-history']) }}">
+					SMS Messages
+					<span class="badge badge-dark">
+						{{ count($user->smsSent) + count($user->smsReceived) }}
+					</span>
+				</a>
 			</li>
 			<li class="nav-item">
 				{!! Menu::showLink('Notifications', 'users.show', $user->id) !!}
