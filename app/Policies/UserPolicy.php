@@ -30,7 +30,7 @@ class UserPolicy
      * @param  \App\User  $model
      * @return mixed
      */
-    public function view(User $user)
+    public function global(User $user)
     {
         if ($user->hasPermissionIsStaff('users')) {
             return true;

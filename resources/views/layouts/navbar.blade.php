@@ -30,15 +30,17 @@
                 <!-- End Planner -->
 
                 <!-- Users -->
-                @can('users', \App\User::class)
+                @can('global', App\User::class)
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarUsersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @icon('users') @lang('navbar.users')
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
-                            <a class="dropdown-item" href="{{ route('users.index') }}">
-                                @icon('users') @lang('navbar.users')
-                            </a>
+                            @can('view', App\User::class)
+                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                    @icon('users') @lang('navbar.users')
+                                </a>
+                            @endcan
                             <a class="dropdown-item" href="{{ route('user-logins.index') }}">
                                 @icon('history') @lang('navbar.users_login_history')
                             </a>
