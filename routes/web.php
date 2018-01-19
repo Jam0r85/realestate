@@ -329,7 +329,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::prefix('sms')->group(function () {
 		Route::get('/', 'SmsController@index')->name('sms.index'); // Show a list of SMS messages
 		Route::post('{user}', 'SmsController@toUser')->name('sms.user'); // Send a SMS to a user
-		Route::get('{id}/print', 'SmsController@print')->name('sms.print'); // Print a SMS message
+		Route::post('print', 'SmsController@print')->name('sms.print'); // Print a SMS message
 	});
 	
 	// Appearances

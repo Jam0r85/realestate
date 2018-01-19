@@ -1,5 +1,9 @@
 @component('partials.card')
 	@slot('header')
+		<div class="float-right">
+			<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+		</div>
+
 		@if ($message->inbound == 1)
 			@icon('received') from {{ $message->phone_number }}
 			@if ($message->recipient)
@@ -23,16 +27,7 @@
 				{{ $message->body }}
 			</p>
 			<small>
-				<ul class="list-inline">
-					<li class="list-inline-item">
-						{{ $message->status() }}
-					</li>
-					<li class="list-inline-item">
-						<a href="{{ route('sms.print', $message->id) }}">
-							@icon('print') Print Message
-						</a>
-					</li>
-				</ul>
+				{{ $message->status() }}
 			</small>
 		</div>
 	@endslot

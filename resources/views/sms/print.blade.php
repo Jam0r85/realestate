@@ -9,7 +9,8 @@
 			<small class="text-muted">{{ \Carbon\Carbon::now()->toDayDateTimeString() }}</small>
 		</h2>
 
-		@include('sms.partials.message')
+		@each('sms.partials.message', $messages, 'message')
+
 	@endcomponent
 
 @endsection

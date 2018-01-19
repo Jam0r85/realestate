@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Sms\SmsPrintMessagesRequest;
 use App\Http\Requests\UserSendSmsMessageRequest;
-use App\Notifications\UserSmsMessage;
 use App\Notifications\SmsMessageInboundStaffNotification;
 use App\Notifications\SmsOwnerDeliveryReceiptNotification;
+use App\Notifications\UserSmsMessage;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -37,15 +38,16 @@ class SmsController extends BaseController
 	/**
 	 * Find the message and print it.
 	 * 
-	 * @param  int  $id
+	 * @param  \App\Http\Requests\Sms\SmsPrintMessagesRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function print($id)
+	public function print(SmsPrintMessagesRequest $request)
 	{
-		$message = $this->repository
-			->findOrFail($id);
+		$messages = $this->repository
+			->whereIn('id', $request->sms_print_ids)
+			->get();
 
-		return view('sms.print', compact('message'));
+		return view('sms.print', compact('messages'));
 	}
 
 	/**
@@ -57,7 +59,8 @@ class SmsController extends BaseController
 	 */
     public function toUser(UserSendSmsMessageRequest $request, User $user)
     {
-    	$user->notify(new UserSmsMessage($request->message));    	
+    	$user->notify(new UserSmsMessage($request->message));
+    	 	
     	return back();
     }
 
