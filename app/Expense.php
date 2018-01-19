@@ -61,6 +61,14 @@ class Expense extends BaseModel
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($model) {
+
+            if (! $model->balance) {
+                $model->balance = $model->cost;
+            }
+
+        });
         
         static::deleted(function ($model) {
 

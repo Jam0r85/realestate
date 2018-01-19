@@ -58,9 +58,6 @@ class ExpenseController extends BaseController
     {
         $data = $request->input();
 
-        // Set the balance to the same amount as the cost
-        $data['balance'] = $data['cost'];
-
         $expense = $this->repository
             ->fill($data)
             ->setData($data)
