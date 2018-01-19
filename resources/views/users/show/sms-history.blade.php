@@ -1,11 +1,13 @@
-<form method="POST" action="{{ route('sms.print') }}">
+<form method="POST" action="{{ route('sms.print') }}" target="_blank">
 	{{ csrf_field() }}
 
-	<div class="text-right">
+	<div class="text-right mb-2">
 		<button type="submit" class="btn btn-secondary">
 			@icon('print') Print Messages
 		</button>
 	</div>
+
+	@include('partials.errors-block')
 
 	<div class="row">
 		<div class="col-12 col-lg-6">
