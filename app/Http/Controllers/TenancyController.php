@@ -75,8 +75,6 @@ class TenancyController extends BaseController
             ->fill($request->input())
             ->setName($request->tenants);
 
-        return dd($tenancy);
-
         $property
             ->storeTenancy($tenancy);
 
