@@ -152,7 +152,7 @@ class SmsController extends BaseController
 		$user = User::where('phone_number', $sender_number)->first();
 
 		$message = $this->repository;
-		$message->user_id = $user->id;
+		$message->recipient_id = $user->id;
 		$message->phone_number = $request->msisdn;
 		$message->body = $request->text;
 		$message->inbound = true;
