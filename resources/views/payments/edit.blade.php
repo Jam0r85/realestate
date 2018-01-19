@@ -63,13 +63,16 @@
 									@slot('icon')
 										@icon('money')
 									@endslot
-									<input type="number" name="amount" id="amount" step="any" class="form-control" value="{{ $payment->amount }}">
-							</div>
+									<input type="number" name="amount" id="amount" step="any" class="form-control" value="{{ pence_to_pounds($payment->amount) }}">
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="payment_method_id">Payment Method</label>
-								<select name="payment_method_id" class="form-control">
-									@foreach (payment_methods() as $method)
+							@component('partials.form-group')
+								@slot('label')
+									Method
+								@endslot
+								<select name="payment_method_id" id="payment_method_id" class="form-control">
+									@foreach (common('payment-methods') as $method)
 										<option 
 											@if ($payment->payment_method_id == $method->id) selected @endif 
 											value="{{ $method->id }}">
@@ -77,58 +80,53 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="users">Attached Users</label>
+							@component('partials.form-group')
+								@slot('label')
+									Users
+								@endslot
 								<select name="users[]" id="users" class="form-control select2" multiple>
-									@foreach (users() as $user)
+									@foreach (common('users') as $user)
 										<option @if ($payment->users->contains($user->id)) selected @endif value="{{ $user->id }}">
 											{{ $user->present()->fullName }}
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
+						@endslot
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
+						@endslot
+					@endcomponent
 
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 			</div>
 			<div class="col-12 col-lg-6">
 
-				<div class="card mb-3">
-					@component('partials.card-header')
-						Destroy Payment
+				<form method="POST" action="{{ route('payments.delete', $payment->id) }}">
+					{{ csrf_field() }}
+					{{ method_field('DELETE') }}
+
+					@component('partials.card')
+						@slot('header')
+							Destroy Payment
+						@endslot
+						@slot('body')
+							@component('partials.alerts.danger')
+								@icon('warning') This action cannot be undone.
+							@endcomponent
+						@endslot
+						@slot('footer')
+							@include('partials.forms.destroy-button')_
+						@endslot
 					@endcomponent
 
-					<div class="card-body">
-
-						<form method="POST" action="{{ route('payments.destroy', $payment->id) }}">
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
-
-							<p class="card-text">
-								To confirm you wish to destroy this payment please enter <b>{{ $payment->id }}</b> into the field below.
-							</p>
-
-							<div class="form-group">
-								<input type="text" name="confirmation" class="form-control" />
-							</div>
-
-							@component('partials.save-button')
-								Delete Payment
-							@endcomponent
-
-						</form>
-
-					</div>
-				</div>
+				</form>
 
 			</div>
 		</div>

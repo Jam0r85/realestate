@@ -13,13 +13,6 @@ use Illuminate\Http\Request;
 class PaymentController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Payment';
-
-    /**
      * Display a listing of the resource.
      * 
      * @param  \Illuminate\Http\Request $request
@@ -100,9 +93,9 @@ class PaymentController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function delete(Request $request, $id)
     {
-        $payment = parent::destroy($request, $id);
+        $payment = parent::delete($request, $id);
 
         if (model_name($payment->parent) == 'Invoice') {
             event(new InvoicePaymentWasDeleted($payment));

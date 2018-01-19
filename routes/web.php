@@ -106,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{id}/edit', 'PaymentController@edit')->name('payments.edit'); // Edit the payment
 		Route::get('{id}', 'PaymentController@show')->name('payments.show'); // Show the payment
 		Route::put('{id}', 'PaymentController@update')->name('payments.update'); // Update the payment
-		Route::delete('{payment}', 'PaymentController@destroy')->name('payments.destroy'); // Destroy the payment
+		Route::delete('{id}', 'PaymentController@delete')->name('payments.delete'); // Delete the payment
 
 		Route::post('{id}/rent-payment', 'RentPaymentController@store')->name('tenancies.create-rent-payment'); // Store a new tenancy rent payment
 		Route::post('{id}/invoice', 'InvoicePaymentController@store')->name('invoices.store-payment'); // Store a new invoice payment
