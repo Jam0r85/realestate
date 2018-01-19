@@ -35,13 +35,21 @@ class LogSmsNotification
 
         if ($channel == "App\Notifications\Channels\CustomSmsChannel") {
 
-            $messages = $response['messages'];
+            $data = [
+                'recipient_id' => $notifiable->id,
+                'phone_number' => $response['to'],
+                'body' => $response['body'],
+                'messages' => $response['messages']
+            ];
+
+            
+
+
 
             $sms = new SmsHistory();
             $sms
                 ->fill([
-                    'owner_id' => Auth::check() ? Auth::user()->id : null,
-                    'user_id' => $notifiable->id,
+                    'recipient_id' => $notifiable->id,
                     'phone_number' => $response['to'],
                     'body' => $response['text'],
                     'messages' => $messages

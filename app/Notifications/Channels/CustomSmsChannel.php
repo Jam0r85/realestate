@@ -23,7 +23,7 @@ class CustomSmsChannel
             'from' => env('NEXMO_FROM'),
             'text' => $message->content,
             'status-report-req' => 1,
-            'callback' => 'http://admin.steve-morris.co.uk/sms/delivery-status'
+            'callback' => config('app.url') . '/sms/delivery-status'
         ]);
         
     }
