@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Branch;
 use App\InvoiceGroup;
 use App\PaymentMethod;
 use App\Permission;
