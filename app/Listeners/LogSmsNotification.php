@@ -42,18 +42,8 @@ class LogSmsNotification
                 'messages' => $response['messages']
             ];
 
-            
-
-
-
             $sms = new SmsHistory();
-            $sms
-                ->fill([
-                    'recipient_id' => $notifiable->id,
-                    'phone_number' => $response['to'],
-                    'body' => $response['text'],
-                    'messages' => $messages
-                ])
+            $sms->fill($data)
                 ->save();
         }
     }
