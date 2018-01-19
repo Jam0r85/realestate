@@ -12,36 +12,30 @@
 
 			@component('partials.card')
 				@slot('header')
-					<div class="float-right">
-						<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
-					</div>
 					@icon('sent') Messages <b>sent</b> to {{ $user->present()->fullName }}
 				@endslot
 				<div class="list-group list-group-flush">
 					@foreach ($user->smsSent as $message)
+						<div class="float-right">
+							
+						</div>
 						<div class="list-group-item flex-column align-items-start">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1">
 									{{ $message->phone_number }}
 								</h5>
-								<small>
-									{{ $message->present()->timeSince('created_at') }}
-								</small>
+								<div>
+									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+								</div>
 							</div>
+							<small class="mb-1">
+								{{ $message->present()->timeSince('created_at') }}
+							</small>
 							<p class="mb-1">
 								{{ $message->body }}
 							</p>
 							<small>
-								<ul class="list-inline">
-									<li class="list-inline-item">
-										{{ $message->status() }}
-									</li>
-									<li class="list-inline-item">
-										<a href="{{ route('sms.print', $message->id) }}">
-											@icon('print') Print Message
-										</a>
-									</li>
-								</ul>
+								{{ $message->status() }}
 							</small>
 						</div>
 					@endforeach
@@ -62,10 +56,13 @@
 								<h5 class="mb-1">
 									{{ $message->phone_number }}
 								</h5>
-								<small>
-									{{ $message->present()->timeSince('created_at') }}
-								</small>
+								<div>
+									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+								</div>
 							</div>
+							<small class="mb-1">
+								{{ $message->present()->timeSince('created_at') }}
+							</small>
 							<p class="mb-1">
 								{{ $message->body }}
 							</p>
