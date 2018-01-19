@@ -21,10 +21,6 @@ class UserPolicy
         if ($user->isSuperAdmin()) {
             return true;
         }
-
-        if (! $this->global($user)) {
-            return false;
-        }
     }
 
     /**
