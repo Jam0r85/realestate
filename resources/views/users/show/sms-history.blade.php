@@ -12,7 +12,7 @@
 						<p class="mb-1">
 							{{ $message->body }}
 						</p>
-						<small>{{ $message->status }}</small>
+						<small>{{ $message->status() }}</small>
 					</div>
 				@endforeach
 			</div>
