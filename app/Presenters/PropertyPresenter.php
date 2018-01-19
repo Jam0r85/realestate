@@ -55,7 +55,7 @@ class PropertyPresenter extends BasePresenter
         }
 
         if (! $this->house_number && $this->address1) {
-            $name .= ', ', $this->address1;
+            $name .= ', ' . $this->address1;
         }
 
         return trim($name);
