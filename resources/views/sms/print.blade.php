@@ -2,6 +2,8 @@
 
 @section('content')
 
-	@include('sms.partials.message')
+	@component('partials.section-with-container')
+		@include('sms.partials.message')
+	@endcomponent
 
 @endsection
