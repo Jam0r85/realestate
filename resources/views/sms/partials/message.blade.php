@@ -1,7 +1,7 @@
 @component('partials.card')
 	@slot('header')
 		<div class="float-right">
-			<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+			<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 		</div>
 
 		@if ($message->inbound == 1)

@@ -7,8 +7,6 @@
 		</button>
 	</div>
 
-	@include('partials.errors-block')
-
 	<div class="row">
 		<div class="col-12 col-lg-6">
 
@@ -27,7 +25,7 @@
 									{{ $message->phone_number }}
 								</h5>
 								<div>
-									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
 							</div>
 							<p class="mb-1">
@@ -61,7 +59,7 @@
 									{{ $message->phone_number }}
 								</h5>
 								<div>
-									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
+									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
 							</div>
 							<p class="mb-1">
