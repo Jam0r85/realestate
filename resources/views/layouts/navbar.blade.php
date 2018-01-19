@@ -36,11 +36,9 @@
                             @icon('users') @lang('navbar.users')
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
-                            @can('view', App\User::class)
-                                <a class="dropdown-item" href="{{ route('users.index') }}">
-                                    @icon('users') @lang('navbar.users')
-                                </a>
-                            @endcan
+                            <a class="dropdown-item" href="{{ route('users.index') }}">
+                                @icon('users') @lang('navbar.users')
+                            </a>
                             <a class="dropdown-item" href="{{ route('user-logins.index') }}">
                                 @icon('history') @lang('navbar.users_login_history')
                             </a>
