@@ -4,7 +4,7 @@
 
 	@component('partials.section-with-container')
 
-		<h2>
+		<h2 class="mb-5">
 			SMS Message
 			<small class="text-muted">{{ \Carbon\Carbon::now()->toDayDateTimeString() }}</small>
 		</h2>
