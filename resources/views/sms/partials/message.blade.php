@@ -1,12 +1,14 @@
 @component('partials.card')
 	@slot('header')
 		@if ($message->isInbound())
-			@icon('received') <b>received</b> from {{ $message->phone_number }}
+			@icon('received') from {{ $message->phone_number }}
 			@if ($message->recipient)
-				{{ $message->recipient->present()->fullName }}
+				<span class="badge badge-secondary">
+					{{ $message->recipient->present()->fullName }}
+				</span>
 			@endif
 		@else
-			@icon('sent') <b>sent</b> to {{ $message->phone_number }}
+			@icon('sent') to {{ $message->phone_number }}
 			<span class="badge badge-secondary">
 				{{ $message->recipient->present()->fullName }}
 			</span>
