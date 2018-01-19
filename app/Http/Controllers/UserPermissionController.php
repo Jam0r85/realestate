@@ -25,6 +25,8 @@ class UserPermissionController extends BaseController
 	{
 		$user = User::withTrashed()->findOrFail($id);
 
+		$this->authorize('updatePermissions', $user);
+
 		$data = $request->except('_token','_method');
 
 		foreach ($data as $slug => $value) {

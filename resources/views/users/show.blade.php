@@ -21,9 +21,11 @@
 					<a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
 						@icon('edit') Edit User
 					</a>
-					<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'permissions']) }}">
-						@icon('permissions') Change Permissions
-					</a>
+					@can('updatePermissions', $user)
+						<a class="dropdown-item" href="{{ route('users.show', [$user->id, 'permissions']) }}">
+							@icon('permissions') Change Permissions
+						</a>
+					@endcan
 				</div>
 			</div>
 		</div>
