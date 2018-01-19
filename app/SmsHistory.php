@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
@@ -26,7 +27,7 @@ class SmsHistory extends BaseModel
     public function toSearchableArray()
     {
         $array = $this->only('body','phone_number');
-        $array['user'] = $this->user ? $this->user->present()->fullName : null;
+        $array['recipient'] = $this->recipient ? $this->user->present()->fullName : null;
         $array['owner'] = $this->owner ? $this->owner->present()->fullName : null;
         return $array;
     }
@@ -43,7 +44,7 @@ class SmsHistory extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['owner_id','user_id','phone_number','body','messages','inbound'];
+    protected $fillable = ['recipient_id','user_id','phone_number','body','messages','inbound'];
 
     /**
      * The attributes that should be cast to native types.
@@ -127,9 +128,10 @@ class SmsHistory extends BaseModel
     /**
      * The user that this SMS was sent to.
      */
-    public function user()
+    public function recipient()
     {
-    	return $this->belongsTo('App\User');
+    	return $this
+            ->belongsTo(User::class);
     }
 
     /**
@@ -137,7 +139,8 @@ class SmsHistory extends BaseModel
      */
     public function owner()
     {
-    	return $this->belongsTo('App\User');
+    	return $this
+            ->belongsTo(User::class);
     }
 
     /**
@@ -145,7 +148,8 @@ class SmsHistory extends BaseModel
      */
     public function replies()
     {
-        return $this->hasMany('App\SmsHistory', 'parent_id');
+        return $this
+            ->hasMany(SmsHistory::class, 'parent_id');
     }
 
     /**
@@ -157,9 +161,9 @@ class SmsHistory extends BaseModel
     {
         if ($this->inbound) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
