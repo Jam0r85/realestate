@@ -28,15 +28,17 @@
 									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
 							</div>
-							<small class="mb-1">
-								{{ $message->present()->timeSince('created_at') }}
-							</small>
 							<p class="mb-1">
 								{{ $message->body }}
 							</p>
-							<small>
-								{{ $message->status() }}
-							</small>
+							<div class="d-flex w-100 justify-content-between">
+								<small>
+									{{ $message->status() }}
+								</small>
+								<small>
+									{{ $message->present()->timeSince('created_at') }}
+								</small>
+							</div>
 						</div>
 					@endforeach
 				</div>
@@ -60,21 +62,14 @@
 									<input type="checkbox" value="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
 							</div>
-							<small class="mb-1">
-								{{ $message->present()->timeSince('created_at') }}
-							</small>
 							<p class="mb-1">
 								{{ $message->body }}
 							</p>
-							<small>
-								<ul class="list-inline">
-									<li class="list-inline-item">
-										<a href="{{ route('sms.print', $message->id) }}">
-											@icon('print') Print Message
-										</a>
-									</li>
-								</ul>
-							</small>
+							<div class="d-flex w-100 justify-content-between">
+								<small>
+									{{ $message->present()->timeSince('created_at') }}
+								</small>
+							</div>
 						</div>
 					@endforeach
 				</div>
