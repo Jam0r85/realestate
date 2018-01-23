@@ -38,6 +38,22 @@ class BasePresenter extends Presenter
 	}
 
 	/**
+	 * Return the given date field as a formatted date and time or return the alternative value.
+	 * 
+	 * @param  string  $field
+	 * @param  string  $alternative
+	 * @return string
+	 */
+	public function dateTime($field, $alternative = null)
+	{
+		if (! $this->$field) {
+			return $alternative;
+		}
+
+		return $this->$field->format(get_setting('date_time_format', 'Y-m-d H:i'));
+	}
+
+	/**
 	 * Return the time since the given date field.
 	 * 
 	 * @param  string  $field
@@ -76,6 +92,16 @@ class BasePresenter extends Presenter
 	public function dateCreated()
 	{
 		return $this->date('created_at');
+	}
+
+	/**
+	 * Get the created at date for this record.
+	 * 
+	 * @return srting
+	 */
+	public function dateTimeCreated()
+	{
+		return $this->dateTime('created_at');
 	}
 
 	/**

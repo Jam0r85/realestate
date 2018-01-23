@@ -365,6 +365,12 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{id}/{show?}', 'MaintenanceController@show')->name('maintenances.show'); // Show the maintenance issue
 	});
 
+	// Notes & Store Notes
+	Route::prefix('notes')->group(function () {
+
+		Route::post('{id}/maintenances', 'NoteStoreController@maintenanceIssue')->name('maintenances.store-note'); // Store a maintenance issue note
+	});
+
 	// Valuations
 	Route::prefix('valuations')->group(function () {
 		Route::get('/', 'ValuationController@index')->name('valuations.index');

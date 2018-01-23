@@ -62,14 +62,15 @@ class MaintenanceController extends BaseController
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  string  $show
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $show = 'index')
     {
         $issue = $this->repository
             ->findOrFail($id);
 
-        return view('maintenances.show', compact('issue'));
+        return view('maintenances.show', compact('issue','show'));
     }
 
     /**

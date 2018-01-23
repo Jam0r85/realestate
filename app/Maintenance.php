@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Note;
+use App\Property;
+use App\Tenancy;
 use App\Traits\DataTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
@@ -84,7 +87,7 @@ class Maintenance extends BaseModel
     public function property()
     {
         return $this
-            ->belongsTo('App\Property');
+            ->belongsTo(Property::class);
     }
 
     /**
@@ -93,6 +96,29 @@ class Maintenance extends BaseModel
     public function tenancy()
     {
         return $this
-            ->belongsTo('App\Tenancy');
+            ->belongsTo(Tenancy::class);
+    }
+
+    /**
+     * A maintenance issue can have many notes.
+     */
+    public function notes()
+    {
+        return $this
+            ->morphMany(Note::class, 'parent')
+            ->latest();
+    }
+
+    /**
+     * Store a note to this maintenance issue.
+     * 
+     * @param  \App\Note  $issue
+     * @return \App\Note
+     */
+    public function storeNote(Note $note)
+    {
+        $note->property_id = $this->property_id;
+
+        return $this->notes()->save($note);
     }
 }
