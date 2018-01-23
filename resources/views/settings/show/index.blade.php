@@ -53,7 +53,7 @@
 					Date Format
 				@endslot
 
-				<input type="text" name="date_format" id="date_format" value="{{ get_setting('date_format') }}" />
+				<input type="text" name="date_format" id="date_format" class="form-control" value="{{ get_setting('date_format') }}" />
 
 			@endcomponent
 
@@ -62,7 +62,7 @@
 					Date Time Format
 				@endslot
 
-				<input type="text" name="date_time_format" id="date_time_format" value="{{ get_setting('date_time_format') }}" />
+				<input type="text" name="date_time_format" id="date_time_format" class="form-control" value="{{ get_setting('date_time_format') }}" />
 
 			@endcomponent
 
