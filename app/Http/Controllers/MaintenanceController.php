@@ -16,6 +16,8 @@ class MaintenanceController extends BaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('list', $this->repository);
+
         $issues = $this->repository
             ->latest()
             ->filter($request->all())
@@ -31,6 +33,8 @@ class MaintenanceController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', $this->repository);
+
         $latest_issues = $this->repository
             ->latest()
             ->limit(10)
@@ -47,6 +51,8 @@ class MaintenanceController extends BaseController
      */
     public function store(Request $request)
     {
+        $this->authorize('create', $this->repository);
+
         $data = $request->input();
         
         $data['property_id'] = $data['property_id'] ?? Tenancy::findOrFail($data['tenancy_id'])->property_id;
@@ -70,30 +76,46 @@ class MaintenanceController extends BaseController
         $issue = $this->repository
             ->findOrFail($id);
 
+        $this->authorize('view', $issue);
+
         return view('maintenances.show', compact('issue','show'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Maintenance  $maintenance
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Maintenance $maintenance)
+    public function edit($id)
     {
-        //
+        $issue = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        return view('maintenances.edit', compact('issue'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Maintenance  $maintenance
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Maintenance $maintenance)
+    public function update(Request $request, $id)
     {
-        //
+        $issue = $this->repository
+            ->withTrashed()
+            ->findOrFail($id);
+
+        $this->authorize('update', $issue);
+
+        $issue
+            ->fill($request->input())
+            ->save();
+
+        return back();
     }
 
     /**
@@ -103,9 +125,9 @@ class MaintenanceController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function delete(Request $request, $id)
     {
-        parent::destroy($request, $id);
+        parent::delete($request, $id);
         return back();
     }
 }

@@ -9,5 +9,5 @@
 	@slot('label')
 		Description
 	@endslot
-	<textarea name="description" id="description" class="form-control" rows="6">{{ isset($issue) ? $issue->name : old('name') }}</textarea>
+	<textarea name="description" id="description" class="form-control" rows="6">{{ isset($issue) ? $issue->description : old('description') }}</textarea>
 @endcomponent

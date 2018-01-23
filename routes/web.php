@@ -363,6 +363,9 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{id}/edit', 'MaintenanceController@edit')->name('maintenances.edit'); // Edit the maintenance issue
 		Route::put('{id}', 'MaintenanceController@update')->name('maintenances.update'); // Update the maintenance issue
 		Route::get('{id}/{show?}', 'MaintenanceController@show')->name('maintenances.show'); // Show the maintenance issue
+		Route::delete('{id}', 'MaintenanceController@delete')->name('maintenances.delete'); // Delete the maintenance issue
+		Route::put('{id}/restore', 'MaintenanceController@restore')->name('maintenances.restore'); // Restore the maintenance issue
+		Route::delete('{id}/force-delete', 'MaintenanceController@forceDelete')->name('maintenances.force-delete'); // Force delete the maintenance issue
 	});
 
 	// Notes & Store Notes

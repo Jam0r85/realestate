@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\InvoiceGroup;
+use App\Maintenance;
 use App\Payment;
 use App\Permission;
 use App\Policies\InvoiceGroupPolicy;
+use App\Policies\MaintenanceIssuePolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\StatementPolicy;
@@ -30,7 +32,8 @@ class AuthServiceProvider extends ServiceProvider
         Statement::class => StatementPolicy::class,
         Tenancy::class => TenancyPolicy::class,
         Payment::class => PaymentPolicy::class,
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
+        Maintenance::class => MaintenanceIssuePolicy::class
     ];
 
     /**
