@@ -36,3 +36,43 @@
 	@endcomponent
 
 </form>
+
+<form method="POST" action="{{ route('settings.update') }}">
+	{{ csrf_field() }}
+	{{ method_field('PUT') }}
+
+	@component('partials.card')
+		@slot('header')
+			Date Settings
+		@endslot
+
+		@slot('body')
+
+			@component('partials.form-group')
+				@slot('label')
+					Date Format
+				@endslot
+
+				<input type="text" name="date_format" id="date_format" value="{{ get_setting('date_format') }}" />
+
+			@endcomponent
+
+			@component('partials.form-group')
+				@slot('label')
+					Date Time Format
+				@endslot
+
+				<input type="text" name="date_time_format" id="date_time_format" value="{{ get_setting('date_time_format') }}" />
+
+			@endcomponent
+
+		@endslot
+
+		@slot('footer')
+			@component('partials.save-button')
+				Save
+			@endcomponent
+		@endslot
+	@endcomponent
+
+</form>

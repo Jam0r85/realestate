@@ -48,7 +48,9 @@ class Setting extends BaseModel
         'invoice_default_terms',
         'invoice_default_group',
         'default_tax_rate_id',
-        'default_country'
+        'default_country',
+        'date_format',
+        'date_time_format'
     ];
 
     /**
