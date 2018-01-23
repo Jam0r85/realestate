@@ -6,11 +6,14 @@ use Illuminate\Support\Carbon;
 
 class MaintenancePresenter extends BasePresenter
 {
-	public function status()
+	/**
+	 * Get the status for this maintenance issue.
+	 * 
+	 * @return string
+	 */
+	public function statusLabel()
 	{
-		if ($this->deleted_at) {
-			return 'Deleted';
-		}
+		parent::statusLabel();
 
 		if ($this->completed) {
 			return 'Closed';

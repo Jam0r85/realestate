@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Maintenance;
 use App\Tenancy;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 class MaintenanceController extends BaseController
 {
-    /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Maintenance';
-
     /**
      * Display a listing of the resource.
      *
@@ -56,11 +48,8 @@ class MaintenanceController extends BaseController
     public function store(Request $request)
     {
         $data = $request->input();
-
-        // Should no property ID be present, we grab it from the tenancy instead.
-        if (!in_array('property_id', $data)) {
-            $data['property_id'] = Tenancy::findOrFail($data['tenancy_id'])->property_id;
-        }
+        
+        $data['property_id'] = $data['property_id'] ?? Tenancy::findOrFail($data['tenancy_id'])->property_id;
 
         $this->repository
             ->fill($data)
@@ -72,12 +61,15 @@ class MaintenanceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Maintenance  $maintenance
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Maintenance $maintenance)
+    public function show($id)
     {
-        //
+        $issue = $this->repository
+            ->findOrFail($id);
+
+        return view('maintenances.show', compact('issue'));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\PaymentMethod;
 use App\Permission;
 use App\Property;
 use App\Service;
+use App\Tenancy;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,7 +48,7 @@ class CommonRequestsProvider extends ServiceProvider
         // Users
         $this->app->singleton('users', function ($app) {
             return cache()->rememberForever('users', function () {
-                return User::select('id','title','first_name','last_name','company_name','email')->orderBy('company_name')->orderBy('last_name')->orderBy('first_name')->get();
+                return User::select('id','title','first_name','last_name','company_name','email')->latest()->get();
             });
         });
 
@@ -76,6 +77,17 @@ class CommonRequestsProvider extends ServiceProvider
         $this->app->singleton('payment-methods', function ($app) {
             return cache()->rememberForever('payment-methods', function () {
                 return PaymentMethod::select('id','name')->orderBy('name')->get();
+            });
+        });
+
+        // Tenancies
+        $this->app->singleton('tenancies', function ($app) {
+            return cache()->rememberForever('tenancies', function () {
+               return Tenancy::select('id','name','property_id')->with([
+                    'property' => function($query) {
+                        $query->select('id','house_name','house_number','address1');
+                    }
+                ])->latest()->get();
             });
         });
     }

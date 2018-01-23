@@ -24,8 +24,7 @@
 						@slot('header')
 							Tenancy
 						@endslot
-
-						<div class="card-body">
+						@slot('body')
 
 							@component('partials.alerts.info')
 								@icon('info') Has this issue been reported by a tenant or does it relate to a tenancy? Note that selecting a tenancy will link the issue to the property it belongs to.
@@ -37,7 +36,7 @@
 								@endslot
 								<select name="tenancy_id" id="tenancy_id" class="form-control select2">
 									<option value="">Please select..</option>
-									@foreach (tenancies() as $tenancy)
+									@foreach (common('tenancies') as $tenancy)
 										<option value="{{ $tenancy->id }}">
 											{{ $tenancy->present()->selectName }}
 										</option>
@@ -45,16 +44,14 @@
 								</select>
 							@endcomponent
 
-						</div>
-
+						@endslot
 					@endcomponent
 
 					@component('partials.card')
 						@slot('header')
 							Property
 						@endslot
-
-						<div class="card-body">
+						@slot('body')
 
 							@component('partials.form-group')
 								@slot('label')
@@ -62,7 +59,7 @@
 								@endslot
 								<select name="property_id" id="property_id" class="form-control select2">
 									<option value="">Please select..</option>
-									@foreach (properties() as $property)
+									@foreach (common('properties') as $property)
 										<option value="{{ $property->id }}">
 											{{ $property->present()->selectName }}
 										</option>
@@ -70,23 +67,20 @@
 								</select>
 							@endcomponent
 
-						</div>
-
+						@endslot
 					@endcomponent
 
 					@component('partials.card')
 						@slot('header')
 							Issue Details
 						@endslot
-
-						<div class="card-body">
+						@slot('body')
 
 							<input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}" />
 
 							@include('maintenances.partials.form')
 
-						</div>
-
+						@endslot
 						@slot('footer')
 							@component('partials.save-button')
 								Save Issue
@@ -123,17 +117,18 @@
 
 @push('footer_scripts')
 <script>
-$('#tenancy_id').change(function() {
+	// Check whether to disable the property dropdown depending on the value of the tenancy dropdown.
+	$('#tenancy_id').change(function() {
 
-	var value = $(this).val();
+		var value = $(this).val();
 
-	// Disable property_id if an option is selected from tenancy_id
-	if (value > 0) {
-		$('#property_id').prop('disabled', true);
-	} else {
-		$('#property_id').prop('disabled', false);
-	}
+		// Disable property_id if an option is selected from tenancy_id
+		if (value > 0) {
+			$('#property_id').prop('disabled', true);
+		} else {
+			$('#property_id').prop('disabled', false);
+		}
 
-});
+	});
 </script>
 @endpush
