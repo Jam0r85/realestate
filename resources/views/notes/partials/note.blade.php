@@ -1,5 +1,15 @@
 @component('partials.card')
+	@slot('style')
+		@if ($note->user->isStaff())
+			border-primary
+		@endif
+	@endslot
 	@slot('header')
+		@if ($note->user->isStaff())
+			<span class="badge badge-primary float-right">
+				Staff
+			</span>
+		@endif
 		{{ $note->present()->dateTimeCreated }}
 	@endslot
 	@slot('body')

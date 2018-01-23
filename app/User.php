@@ -396,7 +396,7 @@ class User extends UserBaseModel
     /**
      * Check whether this user is the master user for this application.
      * 
-     * @return boolean
+     * @return bool
      */
     public function isSuperAdmin()
     {
@@ -404,6 +404,20 @@ class User extends UserBaseModel
             return true;
         }
 
+        return false;
+    }
+
+    /**
+     * Check whether this user is a staff member.
+     * 
+     * @return bool
+     */
+    public function isStaff()
+    {
+        if (count($this->staffBranches)) {
+            return true;
+        }
+        
         return false;
     }
 

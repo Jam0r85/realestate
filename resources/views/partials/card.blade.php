@@ -1,4 +1,4 @@
-<div class="card mb-3">
+<div class="card mb-3 {{ isset($style) ? $style : '' }}">
 
 	@if (isset($header))
 		@component('partials.card-header')
