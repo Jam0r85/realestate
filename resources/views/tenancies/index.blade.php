@@ -20,7 +20,7 @@
 
 		@include('partials.index-search', ['route' => 'tenancies.search', 'session' => 'tenancy_search_term'])
 
-		@if (!session()->has('invoice_search_term'))
+		@if (!session()->has('tenancy_search_term'))
 			<ul class="nav nav-pills">
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
