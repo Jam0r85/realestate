@@ -49,7 +49,8 @@ class Statement extends PdfModel
 		'period_end',
 		'amount',
 		'paid_at',
-		'sent_at'
+		'sent_at',
+        'created_at'
     ];
 
 	/**

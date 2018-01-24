@@ -73,7 +73,8 @@ class Invoice extends PdfModel
 		'key',
 		'due_at',
 		'sent_at',
-		'paid_at'
+		'paid_at',
+        'created_at'
     ];
 
 	/**
