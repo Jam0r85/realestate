@@ -16,66 +16,50 @@
 
 							<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
 
-							@if (! $tenancy->getLandlordProperty())
-
-								@component('partials.alerts.warning')
-									<p>
-										@icon('warning') <b>Multiple addresses found for this tenancy</b>. Please edit the tenancy and choose a preferred recipient address for rental statements to be sent to.
-									</p>
-
-									<a href="{{ route('tenancies.edit', $tenancy->id) }}" class="btn btn-warning">
-										@icon('edit') Edit Tenancy
-									</a>
+							@component('partials.form-group')
+								@slot('label')
+									Amount
+								@endslot
+								@slot('help')
+									The amount of rent received for this statement.
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
+									<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
 								@endcomponent
+							@endcomponent
 
-							@else
-
-								@component('partials.form-group')
-									@slot('label')
-										Amount
+							@component('partials.form-group')
+								@slot('label')
+									Start Date
+								@endslot
+								@slot('help')
+									The start date of this statement.
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
 									@endslot
-									@slot('help')
-										The amount of rent received for this statement.
-									@endslot
-									@component('partials.input-group')
-										@slot('icon')
-											@icon('money')
-										@endslot
-										<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
-									@endcomponent
+									<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
 								@endcomponent
+							@endcomponent
 
-								@component('partials.form-group')
-									@slot('label')
-										Start Date
+							@component('partials.form-group')
+								@slot('label')
+									End Date
+								@endslot
+								@slot('help')
+									The end date of this statement. Leave blank to use the default time frame eg. one month
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
 									@endslot
-									@slot('help')
-										The start date of this statement.
-									@endslot
-									@component('partials.input-group')
-										@slot('icon')
-											@icon('calendar')
-										@endslot
-										<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') ?? $tenancy->present()->nextStatementStartDate('Y-m-d') }}" />
-									@endcomponent
+									<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
 								@endcomponent
-
-								@component('partials.form-group')
-									@slot('label')
-										End Date
-									@endslot
-									@slot('help')
-										The end date of this statement. Leave blank to use the default time frame eg. one month
-									@endslot
-									@component('partials.input-group')
-										@slot('icon')
-											@icon('calendar')
-										@endslot
-										<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
-									@endcomponent
-								@endcomponent
-
-							@endif
+							@endcomponent
 
 						</div>
 						<div class="col-12 col-lg-6">
