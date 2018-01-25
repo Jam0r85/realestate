@@ -1000,12 +1000,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Build the recipient address for the a invoice.
+     * Get the landlord names for this tenancy.
      * 
      * @return array
      */
     public function getLandlordNames(array $names = [])
     {
+        // Landlords are the property owners.
         $users = $this->property->owners;
 
         if (count($users)) {

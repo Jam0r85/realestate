@@ -266,7 +266,11 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function landlordAddress()
 	{
-		return $this->entity->getLandlordProperty()->letter;
+		if ($this->entity->getLandlordProperty()) {
+			return $this->entity->getLandlordProperty()->letter;
+		}
+
+		return null;		
 	}
 
 	/**
