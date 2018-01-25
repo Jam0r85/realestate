@@ -13,10 +13,18 @@
 
 <div class="card mb-3">
 	@component('partials.card-header')
-		Tenants
+		Tenant(s)
 	@endcomponent
 
 	@include('users.partials.users-table', ['users' => $tenancy->users])
+</div>
+
+<div class="card mb-3">
+	@component('partials.card-header')
+		Landlord(s)
+	@endcomponent
+
+	@include('users.partials.users-table', ['users' => $tenancy->property->owners])
 </div>
 
 @component('partials.card')

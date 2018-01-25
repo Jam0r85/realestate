@@ -18,11 +18,11 @@
 
 								@component('partials.alerts.warning')
 									<p>
-										@icon('warning') Multiple addresses found for this tenancy, please edit the tenancy and select the preferred recipient address.
+										@icon('warning') <b>Multiple addresses found for this tenancy</b>. Please edit the tenancy and choose a preferred recipient address for rental statements to be sent to.
 									</p>
 
 									<a href="{{ route('tenancies.edit', $tenancy->id) }}" class="btn btn-warning">
-										@icon('edit') Select Preferred Address
+										@icon('edit') Edit Tenancy
 									</a>
 								@endcomponent
 
