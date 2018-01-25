@@ -548,7 +548,7 @@ class Invoice extends PdfModel
      * @param  string  $address
      * @return string
      */
-    public function formatRecipient($address, $names = null)
+    public function formatRecipient($address = null, $names = null)
     {
         // Do we have names present?
         if ($names) {
