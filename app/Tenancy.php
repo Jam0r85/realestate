@@ -547,26 +547,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Check whether this tenancy allows new statements.
-     * 
-     * @return bool
-     */
-    public function canCreateStatement()
-    {
-        // Rent balance is less than the rent amount required.
-        if ($this->rent_balance < $this->rent_amount) {
-            return false;
-        }
-
-        // Tenancy is trashed.
-        if ($this->trashed()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Check whether you can record new rent payments for this tenancy.
      * 
      * @return bool
@@ -908,7 +888,7 @@ class Tenancy extends BaseModel
      */
     public function getLandlordPropertiesList()
     {
-       $landlords = $this->property->owners->pluck('id');
+        $landlords = $this->property->owners->pluck('id');
 
         $properties = Property::whereHas('residents', function ($query) use ($landlords) {
             $query->whereIn('id', $landlords);
@@ -924,10 +904,8 @@ class Tenancy extends BaseModel
      */
     public function hasOneLandlordProperty()
     {
-        if ($this->getLandlordPropertiesList()) {
-            if (count($this->getLandlordPropertiesList()) == 1) {
-                return true;
-            }
+        if (count($this->getLandlordPropertiesList()) == 1) {
+            return true;
         }
 
         return false;
@@ -940,7 +918,7 @@ class Tenancy extends BaseModel
      */
     public function hasMultipleLandlordProperties()
     {
-        if (! $this->hasOneLandlordProperty()) {
+        if (count($this->getLandlordPropertiesList()) > 1) {
             return true;
         }
 
