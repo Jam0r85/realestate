@@ -965,13 +965,21 @@ class Tenancy extends BaseModel
      */
     public function hasMultipleLandlordProperties()
     {
-        if ($this->getLandlordPropertiesList()) {
-            if (count($this->getLandlordPropertiesList()) > 1) {
-                return true;
-            }
+        if (! $this->hasOneLandlordProperty()) {
+            return true;
         }
 
         return false;
+    }
+
+    /**
+     * Get preferred landlord property id stored in the database.
+     * 
+     * @return string
+     */
+    public function preferredLandlordPropertySetting()
+    {
+        return $this->getSetting('preferred_landlord_property_id');
     }
 
     /**
@@ -981,7 +989,7 @@ class Tenancy extends BaseModel
      */
     public function hasPreferredLandlordProperty()
     {
-        if ($this->getSetting('preferred_landlord_property_id')) {
+        if ($this->preferredLandlordPropertySetting()) {
             return true;
         }
 
@@ -996,7 +1004,8 @@ class Tenancy extends BaseModel
     public function getPreferredLandlordProperty()
     {
         if ($this->hasPreferredLandlordProperty()) {
-            return $this->getLandlordPropertiesList()->firstWhere('id', $this->getSetting('preferred_landlord_property_id'));
+            return $this->getLandlordPropertiesList()
+                ->firstWhere('id', $this->preferredLandlordPropertySetting());
         }
 
         return null;
