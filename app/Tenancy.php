@@ -772,7 +772,7 @@ class Tenancy extends BaseModel
             if ($statement->needsInvoiceCheck()) {
                 $invoice = new Invoice();
                 $invoice->property_id = $this->property->id;
-                $invoice->recipient = $invoice->formatRecipient($this->getLandlordNames(), $this->getLandlordPropertyAddress());
+                $invoice->recipient = $invoice->formatRecipient($this->present()->landlordAddressWithNames);
                 $invoice = $statement->storeInvoice($invoice);
             }
         }

@@ -228,6 +228,7 @@ class Statement extends PdfModel
     public function storeInvoice(Invoice $invoice)
     {
         $this->invoices()->save($invoice);
+        
         $invoice->users()->sync($this->property()->owners);
 
         $this->createInvoiceLettingItem($invoice);

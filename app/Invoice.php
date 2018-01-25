@@ -542,20 +542,29 @@ class Invoice extends PdfModel
     }
 
     /**
-     * Format the recipient address for storing in the text field.
+     * Format the recipient address for storing in the database text field.
      * 
      * @param  array  $names
      * @param  string  $address
      * @return string
      */
-    public function formatRecipient(array $names = [], $address = null)
+    public function formatRecipient($address, $names = null)
     {
-        if (count($names)) {
-            $address = implode(' & ', $names) . '<br />' . $address;
+        // Do we have names present?
+        if ($names) {
+            // Are those names in an array?
+            if (is_array($names) && count($names)) {
+                $names = implode(' & ', $names);
+            }
+
+            // Combine the names and the address
+            $address = $names . '<br />' . $address;
         }
 
+        // Turn html line breaks into PHP end of lines
         $address = str_replace('<br />', PHP_EOL, $address);
 
+        // Remove duplicate lines from the string
         return implode(PHP_EOL, array_unique(explode(PHP_EOL, $address)));
     }
 
