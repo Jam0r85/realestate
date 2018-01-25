@@ -64,11 +64,13 @@
 						</div>
 						<div class="col-12 col-lg-6">
 
-							@component('partials.alerts.info')
-								<p>
-									@icon('house') <b>Statement &amp; Invoice Address</b>
-								</p>
-								{!! $tenancy->getLandlordPropertyAddress() !!}
+							@component('partials.card')
+								@slot('header')
+									@icon('house') Recipient
+								@endslot
+								@slot('body')
+									{!! $tenancy->present()->landlordAddressWithNames !!}
+								@endslot
 							@endcomponent
 
 							@component('partials.card')

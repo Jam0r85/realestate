@@ -1000,20 +1000,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the landlord property address for this tenancy.
-     * 
-     * @return string
-     */
-    public function getLandlordPropertyAddress()
-    {
-        if ($this->getLandlordProperty()) {
-            return $this->getLandlordProperty()->present()->letter;
-        }
-
-        return null;
-    }
-
-    /**
      * Build the recipient address for the a invoice.
      * 
      * @return array

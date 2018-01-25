@@ -258,4 +258,24 @@ class TenancyPresenter extends BasePresenter
 	{
 		return implode($seperator, $this->entity->getLandlordNames());
 	}
+
+	/**
+	 * Get the landlord address for this tenancy.
+	 * 
+	 * @return string
+	 */
+	public function landlordAddress()
+	{
+		return $this->entity->getLandlordProperty()->letter;
+	}
+
+	/**
+	 * Get the landlord address with names for this tenancy.
+	 * 
+	 * @return string
+	 */
+	public function landlordAddressWithNames($spacer = '<br />')
+	{
+		return $this->landlordNames() . $spacer . $this->landlordAddress;
+	}
 }
