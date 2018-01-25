@@ -285,7 +285,7 @@ class Statement extends PdfModel
      */
     public function needsInvoiceCheck()
     {
-        if ($this->tenancy->getLettingFeeWithCustom() > 0) {
+        if ($this->tenancy->getMonthlyServiceChargeExcludingTax() > 0) {
             return true;
         }
 

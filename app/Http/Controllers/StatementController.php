@@ -57,10 +57,7 @@ class StatementController extends BaseController
         $tenancy = Tenancy::withTrashed()
             ->findOrFail($request->tenancy_id);
 
-        $statement = $this->repository
-            ->fill($request->input());
-
-        $tenancy->storeStatement($statement);
+        $tenancy->storeStatement($this->repository->fill($request->input()));
 
         return back();
     }

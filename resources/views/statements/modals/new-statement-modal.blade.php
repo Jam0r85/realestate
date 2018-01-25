@@ -14,6 +14,8 @@
 					<div class="row">
 						<div class="col-12 col-lg-6">
 
+							<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
+
 							@if (! $tenancy->getLandlordProperty())
 
 								@component('partials.alerts.warning')
@@ -27,8 +29,6 @@
 								@endcomponent
 
 							@else
-
-								<input type="hidden" name="tenancy_id" id="tenancy_id" value="{{ $tenancy->id }}" />
 
 								@component('partials.form-group')
 									@slot('label')
