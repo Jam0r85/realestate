@@ -935,7 +935,7 @@ class Tenancy extends BaseModel
     {
        $landlords = $this->property->owners->pluck('id');
 
-        $properties = Property::whereHas('owners', function ($query) use ($landlords) {
+        $properties = Property::whereHas('residents', function ($query) use ($landlords) {
             $query->whereIn('id', $landlords);
         })->get();
 
