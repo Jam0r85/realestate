@@ -148,7 +148,7 @@
 									@else
 
 										@component('partials.alerts.info')
-											{!! $tenancy->getLandlordPropertyAddress() !!}
+											{!! $tenancy->present()->landlordAddress !!}
 										@endcomponent
 
 									@endif

@@ -931,24 +931,15 @@ class Tenancy extends BaseModel
      * 
      * @return mixed
      */
-    public function getLandlordPropertiesList(array $properties = [])
+    public function getLandlordPropertiesList()
     {
-        $landlords = $this->property->owners;
+       $landlords = $this->property->owners->pluck('id');
 
-        if (count($landlords)) {
-            foreach ($landlords as $landlord) {
-                if ($landlord->home) {
-                    $properties[] = $landlord->home->id;
-                }
-            }
-        }
+        $properties = Property::whereHas('owners', function ($query) use ($landlords) {
+            $query->whereIn('id', $landlords);
+        })->get();
 
-        if (count($properties)) {
-            $unique = array_unique($properties);
-            return Property::whereIn('id', $properties)->get();
-        }
-
-        return null;
+        return $properties;
     }
 
     /**
@@ -1005,7 +996,7 @@ class Tenancy extends BaseModel
     public function getPreferredLandlordProperty()
     {
         if ($this->hasPreferredLandlordProperty()) {
-            return Property::findOrFail($this->getSetting('preferred_landlord_property_id'));
+            return $this->getLandlordPropertiesList()->firstWhere('id', $this->getSetting('preferred_landlord_property_id'));
         }
 
         return null;

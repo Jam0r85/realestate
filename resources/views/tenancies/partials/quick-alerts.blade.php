@@ -56,7 +56,7 @@
 	@if (! $tenancy->getLandlordProperty())
 		@component('partials.alerts.warning')
 			@icon('house') Tenancy has no correspondence address set.
-		@endcomponenty
+		@endcomponent
 	@endif
 
 @endif
