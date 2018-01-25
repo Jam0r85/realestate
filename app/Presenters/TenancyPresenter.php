@@ -276,6 +276,6 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function landlordAddressWithNames($spacer = '<br />')
 	{
-		return $this->landlordNames() . $spacer . $this->landlordAddress;
+		return $this->landlordNames() . $spacer . $this->landlordAddress();
 	}
 }

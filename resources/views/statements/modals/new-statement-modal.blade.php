@@ -65,6 +65,9 @@
 						<div class="col-12 col-lg-6">
 
 							@component('partials.card')
+								@slot('body')
+									border-primary
+								@endslot
 								@slot('header')
 									@icon('house') Recipient
 								@endslot
