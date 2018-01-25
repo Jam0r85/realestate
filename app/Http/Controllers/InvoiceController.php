@@ -163,6 +163,7 @@ class InvoiceController extends BaseController
     public function forceDelete(Request $request, $id)
     {
         parent::forceDelete($request, $id);
+        
         return redirect()->route($this->indexRoute);
     }
 

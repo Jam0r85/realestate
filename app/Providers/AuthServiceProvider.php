@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Invoice;
 use App\InvoiceGroup;
 use App\Maintenance;
 use App\Payment;
 use App\Permission;
 use App\Policies\InvoiceGroupPolicy;
+use App\Policies\InvoicePolicy;
 use App\Policies\MaintenanceIssuePolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\PermissionPolicy;
