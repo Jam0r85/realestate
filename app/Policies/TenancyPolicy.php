@@ -11,6 +11,20 @@ class TenancyPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine before.
+     * 
+     * @param  \App\UserUser  $user
+     * @param  string  $attributes
+     * @return bool
+     */
+    public function before(User $user, $attributes)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    }
+
+    /**
      * Determine if the list of tenancies can be viewed by this user.
      * 
      * @param  \App\User  $user

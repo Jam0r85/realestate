@@ -476,31 +476,6 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the service charge net amount for this tenancy by multiplying
-     * the current rent amount with the calculated service charge.
-     * 
-     * @return integer
-     */
-    public function getServiceChargeNetAmount($rentAmount = null)
-    {
-        return calculateServiceCharge($this);
-    }
-
-    /**
-     * Get the service charge including discounts applied for this tenancy.
-     * 
-     * @return int
-     */
-    public function getServiceChargeWithDiscounts()
-    {
-        if (! $this->service) {
-            return null;
-        }
-
-        return $this->service->getChargePerMonth() + $this->serviceDiscounts->sum('amount');
-    }
-
-    /**
      * Get the tenancy start date.
      * 
      * @return string

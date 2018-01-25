@@ -389,7 +389,7 @@ class Statement extends PdfModel
         $service = $tenancy->service;
 
         // Do we have a valid service charge amount?
-        if ($charge = $tenancy->getServiceChargeNetAmount()) {
+        if ($charge = $tenancy->getMonthlyServiceChargeExcludingTax()) {
 
             // Format the description
             $description = $service->name . ' service at ' . $service->present()->monthlyChargeFormatted;

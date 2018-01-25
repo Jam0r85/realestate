@@ -19,10 +19,6 @@ class StatementPolicy
      */
     public function view(User $user, Statement $statement)
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
         if ($user->hasPermissionIsStaff('statements-view')) {
             return true;
         }
@@ -38,10 +34,6 @@ class StatementPolicy
      */
     public function create(User $user)
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
         if ($user->hasPermissionIsStaff('statements-create')) {
             return true;
         }
@@ -58,10 +50,6 @@ class StatementPolicy
      */
     public function update(User $user, Statement $statement)
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
         if ($user->hasPermissionIsStaff('statements-update')) {
             return true;
         }
@@ -78,11 +66,39 @@ class StatementPolicy
      */
     public function delete(User $user, Statement $statement)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->hasPermissionIsStaff('statements-delete')) {
             return true;
         }
 
-        if ($user->hasPermissionIsStaff('statements-delete')) {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can restore the Statement.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Statement  $statement
+     * @return mixed
+     */
+    public function restore(User $user, Statement $statement)
+    {
+        if ($user->hasPermissionIsStaff('statements-restore')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can force delete the Statement.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Statement  $statement
+     * @return mixed
+     */
+    public function forceDelete(User $user, Statement $statement)
+    {
+        if ($user->hasPermissionIsStaff('statements-force-delete')) {
             return true;
         }
 
