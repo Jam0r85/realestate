@@ -142,7 +142,7 @@
 									@if (! $tenancy->hasPreferredLandlordProperty())
 
 										@component('partials.alerts.warning')
-											@icon('warning') Property owners have different home addresses and no preferred address has been choosen for this tenancy.
+											@icon('warning') Multiple correspondence addresses found for this tenancy. Please select the preferred address below.
 										@endcomponent
 
 									@else

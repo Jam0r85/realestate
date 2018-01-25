@@ -106,6 +106,7 @@ class TenancyController extends BaseController
     public function show($id, $show = 'index')
     {
         $tenancy = $this->repository
+            ->with('serviceDiscounts')
             ->withTrashed()
             ->findOrFail($id);
 
