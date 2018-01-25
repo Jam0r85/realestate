@@ -385,34 +385,94 @@ class Tenancy extends BaseModel
     }
 
     /**
+     * Get the current rent amount for this tenancy.
+     * 
+     * @return int
+     */
+    public function getRentAttribute()
+    {
+        if ($this->currentRent) {
+            return $this->currentRent->amount;
+        }
+
+        return 0;
+    }
+
+    /**
      * Get the monthly service charge for this tenancy.
      *
      * @param  int  $amount
      * @return integer
      */
-    public function getMonthlyServiceCharge($amount)
+    public function getMonthlyServiceChargeExcludingTax($amount = null)
     {
+        // No amount provided so we use the current tenancy rent value
+        if (! $amount) {
+            $amount = $this->rent;
+        }
+
+        // Still no amount, we return null
         if (! $amount) {
             return null;
         }
 
-        // No service, no charge
+        return $this->calculateServiceChargeExcludingTax($amount);
+    }
+
+    /**
+     * Get the monthly service charge for this tenancy with the tax included.
+     * 
+     * @return int
+     */
+    public function getMonthlyServiceChargeWithTax()
+    {
+        $amount = $this->getMonthlyServiceChargeExcludingTax();
+
+        if ($this->service->taxRate) {
+            return $amount + $amount * ($this->service->taxRate->amount / 100);
+        }
+
+        return $amount;
+    }
+
+    /**
+     * Calculate the service charge for this tenancy.
+     *
+     * @param  int  $amount
+     * @return int
+     */
+    public function calculateServiceChargeExcludingTax($amount)
+    {
+        // No service charge present
         if (! $this->service) {
             return null;
         }
 
-        // No charge set in the service
-        if (! $this->service->charge) {
-            return null;
+        $fee = $this->service->getChargePerMonth();
+
+        // Monthly service charge is a percentage
+        if ($this->service->is_percent) {
+            return $amount * $this->subtractServiceDiscounts($fee);
         }
 
-        // Fixed rate charge per month
-        if (! $this->service->is_percent) {
-            return $this->service->charge;
+        return round($fee);
+    }
+
+    /**
+     * Subtract discounts from the given amount.
+     * 
+     * @param  int  $amount
+     * @return int
+     */
+    public function subtractServiceDiscounts($amount)
+    {
+        if (count($this->serviceDiscounts)) {
+            foreach ($this->serviceDiscounts as $discount) {
+                $amount -= $discount->amount;
+            }
         }
 
-        // Charge is a percent of the rent received
-        return $amount * ($this->service->charge / 100);
+        return $amount;
     }
 
     /**
@@ -842,43 +902,13 @@ class Tenancy extends BaseModel
     }
 
     /**
-     * Get the rent payments total income for this tenancy.
-     * 
-     * @return  int
-     */
-    public function getRentPaymentsReceivedTotal()
-    {
-        return $this->rent_payments->sum('amount');
-    }
-
-    /**
-     * Get the statements total for this tenancy.
-     * 
-     * @return  int
-     */
-    public function getStatementsTotal()
-    {
-        return $this->statements->sum('amount');
-    }
-
-    /**
-     * Get the rent balance for this tenancy.
-     * 
-     * @return  int
-     */
-    public function getRentBalance()
-    {
-        return $this->getRentPaymentsReceivedTotal() - $this->getStatementsTotal();
-    }
-
-    /**
      * Update the rent balance held for this tenancy.
      * 
      * @return void
      */
     public function updateRentBalance()
     {
-        $this->rent_balance = $this->getRentBalance();
+        $this->rent_balance = $this->rent_payments->sum('amount') - $this->statements->sum('amount');
         $this->saveWithMessage('balances updated');
     }
 

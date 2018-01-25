@@ -25,7 +25,7 @@
 	@endslot
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service->name }}
+			{{ $tenancy->service->name }} ({{ $tenancy->service->present()->monthlyChargeFormatted }})
 			@slot('title')
 				Service
 			@endslot
@@ -37,10 +37,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service->present()->monthlyChargeFormatted }} 
-			<span class="badge badge-dark">
-				{{ $tenancy->present()->monthlyServiceChargeCost }}
-			</span>
+			{{ $tenancy->present()->monthlyServiceChargeWithoutTax }} ({{ $tenancy->present()->monthlyServiceChargeWithTax }})
 			@slot('title')
 				Monthly Service Charge
 			@endslot

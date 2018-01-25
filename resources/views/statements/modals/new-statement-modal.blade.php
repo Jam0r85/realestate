@@ -77,13 +77,8 @@
 							@endcomponent
 
 							@component('partials.card')
-								@slot('body')
-									<p class="card-text">
-										Want to record an old statement instead?
-									</p>
-									<a href="{{ route('old-statements.create', $tenancy->id) }}" class="btn btn-secondary btn-block">
-										Record Old Statement
-									</a>
+								@slot('header')
+									@icon('list') Invoice Items
 								@endslot
 							@endcomponent
 

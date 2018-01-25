@@ -209,13 +209,17 @@ class TenancyPresenter extends BasePresenter
 	/**
 	 * @return string
 	 */
-	public function monthlyServiceChargeCost()
+	public function monthlyServiceChargeWithoutTax()
 	{
-		// Get the service charge amount
-		$amount = round(calculateServiceCharge($this->entity));
-		$tax = round(calculateTax($amount, $this->service->taxRate));
+		return money_formatted($this->entity->getMonthlyServiceChargeExcludingTax());
+	}
 
-		return money_formatted($amount) . ' (+' . money_formatted($tax) . ')';
+	/**
+	 * @return string
+	 */
+	public function monthlyServiceChargeWithTax()
+	{
+		return money_formatted($this->entity->getMonthlyServiceChargeWithTax());
 	}
 
 	/**
