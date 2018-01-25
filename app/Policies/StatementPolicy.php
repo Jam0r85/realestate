@@ -11,6 +11,20 @@ class StatementPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine before.
+     * 
+     * @param  \App\User  $user
+     * @param  string  $attributes
+     * @return bool
+     */
+    public function before(User $user, $attributes)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view the Statement.
      *
      * @param  \App\User  $user
