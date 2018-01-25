@@ -65,10 +65,10 @@
 						<div class="col-12 col-lg-6">
 
 							@component('partials.card')
-								@slot('body')
+								@slot('style')
 									border-primary
 								@endslot
-								@slot('header')
+								@slot('primaryHeader')
 									@icon('house') Recipient
 								@endslot
 								@slot('body')

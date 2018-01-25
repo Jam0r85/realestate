@@ -6,6 +6,16 @@
 		@endcomponent
 	@endif
 
+	@if (isset($primaryHeader))
+		@component('partials.card-header')
+			@slot('style')
+				bg-primary text-white
+			@endslot
+
+			{{ $primaryHeader }}
+		@endcomponent
+	@endif
+
 	{{ $slot }}
 
 	@if (isset($body))

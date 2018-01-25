@@ -1,4 +1,4 @@
-<div class="card-header">
+<div class="card-header {{ isset($style) ? $style : '' }} ">
 	<span>
 		{{ $slot }}
 	</span>
