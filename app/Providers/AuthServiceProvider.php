@@ -33,7 +33,8 @@ class AuthServiceProvider extends ServiceProvider
         Tenancy::class => TenancyPolicy::class,
         Payment::class => PaymentPolicy::class,
         User::class => UserPolicy::class,
-        Maintenance::class => MaintenanceIssuePolicy::class
+        Maintenance::class => MaintenanceIssuePolicy::class,
+        Invoice::class => InvoicePolicy::class
     ];
 
     /**
