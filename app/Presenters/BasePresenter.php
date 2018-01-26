@@ -249,7 +249,7 @@ class BasePresenter extends Presenter
 	 * @param  string  $class
 	 * @return string
 	 */
-	public function compareAmountsGetClass($balance, $amount, $class = null)
+	public function compareAmountsGetClass($balance, $amount, $class = 'dark')
 	{
 		if ($balance >= $amount) {
 			$class = 'success';
