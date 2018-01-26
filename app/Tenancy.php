@@ -455,24 +455,24 @@ class Tenancy extends BaseModel
             return $amount * $this->subtractServiceDiscounts($fee);
         }
 
-        return round($fee);
+        return $fee;
     }
 
     /**
-     * Subtract discounts from the given amount.
+     * Subtract discounts from the given fee.
      * 
-     * @param  int  $amount
+     * @param  int  $fee
      * @return int
      */
-    public function subtractServiceDiscounts($amount)
+    public function subtractServiceDiscounts($fee)
     {
         if (count($this->serviceDiscounts)) {
             foreach ($this->serviceDiscounts as $discount) {
-                $amount -= $discount->amount;
+                $fee -= $discount->amount;
             }
         }
 
-        return $amount;
+        return $fee;
     }
 
     /**
