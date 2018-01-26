@@ -240,4 +240,25 @@ class BasePresenter extends Presenter
 
 		return pence_to_pounds($item);
 	}
+
+	/**
+	 * Get the correct colour based on the given amounts.
+	 * 
+	 * @param  int  $amount
+	 * @param  int  $compare
+	 * @param  string  $class
+	 * @return string
+	 */
+	public function compareAmountsGetClass($amount, $compare, $class = null)
+	{
+		if ($this->amount >= $this->compare) {
+			$class = 'success';
+		} elseif ($this->amount > 0 && $this->amount < $this->compare) {
+			$class = 'info';
+		} elseif ($this->amount < 0) {
+			$class = 'danger';
+		}
+
+		return $class;
+	}
 }

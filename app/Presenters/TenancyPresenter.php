@@ -51,44 +51,13 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
-	 * Get the correct colour based on the given amounts.
-	 * 
-	 * @param  int  $amount
-	 * @param  int  $compare
-	 * @param  string  $class
-	 * @return string
-	 */
-	public function balanceColour($amount, $compare, $class = null)
-	{
-		if ($this->amount >= $this->compare) {
-			$class = 'success';
-		} elseif ($this->amount > 0 && $this->amount < $this->compare) {
-			$class = 'info';
-		} elseif ($this->amount < 0) {
-			$class = 'danger';
-		}
-
-		return $class;
-	}
-
-	/**
 	 * Get the rent balance card background colour.
 	 *
 	 * @return string
 	 */
 	public function rentBalanceCardBackground()
 	{
-		return 'bg-' . $this->balanceColour($this->rent, $this->rent_balance);
-	}
-
-	/**
-	 * Get the deposit balance card background colour.
-	 *
-	 * @return string
-	 */
-	public function depositBalanceCardBackground()
-	{
-		return 'bg-' . $this->balanceColour($this->deposit->amount, $this->deposit->balance);
+		return 'bg-' . $this->compareAmountsGetClass($this->rent, $this->rent_balance);
 	}
 
 	/**
@@ -99,7 +68,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function rentBalanceWithColour($class = null)
 	{
-		$class = $this->balanceColour($this->rent_balance, $this->rent);
+		$class = $this->compareAmountsGetClass($this->rent_balance, $this->rent);
 
 		return '<span class="text-' . $class .'">' . $this->rentBalance() . '</span>';
 	}
