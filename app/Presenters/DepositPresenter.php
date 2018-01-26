@@ -31,6 +31,6 @@ class DepositPresenter extends BasePresenter
 	 */
 	public function depositBalanceCardBackground()
 	{
-		return 'bg-' . $this->compareAmountsGetClass($this->amount, $this->balance);
+		return 'bg-' . $this->compareAmountsGetClass($this->balance, $this->amount);
 	}
 }
