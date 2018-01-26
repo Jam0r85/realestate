@@ -57,7 +57,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function rentBalanceCardBackground()
 	{
-		return 'bg-' . $this->compareAmountsGetClass($this->rent, $this->rent_balance);
+		return 'bg-' . $this->compareAmountsGetClass($this->entity->rent_balance, $this->entity->rent);
 	}
 
 	/**
