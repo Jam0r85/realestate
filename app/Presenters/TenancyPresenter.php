@@ -213,7 +213,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function monthlyServiceChargeWithoutTax()
 	{
-		return money_formatted($this->entity->getMonthlyServiceChargeExcludingTax());
+		return $this->entity->getMonthlyServiceChargeExcludingTax();
 	}
 
 	/**
@@ -221,7 +221,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function monthlyServiceChargeWithTax()
 	{
-		return money_formatted($this->entity->getMonthlyServiceChargeWithTax());
+		return $this->entity->getMonthlyServiceChargeWithTax();
 	}
 
 	/**
