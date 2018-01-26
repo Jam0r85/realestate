@@ -74,8 +74,6 @@ class TenancyPresenter extends BasePresenter
 	/**
 	 * Get the rent balance card background colour.
 	 *
-	 * @param  int  $rent
-	 * @param  int  $balance
 	 * @return string
 	 */
 	public function rentBalanceCardBackground()
@@ -86,11 +84,9 @@ class TenancyPresenter extends BasePresenter
 	/**
 	 * Get the deposit balance card background colour.
 	 *
-	 * @param  int  $deposit
-	 * @param  int  $balance
 	 * @return string
 	 */
-	public function depositBalanceCardBackground($deposit, $balance)
+	public function depositBalanceCardBackground()
 	{
 		return 'bg-' . $this->balanceColour($this->deposit->amount, $this->deposit->balance);
 	}

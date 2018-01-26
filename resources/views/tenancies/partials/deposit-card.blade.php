@@ -2,7 +2,7 @@
 	<div class="card text-white text-center {{ $tenancy->present()->depositBalanceCardBackground }}">
 		<div class="card-body">
 			<h2 class="card-title">
-				{{ $tenancy->present()->depositBalance }}
+				{{ $tenancy->deposit->present()->balance }}
 			</h2>
 			<p class="card-text">
 				Deposit Balance

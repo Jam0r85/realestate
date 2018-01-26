@@ -2,17 +2,26 @@
 
 namespace App;
 
-use App\Payment;
 use App\Events\DepositWasForceDeleted;
+use App\Payment;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
 class Deposit extends BaseModel
 {
-    use Searchable;
-    use SoftDeletes;
-    use Filterable;
+    use Searchable,
+        SoftDeletes,
+        Filterable,
+        PresentableTrait;
+
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\DepositPresenter';
 
     /**
      * The attributes that are mass assignable.
