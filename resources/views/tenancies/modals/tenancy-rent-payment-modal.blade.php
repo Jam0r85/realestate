@@ -31,7 +31,7 @@
 							@slot('icon')
 								@icon('money')
 							@endslot
-							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->rentAmountPlain }}" />
+							<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') ?? $tenancy->present()->pounds('rent') }}" />
 						@endcomponent
 					@endcomponent
 

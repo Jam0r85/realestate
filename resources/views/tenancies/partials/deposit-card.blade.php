@@ -1,18 +1,12 @@
-<div class="card text-white text-center
-	@if (!$tenancy->deposit)
-		bg-secondary
-	@elseif ($tenancy->deposit->balance != $tenancy->deposit->amount)
-		bg-warning
-	@else
-		bg-success
-	@endif
-		">
-	<div class="card-body">
-		<h2 class="card-title">
-			{{ money_formatted($tenancy->deposit ? $tenancy->deposit->balance : 0) }}
-		</h2>
-		<p class="card-text">
-			Deposit Balance
-		</p>
+@if ($tenancy->deposit)
+	<div class="card text-white text-center {{ $tenancy->present()->depositBalanceCardBackground }}">
+		<div class="card-body">
+			<h2 class="card-title">
+				{{ $tenancy->present()->depositBalance }}
+			</h2>
+			<p class="card-text">
+				Deposit Balance
+			</p>
+		</div>
 	</div>
-</div>
+@endif

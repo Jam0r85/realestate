@@ -57,7 +57,7 @@
 			@endcomponent
 		@endif
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->present()->rentAmount }}
+			{{ $tenancy->present()->rent }}
 			@slot('title')
 				Current Rent
 			@endslot

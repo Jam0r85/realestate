@@ -209,16 +209,35 @@ class BasePresenter extends Presenter
 	/**
 	 * Get the amount formatted as money.
 	 * 
-	 * @param  string  $field
+	 * @param  string  $item
 	 * @return string
 	 */
-	public function money($field)
+	public function money($item)
 	{
-		// Find the correct field
-		if (! $amount = $this->entity->$field) {
-			$amount = 0;
+		if (! is_numeric($item)) {
+			// Find the correct field
+			if (! $item = $this->entity->$item) {
+				$item = 0;
+			}
 		}
 
-		return money_formatted($amount);
+		return money_formatted($item);
+	}
+
+	/**
+	 * Turn the given field name value into pounds from pence.
+	 * 
+	 * @param  mixed  $item 
+	 * @return string
+	 */
+	public function pounds($item)
+	{
+		if (! is_numeric($item)) {
+			if (! $item = $this->entity->$item) {
+				$item = 0;
+			}
+		}
+
+		return pence_to_pounds($item);
 	}
 }

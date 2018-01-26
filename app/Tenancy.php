@@ -416,7 +416,7 @@ class Tenancy extends BaseModel
             return null;
         }
 
-        return $this->calculateServiceChargeExcludingTax($amount);
+        return round($this->calculateServiceChargeExcludingTax($amount));
     }
 
     /**
@@ -429,10 +429,10 @@ class Tenancy extends BaseModel
         $amount = $this->getMonthlyServiceChargeExcludingTax();
 
         if ($this->service->taxRate) {
-            return $amount + $amount * ($this->service->taxRate->amount / 100);
+            return round($amount + $amount * ($this->service->taxRate->amount / 100));
         }
 
-        return $amount;
+        return round($amount);
     }
 
     /**

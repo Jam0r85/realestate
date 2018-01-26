@@ -21,7 +21,7 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
-	 * The name for select dropdown menus.
+	 * Show the select name for drop down menus.
 	 * 
 	 * @return  string
 	 */
@@ -31,81 +31,79 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
-	 * @return mixed
+	 * Get the formatted rent amount.
+	 * 
+	 * @return string
 	 */
-	public function rentAmount($formatting = true)
+	public function rent()
 	{
-		$rent = $this->currentRent ? $this->currentRent->amount : 0;
+		return $this->money('rent');
+	}
 
-		if ($formatting == true) {
-			return money_formatted($rent);
+	/**
+	 * Get the formatted rent balance.
+	 * 
+	 * @return string
+	 */
+	public function rentBalance()
+	{
+		return $this->money('rent_balance');
+	}
+
+	/**
+	 * Get the correct colour based on the given amounts.
+	 * 
+	 * @param  int  $amount
+	 * @param  int  $compare
+	 * @param  string  $class
+	 * @return string
+	 */
+	public function balanceColour($amount, $compare, $class = null)
+	{
+		if ($this->amount >= $this->compare) {
+			$class = 'success';
+		} elseif ($this->amount > 0 && $this->amount < $this->compare) {
+			$class = 'info';
+		} elseif ($this->amount < 0) {
+			$class = 'danger';
 		}
 
-		return $rent;
+		return $class;
 	}
 
 	/**
-	 * @return int
+	 * Get the rent balance card background colour.
+	 *
+	 * @param  int  $rent
+	 * @param  int  $balance
+	 * @return string
 	 */
-	public function rentAmountPlain()
+	public function rentBalanceCardBackground()
 	{
-		return pence_to_pounds($this->rentAmount(false));
+		return 'bg-' . $this->balanceColour($this->rent, $this->rent_balance);
 	}
 
 	/**
-	 * @return mixed
+	 * Get the deposit balance card background colour.
+	 *
+	 * @param  int  $deposit
+	 * @param  int  $balance
+	 * @return string
 	 */
-	public function rentBalanceTotal($formatting = true)
+	public function depositBalanceCardBackground($deposit, $balance)
 	{
-		$payments = $this->rent_payments->sum('amount');
-
-		if ($formatting == true) {
-			return money_formatted($payments);
-		}
-
-		return $payments;
+		return 'bg-' . $this->balanceColour($this->deposit->amount, $this->deposit->balance);
 	}
 
 	/**
-	 * @return mixed
+	 * Get the rent balance with coloured formatting.
+	 *
+	 * @param  string  $class
+	 * @return string
 	 */
-	public function rentBalance($formatting = true)
+	public function rentBalanceWithColour($class = null)
 	{
-		$balance = $this->rentBalanceTotal(false) - $this->statementTotal(false);
-
-		if ($formatting == true) {
-			return money_formatted($balance);
-		}
-
-		return $balance;
-	}
-
-	/**
-	 * @return integer
-	 */
-	public function rentBalancePlain()
-	{
-		return $this->rentBalance(false);
-	}
-
-	/**
-	 * @return  string
-	 */
-	public function rentBalanceFormatted()
-	{
-		$class = '';
-
-		if ($this->currentRent) {
-			if ($this->rentBalancePlain >= $this->currentRent->amount) {
-				$class = 'success';
-			} elseif ($this->rentBalancePlain > 0 && $this->rentBalancePlain < $this->currentRent->amount) {
-				$class = 'info';
-			} elseif ($this->rentBalancePlain < 0) {
-				$class = 'danger';
-			}
-		} else {
-			$class = 'warning';
-		}
+		$class = $this->balanceColour($this->rent_balance, $this->rent);
 
 		return '<span class="text-' . $class .'">' . $this->rentBalance() . '</span>';
 	}
@@ -125,50 +123,6 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
-	 * @return string
-	 */
-	public function serviceName()
-	{
-		if ($this->service) {
-			return $this->service->name;
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function serviceCharge()
-	{
-		if ($this->service) {
-			$charge = $this->service->charge - $this->serviceDiscounts->sum('amount');
-
-	        if ($charge < 1) {
-	            return $charge * 100 . '%';
-	        } else {
-	            return currency($charge);
-	        }
-	    }
-	}
-
-	/**
-	 * @return string
-	 */
-	public function serviceChargeInCurrency()
-	{
-		return $this->serviceCharge;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function serviceReLettingFee()
-	{
-		if ($this->service) {
-			return $this->service->re_letting_fee;
-		}
-	}
-
-	/**
 	 * The formatted start date for this tenancy.
 	 * 
 	 * @return string
@@ -176,16 +130,6 @@ class TenancyPresenter extends BasePresenter
 	public function startDate()
 	{
 		return $this->date('started_on');
-	}
-
-	/**
-	 * Get the start date for this tenancy.
-	 * 
-	 * @return string
-	 */
-	public function dateStart()
-	{
-		return $this->date('start_date');
 	}
 
 	/**
@@ -213,7 +157,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function monthlyServiceChargeWithoutTax()
 	{
-		return $this->entity->getMonthlyServiceChargeExcludingTax();
+		return $this->money($this->entity->getMonthlyServiceChargeExcludingTax());
 	}
 
 	/**
@@ -221,7 +165,7 @@ class TenancyPresenter extends BasePresenter
 	 */
 	public function monthlyServiceChargeWithTax()
 	{
-		return $this->entity->getMonthlyServiceChargeWithTax();
+		return $this->money($this->entity->getMonthlyServiceChargeWithTax());
 	}
 
 	/**
