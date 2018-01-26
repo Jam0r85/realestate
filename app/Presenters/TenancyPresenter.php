@@ -169,11 +169,13 @@ class TenancyPresenter extends BasePresenter
 	}
 
 	/**
+	 * The formatted start date for this tenancy.
+	 * 
 	 * @return string
 	 */
 	public function startDate()
 	{
-		return $this->first_agreement ? $this->first_agreement->starts_at : null;
+		return $this->date('started_on');
 	}
 
 	/**

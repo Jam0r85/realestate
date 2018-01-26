@@ -85,7 +85,7 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			<a href="{{ route('users.show', $tenancy->owner->id) }}">
+			<a href="{{ route('users.show', $tenancy->user_id) }}">
 				{{ $tenancy->owner->present()->fullName }}
 			</a>
 			@slot('title')
@@ -93,13 +93,13 @@
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ date_formatted($tenancy->created_at) }}
+			{{ $tenancy->present()->dateCreated }}
 			@slot('title')
 				Registered
 			@endslot
 		@endcomponent
 		@component('partials.bootstrap.list-group-item')
-			{{ datetime_formatted($tenancy->updated_at) }}
+			{{ $tenancy->present()->dateUpdated }}
 			@slot('title')
 				Updated
 			@endslot
