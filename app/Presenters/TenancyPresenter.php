@@ -66,9 +66,9 @@ class TenancyPresenter extends BasePresenter
 	 * @param  string  $class
 	 * @return string
 	 */
-	public function rentBalanceWithColour($class = null)
+	public function rentBalanceWithColour()
 	{
-		$class = $this->compareAmountsGetClass($this->rent_balance, $this->rent);
+		$class = $this->compareAmountsGetClass($this->entity->rent_balance, $this->entity->rent);
 
 		return '<span class="text-' . $class .'">' . $this->rentBalance() . '</span>';
 	}
