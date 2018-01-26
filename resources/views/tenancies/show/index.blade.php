@@ -1,3 +1,4 @@
+{{-- Quick glance Rent and Deposit balance cards --}}
 <div class="row mb-3">
 	<div class="col-12 col-lg-4">
 
@@ -11,22 +12,23 @@
 	</div>
 </div>
 
-<div class="card mb-3">
-	@component('partials.card-header')
+{{-- Tenants Table --}}
+@component('partials.card')
+	@slot('header')
 		Tenant(s)
-	@endcomponent
-
+	@endslot
 	@include('users.partials.users-table', ['users' => $tenancy->users])
-</div>
+@endcomponent
 
-<div class="card mb-3">
-	@component('partials.card-header')
+{{-- Landlords Table --}}
+@component('partials.card')
+	@slot('header')
 		Landlord(s)
-	@endcomponent
-
+	@endslot
 	@include('users.partials.users-table', ['users' => $tenancy->property->owners])
-</div>
+@endcomponent
 
+{{-- Tenancy Details --}}
 @component('partials.card')
 	@slot('header')
 		Tenancy Details
@@ -55,7 +57,7 @@
 				<ul>
 					@foreach ($tenancy->discounts as $discount)
 						<li>
-							{{ $discount->name }} - {{ $discount->amount }}
+							{{ $discount->name }} - {{ $discount->present()->amount }}
 						</li>
 					@endforeach
 				@slot('title')

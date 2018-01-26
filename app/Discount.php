@@ -4,26 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Discount extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,
+        PresentableTrait;
 
+    /**
+     * The presenter for this model.
+     * 
+     * @var string
+     */
+    protected $presenter = 'App\Presenters\DiscountPresenter';
+
+    /**
+     * The attributes that should be cast to native types.
+     * 
+     * @var array
+     */
     public $cast = [
         'is_percent' => 'boolean'
     ];
-
-    /**
-     * Get the discount amount formatted.
-     * 
-     * @return string
-     */
-    public function getAmountFormattedAttribute()
-    {
-        if ($this->amount < 1) {
-            return $this->amount * 100 . '%';
-        } else {
-            return currency($this->amount);
-        }
-    }
 }

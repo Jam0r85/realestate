@@ -111,7 +111,7 @@ class BasePresenter extends Presenter
 	 */
 	public function dateUpdated()
 	{
-		return $this->date('updated_at');
+		return $this->dateTime('updated_at');
 	}
 
 	/**
