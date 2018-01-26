@@ -7,29 +7,37 @@ use Illuminate\Support\Carbon;
 class ServicePresenter extends BasePresenter
 {
 	/**
-	 * @return  string
+	 * The name for select drop down menus.
+	 * 
+	 * @return string
 	 */
 	public function selectName()
 	{
-		$name = $this->name;
-
-		if ($this->serviceChargeFormatted) {
-			$name .= ' ' . $this->serviceChargeFormatted;
-		}
-
-		return $name;
+		return $this->nameWithCharge();
 	}
 
 	/**
-	 * @return  string
+	 * The monthly charge formatted.
+	 * 
+	 * @return string
 	 */
-	public function monthlyChargeFormatted()
+	public function monthlyCharge()
 	{
 		if ($this->is_percent) {
 			return $this->charge . '%';
 		}
 
 		return $this->money('charge');
+	}
+
+	/**
+	 * Show the service name with the charge.
+	 * 
+	 * @return string
+	 */
+	public function nameWithCharge()
+	{
+		return $this->name . ' (' . $this->monthlyCharge . ')';
 	}
 
 	/**
@@ -47,6 +55,8 @@ class ServicePresenter extends BasePresenter
 	}
 
 	/**
+	 * Show the status label for this service.
+	 * 
 	 * @return  string
 	 */
 	public function statusLabel()

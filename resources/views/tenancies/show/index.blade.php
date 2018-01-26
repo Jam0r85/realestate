@@ -35,11 +35,27 @@
 	@endslot
 	<ul class="list-group list-group-flush">
 		@component('partials.bootstrap.list-group-item')
-			{{ $tenancy->service->name }} ({{ $tenancy->service->present()->monthlyChargeFormatted }})
+			{{ $tenancy->service->present()->nameWithCharge }}
 			@slot('title')
 				Service
 			@endslot
 		@endcomponent
+		@if (count($tenancy->discounts))
+			@component('partials.bootstrap.list-group-item')
+				<ul>
+					@foreach ($tenancy->discounts as $discount)
+						<li>
+							{{ $discount->present()->nameWithAmount }}
+						</li>
+					@endforeach
+				@slot('title')
+					Applied Discounts
+				@endslot
+				@slot('style')
+					list-group-item-primary
+				@endslot
+			@endcomponent
+		@endif
 		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->present()->rentAmount }}
 			@slot('title')
@@ -52,19 +68,6 @@
 				Monthly Service Charge
 			@endslot
 		@endcomponent
-		@if (count($tenancy->discounts))
-			@component('partials.bootstrap.list-group-item')
-				<ul>
-					@foreach ($tenancy->discounts as $discount)
-						<li>
-							{{ $discount->present()->nameWithAmount }}
-						</li>
-					@endforeach
-				@slot('title')
-					Discounts
-				@endslot
-			@endcomponent
-		@endif
 		@component('partials.bootstrap.list-group-item')
 			{{ $tenancy->present()->startDate }}
 			@slot('title')
