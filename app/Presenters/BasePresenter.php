@@ -244,18 +244,18 @@ class BasePresenter extends Presenter
 	/**
 	 * Get the correct colour based on the given amounts.
 	 * 
+	 * @param  int  $balance
 	 * @param  int  $amount
-	 * @param  int  $compare
 	 * @param  string  $class
 	 * @return string
 	 */
-	public function compareAmountsGetClass($amount, $compare, $class = null)
+	public function compareAmountsGetClass($balance, $amount, $class = null)
 	{
-		if ($this->amount >= $this->compare) {
+		if ($balance >= $amount) {
 			$class = 'success';
-		} elseif ($this->amount > 0 && $this->amount < $this->compare) {
+		} elseif ($balance > 0 && $balance < $amount) {
 			$class = 'info';
-		} elseif ($this->amount < 0) {
+		} elseif ($balance < 0) {
 			$class = 'danger';
 		}
 
