@@ -57,7 +57,7 @@
 				<ul>
 					@foreach ($tenancy->discounts as $discount)
 						<li>
-							{{ $discount->name }} - {{ $discount->present()->amount }}
+							{{ $discount->present()->nameWithAmount }}
 						</li>
 					@endforeach
 				@slot('title')

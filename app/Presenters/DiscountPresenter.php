@@ -17,4 +17,14 @@ class DiscountPresenter extends BasePresenter
             return $this->money('amount');
         }
 	}
+
+	/**
+	 * Show the name with the amount.
+	 * 
+	 * @return string
+	 */
+	public function nameWithAmount()
+	{
+		return $this->name . ' (' . $this->amount . ')';
+	}
 }
