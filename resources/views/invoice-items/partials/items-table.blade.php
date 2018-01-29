@@ -15,6 +15,15 @@
 				<td class="text-right">{{ money_formatted($item->total_tax) }}</td>
 				<td class="text-right">{{ money_formatted($item->total) }}</td>
 			</tr>
+			@if (count($item->discounts))
+				@foreach ($item->discounts as $discount)
+					<tr class="bg-dark text-white small">
+						<td colspan="5">
+							<b>Discount -</b> {{ $discount->present()->nameWithAmount }}
+						</td>
+					</tr>
+				@endforeach
+			@endif
 		@endforeach
 	@endslot
 	@slot('footer')
