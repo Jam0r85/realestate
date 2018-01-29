@@ -105,7 +105,7 @@ class Tenancy extends BaseModel
     public function scopeEagerLoading($query)
     {
         return $query
-            ->with('property','currentRent','service','deposit','rent_payments','statements');
+            ->with('property','currentRent','service','deposit');
     }
 
     /**
