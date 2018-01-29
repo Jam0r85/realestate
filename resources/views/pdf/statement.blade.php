@@ -64,7 +64,7 @@
 									<tr>
 										<td>
 											<b>{{ $item->present()->nameWithInvoiceNumber }}</b>
-											<br /><small>{!! $item->present()->descriptionWithDiscounts !!}</small>
+											<br />{!! $item->present()->descriptionWithDiscounts !!}
 										</td>
 										<td>{{ $item->present()->money('net') }}</td>
 										<td>{{ $item->present()->money('tax') }}</td>
