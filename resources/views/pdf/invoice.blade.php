@@ -49,9 +49,9 @@
 								<td>
 									<b>{{ $item->name }}</b>
 									@if ($item->quantity > 1)
-										({{ $item->quantity }}x {{ money_formatted($item->amount) }})
+										({{ $item->quantity }}x {{ $item->present()->money('amount') }})
 									@endif
-									{!! $item->description ? '<br />' . $item->description : '' !!}
+									<br />{!! $item->present()->descriptionWithDiscounts !!}
 								</td>
 								<td>{{ $item->present()->money('net') }}</td>
 								<td>{{ $item->present()->money('tax') }}</td>
