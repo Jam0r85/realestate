@@ -68,7 +68,7 @@
 											@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->serviceDiscounts)
 												<br />
 												@foreach ($statement->tenancy->serviceDiscounts as $discount)
-													<small>Includes {{ strtolower($discount->name) }} of {{ $discount->amount_formatted }}</small> <br />
+													<small>Discount - {{ $discount->present()->nameWithAmount }}</small> <br />
 												@endforeach
 											@endif
 										</td>
