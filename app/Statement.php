@@ -392,7 +392,7 @@ class Statement extends PdfModel
         if ($charge = $tenancy->getMonthlyServiceChargeExcludingTax()) {
 
             // Format the description
-            $description = $service->name . ' service at ' . $service->present()->monthlyChargeFormatted;
+            $description = $service->present()->nameWithCharge;
 
             // If there is a tax rate add it to the description as well
             if ($service->taxRate) {
@@ -414,6 +414,11 @@ class Statement extends PdfModel
             $item->tax_rate_id = $service->tax_rate_id;
 
             $invoice->storeItem($item);
+
+            // Check whether the tenancy has any service discounts and if present, attach them to this item.
+            if (count($tenancy->serviceDiscounts)) {
+                $item->discounts()->sync($tenancy->serviceDiscounts);
+            }
         }
     }
 

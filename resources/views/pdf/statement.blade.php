@@ -63,14 +63,8 @@
 								@foreach ($invoice->items as $item)
 									<tr>
 										<td>
-											<b>{{ $item->name }} ({{ $item->invoice->present()->name }})</b>
-											{!! $item->description ? '<br />' . $item->description : '' !!}
-											@if (strpos(strtolower($item->description), 'service') && $statement->tenancy->serviceDiscounts)
-												<br />
-												@foreach ($statement->tenancy->serviceDiscounts as $discount)
-													<small>Including {{ $discount->present()->nameWithAmount }}</small> <br />
-												@endforeach
-											@endif
+											<b>{{ $item->present()->nameWithInvoiceNumber }}</b>
+											<br /><small>{!! $item->present()->descriptionWithDiscounts !!}</small>
 										</td>
 										<td>{{ $item->present()->money('net') }}</td>
 										<td>{{ $item->present()->money('tax') }}</td>

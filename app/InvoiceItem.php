@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Discount;
 use App\Invoice;
 use App\TaxRate;
 use Laracasts\Presenter\PresentableTrait;
@@ -15,7 +16,7 @@ class InvoiceItem extends BaseModel
      * 
      * @var string
      */
-    protected $presenter = 'App\Presenters\InvoicePresenter';
+    protected $presenter = 'App\Presenters\InvoiceItemPresenter';
 
     /**
      * The attrbites that should be included in the collection.
@@ -49,6 +50,25 @@ class InvoiceItem extends BaseModel
     }
 
     /**
+     * An invoice item can have a tax rate.
+     */
+    public function taxRate()
+    {
+    	return $this
+            ->belongsTo(TaxRate::class)
+            ->withTrashed();
+    }
+
+    /**
+     * An invoice item can have many discounts?
+     */
+    public function discounts()
+    {
+        return $this
+            ->belongsToMany(Discount::class);
+    }
+
+    /**
      * Set the amount of this invoice item.
      * 
      * @param  integer  $value
@@ -57,16 +77,6 @@ class InvoiceItem extends BaseModel
     public function setAmountAttribute($value)
     {
         $this->attributes['amount'] = pounds_to_pence($value);
-    }
-
-    /**
-     * An invoice item can have a tax rate.
-     */
-    public function taxRate()
-    {
-    	return $this
-            ->belongsTo(TaxRate::class)
-            ->withTrashed();
     }
 
     /**
