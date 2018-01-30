@@ -83,6 +83,7 @@ class OldStatementController extends BaseController
         $this->tenancy->storeOldstatement($this->statement);
 
         // Update the tenancy rent balance
+        $this->tenancy = $this->tenancy->fresh();
         $this->tenancy->updateRentBalance();
 
         // Create and attach the invoice items.
