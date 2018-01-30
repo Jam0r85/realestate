@@ -16,13 +16,13 @@
 		@endcomponent
 	@endif
 
-	{{ $slot }}
-
 	@if (isset($body))
 		<div class="card-body">
 			{{ $body }}
 		</div>
 	@endif
+
+	{{ $slot }}
 
 	@if (isset($footer))
 		<div class="card-footer">

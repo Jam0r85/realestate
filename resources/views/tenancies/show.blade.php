@@ -29,6 +29,9 @@
 					<a class="dropdown-item" href="{{ route('tenancies.edit', $tenancy->id) }}" title="Edit Tenancy">
 						@icon('edit') Edit Tenancy
 					</a>
+					<a class="dropdown-item" href="{{ route('old-statements.create', $tenancy->id) }}">
+						@icon('statement') Record Old Statement
+					</a>
 				</div>
 			</div>
 		</div>

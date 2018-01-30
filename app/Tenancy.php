@@ -788,9 +788,9 @@ class Tenancy extends BaseModel
                 $invoice->recipient = $invoice->formatRecipient($this->present()->landlordAddressWithNames);
                 $invoice = $statement->storeInvoice($invoice);
             }
-        }
 
-        event(new StatementWasCreated($statement));
+            event(new StatementWasCreated($statement));
+        }
 
         return $statement;
     }

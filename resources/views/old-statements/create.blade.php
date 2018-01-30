@@ -33,91 +33,100 @@
 			<div class="row">
 				<div class="col-12 col-lg-6">
 
-					<div class="card mb-3">
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							Statement Details
-						@endcomponent
-						<div class="card-body">
+						@endslot
+						@slot('body')
 
-							<div class="form-group">
-								<label for="created_at">Date Created</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Statement Date
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
 									<input type="date" name="created_at" id="created_at" class="form-control" value="{{ old('created_at') }}" />
-								</div>
-							</div>
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="period_start">Date Start</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Period From
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
 									<input type="date" name="period_start" id="period_start" class="form-control" value="{{ old('period_start') }}" />
-								</div>
-							</div>
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="period_end">Date End</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Period Until
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
 									<input type="date" name="period_end" id="period_end" class="form-control" value="{{ old('period_end') }}" />
-								</div>
-							</div>
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="amount">Amount</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-money-bill"></i>
-									</span>
+							@component('partials.form-group')
+								@slot('label')
+									Statement Amount
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
 									<input type="number" step="any" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" />
-								</div>
-							</div>
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="users">Users</label>
+							@component('partials.form-group')
+								@slot('label')
+									Attached Users
+								@endslot
 								<select name="users[]" id="users" class="form-control select2" multiple>
-									@foreach (users() as $user)
+									@foreach (common('users') as $user)
 										<option @if ($tenancy->property->owners->contains($user->id)) selected @endif value="{{ $user->id }}">
 											{{ $user->present()->selectName }}
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-						</div>
-
-						<div class="card-footer">
-
+						@endslot
+						@slot('footer')
 							@component('partials.save-button')
 								Save Changes
 							@endcomponent
-
-						</div>
-					</div>
+						@endslot
+					@endcomponent
 
 					{{-- Invoice Items --}}
 
-					<div class="card mt-3 mb-3">
-						@component('partials.card-header')
-							Create &amp; Attach Invoice
-						@endcomponent
-						<div class="card-body">
+					@component('partials.card')
+						@slot('header')
+							Create Invoice
+						@endslot
+						@slot('body')
+							<p class="card-text">
+								You can create an invoice and attach it to the statement by entering the details.
+							</p>
 
-							<div class="form-group">
-								<label for="invoice_number">Invoice Number</label>
+							@component('partials.form-group')
+								@slot('label')
+									Invoice Number
+								@endslot
 								<input type="text" name="invoice_number" id="invoice_number" class="form-control" value="{{ old('invoice_number') }}" />
-								<small class="form-text text-muted">
-									Invoice number is when adding invoice items.
-								</small>
-							</div>
+							@endcomponent
 
-						</div>
+						@endslot
 
 						<div id="invoiceItems">
 							<div class="card-body" id="invoiceItemColumn">
@@ -159,13 +168,12 @@
 							</div>
 						</div>
 
-						<div class="card-footer">
+						@slot('footer')
 							<button type="button" class="btn btn-secondary" id="cloneInvoiceItem">
 								<i class="fa fa-plus"></i> Invoice Item
 							</button>
-						</div>
-
-					</div>
+						@endslot
+					@endcomponent
 
 					{{-- Expense Items --}}
 
