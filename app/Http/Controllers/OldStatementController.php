@@ -152,7 +152,7 @@ class OldStatementController extends BaseController
     			$expense->contractor_id = $request->expense_contractor_id[$i];
     			$expense->name = $request->expense_name[$i];
     			$expense->cost = $request->expense_cost[$i];
-    			$expense->created_at = $expense->paid_at = $this->statement->created_at;
+    			$expense->created_at = $expense->paid_at = $statement->created_at;
 
                 // Store the expense to the property.
     			$statement->tenancy->property->storeExpense($expense);
