@@ -121,10 +121,9 @@ class OldStatementController extends BaseController
     		  		if ($request->item_amount[$i]) {
 
                         // Does the statement have an invoice?
-                        if (! count($this->statement->invoices)) {
+                        if (! $this->invoice) {
 
                             $this->invoice = new Invoice();
-
                             $this->invoice->fill([
                                 'created_at' => $this->statement->created_at,
                                 'updated_at' => $this->statement->created_at,
