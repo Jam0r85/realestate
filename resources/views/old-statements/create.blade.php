@@ -200,9 +200,9 @@
 								<div class="form-group">
 									<label for="expense_contractor">Contractor</label>
 									<select name="expense_contractor_id[]" id="expense_contractor_id" class="form-control select2">
-										@foreach (users() as $user)
+										@foreach (common('users') as $user)
 											<option value="{{ $user->id }}">
-												{{ $user->name }}
+												{{ $user->present()->selectName }}
 											</option>
 										@endforeach
 									</select>
