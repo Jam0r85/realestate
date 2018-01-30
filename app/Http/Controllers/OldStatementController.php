@@ -23,6 +23,27 @@ class OldStatementController extends BaseController
     public $model = 'App\Statement';
 
     /**
+     * The tenancy we are dealing with.
+     * 
+     * @var \App\Tenancy
+     */
+    public $tenancy;
+
+    /**
+     * The old statement.
+     * 
+     * @var \App\Statement
+     */
+    public $statement;
+
+    /**
+     * The invoice we maybe dealing with.
+     * 
+     * @var \App\Invoice
+     */
+    public $invoice;
+
+    /**
      * Show the form for creating a new resource.
      * 
      * @param  int $id
@@ -46,32 +67,36 @@ class OldStatementController extends BaseController
     public function store(OldStatementStoreRequest $request, $id)
     {
         // Find the tenancy
-        $tenancy = Tenancy::withTrashed()
+        $this->tenancy = Tenancy::withTrashed()
             ->findOrFail($id);
 
-        // Build up the statement data
-        $data = $request->only('created_at','period_start','period_end','amount');
-        $data['sent_at'] = $data['created_at'];
-        $data['paid_at'] = $data['created_at'];
-
-        $statement = $this->repository
-            ->fill($data);
+        $this->statement = $this->repository->fill([
+            'created_at' => $request->created_at,
+            'period_start' => $request->period_start,
+            'period_end' => $request->period_end,
+            'amount' => $request->amount,
+            'sent_at' => $request->created_at,
+            'paid_at' => $request->created_at
+        ]);
 
         // Store the statement to the tenancy
-        $tenancy->storeOldstatement($statement);
+        $this->tenancy->storeOldstatement($this->statement);
 
         // Update the tenancy rent balance
-        $tenancy->updateRentBalance();
+        $this->tenancy->updateRentBalance();
 
         // Create and attach the invoice items.
-        $this->addInvoiceItems($statement, $request);
+        $this->addInvoiceItems($request);
 
         // Create and attach the expenses.
-        $this->addExpenses($statement, $request);
+        $this->addExpenses($request);
+
+        // Get the fresh statement
+        $this->statement = $this->statement->fresh();
 
         // Create the payments.
         $payments = new StatementPayment();
-        $payments->createPayments($statement);
+        $payments->createPayments($this->statement);
 
         return back();
     }
@@ -79,11 +104,10 @@ class OldStatementController extends BaseController
     /**
      * Add an invoice and it's items to the statement.
      *
-     * @param  \App\Statement  $statement
      * @param  \Illuminate\Http\Request  $request
      * @return \App\Statement
      */
-    private function addInvoiceItems(Statement $statement, Request $request)
+    private function addInvoiceItems(Request $request)
     {
         // Make sure the request has a valid invoice number
     	if ($request->has('invoice_number') && $request->invoice_number) {
@@ -97,23 +121,23 @@ class OldStatementController extends BaseController
     		  		if ($request->item_amount[$i]) {
 
                         // Does the statement have an invoice?
-                        if (! count($statement->invoices)) {
+                        if (! count($this->statement->invoices)) {
 
-                            $invoice = new Invoice();
+                            $this->invoice = new Invoice();
 
-                            $invoice->fill([
-                                'created_at' => $statement->created_at,
-                                'updated_at' => $statement->created_at,
-                                'sent_at' => $statement->created_at,
-                                'property_id' => $statement->tenancy->property_id,
+                            $this->invoice->fill([
+                                'created_at' => $this->statement->created_at,
+                                'updated_at' => $this->statement->created_at,
+                                'sent_at' => $this->statement->created_at,
+                                'property_id' => $this->tenancy->property_id,
                                 'number' => $request->invoice_number
                             ]);
 
                             // Save the invoice to the statement
-                            $statement->invoices()->save($invoice);
+                            $this->statement->invoices()->save($this->invoice);
 
                             // Attach the users to the invoice
-                            $invoice->users()->sync($request->users);
+                            $this->invoice->users()->sync($request->users);
                         }
 
     	        		$item = new InvoiceItem();
@@ -123,7 +147,7 @@ class OldStatementController extends BaseController
     	        		$item->quantity = $request->item_quantity[$i];
     	        		$item->tax_rate_id = $request->item_tax_rate_id[$i];
 
-    	        		$invoice->storeItem($item);
+    	        		$this->invoice->storeItem($item);
     	        	}
         		}
             }
@@ -133,15 +157,10 @@ class OldStatementController extends BaseController
     /**
      * Add the expenses to the old statement.
      *
-     * @param  \App\Statement  $statement
      * @param \Illuminate\Http\Request $request
      */
-    private function addExpenses(Statement $statement, Request $request)
+    private function addExpenses(Request $request)
     {
-    	if (! $statement) {
-    		return;
-    	}
-
     	$total_expenses = count($request->expense_name);
 
     	for ($i = 0; $i < $total_expenses; $i++) {
@@ -149,16 +168,18 @@ class OldStatementController extends BaseController
 
                 // Build the expense.
     			$expense = new Expense();
+
     			$expense->contractor_id = $request->expense_contractor_id[$i];
     			$expense->name = $request->expense_name[$i];
     			$expense->cost = $request->expense_cost[$i];
-    			$expense->created_at = $expense->paid_at = $statement->created_at;
+    			$expense->created_at = $this->statement->created_at;
+                $expense->paid_at = $this->statement->created_at;
 
                 // Store the expense to the property.
-    			$statement->tenancy->property->storeExpense($expense);
+    			$this->tenancy->property->storeExpense($expense);
 
                 // Attach the expense to the statement
-    			$statement->attachExpense($expense);
+    			$this->statement->attachExpense($expense);
     		}
     	}
     }
