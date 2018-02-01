@@ -11,13 +11,6 @@ use Illuminate\Http\Request;
 class ExpenseController extends BaseController
 {    
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Expense';
-
-    /**
      * Display a listing of expenses.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -135,6 +128,7 @@ class ExpenseController extends BaseController
     public function destroy(Request $request, $id)
     {
         parent::destroy($request, $id);
-        return redirect()->route($this->indexView);
+
+        return redirect()->route($this->indexRoute);
     }
 }

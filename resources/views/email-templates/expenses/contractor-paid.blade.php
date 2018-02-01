@@ -1,26 +1,12 @@
 @component('mail::message')
 # Invoice Payment
 
-We have sent you {{ money_formatted($payment->amount) }} by {{ $payment->bank_account ? 'bank transfer' : 'cheque' }}.
+We have sent you <b>{{ $payment->present()->money('amount') }}</b> by {{ $payment->bank_account ? 'bank transfer' : 'cheque' }} for the invoice {{ $expense->getData('contractor_reference') ? '(' . $expense->getData('contractor_reference') . ')' : '' }} you sent us in relation to the work you carried out at <b>{{ $expense->property->present()->fullAddress }}</b>.
 
-@if ($expense->getData('contractor_reference'))
-Your invoice reference is {{ $expense->getData('contractor_reference') }}
+@if ($payment->bank_account)
+Please allow 2 working days for payment to clear.
 @endif
 
-It relates to the work you carried out at the property - <b>{{ $expense->property->present()->fullAddress }}</b>
-
-@if (count($expense->documents))
-We have attached your {{ str_plural('invoice', count($expense->documents)) }} to this email.
-@endif
-
-@if ($expense->balance <= 0)
-Your invoice has now been paid in full.
-@else
-Your invoice total was {{ money_formatted($expense->cost) }}.
-
-The remaining balance is {{ money_formatted($expense->balance) }}.
-@endif
-
-@include('email-templates.footer')
+@include('email-templates.partials.footer')
 
 @endcomponent

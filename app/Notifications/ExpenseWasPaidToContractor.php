@@ -76,32 +76,6 @@ class ExpenseWasPaidToContractor extends Notification
             ]
         );
 
-        // Check whether we can attach documents to the email
-        if (count($this->expense->publicDocuments)) {
-
-            $documentFileNumber = 0;
-
-            // Loop through all of the documents.
-            foreach ($this->expense->publicDocuments as $document) {
-
-                // Make sure the document exists in storage.
-                if (Storage::exists($document->path)) {
-
-                    $documentFileNumber++;
-
-                    // Set the document name.
-                    $documentFileName = snake_case($this->expense->name . '_' . $documentFileNumber) . '.' . $document->extension;
-
-                    $mail->attach(
-                        Storage::url($document->path), [
-                            'as' => $documentFileName
-                        ]
-                    );
-
-                }
-            }
-        }
-
         return $mail;
     }
 }
