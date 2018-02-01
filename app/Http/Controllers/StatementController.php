@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InvoiceItemWasUpdated;
 use App\Events\StatementWasDeleted;
 use App\Events\StatementWasSent;
 use App\Events\StatementWasUpdated;
