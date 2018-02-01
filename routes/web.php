@@ -115,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
 
 	// Tenancies
 	Route::prefix('tenancies')->group(function () {
+		Route::get('{id}/fix-amounts', 'StatementController@fixAmounts');
+
 		Route::get('/', 'TenancyController@index')->name('tenancies.index');
 		Route::post('search', 'TenancyController@search')->name('tenancies.search'); // Search tenancies
 		Route::get('create', 'TenancyController@create')->name('tenancies.create'); // Create a new tenancy

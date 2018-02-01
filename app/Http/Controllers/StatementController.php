@@ -167,33 +167,26 @@ class StatementController extends BaseController
         return back();
     }
 
-   /**
-    * Create a new invoice item for the statement.
-    * 
-    * @param \App\Http\Requests\StoreInvoiceItemRequest $request
-    * @param integer $id
-    * @return \Illuminate\Http\Response
-    */
-    public function createInvoiceItem(StoreInvoiceItemRequest $request, $id)
+    /**
+     * Fix the amounts which may have been broken when changing from decimals to pence.
+     * 
+     * @param  int  $id
+     * @return
+     */
+    public function fixAmounts($id)
     {
-        $service = new StatementService();
-        $service->createInvoiceItem($request->input(), $id);
+        $tenancy = Tenancy::findOrFail($id);
 
-        return back();
-    }
-
-   /**
-    * Create a new expense item for the statement.
-    * 
-    * @param \App\Http\Requests\StoreExpenseRequest $request
-    * @param integer $id
-    * @return \Illuminate\Http\Response
-    */
-    public function createExpenseItem(ExpenseStoreRequest $request, $id)
-    {
-        $service = new StatementService();
-        $service->createExpenseItem($request->input(), $id);
-
-        return back();
+        foreach ($tenancy->statements as $statement) {
+            if (count($statement->invoices)) {
+                foreach ($statement->invoices as $invoice) {
+                    foreach ($invoice->items as $item) {
+                        event(new InvoiceItemWasUpdated($item));
+                    }
+                }
+            }
+        }
+        
+        return 'Done';
     }
 }
