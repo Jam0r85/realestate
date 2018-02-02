@@ -47,8 +47,6 @@ class TenancyRentPaymentReceived extends Notification
             $via[] = 'nexmo';
         }
 
-        return dd($via);
-
         return $via;
     }
 

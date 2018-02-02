@@ -38,7 +38,7 @@ class RentPaymentController extends BaseController
             $this->repository->fill($request->all())
         );
 
-        event(new RentPaymentWasCreated($payment));
+        event(new RentPaymentWasCreated($payment->fresh()));
 
     	return back();
     }
