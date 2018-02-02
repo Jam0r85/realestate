@@ -57,9 +57,10 @@ class TenancyListener
 
         $tenancy->updateRentBalance();
 
+        $payment = $payment->fresh();
+
         // Check whether we can send the user a notification
         if ($payment->canSendUserNotifications()) {
-            return dd($payment->users);
             foreach ($payment->users as $user) {
                 $user->notify(new TenancyRentPaymentReceived($payment));
             }
