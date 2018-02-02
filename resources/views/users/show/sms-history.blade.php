@@ -20,10 +20,8 @@
 							
 						</div>
 						<div class="list-group-item flex-column align-items-start">
-							<div class="d-flex w-100 justify-content-between">
-								<div>
-									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
-								</div>
+							<div class="float-right">
+								<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 							</div>
 							<p class="mb-1">
 								{{ $message->body }}
@@ -51,10 +49,8 @@
 				<div class="list-group list-group-flush">
 					@foreach ($user->smsReceived as $message)
 						<div class="list-group-item flex-column align-items-start">
-							<div class="d-flex w-100 justify-content-between">
-								<div>
-									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
-								</div>
+							<div class="float-right">
+								<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 							</div>
 							<p class="mb-1">
 								{{ $message->body }}
