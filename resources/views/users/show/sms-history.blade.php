@@ -21,9 +21,6 @@
 						</div>
 						<div class="list-group-item flex-column align-items-start">
 							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">
-									{{ $message->phone_number }}
-								</h5>
 								<div>
 									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
@@ -55,9 +52,6 @@
 					@foreach ($user->smsReceived as $message)
 						<div class="list-group-item flex-column align-items-start">
 							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">
-									{{ $message->phone_number }}
-								</h5>
 								<div>
 									<input type="checkbox" name="sms_print_ids[]" value="{{ $message->id }}" />
 								</div>
