@@ -115,6 +115,6 @@ class PaymentController extends BaseController
             event(new DepositPaymentWasDeleted($payment));
         }
 
-        return redirect()->route($this->indexView);
+        return redirect()->route($this->indexRoute);
     }
 }

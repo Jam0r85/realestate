@@ -101,9 +101,13 @@ class BaseController extends Controller
 	 */
 	public function delete(Request $request, $id)
 	{
-    	$model = $this->repository
-    		->withTrashed()
-    		->findOrFail($id);
+    	$model = $this->repository;
+
+    	if ($this->repository->hasSoftDeletes()) {
+    		$model->withTrashed();
+    	}
+
+    	$model->findOrFail($id);
 
     	$this->authorize('delete', $model);
 
@@ -121,6 +125,10 @@ class BaseController extends Controller
 	 */
 	public function restore(Request $request, $id)
 	{
+		if (! $this->repository->hasSoftDeletes()) {
+			return back();
+		}
+
         $model = $this->repository
         	->onlyTrashed()
         	->findOrFail($id);
@@ -156,9 +164,13 @@ class BaseController extends Controller
      */
     public function forceDelete(Request $request, $id)
     {
-    	$model = $this->repository
-    		->withTrashed()
-    		->findOrFail($id);
+    	$model = $this->repository;
+
+    	if ($this->repository->hasSoftDeletes()) {
+    		$model->withTrashed();
+    	}
+
+    	$model->findOrFail($id);
 
     	$this->authorize('forceDelete', $model);
 

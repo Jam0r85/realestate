@@ -16,16 +16,6 @@ use Illuminate\Queue\InteractsWithQueue;
 class TenancyListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  StatementWasCreated  $event

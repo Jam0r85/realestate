@@ -309,4 +309,14 @@ class BaseModel extends Model
 
 		return true;
 	}
+
+	/**
+	 * Does this model use soft deletes?
+	 * 
+	 * @return bool
+	 */
+	public function hasSoftDeletes()
+	{
+		return $this->checkSoftDeletes();
+	}
 }
