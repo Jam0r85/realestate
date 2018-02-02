@@ -5,6 +5,6 @@
 	@slot('body')
 		Statement <a href="{{ route('statements.show', $notification->data['statement_id']) }}">
 			<b>{{ $notification->data['statement_id'] }}</b>
-		</a> was sent by e-mail to the landlord.
+		</a> was completed and sent by e-mail.
 	@endslot
 @endcomponent
