@@ -1,10 +1,8 @@
 @component('mail::message')
-# Rent Payment Received
+# Thank You
 
-We have received your rent payment of {{ money_formatted($payment->amount) }}
+We have received your rent payment of <b>{{ $payment->present()->money('amount') }}</b>.
 
-Please find attached to this e-mail a receipt for your records.
-
-@include('email-templates.footer')
+@include('email-templates.partials.footer')
 
 @endcomponent
