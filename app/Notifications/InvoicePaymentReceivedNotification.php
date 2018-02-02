@@ -2,50 +2,49 @@
 
 namespace App\Notifications;
 
+use App\Invoice;
 use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TenancyRentPaymentReceived extends Notification
+class InvoicePaymentReceivedNotification extends Notification
 {
     use Queueable;
 
     /**
-     * The payment we are sending.
+     * The payment we are dealing with.
      */
     public $payment;
+
+    /**
+     * The payment we are dealing with.
+     */
+    public $invoice;
 
     /**
      * Create a new notification instance.
      *
      * @param  \App\Payment  $payment
+     * @param  \App\Invoice  $invoice
      * @return void
      */
-    public function __construct(Payment $payment)
+    public function __construct(Payment $payment, Invoice $invoice)
     {
         $this->payment = $payment;
+        $this->invoice = $invoice;
     }
 
     /**
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
-     * @param  array  $via
      * @return array
      */
-    public function via($notifiable, array $via = ['database'])
+    public function via($notifiable)
     {
-        if ($notifiable->getSetting('rent_payment_notifications') == 'email') {
-            $via[] = 'mail';
-        }
-
-        if ($notifiable->getSetting('rent_payment_notifications') == 'sms') {
-            $via[] = 'nexmo';
-        }
-
-        return $via;
+        return ['database','mail'];
     }
 
     /**
@@ -58,36 +57,23 @@ class TenancyRentPaymentReceived extends Notification
     {
         return (new MailMessage)
             ->subject('Payment Received')
-            ->markdown('email-templates.tenant-rent-payment-received', [
-                'payment' => $this->payment
+            ->markdown('email-templates.invoice-payment-received', [
+                'payment' => $this->payment,
+                'invoice' => $this->invoice
             ]);
     }
 
     /**
-     * Get the Nexmo / SMS representation of the notification.
+     * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return NexmoMessage
+     * @return array
      */
-    public function toNexmo($notifiable)
-    {
-        $content = 'We have received your rent payment of ' . $this->payment->present()->money('amount') . '. Thank you, ' . config('app.name');
-
-        return (new NexmoMessage)
-            ->content($content)
-            ->unicode();
-    }
-
-    /**
-     * Get the array representation of the notification.
-     * 
-     * @param   mixed  $notifiable
-     * @return  array
-     */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
             'payment_id' => $this->payment->id,
+            'invoice' => $this->invoice->present()->name,
             'amount' => $this->payment->present()->money('amount'),
             'method' => $this->payment->method->name
         ];

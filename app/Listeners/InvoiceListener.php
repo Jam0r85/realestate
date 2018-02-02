@@ -9,21 +9,12 @@ use App\Events\InvoicePaymentWasCreated;
 use App\Events\InvoicePaymentWasDeleted;
 use App\Events\InvoiceStatementPaymentWasSaved;
 use App\Events\InvoiceStatementPaymentWasSent;
+use App\Notifications\InvoicePaymentReceivedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class InvoiceListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *
@@ -107,6 +98,13 @@ class InvoiceListener
         $invoice = $payment->parent;
         
         $invoice->updateBalances();
+
+        // Check whether we can send the user a notification
+        if ($payment->canSendUserNotifications()) {
+            foreach ($payment->users as $user) {
+                $user->notify(new InvoicePaymentReceivedNotification($payment, $invoice));
+            }
+        }
     }
 
     /**
