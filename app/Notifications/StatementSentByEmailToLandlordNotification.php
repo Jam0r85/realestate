@@ -50,16 +50,21 @@ class StatementSentByEmailToLandlordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        // Build the email
-        $email = new MailMessage();
-        $email->subject('Rental Statement');
-        $email->markdown('email-templates.statement-by-email', [
-            'statement' => $this->statement
-        ]);
-
         // Get and attach the statement (and invoice) to the email
         $statementFile = app('\App\Http\Controllers\DownloadController')->statement($this->statement->id);
-        $email->attachData($statementFile, $this->statement->property()->present()->shortAddress . ' Statement.pdf');
+
+        if (! $statementFile) {
+            return;
+        }
+
+        $email = new MailMessage();
+
+        $email
+            ->subject('Rental Statement')
+            ->markdown('email-templates.statement-by-email', [
+                'statement' => $this->statement
+            ])
+            ->attachData($statementFile, $this->statement->property()->present()->shortAddress . ' Statement.pdf');
 
         if (count($this->statement->expenses)) {
             // Loop through the expenses
@@ -89,7 +94,7 @@ class StatementSentByEmailToLandlordNotification extends Notification
      * @param   mixed  $notifiable
      * @return  array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'statement_id' => $this->statement->id,
