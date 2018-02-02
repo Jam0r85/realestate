@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\Request;
 class LogSuccessfulLogin
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  Login  $event
@@ -31,7 +21,8 @@ class LogSuccessfulLogin
     {
         UserLogin::create([
             'user_id' => $event->user->id,
-            'ip' => Request::ip()
+            'ip' => Request::ip(),
+            'url' => Request::fullUrl()
         ]);
     }
 }

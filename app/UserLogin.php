@@ -11,7 +11,8 @@ class UserLogin extends BaseModel
      */
     protected $fillable = [
         'user_id',
-        'ip'
+        'ip',
+        'url'
     ];
 
     /**

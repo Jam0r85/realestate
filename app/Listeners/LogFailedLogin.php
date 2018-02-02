@@ -10,16 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 class LogFailedLogin
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  Failed  $event
@@ -29,7 +19,7 @@ class LogFailedLogin
     {
         $login = new UserFailedLogin();
         $login->ip = request()->ip();
-        $login->request = request()->except('_token');
+        $login->request = request()->only('email');
         $login->save();
     }
 }
