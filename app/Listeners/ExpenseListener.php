@@ -5,23 +5,13 @@ namespace App\Listeners;
 use App\Events\ExpenseStatementPaymentWasSaved;
 use App\Events\ExpenseStatementPaymentWasSent;
 use App\Events\ExpenseWasCreated;
-use App\Notifications\ExpenseWasPaidToContractor;
+use App\Notifications\ExpensePaymentToContractor;
 use App\Notifications\ExpenseWasReceivedToContractor;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class ExpenseListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *
@@ -64,8 +54,8 @@ class ExpenseListener
         $expense = $payment->parent;
 
         // Notifiy contractor that the expense has been paid in full.
-        if ($expense->canSendPaidNotification()) {
-            $expense->contractor->notify(new ExpenseWasPaidToContractor($payment, $expense));
+        if ($expense->canSendPaymentSentNotification()) {
+            $expense->contractor->notify(new ExpensePaymentToContractor($payment, $expense));
         }
     }
 }

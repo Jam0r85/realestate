@@ -23,6 +23,7 @@ class ExpenseWasReceivedToContractor extends Notification
     /**
      * Create a new notification instance.
      *
+     * @param  \App\Expense  $expense
      * @return void
      */
     public function __construct(Expense $expense)
@@ -34,12 +35,11 @@ class ExpenseWasReceivedToContractor extends Notification
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
+     * @param  array  $via
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable, array $via = [])
     {
-        $via = [];
-
         // Make sure the user want's to receive this type of notification.
         if ($notifiable->getSetting('expense_received_notifications') == 'email') {
             $via[] = 'mail';
@@ -56,14 +56,10 @@ class ExpenseWasReceivedToContractor extends Notification
      */
     public function toMail($notifiable)
     {
-        $mail = new MailMessage();
-        $mail->subject('Invoice Received');
-        $mail->markdown('email-templates.expenses.received-to-contractor',
-            [
+        return (new MailMessage)
+            ->subject('Invoice Received')
+            ->markdown('email-templates.expenses.received-to-contractor', [
                 'expense' => $this->expense
-            ]
-        );
-        
-        return $mail;
+            ]);
     }
 }

@@ -17,14 +17,13 @@ class RentPaymentWasCreated
 
     /**
      * The payment we are dealing with.
-     * 
-     * @var \App\Payment
      */
     public $payment;
 
     /**
      * Create a new event instance.
      *
+     * @param  \App\Payment  $payment
      * @return void
      */
     public function __construct(Payment $payment)

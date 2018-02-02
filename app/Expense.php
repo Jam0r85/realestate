@@ -258,7 +258,7 @@ class Expense extends BaseModel
      * 
      * @return  bool
      */
-    public function canSendPaidNotification()
+    public function canSendPaymentSentNotification()
     {       
         // Notification disabled
         if ($this->getData('disable_paid_notification') == 'yes') {

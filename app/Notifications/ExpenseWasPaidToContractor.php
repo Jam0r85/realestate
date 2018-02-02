@@ -12,7 +12,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Storage;
 
-class ExpenseWasPaidToContractor extends Notification
+class ExpensePaymentToContractor extends Notification
 {
     use Queueable;
 
@@ -25,7 +25,7 @@ class ExpenseWasPaidToContractor extends Notification
 
     /**
      * The expense we are dealing with.
-     * 
+     *
      * @var \App\Expense
      */
     public $expense;
@@ -33,6 +33,8 @@ class ExpenseWasPaidToContractor extends Notification
     /**
      * Create a new notification instance.
      *
+     * @param  \App\StatementPayment $payment
+     * @param  \App\Expense  $expense
      * @return void
      */
     public function __construct(StatementPayment $payment, Expense $expense)
@@ -45,12 +47,11 @@ class ExpenseWasPaidToContractor extends Notification
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
+     * @param  array  $via
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable, array $via = [])
     {
-        $via = [];
-
         // Make sure the user wants to receive this type of notification.
         if ($notifiable->getSetting('expense_paid_notifications') == 'email') {
             $via[] = 'mail';
@@ -67,15 +68,11 @@ class ExpenseWasPaidToContractor extends Notification
      */
     public function toMail($notifiable)
     {
-        $mail = new MailMessage();
-        $mail->subject('Invoice Payment');
-        $mail->markdown('email-templates.expenses.contractor-paid',
-            [
+        return (new MailMessage)
+            ->subject('Invoice Payment')
+            ->markdown('email-templates.expenses.contractor-payment', [
                 'payment' => $this->payment,
                 'expense' => $this->expense
-            ]
-        );
-
-        return $mail;
+            ]);
     }
 }

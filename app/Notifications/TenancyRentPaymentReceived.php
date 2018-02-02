@@ -3,13 +3,12 @@
 namespace App\Notifications;
 
 use App\Payment;
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TenantRentPaymentReceived extends Notification implements ShouldQueue
+class TenancyRentPaymentReceived extends Notification
 {
     use Queueable;
 
@@ -23,6 +22,7 @@ class TenantRentPaymentReceived extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
+     * @param  \App\Payment  $payment
      * @return void
      */
     public function __construct(Payment $payment)
@@ -34,17 +34,16 @@ class TenantRentPaymentReceived extends Notification implements ShouldQueue
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
+     * @param  array  $via
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable, array $via = ['database'])
     {
-        $via = [];
-
-        if ($notifiable->getSetting('rent_payment_received_notification_email')) {
+        if ($notifiable->getSetting('rent_payment_notifications') == 'email') {
             $via[] = 'mail';
         }
 
-        if ($notifiable->getSetting('rent_payment_received_notification_sms')) {
+        if ($notifiable->getSetting('rent_payment_notifications') == 'sms') {
             $via[] = 'nexmo';
         }
 
@@ -59,12 +58,11 @@ class TenantRentPaymentReceived extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $receipt = app('\App\Http\Controllers\DownloadController')->payment($this->payment->id);
-
         return (new MailMessage)
-            ->subject('Rent Payment Received')
-            ->markdown('email-templates.tenant-rent-payment-received', ['payment' => $this->payment])
-            ->attachData($receipt, 'Receipt ' . $this->payment->id .'.pdf');
+            ->subject('Payment Received')
+            ->markdown('email-templates.tenant-rent-payment-received', [
+                'payment' => $this->payment
+            ]);
     }
 
     /**
@@ -75,10 +73,25 @@ class TenantRentPaymentReceived extends Notification implements ShouldQueue
      */
     public function toNexmo($notifiable)
     {
-        $content = 'We have received your rent payment of ' . currency($this->payment->amount) . '. Thank you, ' . get_setting('company_name', config('app.name'));
+        $content = 'We have received your rent payment of ' . $this->payment->present()->money('amount') . '. Thank you, ' . config('app.name');
 
         return (new NexmoMessage)
             ->content($content)
             ->unicode();
+    }
+
+    /**
+     * Get the array representation of the notification.
+     * 
+     * @param   mixed  $notifiable
+     * @return  array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'payment_id' => $this->payment->id,
+            'amount' => $this->payment->present()->money('amount'),
+            'method' => $this->payment->method->name
+        ];
     }
 }

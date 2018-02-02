@@ -30,8 +30,10 @@ class RentPaymentController extends BaseController
 	 */
     public function store(RentPaymentStoreRequest $request, $id)
     {
+        // Find the tenancy
         $tenancy = Tenancy::withTrashed()->findOrFail($id);
 
+        // Store the payment to the tenancy
     	$payment = $tenancy->storeRentPayment(
             $this->repository->fill($request->all())
         );

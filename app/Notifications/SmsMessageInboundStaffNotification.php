@@ -21,6 +21,7 @@ class SmsMessageInboundStaffNotification extends Notification
     /**
      * Create a new notification instance.
      *
+     * @param  \App\SmsHistory  $message
      * @return void
      */
     public function __construct(SmsHistory $message)

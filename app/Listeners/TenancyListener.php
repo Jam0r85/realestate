@@ -9,6 +9,7 @@ use App\Events\RentPaymentWasDeleted;
 use App\Events\RentPaymentWasUpdated;
 use App\Events\StatementWasCreated;
 use App\Events\StatementWasSent;
+use App\Notifications\TenancyRentPaymentReceived;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -63,6 +64,11 @@ class TenancyListener
     {
         $payment = $event->payment;
         $tenancy = $payment->parent;
+
+        // Send the rent payment received notification to each user.
+        foreach ($payment->users as $user) {
+            $user->notify(new TenancyRentPaymentReceived($payment));
+        }
 
         $tenancy->updateRentBalance();
     }

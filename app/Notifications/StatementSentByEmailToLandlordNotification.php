@@ -23,6 +23,7 @@ class StatementSentByEmailToLandlordNotification extends Notification
     /**
      * Create a new notification instance.
      *
+     * @param  \App\Statement  $statement
      * @return void
      */
     public function __construct(Statement $statement)
@@ -38,7 +39,7 @@ class StatementSentByEmailToLandlordNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -51,7 +52,7 @@ class StatementSentByEmailToLandlordNotification extends Notification
     {
         // Build the email
         $email = new MailMessage();
-        $email->subject('Your Rental Statement');
+        $email->subject('Rental Statement');
         $email->markdown('email-templates.statement-by-email', [
             'statement' => $this->statement
         ]);
@@ -80,5 +81,20 @@ class StatementSentByEmailToLandlordNotification extends Notification
         }
 
         return $email;
+    }
+
+    /**
+     * Get the array representation of the notification.
+     * 
+     * @param   mixed  $notifiable
+     * @return  array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            'statement_id' => $this->statement->id,
+            'sent_by' => 'email',
+            'landlord_payment' => $this->statement->landlord_payment
+        ];
     }
 }
