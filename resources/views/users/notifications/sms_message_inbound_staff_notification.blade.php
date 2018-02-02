@@ -1,4 +1,5 @@
-@component('users.notifications.template')
+@component('partials.card')
+
 	@slot('header')
 		@if (!$notification->read_at)
 			<span class="badge badge-danger float-right">
@@ -7,11 +8,12 @@
 		@endif
 		SMS Received
 	@endslot
+
 	@slot('footer')
 		{{ datetime_formatted($notification->created_at) }}
 	@endslot
 
-	<div class="card-body">
+	@slot('body')
 		<blockquote class="blockquote">
 			<p class="mb-0">
 				{{ $notification->data['text'] }}
@@ -20,5 +22,5 @@
 				SMS message sent by <a href="{{ route('users.show', $notification->notifiable->user_id) }}">{{ $notification->data['user'] }}</a>
 			</footer>
 		</blockquote>
-	</div>
+	@endslot
 @endcomponent
