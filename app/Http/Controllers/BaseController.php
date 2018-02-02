@@ -104,10 +104,10 @@ class BaseController extends Controller
     	$model = $this->repository;
 
     	if ($this->repository->hasSoftDeletes()) {
-    		$model->withTrashed();
+    		$model = $model->withTrashed();
     	}
 
-    	$model->findOrFail($id);
+    	$model = $model->findOrFail($id);
 
     	$this->authorize('delete', $model);
 
@@ -167,10 +167,10 @@ class BaseController extends Controller
     	$model = $this->repository;
 
     	if ($this->repository->hasSoftDeletes()) {
-    		$model->withTrashed();
+    		$model = $model->withTrashed();
     	}
 
-    	$model->findOrFail($id);
+    	$model = $model->findOrFail($id);
 
     	$this->authorize('forceDelete', $model);
 
