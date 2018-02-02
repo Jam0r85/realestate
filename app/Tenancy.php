@@ -828,10 +828,10 @@ class Tenancy extends BaseModel
     public function storeRentPayment(Payment $payment)
     {
         // Store the payment as a rent payment
-        $this->rent_payments()->save($payment);
+        $payment = $this->rent_payments()->save($payment);
 
         // Make sure we attach the tenants to this payment
-        $payment->users()->attach($this->users);
+        $payment->users()->sync($this->users);
 
         return $payment;
     }
