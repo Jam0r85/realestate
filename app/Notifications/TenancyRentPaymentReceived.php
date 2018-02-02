@@ -35,8 +35,10 @@ class TenancyRentPaymentReceived extends Notification
      * @param  array  $via
      * @return array
      */
-    public function via($notifiable, array $via = ['database'])
+    public function via($notifiable)
     {
+        $via[] = 'database';
+        
         if ($notifiable->getSetting('rent_payment_notifications') == 'email') {
             $via[] = 'mail';
         }
@@ -84,7 +86,7 @@ class TenancyRentPaymentReceived extends Notification
      * @param   mixed  $notifiable
      * @return  array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
             'payment_id' => $this->payment->id,
