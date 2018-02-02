@@ -65,9 +65,11 @@ class TenancyListener
         $payment = $event->payment;
         $tenancy = $payment->parent;
 
-        // Send the rent payment received notification to each user.
-        foreach ($payment->users as $user) {
-            $user->notify(new TenancyRentPaymentReceived($payment));
+        // Check whether we can send the user a notification
+        if ($payment->canSendUserNotifications()) {
+            foreach ($payment->users as $user) {
+                $user->notify(new TenancyRentPaymentReceived($payment));
+            }
         }
 
         $tenancy->updateRentBalance();

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
@@ -208,5 +209,23 @@ class Payment extends PdfModel
         }
 
         return false;
+    }
+
+    /**
+     * Check whether we can send user notifications for payments received.
+     * 
+     * @return bool
+     */
+    public function canSendUserNotifications()
+    {
+        $today = Carbon::now();
+        $difference = $today->diffInDays($this->created_at, false);
+
+        // Created date is older than today
+        if ($difference < 0) {
+            return false;
+        }
+
+        return true;
     }
 }
