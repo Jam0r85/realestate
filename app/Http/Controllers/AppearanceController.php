@@ -15,45 +15,16 @@ use Illuminate\Support\Carbon;
 class AppearanceController extends BaseController
 {
     /**
-     * The eloquent model for this controller.
-     * 
-     * @var string
-     */
-    public $model = 'App\Appearance';
-
-    /**
-     * The individual sections to be show on the resource listing.
-     * 
-     * @var array
-     */
-    protected $sections = [
-        'Live',
-        'Pending',
-        'Hidden',
-        'Archived'
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $live_appearances = Appearance::eagerLoading()->liveAndVisible()->get();
-        $hidden_appearances = Appearance::eagerLoading()->hidden()->get();
-        $pending_appearances = Appearance::eagerLoading()->pending()->get();
-        $archived_appearances = Appearance::eagerLoading()->onlyTrashed()->paginate();
+        $appearances = $this->repository
+            ->paginate();
 
-        $sections = $this->sections;
-
-        return view('appearances.index', compact(
-            'live_appearances',
-            'hidden_appearances',
-            'pending_appearances',
-            'archived_appearances',
-            'sections'
-        ));
+        return view('appearances.index', compact('appearances'));
     }
 
     /**

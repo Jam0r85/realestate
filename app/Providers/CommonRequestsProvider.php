@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\AppearanceSection;
 use App\Branch;
 use App\InvoiceGroup;
 use App\PaymentMethod;
@@ -77,6 +78,13 @@ class CommonRequestsProvider extends ServiceProvider
         $this->app->singleton('payment-methods', function ($app) {
             return cache()->rememberForever('payment-methods', function () {
                 return PaymentMethod::select('id','name')->orderBy('name')->get();
+            });
+        });
+
+        // Sections
+        $this->app->singleton('sections', function ($app) {
+            return cache()->rememberForever('sections', function () {
+                return AppearanceSection::select('id','name')->orderBy('name')->get();
             });
         });
 

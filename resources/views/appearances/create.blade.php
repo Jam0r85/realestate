@@ -10,7 +10,7 @@
 
 	@endcomponent
 
-	@component('partials.bootstrap.section-with-container')
+	@component('partials.section-with-container')
 
 		@include('partials.errors-block')
 
@@ -20,77 +20,64 @@
 			<div class="row">
 				<div class="col-12 col-lg-6">
 
-					<div class="card mb-3">
-						@component('partials.card-header')
-							Appearance Details
-						@endcomponent
-						<div class="card-body">
+					@component('partials.card')
+						@slot('header')
+							Details
+						@endslot
+						@slot('body')
 
-							<div class="form-group">
-								<label for="live_at">
+							@component('partials.form-group')
+								@slot('label')
 									Live Date
-								</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
-									<input type="date" name="live_at" id="live_at" class="form-control" value="{{ old('live_at') ?: date('Y-m-d') }}">
-								</div>
-							</div>
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="live_at" id="live_at" class="form-control" value="{{ old('live_at') ?: date('Y-m-d') }}" />
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="hidden">
+							@component('partials.form-group')
+								@slot('label')
 									Visibility
-								</label>
-								<select name="hidden" id="hidden" class="form-control" disabled>
-									<option selected value="true">Hidden</option>
-									<option value="false">Visible</option>
+								@endslot
+								<select name="hidden" id="hidden" class="form-control">
+									<option value="true">Hidden</option>
+									<option selected value="false">Visible</option>
 								</select>
-								<small class="form-text text-muted">
-									All new appearances are automatically hidden.
-								</small>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="section_id">
+							@component('partials.form-group')
+								@slot('label')
 									Section
-								</label>
+								@endslot
 								<select name="section_id" id="section_id" class="form-control">
-									@foreach (sections() as $section)
+									@foreach (common('sections') as $section)
 										<option @if (old('section_id') == $section->id) selected @endif value="{{ $section->id }}">
 											{{ $section->name }}
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="property_id">
+							@component('partials.form-group')
+								@slot('label')
 									Property
-								</label>
-								<select name="property_id" id="property_id" class="form-control select2">
-									@foreach (properties() as $property)
+								@endslot<select name="property_id" id="property_id" class="form-control select2">
+									<option value="">Please select..</option>
+									@foreach (common('properties') as $property)
 										<option @if (old('property_id') == $property->id) selected @endif value="{{ $property->id }}">
 											{{ $property->present()->selectName }}
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="display_address">
-									Display Address (optional)
-								</label>
-								<input type="text" name="display_address" id="display_address" class="form-control" value="{{ old('display_address') }}">
-								<small class="form-text text-muted">
-									Overwrite the display address for this property.
-								</small>
-							</div>
-
-							<div class="form-group">
-								<label for="status_id">
+							@component('partials.form-group')
+								@slot('label')
 									Status
-								</label>
+								@endslot
 								<select name="status_id" id="status_id" class="form-control">
 									@foreach (appearance_statuses() as $status)
 										<option @if (old('status_id') == $status->id) selected @endif value="{{ $status->id }}">
@@ -98,33 +85,22 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-							<div class="form-group">
-								<label for="avaliable_from">
+							@component('partials.form-group')
+								@slot('label')
 									Avaliable From
-								</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</span>
-									<input type="date" name="avaliable_from" id="avaliable_from" class="form-control" value="{{ old('avaliable_from') }}">
-								</div>
-							</div>
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('calendar')
+									@endslot
+									<input type="date" name="avaliable_from" id="avaliable_from" class="form-control" value="{{ old('avaliable_from') ?? date('Y-m-d') }}" />
+								@endcomponent
+							@endcomponent
 
-							<hr />
-
-							<div class="form-group">
-								<div class="form-check">
-									<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" name="new_home" id="new_home" value="true">
-										New home?
-									</label>
-								</div>
-							</div>
-
-						</div>
-					</div>
+						@endslot
+					@endcomponent
 
 					<div class="card mb-3">
 						@component('partials.card-header')
@@ -138,28 +114,28 @@
 				</div>
 				<div class="col-12 col-lg-6">
 
-					<div class="card mb-3">
-						@component('partials.card-header')
+					@component('partials.card')
+						@slot('header')
 							Price
-						@endcomponent
-						<div class="card-body">
+						@endslot
+						@slot('body')
 
-							<div class="form-group">
-								<label for="price">
+							@component('partials.form-group')
+								@slot('label')
 									Price
-								</label>
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-money-bill"></i>
-									</span>
-									<input type="number" step="any" class="form-control" name="price" id="price" value="{{ old('price') }}">
-								</div>
-							</div>
+								@endslot
+								@component('partials.input-group')
+									@slot('icon')
+										@icon('money')
+									@endslot
+									<input type="number" step="any" class="form-control" name="price" id="price" value="{{ old('price') }}" />
+								@endcomponent
+							@endcomponent
 
-							<div class="form-group">
-								<label for="qualifier_id">
+							@component('partials.form-group')
+								@slot('label')
 									Price Qualifier
-								</label>
+								@endslot
 								<select name="qualifier_id" id="qualifier_id" class="form-control">
 									@foreach (price_qualifiers() as $qualifier)
 										<option @if (old('qualifier_id') == $qualifier->id) selected @endif value="{{ $qualifier->id }}">
@@ -167,10 +143,10 @@
 										</option>
 									@endforeach
 								</select>
-							</div>
+							@endcomponent
 
-						</div>
-					</div>
+						@endslot
+					@endcomponent
 
 					<div class="card mb-3">
 						@component('partials.card-header')
