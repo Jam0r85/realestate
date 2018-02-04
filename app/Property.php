@@ -321,4 +321,9 @@ class Property extends BaseModel
 
     	return $tenancy;
     }
+
+    public function storeAppearance(Appearance $appearance)
+    {
+    	
+    }
 }

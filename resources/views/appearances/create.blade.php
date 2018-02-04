@@ -137,6 +137,7 @@
 									Price Qualifier
 								@endslot
 								<select name="qualifier_id" id="qualifier_id" class="form-control">
+									<option value="">None</option>
 									@foreach (price_qualifiers() as $qualifier)
 										<option @if (old('qualifier_id') == $qualifier->id) selected @endif value="{{ $qualifier->id }}">
 											{{ $qualifier->name }}

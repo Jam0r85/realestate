@@ -48,20 +48,22 @@ class AppearanceController extends BaseController
         $property = Property::findOrFail($request->property_id);
         $section = AppearanceSection::findOrFail($request->section_id);
         $status = AppearanceStatus::findOrFail($request->status_id);
-        $qualifier = AppearancePriceQualifier::findOrFail($request->qualifier_id);
 
         $appearance = $this->repository
             ->fill($request->all());
 
         $appearance->status()->associate($status);
-        $appearance->property()->associate($property);
         $appearance->section()->associate($section);
 
-        $appearance->save();
+        $property->storeAppearance($appearance);
 
         $price = new AppearancePrice();
         $price->amount = $request->price;
-        $price->qualifier()->associate($qualifier);
+
+        if ($request->has('qualifier_id')) {
+            $qualifier = AppearancePriceQualifier::findOrFail($request->qualifier_id);
+            $price->qualifier()->associate($qualifier);
+        }        
 
         $appearance->storePrice($price);
 
