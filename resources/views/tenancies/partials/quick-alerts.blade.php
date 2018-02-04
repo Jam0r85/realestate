@@ -26,6 +26,13 @@
 	@endcomponent
 @endif
 
+{{-- Tenancy Has Enough Rent Balance --}}
+@if ($tenancy->hasEnoughRentBalance())
+	@component('partials.alerts.info')
+		Next statement is due to start on <b>{{ $tenancy->present()->date('next_statement_start_date') }}</b>
+	@endcomponent
+@endif
+
 {{-- Tenancy Overdue Alert --}}
 @if ($tenancy->is_overdue > 0)
 	@component('partials.alerts.warning')

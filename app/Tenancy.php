@@ -1021,4 +1021,32 @@ class Tenancy extends BaseModel
 
         return $this;
     }
+
+    /**
+     * Check whether this tenancy has a big enough rent balance to create the statement.
+     * 
+     * @return bool
+     */
+    public function hasEnoughRentBalance()
+    {
+        if ($this->rent_balance >= $this->rent) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the next statement start date for this tenancy.
+     * 
+     * @return mixed
+     */
+    public function getNextStatementStartDateAttribute()
+    {
+        if ($this->latestStatement) {
+            return $this->latestStatement->period_end->addDay();
+        }
+
+        return $this->started_on;
+    }
 }
