@@ -115,19 +115,19 @@
 			@endcomponent
 			<ul class="list-group list-group-flush">
 				@component('partials.bootstrap.list-group-item')
-					{{ $payment->owner->name }}
+					{{ $payment->owner->present()->fullName }}
 					@slot('title')
 						Created By
 					@endslot
 				@endcomponent
 				@component('partials.bootstrap.list-group-item')
-					{{ date_formatted($payment->created_at) }}
+					{{ $payment->present()->dateCreated }}
 					@slot('title')
 						Recorded
 					@endslot
 				@endcomponent
 				@component('partials.bootstrap.list-group-item')
-					{{ datetime_formatted($payment->updated_at) }}
+					{{ $payment->present()->dateUpdated }}
 					@slot('title')
 						Updated
 					@endslot
