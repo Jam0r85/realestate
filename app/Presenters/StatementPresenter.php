@@ -157,11 +157,17 @@ class StatementPresenter extends BasePresenter
 	}
 
 	/**
+	 * Get the VAT number for this invoice.
+	 * 
 	 * @return string
 	 */
-	public function branchVatNumber()
+	public function vatNumber()
 	{
-		return 'VAT No. ' . $this->tenancy->property->branch->vat_number;
+		if ($number = $this->tenancy->property->branch->vat_number) {
+			return '<b>VAT:</b> ' . $number;
+		}
+
+		return null;
 	}
 
 	/**
