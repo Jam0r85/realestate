@@ -283,6 +283,7 @@ class Tenancy extends BaseModel
     {
         return $this
             ->hasOne(Statement::class)
+            ->whereNotNull('paid_at')
             ->latest('period_start');
     }
 
