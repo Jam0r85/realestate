@@ -18,10 +18,12 @@ class UserListener
     public function rentPaymentCreated(RentPaymentWasCreated $event)
     {
         $payment = $event->payment;
-        $tenancy = $payment->parent;
 
-        foreach ($tenancy->users as $user) {
-            $user->notify(new TenancyRentPaymentReceived($payment));
+        // Check whether we can send the user a notification
+        if ($payment->canSendUserNotification()) {
+            foreach ($payment->users as $user) {
+                $user->notify(new TenancyRentPaymentReceived($payment));
+            }
         }
     }
 }

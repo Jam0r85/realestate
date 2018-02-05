@@ -216,7 +216,7 @@ class Payment extends PdfModel
      * 
      * @return bool
      */
-    public function canSendUserNotifications()
+    public function canSendUserNotification()
     {
         $today = Carbon::now();
         $difference = $today->diffInDays($this->created_at, false);
