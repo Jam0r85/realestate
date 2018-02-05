@@ -45,16 +45,9 @@
 
 {{-- No property owners --}}
 @if (! count($tenancy->property->owners))
-	@component('partials.alerts.warning')
-		@icon('users') The property {{ $tenancy->property->present()->shortAddress }} has no owners.
-	@endcomponent
-@endif
-
-{{-- No property owners --}}
-@if (! count($tenancy->property->owners))
 
 	@component('partials.alerts.warning')
-		@icon('users') The property {{ $tenancy->property->present()->shortAddress }} has no owners.
+		@icon('users') The property <b>{{ $tenancy->property->present()->shortAddress }}</b> has no attached users.
 	@endcomponent
 
 @else
