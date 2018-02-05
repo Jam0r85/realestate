@@ -77,7 +77,8 @@ class EventServiceProvider extends ServiceProvider
 
         // Rent Payments
         'App\Events\RentPaymentWasCreated' => [
-            'App\Listeners\TenancyListener@rentPaymentCreated'
+            'App\Listeners\TenancyListener@rentPaymentCreated',
+            'App\Listeners\UserListener@rentPaymentCreated',
         ],
         'App\Events\RentPaymentWasUpdated' => [
             'App\Listeners\TenancyListener@rentPaymentUpdated'
