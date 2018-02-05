@@ -2,7 +2,7 @@
 @if ($tenancy->vacated_on && $tenancy->vacated_on <= \Carbon\Carbon::now())
 	@component('partials.alerts.warning')
 		@icon('calendar')
-		Tenancy ended on <b>{{ $tenancy->present()->date('vacated_on') }}
+		Tenancy ended on <b>{{ $tenancy->present()->date('vacated_on') }}</b>
 	@endcomponent
 @endif
 
