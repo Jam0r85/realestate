@@ -6,15 +6,17 @@
 	@include('users.partials.users-table', ['users' => $property->owners])
 </div>
 
-<div class="card mb-3">
-	@component('partials.card-header')
+@component('partials.card')
+	@slot('header')
+		<small class="float-right text-muted">
+			Could be the owners living at the property or tenants.
+		</small>
 		Current Residents
-	@endcomponent
-
+	@endslot
 	@if ($property->getCurrentResidents())
 		@include('users.partials.users-table', ['users' => $property->getCurrentResidents()])
 	@endif
-</div>
+@endcomponent
 
 <div class="row">
 	<div class="col-12 col-lg-6">
