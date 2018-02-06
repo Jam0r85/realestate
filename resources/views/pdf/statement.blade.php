@@ -41,7 +41,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>{{ money_formatted($statement->amount) }}</td>
+							<td>{{ $statement->present()->money('amount') }}</td>
 						</tr>
 					</tbody>
 				</table>

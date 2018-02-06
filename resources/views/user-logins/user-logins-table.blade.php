@@ -19,7 +19,6 @@
 				@endif
 				@if (isset($request))
 					<td>{{ $login->request['email'] }}</td>
-					<td>{{ $login->request['password'] }}</td>
 				@endif
 				<td>{{ $login->ip }}</td>
 			</tr>
