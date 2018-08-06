@@ -81,7 +81,7 @@ class ReportController extends Controller
 
             foreach ($results as $key => $values) {
                 if ($values['let_address'] == $let_address) {
-                    $key['total_gross'] = $key['total_gross'] + $gross;
+                    $values['total_gross'] = $values['total_gross'] + $gross;
                     $exists = true;
                 }
             }
