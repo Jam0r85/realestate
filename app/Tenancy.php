@@ -491,7 +491,7 @@ class Tenancy extends BaseModel
      */
     public function getLandlordNameAttribute()
     {
-        return implode(' & ', $this->getLandlordNames);
+        return implode(' & ', $this->getLandlordNames());
     }
 
     /**
