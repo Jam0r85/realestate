@@ -499,8 +499,12 @@ class Tenancy extends BaseModel
      */
     public function getLandlordAddressAttribute()
     {
-        if (count($this->landlords)) {
-            return $this->landlords->first()->home;
+        $landlords = $this->property->owners;
+
+        foreach ($landlords as $landlord) {
+            if ($landlord->home) {
+                return $landlord->home;
+            }
         }
 
         return null;
