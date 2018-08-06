@@ -2,22 +2,12 @@
 
 namespace App;
 
-use App\Agreement;
-use App\Deposit;
-use App\Discount;
 use App\Events\StatementWasCreated;
-use App\Payment;
-use App\Property;
-use App\Service;
-use App\Statement;
-use App\TenancyRent;
 use App\Traits\SettingsTrait;
-use App\User;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 use Laravel\Scout\Searchable;
 
@@ -31,14 +21,14 @@ class Tenancy extends BaseModel
 
     /**
      * The presenter for this model.
-     * 
+     *
      * @var string
      */
-    protected $presenter = 'App\Presenters\TenancyPresenter';    
+    protected $presenter = 'App\Presenters\TenancyPresenter';
 
     /**
      * The keys which are allowed in the settings column.
-     * 
+     *
      * @var array
      */
     protected $settingKeys = [
@@ -47,7 +37,7 @@ class Tenancy extends BaseModel
 
     /**
      * The attributes that should be cast to native types.
-     * 
+     *
      * @var array
      */
     protected $casts = [
@@ -59,20 +49,20 @@ class Tenancy extends BaseModel
      *
      * @var array
      */
-	protected $fillable = [
-		'property_id',
-		'service_id',
+    protected $fillable = [
+        'property_id',
+        'service_id',
         'name',
         'is_overdue',
-		'vacated_on',
+        'vacated_on',
         'rent_balance',
         'started_on',
         'settings'
-	];
+    ];
 
     /**
      * The attributes that should be mutated to dates.
-     * 
+     *
      * @var array
      */
     protected $dates = [
@@ -98,19 +88,19 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to include eager loading dependencies.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
     public function scopeEagerLoading($query)
     {
         return $query
-            ->with('property','currentRent','service','deposit');
+            ->with('property', 'currentRent', 'service', 'deposit');
     }
 
     /**
      * Scope a query to only include tenancies which are archive.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -123,7 +113,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which are overdue.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -137,7 +127,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which have a positive rent amount.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -151,7 +141,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which have a negative rent amount.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -165,7 +155,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which have a deposit but wrong deposit balance.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -180,7 +170,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which are active.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -194,7 +184,7 @@ class Tenancy extends BaseModel
 
     /**
      * Scope a query to only include tenancies which have been vacated.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return  \Illuminate\Database\Eloquent
      */
@@ -205,12 +195,12 @@ class Tenancy extends BaseModel
             ->where('vacated_on', '<=', Carbon::now());
     }
 
-	/**
-	 * The property that this tenancy belongs to.
-	 */
+    /**
+     * The property that this tenancy belongs to.
+     */
     public function property()
     {
-    	return $this
+        return $this
             ->belongsTo(Property::class)
             ->withTrashed();
     }
@@ -220,7 +210,7 @@ class Tenancy extends BaseModel
      */
     public function rents()
     {
-    	return $this
+        return $this
             ->hasMany(TenancyRent::class)
             ->withTrashed()
             ->latest('starts_at');
@@ -242,7 +232,7 @@ class Tenancy extends BaseModel
      */
     public function users()
     {
-    	return $this
+        return $this
             ->belongsToMany(User::class);
     }
 
@@ -251,7 +241,7 @@ class Tenancy extends BaseModel
      */
     public function rent_payments()
     {
-    	return $this
+        return $this
             ->morphMany(Payment::class, 'parent')
             ->latest();
     }
@@ -387,7 +377,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the current rent amount for this tenancy.
-     * 
+     *
      * @return int
      */
     public function getRentAttribute()
@@ -422,7 +412,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the monthly service charge for this tenancy with the tax included.
-     * 
+     *
      * @return int
      */
     public function getMonthlyServiceChargeWithTax()
@@ -461,7 +451,7 @@ class Tenancy extends BaseModel
 
     /**
      * Subtract discounts from the given fee.
-     * 
+     *
      * @param  int  $fee
      * @return int
      */
@@ -478,7 +468,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the tenancy start date.
-     * 
+     *
      * @return string
      */
     public function getStartDateAttribute()
@@ -496,19 +486,12 @@ class Tenancy extends BaseModel
 
     /**
      * Get the tenancy landlord names in a readable format.
-     * 
+     *
      * @return string
      */
     public function getLandlordNameAttribute()
     {
-        if (count($this->landlords)) {
-            foreach ($this->landlords as $landlord) {
-                $names[] = $landlord->name;
-            }
-            return implode(' & ', $names);
-        }
-
-        return null;
+        return implode(' & ', $this->getLandlordNames);
     }
 
     /**
@@ -525,7 +508,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether the tenancy is managed or not.
-     * 
+     *
      * @return boolean
      */
     public function isManaged()
@@ -549,7 +532,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether you can record new rent payments for this tenancy.
-     * 
+     *
      * @return bool
      */
     public function canRecordRentPayment()
@@ -571,12 +554,10 @@ class Tenancy extends BaseModel
     public function checkWhetherOverdue($overdue = 0)
     {
         if (!$this->hasVacated()) {
-
             if ($this->isManaged()) {
 
                 // Secondly make sure there have been previous rental statements.
                 if ($this->latestStatement) {
-
                     $overdueCheckDate = $this->latestStatement->period_end->addDay();
 
                     // Check whether the next statement date has been passed.
@@ -607,7 +588,7 @@ class Tenancy extends BaseModel
     /**
      * Check whether this tenancy has a custom letting fee by looking
      * for the setting in the property owners.
-     * 
+     *
      * @return boolean
      */
     public function hasCustomUserLettingFee()
@@ -621,7 +602,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the custom letting fees for this tenancy from it's owners.
-     * 
+     *
      * @return array
      */
     public function getCustomUserLettingFees()
@@ -644,7 +625,7 @@ class Tenancy extends BaseModel
     /**
      * Check whether this tenancy has a custom re-letting fee by looking
      * for the setting in the property owners.
-     * 
+     *
      * @return boolean
      */
     public function hasCustomUserReLettingFee()
@@ -658,7 +639,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the custom re-letting fees for this tenancy from it's owners.
-     * 
+     *
      * @return array
      */
     public function getCustomUserReLettingFees()
@@ -680,7 +661,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get this tenancy's letting fee.
-     * 
+     *
      * @return  int
      */
     public function getLettingFee($custom = false)
@@ -709,7 +690,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the letting fee or custom fee instead.
-     * 
+     *
      * @return  int
      */
     public function getLettingFeeWithCustom()
@@ -719,7 +700,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get this tenancy's re-letting fee.
-     * 
+     *
      * @return  int
      */
     public function getReLettingFee($custom = false)
@@ -748,7 +729,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the re letting fee with custom fee included.
-     * 
+     *
      * @return  int
      */
     public function getReLettingFeeWithCustom()
@@ -758,7 +739,7 @@ class Tenancy extends BaseModel
 
     /**
      * Store an old statement to this tenancy.
-     * 
+     *
      * @param  Statement $statement [description]
      * @return \App\Statement
      */
@@ -769,7 +750,7 @@ class Tenancy extends BaseModel
 
     /**
      * Store a statement to this tenancy.
-     * 
+     *
      * @param  \App\Statement  $statement
      * @param  bool  $old
      * @return \App\Statement
@@ -798,7 +779,7 @@ class Tenancy extends BaseModel
 
     /**
      * Store a rent amount to this tenancy.
-     * 
+     *
      * @param  \App\TenancyRent  $rent  the rent amount we are storing.
      * @return \App\TenancyRent
      */
@@ -809,7 +790,7 @@ class Tenancy extends BaseModel
 
     /**
      * Store an agreement to this tenancy.
-     * 
+     *
      * @param  \App\Agreement  $agreement
      * @return \App\Agreement
      */
@@ -822,7 +803,7 @@ class Tenancy extends BaseModel
 
     /**
      * Store a rent payment to this tenancy.
-     * 
+     *
      * @param  \App\Payment  $payment
      * @return  \App\Payment
      */
@@ -839,7 +820,7 @@ class Tenancy extends BaseModel
 
     /**
      * Is this tenancy active?
-     * 
+     *
      * @return boolean
      */
     public function isActive()
@@ -853,7 +834,7 @@ class Tenancy extends BaseModel
 
     /**
      * Update the rent balance held for this tenancy.
-     * 
+     *
      * @return void
      */
     public function updateRentBalance()
@@ -864,7 +845,7 @@ class Tenancy extends BaseModel
 
     /**
      * Has this tenancy vacated?
-     * 
+     *
      * @return boolean
      */
     public function hasVacated()
@@ -878,7 +859,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get a collection of landlord propeties.
-     * 
+     *
      * @return mixed
      */
     public function getLandlordPropertiesList()
@@ -894,7 +875,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether this tenancy has a single landlord property.
-     * 
+     *
      * @return bool
      */
     public function hasOneLandlordProperty()
@@ -908,7 +889,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether this tenancy has multiple landlord property.
-     * 
+     *
      * @return bool
      */
     public function hasMultipleLandlordProperties()
@@ -922,7 +903,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get preferred landlord property id stored in the database.
-     * 
+     *
      * @return string
      */
     public function preferredLandlordPropertySetting()
@@ -932,7 +913,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether this tenancy has a preferred landlord property in settings.
-     * 
+     *
      * @return bool
      */
     public function hasPreferredLandlordProperty()
@@ -946,7 +927,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the preferred landlord address for this tenancy.
-     * 
+     *
      * @return mixed
      */
     public function getPreferredLandlordProperty()
@@ -961,7 +942,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the landlord property for this tenancy.
-     * 
+     *
      * @return mixed
      */
     public function getLandlordProperty()
@@ -979,7 +960,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the landlord names for this tenancy.
-     * 
+     *
      * @return array
      */
     public function getLandlordNames(array $names = [])
@@ -1025,7 +1006,7 @@ class Tenancy extends BaseModel
 
     /**
      * Check whether this tenancy has a big enough rent balance to create the statement.
-     * 
+     *
      * @return bool
      */
     public function hasEnoughRentBalance()
@@ -1039,7 +1020,7 @@ class Tenancy extends BaseModel
 
     /**
      * Get the next statement start date for this tenancy.
-     * 
+     *
      * @return mixed
      */
     public function getNextStatementStartDateAttribute()
