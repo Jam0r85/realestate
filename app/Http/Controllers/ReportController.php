@@ -79,25 +79,27 @@ class ReportController extends Controller
 
             $let_address = $tenancy->property->name_without_postcode;
 
-            foreach ($results as $key => $values) {
-                if ($values['let_address'] == $let_address) {
-                    $values['total_gross'] = $values['total_gross'] + $gross;
-                    $exists = true;
+            if ($gross > 0) {
+                foreach ($results as $key => $values) {
+                    if ($values['let_address'] == $let_address) {
+                        $values['total_gross'] = $values['total_gross'] + $gross;
+                        $exists = true;
+                    }
                 }
-            }
 
-            if (! $exists) {
-                $results[] = [
-                    'landlords_name' => $tenancy->landlord_name,
-                    'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
-                    'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                    'total_gross' => $gross,
-                    'currency_code' => 'GBP',
-                    'let_address' => $let_address,
-                    'let_address_postcode' => $tenancy->property->postcode,
-                    'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
-                    'company_name' => get_setting('company_name')
-                ];
+                if (! $exists) {
+                    $results[] = [
+                        'landlords_name' => $tenancy->landlord_name,
+                        'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                        'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
+                        'total_gross' => $gross,
+                        'currency_code' => 'GBP',
+                        'let_address' => $let_address,
+                        'let_address_postcode' => $tenancy->property->postcode,
+                        'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
+                        'company_name' => get_setting('company_name')
+                    ];
+                }
             }
         }
 
