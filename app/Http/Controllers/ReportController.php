@@ -73,11 +73,13 @@ class ReportController extends Controller
                 ->whereNotNull('paid_at')
                 ->get();
 
+            $gross = $statements->sum('amount') / 100;
+
             $results[] = [
                 'landlords_name' => $tenancy->landlord_name,
                 'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
                 'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                'total_gross' => $statements->sum('amount'),
+                'total_gross' => $gross,
                 'currency_code' => 'GBP',
                 'let_address' => $tenancy->property->name_without_postcode,
                 'let_address_postcode' => $tenancy->property->postcode,
