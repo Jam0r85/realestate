@@ -62,43 +62,28 @@ class ReportController extends Controller
         // Grab all of the tenancies.
         $tenancies = Tenancy::all();
 
-        return dd($tenancies);
-
         // Create a results array.
         $results = [];
 
         // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
-            $exists = false;
-
             $statements = $tenancy->statements()
                 ->where('created_at', '>=', $from_date)
                 ->where('created_at', '<', $until_date)
                 ->whereNotNull('paid_at')
                 ->get();
 
-            if (count($statements)) {
-                foreach ($results as $key => $values) {
-                    if (in_array($tenancy->property->name_without_postcode, $values)) {
-                        $results[$key]['total_gross'] += $statements->sum('amount');
-                        $exists = true;
-                    }
-                }
-
-                if ($exists == false) {
-                    $results[] = [
-                        'landlords_name' => $tenancy->landlord_name,
-                        'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
-                        'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                        'total_gross' => $statements->sum('amount'),
-                        'currency_code' => 'GBP',
-                        'let_address' => $tenancy->property->name_without_postcode,
-                        'let_address_postcode' => $tenancy->property->postcode,
-                        'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
-                        'company_name' => get_setting('company_name')
-                    ];
-                }
-            }
+            $results[] = [
+                'landlords_name' => $tenancy->landlord_name,
+                'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
+                'total_gross' => $statements->sum('amount'),
+                'currency_code' => 'GBP',
+                'let_address' => $tenancy->property->name_without_postcode,
+                'let_address_postcode' => $tenancy->property->postcode,
+                'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
+                'company_name' => get_setting('company_name')
+            ];
         }
 
         return dd($results);
