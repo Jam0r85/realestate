@@ -13,12 +13,12 @@ class ReportController extends Controller
 {
     /**
      * Display the reports index page.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-    	return view('reports.index');
+        return view('reports.index');
     }
 
     public function landlordTaxReport(Request $request)
@@ -39,7 +39,7 @@ class ReportController extends Controller
 
     /**
      * Display a listing of the statements created.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -76,7 +76,6 @@ class ReportController extends Controller
                 ->get();
 
             if (count($statements)) {
-
                 foreach ($results as $key => $values) {
                     if (in_array($tenancy->property->name_without_postcode, $values)) {
                         $results[$key]['total_gross'] += $statements->sum('amount');
@@ -96,9 +95,11 @@ class ReportController extends Controller
                         'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
                         'company_name' => get_setting('company_name')
                     ];
-                }    
+                }
             }
         }
+
+        return dd($results);
 
         // Re-arrange the values by landlords name.
         $results = array_values(array_sort($results, function ($value) {
@@ -136,15 +137,14 @@ class ReportController extends Controller
 
     /**
      * Export the results to a CSV document.
-     * 
+     *
      * @param array $data
      * @return void
      */
     protected function exportToCsv(array $data)
     {
-        Excel::create($data['file_name'], function($excel) use($data) {
-            $excel->sheet($data['file_name'], function($sheet) use($data) {
-
+        Excel::create($data['file_name'], function ($excel) use ($data) {
+            $excel->sheet($data['file_name'], function ($sheet) use ($data) {
                 if (isset($data['column_formatting'])) {
                     $sheet->setColumnFormat($data['column_formatting']);
                 }
