@@ -86,8 +86,6 @@ class ReportController extends Controller
             ];
         }
 
-        return dd($results);
-
         // Re-arrange the values by landlords name.
         $results = array_values(array_sort($results, function ($value) {
             return $value['landlords_name'];
