@@ -62,6 +62,8 @@ class ReportController extends Controller
         // Grab all of the tenancies.
         $tenancies = Tenancy::all();
 
+        return dd($tenancies);
+
         // Create a results array.
         $results = [];
 
