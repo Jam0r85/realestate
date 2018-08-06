@@ -67,6 +67,8 @@ class ReportController extends Controller
 
         // Loop through the tenancies.
         foreach ($tenancies as $tenancy) {
+            $exists = false;
+
             $statements = $tenancy->statements()
                 ->where('created_at', '>=', $from_date)
                 ->where('created_at', '<', $until_date)
@@ -77,9 +79,14 @@ class ReportController extends Controller
 
             $let_address = $tenancy->property->name_without_postcode;
 
-            if ($row = array_search($let_address, $results)) {
-                $row['total_gross'] = $key['total_gross'] + $gross;
-            } else {
+            foreach ($results as $key => $values) {
+                if ($values['let_address'] == $let_address) {
+                    $key['total_gross'] = $key['total_gross'] + $gross;
+                    $exists = true;
+                }
+            }
+
+            if (! $exists) {
                 $results[] = [
                     'landlords_name' => $tenancy->landlord_name,
                     'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
