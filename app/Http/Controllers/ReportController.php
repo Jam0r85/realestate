@@ -75,11 +75,11 @@ class ReportController extends Controller
                 ->whereNotNull('paid_at')
                 ->get();
 
-            $gross = $statements->sum('amount') / 100;
+            if (count($statements)) {
+                $gross = $statements->sum('amount') / 100;
 
-            $let_address = $tenancy->property->name_without_postcode;
+                $let_address = $tenancy->property->name_without_postcode;
 
-            if ($gross > 0) {
                 foreach ($results as $key => $values) {
                     if ($values['let_address'] == $let_address) {
                         $values['total_gross'] = $values['total_gross'] + $gross;
