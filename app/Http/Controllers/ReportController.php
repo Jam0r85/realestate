@@ -75,17 +75,23 @@ class ReportController extends Controller
 
             $gross = $statements->sum('amount') / 100;
 
-            $results[] = [
-                'landlords_name' => $tenancy->landlord_name,
-                'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
-                'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
-                'total_gross' => $gross,
-                'currency_code' => 'GBP',
-                'let_address' => $tenancy->property->name_without_postcode,
-                'let_address_postcode' => $tenancy->property->postcode,
-                'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
-                'company_name' => get_setting('company_name')
-            ];
+            $let_address = $tenancy->property->name_without_postcode;
+
+            if ($row = array_search($let_address, $results)) {
+                $row['total_gross'] = $key['total_gross'] + $gross;
+            } else {
+                $results[] = [
+                    'landlords_name' => $tenancy->landlord_name,
+                    'landlord_address' => $tenancy->landlord_address ? $tenancy->landlord_address->name_without_postcode : null,
+                    'postcode' => $tenancy->landlord_address ? $tenancy->landlord_address->postcode : null,
+                    'total_gross' => $gross,
+                    'currency_code' => 'GBP',
+                    'let_address' => $let_address,
+                    'let_address_postcode' => $tenancy->property->postcode,
+                    'tax_year' => $from_date->format('Y') . '/' . $until_date->format('Y'),
+                    'company_name' => get_setting('company_name')
+                ];
+            }
         }
 
         // Re-arrange the values by landlords name.
